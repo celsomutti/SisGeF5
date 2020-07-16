@@ -1,0 +1,9 @@
+Tipos de Tabelas de Verbas de Expressas
+
+1 - Fixa
+2 - Por CEP
+3 - Por Peso
+4 - Por Performance
+5 - Por CEP e Peso
+
+Aplicar filtro por faixa de Verba e Data de Vigência.
