@@ -1273,6 +1273,10 @@ begin
   try
     Result := 'NONE';
     FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    if iCodigo = 0 then
+    begin
+      Exit;
+    end;
     SetLength(aParam,3);
     aParam[0] := 'ENTREGADOR';
     aParam[1] := iCodigo;
