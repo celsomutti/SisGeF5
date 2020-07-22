@@ -10072,6 +10072,8 @@ object Data_Sisgef: TData_Sisgef
     Left = 568
     Top = 8
     object LayoutCxLookAndFeel: TdxLayoutCxLookAndFeel
+      LookAndFeel.Kind = lfStandard
+      LookAndFeel.NativeStyle = True
       PixelsPerInch = 96
     end
   end

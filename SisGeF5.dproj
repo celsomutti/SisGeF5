@@ -361,6 +361,10 @@
         <DCCReference Include="Model\Model.ExtraviosMultas.pas"/>
         <DCCReference Include="Model\Model.CadastroAnexos.pas"/>
         <DCCReference Include="Control\Control.CadastroAnexos.pas"/>
+        <DCCReference Include="View\View.ImportacaoBaixasEntregas.pas">
+            <Form>view_ImportacaoBaixasEntregas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

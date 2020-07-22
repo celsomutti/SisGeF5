@@ -168,7 +168,8 @@ uses
   Control.ExpressasExtratos in 'Control\Control.ExpressasExtratos.pas',
   Model.ExtraviosMultas in 'Model\Model.ExtraviosMultas.pas',
   Model.CadastroAnexos in 'Model\Model.CadastroAnexos.pas',
-  Control.CadastroAnexos in 'Control\Control.CadastroAnexos.pas';
+  Control.CadastroAnexos in 'Control\Control.CadastroAnexos.pas',
+  View.ImportacaoBaixasEntregas in 'View\View.ImportacaoBaixasEntregas.pas' {view_ImportacaoBaixasEntregas};
 
 {$R *.res}
 
