@@ -36,6 +36,9 @@ interface
       FPFP: Integer;
       FValorTicketMedio: Double;
       FUniqueKey: String;
+      FExtrato: String;
+      FDataCredito: TDate;
+      FBoleto: Integer;
 
       function Insert(): Boolean;
       function Update(): Boolean;
@@ -67,6 +70,9 @@ interface
       property TotalCreditos: Double read FTotalCreditos write FTotalCreditos;
       property TotalGeral: double read FTotalGeral write FTotalGeral;
       property UniqueKey: String read FUniqueKey write FUniqueKey;
+      property DataCredito: TDate read FDataCredito write FDataCredito;
+      property Boleto: Integer read FBoleto write FBoleto;
+      property Extrato: String read FExtrato write FExtrato;
       property Acao: TAcao read FAcao write FAcao;
 
       constructor Create;
@@ -83,12 +89,12 @@ const
               '(id_registro, cod_tipo_expressa, cod_expressa, nom_expressa, qtd_volumes, qtd_entregas, qtd_volumes_extra, ' +
               'val_volume_extra, qtd_atraso, val_producao, val_performance, val_total_ticket, cod_banco, nom_banco, ' +
               'des_tipo_conta, num_agencia, num_conta, nom_favorecido, num_cpf_cnpj, qtd_pfp, val_tichet_medio, val_extravios, ' +
-              'val_debitos, val_creditos, val_total, des_unique_key) ' +
+              'val_debitos, val_creditos, val_total, des_unique_key, dat_credito, dom_boleto, num_extrato) ' +
               'value ' +
               '(:id_registro, :cod_tipo_expressa, :cod_expressa, :nom_expressa, :qtd_volumes, :qtd_entregas, :qtd_volumes_extra, ' +
               ':val_volume_extra, :qtd_atraso, :val_producao, :val_performance, :val_total_ticket, :cod_banco, :nom_banco, ' +
               ':des_tipo_conta, :num_agencia, :num_conta, :nom_favorecido, :num_cpf_cnpj, :qtd_pfp, :val_ticket_medio, ' +
-              ':val_extravios, :val_debitos, :val_creditos, :val_total, :des_unique_key);';
+              ':val_extravios, :val_debitos, :val_creditos, :val_total, :des_unique_key, :dat_credito, :dom_boleto, :num_extrato);';
 
   SQLUPDATE = 'update ' + TABLENAME + ' set ' +
               'cod_tipo_expressa = :cod_tipo_expressa, cod_expressa = :cod_expressa, nom_expressa = :nom_expressa, ' +
@@ -98,13 +104,14 @@ const
               'cod_banco, nom_banco = cod_banco, nom_banco, des_tipo_conta = :des_tipo_conta, num_agencia = :num_agencia, ' +
               'num_conta = :num_conta, nom_favorecido = :nom_favorecido, num_cpf_cnpj = :num_cpf_cnpj, qtd_pfp = :qtd_pfp, ' +
               'val_ticket_medio = :val_ticket_medio, val_extravios = :val_extravios, val_debitos = :val_debitos, ' +
-              'val_creditos = :val_creditos, val_total = :val_total, des_unique_key = :des_unique_key ' +
+              'val_creditos = :val_creditos, val_total = :val_total, des_unique_key = :des_unique_key, ' +
+              'dat_credito = :dat_credito, dom_boleto = :dom_boleto, num_extrato = :num_extrato ' +
               'where id_registro = :id_registro';
 
   SQLQUERY  = 'select id_registro, cod_tipo_expressa, cod_expressa, nom_expressa, qtd_volumes, qtd_entregas, qtd_volumes_extra, ' +
               'val_volume_extra, qtd_atraso, val_producao, val_performance, val_total_ticket, cod_banco, nom_banco, ' +
               'des_tipo_conta, num_agencia, num_conta, nom_favorecido, num_cpf_cnpj, qtd_pfp, val_ticket_medio, val_extravios, ' +
-              'val_debitos, val_creditos, val_total, des_unique_key ' +
+              'val_debitos, val_creditos, val_total, des_unique_key, dat_credito, dom_boleto, num_extrato ' +
               'from ' + TABLENAME;
   SQLDELETE = ' detele from ' + TABLENAME + ' where id_fechamento = :id_fechamento;';
   SQLID     = 'select coalesce(max(id_fechamento),0) + 1 from ' + TABLENAME;
@@ -208,7 +215,7 @@ begin
     Id := GetID;
     FDQuery.ExecSQL(SQLINSERT, [Id, Tipo, Codigo, Nome, Entregas, Volumes, VolumesExtra, ValorVolumesExtra, Atrasos, ValorProducao,
                                 Performance, TotalTitket, Agencia, TipoConta, Conta, Favorecido, CPFCNPJ, PFP, ValorTicketMedio,
-                                ValorExtravios, TotalDebitos, TotalCreditos, TotalGeral, UniqueKey]);
+                                ValorExtravios, TotalDebitos, TotalCreditos, TotalGeral, UniqueKey, DataCredito, Boleto, Extrato]);
     Result := True;
   finally
     fdQuery.Free;
@@ -226,6 +233,11 @@ begin
   begin
     FDQuery.SQL.Add('where id_fechamento = :id_fechamento');
     FDQuery.ParamByName('id_fechamento').AsInteger := aParam[1];
+  end
+  else if aParam[0] = 'NEXTRATO' then
+  begin
+    FDQuery.SQL.Add('where num_extrato = :num_extrato');
+    FDQuery.ParamByName('num_extrato').AsString := aParam[1];
   end
   else if aParam[0] = 'FECHADO' then
   begin
@@ -307,7 +319,8 @@ begin
   fdQuery := FConexao.ReturnQuery;
   FDQuery.ExecSQL(SQLUPDATE, [Tipo, Codigo, Nome, Entregas, Volumes, VolumesExtra, ValorVolumesExtra, Atrasos, ValorProducao,
                              Performance, TotalTitket, Agencia, TipoConta, Conta, Favorecido, CPFCNPJ, PFP, ValorTicketMedio,
-                             ValorExtravios, TotalDebitos, TotalCreditos, TotalGeral, UniqueKey, Id]);
+                             ValorExtravios, TotalDebitos, TotalCreditos, TotalGeral, UniqueKey, DataCredito, Boleto, Extrato,
+                             Id]);
   Result := True;
 end;
 

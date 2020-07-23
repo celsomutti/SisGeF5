@@ -192,6 +192,9 @@ begin
           Data_Sisgef.mtbFechamentoExpressasval_volume_extra.AsFloat := Data_Sisgef.mtbExtratosExpressasval_volumes_extra.AsFloat;
           Data_Sisgef.mtbFechamentoExpressascod_expressa.AsInteger := iCodigo;
           Data_Sisgef.mtbFechamentoExpressasdes_unique_key.AsString := Data_Sisgef.mtbExtratosExpressasdes_unique_key.AsString;
+          Data_Sisgef.mtbFechamentoExpressasdat_credito.AsDateTime := Data_Sisgef.mtbExtratosExpressasdat_credito.AsDateTime;
+          Data_Sisgef.mtbFechamentoExpressasdom_boleto.AsInteger := 0;
+          Data_Sisgef.mtbFechamentoExpressasnum_extrato.AsString := Data_Sisgef.mtbExtratosExpressasnum_extrato.AsString;
           Data_Sisgef.mtbFechamentoExpressas.Post;
         end;
         iConta := Data_Sisgef.mtbExtratosExpressas.RecNo;

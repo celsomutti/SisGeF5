@@ -187,38 +187,40 @@ begin
                 end;
                 FDQuery1.Free;
               end;
-              if iGrupo = 1 then
+              if dVerba = 0 then
               begin
-                SetLength(aParam,7);
-                aParam[0] := 'CEPPESO';
-                aParam[1] := 5;
-                aParam[2] := FDQuery.FieldByName('COD_CLIENTE_EMPRESA').AsInteger;
-                aParam[3] := iGrupo;
-                aParam[4] := StrToDateTime(Data_Sisgef.mtbBaixasTFO.Fields[11].AsString);
-                aParam[5] := FDQuery.FieldByName('NUM_CEP').Value;
-                aParam[6] := Trunc(1000 * StrToFloatDef(Data_Sisgef.mtbBaixasTFO.Fields[17].AsString,0));
-              end
-              else
-              begin
-                SetLength(aParam,6);
-                aParam[0] := 'FIXACEP';
-                aParam[1] := 2;
-                aParam[2] := FDQuery.FieldByName('COD_CLIENTE_EMPRESA').AsInteger;
-                aParam[3] := iGrupo;
-                aParam[4] := StrToDateTime(Data_Sisgef.mtbBaixasTFO.Fields[11].AsString);
-                aParam[5] := FDQuery.FieldByName('NUM_CEP').Value;
+                if iGrupo = 1 then
+                begin
+                  SetLength(aParam,7);
+                  aParam[0] := 'CEPPESO';
+                  aParam[1] := 5;
+                  aParam[2] := FDQuery.FieldByName('COD_CLIENTE_EMPRESA').AsInteger;
+                  aParam[3] := iGrupo;
+                  aParam[4] := StrToDateTime(Data_Sisgef.mtbBaixasTFO.Fields[11].AsString);
+                  aParam[5] := FDQuery.FieldByName('NUM_CEP').Value;
+                  aParam[6] := Trunc(1000 * StrToFloatDef(Data_Sisgef.mtbBaixasTFO.Fields[17].AsString,0));
+                end
+                else
+                begin
+                  SetLength(aParam,6);
+                  aParam[0] := 'FIXACEP';
+                  aParam[1] := 2;
+                  aParam[2] := FDQuery.FieldByName('COD_CLIENTE_EMPRESA').AsInteger;
+                  aParam[3] := iGrupo;
+                  aParam[4] := StrToDateTime(Data_Sisgef.mtbBaixasTFO.Fields[11].AsString);
+                  aParam[5] := FDQuery.FieldByName('NUM_CEP').Value;
+                end;
+                FDVerba := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+                FDVerba := verbas.Localizar(aParam);
+                Finalize(aParam);
+                if not FDVerba.IsEmpty then
+                begin
+                  FDVerba.First;
+                  dVerbaTabela := FDVerba.FieldByName('VAL_VERBA').AsFloat;
+                end;
+                FDVerba.Free;
+                if dVerbaTabela > 0 then dVerba := dVerbaTabela;
               end;
-              FDVerba := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-              FDVerba := verbas.Localizar(aParam);
-              Finalize(aParam);
-              if not FDVerba.IsEmpty then
-              begin
-                FDVerba.First;
-                dVerbaTabela := FDVerba.FieldByName('VAL_VERBA').AsFloat;
-              end;
-              FDVerba.Free;
-              if dVerbaTabela > 0 then dVerba := dVerbaTabela;
-
               if dVerba = 0 then
               begin
                 sMensagem := 'Verba não encontrada para o entregador ' + sNome  + ', pedido  ' +

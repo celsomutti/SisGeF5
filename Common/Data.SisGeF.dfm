@@ -10072,8 +10072,6 @@ object Data_Sisgef: TData_Sisgef
     Left = 568
     Top = 8
     object LayoutCxLookAndFeel: TdxLayoutCxLookAndFeel
-      LookAndFeel.Kind = lfStandard
-      LookAndFeel.NativeStyle = True
       PixelsPerInch = 96
     end
   end
@@ -12871,6 +12869,16 @@ object Data_Sisgef: TData_Sisgef
     end
     object mtbFechamentoExpressasdes_unique_key: TStringField
       FieldName = 'des_unique_key'
+      Size = 30
+    end
+    object mtbFechamentoExpressasdat_credito: TDateField
+      FieldName = 'dat_credito'
+    end
+    object mtbFechamentoExpressasdom_boleto: TIntegerField
+      FieldName = 'dom_boleto'
+    end
+    object mtbFechamentoExpressasnum_extrato: TStringField
+      FieldName = 'num_extrato'
       Size = 30
     end
   end

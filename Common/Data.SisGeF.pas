@@ -400,6 +400,9 @@ type
     mtbFechamentoExpressasdat_fim: TDateField;
     mtbExtratosExpressasdes_unique_key: TStringField;
     mtbFechamentoExpressasdes_unique_key: TStringField;
+    mtbFechamentoExpressasdat_credito: TDateField;
+    mtbFechamentoExpressasdom_boleto: TIntegerField;
+    mtbFechamentoExpressasnum_extrato: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
