@@ -5,7 +5,8 @@ interface
 uses
   System.Classes, Dialogs, Windows, Forms, SysUtils, Messages, Controls, System.DateUtils, System.StrUtils, Generics.Collections,
   Control.Entregas, Control.Sistema, FireDAC.Comp.Client, Common.ENum,
-  FireDAC.Comp.DataSet, Data.DB, Control.PlanilhaEntradaEntregas, Model.PlanilhaEntradaEntregas, Control.VerbasExpressas;
+  FireDAC.Comp.DataSet, Data.DB, Control.PlanilhaEntradaEntregas, Model.PlanilhaEntradaEntregas, Control.VerbasExpressas,
+  Control.Bases, Control.EntregadoresExpressas;
 
 type
   Tthread_201020_importar_baixas_tfo = class(TThread)
@@ -14,21 +15,15 @@ type
     FEntregas: TEntregasControl;
     FPlanilha : TPlanilhasEntradasEntregasControl;
     FPlanilhasCSV : TObjectList<TPlanilhaEntradaEntregas>;
-    FVerbas : TVerbasExpressasControl;
-    sMensagem: String;
-    FdPos: Double;
-    iLinha : Integer;
-    iPosition: Integer;
     fdEntregas: TFDQuery;
     fdEntregasInsert: TFDQuery;
     fdEntregasUpdate: TFDQuery;
-    fdVerba: TFDQuery;
     iCountInsert : Integer;
     iCountUpdate : Integer;
   protected
     procedure Execute; override;
-    procedure UpdateLog;
-    procedure UpdateProgress;
+    procedure UpdateLog(sMensagem: String);
+    procedure UpdateProgress(dPosition: Double);
     procedure TerminateProcess;
     procedure BeginProcesso;
     procedure SetupClassUpdate(FDQuery: TFDQuery);
@@ -37,10 +32,18 @@ type
     procedure SetupQueryUpdate();
     procedure SaveInsert(iCount: Integer);
     procedure SaveUpdate(iCount: Integer);
+    function SetTabelaAgente(iAgente: integer): boolean;
+    function SetTabelaEntregador(iEntregador: integer): boolean;
+    function RetornaVerba(FEntregas: TEntregasControl): double;
   public
     FFile: String;
     iCodigoCliente: Integer;
     bCancel : Boolean;
+    dPositionRegister: double;
+    slLog: TStringList;
+    dVerba: Double;
+    iTabela: Integer;
+    iFaixa: Integer;
   end;
   const
     TABLENAME = 'tbentregas';
@@ -86,53 +89,52 @@ type
 
 implementation
 
-{ 
+{
   Important: Methods and properties of objects in visual components can only be
   used in a method called using Synchronize, for example,
 
-      Synchronize(UpdateCaption);  
+      Synchronize(UpdateCaption);
 
   and UpdateCaption could look like,
 
     procedure Tthread_201020_importar_baixas_tfo.UpdateCaption;
     begin
       Form1.Caption := 'Updated in a thread';
-    end; 
-    
-    or 
+    end;
 
-    Synchronize( 
-      procedure 
+    or
+
+    Synchronize(
+      procedure
       begin
-        Form1.Caption := 'Updated in thread via an anonymous method' 
+        Form1.Caption := 'Updated in thread via an anonymous method'
       end
       )
     );
-    
+
   where an anonymous method is passed.
-  
-  Similarly, the developer can call the Queue method with similar parameters as 
+
+  Similarly, the developer can call the Queue method with similar parameters as
   above, instead passing another TThread class as the first parameter, putting
   the calling thread in a queue with the other thread.
-    
+
 }
 
 { Tthread_201020_importar_baixas_tfo }
 
-uses Common.Utils, Global.Parametros, View.ImportarPedidos;
+uses Common.Utils, Global.Parametros;
 
 procedure Tthread_201020_importar_baixas_tfo.BeginProcesso;
+var
+  sMensagem: String;
 begin
   bCancel := False;
-  view_ImportarPedidos.actCancelar.Enabled := True;
-  view_ImportarPedidos.actFechar.Enabled := False;
-  view_ImportarPedidos.actImportar.Enabled := False;
-  view_ImportarPedidos.actAbrirArquivo.Enabled := False;
-  view_ImportarPedidos.dxLayoutItem8.Visible := True;
-  sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' iniciando importação do arquivo ' + FFile;
-  UpdateLog;
-  sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' tratando os dados da planilha. Aguarde...';
-  UpdateLog;
+  sMensagem := '';
+  slLog := TStringList.Create;
+  sMensagem := ' >> ' +  FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > iniciando importação do arquivo ' + FFile;
+  UpdateLog(sMensagem);
+  sMensagem := '>> ' +  FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > tratando os dados da planilha. Aguarde...';
+  UpdateLog(sMensagem);
 end;
 
 procedure Tthread_201020_importar_baixas_tfo.Execute;
@@ -141,31 +143,33 @@ var
   iPos : Integer;
   iTotal: Integer;
   sCEP: String;
+  sMensagem: String;
+  dPos: double;
 begin
   { Place thread code here }
   try
     try
-      Synchronize(BeginProcesso);
+      BeginProcesso;
+      sMensagem := '';
       FEntregas := TEntregasControl.Create;
       FPlanilha := TPlanilhasEntradasEntregasControl.Create;
       FPlanilhasCSV := TObjectList<TPlanilhaEntradaEntregas>.Create;
-      FVerbas := TVerbasExpressasControl.Create;
       Screen.Cursor := crHourGlass;
       FPlanilhasCSV := FPlanilha.GetPlanilha(FFile);
       Screen.Cursor := crDefault;
-      sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
-      Synchronize(UpdateLog);
+      sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > importando os dados. Aguarde...';
+      UpdateLog(sMensagem);
       iCountInsert := 0;
       iCountUpdate := 0;
       if FPlanilhasCSV.Count > 0 then
       begin
         iPos := 0;
-        FdPos := 0;
+        dPos := 0;
         iTotal := FPlanilhasCSV.Count;
         fdEntregas := TSistemaControl.GetInstance.Conexao.ReturnQuery;
         fdEntregasInsert := TSistemaControl.GetInstance.Conexao.ReturnQuery;
         fdEntregasUpdate := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-        fdVerba := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+
         for iPos := 0 to Pred(iTotal) do
         begin
           fdEntregasInsert.SQL.Text := SQLINSERT;
@@ -173,7 +177,6 @@ begin
           SetLength(aParam,2);
           aParam[0] := 'NN';
           aParam[1] := Trim(FPlanilhasCSV[iPos].NossoNumero);
-
           fdEntregas := FEntregas.Localizar(aParam);
           Finalize(aParam);
           if fdEntregas.IsEmpty then
@@ -181,8 +184,11 @@ begin
             SetupClassInsert(iPos);
             Inc(iCountInsert);
             FEntregas.Entregas.Status := 909;
-            FEntregas.Entregas.Rastreio := '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importado por ' +
+            FEntregas.Entregas.Rastreio := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > importado por ' +
                                           Global.Parametros.pUser_Name;
+            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FEntregas.Entregas.NN +
+                         ' não encontrada no banco de dados! Incluindo os dados do arquivo de baixa.';
+            UpdateLog(sMensagem);
             SetupQueryInsert;
           end
           else
@@ -191,16 +197,20 @@ begin
             Inc(iCountUpdate);
             FEntregas.Entregas.Status := 909;
             FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
-                                          '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' atualizado por importação por ' +
+                                          '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + '> atualizado por importação por ' +
                                           Global.Parametros.pUser_Name;
             SetupQueryUpdate;
           end;
+
+          if SetTabelaAgente(FEntregas.Entregas.Distribuidor) then
+          begin
+
+          end;
           fdEntregas.Close;
-          iPosition := iPos + 1;
-          FdPos := (iPosition / iTotal) * 100;
+          dPos := ((iPos + 1) / iTotal) * 100;
           if not(Self.Terminated) then
           begin
-            Synchronize(UpdateProgress);
+            UpdateProgress(dPos);
           end
           else
           begin
@@ -209,9 +219,8 @@ begin
           fdEntregas.Close;
         end;
 
-        sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' salvando no banco de dados. Aguarde...';
-        Synchronize(UpdateLog);
-        Synchronize(procedure begin Screen.Cursor := crHourGlass end);
+        sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > salvando no banco de dados. Aguarde...';
+        UpdateLog(sMensagem);
         if iCountInsert > 0 then SaveInsert(iCountInsert);
         if iCountUpdate > 0 then SaveUpdate(iCountUpdate);
 
@@ -219,35 +228,42 @@ begin
         fdEntregasUpdate.Connection.Close;
         fdEntregasInsert.Free;
         fdEntregasUpdate.Free;
-
-        Synchronize(procedure begin Screen.Cursor := crDefault end);
-      end;
+      end;
     Except
       on E: Exception do
         begin
-          Application.MessageBox(PChar('Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message), 'Erro', MB_OK + MB_ICONERROR);
+          UpdateLog('>>> Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message);
           bCancel := True;
         end;
     end;
   finally
     if bCancel then
     begin
-      sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importação cancelada ...';
-      Synchronize(UpdateLog);
-      Application.MessageBox('Importação cancelada!', 'Importação de Entregas', MB_OK + MB_ICONWARNING);
+      sMensagem := '>>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' > importação cancelada ...';
+      UpdateLog(sMensagem);
     end
     else
     begin
-      sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importação concluída com sucesso';
-      Synchronize(UpdateLog);
-      Application.MessageBox('Importação concluída com sucesso!', 'Importação de Entregas', MB_OK + MB_ICONINFORMATION);
+      sMensagem := '>>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' > importação concluída com sucesso';
+      UpdateLog(sMensagem);
     end;
     Synchronize(TerminateProcess);
     FEntregas.Free;
     FPlanilha.Free;
     FPlanilhasCSV.Free;
-    FVerbas.Free;
     fdEntregas.Free;
+  end;
+end;
+
+function Tthread_201020_importar_baixas_tfo.RetornaVerba(FEntregas: TEntregasControl): double;
+var
+  FVerbas : TVerbasExpressasControl;
+  aParam: Array of variant;
+begin
+  try
+    FVerbas := TVerbasExpressasControl.Create;
+  finally
+    FVerbas.Free;
   end;
 end;
 
@@ -259,6 +275,84 @@ end;
 procedure Tthread_201020_importar_baixas_tfo.SaveUpdate(iCount: Integer);
 begin
   fdEntregasUpdate.Execute(iCount, 0);
+end;
+
+function Tthread_201020_importar_baixas_tfo.SetTabelaAgente(iAgente: integer): boolean;
+var
+  FBases: TBasesControl;
+  fdQuery: TFDQuery;
+  aParam : array of variant;
+begin
+  try
+    Result := False;
+    dVerba := 0;
+    iTabela := 0;
+    iFaixa := 0;
+    FBases := TBasesControl.Create;
+    fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    setLength(aParam,2);
+    aParam := ['CODIGO', iAgente];
+    fdQuery := FBases.Localizar(aParam);
+    if fdQuery.isEmpty then
+    begin
+      exit
+    end;
+    iTabela := fdQuery.FieldByName('cod_centro_custo').asInteger;
+    iFaixa := fdQuery.FieldByName('cod_grupo').asInteger;
+    dVerba := fdQuery.FieldByName('val_verba').asFloat;
+    if iTabela = 0 then
+    begin
+      if dVerba = 0 then
+      begin
+        Exit;
+      end;
+    end;
+    Result := True;
+  finally
+    fdQuery.Close;
+    fdQuery.Connection.cLOSE;
+    fdQuery.Free;
+    FBases.Free;
+  end;
+end;
+
+function Tthread_201020_importar_baixas_tfo.SetTabelaEntregador(iEntregador: integer): boolean;
+var
+  FEntregadores: TEntregadoresExpressasControl;
+  fdQuery: TFDQuery;
+  aParam : array of variant;
+begin
+  try
+    Result := False;
+    dVerba := 0;
+    iTabela := 0;
+    iFaixa := 0;
+    FEntregadores := TEntregadoresExpressasControl.Create;
+    fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    setLength(aParam,2);
+    aParam := ['ENTREGADOR', iEntregador];
+    fdQuery := FEntregadores.Localizar(aParam);
+    if fdQuery.isEmpty then
+    begin
+      exit
+    end;
+    iTabela := fdQuery.FieldByName('cod_tabela').asInteger;
+    iFaixa := fdQuery.FieldByName('cod_grupo').asInteger;
+    dVerba := fdQuery.FieldByName('val_verba').asFloat;
+    if iTabela = 0 then
+    begin
+      if dVerba = 0 then
+      begin
+        Exit;
+      end;
+    end;
+    Result := True;
+  finally
+    fdQuery.Close;
+    fdQuery.Connection.cLOSE;
+    fdQuery.Free;
+    FEntregadores.Free;
+  end;
 end;
 
 procedure Tthread_201020_importar_baixas_tfo.SetupClassInsert(i: Integer);
@@ -504,38 +598,21 @@ begin
 end;
 
 procedure Tthread_201020_importar_baixas_tfo.TerminateProcess;
+var
+  sTime: String;
 begin
-  view_ImportarPedidos.actCancelar.Enabled := False;
-  view_ImportarPedidos.actFechar.Enabled := True;
-  view_ImportarPedidos.actImportar.Enabled := True;
-  view_ImportarPedidos.actAbrirArquivo.Enabled := True;
-  view_ImportarPedidos.edtArquivo.Clear;
-  view_ImportarPedidos.pbImportacao.Position := 0;
-  view_ImportarPedidos.pbImportacao.Clear;
-  view_ImportarPedidos.dxLayoutItem8.Visible := False;
-  view_ImportarPedidos.cboCliente.ItemIndex := 0;
+  sTime := FormatDateTime('dddd/mm/yyyy hh:mm:ss', Now());
+  slLog.Add('>>> '  + sTime + ' > Importação concluída');
 end;
 
 procedure Tthread_201020_importar_baixas_tfo.UpdateLog;
 begin
-  view_ImportarPedidos.memLOG.Lines.Add(sMensagem);
-  view_ImportarPedidos.memLOG.Lines.Add('');
-  iLinha := view_ImportarPedidos.memLOG.Lines.Count - 1;
-  view_ImportarPedidos.memLOG.Refresh;
+  slLog.Add(sMensagem);
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.UpdateProgress;
+procedure Tthread_201020_importar_baixas_tfo.UpdateProgress(dPosition: double);
 begin
-  view_ImportarPedidos.pbImportacao.Position := FdPos;
-  view_ImportarPedidos.pbImportacao.Properties.Text := FormatFloat('0.00%',FdPos) +
-                                                       ' - (' + IntToStr(iPosition) + ' registros processados)';
-  view_ImportarPedidos.pbImportacao.Refresh;
-  if not(view_ImportarPedidos.actCancelar.Visible) then
-  begin
-    view_ImportarPedidos.actCancelar.Visible := True;
-    view_ImportarPedidos.actFechar.Enabled := False;
-    view_ImportarPedidos.actImportar.Enabled := False;
-  end;
+  dPositionRegister := dPosition;
 end;
 
 end.

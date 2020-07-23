@@ -20,6 +20,7 @@ uses
     FManutencao: TDateTime;
     FAcao: TAcao;
     FConexao : TConexao;
+    FTabela: Integer;
 
     function Inserir(): Boolean;
     function Alterar(): Boolean;
@@ -36,6 +37,7 @@ uses
     procedure SetExecutor(const value: String);
     procedure SetManutencao(const value: TDateTime);
     procedure SetAcao(const value: TAcao);
+    procedure SetTabela(const Value: Integer);
 
   public
     constructor Create;
@@ -48,6 +50,7 @@ uses
     property Grupo: Integer read FGrupo write SetGrupo;
     property Verba: Double read FVerba write SetVerba;
     property Executor: String read FExecutor write SetExecutor;
+    property Tabela: Integer read FTabela write SetTabela;
     property Manutencao: TDateTime read FManutencao write SetManutencao;
     property Acao: TAcao read FAcao write SetAcao;
 
@@ -61,14 +64,15 @@ uses
   const
     TABLENAME = 'tbcodigosentregadores';
     SQLINSERT = 'INSERT INTO ' + TABLENAME  + '(COD_CADASTRO, COD_ENTREGADOR, NOM_FANTASIA, COD_AGENTE, DAT_CODIGO, ' +
-                'DES_CHAVE, COD_GRUPO, VAL_VERBA, NOM_EXECUTANTE, DAT_MANUTENCAO) ' +
+                'DES_CHAVE, COD_GRUPO, VAL_VERBA, NOM_EXECUTANTE, DAT_MANUTENCAO, COD_TABELA) ' +
                 'VALUES ' +
                 '(:COD_CADASTRO, :COD_ENTREGADOR, :NOM_FANTASIA, :COD_AGENTE, :DAT_CODIGO, :DES_CHAVE, :COD_GRUPO, ' +
-                ':VAL_VERBA, :NOM_EXECUTANTE, :DAT_MANUTENCAO);';
+                ':VAL_VERBA, :NOM_EXECUTANTE, :DAT_MANUTENCAO, :COD_TABELA);';
     SQLUPDATE = 'UPDATE ' + TABLENAME + 'SET COD_CADASTRO = :COD_CADASTRO, COD_ENTREGADOR = :COD_ENTREGADOR, ' +
                 'NOM_FANTASIA = :NOM_FANTASIA, COD_AGENTE = :COD_AGENTE, DAT_CODIGO = :DAT_CODIGO, DES_CHAVE = :DES_CHAVE, ' +
                 'COD_GRUPO = :COD_GRUPO, VAL_VERBA = :VAL_VERBA, NOM_EXECUTANTE = :NOM_EXECUTANTE: SISTEMA ' +
-                'DAT_MANUTENCAO = :DAT_MANUTENCAO, WHERE COD_CADASTRO = :COD_CADASTRO AND COD_ENTREGADOR = :COD_ENTREGADOR;';
+                'DAT_MANUTENCAO = :DAT_MANUTENCAO, COD_TABELA = :COD_TABELA WHERE COD_CADASTRO = :COD_CADASTRO AND ' +
+                'COD_ENTREGADOR = :COD_ENTREGADOR;';
 
 implementation
 
@@ -84,7 +88,7 @@ begin
     Result := False;
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLUPDATE, [Self.Fantasia, Self.Agente, Self.Data, Self.Chave, Self.Grupo, Self.Verba, Self.Executor,
-                    Self.Manutencao, Self.Cadastro, Self.Entregador]);
+                    Self.Manutencao, Self.Tabela, Self.Cadastro, Self.Entregador]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -145,7 +149,7 @@ begin
     Result := False;
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLINSERT, [Self.Cadastro, Self.Entregador, Self.Fantasia, Self.Agente, Self.Data, Self.Chave, Self.Grupo,
-                    Self.Verba, Self.Executor, Self.Manutencao]);
+                    Self.Verba, Self.Executor, Self.Manutencao, Self.Tabela]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -259,6 +263,11 @@ begin
   FManutencao := value;
 end;
 
+procedure TEntregadoresExpressas.SetTabela(const Value: Integer);
+begin
+  FTabela := Value;
+end;
+
 function TEntregadoresExpressas.SetupModel(FDEntregadores: TFDQuery): Boolean;
 begin
   try
@@ -273,6 +282,7 @@ begin
     Verba := FDEntregadores.FieldByName('val_verba').AsFloat;
     Executor := FDEntregadores.FieldByName('nom_executante').AsString;
     Manutencao := FDEntregadores.FieldByName('dat_manutencao').AsDateTime;
+    Tabela := FDEntregadores.FieldByName('cod_tabela').AsInteger;
   finally
     Result := True;
   end;

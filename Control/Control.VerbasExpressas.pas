@@ -16,6 +16,7 @@ uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Control.
       function Localizar(aParam: array of variant): TFDQuery;
       function Gravar(): Boolean;
       function SetupModal(FDQuery: TFDQuery): Boolean;
+      function RetornaVerba(aParam: array of variant): double;
     end;
 
 implementation
@@ -46,6 +47,11 @@ end;
 function TVerbasExpressasControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FVerbas.Localizar(aParam);
+end;
+
+function TVerbasExpressasControl.RetornaVerba(aParam: array of variant): double;
+begin
+  Result := FVerbas.RetornaVerba(aParam);
 end;
 
 function TVerbasExpressasControl.SetupModal(FDQuery: TFDQuery): Boolean;
