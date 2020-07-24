@@ -63,11 +63,11 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 2
-      Width = 121
+      Width = 526
     end
     object cxButton1: TcxButton
       Left = 699
-      Top = 52
+      Top = 53
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -76,7 +76,7 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
     end
     object memLog: TcxMemo
       Left = 10
-      Top = 126
+      Top = 129
       ParentFont = False
       Properties.ReadOnly = True
       Properties.ScrollBars = ssVertical
@@ -88,8 +88,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 5
-      Height = 89
-      Width = 185
+      Height = 190
+      Width = 764
     end
     object cxButton2: TcxButton
       Left = 10
@@ -111,9 +111,9 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
     end
     object pbImportacao: TcxProgressBar
       Left = 10
-      Top = 83
+      Top = 84
       TabOrder = 4
-      Width = 121
+      Width = 764
     end
     object cboCliente: TcxComboBox
       Left = 10
@@ -150,6 +150,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -159,6 +161,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       CaptionOptions.Text = 'Arquivo'
       CaptionOptions.Layout = clTop
       Control = edtArquivo
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -168,6 +172,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -184,6 +190,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       CaptionOptions.Text = 'LOG'
       CaptionOptions.Layout = clTop
       Control = memLog
+      ControlOptions.OriginalHeight = 89
+      ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -194,6 +202,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 0
@@ -205,6 +215,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -221,6 +233,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       CaptionOptions.Visible = False
       Visible = False
       Control = pbImportacao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -230,6 +244,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       CaptionOptions.Text = 'Cliente'
       CaptionOptions.Layout = clTop
       Control = cboCliente
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 151
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -282,5 +298,11 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       ImageIndex = 41
       OnExecute = actVisualizarExecute
     end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 376
+    Top = 24
   end
 end

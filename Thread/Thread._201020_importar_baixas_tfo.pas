@@ -20,6 +20,7 @@ type
     fdEntregasUpdate: TFDQuery;
     iCountInsert : Integer;
     iCountUpdate : Integer;
+    fAcao : TAcao;
   protected
     procedure Execute; override;
     procedure UpdateLog(sMensagem: String);
@@ -32,18 +33,15 @@ type
     procedure SetupQueryUpdate();
     procedure SaveInsert(iCount: Integer);
     procedure SaveUpdate(iCount: Integer);
-    function SetTabelaAgente(iAgente: integer): boolean;
-    function SetTabelaEntregador(iEntregador: integer): boolean;
-    function RetornaVerba(FEntregas: TEntregasControl): double;
+    function SetTabelaAgente(iAgente: integer): TStringList;
+    function SetTabelaEntregador(iEntregador: integer): TStringList;
+    function RetornaVerba(vParam: array of variant): double;
   public
     FFile: String;
     iCodigoCliente: Integer;
     bCancel : Boolean;
     dPositionRegister: double;
     slLog: TStringList;
-    dVerba: Double;
-    iTabela: Integer;
-    iFaixa: Integer;
   end;
   const
     TABLENAME = 'tbentregas';
@@ -141,16 +139,22 @@ procedure Tthread_201020_importar_baixas_tfo.Execute;
 var
   aParam: Array of variant;
   iPos : Integer;
-  iTotal: Integer;
+  iTotal, iRoteiro: Integer;
   sCEP: String;
   sMensagem: String;
-  dPos: double;
+  dPos, dPerformance: double;
+  slParam: TStringList;
+  dVerba : Double;
+
 begin
   { Place thread code here }
   try
     try
       BeginProcesso;
       sMensagem := '';
+      dPerformance := 100;
+      iRoteiro := 0;
+      slParam := TStringList.Create;
       FEntregas := TEntregasControl.Create;
       FPlanilha := TPlanilhasEntradasEntregasControl.Create;
       FPlanilhasCSV := TObjectList<TPlanilhaEntradaEntregas>.Create;
@@ -181,15 +185,15 @@ begin
           Finalize(aParam);
           if fdEntregas.IsEmpty then
           begin
-            SetupClassInsert(iPos);
-            Inc(iCountInsert);
-            FEntregas.Entregas.Status := 909;
-            FEntregas.Entregas.Rastreio := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > importado por ' +
-                                          Global.Parametros.pUser_Name;
+            //SetupClassInsert(iPos);
+            //Inc(iCountInsert);
+            //FEntregas.Entregas.Status := 909;
+            //FEntregas.Entregas.Rastreio := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > importado por ' +
+            //                              Global.Parametros.pUser_Name;
             sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FEntregas.Entregas.NN +
                          ' não encontrada no banco de dados! Incluindo os dados do arquivo de baixa.';
             UpdateLog(sMensagem);
-            SetupQueryInsert;
+            //FAcao := tacIncluir;
           end
           else
           begin
@@ -199,12 +203,55 @@ begin
             FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
                                           '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + '> atualizado por importação por ' +
                                           Global.Parametros.pUser_Name;
+            FAcao := tacAlterar;
+          end;
+
+          if FAcao =  tacIncluir then
+          begin
+            SetupQueryInsert;
+          end
+          else if FAcao =  tacAlterar then
+          begin
             SetupQueryUpdate;
           end;
 
-          if SetTabelaAgente(FEntregas.Entregas.Distribuidor) then
-          begin
+          dVerba := 0;
 
+          slParam := SetTabelaAgente(FEntregas.Entregas.Distribuidor);
+          if StrToIntDef(slParam[0], 0) = 0 then
+          begin
+            if StrToFloatDef(slParam[2], 0) > 0 then
+            begin
+              dVerba := StrToFloatDef(slParam[2], 0);
+            end
+          end;
+
+          slParam := SetTabelaEntregador(FEntregas.Entregas.Entregador);
+          if StrToIntDef(slParam[0], 0) = 0 then
+          begin
+            if StrToFloatDef(slParam[2], 0) > 0 then
+            begin
+              dVerba := StrToFloatDef(slParam[2], 0);
+            end
+          end;
+
+          if dVerba = 0 then
+          begin
+            if StrToIntDef(slParam[0],0) > 0 then
+            begin
+              SetLength(aParam,8);
+              aParam := [FEntregas.Entregas.CodCliente,  StrToIntDef(slParam[0], 0),  StrToIntDef(slParam[1], 0),
+                        FEntregas.Entregas.Baixa, dPerformance, FEntregas.Entregas.CEP,
+                        FEntregas.Entregas.PesoReal, iRoteiro];
+              dVerba := RetornaVerba(aParam);
+              Finalize(aParam);
+            end;
+          end;
+
+          if dVerba = 0 then
+          begin
+            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > salvando no banco de dados. Aguarde...';
+            UpdateLog(sMensagem);
           end;
           fdEntregas.Close;
           dPos := ((iPos + 1) / iTotal) * 100;
@@ -255,13 +302,17 @@ begin
   end;
 end;
 
-function Tthread_201020_importar_baixas_tfo.RetornaVerba(FEntregas: TEntregasControl): double;
+function Tthread_201020_importar_baixas_tfo.RetornaVerba(vParam: array of variant): double;
 var
   FVerbas : TVerbasExpressasControl;
   aParam: Array of variant;
+  dVerba: Double;
 begin
   try
+    dVerba := 0;
     FVerbas := TVerbasExpressasControl.Create;
+    dVerba := FVerbas.RetornaVerba(vParam);
+    Result := dVerba;
   finally
     FVerbas.Free;
   end;
@@ -277,37 +328,38 @@ begin
   fdEntregasUpdate.Execute(iCount, 0);
 end;
 
-function Tthread_201020_importar_baixas_tfo.SetTabelaAgente(iAgente: integer): boolean;
+function Tthread_201020_importar_baixas_tfo.SetTabelaAgente(iAgente: integer): TStringList;
 var
   FBases: TBasesControl;
   fdQuery: TFDQuery;
-  aParam : array of variant;
+  slParam : TStringList;
+  dVerba: Double;
+  iTabela, iFaixa: Integer;
+  aParam: Array of variant;
 begin
   try
-    Result := False;
     dVerba := 0;
     iTabela := 0;
     iFaixa := 0;
+    slParam := TStringList.Create;
     FBases := TBasesControl.Create;
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
     setLength(aParam,2);
     aParam := ['CODIGO', iAgente];
     fdQuery := FBases.Localizar(aParam);
-    if fdQuery.isEmpty then
+    Finalize(aParam);
+    if not fdQuery.isEmpty then
     begin
-      exit
+      iTabela := fdQuery.FieldByName('cod_centro_custo').asInteger;
+      iFaixa := fdQuery.FieldByName('cod_grupo').asInteger;
+      dVerba := fdQuery.FieldByName('val_verba').asFloat;
     end;
-    iTabela := fdQuery.FieldByName('cod_centro_custo').asInteger;
-    iFaixa := fdQuery.FieldByName('cod_grupo').asInteger;
-    dVerba := fdQuery.FieldByName('val_verba').asFloat;
-    if iTabela = 0 then
-    begin
-      if dVerba = 0 then
-      begin
-        Exit;
-      end;
-    end;
-    Result := True;
+
+    slParam.Add(iTabela.toString);
+    slParam.Add(iFaixa.toString);
+    slParam.Add(dVerba.toString);
+
+    Result := slParam;
   finally
     fdQuery.Close;
     fdQuery.Connection.cLOSE;
@@ -316,37 +368,36 @@ begin
   end;
 end;
 
-function Tthread_201020_importar_baixas_tfo.SetTabelaEntregador(iEntregador: integer): boolean;
+function Tthread_201020_importar_baixas_tfo.SetTabelaEntregador(iEntregador: integer): TStringList;
 var
   FEntregadores: TEntregadoresExpressasControl;
   fdQuery: TFDQuery;
   aParam : array of variant;
+  dVerba: Double;
+  iTabela, iFaixa: Integer;
+  slParam : TStringList;
 begin
   try
-    Result := False;
     dVerba := 0;
     iTabela := 0;
     iFaixa := 0;
     FEntregadores := TEntregadoresExpressasControl.Create;
+    slParam := TStringList.Create;
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
     setLength(aParam,2);
     aParam := ['ENTREGADOR', iEntregador];
     fdQuery := FEntregadores.Localizar(aParam);
-    if fdQuery.isEmpty then
+    Finalize(aParam);
+    if not fdQuery.isEmpty then
     begin
-      exit
+      iTabela := fdQuery.FieldByName('cod_tabela').asInteger;
+      iFaixa := fdQuery.FieldByName('cod_grupo').asInteger;
+      dVerba := fdQuery.FieldByName('val_verba').asFloat;
     end;
-    iTabela := fdQuery.FieldByName('cod_tabela').asInteger;
-    iFaixa := fdQuery.FieldByName('cod_grupo').asInteger;
-    dVerba := fdQuery.FieldByName('val_verba').asFloat;
-    if iTabela = 0 then
-    begin
-      if dVerba = 0 then
-      begin
-        Exit;
-      end;
-    end;
-    Result := True;
+    slParam.Add(iTabela.toString);
+    slParam.Add(iFaixa.toString);
+    slParam.Add(dVerba.toString);
+    Result := slParam;
   finally
     fdQuery.Close;
     fdQuery.Connection.cLOSE;

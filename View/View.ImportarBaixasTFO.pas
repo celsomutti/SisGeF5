@@ -18,7 +18,7 @@ uses
   Vcl.StdCtrls, cxButtons, cxTextEdit, cxMaskEdit, cxButtonEdit, cxMemo, cxProgressBar, Thread.ImportarBaixasTFO, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxDropDownEdit, Thread.ImportarPlanilhaBaixasDIRECT,
-  ShellAPI;
+  ShellAPI, Thread._201020_importar_baixas_tfo, Vcl.ExtCtrls;
 
 type
   Tview_ImportarBaixasTFO = class(TForm)
@@ -49,12 +49,14 @@ type
     actVisualizar: TAction;
     cboCliente: TcxComboBox;
     dxLayoutItem8: TdxLayoutItem;
+    Timer1: TTimer;
     procedure actImportarExecute(Sender: TObject);
     procedure actAbrirExecute(Sender: TObject);
     procedure actFecharExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actVisualizarExecute(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
     procedure Importar;
@@ -67,7 +69,7 @@ type
 var
   view_ImportarBaixasTFO: Tview_ImportarBaixasTFO;
   controle : TControleBaixasTFOControl;
-  planilha : Thread_ImportarBaixasTFO;
+  planilha : Tthread_201020_importar_baixas_tfo;
   direct : Thread_ImportarPlanilhaBaixasDIRECT;
 
 implementation
@@ -144,10 +146,18 @@ end;
 
 procedure Tview_ImportarBaixasTFO.Importar;
 begin
-  planilha := Thread_ImportarBaixasTFO.Create(True);
+  //planilha := Thread_ImportarBaixasTFO.Create(True);
+  //planilha.FFile := edtArquivo.Text;
+  //planilha.FreeOnTerminate := True;
+  //planilha.Priority := tpNormal;
+  //planilha.Start;
+  planilha := Tthread_201020_importar_baixas_tfo.Create(True);
   planilha.FFile := edtArquivo.Text;
   planilha.FreeOnTerminate := True;
   planilha.Priority := tpNormal;
+  planilha.iCodigoCliente := 1;
+  Timer1.Enabled := True;
+  dxLayoutItem7.Visible := True;
   planilha.Start;
 end;
 
@@ -159,6 +169,21 @@ begin
   direct.Priority := tpNormal;
   direct.iCodigoCliente := 4; // deverá ser implementado para informar o código do cliente
   direct.Start;
+end;
+
+procedure Tview_ImportarBaixasTFO.Timer1Timer(Sender: TObject);
+begin
+  if planilha.CheckTerminated then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem7.Visible := False;
+  end
+  else
+  begin
+    pbImportacao.Position := planilha.dPositionRegister;
+    memLog.Text := planilha.slLog.Text;
+  end;
+
 end;
 
 procedure Tview_ImportarBaixasTFO.VisualizarPlanilha;
