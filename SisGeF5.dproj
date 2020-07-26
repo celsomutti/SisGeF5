@@ -361,6 +361,8 @@
         <DCCReference Include="Model\Model.ExtraviosMultas.pas"/>
         <DCCReference Include="Model\Model.CadastroAnexos.pas"/>
         <DCCReference Include="Control\Control.CadastroAnexos.pas"/>
+        <DCCReference Include="Model\Model.PlanilhaBaixasTFO.pas"/>
+        <DCCReference Include="Control\Control.PlanilhaBaixasTFO.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

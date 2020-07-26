@@ -62,6 +62,7 @@ type
     procedure Importar;
     procedure VisualizarPlanilha;
     procedure ImportarDIRECT;
+    procedure AtualizaLogTFO;
   public
     { Public declarations }
   end;
@@ -138,6 +139,32 @@ begin
   VisualizarPlanilha;
 end;
 
+procedure Tview_ImportarBaixasTFO.AtualizaLogTFO;
+begin
+if not planilha.bProcess then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem7.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrir.Enabled := True;
+  end
+  else
+  begin
+    pbImportacao.Position := planilha.dPositionRegister;
+    memLog.Clear;
+    memLog.Lines.Text := planilha.sLog;
+  end;
+  if planilha.bCancel then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem7.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrir.Enabled := True;
+  end;
+end;
+
 procedure Tview_ImportarBaixasTFO.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
@@ -158,6 +185,9 @@ begin
   planilha.iCodigoCliente := 1;
   Timer1.Enabled := True;
   dxLayoutItem7.Visible := True;
+  actImportar.Enabled := False;
+  actCancelar.Enabled := True;
+  actAbrir.Enabled := False;
   planilha.Start;
 end;
 
@@ -173,17 +203,7 @@ end;
 
 procedure Tview_ImportarBaixasTFO.Timer1Timer(Sender: TObject);
 begin
-  if planilha.CheckTerminated then
-  begin
-    Timer1.Enabled := False;
-    dxLayoutItem7.Visible := False;
-  end
-  else
-  begin
-    pbImportacao.Position := planilha.dPositionRegister;
-    memLog.Text := planilha.slLog.Text;
-  end;
-
+  AtualizaLogTFO;
 end;
 
 procedure Tview_ImportarBaixasTFO.VisualizarPlanilha;

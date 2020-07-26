@@ -168,7 +168,9 @@ uses
   Control.ExpressasExtratos in 'Control\Control.ExpressasExtratos.pas',
   Model.ExtraviosMultas in 'Model\Model.ExtraviosMultas.pas',
   Model.CadastroAnexos in 'Model\Model.CadastroAnexos.pas',
-  Control.CadastroAnexos in 'Control\Control.CadastroAnexos.pas';
+  Control.CadastroAnexos in 'Control\Control.CadastroAnexos.pas',
+  Model.PlanilhaBaixasTFO in 'Model\Model.PlanilhaBaixasTFO.pas',
+  Control.PlanilhaBaixasTFO in 'Control\Control.PlanilhaBaixasTFO.pas';
 
 {$R *.res}
 

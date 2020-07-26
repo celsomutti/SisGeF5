@@ -44,6 +44,7 @@ type
     FFile: String;
     iCodigoCliente: Integer;
     bCancel : Boolean;
+
   end;
   const
     TABLENAME = 'tbentregas';
