@@ -34,6 +34,7 @@ type
     procedure SaveUpdate(iCount: Integer);
     function SetTabelaAgente(iAgente: integer): TStringList;
     function SetTabelaEntregador(iEntregador: integer): TStringList;
+    function SetAgenteEntregador(iEntregador: integer): TStringList;
     function RetornaVerba(vParam: array of variant): double;
   public
     FFile: String;
@@ -42,6 +43,7 @@ type
     bProcess: Boolean;
     dPositionRegister: double;
     sLog: String;
+    sAlerta: String;
   end;
   const
     TABLENAME = 'tbentregas';
@@ -145,14 +147,16 @@ var
   sMensagem: String;
   dPos, dPerformance: double;
   slParam: TStringList;
-  dVerba : Double;
+  dVerba, dVerbaTabela : Double;
   bProcess: Boolean;
+  iTabela, iFaixa: Integer;
 begin
   { Place thread code here }
   try
     try
       BeginProcesso;
       sMensagem := '';
+      sAlerta := '';
       dPerformance := 100;
       iRoteiro := 0;
       slParam := TStringList.Create;
@@ -200,7 +204,7 @@ begin
             //FEntregas.Entregas.Status := 909;
             //FEntregas.Entregas.Rastreio := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > importado por ' +
             //                              Global.Parametros.pUser_Name;
-            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FEntregas.Entregas.NN +
+            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FPlanilhasCSV[iPos].NNRemessa +
                          ' não encontrada no banco de dados! Incluindo os dados do arquivo de baixa.';
             UpdateLog(sMensagem);
             //FAcao := tacIncluir;
@@ -209,22 +213,28 @@ begin
           begin
             SetupClassUpdate(fdEntregas);
             Inc(iCountUpdate);
+            slParam := SetAgenteEntregador(FPlanilhasCSV[iPos].CodigoEntregador);
             FEntregas.Entregas.Status := 909;
             FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
                                           '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + '> importação de baixa por ' +
                                           Global.Parametros.pUser_Name;
-            FEntregas.Entregas.Baixa := FPlanilha.Planilha.DataDigitacao;
+            FEntregas.Entregas.Baixa := FPlanilhasCSV[iPos].DataDigitacao;
             FEntregas.Entregas.Baixado := 'S';
-            FEntregas.Entregas.Entrega := FPlanilha.Planilha.DataEntrega;
-            if FPlanilha.Planilha.DataEntrega < FPlanilha.Planilha.DataDigitacao then
+            FEntregas.Entregas.Entrega := FPlanilhasCSV[iPos].DataEntrega;
+            FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[0],1);
+            FEntregas.Entregas.Entregador := StrToIntDef(slParam[1],0);
+            if FPlanilhasCSV[iPos].DataEntrega < FPlanilhasCSV[iPos].DataDigitacao then
             begin
-              FEntregas.Entregas.Atraso := DaysBetween(FPlanilha.Planilha.DataDigitacao, FPlanilha.Planilha.DataEntrega);
+              FEntregas.Entregas.Atraso := DaysBetween(FPlanilhasCSV[iPos].DataDigitacao, FPlanilhasCSV[iPos].DataEntrega);
             end;
-            FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.PesoCobrado;
+            FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoCobrado;
             FAcao := tacAlterar;
           end;
 
+          iTabela := 0;
+          iFaixa := 0;
           dVerba := 0;
+          dVerbaTabela := 0;
 
           slParam := SetTabelaAgente(FEntregas.Entregas.Distribuidor);
           if StrToIntDef(slParam[0], 0) = 0 then
@@ -233,6 +243,12 @@ begin
             begin
               dVerba := StrToFloatDef(slParam[2], 0);
             end
+          end
+          else
+          begin
+            iTabela := StrToIntDef(slParam[0],0);
+            iFaixa := StrToIntDef(slParam[1], 0);
+            dVerba := StrToFloatDef(slParam[2], 0);
           end;
 
           slParam := SetTabelaEntregador(FEntregas.Entregas.Entregador);
@@ -242,25 +258,33 @@ begin
             begin
               dVerba := StrToFloatDef(slParam[2], 0);
             end
+          end
+          else
+          begin
+            iTabela := StrToIntDef(slParam[0],0);
+            iFaixa := StrToIntDef(slParam[1], 0);
+            dVerba := StrToFloatDef(slParam[2], 0);
           end;
 
-          if dVerba = 0 then
+          if iTabela > 0 then
           begin
-            if StrToIntDef(slParam[0],0) > 0 then
-            begin
-              SetLength(aParam,8);
-              aParam := [FEntregas.Entregas.CodCliente,  StrToIntDef(slParam[0], 0),  StrToIntDef(slParam[1], 0),
-                        FEntregas.Entregas.Baixa, dPerformance, FEntregas.Entregas.CEP,
-                        FEntregas.Entregas.PesoReal, iRoteiro];
-              dVerba := RetornaVerba(aParam);
-              Finalize(aParam);
-            end;
+            SetLength(aParam,8);
+            aParam := [FEntregas.Entregas.CodCliente, iTabela,  iFaixa,
+                      FormatDateTime('yyyy-mm-dd', FEntregas.Entregas.Baixa), dPerformance, FEntregas.Entregas.CEP,
+                      FEntregas.Entregas.PesoReal, iRoteiro];
+            dVerbaTabela := RetornaVerba(aParam);
+            Finalize(aParam);
+          end;
+
+          if dVerbaTabela <> 0 Then
+          begin
+            dVerba := dVerbaTabela;
           end;
 
           if dVerba = 0 then
           begin
             sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > verba não encontrada para a remessa / NN ' +
-                          FEntregas.Entregas.NN + ' !';
+                          FPlanilhasCSV[iPos].NNRemessa + ' !';
             UpdateLog(sMensagem);
           end;
 
@@ -285,6 +309,7 @@ begin
           end
           else
           begin
+            sAlerta := 'Importação cancelada !';
             Abort;
           end;
           fdEntregas.Close;
@@ -299,7 +324,11 @@ begin
         fdEntregasUpdate.Connection.Close;
         fdEntregasInsert.Free;
         fdEntregasUpdate.Free;
+        sMensagem := '>>> '  + FormatDateTime('dddd/mm/yyyy hh:mm:ss', Now()) + ' > Importação concluída';
+        UpdateLog(sMensagem);
+        sAlerta := 'Importação concluída.';
       end;
+      TerminateProcess;
     Except
       on E: Exception do
         begin
@@ -352,6 +381,38 @@ end;
 procedure Tthread_201020_importar_baixas_tfo.SaveUpdate(iCount: Integer);
 begin
   fdEntregasUpdate.Execute(iCount, 0);
+end;
+
+function Tthread_201020_importar_baixas_tfo.SetAgenteEntregador(iEntregador: integer): TStringList;
+var
+  FEntregadores: TEntregadoresExpressasControl;
+  fdQuery: TFDQuery;
+  aParam : array of variant;
+  iAgente: Integer;
+  slParam : TStringList;
+begin
+  try
+    iAgente := 0;
+    FEntregadores := TEntregadoresExpressasControl.Create;
+    slParam := TStringList.Create;
+    fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    setLength(aParam,2);
+    aParam := ['ENTREGADOR', iEntregador];
+    fdQuery := FEntregadores.Localizar(aParam);
+    Finalize(aParam);
+    if not fdQuery.isEmpty then
+    begin
+      iAgente := fdQuery.FieldByName('cod_agente').asInteger;
+    end;
+    slParam.Add(iAgente.toString);
+    slParam.Add(iEntregador.toString);
+    Result := slParam;
+  finally
+    fdQuery.Close;
+    fdQuery.Connection.cLOSE;
+    fdQuery.Free;
+    FEntregadores.Free;
+  end;
 end;
 
 function Tthread_201020_importar_baixas_tfo.SetTabelaAgente(iAgente: integer): TStringList;
@@ -670,13 +731,8 @@ begin
 end;
 
 procedure Tthread_201020_importar_baixas_tfo.TerminateProcess;
-var
-  sTime: String;
-  sMensagem: String;
 begin
-  sTime := FormatDateTime('dddd/mm/yyyy hh:mm:ss', Now());
-  sMensagem := '>>> '  + sTime + ' > Importação concluída';
-  UpdateLog(sMensagem);
+  bProcess := False;
 end;
 
 procedure Tthread_201020_importar_baixas_tfo.UpdateLog(sMensagem: String);

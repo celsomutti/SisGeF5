@@ -156,7 +156,9 @@ begin
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
 
-  FDQuery.SQL.Add('select * from ' + TABLENAME);
+  FDQuery.SQL.Add('select id_verba, cod_cliente, cod_tipo, id_grupo, dat_vigencia, val_verba, ' +
+                  'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro from ' +
+                  TABLENAME);
   if aParam[0] = 'ID' then
   begin
     FDQuery.SQL.Add('where id_verba = :pid_verba');
@@ -280,6 +282,10 @@ begin
     FDQuery := FConexao.ReturnQuery();
     FDQuery.SQL.Clear;
 
+    FDQuery.SQL.Add('select id_verba, cod_cliente, cod_tipo, id_grupo, dat_vigencia, val_verba, ' +
+                    'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro from ' +
+                    TABLENAME);
+
     if aParam[1] = 1 then
     begin
       FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and ' +
@@ -287,7 +293,7 @@ begin
       FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
       FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
       FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
     end;
     if aParam[1] = 2 then
     begin
@@ -296,7 +302,7 @@ begin
       FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
       FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
       FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
       FDQuery.ParamByName('pnum_cep').AsString := aParam[5];
     end;
     if aParam[1] = 3 then
@@ -306,7 +312,7 @@ begin
       FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
       FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
       FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
       FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
     end;
     if aParam[1] = 4 then
@@ -316,7 +322,7 @@ begin
       FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
       FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
       FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
       FDQuery.ParamByName('pval_performance').AsFloat := aParam[4];
     end;
     if aParam[1] = 5 then
@@ -327,7 +333,7 @@ begin
       FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
       FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
       FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDate := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDate := VarToDateTime(aParam[3]);
       FDQuery.ParamByName('pnum_cep').AsString := aParam[5];
       FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
     end;
@@ -339,7 +345,7 @@ begin
       FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
       FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
       FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
       FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
       FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
     end;
@@ -350,7 +356,7 @@ begin
       FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
       FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
       FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDate :=aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDate := VarToDateTime(aParam[3]);
       FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
     end;
     FDQuery.Open();

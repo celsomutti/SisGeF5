@@ -152,8 +152,12 @@ if not planilha.bProcess then
   else
   begin
     pbImportacao.Position := planilha.dPositionRegister;
-    memLog.Clear;
     memLog.Lines.Text := planilha.sLog;
+    if Length(planilha.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilha.sAlerta := '';
+    end;
   end;
   if planilha.bCancel then
   begin
@@ -162,6 +166,11 @@ if not planilha.bProcess then
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
+    if Length(planilha.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilha.sAlerta := '';
+    end;
   end;
 end;
 

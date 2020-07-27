@@ -251,9 +251,9 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
     end
   end
   object OpenDialog: TOpenDialog
-    Filter = 'Arquivo Texto|*.txt|Arquivo CSV|*.csv'
+    Filter = 'Arquivo CSV|*.csv|Todos arquivos|*.*'
     FilterIndex = 0
-    Title = 'Importar Planilha de Baixas TFO'
+    Title = 'Importar Planilha de Baixas'
     Left = 568
     Top = 8
   end

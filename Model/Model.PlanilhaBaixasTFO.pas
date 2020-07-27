@@ -118,7 +118,7 @@ begin
       FPlanilha[i].DataUltimaAtribuicao := StrToDateTimeDef(sDetalhe[8], StrToDateTime('31/12/1899 23:59:59'));
       FPlanilha[i].Obseervacoes := sDetalhe[9];
       FPlanilha[i].NomeUsuario := sDetalhe[10];
-      FPlanilha[i].DataDigitacao := StrToDateTimeDef(sDetalhe[11], StrToDateTime('31/12/1899 23:59:59'));
+      FPlanilha[i].DataDigitacao := StrToDateDef(Copy(sDetalhe[11],0,10), StrToDateTime('31/12/1899'));
       FPlanilha[i].CodigoClienteTFO := StrToInt(sDetalhe[12]);
       FPlanilha[i].NumeroPedido := sDetalhe[13];
       FPlanilha[i].DataPrevisaoEntrega := StrToDateDef(sDetalhe[14], StrToDate('31/12/1899'));
