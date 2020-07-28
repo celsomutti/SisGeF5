@@ -148,6 +148,11 @@ if not planilha.bProcess then
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
+    if Length(planilha.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilha.sAlerta := '';
+    end;
   end
   else
   begin
@@ -217,14 +222,6 @@ end;
 
 procedure Tview_ImportarBaixasTFO.VisualizarPlanilha;
 begin
-  {if edtArquivo.Text = '' then Exit;
-  if not Assigned(view_VisualizacaoPlanilhas) then
-  begin
-    view_VisualizacaoPlanilhas := Tview_VisualizacaoPlanilhas.Create(Application);
-  end;
-  view_VisualizacaoPlanilhas.FFile := edtArquivo.Text;
-  view_VisualizacaoPlanilhas.ShowModal;}
-
 
   sFileExt := LowerCase(ExtractFileExt(edtArquivo.Text));
 

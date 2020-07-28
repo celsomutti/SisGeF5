@@ -170,7 +170,8 @@ uses
   Model.CadastroAnexos in 'Model\Model.CadastroAnexos.pas',
   Control.CadastroAnexos in 'Control\Control.CadastroAnexos.pas',
   Model.PlanilhaBaixasTFO in 'Model\Model.PlanilhaBaixasTFO.pas',
-  Control.PlanilhaBaixasTFO in 'Control\Control.PlanilhaBaixasTFO.pas';
+  Control.PlanilhaBaixasTFO in 'Control\Control.PlanilhaBaixasTFO.pas',
+  View.CadastroEntregadores in 'View\View.CadastroEntregadores.pas' {view_TemplateCadastro};
 
 {$R *.res}
 

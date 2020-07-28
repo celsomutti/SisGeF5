@@ -328,6 +328,7 @@ begin
         UpdateLog(sMensagem);
         sAlerta := 'Importação concluída.';
       end;
+      Sleep(1000);
       TerminateProcess;
     Except
       on E: Exception do
