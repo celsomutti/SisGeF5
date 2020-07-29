@@ -251,34 +251,40 @@ begin
             dVerba := StrToFloatDef(slParam[2], 0);
           end;
 
-          slParam := SetTabelaEntregador(FEntregas.Entregas.Entregador);
-          if StrToIntDef(slParam[0], 0) = 0 then
+          if dVerba = 0 then
           begin
-            if StrToFloatDef(slParam[2], 0) > 0 then
+            slParam := SetTabelaEntregador(FEntregas.Entregas.Entregador);
+            if StrToIntDef(slParam[0], 0) = 0 then
             begin
-              dVerba := StrToFloatDef(slParam[2], 0);
+              if StrToFloatDef(slParam[2], 0) > 0 then
+              begin
+                dVerba := StrToFloatDef(slParam[2], 0);
+              end
             end
-          end
-          else
-          begin
-            iTabela := StrToIntDef(slParam[0],0);
-            iFaixa := StrToIntDef(slParam[1], 0);
-            dVerba := StrToFloatDef(slParam[2], 0);
+            else
+            begin
+              iTabela := StrToIntDef(slParam[0],0);
+              iFaixa := StrToIntDef(slParam[1], 0);
+              dVerba := StrToFloatDef(slParam[2], 0);
+            end;
           end;
 
-          if iTabela > 0 then
+          if dVerba = 0 then
           begin
-            SetLength(aParam,8);
-            aParam := [FEntregas.Entregas.CodCliente, iTabela,  iFaixa,
-                      FormatDateTime('yyyy-mm-dd', FEntregas.Entregas.Baixa), dPerformance, FEntregas.Entregas.CEP,
-                      FEntregas.Entregas.PesoReal, iRoteiro];
-            dVerbaTabela := RetornaVerba(aParam);
-            Finalize(aParam);
-          end;
+            if iTabela > 0 then
+            begin
+              SetLength(aParam,8);
+              aParam := [FEntregas.Entregas.CodCliente, iTabela,  iFaixa,
+                        FormatDateTime('yyyy-mm-dd', FEntregas.Entregas.Baixa), dPerformance, FEntregas.Entregas.CEP,
+                        FEntregas.Entregas.PesoReal, iRoteiro];
+              dVerbaTabela := RetornaVerba(aParam);
+              Finalize(aParam);
+            end;
 
-          if dVerbaTabela <> 0 Then
-          begin
-            dVerba := dVerbaTabela;
+            if dVerbaTabela <> 0 Then
+            begin
+              dVerba := dVerbaTabela;
+            end;
           end;
 
           if dVerba = 0 then

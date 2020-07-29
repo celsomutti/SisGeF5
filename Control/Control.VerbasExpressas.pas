@@ -17,6 +17,7 @@ uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Control.
       function Gravar(): Boolean;
       function SetupModal(FDQuery: TFDQuery): Boolean;
       function RetornaVerba(aParam: array of variant): double;
+      function RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
     end;
 
 implementation
@@ -47,6 +48,11 @@ end;
 function TVerbasExpressasControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FVerbas.Localizar(aParam);
+end;
+
+function TVerbasExpressasControl.RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
+begin
+  Result := RetornaListaSimples(iTabela,memTable);
 end;
 
 function TVerbasExpressasControl.RetornaVerba(aParam: array of variant): double;

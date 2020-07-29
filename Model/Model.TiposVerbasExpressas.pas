@@ -26,6 +26,7 @@ type
 
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
+    function RetornaListaSimples(memTable: TFDMemTable): boolean;
   end;
 const
     TABLENAME = 'expressas_tipos_verbas';
@@ -111,6 +112,30 @@ begin
   end;
   FDQuery.Open();
   Result := FDQuery;
+end;
+
+function TTiposVerbasExpressas.RetornaListaSimples(memTable: TFDMemTable): boolean;
+var
+  aParam: array of Variant;
+  fdQuery: TFDQuery;
+begin
+  try
+    REsult := False;
+    fdQuery := FConexao.ReturnQuery;
+    SetLength(aParam,3);
+    aParam := ['APOIO','cod_tipo, des_tipo, des_colunas',''];
+    fdQuery := Self.Localizar(aParam);
+    Finalize(aParam);
+    if not fdQuery.IsEmpty then
+    begin
+      memTable.Data := fdQuery.Data;
+    end;
+    Result := True;
+  finally
+    fdQuery.Close;
+    fdQuery.Connection.Close;
+    fdQuery.Free;
+  end;
 end;
 
 function TTiposVerbasExpressas.Update: Boolean;

@@ -14,6 +14,7 @@ type
     function Gravar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
     function ValidarCampos(): Boolean;
+    function RetornaListaSimples(memTable: TFDMemTable): boolean;
     property Tipos: TTiposVerbasExpressas read FTipos write FTipos;
   end;
 
@@ -40,6 +41,11 @@ end;
 function TTiposVerbasExpressasControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FTipos.Localizar(aParam);
+end;
+
+function TTiposVerbasExpressasControl.RetornaListaSimples(memTable: TFDMemTable): boolean;
+begin
+  Result := RetornaListaSimples(memTable);
 end;
 
 function TTiposVerbasExpressasControl.ValidarCampos: Boolean;

@@ -212,6 +212,7 @@ type
     procedure actExtratoEntregadoresExpressasExecute(Sender: TObject);
     procedure actRoteirosExpressasExecute(Sender: TObject);
     procedure actCadastroEmpresasExecute(Sender: TObject);
+    procedure actCadastroEntregadoresExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;
@@ -238,7 +239,7 @@ implementation
 uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsuarios, View.CadastraSenha,
   View.Calendario, View.VerbasExpressas, View.ExtraviosMultas, View.Acareacoes, View.ImportarPedidos, View.ImportarBaixasTFO,
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
-  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas;
+  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.CadastroEntregadores;
 
 procedure Tview_Main.Acessos;
 var
@@ -334,6 +335,15 @@ begin
     view_CadastroEmpresas := Tview_CadastroEmpresas.Create(Application);
   end;
   view_CadastroEmpresas.Show;
+end;
+
+procedure Tview_Main.actCadastroEntregadoresExecute(Sender: TObject);
+begin
+  if not Assigned(view_CadastroEntregadores) then
+  begin
+    view_CadastroEntregadores := Tview_CadastroEntregadores.Create(Application);
+  end;
+  view_CadastroEntregadores.Show;
 end;
 
 procedure Tview_Main.actCalendarioExecute(Sender: TObject);

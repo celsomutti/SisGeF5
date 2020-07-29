@@ -364,7 +364,7 @@
         <DCCReference Include="Model\Model.PlanilhaBaixasTFO.pas"/>
         <DCCReference Include="Control\Control.PlanilhaBaixasTFO.pas"/>
         <DCCReference Include="View\View.CadastroEntregadores.pas">
-            <Form>view_TemplateCadastro</Form>
+            <Form>view_CadastroEntregadores</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="SisGeF5.todo"/>

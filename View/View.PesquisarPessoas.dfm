@@ -44,6 +44,8 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
   OldCreateOrder = False
   Position = poMainFormCenter
   ShowHint = True
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object lcPesquisa: TdxLayoutControl
@@ -55,16 +57,16 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
     TabOrder = 0
     object grdPesquisa: TcxGrid
       Left = 10
-      Top = 10
+      Top = 37
       Width = 789
-      Height = 345
+      Height = 391
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 0
+      TabOrder = 1
       OnEnter = grdPesquisaEnter
       OnExit = grdPesquisaExit
       object tvPesquisa: TcxGridDBTableView
@@ -116,7 +118,7 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       Height = 25
       Cursor = crHandPoint
       Action = actSelecionar
-      TabOrder = 1
+      TabOrder = 3
     end
     object cxButton3: TcxButton
       Left = 724
@@ -126,6 +128,23 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       Cursor = crHandPoint
       Action = actFechar
       Cancel = True
+      TabOrder = 4
+    end
+    object textEditPesquisar: TcxTextEdit
+      Left = 61
+      Top = 10
+      Style.HotTrack = False
+      TabOrder = 0
+      Width = 738
+    end
+    object cxButton1: TcxButton
+      Left = 544
+      Top = 434
+      Width = 79
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionLocalizar
+      Default = True
       TabOrder = 2
     end
     object lcPesquisaGroup_Root: TdxLayoutGroup
@@ -145,7 +164,7 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       ControlOptions.OriginalHeight = 345
       ControlOptions.OriginalWidth = 789
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object lcPesquisaItem4: TdxLayoutItem
       Parent = lcPesquisaGroup1
@@ -157,12 +176,12 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 89
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object lcPesquisaGroup1: TdxLayoutAutoCreatedGroup
       Parent = lcPesquisaGroup_Root
       LayoutDirection = ldHorizontal
-      Index = 1
+      Index = 2
       AutoCreated = True
     end
     object lcPesquisaItem5: TdxLayoutItem
@@ -175,7 +194,30 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
+    end
+    object dxLayoutItem1: TdxLayoutItem
+      Parent = lcPesquisaGroup_Root
+      CaptionOptions.Text = 'Pesquisar'
+      Visible = False
+      Control = textEditPesquisar
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem2: TdxLayoutItem
+      Parent = lcPesquisaGroup1
+      AlignHorz = ahRight
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Visible = False
+      Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 79
+      ControlOptions.ShowBorder = False
+      Index = 0
     end
   end
   object actPesquisar: TActionList
@@ -193,6 +235,12 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       ImageIndex = 17
       OnExecute = actFecharExecute
     end
+    object actionLocalizar: TAction
+      Caption = 'Localizar'
+      Hint = 'Localizar registros'
+      ImageIndex = 12
+      OnExecute = actionLocalizarExecute
+    end
   end
   object dsPesquisa: TDataSource
     AutoEdit = False
@@ -203,7 +251,7 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
   object qryPesquisa: TdxMemData
     Indexes = <>
     SortOptions = []
-    Left = 643
-    Top = 27
+    Left = 648
+    Top = 48
   end
 end

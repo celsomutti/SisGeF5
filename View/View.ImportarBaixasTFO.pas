@@ -153,6 +153,8 @@ if not planilha.bProcess then
       Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
       planilha.sAlerta := '';
     end;
+    edtArquivo.Text := '';
+    pbImportacao.Position := 0;
   end
   else
   begin

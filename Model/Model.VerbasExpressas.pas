@@ -46,6 +46,7 @@ type
     function Gravar(): Boolean;
     function SetupModel(FDQuery: TFDQuery): Boolean;
     function RetornaVerba(aParam: array of variant): double;
+    function RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
     constructor Create();
   end;
 const
@@ -271,6 +272,37 @@ begin
     SetupModel(FDQuery);
   end;
   Result := FDQuery;
+end;
+
+function TVerbasExpressas.RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
+var
+  sSQL : String;
+  sWhere: String;
+  aParam: array of variant;
+  fdQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    fdQuery := FConexao.ReturnQuery;
+    sSQL := 'distinct id_grupo as cod_faixa, concat(format(val_verba,2,"de_DE"), ' +
+            'if(num_cep_inicial<>"",concat(" - CEP Inicial ", num_cep_inicial, " - ", "CEP Final ", num_cep_final),""), ' +
+            'if(qtd_peso_inicial<>0,concat(" - PESO Inicial ", format(qtd_peso_inicial,3,"de_DE"), " - ", "PESO Final ", ' +
+            'format(qtd_peso_final,3,"de_DE")),"")) as des_faixa';
+    sWhere := ' where cod_tipo = ' + iTabela.ToString;
+    SetLength(aParam,3);
+    aParam := ['APOIO',sSQL, sWhere];
+    fdQuery := Self.Localizar(aParam);
+    Finalize(aParam);
+    if not fdQuery.IsEmpty then
+    begin
+      memTable.Data := fdQuery.Data;
+    end;
+    Result := True;
+  finally
+    fdQuery.Close;
+    fdQuery.Connection.Close;
+    fdQuery.Free;
+  end;
 end;
 
 function TVerbasExpressas.RetornaVerba(aParam: array of variant): double;

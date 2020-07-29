@@ -2201,6 +2201,7 @@
       Category = 'Cadastro'
       Caption = 'E&ntregadores'
       Hint = 'Cadaastro de Entregadores'
+      OnExecute = actCadastroEntregadoresExecute
     end
     object actCadastroContratados: TAction
       Category = 'Cadastro'
