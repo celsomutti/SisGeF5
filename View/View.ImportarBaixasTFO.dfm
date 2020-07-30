@@ -76,7 +76,7 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
     end
     object memLog: TcxMemo
       Left = 10
-      Top = 129
+      Top = 156
       ParentFont = False
       Properties.ReadOnly = True
       Properties.ScrollBars = ssVertical
@@ -87,8 +87,8 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 5
-      Height = 190
+      TabOrder = 6
+      Height = 163
       Width = 764
     end
     object cxButton2: TcxButton
@@ -98,7 +98,7 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       Height = 25
       Cursor = crHandPoint
       Action = actCancelar
-      TabOrder = 6
+      TabOrder = 7
     end
     object cxButton3: TcxButton
       Left = 699
@@ -107,7 +107,7 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       Height = 25
       Cursor = crHandPoint
       Action = actFechar
-      TabOrder = 7
+      TabOrder = 8
     end
     object pbImportacao: TcxProgressBar
       Left = 10
@@ -124,6 +124,7 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
         'Selecione ...'
         'TRANSFOLHA'
         'DIRECT')
+      Properties.OnChange = cboClientePropertiesChange
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
       Style.Font.Height = -11
@@ -134,6 +135,15 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       TabOrder = 1
       Text = 'Selecione ...'
       Width = 151
+    end
+    object checkBoxLojas: TcxCheckBox
+      Left = 10
+      Top = 111
+      Caption = 'Consistir Lojas'
+      Properties.NullStyle = nssUnchecked
+      Style.HotTrack = False
+      TabOrder = 5
+      Transparent = True
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -193,7 +203,7 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       ControlOptions.OriginalHeight = 89
       ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object dxLayoutItem5: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup2
@@ -224,7 +234,7 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       Parent = dxLayoutControl1Group_Root
       AlignVert = avBottom
       LayoutDirection = ldHorizontal
-      Index = 4
+      Index = 5
       AutoCreated = True
     end
     object dxLayoutItem7: TdxLayoutItem
@@ -248,6 +258,17 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       ControlOptions.OriginalWidth = 151
       ControlOptions.ShowBorder = False
       Index = 0
+    end
+    object dxLayoutItem9: TdxLayoutItem
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Visible = False
+      Control = checkBoxLojas
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 88
+      ControlOptions.ShowBorder = False
+      Index = 3
     end
   end
   object OpenDialog: TOpenDialog

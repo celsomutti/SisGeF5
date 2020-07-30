@@ -37,6 +37,7 @@ type
   public
     FFile: String;
     iCodigoCliente: Integer;
+    bLoja: boolean;
   end;
 
 implementation
@@ -115,7 +116,16 @@ begin
 
       // Carregando o arquivo ...
 
-      planilhas := planilha.GetPlanilha(FFile);
+      if planilha.GetPlanilha(FFile) then
+      begin
+        planilhas := planilha.Planilha.Planilha;
+      end
+      else
+      begin
+        sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' ' + planilha.Planilha.MensagemProcesso;
+        AtualizaLog;
+        Exit;
+      end;
 
       SetLength(aTipoTabela, 7);
       aTipoTabela := ['FIXA','FIXACEP','FIXAPESO','SLA','CEPPESO','ROTEIROPESO','ROTEIROFIXA'];
@@ -277,7 +287,6 @@ begin
 
             if dVerba = 0 then
             begin
-
               dVerba := StrToFloatDef(bases.GetField('val_verba', 'cod_agente', entregas.Entregas.Distribuidor.ToString), 0);
               iGrupo := StrToIntDef(bases.GetField('cod_grupo', 'cod_agente', entregas.Entregas.Distribuidor.ToString), 0);
             end;
@@ -383,6 +392,17 @@ begin
                 sMensagem := 'Verba não encontrada para a remessa ' + entregas.Entregas.NN + ' do entregador ' +
                              entregas.Entregas.Entregador.ToString + ' !';
                 Synchronize(AtualizaLog);
+              end
+              else
+              begin
+                if bLoja then
+                begin
+                  if Trim(planilhas[i].Loja) = 'S' then
+                  begin
+                    dVerba := dVerba / 2;
+                    entregas.Entregas.Status := 9889;
+                  end;
+                end;
               end;
 
               if not entregas.Gravar then

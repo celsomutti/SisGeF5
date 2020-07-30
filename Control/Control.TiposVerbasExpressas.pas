@@ -45,7 +45,7 @@ end;
 
 function TTiposVerbasExpressasControl.RetornaListaSimples(memTable: TFDMemTable): boolean;
 begin
-  Result := RetornaListaSimples(memTable);
+  Result := FTipos.RetornaListaSimples(memTable);
 end;
 
 function TTiposVerbasExpressasControl.ValidarCampos: Boolean;

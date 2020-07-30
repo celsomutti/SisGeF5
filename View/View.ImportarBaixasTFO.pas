@@ -18,7 +18,7 @@ uses
   Vcl.StdCtrls, cxButtons, cxTextEdit, cxMaskEdit, cxButtonEdit, cxMemo, cxProgressBar, Thread.ImportarBaixasTFO, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxDropDownEdit, Thread.ImportarPlanilhaBaixasDIRECT,
-  ShellAPI, Thread._201020_importar_baixas_tfo, Vcl.ExtCtrls;
+  ShellAPI, Thread._201020_importar_baixas_tfo, Vcl.ExtCtrls, cxCheckBox;
 
 type
   Tview_ImportarBaixasTFO = class(TForm)
@@ -50,6 +50,8 @@ type
     cboCliente: TcxComboBox;
     dxLayoutItem8: TdxLayoutItem;
     Timer1: TTimer;
+    checkBoxLojas: TcxCheckBox;
+    dxLayoutItem9: TdxLayoutItem;
     procedure actImportarExecute(Sender: TObject);
     procedure actAbrirExecute(Sender: TObject);
     procedure actFecharExecute(Sender: TObject);
@@ -57,6 +59,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actVisualizarExecute(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure cboClientePropertiesChange(Sender: TObject);
   private
     { Private declarations }
     procedure Importar;
@@ -181,6 +184,19 @@ if not planilha.bProcess then
   end;
 end;
 
+procedure Tview_ImportarBaixasTFO.cboClientePropertiesChange(Sender: TObject);
+begin
+  if cboCliente.ItemIndex = 2 then
+  begin
+    dxLayoutItem9.Visible := True;
+  end
+  else
+  begin
+    dxLayoutItem9.Visible := False;
+    checkBoxLojas.Checked := False;
+  end;
+end;
+
 procedure Tview_ImportarBaixasTFO.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
@@ -189,11 +205,6 @@ end;
 
 procedure Tview_ImportarBaixasTFO.Importar;
 begin
-  //planilha := Thread_ImportarBaixasTFO.Create(True);
-  //planilha.FFile := edtArquivo.Text;
-  //planilha.FreeOnTerminate := True;
-  //planilha.Priority := tpNormal;
-  //planilha.Start;
   planilha := Tthread_201020_importar_baixas_tfo.Create(True);
   planilha.FFile := edtArquivo.Text;
   planilha.FreeOnTerminate := True;
@@ -214,6 +225,13 @@ begin
   direct.FreeOnTerminate := True;
   direct.Priority := tpNormal;
   direct.iCodigoCliente := 4; // deverá ser implementado para informar o código do cliente
+  Timer1.Enabled := True;
+  dxLayoutItem7.Visible := True;
+  actImportar.Enabled := False;
+  actCancelar.Enabled := True;
+  actAbrir.Enabled := False;
+  direct.bLoja := checkBoxLojas.Checked;
+  planilha.Start;
   direct.Start;
 end;
 

@@ -11,7 +11,8 @@ type
   public
     constructor Create();
     destructor Destroy(); override;
-    function GetPlanilha(sFile: String): TObjectList<TPlanilhaBaixasDIRECT>;
+    function GetPlanilha(sFile: String): boolean;
+    property Planilha: TPlanilhaBaixasDIRECT read FPlanilha write FPlanilha;
   end;
 
 implementation
@@ -29,7 +30,7 @@ begin
   inherited;
 end;
 
-function TPlanilhaBaixasDIRECTControl.GetPlanilha(sFile: String): TObjectList<TPlanilhaBaixasDIRECT>;
+function TPlanilhaBaixasDIRECTControl.GetPlanilha(sFile: String): boolean;
 begin
   Result := FPlanilha.GetPlanilha(sFile);
 end;

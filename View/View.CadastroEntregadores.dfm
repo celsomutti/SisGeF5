@@ -53,15 +53,15 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Properties.Alignment.Horz = taRightJustify
         Properties.Buttons = <
           item
+            Action = actionLocalizarPessoas
             Default = True
-            ImageIndex = 14
-            Hint = 'Pesquisar pessoa'
             Kind = bkGlyph
           end>
         Properties.IgnoreMaskBlank = True
         Properties.Images = Data_Sisgef.iml_16_16
         Properties.MaskKind = emkRegExpr
         Properties.EditMask = '\d\d\d\d\d\d'
+        Properties.OnValidate = buttonEditPessoaPropertiesValidate
         Style.HotTrack = False
         TabOrder = 2
         Text = '0'
@@ -113,6 +113,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Properties.Images = Data_Sisgef.iml_16_16
         Properties.MaskKind = emkRegExpr
         Properties.EditMask = '\d\d\d\d\d\d'
+        Properties.OnValidate = buttonEditCodigoAgentePropertiesValidate
         Style.HotTrack = False
         TabOrder = 4
         Text = '0'
@@ -160,6 +161,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
           end>
         Properties.ListOptions.ShowHeader = False
         Properties.ListSource = dsTipos
+        Properties.OnChange = lookupComboBoxTabelaPropertiesChange
         Style.HotTrack = False
         TabOrder = 8
         Width = 344
@@ -563,7 +565,6 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     end
   end
   object dsEntregadores: TDataSource
-    AutoEdit = False
     DataSet = memTableEntregadores
     Left = 592
     Top = 8
@@ -630,6 +631,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Hint = 'Novo entregador'
       ImageIndex = 3
       ShortCut = 113
+      OnExecute = actionNovoExecute
     end
     object actionGravar: TAction
       Category = 'Entregadores'
@@ -664,6 +666,13 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Hint = 'Localizar agentes'
       ImageIndex = 14
       OnExecute = actionLocalizarAgentesExecute
+    end
+    object actionLocalizarPessoas: TAction
+      Category = 'Entregadores'
+      Caption = 'Localiar Pessoas'
+      Hint = 'Localizar pessoas'
+      ImageIndex = 14
+      OnExecute = actionLocalizarPessoasExecute
     end
   end
   object BindingsList1: TBindingsList

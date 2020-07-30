@@ -127,7 +127,6 @@ uses
   Thread.ImportarPlanilhaBaixasDIRECT in 'Thread\Thread.ImportarPlanilhaBaixasDIRECT.pas',
   Model.PlanilhaBaixasDIRECT in 'Model\Model.PlanilhaBaixasDIRECT.pas',
   Control.PlanilhaBaixasDIRECT in 'Control\Control.PlanilhaBaixasDIRECT.pas',
-  DAO.PlanilhaBaixasDIRECT in 'DAO\DAO.PlanilhaBaixasDIRECT.pas',
   Thread.ImportarPlanilhaEntradaDIRECT in 'Thread\Thread.ImportarPlanilhaEntradaDIRECT.pas',
   Control.PlanilhaEntradaDIRECT in 'Control\Control.PlanilhaEntradaDIRECT.pas',
   Model.PlanilhaEntradaDIRECT in 'Model\Model.PlanilhaEntradaDIRECT.pas',
@@ -142,7 +141,6 @@ uses
   Model.RoteirosExpressas in 'Model\Model.RoteirosExpressas.pas',
   Control.RoteirosExpressas in 'Control\Control.RoteirosExpressas.pas',
   View.RoteirosExpressas in 'View\View.RoteirosExpressas.pas' {view_RoteirosExpressas},
-  Thread._201020_importar_baixas_tfo in 'Thread\Thread._201020_importar_baixas_tfo.pas',
   Model.ControleAWB in 'Model\Model.ControleAWB.pas',
   Control.ControleAWB in 'Control\Control.ControleAWB.pas',
   Thread._201010_importar_pedidos_direct in 'Thread\Thread._201010_importar_pedidos_direct.pas',
@@ -171,7 +169,8 @@ uses
   Control.CadastroAnexos in 'Control\Control.CadastroAnexos.pas',
   Model.PlanilhaBaixasTFO in 'Model\Model.PlanilhaBaixasTFO.pas',
   Control.PlanilhaBaixasTFO in 'Control\Control.PlanilhaBaixasTFO.pas',
-  View.CadastroEntregadores in 'View\View.CadastroEntregadores.pas' {view_CadastroEntregadores};
+  View.CadastroEntregadores in 'View\View.CadastroEntregadores.pas' {view_CadastroEntregadores},
+  Thread._201020_importar_baixas_tfo in 'Thread\Thread._201020_importar_baixas_tfo.pas';
 
 {$R *.res}
 

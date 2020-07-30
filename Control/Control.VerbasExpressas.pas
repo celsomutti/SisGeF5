@@ -52,7 +52,7 @@ end;
 
 function TVerbasExpressasControl.RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
 begin
-  Result := RetornaListaSimples(iTabela,memTable);
+  Result := FVerbas.RetornaListaSimples(iTabela,memTable);
 end;
 
 function TVerbasExpressasControl.RetornaVerba(aParam: array of variant): double;

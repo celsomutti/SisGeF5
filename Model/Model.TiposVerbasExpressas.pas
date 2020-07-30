@@ -120,11 +120,11 @@ var
   fdQuery: TFDQuery;
 begin
   try
-    REsult := False;
+    Result := False;
     fdQuery := FConexao.ReturnQuery;
     SetLength(aParam,3);
     aParam := ['APOIO','cod_tipo, des_tipo, des_colunas',''];
-    fdQuery := Self.Localizar(aParam);
+    fdQuery := Localizar(aParam);
     Finalize(aParam);
     if not fdQuery.IsEmpty then
     begin

@@ -295,8 +295,11 @@ begin
     Finalize(aParam);
     if not fdQuery.IsEmpty then
     begin
+      memTable.Fields.Create(fdQuery);
       memTable.Data := fdQuery.Data;
     end;
+    memTable.FieldByName('cod_faixa').AsInteger := 0;
+    memTable.FieldByName('des_faixa').AsString := 'NEHUMA';
     Result := True;
   finally
     fdQuery.Close;

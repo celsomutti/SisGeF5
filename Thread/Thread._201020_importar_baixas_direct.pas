@@ -1,19 +1,19 @@
-unit Thread._201020_importar_baixas_tfo;
+unit Thread._201020_importar_baixas_direct;
 
 interface
 
 uses
   System.Classes, Dialogs, Windows, Forms, SysUtils, Messages, Controls, System.DateUtils, System.StrUtils, Generics.Collections,
-  Control.Entregas, Control.Sistema, FireDAC.Comp.Client, Common.ENum, Model.PlanilhaBaixasTFO,
+  Control.Entregas, Control.Sistema, FireDAC.Comp.Client, Common.ENum, Model.PlanilhaBaixasDIRECT,
   FireDAC.Comp.DataSet, Data.DB, Control.VerbasExpressas, Control.Bases, Control.EntregadoresExpressas, Control.PlanilhaBaixasTFO;
 
 type
-  Tthread_201020_importar_baixas_tfo = class(TThread)
+  Tthread_201020_importar_baixas_direct = class(TThread)
   private
     { Private declarations }
     FEntregas: TEntregasControl;
     FPlanilha : TPlanilhaBaixasTFOControl;
-    FPlanilhasCSV : TObjectList<TPlanilhaBaixasTFO>;
+    FPlanilhasCSV : TObjectList<TPlanilhaBaixasDIRECT>;
     fdEntregas: TFDQuery;
     fdEntregasInsert: TFDQuery;
     fdEntregasUpdate: TFDQuery;
@@ -97,7 +97,7 @@ implementation
 
   and UpdateCaption could look like,
 
-    procedure Tthread_201020_importar_baixas_tfo.UpdateCaption;
+    procedure Tthread_201020_importar_baixas_direct.UpdateCaption;
     begin
       Form1.Caption := 'Updated in a thread';
     end;
@@ -120,11 +120,11 @@ implementation
 
 }
 
-{ Tthread_201020_importar_baixas_tfo }
+{ Tthread_201020_importar_baixas_direct }
 
 uses Common.Utils, Global.Parametros;
 
-procedure Tthread_201020_importar_baixas_tfo.BeginProcesso;
+procedure Tthread_201020_importar_baixas_direct.BeginProcesso;
 var
   sMensagem: String;
 begin
@@ -138,7 +138,7 @@ begin
   UpdateLog(sMensagem);
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.Execute;
+procedure Tthread_201020_importar_baixas_direct.Execute;
 var
   aParam: Array of variant;
   iPos : Integer;
@@ -162,7 +162,7 @@ begin
       slParam := TStringList.Create;
       FEntregas := TEntregasControl.Create;
       FPlanilha := TPlanilhaBaixasTFOControl.Create;
-      FPlanilhasCSV := TObjectList<TPlanilhaBaixasTFO>.Create;
+      FPlanilhasCSV := TObjectList<TPlanilhaBaixasDIRECT>.Create;
       if FPlanilha.GetPlanilha(FFile) then
       begin
         FPlanilhasCSV := FPlanilha.Planilha.Planilha;
@@ -194,20 +194,37 @@ begin
           fdEntregasUpdate.SQL.Text := SQLUPDATE;
           SetLength(aParam,2);
           aParam[0] := 'NN';
-          aParam[1] := Trim(FPlanilhasCSV[iPos].NNRemessa);
+          aParam[1] := Trim(FPlanilhasCSV[iPos].Remessa);
           fdEntregas := FEntregas.Localizar(aParam);
           Finalize(aParam);
           if fdEntregas.IsEmpty then
           begin
-            //SetupClassInsert(iPos);
-            //Inc(iCountInsert);
-            //FEntregas.Entregas.Status := 909;
-            //FEntregas.Entregas.Rastreio := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > importado por ' +
-            //                              Global.Parametros.pUser_Name;
-            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FPlanilhasCSV[iPos].NNRemessa +
+            SetupClassInsert(iPos);
+            Inc(iCountInsert);
+            FEntregas.Entregas.Status := 909;
+            FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
+                                          '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + '> inclusão de dados por ' +
+                                          Global.Parametros.pUser_Name;
+            FEntregas.Entregas.Baixa := FPlanilhasCSV[iPos].DataAtualizacao;
+            FEntregas.Entregas.Baixado := 'S';
+            FEntregas.Entregas.Entrega := FPlanilhasCSV[iPos].DataAtualizacao;
+            FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[0],1);
+            FEntregas.Entregas.Entregador := StrToIntDef(slParam[1],0);
+            FEntregas.Entregas.Atraso := 0;
+            if FPlanilhasCSV[iPos].PesoCubado > FPlanilhasCSV[iPos].PesoNominal then
+            begin
+              FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoCubado;
+            end
+            else
+            begin
+              FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoNominal;
+            end;
+            FEntregas.Entregas.Rastreio := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > importado por ' +
+                                          Global.Parametros.pUser_Name;
+            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FPlanilhasCSV[iPos].Remessa +
                          ' não encontrada no banco de dados! Incluindo os dados do arquivo de baixa.';
             UpdateLog(sMensagem);
-            //FAcao := tacIncluir;
+            FAcao := tacIncluir;
           end
           else
           begin
@@ -217,16 +234,20 @@ begin
             FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
                                           '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + '> importação de baixa por ' +
                                           Global.Parametros.pUser_Name;
-            FEntregas.Entregas.Baixa := FPlanilhasCSV[iPos].DataDigitacao;
+            FEntregas.Entregas.Baixa := FPlanilhasCSV[iPos].DataAtualizacao;
             FEntregas.Entregas.Baixado := 'S';
-            FEntregas.Entregas.Entrega := FPlanilhasCSV[iPos].DataEntrega;
+            FEntregas.Entregas.Entrega := FPlanilhasCSV[iPos].DataAtualizacao;
             FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[0],1);
             FEntregas.Entregas.Entregador := StrToIntDef(slParam[1],0);
-            if FPlanilhasCSV[iPos].DataEntrega < FPlanilhasCSV[iPos].DataDigitacao then
+            FEntregas.Entregas.Atraso := 0;
+            if FPlanilhasCSV[iPos].PesoCubado > FPlanilhasCSV[iPos].PesoNominal then
             begin
-              FEntregas.Entregas.Atraso := DaysBetween(FPlanilhasCSV[iPos].DataDigitacao, FPlanilhasCSV[iPos].DataEntrega);
+              FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoCubado;
+            end
+            else
+            begin
+              FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoNominal;
             end;
-            FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoCobrado;
             FAcao := tacAlterar;
           end;
 
@@ -289,7 +310,7 @@ begin
           if dVerba = 0 then
           begin
             sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > verba não encontrada para a remessa / NN ' +
-                          FPlanilhasCSV[iPos].NNRemessa + ' !';
+                          FPlanilhasCSV[iPos].Remessa + ' !';
             UpdateLog(sMensagem);
           end;
 
@@ -363,7 +384,7 @@ begin
   end;
 end;
 
-function Tthread_201020_importar_baixas_tfo.RetornaVerba(vParam: array of variant): double;
+function Tthread_201020_importar_baixas_direct.RetornaVerba(vParam: array of variant): double;
 var
   FVerbas : TVerbasExpressasControl;
   aParam: Array of variant;
@@ -379,17 +400,17 @@ begin
   end;
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.SaveInsert(iCount: Integer);
+procedure Tthread_201020_importar_baixas_direct.SaveInsert(iCount: Integer);
 begin
   fdEntregasInsert.Execute(iCount, 0);
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.SaveUpdate(iCount: Integer);
+procedure Tthread_201020_importar_baixas_direct.SaveUpdate(iCount: Integer);
 begin
   fdEntregasUpdate.Execute(iCount, 0);
 end;
 
-function Tthread_201020_importar_baixas_tfo.SetAgenteEntregador(iEntregador: integer): TStringList;
+function Tthread_201020_importar_baixas_direct.SetAgenteEntregador(iEntregador: integer): TStringList;
 var
   FEntregadores: TEntregadoresExpressasControl;
   fdQuery: TFDQuery;
@@ -421,7 +442,7 @@ begin
   end;
 end;
 
-function Tthread_201020_importar_baixas_tfo.SetTabelaAgente(iAgente: integer): TStringList;
+function Tthread_201020_importar_baixas_direct.SetTabelaAgente(iAgente: integer): TStringList;
 var
   FBases: TBasesControl;
   fdQuery: TFDQuery;
@@ -461,7 +482,7 @@ begin
   end;
 end;
 
-function Tthread_201020_importar_baixas_tfo.SetTabelaEntregador(iEntregador: integer): TStringList;
+function Tthread_201020_importar_baixas_direct.SetTabelaEntregador(iEntregador: integer): TStringList;
 var
   FEntregadores: TEntregadoresExpressasControl;
   fdQuery: TFDQuery;
@@ -499,9 +520,9 @@ begin
   end;
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.SetupClassInsert(i: Integer);
+procedure Tthread_201020_importar_baixas_direct.SetupClassInsert(i: Integer);
 begin
-  FEntregas.Entregas.NN := FPlanilhasCSV[i].NNRemessa;
+  FEntregas.Entregas.NN := FPlanilhasCSV[i].Remessa;
   FEntregas.Entregas.Distribuidor := 0;
   FEntregas.Entregas.Entregador := 0;
   FEntregas.Entregas.Cliente := FPlanilhasCSV[i].CodigoClienteTFO;
@@ -557,7 +578,7 @@ begin
   FEntregas.Entregas.CodCliente := iCodigoCliente;
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.SetupClassUpdate(FDQuery: TFDQuery);
+procedure Tthread_201020_importar_baixas_direct.SetupClassUpdate(FDQuery: TFDQuery);
 begin
   FEntregas.Entregas.NN := FDQuery.FieldByName('NUM_NOSSONUMERO').AsString;
   FEntregas.Entregas.Distribuidor := FDQuery.FieldByName('COD_AGENTE').AsInteger;
@@ -616,7 +637,7 @@ begin
   FEntregas.Entregas.CodCliente := FDQuery.FieldByName('COD_CLIENTE_EMPRESA').AsInteger;
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.SetupQueryInsert;
+procedure Tthread_201020_importar_baixas_direct.SetupQueryInsert;
 begin
   fdEntregasInsert.Params.ArraySize := iCountInsert;
   fdEntregasInsert.ParamByName('NUM_NOSSONUMERO').AsStrings[Pred(iCountInsert)]:= FEntregas.Entregas.NN;
@@ -676,7 +697,7 @@ begin
   fdEntregasInsert.ParamByName('COD_CLIENTE_EMPRESA').AsIntegers[Pred(iCountInsert)] := FEntregas.Entregas.CodCliente;
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.SetupQueryUpdate;
+procedure Tthread_201020_importar_baixas_direct.SetupQueryUpdate;
 begin
   fdEntregasUpdate.Params.ArraySize := iCountUpdate;
   fdEntregasUpdate.ParamByName('NUM_NOSSONUMERO').AsStrings[Pred(iCountUpdate)]:= FEntregas.Entregas.NN;
@@ -736,12 +757,12 @@ begin
   fdEntregasUpdate.ParamByName('COD_CLIENTE_EMPRESA').AsIntegers[Pred(iCountUpdate)] := FEntregas.Entregas.CodCliente;
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.TerminateProcess;
+procedure Tthread_201020_importar_baixas_direct.TerminateProcess;
 begin
   bProcess := False;
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.UpdateLog(sMensagem: String);
+procedure Tthread_201020_importar_baixas_direct.UpdateLog(sMensagem: String);
 begin
   if sLog <> '' then
   begin
@@ -750,7 +771,7 @@ begin
   sLog := sLog + sMensagem;
 end;
 
-procedure Tthread_201020_importar_baixas_tfo.UpdateProgress(dPosition: double);
+procedure Tthread_201020_importar_baixas_direct.UpdateProgress(dPosition: double);
 begin
   dPositionRegister := dPosition;
 end;

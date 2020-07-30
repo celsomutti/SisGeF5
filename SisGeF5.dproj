@@ -301,7 +301,6 @@
         <DCCReference Include="Thread\Thread.ImportarPlanilhaBaixasDIRECT.pas"/>
         <DCCReference Include="Model\Model.PlanilhaBaixasDIRECT.pas"/>
         <DCCReference Include="Control\Control.PlanilhaBaixasDIRECT.pas"/>
-        <DCCReference Include="DAO\DAO.PlanilhaBaixasDIRECT.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPlanilhaEntradaDIRECT.pas"/>
         <DCCReference Include="Control\Control.PlanilhaEntradaDIRECT.pas"/>
         <DCCReference Include="Model\Model.PlanilhaEntradaDIRECT.pas"/>
@@ -319,7 +318,6 @@
             <Form>view_RoteirosExpressas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Thread\Thread._201020_importar_baixas_tfo.pas"/>
         <DCCReference Include="Model\Model.ControleAWB.pas"/>
         <DCCReference Include="Control\Control.ControleAWB.pas"/>
         <DCCReference Include="Thread\Thread._201010_importar_pedidos_direct.pas"/>
@@ -367,6 +365,7 @@
             <Form>view_CadastroEntregadores</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Thread\Thread._201020_importar_baixas_tfo.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
