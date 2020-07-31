@@ -13,7 +13,7 @@ uses
   cxTextEdit, cxMaskEdit, cxButtonEdit, cxCurrencyEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, Control.VerbasExpressas,
   Control.TiposVerbasExpressas, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
   cxCheckBox, Data.Bind.EngExt, Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors, Data.Bind.Components,
-  Data.Bind.DBScope, Control.EntregadoresExpressas, Control.Bases, Control.Cadastro;
+  Data.Bind.DBScope, Control.EntregadoresExpressas, Control.Bases, Control.Cadastro, cxDBEdit;
 
 type
   Tview_CadastroEntregadores = class(TForm)
@@ -36,9 +36,6 @@ type
     memTableEntregadorescod_tabela: TIntegerField;
     dsEntregadores: TDataSource;
     mtbTipos: TFDMemTable;
-    mtbTiposcod_tipo: TIntegerField;
-    mtbTiposdes_tipo: TStringField;
-    mtbTiposdes_colunas: TStringField;
     dsTipos: TDataSource;
     layoutControlCadastroGroup_Root: TdxLayoutGroup;
     layoutControlCadastro: TdxLayoutControl;
@@ -61,15 +58,11 @@ type
     layoutItemCodigoERP: TdxLayoutItem;
     currencyEditTicketMedio: TcxCurrencyEdit;
     layoutItemTicketMedio: TdxLayoutItem;
-    lookupComboBoxTabela: TcxLookupComboBox;
-    layoutItemTabela: TdxLayoutItem;
     dxLayoutAutoCreatedGroup3: TdxLayoutAutoCreatedGroup;
     memTableFaixas: TFDMemTable;
     memTableFaixascod_faixa: TIntegerField;
     memTableFaixasdes_faixa: TStringField;
     dsFaixas: TDataSource;
-    lookupComboBoxFaixa: TcxLookupComboBox;
-    layoutItemFaixa: TdxLayoutItem;
     layoutControlFooterGroup_Root: TdxLayoutGroup;
     layoutControlFooter: TdxLayoutControl;
     layoutItemFooter: TdxLayoutItem;
@@ -93,17 +86,22 @@ type
     layoutItemButtonFechar: TdxLayoutItem;
     BindingsList1: TBindingsList;
     BindSourceDB2: TBindSourceDB;
-    LinkPropertyToFieldEditValue: TLinkPropertyToField;
     LinkPropertyToFieldText: TLinkPropertyToField;
     LinkPropertyToFieldText2: TLinkPropertyToField;
     LinkPropertyToFieldText3: TLinkPropertyToField;
     LinkPropertyToFieldEditValue2: TLinkPropertyToField;
     LinkPropertyToFieldValue: TLinkPropertyToField;
     LinkPropertyToFieldText4: TLinkPropertyToField;
-    LinkPropertyToFieldEditValue3: TLinkPropertyToField;
     LinkPropertyToFieldText5: TLinkPropertyToField;
     actionLocalizarAgentes: TAction;
     actionLocalizarPessoas: TAction;
+    mtbTiposcod_tipo: TIntegerField;
+    mtbTiposdes_tipo: TStringField;
+    mtbTiposdes_colunas: TStringField;
+    buttonEditCodigoTabela: TcxButtonEdit;
+    layoutItemButtonEditCodigoTabela: TdxLayoutItem;
+    cxTextEdit1: TcxTextEdit;
+    layoutItemTextEditDescricaoTabela: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -139,7 +137,11 @@ uses Data.SisGeF, View.PesquisarPessoas;
 
 procedure Tview_CadastroEntregadores.actionFecharExecute(Sender: TObject);
 begin
-   Close;
+  FAcao := tacIndefinido;
+  if mtbTipos.Active then mtbTipos.Close;
+  if memTableFaixas.Active then memTableFaixas.Close;
+  if memTableEntregadores.Active then memTableEntregadores.Close;
+  Close;
 end;
 
 procedure Tview_CadastroEntregadores.actionLocalizarAgentesExecute(Sender: TObject);
@@ -197,10 +199,10 @@ end;
 
 procedure Tview_CadastroEntregadores.lookupComboBoxTabelaPropertiesChange(Sender: TObject);
 begin
-  if (Facao =  tacIncluir) or (FAcao = tacAlterar) then
-  begin
-    PopulaFaixas(StrToIntDef(lookupComboBoxTabela.EditValue, 0));
-  end;
+//  if (Facao =  tacIncluir) or (FAcao = tacAlterar) then
+//  begin
+//    PopulaFaixas(StrToIntDef(lookupComboBoxTabela.EditValue, 0));
+//  end;
 end;
 
 procedure Tview_CadastroEntregadores.Modo;

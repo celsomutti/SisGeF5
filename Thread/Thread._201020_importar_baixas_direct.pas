@@ -5,7 +5,8 @@ interface
 uses
   System.Classes, Dialogs, Windows, Forms, SysUtils, Messages, Controls, System.DateUtils, System.StrUtils, Generics.Collections,
   Control.Entregas, Control.Sistema, FireDAC.Comp.Client, Common.ENum, Model.PlanilhaBaixasDIRECT,
-  FireDAC.Comp.DataSet, Data.DB, Control.VerbasExpressas, Control.Bases, Control.EntregadoresExpressas, Control.PlanilhaBaixasTFO;
+  FireDAC.Comp.DataSet, Data.DB, Control.VerbasExpressas, Control.Bases, Control.EntregadoresExpressas, Control.PlanilhaBaixasTFO,
+  Control.ControleAWB;
 
 type
   Tthread_201020_importar_baixas_direct = class(TThread)
@@ -14,9 +15,11 @@ type
     FEntregas: TEntregasControl;
     FPlanilha : TPlanilhaBaixasTFOControl;
     FPlanilhasCSV : TObjectList<TPlanilhaBaixasDIRECT>;
+    awb: TControleAWBControl;
     fdEntregas: TFDQuery;
     fdEntregasInsert: TFDQuery;
     fdEntregasUpdate: TFDQuery;
+    fdAWB: TFDQuery;
     iCountInsert : Integer;
     iCountUpdate : Integer;
     fAcao : TAcao;
@@ -33,7 +36,7 @@ type
     procedure SaveInsert(iCount: Integer);
     procedure SaveUpdate(iCount: Integer);
     function SetTabelaAgente(iAgente: integer): TStringList;
-    function SetTabelaEntregador(iEntregador: integer): TStringList;
+    function SetTabelaEntregador(sCodigoERP: String): TStringList;
     function SetAgenteEntregador(iEntregador: integer): TStringList;
     function RetornaVerba(vParam: array of variant): double;
   public
@@ -143,13 +146,13 @@ var
   aParam: Array of variant;
   iPos : Integer;
   iTotal, iRoteiro: Integer;
-  sCEP: String;
+  sCEP, sOperacao: String;
   sMensagem: String;
-  dPos, dPerformance: double;
+  dPos, dPerformance, dPeso: double;
   slParam: TStringList;
   dVerba, dVerbaTabela : Double;
   bProcess: Boolean;
-  iTabela, iFaixa: Integer;
+  iTabela, iFaixa, iEntregador, iAgente: Integer;
 begin
   { Place thread code here }
   try
@@ -162,6 +165,7 @@ begin
       slParam := TStringList.Create;
       FEntregas := TEntregasControl.Create;
       FPlanilha := TPlanilhaBaixasTFOControl.Create;
+      awb := TControleAWBControl.Create;
       FPlanilhasCSV := TObjectList<TPlanilhaBaixasDIRECT>.Create;
       if FPlanilha.GetPlanilha(FFile) then
       begin
@@ -199,32 +203,42 @@ begin
           Finalize(aParam);
           if fdEntregas.IsEmpty then
           begin
-            SetupClassInsert(iPos);
-            Inc(iCountInsert);
-            FEntregas.Entregas.Status := 909;
-            FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
-                                          '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + '> inclusão de dados por ' +
-                                          Global.Parametros.pUser_Name;
-            FEntregas.Entregas.Baixa := FPlanilhasCSV[iPos].DataAtualizacao;
-            FEntregas.Entregas.Baixado := 'S';
-            FEntregas.Entregas.Entrega := FPlanilhasCSV[iPos].DataAtualizacao;
-            FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[0],1);
-            FEntregas.Entregas.Entregador := StrToIntDef(slParam[1],0);
-            FEntregas.Entregas.Atraso := 0;
-            if FPlanilhasCSV[iPos].PesoCubado > FPlanilhasCSV[iPos].PesoNominal then
+            if UpperCase(FPlanilhasCSV[iPos].Tipo) = 'REVERSA' then
             begin
-              FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoCubado;
+              SetupClassInsert(iPos);
+              Inc(iCountInsert);
+              FEntregas.Entregas.Status := 909;
+              FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
+                                            '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + '> inclusão de dados por ' +
+                                            Global.Parametros.pUser_Name;
+              FEntregas.Entregas.Baixa := FPlanilhasCSV[iPos].DataAtualizacao;
+              FEntregas.Entregas.Baixado := 'S';
+              FEntregas.Entregas.Entrega := FPlanilhasCSV[iPos].DataAtualizacao;
+              FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[0],1);
+              FEntregas.Entregas.Entregador := StrToIntDef(slParam[1],0);
+              FEntregas.Entregas.Atraso := 0;
+              if FPlanilhasCSV[iPos].PesoCubado > FPlanilhasCSV[iPos].PesoNominal then
+              begin
+                FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoCubado;
+              end
+              else
+              begin
+                FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoNominal;
+              end;
+              FEntregas.Entregas.Rastreio := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > importado por ' +
+                                            Global.Parametros.pUser_Name;
+              sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FPlanilhasCSV[iPos].Remessa +
+                           ' não encontrada no banco de dados! Incluindo os dados do arquivo de baixa.';
+              UpdateLog(sMensagem);
+              FAcao := tacIncluir;
             end
             else
             begin
-              FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoNominal;
+              sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FPlanilhasCSV[iPos].Remessa +
+                           ' não encontrada no banco de dados!';
+              UpdateLog(sMensagem);
+              FAcao := tacIndefinido;
             end;
-            FEntregas.Entregas.Rastreio := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > importado por ' +
-                                          Global.Parametros.pUser_Name;
-            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FPlanilhasCSV[iPos].Remessa +
-                         ' não encontrada no banco de dados! Incluindo os dados do arquivo de baixa.';
-            UpdateLog(sMensagem);
-            FAcao := tacIncluir;
           end
           else
           begin
@@ -237,26 +251,33 @@ begin
             FEntregas.Entregas.Baixa := FPlanilhasCSV[iPos].DataAtualizacao;
             FEntregas.Entregas.Baixado := 'S';
             FEntregas.Entregas.Entrega := FPlanilhasCSV[iPos].DataAtualizacao;
-            FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[0],1);
-            FEntregas.Entregas.Entregador := StrToIntDef(slParam[1],0);
             FEntregas.Entregas.Atraso := 0;
             if FPlanilhasCSV[iPos].PesoCubado > FPlanilhasCSV[iPos].PesoNominal then
             begin
+              FEntregas.Entregas.PesoReal := FPlanilhasCSV[iPos].PesoCubado;
               FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoCubado;
             end
             else
             begin
+              FEntregas.Entregas.PesoReal := FPlanilhasCSV[iPos].PesoNominal;
               FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoNominal;
             end;
+            FEntregas.Entregas.TipoPeso := FPlanilhasCSV[iPos].Tipo;
             FAcao := tacAlterar;
           end;
+
 
           iTabela := 0;
           iFaixa := 0;
           dVerba := 0;
           dVerbaTabela := 0;
+          iEntregador := 0;
+          iAgente := 0;
+          dPeso := 0;
 
-          slParam := SetTabelaAgente(FEntregas.Entregas.Distribuidor);
+          dPeso := FEntregas.Entregas.PesoCobrado;
+
+          slParam := SetTabelaEntregador(FPlanilhasCSV[iPos].Documento);
           if StrToIntDef(slParam[0], 0) = 0 then
           begin
             if StrToFloatDef(slParam[2], 0) > 0 then
@@ -271,9 +292,22 @@ begin
             dVerba := StrToFloatDef(slParam[2], 0);
           end;
 
+          iEntregador := StrToIntDef(slParam[3], 0);
+          iAgente := StrToIntDef(slParam[4], 0);
+
+          if iEntregador = 0 then
+          begin
+            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > entregador ' + FPlanilhasCSV[iPos].Motorista +
+                         ' não cadastrado para a remessa / NN ' + FPlanilhasCSV[iPos].Remessa + ' !';
+            UpdateLog(sMensagem);
+          end;
+
+          FEntregas.Entregas.Distribuidor := iAgente;
+          FEntregas.Entregas.Entregador := iEntregador;
+
           if dVerba = 0 then
           begin
-            slParam := SetTabelaEntregador(FEntregas.Entregas.Entregador);
+            slParam := SetTabelaAgente(FEntregas.Entregas.Distribuidor);
             if StrToIntDef(slParam[0], 0) = 0 then
             begin
               if StrToFloatDef(slParam[2], 0) > 0 then
@@ -289,6 +323,23 @@ begin
             end;
           end;
 
+          sOperacao := 'TD';
+          SetLength(aParam,2);
+          aParam[0] := 'REMESSA';
+          aParam[1] := FEntregas.Entregas.NN;
+          FDAWB := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+          FDAWB := awb.Localizar(aParam);
+          Finalize(aParam);
+          if not FDAWB.IsEmpty then
+          begin
+            sOperacao := FDAWB.FieldByName('cod_operacao').AsString;
+          end;
+
+          if sOperacao = 'TC' then
+          begin
+            dPeso := 999999;
+          end;
+
           if dVerba = 0 then
           begin
             if iTabela > 0 then
@@ -296,7 +347,7 @@ begin
               SetLength(aParam,8);
               aParam := [FEntregas.Entregas.CodCliente, iTabela,  iFaixa,
                         FormatDateTime('yyyy-mm-dd', FEntregas.Entregas.Baixa), dPerformance, FEntregas.Entregas.CEP,
-                        FEntregas.Entregas.PesoCobrado, iRoteiro];
+                        dPeso, iRoteiro];
               dVerbaTabela := RetornaVerba(aParam);
               Finalize(aParam);
             end;
@@ -482,24 +533,26 @@ begin
   end;
 end;
 
-function Tthread_201020_importar_baixas_direct.SetTabelaEntregador(iEntregador: integer): TStringList;
+function Tthread_201020_importar_baixas_direct.SetTabelaEntregador(sCodigoERP: String): TStringList;
 var
   FEntregadores: TEntregadoresExpressasControl;
   fdQuery: TFDQuery;
   aParam : array of variant;
   dVerba: Double;
-  iTabela, iFaixa: Integer;
+  iTabela, iFaixa, iEntregador, iAgente: Integer;
   slParam : TStringList;
 begin
   try
     dVerba := 0;
     iTabela := 0;
     iFaixa := 0;
+    iEntregador := 0;
+    iAgente := 0;
     FEntregadores := TEntregadoresExpressasControl.Create;
     slParam := TStringList.Create;
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
     setLength(aParam,2);
-    aParam := ['ENTREGADOR', iEntregador];
+    aParam := ['CHAVE', sCodigoERP];
     fdQuery := FEntregadores.Localizar(aParam);
     Finalize(aParam);
     if not fdQuery.isEmpty then
@@ -507,6 +560,8 @@ begin
       iTabela := fdQuery.FieldByName('cod_tabela').asInteger;
       iFaixa := fdQuery.FieldByName('cod_grupo').asInteger;
       dVerba := fdQuery.FieldByName('val_verba').asFloat;
+      iEntregador := fdQuery.FieldByName('cod_entregador').asInteger;
+      iAgente := fdQuery.FieldByName('cod_agente').asInteger;
     end;
     slParam.Add(iTabela.toString);
     slParam.Add(iFaixa.toString);
@@ -525,7 +580,7 @@ begin
   FEntregas.Entregas.NN := FPlanilhasCSV[i].Remessa;
   FEntregas.Entregas.Distribuidor := 0;
   FEntregas.Entregas.Entregador := 0;
-  FEntregas.Entregas.Cliente := FPlanilhasCSV[i].CodigoClienteTFO;
+  FEntregas.Entregas.Cliente := 0;
   FEntregas.Entregas.NF := '';
   FEntregas.Entregas.Consumidor := 'NONE';
   FEntregas.Entregas.Endereco := '';
@@ -534,19 +589,29 @@ begin
   FEntregas.Entregas.Cidade := '';
   FEntregas.Entregas.Cep :='';
   FEntregas.Entregas.Telefone := '';
-  FEntregas.Entregas.Expedicao := StrToDate('30/12/1899');
-  FEntregas.Entregas.Previsao := FPlanilhasCSV[i].DataPrevisaoEntrega;
+  FEntregas.Entregas.Expedicao := FPlanilhasCSV[i].DataAtualizacao;
+  FEntregas.Entregas.Previsao := FPlanilhasCSV[i].DataAtualizacao;
   FEntregas.Entregas.Volumes := 1;
-  FEntregas.Entregas.Atribuicao := StrToDate('30/12/1899');
-  FEntregas.Entregas.Baixa := FPlanilhasCSV[i].DataDigitacao;
+  FEntregas.Entregas.Atribuicao := FPlanilhasCSV[i].DataAtualizacao;
+  FEntregas.Entregas.Baixa := FPlanilhasCSV[i].DataAtualizacao;
   FEntregas.Entregas.Baixado := 'S';
   FEntregas.Entregas.Pagamento := StrToDate('30/12/1899');
   FEntregas.Entregas.Pago := 'N';
   FEntregas.Entregas.Fechado := 'N';
-  FEntregas.Entregas.Status := 0;
-  FEntregas.Entregas.Entrega := FPlanilhasCSV[i].DataEntrega;
-  FEntregas.Entregas.PesoReal := FPlanilhasCSV[i].PesoCobrado;;
-  FEntregas.Entregas.TipoPeso := FPlanilhasCSV[i].DescricaoTipoPeso;
+  FEntregas.Entregas.Status := 909;
+  FEntregas.Entregas.Entrega := FPlanilhasCSV[i].DataAtualizacao;
+  if FPlanilhasCSV[i].PesoNominal > FPlanilhasCSV[i].PesoCubado then
+  begin
+    FEntregas.Entregas.PesoReal := FPlanilhasCSV[i].PesoNominal;
+    FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[i].PesoNominal;
+    FEntregas.Entregas.TipoPeso := 'NORMAL';
+  end
+  else
+  begin
+    FEntregas.Entregas.PesoReal := FPlanilhasCSV[i].PesoCubado;
+    FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[i].PesoCubado;
+    FEntregas.Entregas.TipoPeso := 'CUBADO';
+  end;
   FEntregas.Entregas.PesoFranquia := 0;
   FEntregas.Entregas.Advalorem := 0;
   FEntregas.Entregas.PagoFranquia := 0;
@@ -555,7 +620,6 @@ begin
   FEntregas.Entregas.Atraso := 0;
   FEntregas.Entregas.VolumesExtra := 0;
   FEntregas.Entregas.ValorVolumes := 0;
-  FEntregas.Entregas.PesoCobrado := 0;
   FEntregas.Entregas.Recebimento := StrToDate('30/12/1899');
   FEntregas.Entregas.Recebido := 'N';
   FEntregas.Entregas.CTRC := 0;
@@ -574,7 +638,7 @@ begin
   FEntregas.Entregas.CodigoFeedback := 0;
   FEntregas.Entregas.DataFeedback := StrToDate('30/12/1899');
   FEntregas.Entregas.Conferido := 0;
-  FEntregas.Entregas.Pedido := '0';
+  FEntregas.Entregas.Pedido := FPlanilhasCSV[i].Pedido;
   FEntregas.Entregas.CodCliente := iCodigoCliente;
 end;
 

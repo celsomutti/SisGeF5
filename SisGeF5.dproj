@@ -366,6 +366,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Thread\Thread._201020_importar_baixas_tfo.pas"/>
+        <DCCReference Include="Thread\Thread._201020_importar_baixas_direct.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

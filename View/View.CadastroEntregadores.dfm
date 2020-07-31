@@ -138,41 +138,15 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Width = 341
       end
       object currencyEditTicketMedio: TcxCurrencyEdit
-        Left = 11
+        Left = 391
         Top = 124
         Hint = 'Valot do Ticket M'#233'dio (Verba fixa)'
         EditValue = 0.000000000000000000
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;-,0.00'
         Style.HotTrack = False
-        TabOrder = 7
-        Width = 114
-      end
-      object lookupComboBoxTabela: TcxLookupComboBox
-        Left = 131
-        Top = 124
-        Hint = 
-          'Selecione a tebela verbas de entregas para remunera'#231#227'o a este en' +
-          'tregador'
-        Properties.KeyFieldNames = 'cod_tipo'
-        Properties.ListColumns = <
-          item
-            FieldName = 'des_tipo'
-          end>
-        Properties.ListOptions.ShowHeader = False
-        Properties.ListSource = dsTipos
-        Properties.OnChange = lookupComboBoxTabelaPropertiesChange
-        Style.HotTrack = False
-        TabOrder = 8
-        Width = 344
-      end
-      object lookupComboBoxFaixa: TcxLookupComboBox
-        Left = 481
-        Top = 124
-        Properties.ListColumns = <>
-        Style.HotTrack = False
         TabOrder = 9
-        Width = 218
+        Width = 308
       end
       object checkBoxAtivo: TcxCheckBox
         Left = 705
@@ -183,6 +157,34 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 10
         Transparent = True
+      end
+      object buttonEditCodigoTabela: TcxButtonEdit
+        Left = 11
+        Top = 124
+        Hint = 'C'#243'digo da tabela'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.IgnoreMaskBlank = True
+        Properties.MaskKind = emkRegExpr
+        Properties.EditMask = '\d\d\d\d\d\d'
+        Style.HotTrack = False
+        TabOrder = 7
+        Text = '0'
+        Width = 76
+      end
+      object cxTextEdit1: TcxTextEdit
+        Left = 93
+        Top = 124
+        Hint = 'Descricao da tabela'
+        TabStop = False
+        Properties.ReadOnly = True
+        Style.HotTrack = False
+        TabOrder = 8
+        Width = 292
       end
       object layoutControlCadastroGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
@@ -300,38 +302,13 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 76
         ControlOptions.ShowBorder = False
-        Index = 0
-      end
-      object layoutItemTabela: TdxLayoutItem
-        Parent = dxLayoutAutoCreatedGroup3
-        AlignHorz = ahClient
-        AlignVert = avTop
-        CaptionOptions.Text = 'Tabela'
-        CaptionOptions.Layout = clTop
-        Control = lookupComboBoxTabela
-        ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 228
-        ControlOptions.ShowBorder = False
-        Index = 1
+        Index = 2
       end
       object dxLayoutAutoCreatedGroup3: TdxLayoutAutoCreatedGroup
         Parent = layoutControlCadastroGroup_Root
-        AlignVert = avTop
         LayoutDirection = ldHorizontal
         Index = 2
         AutoCreated = True
-      end
-      object layoutItemFaixa: TdxLayoutItem
-        Parent = dxLayoutAutoCreatedGroup3
-        AlignHorz = ahClient
-        AlignVert = avTop
-        CaptionOptions.Text = 'Faixa'
-        CaptionOptions.Layout = clTop
-        Control = lookupComboBoxFaixa
-        ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 145
-        ControlOptions.ShowBorder = False
-        Index = 2
       end
       object layoutItemCheckBoxAtivo: TdxLayoutItem
         Parent = dxLayoutAutoCreatedGroup3
@@ -344,6 +321,28 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalWidth = 50
         ControlOptions.ShowBorder = False
         Index = 3
+      end
+      object layoutItemButtonEditCodigoTabela: TdxLayoutItem
+        Parent = dxLayoutAutoCreatedGroup3
+        AlignVert = avClient
+        CaptionOptions.Text = 'Tabela'
+        CaptionOptions.Layout = clTop
+        Control = buttonEditCodigoTabela
+        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalWidth = 76
+        ControlOptions.ShowBorder = False
+        Index = 0
+      end
+      object layoutItemTextEditDescricaoTabela: TdxLayoutItem
+        Parent = dxLayoutAutoCreatedGroup3
+        AlignVert = avBottom
+        CaptionOptions.Text = 'Descri'#231#227'o da Tabela'
+        CaptionOptions.Layout = clTop
+        Control = cxTextEdit1
+        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalWidth = 292
+        ControlOptions.ShowBorder = False
+        Index = 1
       end
     end
     object layoutControlFooter: TdxLayoutControl
@@ -584,7 +583,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     end
     object mtbTiposdes_tipo: TStringField
       FieldName = 'des_tipo'
-      Size = 100
+      Size = 50
     end
     object mtbTiposdes_colunas: TStringField
       FieldName = 'des_colunas'
@@ -680,13 +679,6 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     OutputConverters = <>
     Left = 236
     Top = 5
-    object LinkPropertyToFieldEditValue: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_grupo'
-      Component = lookupComboBoxFaixa
-      ComponentProperty = 'EditValue'
-    end
     object LinkPropertyToFieldText: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB2
@@ -728,13 +720,6 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       FieldName = 'des_chave'
       Component = textEditCodigoERP
       ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldEditValue3: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_tabela'
-      Component = lookupComboBoxTabela
-      ComponentProperty = 'EditValue'
     end
     object LinkPropertyToFieldText5: TLinkPropertyToField
       Category = 'Quick Bindings'

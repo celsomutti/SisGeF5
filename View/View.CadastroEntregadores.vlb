@@ -82,9 +82,6 @@ Coordinates=2193,10,167,432
 [textEditNomePessoa]
 Coordinates=2412,3312,134,36
 
-[mtbTiposcod_tipo]
-Coordinates=28,4200,116,36
-
 [layoutItemCadastro]
 Coordinates=952,1,126,36
 
@@ -114,9 +111,6 @@ Coordinates=952,496,213,36
 
 [layoutItemCodigoCadastro]
 Coordinates=952,661,167,36
-
-[mtbTiposdes_colunas]
-Coordinates=952,881,139,36
 
 [mtbTipos]
 Coordinates=645,3312,76,124
@@ -159,9 +153,6 @@ Visible=False
 [dsTipos]
 Coordinates=385,4200,60,36
 
-[mtbTiposdes_tipo]
-Coordinates=952,1761,116,36
-
 [memTableEntregadorescod_tabela]
 Coordinates=952,1981,215,36
 
@@ -169,7 +160,8 @@ Coordinates=952,1981,215,36
 Coordinates=952,2036,130,36
 
 []
-Coordinates=340,1400,106,124
+Coordinates=463,1099,147,58
+ExplicitSubNodes=EditValue
 
 [layoutItemNomeFantasia]
 Coordinates=191,1902,157,36
@@ -236,17 +228,11 @@ ExplicitSubNodes=Text
 [buttonNovo]
 Coordinates=191,1671,80,58
 
-[layoutItemTabela]
-Coordinates=191,2782,113,36
-
 [memTableFaixasdes_faixa]
 Coordinates=191,2837,168,36
 
 [actionNovo]
 Coordinates=191,2892,79,36
-
-[layoutItemFaixa]
-Coordinates=191,2947,106,36
 
 [memTableFaixascod_faixa]
 Coordinates=191,3002,168,36
@@ -284,16 +270,8 @@ Coordinates=463,1044,132,36
 [dxLayoutAutoCreatedGroup3]
 Coordinates=604,747,181,36
 
-[lookupComboBoxFaixa]
-Coordinates=463,1099,147,58
-ExplicitSubNodes=EditValue
-
 [layoutItemTicketMedio]
 Coordinates=463,1154,144,36
-
-[lookupComboBoxTabela]
-Coordinates=450,1180,155,58
-ExplicitSubNodes=EditValue
 
 [textEditNomeFantasia]
 Coordinates=463,1264,141,58

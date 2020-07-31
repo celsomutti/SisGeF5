@@ -170,7 +170,8 @@ uses
   Model.PlanilhaBaixasTFO in 'Model\Model.PlanilhaBaixasTFO.pas',
   Control.PlanilhaBaixasTFO in 'Control\Control.PlanilhaBaixasTFO.pas',
   View.CadastroEntregadores in 'View\View.CadastroEntregadores.pas' {view_CadastroEntregadores},
-  Thread._201020_importar_baixas_tfo in 'Thread\Thread._201020_importar_baixas_tfo.pas';
+  Thread._201020_importar_baixas_tfo in 'Thread\Thread._201020_importar_baixas_tfo.pas',
+  Thread._201020_importar_baixas_direct in 'Thread\Thread._201020_importar_baixas_direct.pas';
 
 {$R *.res}
 
