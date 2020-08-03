@@ -371,7 +371,13 @@ begin
             begin
               if FPlanilhasCSV[iPos].Loja = 'S' then
               begin
-                dVerba := dVerba / 2;
+                if dVerba < 15 then
+                begin
+                  if Copy(FEntregas.Entregas.CEP,1,3) <> '238' then
+                  begin
+                    dVerba := dVerba / 2;
+                  end;
+                end;
               end;
             end;
           end;
@@ -400,6 +406,34 @@ begin
             sAlerta := 'Importação cancelada !';
             Abort;
           end;
+
+          if iCountInsert >= 2000 then
+          begin
+            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > salvando no banco de dados. Aguarde...';
+            UpdateLog(sMensagem);
+            SaveInsert(iCountInsert);
+            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > importando os dados. Aguarde...';
+            UpdateLog(sMensagem);
+            iCountInsert := 0;
+            fdEntregasInsert.Connection.Close;
+            fdEntregasInsert.Free;
+            fdEntregasInsert := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+            fdEntregasInsert.SQL.Text := SQLINSERT;
+          end;
+
+          if iCountUpdate >= 2000 then
+          begin
+            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > salvando no banco de dados. Aguarde...';
+            UpdateLog(sMensagem);
+            SaveUpdate(iCountUpdate);
+            sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > importando os dados. Aguarde...';
+            UpdateLog(sMensagem);
+            iCountUpdate := 0;
+            fdEntregasUpdate.Connection.Close;
+            fdEntregasUpdate.Free;
+            fdEntregasUpdate := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+            fdEntregasUpdate.SQL.Text := SQLUPDATE;
+          end;
           fdEntregas.Close;
         end;
 
@@ -416,8 +450,6 @@ begin
         UpdateLog(sMensagem);
         sAlerta := 'Importação concluída.';
       end;
-      Sleep(1000);
-      TerminateProcess;
     Except
       on E: Exception do
         begin
@@ -431,12 +463,15 @@ begin
       sMensagem := '>>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' > importação cancelada ...';
       UpdateLog(sMensagem);
       bProcess := False;
+              sAlerta := 'Importação cancelada.';
     end
     else
     begin
       sMensagem := '>>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' > importação concluída com sucesso';
       UpdateLog(sMensagem);
+      sAlerta := 'Importação concluída.';
     end;
+    Sleep(1000);
     TerminateProcess;
     bProcess := False;
     FEntregas.Free;
@@ -577,6 +612,8 @@ begin
     slParam.Add(iTabela.toString);
     slParam.Add(iFaixa.toString);
     slParam.Add(dVerba.toString);
+    slParam.Add(iEntregador.toString);
+    slParam.Add(iAgente.toString);
     Result := slParam;
   finally
     fdQuery.Close;

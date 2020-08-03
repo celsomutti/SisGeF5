@@ -66,6 +66,7 @@ type
     procedure VisualizarPlanilha;
     procedure ImportarDIRECT;
     procedure AtualizaLogTFO;
+    procedure AtualizaLOGDIRECT;
   public
     { Public declarations }
   end;
@@ -140,6 +141,48 @@ end;
 procedure Tview_ImportarBaixasTFO.actVisualizarExecute(Sender: TObject);
 begin
   VisualizarPlanilha;
+end;
+
+procedure Tview_ImportarBaixasTFO.AtualizaLOGDIRECT;
+begin
+if not direct.bProcess then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem7.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrir.Enabled := True;
+    if Length(direct.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(direct.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      direct.sAlerta := '';
+    end;
+    edtArquivo.Text := '';
+    pbImportacao.Position := 0;
+  end
+  else
+  begin
+    pbImportacao.Position := direct.dPositionRegister;
+    memLog.Lines.Text := direct.sLog;
+    if Length(direct.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(direct.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilha.sAlerta := '';
+    end;
+  end;
+  if direct.bCancel then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem7.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrir.Enabled := True;
+    if Length(direct.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(direct.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      direct.sAlerta := '';
+    end;
+  end;
 end;
 
 procedure Tview_ImportarBaixasTFO.AtualizaLogTFO;
@@ -236,7 +279,13 @@ end;
 
 procedure Tview_ImportarBaixasTFO.Timer1Timer(Sender: TObject);
 begin
-  AtualizaLogTFO;
+  case cboCliente.ItemIndex of
+    1 : AtualizaLogTFO;
+    2 : AtualizaLogDIRECT;
+  else
+    Application.MessageBox('Nenhum Cliente foi informado!', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
 end;
 
 procedure Tview_ImportarBaixasTFO.VisualizarPlanilha;

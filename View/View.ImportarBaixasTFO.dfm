@@ -141,6 +141,7 @@ object view_ImportarBaixasTFO: Tview_ImportarBaixasTFO
       Top = 111
       Caption = 'Consistir Lojas'
       Properties.NullStyle = nssUnchecked
+      State = cbsChecked
       Style.HotTrack = False
       TabOrder = 5
       Transparent = True

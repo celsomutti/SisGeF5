@@ -32,7 +32,7 @@ end;
 
 function TPlanilhaBaixasTFOControl.GetPlanilha(sFile: String): boolean;
 begin
-  Result:= FPlanilha.GetPlanilha(sFile);
+  Result := FPlanilha.GetPlanilha(sFile);
 end;
 
 end.

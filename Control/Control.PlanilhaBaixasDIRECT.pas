@@ -26,7 +26,7 @@ end;
 
 destructor TPlanilhaBaixasDIRECTControl.Destroy;
 begin
-  FPlanilha.Create;
+  FPlanilha.Free;
   inherited;
 end;
 

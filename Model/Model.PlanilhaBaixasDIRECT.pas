@@ -71,7 +71,7 @@ var
   ArquivoCSV: TextFile;
   sLinha: String;
   sDetalhe: TStringList;
-  FPlanilha : TObjectList<TPlanilhaBaixasDIRECT>;
+  //FPlanilha : TObjectList<TPlanilhaBaixasDIRECT>;
   i : Integer;
   sValor: String;
 begin
