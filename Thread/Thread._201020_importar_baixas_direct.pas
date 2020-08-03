@@ -5,7 +5,7 @@ interface
 uses
   System.Classes, Dialogs, Windows, Forms, SysUtils, Messages, Controls, System.DateUtils, System.StrUtils, Generics.Collections,
   Control.Entregas, Control.Sistema, FireDAC.Comp.Client, Common.ENum, Model.PlanilhaBaixasDIRECT,
-  FireDAC.Comp.DataSet, Data.DB, Control.VerbasExpressas, Control.Bases, Control.EntregadoresExpressas, Control.PlanilhaBaixasTFO,
+  FireDAC.Comp.DataSet, Data.DB, Control.VerbasExpressas, Control.Bases, Control.EntregadoresExpressas, Control.PlanilhaBaixasDIRECT,
   Control.ControleAWB;
 
 type
@@ -13,7 +13,7 @@ type
   private
     { Private declarations }
     FEntregas: TEntregasControl;
-    FPlanilha : TPlanilhaBaixasTFOControl;
+    FPlanilha : TPlanilhaBaixasDIRECTControl;
     FPlanilhasCSV : TObjectList<TPlanilhaBaixasDIRECT>;
     awb: TControleAWBControl;
     fdEntregas: TFDQuery;
@@ -47,6 +47,7 @@ type
     dPositionRegister: double;
     sLog: String;
     sAlerta: String;
+    bLojas: boolean;
   end;
   const
     TABLENAME = 'tbentregas';
@@ -164,7 +165,7 @@ begin
       iRoteiro := 0;
       slParam := TStringList.Create;
       FEntregas := TEntregasControl.Create;
-      FPlanilha := TPlanilhaBaixasTFOControl.Create;
+      FPlanilha := TPlanilhaBaixasDIRECTControl.Create;
       awb := TControleAWBControl.Create;
       FPlanilhasCSV := TObjectList<TPlanilhaBaixasDIRECT>.Create;
       if FPlanilha.GetPlanilha(FFile) then
@@ -363,6 +364,16 @@ begin
             sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > verba não encontrada para a remessa / NN ' +
                           FPlanilhasCSV[iPos].Remessa + ' !';
             UpdateLog(sMensagem);
+          end
+          else
+          begin
+            if bLojas then
+            begin
+              if FPlanilhasCSV[iPos].Loja = 'S' then
+              begin
+                dVerba := dVerba / 2;
+              end;
+            end;
           end;
 
           FEntregas.Entregas.VerbaEntregador := dVerba;

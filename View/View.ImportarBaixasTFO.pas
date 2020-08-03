@@ -17,8 +17,8 @@ uses
   dxLayoutcxEditAdapters, cxLabel, Control.ControleBaixasTFO, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus,
   Vcl.StdCtrls, cxButtons, cxTextEdit, cxMaskEdit, cxButtonEdit, cxMemo, cxProgressBar, Thread.ImportarBaixasTFO, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxGridCustomView,
-  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxDropDownEdit, Thread.ImportarPlanilhaBaixasDIRECT,
-  ShellAPI, Thread._201020_importar_baixas_tfo, Vcl.ExtCtrls, cxCheckBox;
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxDropDownEdit,
+  ShellAPI, Thread._201020_importar_baixas_tfo, Vcl.ExtCtrls, cxCheckBox, Thread._201020_importar_baixas_direct;
 
 type
   Tview_ImportarBaixasTFO = class(TForm)
@@ -74,7 +74,7 @@ var
   view_ImportarBaixasTFO: Tview_ImportarBaixasTFO;
   controle : TControleBaixasTFOControl;
   planilha : Tthread_201020_importar_baixas_tfo;
-  direct : Thread_ImportarPlanilhaBaixasDIRECT;
+  direct : Tthread_201020_importar_baixas_direct;
 
 implementation
 
@@ -220,18 +220,17 @@ end;
 
 procedure Tview_ImportarBaixasTFO.ImportarDIRECT;
 begin
-  direct := Thread_ImportarPlanilhaBaixasDIRECT.Create(True);
+  direct := Tthread_201020_importar_baixas_direct.Create(True);
   direct.FFile :=edtArquivo.Text;
   direct.FreeOnTerminate := True;
   direct.Priority := tpNormal;
   direct.iCodigoCliente := 4; // deverá ser implementado para informar o código do cliente
+  direct.bLojas := checkBoxLojas.Checked;
   Timer1.Enabled := True;
   dxLayoutItem7.Visible := True;
   actImportar.Enabled := False;
   actCancelar.Enabled := True;
   actAbrir.Enabled := False;
-  direct.bLoja := checkBoxLojas.Checked;
-  planilha.Start;
   direct.Start;
 end;
 
