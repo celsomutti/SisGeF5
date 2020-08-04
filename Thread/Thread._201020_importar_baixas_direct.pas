@@ -442,11 +442,18 @@ begin
         if iCountInsert > 0 then SaveInsert(iCountInsert);
         if iCountUpdate > 0 then SaveUpdate(iCountUpdate);
 
-        fdEntregasInsert.Connection.Close;
-        fdEntregasUpdate.Connection.Close;
-        fdEntregasInsert.Free;
-        fdEntregasUpdate.Free;
-        sMensagem := '>>> '  + FormatDateTime('dddd/mm/yyyy hh:mm:ss', Now()) + ' > Importação concluída';
+
+        if fdEntregasInsert.Active then
+        begin
+          fdEntregasInsert.Connection.Close;
+          fdEntregasInsert.Free;
+        end;
+        if fdEntregasUpdate.Active then
+        begin
+          fdEntregasUpdate.Connection.Close;
+          fdEntregasUpdate.Free;
+        end;
+        sMensagem := '>>> '  + FormatDateTime('dddd/mm/yyyy hh:mm:ss', Now()) + ' > Importação concluída';
         UpdateLog(sMensagem);
         sAlerta := 'Importação concluída.';
       end;
@@ -463,7 +470,7 @@ begin
       sMensagem := '>>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' > importação cancelada ...';
       UpdateLog(sMensagem);
       bProcess := False;
-              sAlerta := 'Importação cancelada.';
+      sAlerta := 'Importação cancelada.';
     end
     else
     begin

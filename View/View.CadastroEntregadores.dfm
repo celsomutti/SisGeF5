@@ -2,7 +2,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   Left = 0
   Top = 0
   Caption = 'Cadastro de Entregadores'
-  ClientHeight = 434
+  ClientHeight = 506
   ClientWidth = 788
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
@@ -23,9 +23,10 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     Left = 0
     Top = 0
     Width = 788
-    Height = 434
+    Height = 506
     Align = alClient
     TabOrder = 0
+    ExplicitHeight = 434
     object labelTitle: TcxLabel
       Left = 11
       Top = 11
@@ -44,7 +45,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Left = 11
       Top = 41
       Width = 766
-      Height = 327
+      Height = 399
       TabOrder = 1
       object buttonEditPessoa: TcxButtonEdit
         Left = 367
@@ -138,29 +139,29 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Width = 341
       end
       object currencyEditTicketMedio: TcxCurrencyEdit
-        Left = 391
-        Top = 124
+        Left = 624
+        Top = 170
         Hint = 'Valot do Ticket M'#233'dio (Verba fixa)'
         EditValue = 0.000000000000000000
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;-,0.00'
         Style.HotTrack = False
-        TabOrder = 9
-        Width = 308
+        TabOrder = 12
+        Width = 75
       end
       object checkBoxAtivo: TcxCheckBox
         Left = 705
-        Top = 124
+        Top = 160
         Caption = 'Ativo'
         Properties.ValueChecked = '1'
         Properties.ValueUnchecked = '0'
         Style.HotTrack = False
-        TabOrder = 10
+        TabOrder = 13
         Transparent = True
       end
       object buttonEditCodigoTabela: TcxButtonEdit
         Left = 11
-        Top = 124
+        Top = 170
         Hint = 'C'#243'digo da tabela'
         Properties.Alignment.Horz = taRightJustify
         Properties.Buttons = <
@@ -172,23 +173,63 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Properties.MaskKind = emkRegExpr
         Properties.EditMask = '\d\d\d\d\d\d'
         Style.HotTrack = False
-        TabOrder = 7
+        TabOrder = 8
         Text = '0'
         Width = 76
       end
-      object cxTextEdit1: TcxTextEdit
+      object textEditDescricaoTabela: TcxTextEdit
         Left = 93
-        Top = 124
+        Top = 170
         Hint = 'Descricao da tabela'
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
-        TabOrder = 8
-        Width = 292
+        TabOrder = 9
+        Width = 193
+      end
+      object buttonEditCodigoFaixa: TcxButtonEdit
+        Left = 292
+        Top = 170
+        Properties.Alignment.Horz = taRightJustify
+        Properties.Buttons = <
+          item
+            Default = True
+            Kind = bkEllipsis
+          end>
+        Properties.IgnoreMaskBlank = True
+        Properties.MaskKind = emkRegExpr
+        Properties.EditMask = '\d\d\d\d\d\d'
+        Style.HotTrack = False
+        TabOrder = 10
+        Text = '0'
+        Width = 76
+      end
+      object textEditDescricaoFaixa: TcxTextEdit
+        Left = 374
+        Top = 170
+        TabStop = False
+        Properties.ReadOnly = True
+        Style.HotTrack = False
+        TabOrder = 11
+        Width = 244
+      end
+      object comboBoxCliente: TcxComboBox
+        Left = 11
+        Top = 124
+        Hint = 'Selecione o cliente'
+        Properties.DropDownListStyle = lsFixedList
+        Properties.Items.Strings = (
+          'Selecione ...'
+          'TRANASFOLHA'
+          'DIRECT')
+        Style.HotTrack = False
+        TabOrder = 7
+        Text = 'Selecione ...'
+        Width = 744
       end
       object layoutControlCadastroGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
-        AlignVert = avClient
+        AlignVert = avTop
         LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
         ButtonOptions.Buttons = <>
         Hidden = True
@@ -302,29 +343,30 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 76
         ControlOptions.ShowBorder = False
-        Index = 2
+        Index = 4
       end
       object dxLayoutAutoCreatedGroup3: TdxLayoutAutoCreatedGroup
         Parent = layoutControlCadastroGroup_Root
         LayoutDirection = ldHorizontal
-        Index = 2
+        Index = 3
         AutoCreated = True
       end
       object layoutItemCheckBoxAtivo: TdxLayoutItem
         Parent = dxLayoutAutoCreatedGroup3
-        AlignHorz = ahRight
-        AlignVert = avBottom
+        AlignHorz = ahClient
+        AlignVert = avCenter
         CaptionOptions.Text = 'cxCheckBox1'
         CaptionOptions.Visible = False
         Control = checkBoxAtivo
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 50
         ControlOptions.ShowBorder = False
-        Index = 3
+        Index = 5
       end
       object layoutItemButtonEditCodigoTabela: TdxLayoutItem
         Parent = dxLayoutAutoCreatedGroup3
-        AlignVert = avClient
+        AlignHorz = ahClient
+        AlignVert = avTop
         CaptionOptions.Text = 'Tabela'
         CaptionOptions.Layout = clTop
         Control = buttonEditCodigoTabela
@@ -335,25 +377,62 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object layoutItemTextEditDescricaoTabela: TdxLayoutItem
         Parent = dxLayoutAutoCreatedGroup3
-        AlignVert = avBottom
+        AlignHorz = ahClient
+        AlignVert = avTop
         CaptionOptions.Text = 'Descri'#231#227'o da Tabela'
         CaptionOptions.Layout = clTop
-        Control = cxTextEdit1
+        Control = textEditDescricaoTabela
         ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 292
+        ControlOptions.OriginalWidth = 194
         ControlOptions.ShowBorder = False
         Index = 1
+      end
+      object layoutItemButtonEditCodigoFaixa: TdxLayoutItem
+        Parent = dxLayoutAutoCreatedGroup3
+        AlignHorz = ahClient
+        AlignVert = avTop
+        CaptionOptions.Hint = 'C'#243'digo da faixa da tabela selecionada'
+        CaptionOptions.Text = 'Faixa'
+        CaptionOptions.Layout = clTop
+        Control = buttonEditCodigoFaixa
+        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalWidth = 76
+        ControlOptions.ShowBorder = False
+        Index = 2
+      end
+      object layoutItemTextEditDescricaoFaixa: TdxLayoutItem
+        Parent = dxLayoutAutoCreatedGroup3
+        AlignHorz = ahClient
+        AlignVert = avTop
+        CaptionOptions.Text = 'Descri'#231#227'o da Faixa'
+        CaptionOptions.Layout = clTop
+        Control = textEditDescricaoFaixa
+        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalWidth = 245
+        ControlOptions.ShowBorder = False
+        Index = 3
+      end
+      object layoutItemComboBoxCliente: TdxLayoutItem
+        Parent = layoutControlCadastroGroup_Root
+        CaptionOptions.Hint = 'Selecione o cliente'
+        CaptionOptions.Text = 'Cliente'
+        CaptionOptions.Layout = clTop
+        Control = comboBoxCliente
+        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalWidth = 121
+        ControlOptions.ShowBorder = False
+        Index = 2
       end
     end
     object layoutControlFooter: TdxLayoutControl
       Left = 11
-      Top = 374
+      Top = 446
       Width = 766
       Height = 49
       TabOrder = 2
       object buttonNovo: TcxButton
         Left = 11
-        Top = 12
+        Top = 11
         Width = 86
         Height = 25
         Cursor = crHandPoint
@@ -362,7 +441,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object buttonLocalizar: TcxButton
         Left = 103
-        Top = 12
+        Top = 11
         Width = 82
         Height = 25
         Cursor = crHandPoint
@@ -371,7 +450,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object buttonCancelar: TcxButton
         Left = 191
-        Top = 12
+        Top = 11
         Width = 82
         Height = 25
         Cursor = crHandPoint
@@ -381,7 +460,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object buttonGravar: TcxButton
         Left = 279
-        Top = 12
+        Top = 11
         Width = 82
         Height = 25
         Cursor = crHandPoint
@@ -390,7 +469,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object buttonFechar: TcxButton
         Left = 673
-        Top = 12
+        Top = 11
         Width = 82
         Height = 25
         Cursor = crHandPoint
@@ -399,7 +478,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object layoutControlFooterGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
-        AlignVert = avClient
+        AlignVert = avBottom
         ButtonOptions.Buttons = <>
         Hidden = True
         ItemIndex = 1
@@ -562,6 +641,9 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     object memTableEntregadorescod_tabela: TIntegerField
       FieldName = 'cod_tabela'
     end
+    object memTableEntregadorescod_cliente: TIntegerField
+      FieldName = 'cod_cliente'
+    end
   end
   object dsEntregadores: TDataSource
     DataSet = memTableEntregadores
@@ -673,6 +755,13 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       ImageIndex = 14
       OnExecute = actionLocalizarPessoasExecute
     end
+    object actionPesquisarTabelas: TAction
+      Category = 'Entregadores'
+      Caption = 'PEsquisar Tabelas'
+      Hint = 'Pesquisar tipos de tabelas de verbas'
+      ImageIndex = 14
+      OnExecute = actionPesquisarTabelasExecute
+    end
   end
   object BindingsList1: TBindingsList
     Methods = <>
@@ -684,20 +773,6 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       DataSource = BindSourceDB2
       FieldName = 'nom_fantasia'
       Component = textEditNomeFantasia
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldText2: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_entregador'
-      Component = maskEditCodigo
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldText3: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_agente'
-      Component = buttonEditCodigoAgente
       ComponentProperty = 'Text'
     end
     object LinkPropertyToFieldEditValue2: TLinkPropertyToField
@@ -721,18 +796,46 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Component = textEditCodigoERP
       ComponentProperty = 'Text'
     end
-    object LinkPropertyToFieldText5: TLinkPropertyToField
+    object LinkPropertyToFieldEditValue: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB2
+      FieldName = 'cod_grupo'
+      Component = buttonEditCodigoFaixa
+      ComponentProperty = 'EditValue'
+    end
+    object LinkPropertyToFieldEditValue3: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB2
+      FieldName = 'cod_entregador'
+      Component = maskEditCodigo
+      ComponentProperty = 'EditValue'
+    end
+    object LinkPropertyToFieldEditValue4: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB2
       FieldName = 'cod_cadastro'
       Component = buttonEditPessoa
-      ComponentProperty = 'Text'
+      ComponentProperty = 'EditValue'
+    end
+    object LinkPropertyToFieldEditValue5: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB2
+      FieldName = 'cod_agente'
+      Component = buttonEditCodigoAgente
+      ComponentProperty = 'EditValue'
+    end
+    object LinkPropertyToFieldItemIndex: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB2
+      FieldName = 'cod_cliente'
+      Component = comboBoxCliente
+      ComponentProperty = 'ItemIndex'
     end
   end
   object BindSourceDB2: TBindSourceDB
     DataSet = memTableEntregadores
     ScopeMappings = <>
-    Left = 296
+    Left = 288
     Top = 8
   end
 end

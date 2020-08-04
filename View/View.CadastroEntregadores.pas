@@ -87,12 +87,9 @@ type
     BindingsList1: TBindingsList;
     BindSourceDB2: TBindSourceDB;
     LinkPropertyToFieldText: TLinkPropertyToField;
-    LinkPropertyToFieldText2: TLinkPropertyToField;
-    LinkPropertyToFieldText3: TLinkPropertyToField;
     LinkPropertyToFieldEditValue2: TLinkPropertyToField;
     LinkPropertyToFieldValue: TLinkPropertyToField;
     LinkPropertyToFieldText4: TLinkPropertyToField;
-    LinkPropertyToFieldText5: TLinkPropertyToField;
     actionLocalizarAgentes: TAction;
     actionLocalizarPessoas: TAction;
     mtbTiposcod_tipo: TIntegerField;
@@ -100,8 +97,21 @@ type
     mtbTiposdes_colunas: TStringField;
     buttonEditCodigoTabela: TcxButtonEdit;
     layoutItemButtonEditCodigoTabela: TdxLayoutItem;
-    cxTextEdit1: TcxTextEdit;
+    textEditDescricaoTabela: TcxTextEdit;
     layoutItemTextEditDescricaoTabela: TdxLayoutItem;
+    buttonEditCodigoFaixa: TcxButtonEdit;
+    layoutItemButtonEditCodigoFaixa: TdxLayoutItem;
+    textEditDescricaoFaixa: TcxTextEdit;
+    layoutItemTextEditDescricaoFaixa: TdxLayoutItem;
+    LinkPropertyToFieldEditValue: TLinkPropertyToField;
+    LinkPropertyToFieldEditValue3: TLinkPropertyToField;
+    LinkPropertyToFieldEditValue4: TLinkPropertyToField;
+    LinkPropertyToFieldEditValue5: TLinkPropertyToField;
+    comboBoxCliente: TcxComboBox;
+    layoutItemComboBoxCliente: TdxLayoutItem;
+    memTableEntregadorescod_cliente: TIntegerField;
+    LinkPropertyToFieldItemIndex: TLinkPropertyToField;
+    actionPesquisarTabelas: TAction;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -113,12 +123,15 @@ type
     procedure buttonEditPessoaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
       var Error: Boolean);
     procedure lookupComboBoxTabelaPropertiesChange(Sender: TObject);
+    procedure actionPesquisarTabelasExecute(Sender: TObject);
   private
     { Private declarations }
     procedure PopulaTabelas;
     procedure PopulaFaixas(iTabela: integer);
     procedure PesquisaAgente;
     procedure PesquisaPessoas;
+    procedure PesquisaTabelas;
+    procedure PesquisaEntregadores;
     function RetornaNomeAgente(iCodigo: integer): String;
     function RetornaNomePessoa(iCodigo: integer): String;
     procedure Modo;
@@ -158,6 +171,11 @@ procedure Tview_CadastroEntregadores.actionNovoExecute(Sender: TObject);
 begin
   FAcao := tacIncluir;
   memTableEntregadores.Insert;
+end;
+
+procedure Tview_CadastroEntregadores.actionPesquisarTabelasExecute(Sender: TObject);
+begin
+  PesquisaTabelas;
 end;
 
 procedure Tview_CadastroEntregadores.buttonEditCodigoAgentePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -251,10 +269,47 @@ begin
               'NUM_CNPJ like "%param%"';
     View_PesquisarPessoas.sSQL := sSQL;
     View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.Caption := 'Pesquisa de Agentes';
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
       buttonEditCodigoAgente.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
       textEditNomeAgente.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+    end;
+  finally
+    View_PesquisarPessoas.qryPesquisa.Close;
+    View_PesquisarPessoas.tvPesquisa.ClearItems;
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.PesquisaEntregadores;
+var
+  sSQL: String;
+  sWhere: String;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
+    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
+    sSQL := 'select COD_ENTREGADOR as "Código", NOM_FANTASIA as Nome, COD_AGENTE AS Agente, COD_CADASTRO AS Cadastro ' +
+            'from tbcodigosentregadores ';
+    sWhere := 'where COD_ENTREGADOR like paraN or NOM_FANTASIA like "%param%" or COD_AGENTE like paraN or ' +
+              'COD_CADASTRO like paraN or DES_CHAVE like "%param%"';
+    View_PesquisarPessoas.sSQL := sSQL;
+    View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.Caption := 'Localizar Entregadores';
+    if View_PesquisarPessoas.ShowModal = mrOK then
+    begin
+      maskEditCodigo.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+      textEditNomeFantasia.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+      buttonEditPessoa.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[4].AsString;
+      buttonEditCodigoAgente.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[3].AsString;
+      RetornaNomeAgente(View_PesquisarPessoas.qryPesquisa.Fields[3].AsInteger);
+      RetornaNomePessoa(View_PesquisarPessoas.qryPesquisa.Fields[4].AsInteger);
     end;
   finally
     View_PesquisarPessoas.qryPesquisa.Close;
@@ -282,10 +337,43 @@ begin
               'NUM_CNPJ like "%param%"';
     View_PesquisarPessoas.sSQL := sSQL;
     View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.Caption := 'Pesquisa de Pessoas';
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
       buttonEditPessoa.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
       textEditNomePessoa.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+    end;
+  finally
+    View_PesquisarPessoas.qryPesquisa.Close;
+    View_PesquisarPessoas.tvPesquisa.ClearItems;
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.PesquisaTabelas;
+var
+  sSQL: String;
+  sWhere: String;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
+    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
+    sSQL := 'select cod_tipo as "Código", des_tipo as "Descrição" ' +
+            'from expressas_tipos_verbas ';
+    sWhere := 'where cod_tipo like paraN or des_tipo like "%param%"';
+
+    View_PesquisarPessoas.sSQL := sSQL;
+    View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.Caption := 'Pesquisa de Tabelas';
+    if View_PesquisarPessoas.ShowModal = mrOK then
+    begin
+      buttonEditCodigoTabela.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+      textEditDescricaoTabela.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
     end;
   finally
     View_PesquisarPessoas.qryPesquisa.Close;
