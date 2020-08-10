@@ -10,7 +10,6 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   Font.Height = -11
   Font.Name = 'Segoe UI'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
   ShowHint = True
@@ -26,7 +25,6 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     Height = 506
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 434
     object labelTitle: TcxLabel
       Left = 11
       Top = 11

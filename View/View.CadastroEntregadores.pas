@@ -295,10 +295,20 @@ begin
     end;
     View_PesquisarPessoas.dxLayoutItem1.Visible := True;
     View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-    sSQL := 'select COD_ENTREGADOR as "Código", NOM_FANTASIA as Nome, COD_AGENTE AS Agente, COD_CADASTRO AS Cadastro ' +
-            'from tbcodigosentregadores ';
-    sWhere := 'where COD_ENTREGADOR like paraN or NOM_FANTASIA like "%param%" or COD_AGENTE like paraN or ' +
-              'COD_CADASTRO like paraN or DES_CHAVE like "%param%"';
+
+
+    sSQL := 'select tbcodigosentregadores.cod_entregador as "Cód. Entregador", ' +
+            'tbcodigosentregadores.nom_fantasia as "Nome Entregador", tbcodigosentregadores.des_chave as "Cód. ERP", ' +
+            'tbcodigosentregadores.cod_cadastro as "Cód. Cadastro", tbentregadores.des_razao_social as "Nome Cadastro", ' +
+            'tbcodigosentregadores.cod_agente as "Cód. Agente" ' +
+            'from tbcodigosentregadores ' +
+            'inner join tbentregadores ' +
+            'on tbentregadores.cod_cadastro = tbcodigosentregadores.cod_cadastro ';
+
+    sWhere := 'where tbcodigosentregadores.cod_entregador like paraN or tbcodigosentregadores.nom_fantasia like "%param%" or ' +
+              'tbcodigosentregadores.des_chave like "%param%" or tbcodigosentregadores.cod_cadastro like paraN or ' +
+              'tbentregadores.des_razao_social like "%param%" or ' +
+              'tbcodigosentregadores.cod_agente like paraN;';
     View_PesquisarPessoas.sSQL := sSQL;
     View_PesquisarPessoas.sWhere := sWhere;
     View_PesquisarPessoas.Caption := 'Localizar Entregadores';
