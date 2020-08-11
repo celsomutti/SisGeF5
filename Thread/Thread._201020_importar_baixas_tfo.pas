@@ -200,7 +200,7 @@ begin
           if fdEntregas.IsEmpty then
           begin
             sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' > NN/Remessa ' + FPlanilhasCSV[iPos].NNRemessa +
-                         ' não encontrada no banco de dados! Incluindo os dados do arquivo de baixa.';
+                         ', entregador ' + FPlanilhasCSV[iPos].NomeEntregador + ', não encontrada no banco de dados!';
             UpdateLog(sMensagem);
             FAcao := tacIndefinido;
           end
@@ -245,7 +245,7 @@ begin
 
             iAgente := StrToIntDef(slParam[1], 0);
 
-            FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[1], 3);
+            FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[3], 0);
 
             if dVerba = 0 then
             begin
