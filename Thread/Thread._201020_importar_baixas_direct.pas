@@ -208,6 +208,7 @@ begin
             begin
               SetupClassInsert(iPos);
               Inc(iCountInsert);
+              slParam := SetTabelaEntregador(FPlanilhasCSV[iPos].Documento);
               FEntregas.Entregas.Status := 909;
               FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
                                             '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + '> inclusão de dados por ' +
@@ -215,8 +216,9 @@ begin
               FEntregas.Entregas.Baixa := FPlanilhasCSV[iPos].DataAtualizacao;
               FEntregas.Entregas.Baixado := 'S';
               FEntregas.Entregas.Entrega := FPlanilhasCSV[iPos].DataAtualizacao;
-              FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[0],1);
-              FEntregas.Entregas.Entregador := StrToIntDef(slParam[1],0);
+              FEntregas.Entregas.Distribuidor := StrToIntDef(slParam[4],0);
+              FEntregas.Entregas.Entregador := StrToIntDef(slParam[3],0);
+              FEntregas.Entregas.CEP := FPlanilhasCSV[iPos].CEP;
               FEntregas.Entregas.Atraso := 0;
               if FPlanilhasCSV[iPos].PesoCubado > FPlanilhasCSV[iPos].PesoNominal then
               begin
@@ -262,6 +264,10 @@ begin
             begin
               FEntregas.Entregas.PesoReal := FPlanilhasCSV[iPos].PesoNominal;
               FEntregas.Entregas.PesoCobrado := FPlanilhasCSV[iPos].PesoNominal;
+            end;
+            if FEntregas.Entregas.CEP = '' then
+            begin
+              FEntregas.Entregas.CEP := FPlanilhasCSV[iPos].CEP;
             end;
             FEntregas.Entregas.TipoPeso := FPlanilhasCSV[iPos].Tipo;
             FAcao := tacAlterar;
@@ -362,7 +368,7 @@ begin
           if dVerba = 0 then
           begin
             sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > verba não encontrada para a remessa / NN ' +
-                          FPlanilhasCSV[iPos].Remessa + ' !';
+                          FPlanilhasCSV[iPos].Remessa + ', entregador ' + FPlanilhasCSV[iPos].Motorista  +' !';
             UpdateLog(sMensagem);
           end
           else

@@ -286,7 +286,7 @@ begin
             if dVerba = 0 then
             begin
               sMensagem := '>> ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > verba não encontrada para a remessa / NN ' +
-                            FPlanilhasCSV[iPos].NNRemessa + ' !';
+                            FPlanilhasCSV[iPos].NNRemessa + ', entregador ' + FPlanilhasCSV[iPos].NomeEntregador + ' !';
               UpdateLog(sMensagem);
             end;
 
