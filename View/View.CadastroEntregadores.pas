@@ -13,7 +13,7 @@ uses
   cxTextEdit, cxMaskEdit, cxButtonEdit, cxCurrencyEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, Control.VerbasExpressas,
   Control.TiposVerbasExpressas, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
   cxCheckBox, Data.Bind.EngExt, Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors, Data.Bind.Components,
-  Data.Bind.DBScope, Control.EntregadoresExpressas, Control.Bases, Control.Cadastro, cxDBEdit;
+  Data.Bind.DBScope, Control.EntregadoresExpressas, Control.Bases, Control.Cadastro, cxDBEdit, cxImageComboBox;
 
 type
   Tview_CadastroEntregadores = class(TForm)
@@ -32,7 +32,6 @@ type
     memTableEntregadoresval_verba: TFloatField;
     memTableEntregadoresnom_executante: TStringField;
     memTableEntregadoresdom_ativo: TIntegerField;
-    memTableEntregadoresdat_manutencao: TDateTimeField;
     memTableEntregadorescod_tabela: TIntegerField;
     dsEntregadores: TDataSource;
     mtbTipos: TFDMemTable;
@@ -107,11 +106,16 @@ type
     LinkPropertyToFieldEditValue3: TLinkPropertyToField;
     LinkPropertyToFieldEditValue4: TLinkPropertyToField;
     LinkPropertyToFieldEditValue5: TLinkPropertyToField;
-    comboBoxCliente: TcxComboBox;
-    layoutItemComboBoxCliente: TdxLayoutItem;
     memTableEntregadorescod_cliente: TIntegerField;
-    LinkPropertyToFieldItemIndex: TLinkPropertyToField;
     actionPesquisarTabelas: TAction;
+    memTableEntregadoresdat_manutencao: TSQLTimeStampField;
+    imageComboBoxClientes: TcxImageComboBox;
+    layoutItemImageComboBoxClientes: TdxLayoutItem;
+    LinkPropertyToFieldEditValue6: TLinkPropertyToField;
+    LinkPropertyToFieldEditValue7: TLinkPropertyToField;
+    actionEditar: TAction;
+    buttonEditar: TcxButton;
+    layoutItemButtonEditar: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -124,6 +128,9 @@ type
       var Error: Boolean);
     procedure lookupComboBoxTabelaPropertiesChange(Sender: TObject);
     procedure actionPesquisarTabelasExecute(Sender: TObject);
+    procedure actionLocalizarExecute(Sender: TObject);
+    procedure buttonEditCodigoTabelaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
   private
     { Private declarations }
     procedure PopulaTabelas;
@@ -131,9 +138,11 @@ type
     procedure PesquisaAgente;
     procedure PesquisaPessoas;
     procedure PesquisaTabelas;
+    procedure PesquisaFaixas;
     procedure PesquisaEntregadores;
     function RetornaNomeAgente(iCodigo: integer): String;
     function RetornaNomePessoa(iCodigo: integer): String;
+    function RetornaDescricaoTabela(iCodigo: integer): string;
     procedure Modo;
   public
     { Public declarations }
@@ -162,6 +171,11 @@ begin
    PesquisaAgente;
 end;
 
+procedure Tview_CadastroEntregadores.actionLocalizarExecute(Sender: TObject);
+begin
+  PesquisaEntregadores;
+end;
+
 procedure Tview_CadastroEntregadores.actionLocalizarPessoasExecute(Sender: TObject);
 begin
   PesquisaPessoas;
@@ -184,6 +198,15 @@ begin
   if (Facao =  tacIncluir) or (FAcao = tacAlterar) then
   begin
     textEditNomeAgente.Text := RetornaNomeAgente(StrToIntDef(buttonEditCodigoAgente.Text,0));
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.buttonEditCodigoTabelaPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if (Facao =  tacIncluir) or (FAcao = tacAlterar) then
+  begin
+    textEditDescricaoTabela.Text := RetornaDescricaoTabela(StrToIntDef(buttonEditCodigoTabela.Text,0));
   end;
 end;
 
@@ -228,25 +251,71 @@ begin
   if FAcao = tacIndefinido then
   begin
     actionNovo.Enabled := True;
+    actionEditar.Enabled := False;
     actionGravar.Enabled := True;
     actionLocalizar.Enabled := True;
     actionCancelar.Enabled := False;
+    maskEditCodigo.Properties.ReadOnly := True;
+    buttonEditPessoa.Properties.ReadOnly := True;
+    buttonEditCodigoAgente.Properties.ReadOnly := True;
+    textEditCodigoERP.Properties.ReadOnly := True;
+    imageComboBoxClientes.Properties.ReadOnly := True;
+    buttonEditCodigoTabela.Properties.ReadOnly := True;
+    buttonEditCodigoFaixa.Properties.ReadOnly := True;
+    currencyEditTicketMedio.Properties.ReadOnly := True;
+    checkBoxAtivo.Properties.ReadOnly := True;
   end
   else if FAcao = tacIncluir then
   begin
     actionNovo.Enabled := False;
+    actionEditar.Enabled := False;
     actionGravar.Enabled := True;
     actionLocalizar.Enabled := False;
     actionCancelar.Enabled := True;
+    maskEditCodigo.Properties.ReadOnly := False;
+    buttonEditPessoa.Properties.ReadOnly := False;
+    buttonEditCodigoAgente.Properties.ReadOnly := False;
+    textEditCodigoERP.Properties.ReadOnly := False;
+    imageComboBoxClientes.Properties.ReadOnly := False;
+    buttonEditCodigoTabela.Properties.ReadOnly := False;
+    buttonEditCodigoFaixa.Properties.ReadOnly := False;
+    currencyEditTicketMedio.Properties.ReadOnly := False;
+    checkBoxAtivo.Properties.ReadOnly := False;
   end
   else if FAcao = tacAlterar then
   begin
     actionNovo.Enabled := False;
+    actionEditar.Enabled := False;
     actionGravar.Enabled := True;
     actionLocalizar.Enabled := False;
     actionCancelar.Enabled := True;
+    maskEditCodigo.Properties.ReadOnly := True;
+    buttonEditPessoa.Properties.ReadOnly := False;
+    buttonEditCodigoAgente.Properties.ReadOnly := False;
+    textEditCodigoERP.Properties.ReadOnly := False;
+    imageComboBoxClientes.Properties.ReadOnly := False;
+    buttonEditCodigoTabela.Properties.ReadOnly := False;
+    buttonEditCodigoFaixa.Properties.ReadOnly := False;
+    currencyEditTicketMedio.Properties.ReadOnly := False;
+    checkBoxAtivo.Properties.ReadOnly := False;
+  end
+  else if FAcao = tacPesquisa then
+  begin
+    actionNovo.Enabled := False;
+    actionEditar.Enabled := True;
+    actionGravar.Enabled := False;
+    actionLocalizar.Enabled := True;
+    actionCancelar.Enabled := True;
+    maskEditCodigo.Properties.ReadOnly := True;
+    buttonEditPessoa.Properties.ReadOnly := True;
+    buttonEditCodigoAgente.Properties.ReadOnly := True;
+    textEditCodigoERP.Properties.ReadOnly := True;
+    imageComboBoxClientes.Properties.ReadOnly := True;
+    buttonEditCodigoTabela.Properties.ReadOnly := True;
+    buttonEditCodigoFaixa.Properties.ReadOnly := True;
+    currencyEditTicketMedio.Properties.ReadOnly := True;
+    checkBoxAtivo.Properties.ReadOnly := True;
   end;
-
 end;
 
 procedure Tview_CadastroEntregadores.PesquisaAgente;
@@ -269,6 +338,7 @@ begin
               'NUM_CNPJ like "%param%"';
     View_PesquisarPessoas.sSQL := sSQL;
     View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := False;
     View_PesquisarPessoas.Caption := 'Pesquisa de Agentes';
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
@@ -278,6 +348,7 @@ begin
   finally
     View_PesquisarPessoas.qryPesquisa.Close;
     View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
   end;
 end;
 
@@ -285,10 +356,14 @@ procedure Tview_CadastroEntregadores.PesquisaEntregadores;
 var
   sSQL: String;
   sWhere: String;
+  aParam: array of variant;
+  sQuery: String;
+  entregadores : TEntregadoresExpressasControl;
 begin
   try
     sSQL := '';
     sWhere := '';
+    entregadores := TEntregadoresExpressasControl.Create;
     if not Assigned(View_PesquisarPessoas) then
     begin
       View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
@@ -311,19 +386,82 @@ begin
               'tbcodigosentregadores.cod_agente like paraN;';
     View_PesquisarPessoas.sSQL := sSQL;
     View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := False;
     View_PesquisarPessoas.Caption := 'Localizar Entregadores';
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
-      maskEditCodigo.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
-      textEditNomeFantasia.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
-      buttonEditPessoa.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[4].AsString;
-      buttonEditCodigoAgente.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[3].AsString;
-      RetornaNomeAgente(View_PesquisarPessoas.qryPesquisa.Fields[3].AsInteger);
-      RetornaNomePessoa(View_PesquisarPessoas.qryPesquisa.Fields[4].AsInteger);
+      sQuery := 'cod_cadastro = ' + View_PesquisarPessoas.qryPesquisa.Fields[4].AsString + ' and ' +
+                'cod_entregador = ' + View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+      SetLength(aParam,2);
+      aparam := ['FILTRO', sQuery];
+      if memTableEntregadores.Active then
+      begin
+        memTableEntregadores.Close;
+      end;
+      memTableEntregadores.Data := entregadores.Localizar(aParam);
+      Finalize(aParam);
+      if not memTableEntregadores.IsEmpty then
+      begin
+        textEditNomePessoa.Text := RetornaNomePessoa(memTableEntregadorescod_cadastro.AsInteger);
+        textEditNomeAgente.Text := RetornaNomeAgente(memTableEntregadorescod_agente.AsInteger);
+        textEditDescricaoTabela.Text := RetornaDescricaoTabela(memTableEntregadorescod_tabela.AsInteger);
+        FAcao := tacPesquisa;
+        Modo;
+      end;
     end;
   finally
+    entregadores.Free;
     View_PesquisarPessoas.qryPesquisa.Close;
     View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.PesquisaFaixas;
+var
+  sSQL: String;
+  sWhere: String;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    if imageComboBoxClientes.EditValue= 0 then
+    begin
+      Application.MessageBox('Informe o Cliente!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if StrToIntDef(buttonEditCodigoTabela.EditText, 0) = 0 then
+    begin
+      Application.MessageBox('Informe a Tabela de Verbas!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
+    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
+    sSQL := 'select distinct id_grupo as "Faixa", val_verba as "Ticket Médio" ' +
+            'from expressas_verbas where cod_cliente = ' + imageComboBoxClientes.EditValue +
+            ' and cod_tipo = ' + buttonEditCodigoTabela.EditingValue;
+    sWhere := '';
+    View_PesquisarPessoas.dxLayoutItem1.Visible := False;
+    View_PesquisarPessoas.sSQL := sSQL;
+    View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := True;
+    View_PesquisarPessoas.Caption := 'Pesquisa de Faixas';
+    if View_PesquisarPessoas.ShowModal = mrOK then
+    begin
+      buttonEditCodigoTabela.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+      textEditDescricaoTabela.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+    end;
+  finally
+    if View_PesquisarPessoas.qryPesquisa.Active then
+    begin
+      View_PesquisarPessoas.qryPesquisa.Close;
+      View_PesquisarPessoas.tvPesquisa.ClearItems;
+    end;
+    FreeAndNil(View_PesquisarPessoas);
   end;
 end;
 
@@ -347,7 +485,8 @@ begin
               'NUM_CNPJ like "%param%"';
     View_PesquisarPessoas.sSQL := sSQL;
     View_PesquisarPessoas.sWhere := sWhere;
-    View_PesquisarPessoas.Caption := 'Pesquisa de Pessoas';
+    View_PesquisarPessoas.bOpen := False;
+    View_PesquisarPessoas.Caption := 'Pesquisa de Tabelas de Verbas';
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
       buttonEditPessoa.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
@@ -356,6 +495,7 @@ begin
   finally
     View_PesquisarPessoas.qryPesquisa.Close;
     View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
   end;
 end;
 
@@ -379,6 +519,7 @@ begin
 
     View_PesquisarPessoas.sSQL := sSQL;
     View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := True;
     View_PesquisarPessoas.Caption := 'Pesquisa de Tabelas';
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
@@ -388,6 +529,7 @@ begin
   finally
     View_PesquisarPessoas.qryPesquisa.Close;
     View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
   end;
 end;
 
@@ -442,6 +584,29 @@ begin
 
   finally
     tipo.Free;
+  end;
+end;
+
+function Tview_CadastroEntregadores.RetornaDescricaoTabela(iCodigo: integer): string;
+var
+  tabela : TTiposVerbasExpressasControl;
+  sRetorno: String;
+begin
+  try
+    Result := '';
+    sRetorno := '';
+    tabela := TTiposVerbasExpressasControl.Create;
+    if icodigo <> 0 then
+    begin
+      sRetorno := tabela.GetField('des_tipo', 'cod_tipo', iCodigo.ToString)
+    end;
+    if sRetorno.IsEmpty then
+    begin
+      sRetorno := 'NONE';
+    end;
+    Result := sRetorno;
+  finally
+    tabela.free;
   end;
 end;
 

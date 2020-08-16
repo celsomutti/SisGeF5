@@ -53,6 +53,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     FConexao: TConexao;
@@ -60,7 +61,8 @@ type
   public
     { Public declarations }
     sSQL : String;
-    sWhere: String
+    sWhere: String;
+    bOpen: boolean;
   end;
 
 var
@@ -95,6 +97,14 @@ end;
 procedure TView_PesquisarPessoas.FormDestroy(Sender: TObject);
 begin
   FConexao.Free;
+end;
+
+procedure TView_PesquisarPessoas.FormShow(Sender: TObject);
+begin
+  if bOpen then
+  begin
+    actionLocalizarExecute(Sender);
+  end;
 end;
 
 procedure TView_PesquisarPessoas.grdPesquisaEnter(Sender: TObject);

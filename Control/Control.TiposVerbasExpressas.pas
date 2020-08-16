@@ -15,6 +15,7 @@ type
     function Localizar(aParam: array of variant): TFDQuery;
     function ValidarCampos(): Boolean;
     function RetornaListaSimples(memTable: TFDMemTable): boolean;
+    function GetField(sField: String; sKey: String; sKeyValue: String): String;
     property Tipos: TTiposVerbasExpressas read FTipos write FTipos;
   end;
 
@@ -31,6 +32,11 @@ destructor TTiposVerbasExpressasControl.Destroy;
 begin
   FTipos.Create;
   inherited;
+end;
+
+function TTiposVerbasExpressasControl.GetField(sField, sKey, sKeyValue: String): String;
+begin
+  Result := FTipos.GetField(sField, sKey, sKeyValue);
 end;
 
 function TTiposVerbasExpressasControl.Gravar: Boolean;

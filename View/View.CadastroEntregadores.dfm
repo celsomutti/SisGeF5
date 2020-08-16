@@ -2,8 +2,8 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   Left = 0
   Top = 0
   Caption = 'Cadastro de Entregadores'
-  ClientHeight = 506
-  ClientWidth = 788
+  ClientHeight = 570
+  ClientWidth = 926
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -12,6 +12,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
   Visible = True
   OnClose = FormClose
@@ -21,10 +22,11 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   object layoutControlPadrao: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 788
-    Height = 506
+    Width = 926
+    Height = 570
     Align = alClient
     TabOrder = 0
+    LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object labelTitle: TcxLabel
       Left = 11
       Top = 11
@@ -42,9 +44,11 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     object layoutControlCadastro: TdxLayoutControl
       Left = 11
       Top = 41
-      Width = 766
-      Height = 399
+      Width = 904
+      Height = 463
+      ParentBackground = True
       TabOrder = 1
+      Transparent = True
       object buttonEditPessoa: TcxButtonEdit
         Left = 367
         Top = 30
@@ -64,17 +68,17 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 2
         Text = '0'
-        Width = 74
+        Width = 101
       end
       object textEditNomePessoa: TcxTextEdit
-        Left = 447
+        Left = 474
         Top = 30
         Hint = 'Nome da pessoa vincudala oo cadastro do entregador'
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 3
-        Width = 308
+        Width = 419
       end
       object maskEditCodigo: TcxMaskEdit
         Left = 11
@@ -116,28 +120,28 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 4
         Text = '0'
-        Width = 76
+        Width = 90
       end
       object textEditNomeAgente: TcxTextEdit
-        Left = 93
+        Left = 107
         Top = 77
         Hint = 'Nome do agente'
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 5
-        Width = 315
+        Width = 375
       end
       object textEditCodigoERP: TcxTextEdit
-        Left = 414
+        Left = 488
         Top = 77
         Hint = 'C'#243'digo ERP'
         Style.HotTrack = False
         TabOrder = 6
-        Width = 341
+        Width = 405
       end
       object currencyEditTicketMedio: TcxCurrencyEdit
-        Left = 624
+        Left = 737
         Top = 170
         Hint = 'Valot do Ticket M'#233'dio (Verba fixa)'
         EditValue = 0.000000000000000000
@@ -145,11 +149,11 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Properties.DisplayFormat = ',0.00;-,0.00'
         Style.HotTrack = False
         TabOrder = 12
-        Width = 75
+        Width = 91
       end
       object checkBoxAtivo: TcxCheckBox
-        Left = 705
-        Top = 160
+        Left = 834
+        Top = 161
         Caption = 'Ativo'
         Properties.ValueChecked = '1'
         Properties.ValueUnchecked = '0'
@@ -164,29 +168,32 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Properties.Alignment.Horz = taRightJustify
         Properties.Buttons = <
           item
+            Action = actionPesquisarTabelas
             Default = True
-            Kind = bkEllipsis
+            Kind = bkGlyph
           end>
         Properties.IgnoreMaskBlank = True
+        Properties.Images = Data_Sisgef.iml_16_16
         Properties.MaskKind = emkRegExpr
         Properties.EditMask = '\d\d\d\d\d\d'
+        Properties.OnValidate = buttonEditCodigoTabelaPropertiesValidate
         Style.HotTrack = False
         TabOrder = 8
         Text = '0'
-        Width = 76
+        Width = 90
       end
       object textEditDescricaoTabela: TcxTextEdit
-        Left = 93
+        Left = 107
         Top = 170
         Hint = 'Descricao da tabela'
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 9
-        Width = 193
+        Width = 231
       end
       object buttonEditCodigoFaixa: TcxButtonEdit
-        Left = 292
+        Left = 344
         Top = 170
         Properties.Alignment.Horz = taRightJustify
         Properties.Buttons = <
@@ -200,30 +207,42 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 10
         Text = '0'
-        Width = 76
+        Width = 90
       end
       object textEditDescricaoFaixa: TcxTextEdit
-        Left = 374
+        Left = 440
         Top = 170
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 11
-        Width = 244
+        Width = 291
       end
-      object comboBoxCliente: TcxComboBox
+      object imageComboBoxClientes: TcxImageComboBox
         Left = 11
         Top = 124
         Hint = 'Selecione o cliente'
-        Properties.DropDownListStyle = lsFixedList
-        Properties.Items.Strings = (
-          'Selecione ...'
-          'TRANASFOLHA'
-          'DIRECT')
+        EditValue = 0
+        Properties.Images = Data_Sisgef.iml_16_16
+        Properties.Items = <
+          item
+            Description = 'Selecione ...'
+            ImageIndex = 7
+            Value = 0
+          end
+          item
+            Description = 'TRANSFOLHA'
+            ImageIndex = 56
+            Value = 1
+          end
+          item
+            Description = 'DIRECT'
+            ImageIndex = 56
+            Value = 4
+          end>
         Style.HotTrack = False
         TabOrder = 7
-        Text = 'Selecione ...'
-        Width = 744
+        Width = 882
       end
       object layoutControlCadastroGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
@@ -368,7 +387,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         CaptionOptions.Text = 'Tabela'
         CaptionOptions.Layout = clTop
         Control = buttonEditCodigoTabela
-        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalHeight = 22
         ControlOptions.OriginalWidth = 76
         ControlOptions.ShowBorder = False
         Index = 0
@@ -410,12 +429,13 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.ShowBorder = False
         Index = 3
       end
-      object layoutItemComboBoxCliente: TdxLayoutItem
+      object layoutItemImageComboBoxClientes: TdxLayoutItem
         Parent = layoutControlCadastroGroup_Root
-        CaptionOptions.Hint = 'Selecione o cliente'
-        CaptionOptions.Text = 'Cliente'
+        AlignHorz = ahClient
+        AlignVert = avTop
+        CaptionOptions.Text = 'Clientes'
         CaptionOptions.Layout = clTop
-        Control = comboBoxCliente
+        Control = imageComboBoxClientes
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
@@ -424,10 +444,12 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     end
     object layoutControlFooter: TdxLayoutControl
       Left = 11
-      Top = 446
-      Width = 766
+      Top = 510
+      Width = 904
       Height = 49
+      ParentBackground = True
       TabOrder = 2
+      Transparent = True
       object buttonNovo: TcxButton
         Left = 11
         Top = 11
@@ -438,41 +460,49 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         TabOrder = 0
       end
       object buttonLocalizar: TcxButton
-        Left = 103
+        Left = 191
         Top = 11
         Width = 82
         Height = 25
         Cursor = crHandPoint
         Action = actionLocalizar
-        TabOrder = 1
+        TabOrder = 2
       end
       object buttonCancelar: TcxButton
-        Left = 191
+        Left = 279
         Top = 11
         Width = 82
         Height = 25
         Cursor = crHandPoint
         Action = actionCancelar
         Cancel = True
-        TabOrder = 2
+        TabOrder = 3
       end
       object buttonGravar: TcxButton
-        Left = 279
+        Left = 367
         Top = 11
         Width = 82
         Height = 25
         Cursor = crHandPoint
         Action = actionGravar
-        TabOrder = 3
+        TabOrder = 4
       end
       object buttonFechar: TcxButton
-        Left = 673
+        Left = 811
         Top = 11
         Width = 82
         Height = 25
         Cursor = crHandPoint
         Action = actionFechar
-        TabOrder = 4
+        TabOrder = 5
+      end
+      object buttonEditar: TcxButton
+        Left = 103
+        Top = 11
+        Width = 82
+        Height = 25
+        Action = actionEditar
+        TabOrder = 1
       end
       object layoutControlFooterGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
@@ -506,7 +536,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 25
         ControlOptions.OriginalWidth = 82
         ControlOptions.ShowBorder = False
-        Index = 1
+        Index = 2
       end
       object layoutItemButtonCancelar: TdxLayoutItem
         Parent = layoutControlFooterGroup_Root
@@ -518,7 +548,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 25
         ControlOptions.OriginalWidth = 82
         ControlOptions.ShowBorder = False
-        Index = 2
+        Index = 3
       end
       object layoutItemButtonGravar: TdxLayoutItem
         Parent = layoutControlFooterGroup_Root
@@ -530,7 +560,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 25
         ControlOptions.OriginalWidth = 82
         ControlOptions.ShowBorder = False
-        Index = 3
+        Index = 4
       end
       object layoutItemButtonFechar: TdxLayoutItem
         Parent = layoutControlFooterGroup_Root
@@ -542,7 +572,19 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 25
         ControlOptions.OriginalWidth = 82
         ControlOptions.ShowBorder = False
-        Index = 4
+        Index = 5
+      end
+      object layoutItemButtonEditar: TdxLayoutItem
+        Parent = layoutControlFooterGroup_Root
+        AlignHorz = ahLeft
+        AlignVert = avCenter
+        CaptionOptions.Text = 'cxButton1'
+        CaptionOptions.Visible = False
+        Control = buttonEditar
+        ControlOptions.OriginalHeight = 25
+        ControlOptions.OriginalWidth = 82
+        ControlOptions.ShowBorder = False
+        Index = 1
       end
     end
     object layoutControlPadraoGroup_Root: TdxLayoutGroup
@@ -572,6 +614,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       CaptionOptions.Text = 'Cadastro'
       CaptionOptions.Visible = False
       CaptionOptions.Layout = clTop
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       Control = layoutControlCadastro
       ControlOptions.OriginalHeight = 237
       ControlOptions.OriginalWidth = 300
@@ -633,7 +676,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     object memTableEntregadoresdom_ativo: TIntegerField
       FieldName = 'dom_ativo'
     end
-    object memTableEntregadoresdat_manutencao: TDateTimeField
+    object memTableEntregadoresdat_manutencao: TSQLTimeStampField
       FieldName = 'dat_manutencao'
     end
     object memTableEntregadorescod_tabela: TIntegerField
@@ -725,6 +768,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Hint = 'Localizar entregador'
       ImageIndex = 12
       ShortCut = 119
+      OnExecute = actionLocalizarExecute
     end
     object actionCancelar: TAction
       Category = 'Entregadores'
@@ -759,6 +803,13 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Hint = 'Pesquisar tipos de tabelas de verbas'
       ImageIndex = 14
       OnExecute = actionPesquisarTabelasExecute
+    end
+    object actionEditar: TAction
+      Category = 'Entregadores'
+      Caption = 'Editar'
+      Hint = 'Editar dados'
+      ImageIndex = 10
+      ShortCut = 114
     end
   end
   object BindingsList1: TBindingsList
@@ -822,12 +873,19 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Component = buttonEditCodigoAgente
       ComponentProperty = 'EditValue'
     end
-    object LinkPropertyToFieldItemIndex: TLinkPropertyToField
+    object LinkPropertyToFieldEditValue6: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB2
       FieldName = 'cod_cliente'
-      Component = comboBoxCliente
-      ComponentProperty = 'ItemIndex'
+      Component = imageComboBoxClientes
+      ComponentProperty = 'EditValue'
+    end
+    object LinkPropertyToFieldEditValue7: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB2
+      FieldName = 'cod_tabela'
+      Component = buttonEditCodigoTabela
+      ComponentProperty = 'EditValue'
     end
   end
   object BindSourceDB2: TBindSourceDB
