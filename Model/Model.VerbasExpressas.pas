@@ -47,6 +47,7 @@ type
     function SetupModel(FDQuery: TFDQuery): Boolean;
     function RetornaVerba(aParam: array of variant): double;
     function RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
+    function RetornaValorFaixa(iCliente, iTabela, iFaixa: integer): string;
     constructor Create();
   end;
 const
@@ -302,6 +303,38 @@ begin
     fdQuery.Close;
     fdQuery.Connection.Close;
     fdQuery.Free;
+  end;
+end;
+
+function TVerbasExpressas.RetornaValorFaixa(iCliente, iTabela, iFaixa: integer): string;
+var
+  FDQuery: TFDQuery;
+  sSQL : string;
+begin
+  try
+    Result := '';
+    sSQL := 'select val_verba from ' + TABLENAME +
+            ' where cod_cliente = :cod_clinte and cod_tipo = :cod_tipo and cod_faixa = :faixa';
+    FDQuery := FConexao.ReturnQuery;
+    FDQuery.SQL.Clear;
+    FDQuery.SQL.Add(sSQL);
+    FDQuery.ParamByName(':cod_cliente').AsInteger := iCliente;
+    FDQuery.ParamByName(':cod_tipo').AsInteger := iTabela;
+    FDQuery.ParamByName(':cod_faixa').AsInteger := iFaixa;
+    FDQuery.Open();
+    if not FDQuery.IsEmpty then
+    begin
+      FDQuery.First;
+    end
+    else
+    begin
+      Exit;
+    end;
+    Result := FormatFloat('###,##0.00', FDQuery.FieldByName('val_verba').AsFloat);
+  finally
+    FDQuery.Close;
+    FDQuery.Connection.Close;
+    FDQuery.Free;
   end;
 end;
 

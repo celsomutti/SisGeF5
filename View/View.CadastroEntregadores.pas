@@ -116,6 +116,37 @@ type
     actionEditar: TAction;
     buttonEditar: TcxButton;
     layoutItemButtonEditar: TdxLayoutItem;
+    layoutGroupHistorico: TdxLayoutGroup;
+    layoutItemExtravios: TdxLayoutItem;
+    layoutItemLancamentos: TdxLayoutItem;
+    dxLayoutItem3: TdxLayoutItem;
+    mtbExtravios: TFDMemTable;
+    mtbExtravioscod_extravio: TIntegerField;
+    mtbExtraviosdes_extravio: TStringField;
+    mtbExtraviosnum_nossonumero: TStringField;
+    mtbExtravioscod_agente: TIntegerField;
+    mtbExtraviosval_produto: TFloatField;
+    mtbExtraviosdat_extravio: TDateField;
+    mtbExtraviosval_multa: TFloatField;
+    mtbExtraviosval_verba: TFloatField;
+    mtbExtraviosval_total: TFloatField;
+    mtbExtraviosdom_restricao: TStringField;
+    mtbExtravioscod_entregador: TIntegerField;
+    mtbExtravioscod_tipo: TIntegerField;
+    mtbExtraviosval_verba_franquia: TFloatField;
+    mtbExtraviosval_extrato_franquia: TFloatField;
+    mtbExtraviosdom_extrato_franquia: TStringField;
+    mtbExtraviosdat_extravio_franquia: TDateField;
+    mtbExtraviosdes_envio_correspondencia: TStringField;
+    mtbExtraviosdes_retorno_correspondencia: TStringField;
+    mtbExtraviosdes_observacoes: TMemoField;
+    mtbExtraviosval_percentual_pago: TFloatField;
+    mtbExtraviosid_extrato: TIntegerField;
+    mtbExtraviosseq_acareacao: TIntegerField;
+    mtbExtraviosnom_executor: TStringField;
+    mtbExtraviosdat_manutencao: TDateTimeField;
+    mtbExtraviosnum_extrato: TStringField;
+    actHistorico: TAction;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -140,9 +171,11 @@ type
     procedure PesquisaTabelas;
     procedure PesquisaFaixas;
     procedure PesquisaEntregadores;
+    procedure Gravar;
     function RetornaNomeAgente(iCodigo: integer): String;
     function RetornaNomePessoa(iCodigo: integer): String;
     function RetornaDescricaoTabela(iCodigo: integer): string;
+    function RetornaValorFaixa(iCliente,iTabela,iFaixa: Integer): String;
     procedure Modo;
   public
     { Public declarations }
@@ -236,6 +269,11 @@ begin
   PopulaTabelas;
   FAcao := tacIndefinido;
   Modo;
+end;
+
+procedure Tview_CadastroEntregadores.Gravar;
+begin
+
 end;
 
 procedure Tview_CadastroEntregadores.lookupComboBoxTabelaPropertiesChange(Sender: TObject);
@@ -441,7 +479,7 @@ begin
     end;
     View_PesquisarPessoas.dxLayoutItem1.Visible := True;
     View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-    sSQL := 'select distinct id_grupo as "Faixa", val_verba as "Ticket Médio" ' +
+    sSQL := 'select distinct id_grupo as "Faixa", concat(format(val_verba,2,"de_DE") as "Ticket Médio" ' +
             'from expressas_verbas where cod_cliente = ' + imageComboBoxClientes.EditValue +
             ' and cod_tipo = ' + buttonEditCodigoTabela.EditingValue;
     sWhere := '';
@@ -453,7 +491,7 @@ begin
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
       buttonEditCodigoTabela.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
-      textEditDescricaoTabela.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+      textEditDescricaoTabela.Text := FormatFloat('###,##0.00', View_PesquisarPessoas.qryPesquisa.Fields[2].AsFloat);
     end;
   finally
     if View_PesquisarPessoas.qryPesquisa.Active then
@@ -653,6 +691,26 @@ begin
     Result := sRetorno;
   finally
     cadastro.free;
+  end;
+end;
+
+function Tview_CadastroEntregadores.RetornaValorFaixa(iCliente,iTabela,iFaixa: Integer): String;
+var
+  verba : TVerbasExpressasControl;
+  sRetorno: String;
+begin
+  try
+    Result := '';
+    sRetorno := '';
+    verba := TVerbasExpressasControl.Create;
+    sRetorno := verba.RetornaValorFaixa(iCliente,iTabela,iFaixa);
+    if sRetorno.IsEmpty then
+    begin
+      sRetorno := '0,00';
+    end;
+    Result := sRetorno;
+  finally
+    verba.Free
   end;
 end;
 

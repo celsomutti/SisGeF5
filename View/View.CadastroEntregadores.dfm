@@ -2,8 +2,8 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   Left = 0
   Top = 0
   Caption = 'Cadastro de Entregadores'
-  ClientHeight = 570
-  ClientWidth = 926
+  ClientHeight = 582
+  ClientWidth = 938
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -22,11 +22,13 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   object layoutControlPadrao: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 926
-    Height = 570
+    Width = 938
+    Height = 582
     Align = alClient
     TabOrder = 0
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitWidth = 926
+    ExplicitHeight = 570
     object labelTitle: TcxLabel
       Left = 11
       Top = 11
@@ -44,8 +46,8 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     object layoutControlCadastro: TdxLayoutControl
       Left = 11
       Top = 41
-      Width = 904
-      Height = 463
+      Width = 916
+      Height = 475
       ParentBackground = True
       TabOrder = 1
       Transparent = True
@@ -68,17 +70,17 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 2
         Text = '0'
-        Width = 101
+        Width = 103
       end
       object textEditNomePessoa: TcxTextEdit
-        Left = 474
+        Left = 476
         Top = 30
         Hint = 'Nome da pessoa vincudala oo cadastro do entregador'
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 3
-        Width = 419
+        Width = 429
       end
       object maskEditCodigo: TcxMaskEdit
         Left = 11
@@ -120,28 +122,28 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 4
         Text = '0'
-        Width = 90
+        Width = 92
       end
       object textEditNomeAgente: TcxTextEdit
-        Left = 107
+        Left = 109
         Top = 77
         Hint = 'Nome do agente'
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 5
-        Width = 375
+        Width = 379
       end
       object textEditCodigoERP: TcxTextEdit
-        Left = 488
+        Left = 494
         Top = 77
         Hint = 'C'#243'digo ERP'
         Style.HotTrack = False
         TabOrder = 6
-        Width = 405
+        Width = 411
       end
       object currencyEditTicketMedio: TcxCurrencyEdit
-        Left = 737
+        Left = 747
         Top = 170
         Hint = 'Valot do Ticket M'#233'dio (Verba fixa)'
         EditValue = 0.000000000000000000
@@ -149,10 +151,10 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Properties.DisplayFormat = ',0.00;-,0.00'
         Style.HotTrack = False
         TabOrder = 12
-        Width = 91
+        Width = 92
       end
       object checkBoxAtivo: TcxCheckBox
-        Left = 834
+        Left = 845
         Top = 161
         Caption = 'Ativo'
         Properties.ValueChecked = '1'
@@ -180,20 +182,20 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 8
         Text = '0'
-        Width = 90
+        Width = 92
       end
       object textEditDescricaoTabela: TcxTextEdit
-        Left = 107
+        Left = 109
         Top = 170
         Hint = 'Descricao da tabela'
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 9
-        Width = 231
+        Width = 233
       end
       object buttonEditCodigoFaixa: TcxButtonEdit
-        Left = 344
+        Left = 348
         Top = 170
         Properties.Alignment.Horz = taRightJustify
         Properties.Buttons = <
@@ -207,16 +209,16 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 10
         Text = '0'
-        Width = 90
+        Width = 92
       end
       object textEditDescricaoFaixa: TcxTextEdit
-        Left = 440
+        Left = 446
         Top = 170
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 11
-        Width = 291
+        Width = 295
       end
       object imageComboBoxClientes: TcxImageComboBox
         Left = 11
@@ -242,15 +244,15 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
           end>
         Style.HotTrack = False
         TabOrder = 7
-        Width = 882
+        Width = 894
       end
       object layoutControlCadastroGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
-        AlignVert = avTop
+        AlignVert = avClient
         LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
         ButtonOptions.Buttons = <>
         Hidden = True
-        ItemIndex = 2
+        ItemIndex = 4
         ShowBorder = False
         Index = -1
       end
@@ -441,11 +443,45 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.ShowBorder = False
         Index = 2
       end
+      object layoutGroupHistorico: TdxLayoutGroup
+        Parent = layoutControlCadastroGroup_Root
+        AlignHorz = ahClient
+        AlignVert = avClient
+        CaptionOptions.Text = 'Hist'#243'rico'
+        ButtonOptions.Buttons = <>
+        ButtonOptions.ShowExpandButton = True
+        LayoutDirection = ldTabbed
+        Index = 4
+      end
+      object layoutItemExtravios: TdxLayoutItem
+        Parent = layoutGroupHistorico
+        AlignHorz = ahClient
+        AlignVert = avClient
+        CaptionOptions.Text = 'Extravios'
+        CaptionOptions.Visible = False
+        Index = 0
+      end
+      object layoutItemLancamentos: TdxLayoutItem
+        Parent = layoutGroupHistorico
+        AlignHorz = ahClient
+        AlignVert = avClient
+        CaptionOptions.Text = 'Lan'#231'amentos'
+        CaptionOptions.Visible = False
+        Index = 1
+      end
+      object dxLayoutItem3: TdxLayoutItem
+        Parent = layoutGroupHistorico
+        AlignHorz = ahClient
+        AlignVert = avClient
+        CaptionOptions.Text = 'Remessas'
+        CaptionOptions.Visible = False
+        Index = 2
+      end
     end
     object layoutControlFooter: TdxLayoutControl
       Left = 11
-      Top = 510
-      Width = 904
+      Top = 522
+      Width = 916
       Height = 49
       ParentBackground = True
       TabOrder = 2
@@ -488,7 +524,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         TabOrder = 4
       end
       object buttonFechar: TcxButton
-        Left = 811
+        Left = 823
         Top = 11
         Width = 82
         Height = 25
@@ -811,6 +847,12 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       ImageIndex = 10
       ShortCut = 114
     end
+    object actHistorico: TAction
+      Category = 'Entregadores'
+      Caption = 'Hist'#243'rico'
+      Hint = 'Visualizar hist'#243'rico financeiro '
+      ImageIndex = 58
+    end
   end
   object BindingsList1: TBindingsList
     Methods = <>
@@ -893,5 +935,122 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     ScopeMappings = <>
     Left = 288
     Top = 8
+  end
+  object mtbExtravios: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 768
+    Top = 6
+    object mtbExtravioscod_extravio: TIntegerField
+      DisplayLabel = 'ID'
+      FieldName = 'cod_extravio'
+    end
+    object mtbExtraviosdes_extravio: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'des_extravio'
+      Size = 150
+    end
+    object mtbExtraviosnum_nossonumero: TStringField
+      DisplayLabel = 'Remessa'
+      FieldName = 'num_nossonumero'
+    end
+    object mtbExtravioscod_agente: TIntegerField
+      DisplayLabel = 'Base'
+      FieldName = 'cod_agente'
+    end
+    object mtbExtraviosval_produto: TFloatField
+      DisplayLabel = 'Valor Produto'
+      FieldName = 'val_produto'
+    end
+    object mtbExtraviosdat_extravio: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'dat_extravio'
+    end
+    object mtbExtraviosval_multa: TFloatField
+      DisplayLabel = 'Multa'
+      FieldName = 'val_multa'
+    end
+    object mtbExtraviosval_verba: TFloatField
+      DisplayLabel = 'Verba'
+      FieldName = 'val_verba'
+    end
+    object mtbExtraviosval_total: TFloatField
+      DisplayLabel = 'Total'
+      FieldName = 'val_total'
+    end
+    object mtbExtraviosdom_restricao: TStringField
+      DisplayLabel = 'Finalizado'
+      FieldName = 'dom_restricao'
+      Size = 1
+    end
+    object mtbExtravioscod_entregador: TIntegerField
+      DisplayLabel = 'Entregador'
+      FieldName = 'cod_entregador'
+    end
+    object mtbExtravioscod_tipo: TIntegerField
+      DisplayLabel = 'Tipo'
+      FieldName = 'cod_tipo'
+    end
+    object mtbExtraviosval_verba_franquia: TFloatField
+      DisplayLabel = 'Verba UN'
+      FieldName = 'val_verba_franquia'
+    end
+    object mtbExtraviosval_extrato_franquia: TFloatField
+      DisplayLabel = 'D'#233'bito Extrato UN'
+      FieldName = 'val_extrato_franquia'
+    end
+    object mtbExtraviosdom_extrato_franquia: TStringField
+      DisplayLabel = 'Finalizado UN'
+      FieldName = 'dom_extrato_franquia'
+      Size = 1
+    end
+    object mtbExtraviosdat_extravio_franquia: TDateField
+      DisplayLabel = 'Data UN'
+      FieldName = 'dat_extravio_franquia'
+    end
+    object mtbExtraviosdes_envio_correspondencia: TStringField
+      DisplayLabel = 'Envio de Correspond'#234'ncia'
+      FieldName = 'des_envio_correspondencia'
+    end
+    object mtbExtraviosdes_retorno_correspondencia: TStringField
+      DisplayLabel = 'Retorno Correspond'#234'ncia'
+      FieldName = 'des_retorno_correspondencia'
+      Size = 70
+    end
+    object mtbExtraviosdes_observacoes: TMemoField
+      DisplayLabel = 'Observa'#231#245'es'
+      FieldName = 'des_observacoes'
+      BlobType = ftMemo
+    end
+    object mtbExtraviosval_percentual_pago: TFloatField
+      DisplayLabel = 'Percentual Debitado'
+      FieldName = 'val_percentual_pago'
+    end
+    object mtbExtraviosid_extrato: TIntegerField
+      DisplayLabel = 'ID Extrato'
+      FieldName = 'id_extrato'
+    end
+    object mtbExtraviosseq_acareacao: TIntegerField
+      DisplayLabel = 'N'#186' Acarea'#231#227'o'
+      FieldName = 'seq_acareacao'
+    end
+    object mtbExtraviosnom_executor: TStringField
+      DisplayLabel = 'Usu'#225'rio'
+      FieldName = 'nom_executor'
+    end
+    object mtbExtraviosdat_manutencao: TDateTimeField
+      DisplayLabel = 'Manuten'#231#227'o'
+      FieldName = 'dat_manutencao'
+    end
+    object mtbExtraviosnum_extrato: TStringField
+      DisplayLabel = 'N'#176' Extrato'
+      FieldName = 'num_extrato'
+      Size = 30
+    end
   end
 end
