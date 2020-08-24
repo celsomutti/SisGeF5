@@ -20,6 +20,7 @@ type
     function EntregasExtrato(aParam: Array of variant): TFDQuery;
     function EncerraEntregas(aParam: array of variant): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
+    function GetAReceber(iEntregador: Integer): TFDQuery;
 
     property Entregas: TEntregas read FEntregas write FEntregas;
 
@@ -48,6 +49,11 @@ end;
 function TEntregasControl.EntregasExtrato(aParam: array of variant): TFDQuery;
 begin
   Result := FEntregas.EntregasExtrato(aParam);
+end;
+
+function TEntregasControl.GetAReceber(iEntregador: Integer): TFDQuery;
+begin
+  Result := Fentregas.GetAReceber(iEntregador);
 end;
 
 function TEntregasControl.GetField(sField, sKey, sKeyValue: String): String;

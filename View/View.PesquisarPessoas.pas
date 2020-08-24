@@ -159,8 +159,10 @@ begin
     begin
       qryPesquisa.CreateFieldsFromDataSet(fdQuery);
       qryPesquisa.LoadFromDataSet(fdQuery);
+      qryPesquisa.First;
       tvPesquisa.ClearItems;
       tvPesquisa.DataController.CreateAllItems;
+      grdPesquisa.SetFocus;
     end;
   finally
     fdQuery.Close;

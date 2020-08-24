@@ -27,8 +27,6 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     Align = alClient
     TabOrder = 0
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitWidth = 926
-    ExplicitHeight = 570
     object labelTitle: TcxLabel
       Left = 11
       Top = 11
@@ -143,24 +141,24 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Width = 411
       end
       object currencyEditTicketMedio: TcxCurrencyEdit
-        Left = 747
+        Left = 667
         Top = 170
         Hint = 'Valot do Ticket M'#233'dio (Verba fixa)'
         EditValue = 0.000000000000000000
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;-,0.00'
         Style.HotTrack = False
-        TabOrder = 12
-        Width = 92
+        TabOrder = 11
+        Width = 140
       end
       object checkBoxAtivo: TcxCheckBox
-        Left = 845
+        Left = 813
         Top = 161
         Caption = 'Ativo'
         Properties.ValueChecked = '1'
         Properties.ValueUnchecked = '0'
         Style.HotTrack = False
-        TabOrder = 13
+        TabOrder = 12
         Transparent = True
       end
       object buttonEditCodigoTabela: TcxButtonEdit
@@ -182,43 +180,36 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 8
         Text = '0'
-        Width = 92
+        Width = 140
       end
       object textEditDescricaoTabela: TcxTextEdit
-        Left = 109
+        Left = 157
         Top = 170
         Hint = 'Descricao da tabela'
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 9
-        Width = 233
+        Width = 358
       end
       object buttonEditCodigoFaixa: TcxButtonEdit
-        Left = 348
+        Left = 521
         Top = 170
         Properties.Alignment.Horz = taRightJustify
         Properties.Buttons = <
           item
+            Action = actionPesquisarFaixas
             Default = True
-            Kind = bkEllipsis
+            Kind = bkGlyph
           end>
         Properties.IgnoreMaskBlank = True
+        Properties.Images = Data_Sisgef.iml_16_16
         Properties.MaskKind = emkRegExpr
         Properties.EditMask = '\d\d\d\d\d\d'
         Style.HotTrack = False
         TabOrder = 10
         Text = '0'
-        Width = 92
-      end
-      object textEditDescricaoFaixa: TcxTextEdit
-        Left = 446
-        Top = 170
-        TabStop = False
-        Properties.ReadOnly = True
-        Style.HotTrack = False
-        TabOrder = 11
-        Width = 295
+        Width = 140
       end
       object imageComboBoxClientes: TcxImageComboBox
         Left = 11
@@ -245,6 +236,414 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 7
         Width = 894
+      end
+      object gridExtravios: TcxGrid
+        Left = 35
+        Top = 254
+        Width = 846
+        Height = 186
+        TabOrder = 13
+        object gridExtraviosDBTableViewExtravios: TcxGridDBTableView
+          Navigator.Buttons.OnButtonClick = gridExtraviosDBTableViewExtraviosNavigatorButtonsButtonClick
+          Navigator.Buttons.CustomButtons = <
+            item
+              ImageIndex = 11
+            end>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 5
+          Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 8
+          Navigator.Buttons.Next.ImageIndex = 7
+          Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 6
+          Navigator.Buttons.Insert.Visible = False
+          Navigator.Buttons.Delete.Visible = False
+          Navigator.Buttons.Edit.Visible = False
+          Navigator.Buttons.Post.Visible = False
+          Navigator.Buttons.Cancel.Visible = False
+          Navigator.Buttons.Refresh.Visible = False
+          Navigator.Buttons.SaveBookmark.Visible = False
+          Navigator.Buttons.GotoBookmark.Visible = False
+          Navigator.Buttons.Filter.ImageIndex = 19
+          Navigator.InfoPanel.Visible = True
+          Navigator.Visible = True
+          DataController.DataSource = dsExtravios
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <
+            item
+              Format = ',0.00;-,0.00'
+              Kind = skSum
+              Column = gridExtraviosDBTableViewExtraviosval_total
+            end>
+          DataController.Summary.SummaryGroups = <>
+          OptionsView.ColumnAutoWidth = True
+          OptionsView.Footer = True
+          OptionsView.GroupByBox = False
+          object gridExtraviosDBTableViewExtravioscod_extravio: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_extravio'
+            HeaderAlignmentHorz = taCenter
+            Width = 48
+          end
+          object gridExtraviosDBTableViewExtraviosdes_extravio: TcxGridDBColumn
+            DataBinding.FieldName = 'des_extravio'
+            HeaderAlignmentHorz = taCenter
+            Width = 173
+          end
+          object gridExtraviosDBTableViewExtraviosnum_nossonumero: TcxGridDBColumn
+            DataBinding.FieldName = 'num_nossonumero'
+            HeaderAlignmentHorz = taCenter
+            Width = 94
+          end
+          object gridExtraviosDBTableViewExtravioscod_agente: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_agente'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosval_produto: TcxGridDBColumn
+            DataBinding.FieldName = 'val_produto'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosdat_extravio: TcxGridDBColumn
+            DataBinding.FieldName = 'dat_extravio'
+            HeaderAlignmentHorz = taCenter
+            Width = 71
+          end
+          object gridExtraviosDBTableViewExtraviosval_multa: TcxGridDBColumn
+            DataBinding.FieldName = 'val_multa'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosval_verba: TcxGridDBColumn
+            DataBinding.FieldName = 'val_verba'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosval_total: TcxGridDBColumn
+            DataBinding.FieldName = 'val_total'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ',0.00;-,0.00'
+            HeaderAlignmentHorz = taCenter
+            Width = 86
+          end
+          object gridExtraviosDBTableViewExtraviosdom_restricao: TcxGridDBColumn
+            DataBinding.FieldName = 'dom_restricao'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtravioscod_entregador: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_entregador'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtravioscod_tipo: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_tipo'
+            PropertiesClassName = 'TcxImageComboBoxProperties'
+            Properties.Images = Data_Sisgef.iml_16_16
+            Properties.Items = <
+              item
+                Description = 'Extravio'
+                ImageIndex = 43
+                Value = 0
+              end
+              item
+                Description = 'Sinistro'
+                ImageIndex = 43
+                Value = 1
+              end
+              item
+                Description = 'Multa'
+                ImageIndex = 20
+                Value = 2
+              end>
+            HeaderAlignmentHorz = taCenter
+            Width = 95
+          end
+          object gridExtraviosDBTableViewExtraviosval_verba_franquia: TcxGridDBColumn
+            DataBinding.FieldName = 'val_verba_franquia'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosval_extrato_franquia: TcxGridDBColumn
+            DataBinding.FieldName = 'val_extrato_franquia'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosdom_extrato_franquia: TcxGridDBColumn
+            DataBinding.FieldName = 'dom_extrato_franquia'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosdat_extravio_franquia: TcxGridDBColumn
+            DataBinding.FieldName = 'dat_extravio_franquia'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosdes_envio_correspondencia: TcxGridDBColumn
+            DataBinding.FieldName = 'des_envio_correspondencia'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosdes_retorno_correspondencia: TcxGridDBColumn
+            DataBinding.FieldName = 'des_retorno_correspondencia'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosdes_observacoes: TcxGridDBColumn
+            Caption = 'Obs.'
+            DataBinding.FieldName = 'des_observacoes'
+            PropertiesClassName = 'TcxBlobEditProperties'
+            Properties.BlobEditKind = bekMemo
+            HeaderAlignmentHorz = taCenter
+            Width = 41
+          end
+          object gridExtraviosDBTableViewExtraviosval_percentual_pago: TcxGridDBColumn
+            Caption = '% Debitado'
+            DataBinding.FieldName = 'val_percentual_pago'
+            HeaderAlignmentHorz = taCenter
+            Width = 77
+          end
+          object gridExtraviosDBTableViewExtraviosid_extrato: TcxGridDBColumn
+            DataBinding.FieldName = 'id_extrato'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosseq_acareacao: TcxGridDBColumn
+            DataBinding.FieldName = 'seq_acareacao'
+            HeaderAlignmentHorz = taCenter
+            Width = 73
+          end
+          object gridExtraviosDBTableViewExtraviosnom_executor: TcxGridDBColumn
+            DataBinding.FieldName = 'nom_executor'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosdat_manutencao: TcxGridDBColumn
+            DataBinding.FieldName = 'dat_manutencao'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridExtraviosDBTableViewExtraviosnum_extrato: TcxGridDBColumn
+            DataBinding.FieldName = 'num_extrato'
+            HeaderAlignmentHorz = taCenter
+            Width = 69
+          end
+        end
+        object gridExtraviosLevelExtavios: TcxGridLevel
+          GridView = gridExtraviosDBTableViewExtravios
+        end
+      end
+      object gridLancamentos: TcxGrid
+        Left = 10000
+        Top = 10000
+        Width = 846
+        Height = 186
+        TabOrder = 14
+        Visible = False
+        object gridLancamentosDBTableViewLancamentos: TcxGridDBTableView
+          Navigator.Buttons.OnButtonClick = gridLancamentosDBTableViewLancamentosNavigatorButtonsButtonClick
+          Navigator.Buttons.CustomButtons = <
+            item
+              ImageIndex = 11
+            end>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 5
+          Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 8
+          Navigator.Buttons.Next.ImageIndex = 7
+          Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 6
+          Navigator.Buttons.Insert.Visible = False
+          Navigator.Buttons.Delete.Visible = False
+          Navigator.Buttons.Edit.Visible = False
+          Navigator.Buttons.Post.Visible = False
+          Navigator.Buttons.Cancel.Visible = False
+          Navigator.Buttons.Refresh.Visible = False
+          Navigator.Buttons.SaveBookmark.Visible = False
+          Navigator.Buttons.GotoBookmark.Visible = False
+          Navigator.Buttons.Filter.ImageIndex = 19
+          Navigator.InfoPanel.Visible = True
+          Navigator.Visible = True
+          DataController.DataSource = dsLancamentos
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+          OptionsView.ColumnAutoWidth = True
+          OptionsView.GroupByBox = False
+          object gridLancamentosDBTableViewLancamentoscod_lancamento: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_lancamento'
+            HeaderAlignmentHorz = taCenter
+            Width = 70
+          end
+          object gridLancamentosDBTableViewLancamentosdes_lancamento: TcxGridDBColumn
+            DataBinding.FieldName = 'des_lancamento'
+            HeaderAlignmentHorz = taCenter
+            Width = 241
+          end
+          object gridLancamentosDBTableViewLancamentosdat_lancamento: TcxGridDBColumn
+            DataBinding.FieldName = 'dat_lancamento'
+            HeaderAlignmentHorz = taCenter
+            Width = 83
+          end
+          object gridLancamentosDBTableViewLancamentoscod_entregador: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_entregador'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridLancamentosDBTableViewLancamentoscod_entregador_: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_entregador_'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+          end
+          object gridLancamentosDBTableViewLancamentosdes_tipo: TcxGridDBColumn
+            DataBinding.FieldName = 'des_tipo'
+            HeaderAlignmentHorz = taCenter
+            Width = 78
+          end
+          object gridLancamentosDBTableViewLancamentosval_lancamento: TcxGridDBColumn
+            DataBinding.FieldName = 'val_lancamento'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ',0.00;-,0.00'
+            HeaderAlignmentHorz = taCenter
+            Width = 83
+          end
+          object gridLancamentosDBTableViewLancamentosdom_desconto: TcxGridDBColumn
+            Caption = 'Descontado'
+            DataBinding.FieldName = 'dom_desconto'
+            PropertiesClassName = 'TcxCheckBoxProperties'
+            Properties.Alignment = taRightJustify
+            Properties.ValueChecked = 'S'
+            Properties.ValueUnchecked = 'N'
+            HeaderAlignmentHorz = taCenter
+            Width = 79
+          end
+          object gridLancamentosDBTableViewLancamentosdat_desconto: TcxGridDBColumn
+            DataBinding.FieldName = 'dat_desconto'
+            HeaderAlignmentHorz = taCenter
+            Width = 107
+          end
+          object gridLancamentosDBTableViewLancamentosnum_extrato: TcxGridDBColumn
+            DataBinding.FieldName = 'num_extrato'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+            Width = 86
+          end
+          object gridLancamentosDBTableViewLancamentosdom_persistir: TcxGridDBColumn
+            DataBinding.FieldName = 'dom_persistir'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
+            Width = 46
+          end
+        end
+        object gridLancamentosLevelLancamentos: TcxGridLevel
+          GridView = gridLancamentosDBTableViewLancamentos
+        end
+      end
+      object gridRemessas: TcxGrid
+        Left = 10000
+        Top = 10000
+        Width = 846
+        Height = 186
+        TabOrder = 15
+        Visible = False
+        object gridRemessasDBTableViewRemessas: TcxGridDBTableView
+          Navigator.Buttons.OnButtonClick = gridRemessasDBTableViewRemessasNavigatorButtonsButtonClick
+          Navigator.Buttons.CustomButtons = <
+            item
+              ImageIndex = 11
+            end>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 5
+          Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 8
+          Navigator.Buttons.Next.ImageIndex = 7
+          Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 6
+          Navigator.Buttons.Insert.Visible = False
+          Navigator.Buttons.Delete.Visible = False
+          Navigator.Buttons.Edit.Visible = False
+          Navigator.Buttons.Post.Visible = False
+          Navigator.Buttons.Cancel.Visible = False
+          Navigator.Buttons.Refresh.Visible = False
+          Navigator.Buttons.SaveBookmark.Visible = False
+          Navigator.Buttons.GotoBookmark.Visible = False
+          Navigator.Buttons.Filter.ImageIndex = 19
+          Navigator.InfoPanel.Visible = True
+          Navigator.Visible = True
+          DataController.DataSource = dsExpressas
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <
+            item
+              Format = ',0;-,0'
+              Kind = skSum
+              Column = gridRemessasDBTableViewRemessasqtd_entregas
+            end
+            item
+              Format = ',0;-,0'
+              Kind = skSum
+              Column = gridRemessasDBTableViewRemessasqtd_volumes
+            end
+            item
+              Format = ',0.00;-,0.00'
+              Kind = skSum
+              Column = gridRemessasDBTableViewRemessasval_producao
+            end>
+          DataController.Summary.SummaryGroups = <>
+          OptionsView.ColumnAutoWidth = True
+          OptionsView.Footer = True
+          OptionsView.GroupByBox = False
+          object gridRemessasDBTableViewRemessasdat_baixa: TcxGridDBColumn
+            DataBinding.FieldName = 'dat_baixa'
+            HeaderAlignmentHorz = taCenter
+            Width = 97
+          end
+          object gridRemessasDBTableViewRemessasqtd_volumes: TcxGridDBColumn
+            DataBinding.FieldName = 'qtd_volumes'
+            HeaderAlignmentHorz = taCenter
+            Width = 80
+          end
+          object gridRemessasDBTableViewRemessasqtd_entregas: TcxGridDBColumn
+            DataBinding.FieldName = 'qtd_entregas'
+            HeaderAlignmentHorz = taCenter
+            Width = 86
+          end
+          object gridRemessasDBTableViewRemessasval_verba: TcxGridDBColumn
+            DataBinding.FieldName = 'val_verba_entregador'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ',0.00;-,0.00'
+            HeaderAlignmentHorz = taCenter
+            Width = 77
+          end
+          object gridRemessasDBTableViewRemessasval_producao: TcxGridDBColumn
+            DataBinding.FieldName = 'val_producao'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ',0.00;-,0.00'
+            HeaderAlignmentHorz = taCenter
+            Width = 131
+          end
+        end
+        object gridRemessasLevelRemessas: TcxGridLevel
+          GridView = gridRemessasDBTableViewRemessas
+        end
       end
       object layoutControlCadastroGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
@@ -362,7 +761,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 76
         ControlOptions.ShowBorder = False
-        Index = 4
+        Index = 3
       end
       object dxLayoutAutoCreatedGroup3: TdxLayoutAutoCreatedGroup
         Parent = layoutControlCadastroGroup_Root
@@ -380,7 +779,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 50
         ControlOptions.ShowBorder = False
-        Index = 5
+        Index = 4
       end
       object layoutItemButtonEditCodigoTabela: TdxLayoutItem
         Parent = dxLayoutAutoCreatedGroup3
@@ -414,22 +813,10 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         CaptionOptions.Text = 'Faixa'
         CaptionOptions.Layout = clTop
         Control = buttonEditCodigoFaixa
-        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalHeight = 22
         ControlOptions.OriginalWidth = 76
         ControlOptions.ShowBorder = False
         Index = 2
-      end
-      object layoutItemTextEditDescricaoFaixa: TdxLayoutItem
-        Parent = dxLayoutAutoCreatedGroup3
-        AlignHorz = ahClient
-        AlignVert = avTop
-        CaptionOptions.Text = 'Descri'#231#227'o da Faixa'
-        CaptionOptions.Layout = clTop
-        Control = textEditDescricaoFaixa
-        ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 245
-        ControlOptions.ShowBorder = False
-        Index = 3
       end
       object layoutItemImageComboBoxClientes: TdxLayoutItem
         Parent = layoutControlCadastroGroup_Root
@@ -448,6 +835,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         AlignHorz = ahClient
         AlignVert = avClient
         CaptionOptions.Text = 'Hist'#243'rico'
+        Visible = False
         ButtonOptions.Buttons = <>
         ButtonOptions.ShowExpandButton = True
         LayoutDirection = ldTabbed
@@ -459,6 +847,11 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         AlignVert = avClient
         CaptionOptions.Text = 'Extravios'
         CaptionOptions.Visible = False
+        CaptionOptions.Layout = clTop
+        Control = gridExtravios
+        ControlOptions.OriginalHeight = 200
+        ControlOptions.OriginalWidth = 250
+        ControlOptions.ShowBorder = False
         Index = 0
       end
       object layoutItemLancamentos: TdxLayoutItem
@@ -467,14 +860,24 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         AlignVert = avClient
         CaptionOptions.Text = 'Lan'#231'amentos'
         CaptionOptions.Visible = False
+        CaptionOptions.Layout = clTop
+        Control = gridLancamentos
+        ControlOptions.OriginalHeight = 200
+        ControlOptions.OriginalWidth = 250
+        ControlOptions.ShowBorder = False
         Index = 1
       end
-      object dxLayoutItem3: TdxLayoutItem
+      object layoutItemREmessas: TdxLayoutItem
         Parent = layoutGroupHistorico
         AlignHorz = ahClient
         AlignVert = avClient
-        CaptionOptions.Text = 'Remessas'
+        CaptionOptions.Text = 'Remessas a Receber'
         CaptionOptions.Visible = False
+        CaptionOptions.Layout = clTop
+        Control = gridRemessas
+        ControlOptions.OriginalHeight = 200
+        ControlOptions.OriginalWidth = 250
+        ControlOptions.ShowBorder = False
         Index = 2
       end
     end
@@ -811,6 +1214,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Caption = 'Cancelar'
       Hint = 'Cancelar opera'#231#227'o'
       ImageIndex = 2
+      OnExecute = actionCancelarExecute
     end
     object actionFechar: TAction
       Category = 'Entregadores'
@@ -846,6 +1250,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Hint = 'Editar dados'
       ImageIndex = 10
       ShortCut = 114
+      OnExecute = actionEditarExecute
     end
     object actHistorico: TAction
       Category = 'Entregadores'
@@ -853,11 +1258,18 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       Hint = 'Visualizar hist'#243'rico financeiro '
       ImageIndex = 58
     end
+    object actionPesquisarFaixas: TAction
+      Category = 'Entregadores'
+      Caption = 'Faixas'
+      Hint = 'Pesuisa a faixa da tabela de verbas'
+      ImageIndex = 14
+      OnExecute = actionPesquisarFaixasExecute
+    end
   end
   object BindingsList1: TBindingsList
     Methods = <>
     OutputConverters = <>
-    Left = 236
+    Left = 292
     Top = 5
     object LinkPropertyToFieldText: TLinkPropertyToField
       Category = 'Quick Bindings'
@@ -933,10 +1345,10 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   object BindSourceDB2: TBindSourceDB
     DataSet = memTableEntregadores
     ScopeMappings = <>
-    Left = 288
+    Left = 328
     Top = 8
   end
-  object mtbExtravios: TFDMemTable
+  object memTableExtravios: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -944,113 +1356,228 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 768
+    Left = 152
     Top = 6
-    object mtbExtravioscod_extravio: TIntegerField
+    object memTableExtravioscod_extravio: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'cod_extravio'
     end
-    object mtbExtraviosdes_extravio: TStringField
+    object memTableExtraviosdes_extravio: TStringField
       DisplayLabel = 'Descri'#231#227'o'
       FieldName = 'des_extravio'
       Size = 150
     end
-    object mtbExtraviosnum_nossonumero: TStringField
+    object memTableExtraviosnum_nossonumero: TStringField
       DisplayLabel = 'Remessa'
       FieldName = 'num_nossonumero'
     end
-    object mtbExtravioscod_agente: TIntegerField
+    object memTableExtravioscod_agente: TIntegerField
       DisplayLabel = 'Base'
       FieldName = 'cod_agente'
     end
-    object mtbExtraviosval_produto: TFloatField
+    object memTableExtraviosval_produto: TFloatField
       DisplayLabel = 'Valor Produto'
       FieldName = 'val_produto'
     end
-    object mtbExtraviosdat_extravio: TDateField
+    object memTableExtraviosdat_extravio: TDateField
       DisplayLabel = 'Data'
       FieldName = 'dat_extravio'
     end
-    object mtbExtraviosval_multa: TFloatField
+    object memTableExtraviosval_multa: TFloatField
       DisplayLabel = 'Multa'
       FieldName = 'val_multa'
     end
-    object mtbExtraviosval_verba: TFloatField
+    object memTableExtraviosval_verba: TFloatField
       DisplayLabel = 'Verba'
       FieldName = 'val_verba'
     end
-    object mtbExtraviosval_total: TFloatField
+    object memTableExtraviosval_total: TFloatField
       DisplayLabel = 'Total'
       FieldName = 'val_total'
     end
-    object mtbExtraviosdom_restricao: TStringField
+    object memTableExtraviosdom_restricao: TStringField
       DisplayLabel = 'Finalizado'
       FieldName = 'dom_restricao'
       Size = 1
     end
-    object mtbExtravioscod_entregador: TIntegerField
+    object memTableExtravioscod_entregador: TIntegerField
       DisplayLabel = 'Entregador'
       FieldName = 'cod_entregador'
     end
-    object mtbExtravioscod_tipo: TIntegerField
+    object memTableExtravioscod_tipo: TIntegerField
       DisplayLabel = 'Tipo'
       FieldName = 'cod_tipo'
     end
-    object mtbExtraviosval_verba_franquia: TFloatField
+    object memTableExtraviosval_verba_franquia: TFloatField
       DisplayLabel = 'Verba UN'
       FieldName = 'val_verba_franquia'
     end
-    object mtbExtraviosval_extrato_franquia: TFloatField
+    object memTableExtraviosval_extrato_franquia: TFloatField
       DisplayLabel = 'D'#233'bito Extrato UN'
       FieldName = 'val_extrato_franquia'
     end
-    object mtbExtraviosdom_extrato_franquia: TStringField
+    object memTableExtraviosdom_extrato_franquia: TStringField
       DisplayLabel = 'Finalizado UN'
       FieldName = 'dom_extrato_franquia'
       Size = 1
     end
-    object mtbExtraviosdat_extravio_franquia: TDateField
+    object memTableExtraviosdat_extravio_franquia: TDateField
       DisplayLabel = 'Data UN'
       FieldName = 'dat_extravio_franquia'
     end
-    object mtbExtraviosdes_envio_correspondencia: TStringField
+    object memTableExtraviosdes_envio_correspondencia: TStringField
       DisplayLabel = 'Envio de Correspond'#234'ncia'
       FieldName = 'des_envio_correspondencia'
     end
-    object mtbExtraviosdes_retorno_correspondencia: TStringField
+    object memTableExtraviosdes_retorno_correspondencia: TStringField
       DisplayLabel = 'Retorno Correspond'#234'ncia'
       FieldName = 'des_retorno_correspondencia'
       Size = 70
     end
-    object mtbExtraviosdes_observacoes: TMemoField
+    object memTableExtraviosdes_observacoes: TMemoField
       DisplayLabel = 'Observa'#231#245'es'
       FieldName = 'des_observacoes'
       BlobType = ftMemo
     end
-    object mtbExtraviosval_percentual_pago: TFloatField
+    object memTableExtraviosval_percentual_pago: TFloatField
       DisplayLabel = 'Percentual Debitado'
       FieldName = 'val_percentual_pago'
     end
-    object mtbExtraviosid_extrato: TIntegerField
+    object memTableExtraviosid_extrato: TIntegerField
       DisplayLabel = 'ID Extrato'
       FieldName = 'id_extrato'
     end
-    object mtbExtraviosseq_acareacao: TIntegerField
+    object memTableExtraviosseq_acareacao: TIntegerField
       DisplayLabel = 'N'#186' Acarea'#231#227'o'
       FieldName = 'seq_acareacao'
     end
-    object mtbExtraviosnom_executor: TStringField
+    object memTableExtraviosnom_executor: TStringField
       DisplayLabel = 'Usu'#225'rio'
       FieldName = 'nom_executor'
     end
-    object mtbExtraviosdat_manutencao: TDateTimeField
+    object memTableExtraviosdat_manutencao: TDateTimeField
       DisplayLabel = 'Manuten'#231#227'o'
       FieldName = 'dat_manutencao'
     end
-    object mtbExtraviosnum_extrato: TStringField
+    object memTableExtraviosnum_extrato: TStringField
       DisplayLabel = 'N'#176' Extrato'
       FieldName = 'num_extrato'
       Size = 30
     end
+  end
+  object dsExtravios: TDataSource
+    AutoEdit = False
+    DataSet = memTableExtravios
+    Left = 104
+    Top = 8
+  end
+  object memTableLancamentos: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 216
+    Top = 8
+    object memTableLancamentoscod_lancamento: TIntegerField
+      DisplayLabel = 'ID'
+      FieldName = 'cod_lancamento'
+    end
+    object memTableLancamentosdes_lancamento: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'des_lancamento'
+      Size = 256
+    end
+    object memTableLancamentosdat_lancamento: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'dat_lancamento'
+    end
+    object memTableLancamentoscod_entregador: TIntegerField
+      DisplayLabel = 'Entregador'
+      FieldName = 'cod_entregador'
+    end
+    object memTableLancamentoscod_entregador_: TIntegerField
+      DisplayLabel = 'Entregador_'
+      FieldName = 'cod_entregador_'
+    end
+    object memTableLancamentosdes_tipo: TStringField
+      DisplayLabel = 'Tipo'
+      FieldName = 'des_tipo'
+      Size = 10
+    end
+    object memTableLancamentosval_lancamento: TFloatField
+      DisplayLabel = 'Valor'
+      FieldName = 'val_lancamento'
+    end
+    object memTableLancamentosdom_desconto: TStringField
+      FieldName = 'dom_desconto'
+      Size = 1
+    end
+    object memTableLancamentosdat_desconto: TDateField
+      DisplayLabel = 'Data Desconto'
+      FieldName = 'dat_desconto'
+    end
+    object memTableLancamentosnum_extrato: TStringField
+      DisplayLabel = 'Extrato'
+      FieldName = 'num_extrato'
+      Size = 15
+    end
+    object memTableLancamentosdom_persistir: TStringField
+      DisplayLabel = 'Persistir'
+      FieldName = 'dom_persistir'
+      Size = 1
+    end
+  end
+  object dsLancamentos: TDataSource
+    AutoEdit = False
+    DataSet = memTableLancamentos
+    Left = 256
+    Top = 8
+  end
+  object memTableExpressas: TFDMemTable
+    OnCalcFields = memTableExpressasCalcFields
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 760
+    Top = 8
+    object memTableExpressasdat_baixa: TDateField
+      DisplayLabel = 'Data Baixa'
+      FieldName = 'dat_baixa'
+    end
+    object memTableExpressasqtd_entregas: TIntegerField
+      DisplayLabel = 'Entregas'
+      FieldName = 'qtd_entregas'
+    end
+    object memTableExpressasqtd_volumes: TIntegerField
+      DisplayLabel = 'Volumes'
+      FieldName = 'qtd_volumes'
+    end
+    object memTableExpressasval_verba_entregador: TCurrencyField
+      DisplayLabel = 'Val. Verba'
+      FieldName = 'val_verba_entregador'
+    end
+    object memTableExpressasval_producao: TCurrencyField
+      DisplayLabel = 'Produ'#231#227'o'
+      FieldKind = fkCalculated
+      FieldName = 'val_producao'
+      Calculated = True
+    end
+  end
+  object dsExpressas: TDataSource
+    AutoEdit = False
+    DataSet = memTableExpressas
+    Left = 800
+    Top = 8
+  end
+  object SaveDialog: TSaveDialog
+    Left = 640
+    Top = 16
   end
 end

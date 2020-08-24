@@ -134,6 +134,7 @@ interface
       function EntregasExtrato(aParam: Array of variant): TFDQuery;
       function EncerraEntregas(aParam: Array of variant): Boolean;
       function GetField(sField: String; sKey: String; sKeyValue: String): String;
+      function GetAReceber(iEntregador: Integer): TFDQuery;
 
     end;
 
@@ -349,6 +350,23 @@ begin
     FDQuery.Connection.Close;
     FDQuery.Free;
   end;
+end;
+
+function TEntregas.GetAReceber(iEntregador: Integer): TFDQuery;
+var
+  FDQuery: TFDQuery;
+  sSQL: String;
+begin
+  FDQuery := FConexao.ReturnQuery();
+  FDQuery.SQL.Clear;
+  sSQL := 'select dat_baixa, count(num_nossonumero) as qtd_entregas, sum(qtd_volumes) as qtd_volumes, val_verba_entregador from ' +
+          TABLENAME + ' where dom_baixado = "S" and dom_fechado = "N" and cod_entregador = :cod_entregador and ' +
+          'dat_baixa > "2020-06-25" ' +
+          'group by dat_baixa, val_verba_entregador;';
+  FDQuery.SQL.Add(sSQL);
+  FDQuery.ParamByName('cod_entregador').AsInteger := iEntregador;
+  FDQuery.Open();
+  Result := FDQuery;
 end;
 
 function TEntregas.GetField(sField, sKey, sKeyValue: String): String;

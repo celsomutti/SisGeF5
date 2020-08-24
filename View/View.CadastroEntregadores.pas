@@ -13,7 +13,8 @@ uses
   cxTextEdit, cxMaskEdit, cxButtonEdit, cxCurrencyEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, Control.VerbasExpressas,
   Control.TiposVerbasExpressas, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
   cxCheckBox, Data.Bind.EngExt, Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors, Data.Bind.Components,
-  Data.Bind.DBScope, Control.EntregadoresExpressas, Control.Bases, Control.Cadastro, cxDBEdit, cxImageComboBox;
+  Data.Bind.DBScope, Control.EntregadoresExpressas, Control.Bases, Control.Cadastro, cxDBEdit, cxImageComboBox, cxBlobEdit,
+  Control.ExtraviosMultas, Control.Lancamentos, Control.Entregas;
 
 type
   Tview_CadastroEntregadores = class(TForm)
@@ -100,8 +101,6 @@ type
     layoutItemTextEditDescricaoTabela: TdxLayoutItem;
     buttonEditCodigoFaixa: TcxButtonEdit;
     layoutItemButtonEditCodigoFaixa: TdxLayoutItem;
-    textEditDescricaoFaixa: TcxTextEdit;
-    layoutItemTextEditDescricaoFaixa: TdxLayoutItem;
     LinkPropertyToFieldEditValue: TLinkPropertyToField;
     LinkPropertyToFieldEditValue3: TLinkPropertyToField;
     LinkPropertyToFieldEditValue4: TLinkPropertyToField;
@@ -117,36 +116,109 @@ type
     buttonEditar: TcxButton;
     layoutItemButtonEditar: TdxLayoutItem;
     layoutGroupHistorico: TdxLayoutGroup;
-    layoutItemExtravios: TdxLayoutItem;
-    layoutItemLancamentos: TdxLayoutItem;
-    dxLayoutItem3: TdxLayoutItem;
-    mtbExtravios: TFDMemTable;
-    mtbExtravioscod_extravio: TIntegerField;
-    mtbExtraviosdes_extravio: TStringField;
-    mtbExtraviosnum_nossonumero: TStringField;
-    mtbExtravioscod_agente: TIntegerField;
-    mtbExtraviosval_produto: TFloatField;
-    mtbExtraviosdat_extravio: TDateField;
-    mtbExtraviosval_multa: TFloatField;
-    mtbExtraviosval_verba: TFloatField;
-    mtbExtraviosval_total: TFloatField;
-    mtbExtraviosdom_restricao: TStringField;
-    mtbExtravioscod_entregador: TIntegerField;
-    mtbExtravioscod_tipo: TIntegerField;
-    mtbExtraviosval_verba_franquia: TFloatField;
-    mtbExtraviosval_extrato_franquia: TFloatField;
-    mtbExtraviosdom_extrato_franquia: TStringField;
-    mtbExtraviosdat_extravio_franquia: TDateField;
-    mtbExtraviosdes_envio_correspondencia: TStringField;
-    mtbExtraviosdes_retorno_correspondencia: TStringField;
-    mtbExtraviosdes_observacoes: TMemoField;
-    mtbExtraviosval_percentual_pago: TFloatField;
-    mtbExtraviosid_extrato: TIntegerField;
-    mtbExtraviosseq_acareacao: TIntegerField;
-    mtbExtraviosnom_executor: TStringField;
-    mtbExtraviosdat_manutencao: TDateTimeField;
-    mtbExtraviosnum_extrato: TStringField;
+    memTableExtravios: TFDMemTable;
+    memTableExtravioscod_extravio: TIntegerField;
+    memTableExtraviosdes_extravio: TStringField;
+    memTableExtraviosnum_nossonumero: TStringField;
+    memTableExtravioscod_agente: TIntegerField;
+    memTableExtraviosval_produto: TFloatField;
+    memTableExtraviosdat_extravio: TDateField;
+    memTableExtraviosval_multa: TFloatField;
+    memTableExtraviosval_verba: TFloatField;
+    memTableExtraviosval_total: TFloatField;
+    memTableExtraviosdom_restricao: TStringField;
+    memTableExtravioscod_entregador: TIntegerField;
+    memTableExtravioscod_tipo: TIntegerField;
+    memTableExtraviosval_verba_franquia: TFloatField;
+    memTableExtraviosval_extrato_franquia: TFloatField;
+    memTableExtraviosdom_extrato_franquia: TStringField;
+    memTableExtraviosdat_extravio_franquia: TDateField;
+    memTableExtraviosdes_envio_correspondencia: TStringField;
+    memTableExtraviosdes_retorno_correspondencia: TStringField;
+    memTableExtraviosdes_observacoes: TMemoField;
+    memTableExtraviosval_percentual_pago: TFloatField;
+    memTableExtraviosid_extrato: TIntegerField;
+    memTableExtraviosseq_acareacao: TIntegerField;
+    memTableExtraviosnom_executor: TStringField;
+    memTableExtraviosdat_manutencao: TDateTimeField;
+    memTableExtraviosnum_extrato: TStringField;
     actHistorico: TAction;
+    gridExtraviosDBTableViewExtravios: TcxGridDBTableView;
+    gridExtraviosLevelExtavios: TcxGridLevel;
+    gridExtravios: TcxGrid;
+    layoutItemExtravios: TdxLayoutItem;
+    dsExtravios: TDataSource;
+    gridExtraviosDBTableViewExtravioscod_extravio: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosdes_extravio: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosnum_nossonumero: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtravioscod_agente: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosval_produto: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosdat_extravio: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosval_multa: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosval_verba: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosval_total: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosdom_restricao: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtravioscod_entregador: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtravioscod_tipo: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosval_verba_franquia: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosval_extrato_franquia: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosdom_extrato_franquia: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosdat_extravio_franquia: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosdes_envio_correspondencia: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosdes_retorno_correspondencia: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosdes_observacoes: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosval_percentual_pago: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosid_extrato: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosseq_acareacao: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosnom_executor: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosdat_manutencao: TcxGridDBColumn;
+    gridExtraviosDBTableViewExtraviosnum_extrato: TcxGridDBColumn;
+    memTableLancamentos: TFDMemTable;
+    memTableLancamentoscod_lancamento: TIntegerField;
+    memTableLancamentosdes_lancamento: TStringField;
+    memTableLancamentosdat_lancamento: TDateField;
+    memTableLancamentoscod_entregador: TIntegerField;
+    memTableLancamentoscod_entregador_: TIntegerField;
+    memTableLancamentosdes_tipo: TStringField;
+    memTableLancamentosval_lancamento: TFloatField;
+    memTableLancamentosdat_desconto: TDateField;
+    memTableLancamentosnum_extrato: TStringField;
+    memTableLancamentosdom_persistir: TStringField;
+    gridLancamentosDBTableViewLancamentos: TcxGridDBTableView;
+    gridLancamentosLevelLancamentos: TcxGridLevel;
+    gridLancamentos: TcxGrid;
+    layoutItemLancamentos: TdxLayoutItem;
+    dsLancamentos: TDataSource;
+    gridLancamentosDBTableViewLancamentoscod_lancamento: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentosdes_lancamento: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentosdat_lancamento: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentoscod_entregador: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentoscod_entregador_: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentosdes_tipo: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentosval_lancamento: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentosdom_desconto: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentosdat_desconto: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentosnum_extrato: TcxGridDBColumn;
+    gridLancamentosDBTableViewLancamentosdom_persistir: TcxGridDBColumn;
+    gridRemessasDBTableViewRemessas: TcxGridDBTableView;
+    gridRemessasLevelRemessas: TcxGridLevel;
+    gridRemessas: TcxGrid;
+    layoutItemREmessas: TdxLayoutItem;
+    memTableExpressas: TFDMemTable;
+    memTableExpressasval_verba_entregador: TCurrencyField;
+    memTableExpressasqtd_volumes: TIntegerField;
+    memTableExpressasqtd_entregas: TIntegerField;
+    memTableExpressasval_producao: TCurrencyField;
+    memTableExpressasdat_baixa: TDateField;
+    dsExpressas: TDataSource;
+    gridRemessasDBTableViewRemessasdat_baixa: TcxGridDBColumn;
+    gridRemessasDBTableViewRemessasqtd_entregas: TcxGridDBColumn;
+    gridRemessasDBTableViewRemessasqtd_volumes: TcxGridDBColumn;
+    gridRemessasDBTableViewRemessasval_verba: TcxGridDBColumn;
+    gridRemessasDBTableViewRemessasval_producao: TcxGridDBColumn;
+    memTableLancamentosdom_desconto: TStringField;
+    actionPesquisarFaixas: TAction;
+    SaveDialog: TSaveDialog;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -157,11 +229,20 @@ type
       var Error: Boolean);
     procedure buttonEditPessoaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
       var Error: Boolean);
-    procedure lookupComboBoxTabelaPropertiesChange(Sender: TObject);
     procedure actionPesquisarTabelasExecute(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
     procedure buttonEditCodigoTabelaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
       var Error: Boolean);
+    procedure memTableExpressasCalcFields(DataSet: TDataSet);
+    procedure actionCancelarExecute(Sender: TObject);
+    procedure actionEditarExecute(Sender: TObject);
+    procedure actionPesquisarFaixasExecute(Sender: TObject);
+    procedure gridExtraviosDBTableViewExtraviosNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
+      var ADone: Boolean);
+    procedure gridLancamentosDBTableViewLancamentosNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
+      var ADone: Boolean);
+    procedure gridRemessasDBTableViewRemessasNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
+      var ADone: Boolean);
   private
     { Private declarations }
     procedure PopulaTabelas;
@@ -171,11 +252,19 @@ type
     procedure PesquisaTabelas;
     procedure PesquisaFaixas;
     procedure PesquisaEntregadores;
+    procedure PopulaExtravios(iEntregador: integer);
+    procedure PopulaLancamentos(iCadastro: integer);
+    procedure PopulaExpressas(iEntregador: integer);
     procedure Gravar;
+    procedure ExportarExtravios;
+    procedure ExportaLancamentos;
+    procedure ExportaExpressas;
     function RetornaNomeAgente(iCodigo: integer): String;
     function RetornaNomePessoa(iCodigo: integer): String;
     function RetornaDescricaoTabela(iCodigo: integer): string;
     function RetornaValorFaixa(iCliente,iTabela,iFaixa: Integer): String;
+    function ValidaDados(): boolean;
+
     procedure Modo;
   public
     { Public declarations }
@@ -189,6 +278,18 @@ implementation
 {$R *.dfm}
 
 uses Data.SisGeF, View.PesquisarPessoas;
+
+procedure Tview_CadastroEntregadores.actionCancelarExecute(Sender: TObject);
+begin
+  Facao := tacIndefinido;
+  Modo;
+end;
+
+procedure Tview_CadastroEntregadores.actionEditarExecute(Sender: TObject);
+begin
+  FAcao := tacAlterar;
+  Modo;
+end;
 
 procedure Tview_CadastroEntregadores.actionFecharExecute(Sender: TObject);
 begin
@@ -218,6 +319,11 @@ procedure Tview_CadastroEntregadores.actionNovoExecute(Sender: TObject);
 begin
   FAcao := tacIncluir;
   memTableEntregadores.Insert;
+end;
+
+procedure Tview_CadastroEntregadores.actionPesquisarFaixasExecute(Sender: TObject);
+begin
+  PesquisaFaixas;
 end;
 
 procedure Tview_CadastroEntregadores.actionPesquisarTabelasExecute(Sender: TObject);
@@ -252,8 +358,47 @@ begin
   end;
 end;
 
+procedure Tview_CadastroEntregadores.ExportaExpressas;
+begin
+  SaveDialog.Filter := '';
+  SaveDialog.Filter := 'Excel (*.xls) |*.xls|XML (*.xml) |*.xml|Arquivo Texto (*.txt) |*.txt|Página Web (*.html)|*.html|Arquivo separado por virgulas (*.csv)|*.csv';
+  SaveDialog.Title := 'Exportar Dados';
+  SaveDialog.DefaultExt := 'xls';
+  if SaveDialog.Execute then
+  begin
+    TUtils.ExportarDados(gridRemessas, SaveDialog.FileName);
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.ExportaLancamentos;
+begin
+  SaveDialog.Filter := '';
+  SaveDialog.Filter := 'Excel (*.xls) |*.xls|XML (*.xml) |*.xml|Arquivo Texto (*.txt) |*.txt|Página Web (*.html)|*.html|Arquivo separado por virgulas (*.csv)|*.csv';
+  SaveDialog.Title := 'Exportar Dados';
+  SaveDialog.DefaultExt := 'xls';
+  if SaveDialog.Execute then
+  begin
+    TUtils.ExportarDados(gridLancamentos, SaveDialog.FileName);
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.ExportarExtravios;
+begin
+  SaveDialog.Filter := '';
+  SaveDialog.Filter := 'Excel (*.xls) |*.xls|XML (*.xml) |*.xml|Arquivo Texto (*.txt) |*.txt|Página Web (*.html)|*.html|Arquivo separado por virgulas (*.csv)|*.csv';
+  SaveDialog.Title := 'Exportar Dados';
+  SaveDialog.DefaultExt := 'xls';
+  if SaveDialog.Execute then
+  begin
+    TUtils.ExportarDados(gridExtravios, SaveDialog.FileName);
+  end;
+end;
+
 procedure Tview_CadastroEntregadores.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  if memTableExtravios.Active then memTableExtravios.Close;
+  if memTableLancamentos.Active then memTableLancamentos.Close;
+  if memTableExpressas.Active then memTableExpressas.Close;
   if memTableEntregadores.Active then memTableEntregadores.Close;
   if memTableFaixas.Active then memTableFaixas.Close;
   if mtbTipos.Active then mtbTipos.Close;
@@ -272,16 +417,74 @@ begin
 end;
 
 procedure Tview_CadastroEntregadores.Gravar;
+var
+  entregadores : TEntregadoresExpressasControl;
 begin
-
+  try
+    entregadores := TEntregadoresExpressasControl.Create;
+    entregadores.Entregadores.Cadastro := memTableEntregadorescod_cadastro.AsInteger;
+    entregadores.Entregadores.Entregador := memTableEntregadorescod_entregador.AsInteger;
+    entregadores.Entregadores.Fantasia := memTableEntregadoresnom_fantasia.AsString;
+    entregadores.Entregadores.Agente := memTableEntregadorescod_agente.AsInteger;
+    entregadores.Entregadores.Data := memTableEntregadoresdat_codigo.AsDateTime;
+    entregadores.Entregadores.Chave := memTableEntregadoresdes_chave.AsString;
+    entregadores.Entregadores.Grupo := memTableEntregadorescod_grupo.AsInteger;
+    entregadores.Entregadores.Verba := memTableEntregadoresval_verba.AsFloat;
+    entregadores.Entregadores.Executor := Global.Parametros.pUser_Name;
+    entregadores.Entregadores.Tabela := memTableEntregadorescod_tabela.AsInteger;
+    entregadores.Entregadores.Cliente := memTableEntregadorescod_cliente.AsInteger;
+    entregadores.Entregadores.Manutencao := Now();
+    entregadores.Entregadores.Acao := FAcao;
+    if Application.MessageBox('Confirma a gravação dos dados?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = ID_YES then
+    begin
+      if ValidaDados() then
+      begin
+        if not entregadores.Gravar() then
+        begin
+          Application.MessageBox('Ocorreu um problema ao tentar gravar os dados!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          Exit;
+        end
+        else
+        begin
+          Application.MessageBox('Dados gravados com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+          FAcao := tacIndefinido;
+          Modo;
+          Exit;
+        end;
+      end;
+    end;
+  finally
+    entregadores.Free;
+  end;
 end;
 
-procedure Tview_CadastroEntregadores.lookupComboBoxTabelaPropertiesChange(Sender: TObject);
+procedure Tview_CadastroEntregadores.gridExtraviosDBTableViewExtraviosNavigatorButtonsButtonClick(Sender: TObject;
+  AButtonIndex: Integer; var ADone: Boolean);
 begin
-//  if (Facao =  tacIncluir) or (FAcao = tacAlterar) then
-//  begin
-//    PopulaFaixas(StrToIntDef(lookupComboBoxTabela.EditValue, 0));
-//  end;
+  case AButtonIndex of
+    16: ExportarExtravios;
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.gridLancamentosDBTableViewLancamentosNavigatorButtonsButtonClick(Sender: TObject;
+  AButtonIndex: Integer; var ADone: Boolean);
+begin
+    case AButtonIndex of
+    16: ExportaLancamentos;
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.gridRemessasDBTableViewRemessasNavigatorButtonsButtonClick(Sender: TObject;
+  AButtonIndex: Integer; var ADone: Boolean);
+begin
+    case AButtonIndex of
+    16: ExportaExpressas;
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.memTableExpressasCalcFields(DataSet: TDataSet);
+begin
+  memTableExpressasval_producao.AsFloat := memTableExpressasval_verba_entregador.AsFloat * memTableExpressasqtd_entregas.AsInteger;
 end;
 
 procedure Tview_CadastroEntregadores.Modo;
@@ -302,6 +505,14 @@ begin
     buttonEditCodigoFaixa.Properties.ReadOnly := True;
     currencyEditTicketMedio.Properties.ReadOnly := True;
     checkBoxAtivo.Properties.ReadOnly := True;
+    layoutGroupHistorico.Visible := False;
+    if memTableExtravios.Active then memTableExtravios.Close;
+    if memTableLancamentos.Active then memTableLancamentos.Close;
+    if memTableExpressas.Active then memTableExpressas.Close;
+    if memTableEntregadores.Active then memTableEntregadores.Close;
+    textEditDescricaoTabela.Text := '';
+    textEditNomeAgente.Text := '';
+    textEditNomePessoa.Text := '';
   end
   else if FAcao = tacIncluir then
   begin
@@ -319,6 +530,10 @@ begin
     buttonEditCodigoFaixa.Properties.ReadOnly := False;
     currencyEditTicketMedio.Properties.ReadOnly := False;
     checkBoxAtivo.Properties.ReadOnly := False;
+    layoutGroupHistorico.Visible := False;
+    textEditDescricaoTabela.Text := '';
+    textEditNomeAgente.Text := '';
+    textEditNomePessoa.Text := '';
   end
   else if FAcao = tacAlterar then
   begin
@@ -336,6 +551,7 @@ begin
     buttonEditCodigoFaixa.Properties.ReadOnly := False;
     currencyEditTicketMedio.Properties.ReadOnly := False;
     checkBoxAtivo.Properties.ReadOnly := False;
+    layoutGroupHistorico.Visible := True;
   end
   else if FAcao = tacPesquisa then
   begin
@@ -353,6 +569,7 @@ begin
     buttonEditCodigoFaixa.Properties.ReadOnly := True;
     currencyEditTicketMedio.Properties.ReadOnly := True;
     checkBoxAtivo.Properties.ReadOnly := True;
+    layoutGroupHistorico.Visible := True;
   end;
 end;
 
@@ -436,7 +653,7 @@ begin
       begin
         memTableEntregadores.Close;
       end;
-      memTableEntregadores.Data := entregadores.Localizar(aParam);
+      memTableEntregadores.Data := entregadores.Localizar(aParam).Data;
       Finalize(aParam);
       if not memTableEntregadores.IsEmpty then
       begin
@@ -444,6 +661,9 @@ begin
         textEditNomeAgente.Text := RetornaNomeAgente(memTableEntregadorescod_agente.AsInteger);
         textEditDescricaoTabela.Text := RetornaDescricaoTabela(memTableEntregadorescod_tabela.AsInteger);
         FAcao := tacPesquisa;
+        PopulaExtravios(memTableEntregadorescod_entregador.AsInteger);
+        PopulaLancamentos(memTableEntregadorescod_cadastro.AsInteger);
+        PopulaExpressas(memTableEntregadorescod_entregador.AsInteger);
         Modo;
       end;
     end;
@@ -479,7 +699,7 @@ begin
     end;
     View_PesquisarPessoas.dxLayoutItem1.Visible := True;
     View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-    sSQL := 'select distinct id_grupo as "Faixa", concat(format(val_verba,2,"de_DE") as "Ticket Médio" ' +
+    sSQL := 'select distinct id_grupo as "Faixa", concat(format(val_verba,2,"de_DE")) as "Ticket Médio" ' +
             'from expressas_verbas where cod_cliente = ' + imageComboBoxClientes.EditValue +
             ' and cod_tipo = ' + buttonEditCodigoTabela.EditingValue;
     sWhere := '';
@@ -490,8 +710,7 @@ begin
     View_PesquisarPessoas.Caption := 'Pesquisa de Faixas';
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
-      buttonEditCodigoTabela.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
-      textEditDescricaoTabela.Text := FormatFloat('###,##0.00', View_PesquisarPessoas.qryPesquisa.Fields[2].AsFloat);
+      buttonEditCodigoFaixa.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger;
     end;
   finally
     if View_PesquisarPessoas.qryPesquisa.Active then
@@ -571,6 +790,42 @@ begin
   end;
 end;
 
+procedure Tview_CadastroEntregadores.PopulaExpressas(iEntregador: integer);
+var
+  entregas : TEntregasControl;
+begin
+  try
+    entregas := TEntregasControl.Create;
+    if memTableExpressas.Active then
+    begin
+      memTableExpressas.Close;
+    end;
+    memTableExpressas.CopyDataSet(entregas.GetAReceber(iEntregador));
+  finally
+    entregas.Free;
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.PopulaExtravios(iEntregador: integer);
+var
+  extravios : TExtraviosMultasControl;
+  aParam: array of variant;
+begin
+  try
+    extravios := TExtraviosMultasControl.Create;
+    SetLength(aParam,1);
+    aParam := ['ENTREGADOR', iEntregador];
+    if memTableExtravios.Active then
+    begin
+      memTableExtravios.Close;
+    end;
+    memTableExtravios.CopyDataSet(extravios.Localizar(aParam));
+    Finalize(aParam);
+  finally
+    extravios.Free;
+  end;
+end;
+
 procedure Tview_CadastroEntregadores.PopulaFaixas(iTabela: integer);
 var
   verba: TVerbasExpressasControl;
@@ -594,6 +849,26 @@ begin
     end;
   finally
     verba.Free;
+  end;
+end;
+
+procedure Tview_CadastroEntregadores.PopulaLancamentos(iCadastro: integer);
+var
+  lancamentos : TLancamentosControl;
+  aParam : array of Variant;
+begin
+  try
+    lancamentos := TLancamentosControl.Create;
+    SetLength(aParam,2);
+    aParam := ['CADASTRO', iCadastro];
+    if memTableLancamentos.Active then
+    begin
+      memTableLancamentos.Close;
+    end;
+    memTableLancamentos.Data := lancamentos.Localizar(aParam).Data;
+    Finalize(aParam);
+  finally
+    lancamentos.Free;
   end;
 end;
 
@@ -711,6 +986,104 @@ begin
     Result := sRetorno;
   finally
     verba.Free
+  end;
+end;
+
+function Tview_CadastroEntregadores.ValidaDados: boolean;
+var
+  entregadores: TEntregadoresExpressasControl;
+  tipos: TTiposVerbasExpressasControl;
+  verbas : TVerbasExpressasControl;
+  aParam : array of variant;
+begin
+  try
+    Result := False;
+    entregadores := TEntregadoresExpressasControl.Create;
+    tipos := TTiposVerbasExpressasControl.Create;
+    verbas := TVerbasExpressasControl.Create;
+    if memTableEntregadorescod_entregador.AsInteger = 0 then
+    begin
+      Application.MessageBox('Informe o código do entregador!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if memTableEntregadoresnom_fantasia.AsString = '' then
+    begin
+      Application.MessageBox('Informe o noe Fantasia!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if memTableEntregadorescod_entregador.AsInteger = 0 then
+    begin
+      Application.MessageBox('Informe o código da Pessoa!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if memTableEntregadorescod_agente.AsInteger = 0 then
+    begin
+      Application.MessageBox('Informe o código do Agente!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if textEditCodigoERP.Text = '' then
+    begin
+      Application.MessageBox('Informe o código ERP!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if imageComboBoxClientes.EditValue = 0 then
+    begin
+      Application.MessageBox('Informe o código do cliente!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if Facao = tacIncluir then
+    begin
+      if entregadores.GetField('cod_entregador','cod_entregador',memTableEntregadorescod_entregador.AsString) <> '' then
+      begin
+        Application.MessageBox('Código de entregador já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+      if entregadores.GetField('nom_fantasia','nom_fantasia',memTableEntregadoresnom_fantasia.AsString) <> '' then
+      begin
+        Application.MessageBox('Nome fantasia já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+      if entregadores.GetField('des_chave','des_chave',memTableEntregadoresdes_chave.AsString) <> '' then
+      begin
+        Application.MessageBox('Código ERP já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    if memTableEntregadorescod_tabela.AsInteger <> 0 then
+    begin
+      if tipos.GetField('cod_tipo','cod_tipo',memTableEntregadorescod_tabela.AsString) <> '' then
+      begin
+        Application.MessageBox('Código de tabela não cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+      if memTableEntregadorescod_grupo.AsInteger <> 0 then
+      begin
+        SetLength(aParam,2);
+        aParam := ['FILTRO', 'cod_cliente = ' + memTableEntregadorescod_cliente.AsString + ' and cod_tipo = ' +
+                  memTableEntregadorescod_tabela.AsString + ' and cod_grupo = ' + memTableEntregadorescod_grupo.AsString];
+        if verbas.Localizar(aParam).IsEmpty then
+        begin
+          Application.MessageBox('Faixa de tabela inexistente!', 'Atenção', MB_OK + MB_ICONWARNING);
+          Exit;
+        end;
+      end;
+    end;
+    if (memTableEntregadorescod_tabela.AsInteger = 0) and (memTableEntregadorescod_grupo.AsInteger = 0) and (memTableEntregadoresval_verba.AsFloat = 0) then
+    begin
+      if Application.MessageBox('Nenhum tipo de verba foi informada. Deseja continuar ?','Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+      begin
+        Exit;
+      end;
+    end;
+    Result := True;
+  finally
+    if Length(aParam) <> 0 then
+    begin
+      Finalize(aParam);
+    end;
+    entregadores.Free;
+    tipos.Free;
+    verbas.Free;
   end;
 end;
 

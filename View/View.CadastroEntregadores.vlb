@@ -157,7 +157,7 @@ Coordinates=952,1981,215,36
 Coordinates=952,2036,130,36
 
 []
-Coordinates=330,1450,101,51
+Coordinates=330,1650,147,36
 ExplicitSubNodes=ItemIndex
 
 [layoutItemNomeFantasia]
@@ -318,18 +318,12 @@ Coordinates=191,1330,116,36
 [layoutItemButtonEditCodigoTabela]
 Coordinates=374,1539,214,36
 
-[textEditDescricaoFaixa]
-Coordinates=330,1650,147,36
-
 [layoutItemButtonEditCodigoFaixa]
 Coordinates=374,1649,206,36
 
 [buttonEditCodigoFaixa]
 Coordinates=330,1690,145,80
 ExplicitSubNodes=EditValue;Text
-
-[layoutItemTextEditDescricaoFaixa]
-Coordinates=374,1759,210,36
 
 [memTableEntregadorescod_cliente]
 Coordinates=345,728,217,36
