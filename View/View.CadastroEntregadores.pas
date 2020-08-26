@@ -14,7 +14,7 @@ uses
   Control.TiposVerbasExpressas, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
   cxCheckBox, Data.Bind.EngExt, Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors, Data.Bind.Components,
   Data.Bind.DBScope, Control.EntregadoresExpressas, Control.Bases, Control.Cadastro, cxDBEdit, cxImageComboBox, cxBlobEdit,
-  Control.ExtraviosMultas, Control.Lancamentos, Control.Entregas;
+  Control.ExtraviosMultas, Control.Lancamentos, Control.Entregas, Vcl.Bind.Navigator;
 
 type
   Tview_CadastroEntregadores = class(TForm)
@@ -67,10 +67,7 @@ type
     layoutControlFooter: TdxLayoutControl;
     layoutItemFooter: TdxLayoutItem;
     actionListEntregadores: TActionList;
-    actionNovo: TAction;
-    actionGravar: TAction;
     actionLocalizar: TAction;
-    actionCancelar: TAction;
     actionFechar: TAction;
     buttonNovo: TcxButton;
     layoutItemButtonNovo: TdxLayoutItem;
@@ -88,7 +85,6 @@ type
     BindSourceDB2: TBindSourceDB;
     LinkPropertyToFieldText: TLinkPropertyToField;
     LinkPropertyToFieldEditValue2: TLinkPropertyToField;
-    LinkPropertyToFieldValue: TLinkPropertyToField;
     LinkPropertyToFieldText4: TLinkPropertyToField;
     actionLocalizarAgentes: TAction;
     actionLocalizarPessoas: TAction;
@@ -112,7 +108,6 @@ type
     layoutItemImageComboBoxClientes: TdxLayoutItem;
     LinkPropertyToFieldEditValue6: TLinkPropertyToField;
     LinkPropertyToFieldEditValue7: TLinkPropertyToField;
-    actionEditar: TAction;
     buttonEditar: TcxButton;
     layoutItemButtonEditar: TdxLayoutItem;
     layoutGroupHistorico: TdxLayoutGroup;
@@ -142,7 +137,6 @@ type
     memTableExtraviosnom_executor: TStringField;
     memTableExtraviosdat_manutencao: TDateTimeField;
     memTableExtraviosnum_extrato: TStringField;
-    actHistorico: TAction;
     gridExtraviosDBTableViewExtravios: TcxGridDBTableView;
     gridExtraviosLevelExtavios: TcxGridLevel;
     gridExtravios: TcxGrid;
@@ -219,12 +213,16 @@ type
     memTableLancamentosdom_desconto: TStringField;
     actionPesquisarFaixas: TAction;
     SaveDialog: TSaveDialog;
+    LinkPropertyToFieldValue: TLinkPropertyToField;
+    LiveBindingsBindNavigateInsert1: TBindNavigateInsert;
+    LiveBindingsBindNavigateEdit1: TBindNavigateEdit;
+    LiveBindingsBindNavigatePost1: TBindNavigatePost;
+    LiveBindingsBindNavigateCancel1: TBindNavigateCancel;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionLocalizarAgentesExecute(Sender: TObject);
     procedure actionLocalizarPessoasExecute(Sender: TObject);
-    procedure actionNovoExecute(Sender: TObject);
     procedure buttonEditCodigoAgentePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
       var Error: Boolean);
     procedure buttonEditPessoaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
@@ -234,8 +232,6 @@ type
     procedure buttonEditCodigoTabelaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
       var Error: Boolean);
     procedure memTableExpressasCalcFields(DataSet: TDataSet);
-    procedure actionCancelarExecute(Sender: TObject);
-    procedure actionEditarExecute(Sender: TObject);
     procedure actionPesquisarFaixasExecute(Sender: TObject);
     procedure gridExtraviosDBTableViewExtraviosNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
       var ADone: Boolean);
@@ -243,10 +239,14 @@ type
       var ADone: Boolean);
     procedure gridRemessasDBTableViewRemessasNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
       var ADone: Boolean);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure memTableEntregadoresBeforePost(DataSet: TDataSet);
+    procedure memTableEntregadoresAfterPost(DataSet: TDataSet);
+    procedure LiveBindingsBindNavigateCancel1Execute(Sender: TObject);
+    procedure memTableEntregadoresAfterInsert(DataSet: TDataSet);
+    procedure memTableEntregadoresAfterEdit(DataSet: TDataSet);
   private
     { Private declarations }
-    procedure PopulaTabelas;
-    procedure PopulaFaixas(iTabela: integer);
     procedure PesquisaAgente;
     procedure PesquisaPessoas;
     procedure PesquisaTabelas;
@@ -279,18 +279,6 @@ implementation
 
 uses Data.SisGeF, View.PesquisarPessoas;
 
-procedure Tview_CadastroEntregadores.actionCancelarExecute(Sender: TObject);
-begin
-  Facao := tacIndefinido;
-  Modo;
-end;
-
-procedure Tview_CadastroEntregadores.actionEditarExecute(Sender: TObject);
-begin
-  FAcao := tacAlterar;
-  Modo;
-end;
-
 procedure Tview_CadastroEntregadores.actionFecharExecute(Sender: TObject);
 begin
   FAcao := tacIndefinido;
@@ -313,12 +301,6 @@ end;
 procedure Tview_CadastroEntregadores.actionLocalizarPessoasExecute(Sender: TObject);
 begin
   PesquisaPessoas;
-end;
-
-procedure Tview_CadastroEntregadores.actionNovoExecute(Sender: TObject);
-begin
-  FAcao := tacIncluir;
-  memTableEntregadores.Insert;
 end;
 
 procedure Tview_CadastroEntregadores.actionPesquisarFaixasExecute(Sender: TObject);
@@ -354,7 +336,7 @@ procedure Tview_CadastroEntregadores.buttonEditPessoaPropertiesValidate(Sender: 
 begin
   if (Facao =  tacIncluir) or (FAcao = tacAlterar) then
   begin
-    textEditNomePessoa.Text := RetornaNomeAgente(StrToIntDef(buttonEditPessoa.Text,0));
+    textEditNomePessoa.Text := RetornaNomePessoa(StrToIntDef(buttonEditPessoa.Text,0));
   end;
 end;
 
@@ -406,12 +388,21 @@ begin
   view_CadastroEntregadores := nil;
 end;
 
+procedure Tview_CadastroEntregadores.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if gridExtravios.IsFocused then Exit;
+  if gridLancamentos.IsFocused then Exit;
+  if gridRemessas.IsFocused then Exit;
+  If Key = #13 then
+  begin
+    Key := #0;
+    Perform(Wm_NextDlgCtl, 0, 0);
+  end;
+end;
+
 procedure Tview_CadastroEntregadores.FormShow(Sender: TObject);
 begin
   labelTitle.Caption := Self.Caption;
-  if memTableEntregadores.Active then memTableEntregadores.Close;
-  memTableEntregadores.Open;
-  PopulaTabelas;
   FAcao := tacIndefinido;
   Modo;
 end;
@@ -426,32 +417,56 @@ begin
     entregadores.Entregadores.Entregador := memTableEntregadorescod_entregador.AsInteger;
     entregadores.Entregadores.Fantasia := memTableEntregadoresnom_fantasia.AsString;
     entregadores.Entregadores.Agente := memTableEntregadorescod_agente.AsInteger;
-    entregadores.Entregadores.Data := memTableEntregadoresdat_codigo.AsDateTime;
+    if FAcao = tacIncluir then
+    begin
+      entregadores.Entregadores.Data := Now();
+    end
+    else
+    begin
+      entregadores.Entregadores.Data := memTableEntregadoresdat_codigo.Value;
+    end;
     entregadores.Entregadores.Chave := memTableEntregadoresdes_chave.AsString;
     entregadores.Entregadores.Grupo := memTableEntregadorescod_grupo.AsInteger;
     entregadores.Entregadores.Verba := memTableEntregadoresval_verba.AsFloat;
     entregadores.Entregadores.Executor := Global.Parametros.pUser_Name;
     entregadores.Entregadores.Tabela := memTableEntregadorescod_tabela.AsInteger;
     entregadores.Entregadores.Cliente := memTableEntregadorescod_cliente.AsInteger;
+
+    {entregadores := TEntregadoresExpressasControl.Create;
+    entregadores.Entregadores.Cadastro := buttonEditPessoa.EditValue;
+    entregadores.Entregadores.Entregador := maskEditCodigo.EditValue;
+    entregadores.Entregadores.Fantasia := textEditNomeFantasia.Text;
+    entregadores.Entregadores.Agente := buttonEditCodigoAgente.EditValue;
+    if memTableEntregadoresdat_codigo.Value = 0 then
+    begin
+      entregadores.Entregadores.Data := Now();
+    end
+    else
+    begin
+      entregadores.Entregadores.Data := memTableEntregadoresdat_codigo.Value;
+    end;
+    entregadores.Entregadores.Chave := textEditCodigoERP.Text;
+    entregadores.Entregadores.Grupo := buttonEditCodigoFaixa.EditValue;
+    entregadores.Entregadores.Verba := currencyEditTicketMedio.Value;
+    entregadores.Entregadores.Executor := Global.Parametros.pUser_Name;
+    entregadores.Entregadores.Tabela := buttonEditCodigoTabela.EditValue;
+    entregadores.Entregadores.Cliente := imageComboBoxClientes.ItemIndex;}
+
+
+
     entregadores.Entregadores.Manutencao := Now();
     entregadores.Entregadores.Acao := FAcao;
-    if Application.MessageBox('Confirma a gravação dos dados?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = ID_YES then
+    if not entregadores.Gravar() then
     begin
-      if ValidaDados() then
-      begin
-        if not entregadores.Gravar() then
-        begin
-          Application.MessageBox('Ocorreu um problema ao tentar gravar os dados!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          Exit;
-        end
-        else
-        begin
-          Application.MessageBox('Dados gravados com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
-          FAcao := tacIndefinido;
-          Modo;
-          Exit;
-        end;
-      end;
+      Application.MessageBox('Ocorreu um problema ao tentar gravar os dados!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end
+    else
+    begin
+      Application.MessageBox('Dados gravados com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+      FAcao := tacIndefinido;
+      Modo;
+      Exit;
     end;
   finally
     entregadores.Free;
@@ -482,6 +497,48 @@ begin
   end;
 end;
 
+procedure Tview_CadastroEntregadores.LiveBindingsBindNavigateCancel1Execute(Sender: TObject);
+begin
+  Facao := tacIndefinido;
+  Modo;
+end;
+
+procedure Tview_CadastroEntregadores.memTableEntregadoresAfterEdit(DataSet: TDataSet);
+begin
+  FAcao := tacAlterar;
+  Modo;
+end;
+
+procedure Tview_CadastroEntregadores.memTableEntregadoresAfterInsert(DataSet: TDataSet);
+begin
+  if FAcao = tacPesquisa then Exit;
+  FAcao := tacIncluir;
+  Modo;
+  memTableEntregadorescod_cliente.AsInteger := 0;
+  memTableEntregadoresdom_ativo.AsInteger := 1;
+  maskEditCodigo.SetFocus;
+end;
+
+procedure Tview_CadastroEntregadores.memTableEntregadoresAfterPost(DataSet: TDataSet);
+begin
+  Gravar;
+end;
+
+procedure Tview_CadastroEntregadores.memTableEntregadoresBeforePost(DataSet: TDataSet);
+begin
+  if Application.MessageBox('Confirma a gravação dos dados?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = ID_NO then
+  begin
+    Abort;
+  end
+  else
+  begin
+    if not ValidaDados() then
+    begin
+      Abort;
+    end;
+  end;
+end;
+
 procedure Tview_CadastroEntregadores.memTableExpressasCalcFields(DataSet: TDataSet);
 begin
   memTableExpressasval_producao.AsFloat := memTableExpressasval_verba_entregador.AsFloat * memTableExpressasqtd_entregas.AsInteger;
@@ -491,11 +548,7 @@ procedure Tview_CadastroEntregadores.Modo;
 begin
   if FAcao = tacIndefinido then
   begin
-    actionNovo.Enabled := True;
-    actionEditar.Enabled := False;
-    actionGravar.Enabled := True;
     actionLocalizar.Enabled := True;
-    actionCancelar.Enabled := False;
     maskEditCodigo.Properties.ReadOnly := True;
     buttonEditPessoa.Properties.ReadOnly := True;
     buttonEditCodigoAgente.Properties.ReadOnly := True;
@@ -516,11 +569,7 @@ begin
   end
   else if FAcao = tacIncluir then
   begin
-    actionNovo.Enabled := False;
-    actionEditar.Enabled := False;
-    actionGravar.Enabled := True;
     actionLocalizar.Enabled := False;
-    actionCancelar.Enabled := True;
     maskEditCodigo.Properties.ReadOnly := False;
     buttonEditPessoa.Properties.ReadOnly := False;
     buttonEditCodigoAgente.Properties.ReadOnly := False;
@@ -537,11 +586,7 @@ begin
   end
   else if FAcao = tacAlterar then
   begin
-    actionNovo.Enabled := False;
-    actionEditar.Enabled := False;
-    actionGravar.Enabled := True;
     actionLocalizar.Enabled := False;
-    actionCancelar.Enabled := True;
     maskEditCodigo.Properties.ReadOnly := True;
     buttonEditPessoa.Properties.ReadOnly := False;
     buttonEditCodigoAgente.Properties.ReadOnly := False;
@@ -552,14 +597,11 @@ begin
     currencyEditTicketMedio.Properties.ReadOnly := False;
     checkBoxAtivo.Properties.ReadOnly := False;
     layoutGroupHistorico.Visible := True;
+    maskEditCodigo.Properties.ReadOnly := True;
   end
   else if FAcao = tacPesquisa then
   begin
-    actionNovo.Enabled := False;
-    actionEditar.Enabled := True;
-    actionGravar.Enabled := False;
     actionLocalizar.Enabled := True;
-    actionCancelar.Enabled := True;
     maskEditCodigo.Properties.ReadOnly := True;
     buttonEditPessoa.Properties.ReadOnly := True;
     buttonEditCodigoAgente.Properties.ReadOnly := True;
@@ -699,9 +741,11 @@ begin
     end;
     View_PesquisarPessoas.dxLayoutItem1.Visible := True;
     View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-    sSQL := 'select distinct id_grupo as "Faixa", concat(format(val_verba,2,"de_DE")) as "Ticket Médio" ' +
-            'from expressas_verbas where cod_cliente = ' + imageComboBoxClientes.EditValue +
-            ' and cod_tipo = ' + buttonEditCodigoTabela.EditingValue;
+    sSQL := 'select id_grupo as "Faixa", format(val_verba,2,"de_DE") as "Ticket Médio", ' +
+            'num_cep_inicial as "CEP Inicial", num_cep_final as "CEP Final", format(qtd_peso_inicial,3,"de_DE") as "Peso Inicial", ' +
+            'format(qtd_peso_final,3,"de_DE") as "Peso Final" ' +
+            'from expressas_verbas where cod_cliente = ' + VarToStr(imageComboBoxClientes.EditValue) +
+            ' and cod_tipo = ' + VarToStr(buttonEditCodigoTabela.EditValue);
     sWhere := '';
     View_PesquisarPessoas.dxLayoutItem1.Visible := False;
     View_PesquisarPessoas.sSQL := sSQL;
@@ -826,32 +870,6 @@ begin
   end;
 end;
 
-procedure Tview_CadastroEntregadores.PopulaFaixas(iTabela: integer);
-var
-  verba: TVerbasExpressasControl;
-begin
-  try
-    verba := TVerbasExpressasControl.Create;
-    if memTableFaixas.Active then
-    begin
-      memTableFaixas.Close;
-    end;
-    if not verba.RetornaListaSimples(iTabela, memTableFaixas) then
-    begin
-      Application.MessageBox('Faixas não cadastradas para essa tabela!', 'Atenção', MB_ICONWARNING + MB_OK);
-    end
-    else
-    begin
-      memTableFaixas.Insert;
-      memTableFaixascod_faixa.AsInteger := 0;
-      memTableFaixasdes_faixa.AsString := 'NENHUMA';
-      memTableFaixas.Post;
-    end;
-  finally
-    verba.Free;
-  end;
-end;
-
 procedure Tview_CadastroEntregadores.PopulaLancamentos(iCadastro: integer);
 var
   lancamentos : TLancamentosControl;
@@ -869,34 +887,6 @@ begin
     Finalize(aParam);
   finally
     lancamentos.Free;
-  end;
-end;
-
-procedure Tview_CadastroEntregadores.PopulaTabelas;
-var
-  tipo: TTiposVerbasExpressasControl;
-begin
-  try
-    tipo := TTiposVerbasExpressasControl.Create;
-    if mtbTipos.Active then
-    begin
-      mtbTipos.Close;
-    end;
-    if not tipo.RetornaListaSimples(mtbTipos) then
-    begin
-      Application.MessageBox('Não existem tabelas cadastradas!', 'Atenção', MB_ICONWARNING + MB_OK);
-    end
-    else
-    begin
-      mtbTipos.Insert;
-      mtbTiposcod_tipo.AsInteger := 0;
-      mtbTiposdes_tipo.AsString := 'NENHUMA';
-      mtbTiposdes_colunas.AsString := '';
-      mtbTipos.Post;
-    end;
-
-  finally
-    tipo.Free;
   end;
 end;
 
@@ -1001,22 +991,22 @@ begin
     entregadores := TEntregadoresExpressasControl.Create;
     tipos := TTiposVerbasExpressasControl.Create;
     verbas := TVerbasExpressasControl.Create;
-    if memTableEntregadorescod_entregador.AsInteger = 0 then
+    if maskEditCodigo.EditValue = 0 then
     begin
       Application.MessageBox('Informe o código do entregador!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    if memTableEntregadoresnom_fantasia.AsString = '' then
+    if textEditNomeFantasia.Text = '' then
     begin
       Application.MessageBox('Informe o noe Fantasia!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    if memTableEntregadorescod_entregador.AsInteger = 0 then
+    if buttonEditPessoa.EditValue = 0 then
     begin
       Application.MessageBox('Informe o código da Pessoa!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    if memTableEntregadorescod_agente.AsInteger = 0 then
+    if buttonEditCodigoAgente.EditValue = 0 then
     begin
       Application.MessageBox('Informe o código do Agente!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
@@ -1033,34 +1023,34 @@ begin
     end;
     if Facao = tacIncluir then
     begin
-      if entregadores.GetField('cod_entregador','cod_entregador',memTableEntregadorescod_entregador.AsString) <> '' then
+      if entregadores.GetField('cod_entregador','cod_entregador',VarToStr(maskEditCodigo.EditValue)) <> '' then
       begin
         Application.MessageBox('Código de entregador já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
         Exit;
       end;
-      if entregadores.GetField('nom_fantasia','nom_fantasia',memTableEntregadoresnom_fantasia.AsString) <> '' then
+      if entregadores.GetField('nom_fantasia','nom_fantasia',QuotedStr(textEditNomeFantasia.Text)) <> '' then
       begin
         Application.MessageBox('Nome fantasia já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
         Exit;
       end;
-      if entregadores.GetField('des_chave','des_chave',memTableEntregadoresdes_chave.AsString) <> '' then
+      if entregadores.GetField('des_chave','des_chave',QuotedStr(textEditCodigoERP.Text)) <> '' then
       begin
         Application.MessageBox('Código ERP já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
         Exit;
       end;
     end;
-    if memTableEntregadorescod_tabela.AsInteger <> 0 then
+    if buttonEditCodigoTabela.EditValue <> 0 then
     begin
-      if tipos.GetField('cod_tipo','cod_tipo',memTableEntregadorescod_tabela.AsString) <> '' then
+      if tipos.GetField('cod_tipo','cod_tipo',VarToStr(buttonEditCodigoTabela.EditValue)) = '' then
       begin
         Application.MessageBox('Código de tabela não cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
         Exit;
       end;
-      if memTableEntregadorescod_grupo.AsInteger <> 0 then
+      if buttonEditCodigoFaixa.EditValue <> 0 then
       begin
         SetLength(aParam,2);
-        aParam := ['FILTRO', 'cod_cliente = ' + memTableEntregadorescod_cliente.AsString + ' and cod_tipo = ' +
-                  memTableEntregadorescod_tabela.AsString + ' and cod_grupo = ' + memTableEntregadorescod_grupo.AsString];
+        aParam := ['FILTRO', 'cod_cliente = ' + imageComboBoxClientes.ItemIndex.ToString + ' and cod_tipo = ' +
+                  buttonEditCodigoTabela.EditText + ' and id_grupo = ' + buttonEditCodigoFaixa.EditText];
         if verbas.Localizar(aParam).IsEmpty then
         begin
           Application.MessageBox('Faixa de tabela inexistente!', 'Atenção', MB_OK + MB_ICONWARNING);
@@ -1068,7 +1058,7 @@ begin
         end;
       end;
     end;
-    if (memTableEntregadorescod_tabela.AsInteger = 0) and (memTableEntregadorescod_grupo.AsInteger = 0) and (memTableEntregadoresval_verba.AsFloat = 0) then
+    if (buttonEditCodigoTabela.EditValue = 0) and (buttonEditCodigoFaixa.EditValue = 0) and (currencyEditTicketMedio.Value = 0) then
     begin
       if Application.MessageBox('Nenhum tipo de verba foi informada. Deseja continuar ?','Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
       begin

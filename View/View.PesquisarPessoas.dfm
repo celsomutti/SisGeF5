@@ -3,8 +3,8 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'Pesquisar'
-  ClientHeight = 469
-  ClientWidth = 809
+  ClientHeight = 570
+  ClientWidth = 1038
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -52,15 +52,17 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
   object lcPesquisa: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 809
-    Height = 469
+    Width = 1038
+    Height = 570
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 809
+    ExplicitHeight = 469
     object grdPesquisa: TcxGrid
       Left = 10
       Top = 37
-      Width = 789
-      Height = 391
+      Width = 1018
+      Height = 492
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -113,8 +115,8 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       end
     end
     object cxButton2: TcxButton
-      Left = 629
-      Top = 434
+      Left = 858
+      Top = 535
       Width = 89
       Height = 25
       Cursor = crHandPoint
@@ -122,8 +124,8 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       TabOrder = 3
     end
     object cxButton3: TcxButton
-      Left = 724
-      Top = 434
+      Left = 953
+      Top = 535
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -136,11 +138,11 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       Top = 10
       Style.HotTrack = False
       TabOrder = 0
-      Width = 738
+      Width = 967
     end
     object cxButton1: TcxButton
-      Left = 544
-      Top = 434
+      Left = 773
+      Top = 535
       Width = 79
       Height = 25
       Cursor = crHandPoint
