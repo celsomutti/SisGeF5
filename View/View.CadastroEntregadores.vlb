@@ -109,9 +109,6 @@ Coordinates=952,496,184,33
 [layoutItemCodigoCadastro]
 Coordinates=952,661,145,33
 
-[mtbTipos]
-Coordinates=645,3312,64,105
-
 [memTableEntregadoresnom_executante]
 Coordinates=952,1046,212,33
 
@@ -140,15 +137,8 @@ Coordinates=952,1541,179,33
 [layoutItemNomePessoa]
 Coordinates=952,1596,130,33
 
-[memTableEntregadoresdat_codigo]
-Coordinates=952,1651,186,33
-
 [memTableEntregadores]
-Coordinates=820,1150,131,33
-Visible=False
-
-[dsTipos]
-Coordinates=385,4200,53,33
+Coordinates=961,1160,131,33
 
 [memTableEntregadorescod_tabela]
 Coordinates=952,1981,185,33
@@ -157,8 +147,8 @@ Coordinates=952,1981,185,33
 Coordinates=952,2036,113,33
 
 []
-Coordinates=47,3606,73,33
-ExplicitSubNodes=ItemIndex
+Coordinates=952,1651,186,33
+ExplicitSubNodes=
 
 [layoutItemNomeFantasia]
 Coordinates=191,1902,136,33
@@ -222,12 +212,6 @@ ExplicitSubNodes=Text
 [buttonNovo]
 Coordinates=191,1671,72,51
 
-[memTableFaixasdes_faixa]
-Coordinates=191,2837,144,33
-
-[memTableFaixascod_faixa]
-Coordinates=191,3002,144,33
-
 [actionListEntregadores]
 Coordinates=191,3057,129,33
 
@@ -242,9 +226,6 @@ Coordinates=191,1748,79,51
 
 [dxLayoutAutoCreatedGroup2]
 Coordinates=191,3222,158,33
-
-[dsFaixas]
-Coordinates=191,1550,58,33
 
 [actionLocalizar]
 Coordinates=463,934,89,33
@@ -271,16 +252,6 @@ Coordinates=463,1319,78,33
 [layoutItemButtonLocalizar]
 Coordinates=463,1374,143,33
 
-[memTableFaixas]
-Coordinates=314,1285,97,87
-
-[BindingsList1]
-Coordinates=191,1550,82,33
-
-[BindSourceDB2]
-Coordinates=730,1300,116,303
-ExplicitSubNodes=
-
 [actionLocalizarAgentes]
 Coordinates=191,2517,129,33
 
@@ -296,15 +267,6 @@ Coordinates=191,2947,133,33
 [buttonEditCodigoTabela]
 Coordinates=670,1650,133,69
 ExplicitSubNodes=EditValue;Text
-
-[mtbTiposdes_colunas]
-Coordinates=465,1484,123,33
-
-[mtbTiposdes_tipo]
-Coordinates=191,1275,103,33
-
-[mtbTiposcod_tipo]
-Coordinates=191,1330,103,33
 
 [layoutItemButtonEditCodigoTabela]
 Coordinates=374,1539,186,33

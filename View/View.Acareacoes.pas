@@ -503,19 +503,9 @@ begin
   if FAcareacao.Gravar then
   begin
     Application.MessageBox('Dados gravados com sucesso!', 'Salvar', MB_OK + MB_ICONINFORMATION);
-    if FAcareacao.Acareacoes.Acao = Common.ENum.tacAlterar then
-    begin
-      FAcareacao.Acareacoes.Acao := Common.ENum.tacPesquisa;
-      StatusButton;
-      AccessField(False);
-    end
-    else
-    begin
-      FAcareacao.Acareacoes.Acao := Common.ENum.tacIndefinido;
-      StatusButton;
-      AccessField(False);
-      ClearFields;
-    end;
+    FAcareacao.Acareacoes.Acao := Common.ENum.tacPesquisa;
+    StatusButton;
+    AccessField(False);
   end;
 end;
 
@@ -649,7 +639,7 @@ begin
       end;
       dValor := FDQuery.FieldByName('VAL_PRODUTO').AsFloat;
     end;
-    if sConsumidor.IsEmpty then sConsumidor := 'NONE';
+    if sConsumidor.IsEmpty then sConsumidor := '';
     if sPedido.IsEmpty then sPedido := '0';
     FDQuery.Close;
     SetLength(aParam,3);
@@ -663,7 +653,7 @@ begin
       sCliente := FDQuery.FieldByName('COD_CLIENTE').AsString + ' - ' + FDQuery.FieldByName('NOM_CLIENTE').AsString;
     end;
     FDQuery.Close;
-    if sCliente.IsEmpty then sCliente := 'NONE';
+    if sCliente.IsEmpty then sCliente := '';
     txtConsumidor.Text := sConsumidor;
     txtNomeCliente.Text := sCliente;
     txtPedido.Text := sPedido;
@@ -760,8 +750,8 @@ begin
     end;
     while sCliente.IsEmpty do
     begin
-      sConsumidor := InputBox('Cliente', 'Informe o código e o nome do Clente','');
-      if sConsumidor.IsEmpty then
+      sCliente := InputBox('Cliente', 'Informe o código e o nome do Clente','');
+      if sCliente.IsEmpty then
       begin
         Application.MessageBox('Iforme o código e o nome do Cliente!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
       end;

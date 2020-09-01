@@ -10,6 +10,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   Font.Height = -11
   Font.Name = 'Segoe UI'
   Font.Style = []
+  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
@@ -455,6 +456,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Width = 846
         Height = 186
         TabOrder = 14
+        Visible = False
         object gridLancamentosDBTableViewLancamentos: TcxGridDBTableView
           Navigator.Buttons.OnButtonClick = gridLancamentosDBTableViewLancamentosNavigatorButtonsButtonClick
           Navigator.Buttons.CustomButtons = <
@@ -564,6 +566,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Width = 846
         Height = 186
         TabOrder = 15
+        Visible = False
         object gridRemessasDBTableViewRemessas: TcxGridDBTableView
           Navigator.Buttons.OnButtonClick = gridRemessasDBTableViewRemessasNavigatorButtonsButtonClick
           Navigator.Buttons.CustomButtons = <
@@ -894,7 +897,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Width = 86
         Height = 25
         Cursor = crHandPoint
-        Action = LiveBindingsBindNavigateInsert1
+        Action = actionNovo
         TabOrder = 0
       end
       object buttonLocalizar: TcxButton
@@ -912,7 +915,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Width = 82
         Height = 25
         Cursor = crHandPoint
-        Action = LiveBindingsBindNavigateCancel1
+        Action = actionCancelar
         Cancel = True
         TabOrder = 3
       end
@@ -922,7 +925,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Width = 82
         Height = 25
         Cursor = crHandPoint
-        Action = LiveBindingsBindNavigatePost1
+        Action = actionGravar
         TabOrder = 4
       end
       object buttonFechar: TcxButton
@@ -939,7 +942,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Top = 11
         Width = 82
         Height = 25
-        Action = LiveBindingsBindNavigateEdit1
+        Action = actionEditar
         TabOrder = 1
       end
       object layoutControlFooterGroup_Root: TdxLayoutGroup
@@ -1073,10 +1076,6 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     end
   end
   object memTableEntregadores: TFDMemTable
-    AfterInsert = memTableEntregadoresAfterInsert
-    AfterEdit = memTableEntregadoresAfterEdit
-    BeforePost = memTableEntregadoresBeforePost
-    AfterPost = memTableEntregadoresAfterPost
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -1084,7 +1083,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 536
+    Left = 456
     Top = 8
     object memTableEntregadorescod_cadastro: TIntegerField
       FieldName = 'cod_cadastro'
@@ -1099,7 +1098,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     object memTableEntregadorescod_agente: TIntegerField
       FieldName = 'cod_agente'
     end
-    object memTableEntregadoresdat_codigo: TDateField
+    object memTableEntregadoresdat_codigo: TDateTimeField
       FieldName = 'dat_codigo'
     end
     object memTableEntregadoresdes_chave: TStringField
@@ -1130,59 +1129,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   end
   object dsEntregadores: TDataSource
     DataSet = memTableEntregadores
-    Left = 592
-    Top = 8
-  end
-  object mtbTipos: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 432
-    Top = 8
-    object mtbTiposcod_tipo: TIntegerField
-      FieldName = 'cod_tipo'
-    end
-    object mtbTiposdes_tipo: TStringField
-      FieldName = 'des_tipo'
-      Size = 50
-    end
-    object mtbTiposdes_colunas: TStringField
-      FieldName = 'des_colunas'
-      Size = 50
-    end
-  end
-  object dsTipos: TDataSource
-    AutoEdit = False
-    DataSet = mtbTipos
-    Left = 480
-    Top = 8
-  end
-  object memTableFaixas: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 672
-    Top = 8
-    object memTableFaixascod_faixa: TIntegerField
-      FieldName = 'cod_faixa'
-    end
-    object memTableFaixasdes_faixa: TStringField
-      FieldName = 'des_faixa'
-      Size = 70
-    end
-  end
-  object dsFaixas: TDataSource
-    AutoEdit = False
-    DataSet = memTableFaixas
-    Left = 720
+    Left = 512
     Top = 8
   end
   object actionListEntregadores: TActionList
@@ -1232,120 +1179,37 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       ImageIndex = 14
       OnExecute = actionPesquisarFaixasExecute
     end
-    object LiveBindingsBindNavigateInsert1: TBindNavigateInsert
-      Category = 'LiveBindings'
-      Caption = 'Inserir'
-      Hint = 'Inserir novo entregador'
+    object actionNovo: TAction
+      Category = 'Entregadores'
+      Caption = 'Novo'
+      Hint = 'Novo entregador'
       ImageIndex = 3
       ShortCut = 113
-      DataSource = BindSourceDB2
+      OnExecute = actionNovoExecute
     end
-    object LiveBindingsBindNavigateEdit1: TBindNavigateEdit
-      Category = 'LiveBindings'
+    object actionEditar: TAction
+      Category = 'Entregadores'
       Caption = 'Editar'
       Hint = 'Editar dados'
       ImageIndex = 10
       ShortCut = 114
-      DataSource = BindSourceDB2
+      OnExecute = actionEditarExecute
     end
-    object LiveBindingsBindNavigatePost1: TBindNavigatePost
-      Category = 'LiveBindings'
+    object actionCancelar: TAction
+      Category = 'Entregadores'
+      Caption = 'Cancelar'
+      Hint = 'Cancelar opera'#231#227'o'
+      ImageIndex = 2
+      OnExecute = actionCancelarExecute
+    end
+    object actionGravar: TAction
+      Category = 'Entregadores'
       Caption = 'Gravar'
       Hint = 'Gravar os dados'
       ImageIndex = 13
       ShortCut = 116
-      DataSource = BindSourceDB2
+      OnExecute = actionGravarExecute
     end
-    object LiveBindingsBindNavigateCancel1: TBindNavigateCancel
-      Category = 'LiveBindings'
-      Caption = 'Cancelar'
-      Hint = 'Cancelar opera'#231#227'o'
-      ImageIndex = 2
-      OnExecute = LiveBindingsBindNavigateCancel1Execute
-      DataSource = BindSourceDB2
-    end
-  end
-  object BindingsList1: TBindingsList
-    Methods = <>
-    OutputConverters = <>
-    Left = 292
-    Top = 5
-    object LinkPropertyToFieldText: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'nom_fantasia'
-      Component = textEditNomeFantasia
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldEditValue2: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'dom_ativo'
-      Component = checkBoxAtivo
-      ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldText4: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'des_chave'
-      Component = textEditCodigoERP
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldEditValue: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_grupo'
-      Component = buttonEditCodigoFaixa
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldEditValue3: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_entregador'
-      Component = maskEditCodigo
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldEditValue4: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_cadastro'
-      Component = buttonEditPessoa
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldEditValue5: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_agente'
-      Component = buttonEditCodigoAgente
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldEditValue6: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_cliente'
-      Component = imageComboBoxClientes
-      ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldEditValue7: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'cod_tabela'
-      Component = buttonEditCodigoTabela
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldValue: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB2
-      FieldName = 'val_verba'
-      Component = currencyEditTicketMedio
-      ComponentProperty = 'Value'
-    end
-  end
-  object BindSourceDB2: TBindSourceDB
-    DataSet = memTableEntregadores
-    ScopeMappings = <>
-    Left = 328
-    Top = 8
   end
   object memTableExtravios: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -1544,7 +1408,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 760
+    Left = 576
     Top = 8
     object memTableExpressasdat_baixa: TDateField
       DisplayLabel = 'Data Baixa'
@@ -1572,11 +1436,11 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
   object dsExpressas: TDataSource
     AutoEdit = False
     DataSet = memTableExpressas
-    Left = 800
+    Left = 624
     Top = 8
   end
   object SaveDialog: TSaveDialog
-    Left = 640
-    Top = 16
+    Left = 320
+    Top = 8
   end
 end
