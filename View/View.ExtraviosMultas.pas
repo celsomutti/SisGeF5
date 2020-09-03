@@ -988,18 +988,18 @@ begin
     FLancamento := TLancamentosControl.Create;
     if dValor > 0 then
     begin
-      FLancamento.ALancamentos.Codigo := 0;
-      FLancamento.ALancamentos.Descricao := 'Ressarcimento debito extravio/multa NN' + FExtravios.Extravios.NN;
-      FLancamento.ALancamentos.Data := Now();
-      FLancamento.ALancamentos.Cadastro := iCadastro;
-      FLancamento.ALancamentos.Entregador := FExtravios.Extravios.Entregador;
-      FLancamento.ALancamentos.Tipo := 'CREDITO';
-      FLancamento.ALancamentos.Valor := dValor;
-      FLancamento.ALancamentos.Desconto := 'N';
-      FLancamento.ALancamentos.DataDesconto := 0;
-      FLancamento.ALancamentos.Extrato := '';
-      FLancamento.ALancamentos.Persistir := 'N';
-      FLancamento.ALancamentos.Acao := Common.ENum.tacIncluir;
+      FLancamento.Lancamentos.Codigo := 0;
+      FLancamento.Lancamentos.Descricao := 'Ressarcimento debito extravio/multa NN' + FExtravios.Extravios.NN;
+      FLancamento.Lancamentos.Data := Now();
+      FLancamento.Lancamentos.Cadastro := iCadastro;
+      FLancamento.Lancamentos.Entregador := FExtravios.Extravios.Entregador;
+      FLancamento.Lancamentos.Tipo := 'CREDITO';
+      FLancamento.Lancamentos.Valor := dValor;
+      FLancamento.Lancamentos.Desconto := 'N';
+      FLancamento.Lancamentos.DataDesconto := 0;
+      FLancamento.Lancamentos.Extrato := '';
+      FLancamento.Lancamentos.Persistir := 'N';
+      FLancamento.Lancamentos.Acao := Common.ENum.tacIncluir;
       dValor := 0;
       if not FLancamento.Gravar then
       begin

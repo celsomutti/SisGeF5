@@ -21,6 +21,9 @@ type
     FConexao : TConexao;
 
     FAcao: TAcao;
+    FDataCadastro: TDateTime;
+    FReferencia: integer;
+    FUsuario: String;
 
     function Inserir(): Boolean;
     function Alterar(): Boolean;
@@ -39,6 +42,9 @@ type
     property DataDesconto: TDate read FDataDesconto write FDataDesconto;
     property Extrato: String read FExtrato write FExtrato;
     property Persistir: String read FPersistir write FPersistir;
+    property Referencia: integer read FReferencia write FReferencia;
+    property DataCadastro: TDateTime read FDataCadastro write FDataCadastro;
+    property Usuario: String read FUsuario write FUsuario;
     property Acao: TAcao read FAcao write FAcao;
 
     function Localizar(aParam: array of variant): TFDQuery;
@@ -46,28 +52,32 @@ type
     function GetID(): Integer;
     function ExtratoLancamentos(aParam: Array of variant): TFDQuery;
     function EncerraLancamentos(aParam: Array of variant): Boolean;
+    procedure SetupClass(fdQuery: TFDQuery);
 
   end;
 const
     TABLENAME = 'tblancamentos';
     SQLUPDATE = 'UPDATE ' + TABLENAME + ' SET DES_LANCAMENTO = :DES_LANCAMENTO, DAT_LANCAMENTO = :DAT_LANCAMENTO, ' +
-                'COD_ENTREGADOR = :COD_ENTREGADOR, COD_ENTREGADOR_ = :COD_ENTREGADOR_, DES_TIPO = :DES_TIPO, ' +
+                'COD_CADASTRO = :COD_CADASTRO, COD_ENTREGADOR = :COD_ENTREGADOR, DES_TIPO = :DES_TIPO, ' +
                 'VAL_LANCAMENTO = :VAL_LANCAMENTO, DOM_DESCONTO = :DOM_DESCONTO, DAT_DESCONTO = :DAT_DESCONTO, ' +
-                'NUM_EXTRATO = :NUM_EXTRATO, DOM_PERSISTIR = :DOM_PERSISTIR WHERE COD_LANCAMENTO = :COD_LANCAMENTO;';
-    SQLINSERT = 'INSERT INTO ' + TABLENAME + '(COD_LANCAMENTO, DES_LANCAMENTO, DAT_LANCAMENTO, COD_ENTREGADOR, ' +
-                'COD_ENTREGADOR_, DES_TIPO, VAL_LANCAMENTO, DOM_DESCONTO, DAT_DESCONTO, NUM_EXTRATO, DOM_PERSISTIR) ' +
+                'NUM_EXTRATO = :NUM_EXTRATO, DOM_PERSISTIR = :DOM_PERSISTIR, COD_REFERENCIA = :COD_REFERENCIA, ' +
+                'DAT_CADASTRO = :DAT_CADASTRO, NOM_USUARIO = :NOM_USUARIO WHERE COD_LANCAMENTO = :COD_LANCAMENTO;';
+    SQLINSERT = 'INSERT INTO ' + TABLENAME + '(COD_LANCAMENTO, DES_LANCAMENTO, DAT_LANCAMENTO, COD_CADASTRO, ' +
+                'COD_ENTREGADOR, DES_TIPO, VAL_LANCAMENTO, DOM_DESCONTO, DAT_DESCONTO, NUM_EXTRATO, DOM_PERSISTIR, ' +
+                'COD_REFERENCIA, DAT_CADASTRO, NOM_USUARIO) ' +
                 'VALUES ' +
-                '(:COD_LANCAMENTO, :DES_LANCAMENTO, :DAT_LANCAMENTO, :COD_ENTREGADOR, :COD_ENTREGADOR_, :DES_TIPO, ' +
-                ':VAL_LANCAMENTO, :DOM_DESCONTO, :DAT_DESCONTO, :NUM_EXTRATO, :DOM_PERSISTIR);';
-    SQLQUERY =  'SELECT COD_LANCAMENTO, DES_LANCAMENTO, DAT_LANCAMENTO, COD_ENTREGADOR, COD_ENTREGADOR_, DES_TIPO, ' +
-                'VAL_LANCAMENTO, DOM_DESCONTO, DAT_DESCONTO, NUM_EXTRATO, DOM_PERSISTIR FROM ' + TABLENAME;
+                '(:COD_LANCAMENTO, :DES_LANCAMENTO, :DAT_LANCAMENTO, :COD_CADASTRO, :COD_ENTREGADOR, :DES_TIPO, ' +
+                ':VAL_LANCAMENTO, :DOM_DESCONTO, :DAT_DESCONTO, :NUM_EXTRATO, :DOM_PERSISTIR, :COD_REFERENCIA, ' +
+                ':DAT_CADASTRO, :NOM_USUARIO);';
+    SQLQUERY =  'SELECT COD_LANCAMENTO, DES_LANCAMENTO, DAT_LANCAMENTO, COD_CADASTRO, COD_ENTREGADOR, DES_TIPO, ' +
+                'VAL_LANCAMENTO, DOM_DESCONTO, DAT_DESCONTO, NUM_EXTRATO, DOM_PERSISTIR, COD_REFERENCIA, DAT_CADASTRO, ' +
+                'NOM_USUARIO FROM ' + TABLENAME;
     SQLEXTRATO ='select tblancamentos.cod_entregador as cod_entregador, tblancamentos.des_tipo as des_tipo, ' +
                 'sum(tblancamentos.val_lancamento) as val_total from ' + TABLENAME +
                 ' where tblancamentos.dat_lancamento <= :data1 and tblancamentos.dom_desconto <> :dom ' +
                 'group by tblancamentos.cod_entregador, tblancamentos.des_tipo;';
     SQLENCERRA ='UPDATE ' + TABLENAME + ' SET ' +
-                'DOM_DESCONTO = "S", DAT_DESCONTO = :DAT_DESCONTO, NUM_EXTRATO = :NUM_EXTRATO, ' +
-                'COD_ENTREGADOR_ = :COD_ENTREGADOR_ ' +
+                'DOM_DESCONTO = "S", DAT_DESCONTO = :DAT_DESCONTO, NUM_EXTRATO = :NUM_EXTRATO ' +
                 'WHERE COD_ENTREGADOR = :COD_ENTREGADOR AND DAT_LANCAMENTO <= :DAT_LANCAMENTO AND DOM_DESCONTO <> "S" '+
                 'AND DOM_PERSISTIR <> "S";';
 
@@ -84,7 +94,7 @@ begin
     Result := False;
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLUPDATE,[Descricao, Data, Cadastro, Entregador ,Tipo, Valor, Desconto, DataDesconto, Extrato, Persistir,
-                    Codigo]);
+                    Referencia, DataCadastro, Usuario, Codigo]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -191,7 +201,7 @@ begin
     FDQuery := FConexao.ReturnQuery();
     Codigo := Self.GetID();
     FDQuery.ExecSQL(SQLINSERT, [Codigo, Descricao, Data, Cadastro, Entregador ,Tipo, Valor, Desconto, DataDesconto, Extrato,
-                    Persistir]);
+                    Persistir, Referencia, DataCadastro, Usuario]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -213,6 +223,11 @@ begin
     FDQuery.SQL.Add('WHERE COD_LANCAMENTO = :COD_LANCAMENTO');
     FDQuery.ParamByName('COD_LANCAMENTO').AsInteger := aParam[1];
   end;
+  if aParam[0] = 'REFERENCIA' then
+  begin
+    FDQuery.SQL.Add('WHERE COD_REFERENCIA = :COD_REFERENCIA');
+    FDQuery.ParamByName('COD_REFERENCIA').AsInteger := aParam[1];
+  end;
   if aParam[0] = 'DESCRICAO' then
   begin
     FDQuery.SQL.Add('WHERE DES_LANCAMENTO LIKE :DES_LANCAMENTO');
@@ -223,7 +238,17 @@ begin
     FDQuery.SQL.Add('WHERE DAT_LANCAMENTO = :DAT_LANCAMENTO');
     FDQuery.ParamByName('WHERE DAT_LANCAMENTO').AsDate := aParam[1];
   end;
+  if aParam[0] = 'DATACADASTRO' then
+  begin
+    FDQuery.SQL.Add('WHERE DAT_CADASTRO = :DAT_CADASTRO');
+    FDQuery.ParamByName('WHERE DAT_CADASTRO').AsDate := aParam[1];
+  end;
   if aParam[0] = 'CADASTRO' then
+  begin
+    FDQuery.SQL.Add('WHERE COD_CADASTRO = :COD_CADASTRO');
+    FDQuery.ParamByName('COD_CADASTRO').AsInteger := aParam[1];
+  end;
+  if aParam[0] = 'ENTREGADOR' then
   begin
     FDQuery.SQL.Add('WHERE COD_ENTREGADOR = :COD_ENTREGADOR');
     FDQuery.ParamByName('COD_ENTREGADOR').AsInteger := aParam[1];
@@ -243,7 +268,30 @@ begin
     FDQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
   end;
   FDQuery.Open;
+  if NOT FDQuery.IsEmpty then
+  begin
+    FDQuery.First;
+    SetupClass(FDQuery);
+  end;
   Result := FDQuery;
 end;
 
+procedure TLancamentos.SetupClass(fdQuery: TFDQuery);
+begin
+  Self.Codigo := fdQuery.FieldByName('COD_LANCAMENTO').AsInteger;
+  Self.Descricao := fdQuery.FieldByName('DES_LANCAMENTO').AsString;
+  Self.Data := fdQuery.FieldByName('DAT_LANCAMENTO').AsDateTime;
+  Self.Cadastro := fdQuery.FieldByName('COD_CADASTRO').AsInteger;
+  Self.Entregador := fdQuery.FieldByName('COD_ENTREGADOR').AsInteger;
+  Self.Tipo := fdQuery.FieldByName('DES_TIPO').AsString;
+  Self.Valor := fdQuery.FieldByName('VAL_LANCAMENTO').AsFloat;
+  Self.Desconto := fdQuery.FieldByName('DOM_DESCONTO').AsString;
+  Self.Extrato := fdQuery.FieldByName('NUM_EXTRATO').AsString;
+  Self.Persistir := fdQuery.FieldByName('DOM_PERSISTIR').AsString;
+  Self.Referencia := fdQuery.FieldByName('COD_REFERENCIA').AsInteger;
+  Self.DataDesconto := fdQuery.FieldByName('DAT_CADASTRO').AsDateTime;
+  Self.Usuario := fdQuery.FieldByName('NOM_USUARIO').AsString;
+end;
+
 end.
+

@@ -2093,6 +2093,7 @@
       Category = 'Financeiro'
       Caption = '&D'#233'bitos e Cr'#233'ditos'
       Hint = 'Registro e controle de cr'#233'ditos e d'#233'bitos para os colaboradores'
+      OnExecute = actDebitoCreditoExecute
     end
     object actContasReceber: TAction
       Tag = 601050

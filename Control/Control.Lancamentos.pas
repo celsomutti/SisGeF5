@@ -24,7 +24,7 @@ type
     function ExtratoLancamentos(aParam: Array of variant): TFDQuery;
     function EncerraLancamentos(aParam: Array of variant): Boolean;
 
-    property ALancamentos: TLancamentos read FLancamentos write FLancamentos;
+    property Lancamentos: TLancamentos read FLancamentos write FLancamentos;
 
   end;
 

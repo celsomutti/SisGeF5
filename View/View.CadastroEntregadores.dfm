@@ -1359,11 +1359,11 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     end
     object memTableLancamentoscod_entregador: TIntegerField
       DisplayLabel = 'Entregador'
-      FieldName = 'cod_entregador'
+      FieldName = 'cod_cadastro'
     end
     object memTableLancamentoscod_entregador_: TIntegerField
       DisplayLabel = 'Entregador_'
-      FieldName = 'cod_entregador_'
+      FieldName = 'cod_entregador'
     end
     object memTableLancamentosdes_tipo: TStringField
       DisplayLabel = 'Tipo'
@@ -1391,6 +1391,16 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       DisplayLabel = 'Persistir'
       FieldName = 'dom_persistir'
       Size = 1
+    end
+    object memTableLancamentoscod_referencia: TIntegerField
+      FieldName = 'cod_referencia'
+    end
+    object memTableLancamentosdat_cadastro: TDateTimeField
+      FieldName = 'dat_cadastro'
+    end
+    object memTableLancamentosnom_usuario: TStringField
+      FieldName = 'nom_usuario'
+      Size = 50
     end
   end
   object dsLancamentos: TDataSource

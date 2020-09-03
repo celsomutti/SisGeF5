@@ -11,7 +11,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB,
   cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Common.ENum, Control.EntregadoresExpressas;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Common.ENum, Control.EntregadoresExpressas, Control.Lancamentos;
 
 type
   Tview_LancamentosExtratos = class(TForm)
@@ -101,12 +101,20 @@ type
     procedure actionExcluirExecute(Sender: TObject);
     procedure actionNovoExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
+    procedure actionFecharExecute(Sender: TObject);
+    procedure actionLocalizarExecute(Sender: TObject);
+    procedure buttonEditCodigoEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure comboBoxTipoPropertiesChange(Sender: TObject);
+    procedure calcEditValorPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     procedure Modo;
     procedure LimpaCampos;
     procedure PesquisaEntregadores;
+    procedure PesquisaLancamentos;
     function VerificaProcesso(): Boolean;
+    function RetornaNomeEntregador(iCodigo: integer): String;
   public
     { Public declarations }
   end;
@@ -114,6 +122,8 @@ type
 var
   view_LancamentosExtratos: Tview_LancamentosExtratos;
   FAcao : TAcao;
+  iCadastro: Integer;
+  iID: Integer;
 
 implementation
 
@@ -148,12 +158,57 @@ begin
   end;
 end;
 
+procedure Tview_LancamentosExtratos.actionFecharExecute(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure Tview_LancamentosExtratos.actionLocalizarExecute(Sender: TObject);
+begin
+  PesquisaLancamentos;
+end;
+
 procedure Tview_LancamentosExtratos.actionNovoExecute(Sender: TObject);
 begin
   FAcao := tacIncluir;
   LimpaCampos;
   Modo;
   textEditDescricao.SetFocus;
+end;
+
+procedure Tview_LancamentosExtratos.buttonEditCodigoEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if (FAcao <> tacIncluir) and (FAcao <> tacAlterar) then
+  begin
+    Exit
+  end;
+  textEditNomeEntregador.Text := RetornaNomeEntregador(buttonEditCodigoEntregador.EditValue);
+end;
+
+procedure Tview_LancamentosExtratos.calcEditValorPropertiesChange(Sender: TObject);
+begin
+  if comboBoxTipo.ItemIndex = 2 then
+  begin
+    calcEditValor.Value := 0 - calcEditValor.Value;
+    calcEditValor.Style.Font.Color := clRed;
+  end
+  else
+  begin
+    calcEditValor.Style.Font.Color := clNone;
+  end;
+end;
+
+procedure Tview_LancamentosExtratos.comboBoxTipoPropertiesChange(Sender: TObject);
+begin
+  if comboBoxTipo.ItemIndex = 2 then
+  begin
+    comboBoxTipo.Style.Font.Color := clRed;
+  end
+  else
+  begin
+    comboBoxTipo.Style.Font.Color := clNone;
+  end;
 end;
 
 procedure Tview_LancamentosExtratos.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -172,8 +227,10 @@ end;
 
 procedure Tview_LancamentosExtratos.LimpaCampos;
 begin
+  iID := 0;
   textEditDescricao.EditValue := 0;
   dateEditData.Clear;
+  iCadastro := 0;
   buttonEditCodigoEntregador.EditValue := 0;
   comboBoxTipo.ItemIndex := 0;
   calcEditValor.Value := 0;
@@ -305,13 +362,113 @@ begin
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
       buttonEditCodigoEntregador.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger;
-      textEditNomeEntregador.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsInteger;;
+      textEditNomeEntregador.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
     end;
   finally
     entregadores.Free;
     View_PesquisarPessoas.qryPesquisa.Close;
     View_PesquisarPessoas.tvPesquisa.ClearItems;
     FreeAndNil(View_PesquisarPessoas);
+  end;
+end;
+
+procedure Tview_LancamentosExtratos.PesquisaLancamentos;
+var
+  sSQL: String;
+  sWhere: String;
+  aParam: array of variant;
+  sQuery: String;
+  lancamentos : TLancamentosControl;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    lancamentos := TLancamentosControl.Create;
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
+    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
+
+    sSQL := 'select tblancamentos.cod_lancamento as ID,' +
+            'tblancamentos.cod_entregador as "Código", tbcodigosentregadores.nom_fantasia as Nome, ' +
+            'tblancamentos.des_lancamento as "Descrição", ' +
+            'format(if(tblancamentos.des_tipo = "CREDITO", tblancamentos.val_lancamento, 0), 2, "de_DE") as "Crédito", ' +
+            'format(if(tblancamentos.des_tipo = "DEBITO", 0 - tblancamentos.val_lancamento, 0), 2, "de_DE") as "Débito", ' +
+            'dom_desconto as Descontado ' +
+            'from tblancamentos ' +
+            'inner join tbcodigosentregadores ' +
+            'on tbcodigosentregadores.cod_entregador = tblancamentos.cod_entregador ';
+
+    sWhere := 'where tblancamentos.cod_lancamento like paraN or  ' +
+              'tblancamentos.cod_lancamento like paraN or  ' +
+              'tbcodigosentregadores.nom_fantasia like "%param%" ';
+    View_PesquisarPessoas.sSQL := sSQL;
+    View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := False;
+    View_PesquisarPessoas.Caption := 'Localizar Lançamentos';
+    if View_PesquisarPessoas.ShowModal = mrOK then
+    begin
+      lancamentos := TLancamentosControl.Create;
+      SetLength(aParam,2);
+      aParam := ['CODIGO', View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger];
+      if not lancamentos.Localizar(aParam).IsEmpty then
+      begin
+        LimpaCampos;
+        iCadastro := lancamentos.Lancamentos.Codigo;
+        textEditDescricao.Text := lancamentos.Lancamentos.Descricao;
+        dateEditData.Date := lancamentos.Lancamentos.Data;
+        iCadastro := lancamentos.Lancamentos.Cadastro;
+        buttonEditCodigoEntregador.EditValue := lancamentos.Lancamentos.Entregador;
+        if lancamentos.Lancamentos.Tipo = 'CREDITO' then
+        begin
+          comboBoxTipo.ItemIndex := 1;
+        end
+        else
+        begin
+          comboBoxTipo.ItemIndex := 2;
+        end;
+        textEditNomeEntregador.Text := RetornaNomeEntregador(lancamentos.Lancamentos.Entregador);
+        calcEditValor.Value := lancamentos.Lancamentos.Valor;
+        checkBoxProcessado.EditValue := lancamentos.Lancamentos.Desconto;
+        maskEditDataProcessamento.EditText := FormatDateTime('dd/mm/yyyy hh:mm:ss', lancamentos.Lancamentos.DataDesconto);
+        textEditExtrato.text := lancamentos.Lancamentos.Extrato;
+        maskEditDataCadastro.EditText := FormatDateTime('dd/mm/yyyy hh:mm:ss', lancamentos.Lancamentos.DataCadastro);
+        buttonEditReferencia.EditValue := lancamentos.Lancamentos.Referencia;
+        TextEditUsuario.Text := lancamentos.Lancamentos.Usuario;
+        Facao := tacPesquisa;
+        Modo;
+      end;
+    end;
+  finally
+    lancamentos.Free;
+    View_PesquisarPessoas.qryPesquisa.Close;
+    View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
+  end;
+end;
+
+function Tview_LancamentosExtratos.RetornaNomeEntregador(iCodigo: integer): String;
+var
+  entregador : TEntregadoresExpressasControl;
+  sRetorno: String;
+begin
+  try
+    Result := '';
+    sRetorno := '';
+    entregador := TEntregadoresExpressasControl.Create;
+    if icodigo <> 0 then
+    begin
+      sRetorno := entregador.GetField('NOM_FANTASIA', 'COD_ENTREGADOR', iCodigo.ToString)
+    end;
+    if sRetorno.IsEmpty then
+    begin
+      sRetorno := 'NONE';
+    end;
+    Result := sRetorno;
+  finally
+    entregador.free;
   end;
 end;
 

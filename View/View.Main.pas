@@ -213,6 +213,7 @@ type
     procedure actRoteirosExpressasExecute(Sender: TObject);
     procedure actCadastroEmpresasExecute(Sender: TObject);
     procedure actCadastroEntregadoresExecute(Sender: TObject);
+    procedure actDebitoCreditoExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;
@@ -239,7 +240,7 @@ implementation
 uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsuarios, View.CadastraSenha,
   View.Calendario, View.VerbasExpressas, View.ExtraviosMultas, View.Acareacoes, View.ImportarPedidos, View.ImportarBaixasTFO,
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
-  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.CadastroEntregadores;
+  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.CadastroEntregadores, View.LancamentosExtratos;
 
 procedure Tview_Main.Acessos;
 var
@@ -368,6 +369,15 @@ begin
   end;
   view_ControleEntregas.Show;
 
+end;
+
+procedure Tview_Main.actDebitoCreditoExecute(Sender: TObject);
+begin
+  if not Assigned(view_LancamentosExtratos) then
+  begin
+    view_LancamentosExtratos := Tview_LancamentosExtratos.Create(Application);
+  end;
+  view_LancamentosExtratos.Show;
 end;
 
 procedure Tview_Main.actEnvioRespostaCTNCTFOExecute(Sender: TObject);

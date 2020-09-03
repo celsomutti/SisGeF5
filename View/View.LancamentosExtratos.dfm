@@ -26,10 +26,6 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
     Height = 671
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 480
-    ExplicitTop = 312
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object labelTitle: TcxLabel
       Left = 13
       Top = 13
@@ -76,10 +72,13 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
+          Action = actionPesquisaEntregadores
           Default = True
-          Kind = bkEllipsis
+          Kind = bkGlyph
         end>
+      Properties.Images = Data_Sisgef.iml_16_16
       Properties.ReadOnly = True
+      Properties.OnValidate = buttonEditCodigoEntregadorPropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -104,17 +103,25 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Left = 390
       Top = 152
       Hint = 'Tipo de Lan'#231'amento'
+      ParentFont = False
       Properties.DropDownListStyle = lsFixedList
       Properties.Items.Strings = (
         'Selecione ...'
         'Cr'#233'dito (+)'
         'D'#233'bito (-)')
       Properties.ReadOnly = True
+      Properties.OnChange = comboBoxTipoPropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
+      Style.Font.Charset = ANSI_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -13
+      Style.Font.Name = 'Segoe UI Semibold'
+      Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
+      Style.IsFontAssigned = True
       TabOrder = 5
       Text = 'Selecione ...'
       Width = 131
@@ -124,14 +131,22 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Top = 152
       Hint = 'Valor do lan'#231'amento'
       EditValue = 0.000000000000000000
+      ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;-,0.00'
+      Properties.DisplayFormat = ',0.00'
       Properties.ReadOnly = True
+      Properties.OnChange = calcEditValorPropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
+      Style.Font.Charset = ANSI_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -13
+      Style.Font.Name = 'Segoe UI Semibold'
+      Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
+      Style.IsFontAssigned = True
       TabOrder = 6
       Width = 116
     end
@@ -157,15 +172,13 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Hint = 'Data do processamento'
       TabStop = False
       Properties.IgnoreMaskBlank = True
-      Properties.MaskKind = emkRegExpr
-      Properties.EditMask = 
-        '(0?[1-9] | 1[012]) / ([012]?[1-9] | [123]0 |31) / ([123][0-9])? ' +
-        '[0-9][0-9]'
+      Properties.EditMask = '!99/99/0099;1;_'
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 13
+      Text = '  /  /    '
       Width = 131
     end
     object textEditExtrato: TcxTextEdit
@@ -186,15 +199,13 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Hint = 'Data do cadastro do lan'#231'amento'
       TabStop = False
       Properties.IgnoreMaskBlank = True
-      Properties.MaskKind = emkRegExpr
-      Properties.EditMask = 
-        '(0?[1-9] | 1[012]) / ([012]?[1-9] | [123]0 |31) / ([123][0-9])? ' +
-        '[0-9][0-9]'
+      Properties.EditMask = '!99/99/0099;1;_'
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 15
+      Text = '  /  /    '
       Width = 128
     end
     object buttonEditReferencia: TcxButtonEdit
@@ -303,6 +314,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Left = 653
       Top = 152
       Hint = 'Tipo de processo a ser aplicado'
+      ParentFont = False
       Properties.DropDownListStyle = lsFixedList
       Properties.Items.Strings = (
         'Selecionar ...'
@@ -311,9 +323,15 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
         'Repetir')
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
+      Style.Font.Charset = ANSI_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -13
+      Style.Font.Name = 'Segoe UI Semibold'
+      Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
+      Style.IsFontAssigned = True
       TabOrder = 7
       Text = 'Selecionar ...'
       Width = 121
@@ -354,13 +372,13 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
     object buttonLocalizar: TcxButton
       Left = 364
       Top = 618
-      Width = 79
+      Width = 85
       Height = 25
       Action = actionLocalizar
       TabOrder = 22
     end
     object buttonGravar: TcxButton
-      Left = 451
+      Left = 457
       Top = 618
       Width = 75
       Height = 25
@@ -589,7 +607,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       CaptionOptions.Text = 'Intervalo:'
       CaptionOptions.Layout = clTop
       Control = spinEditIntervaloDias
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 64
       ControlOptions.ShowBorder = False
       Index = 0
@@ -719,7 +737,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       CaptionOptions.Visible = False
       Control = buttonLocalizar
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 79
+      ControlOptions.OriginalWidth = 85
       ControlOptions.ShowBorder = False
       Index = 4
     end
@@ -796,12 +814,14 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Caption = 'Localizar'
       Hint = 'Localizar lan'#231'amentos'
       ImageIndex = 12
+      OnExecute = actionLocalizarExecute
     end
     object actionFechar: TAction
       Category = 'Lan'#231'amentos'
       Caption = 'Fechar'
       Hint = 'Fechar a tela'
       ImageIndex = 17
+      OnExecute = actionFecharExecute
     end
     object actionProcessar: TAction
       Category = 'Lan'#231'amentos'

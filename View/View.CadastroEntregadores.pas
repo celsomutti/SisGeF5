@@ -197,6 +197,9 @@ type
     actionCancelar: TAction;
     actionGravar: TAction;
     memTableEntregadoresdat_codigo: TDateTimeField;
+    memTableLancamentoscod_referencia: TIntegerField;
+    memTableLancamentosdat_cadastro: TDateTimeField;
+    memTableLancamentosnom_usuario: TStringField;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
