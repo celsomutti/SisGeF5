@@ -596,7 +596,7 @@ function Tthread_201020_importar_baixas_direct.SetTabelaEntregador(sCodigoERP: S
 var
   FEntregadores: TEntregadoresExpressasControl;
   fdQuery: TFDQuery;
-  aParam : array of variant;
+  vParam : array of variant;
   dVerba: Double;
   iTabela, iFaixa, iEntregador, iAgente: Integer;
   slParam : TStringList;
@@ -610,10 +610,10 @@ begin
     FEntregadores := TEntregadoresExpressasControl.Create;
     slParam := TStringList.Create;
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    setLength(aParam,2);
-    aParam := ['CHAVE', sCodigoERP];
-    fdQuery := FEntregadores.Localizar(aParam);
-    Finalize(aParam);
+    setLength(vParam,2);
+    vParam := ['CHAVE', sCodigoERP];
+    fdQuery := FEntregadores.Localizar(vParam);
+    Finalize(vParam);
     if not fdQuery.isEmpty then
     begin
       iTabela := fdQuery.FieldByName('cod_tabela').asInteger;
