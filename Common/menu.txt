@@ -1,0 +1,66 @@
+﻿Expressas
+	Importação de Pedidos
+	Importação de Baixas (TFO)
+	Cadastro de Clientes
+	Consulta de Pedidos
+	Acareações
+	Extravios
+	Devoluções
+	Recepção de Containers de Devolução
+	Extrato de Expressas de Entregadores 
+	Demonstrativo Individual de Expressas
+	Verbas 
+		Verbas Fixas
+		Verbas por CEP
+		Verbas por Cliente
+		Verbas por Faixa de Peso
+
+Periódicos
+	*Tiragens (FSP)
+	Assinantes Jornal (FSP)
+	Ocorrências (FSP)
+	Etiquetas (TFO)
+	Assinantes Revistas (TFO)
+	Roteiros
+	Recados (FSP)
+	Operacional	
+	Atribuição (FSP)
+		Baixas de Protocolos
+	*Fechanento de Tiragens
+	Verbas
+		Verbas por Tiragem
+		Verbas Fixas
+
+Serviços
+	Cadastro de Serviços
+	Ordens de Serviços
+	Controle de Malotes (TFO)
+	
+Transportes
+	Controle de KM
+	Controle de Viagens
+	Manutenção
+	Abastecimentos
+	Cadastro de Insumos
+	Estoque de Insumos
+
+Financeiro
+	Importação de Financeiro (TFO)
+	Cadastro de Fornecedores
+	Cadastro de Centros de Custo
+	Débitos e Créditos
+	Contas a Receber
+	*Contas a Pagar
+		*Exportação para Bancos
+	*Controle de Caixa Pequeno
+	*Planilha de Crédito
+		*Exportação Bancos
+
+Sistema
+	*Configuração
+		*Aparência
+	*Segurança
+		Usuários
+			Acessos
+		*Alterar Senha
+		Troca de Usuário
