@@ -135,7 +135,7 @@ interface
       function EncerraEntregas(aParam: Array of variant): Boolean;
       function GetField(sField: String; sKey: String; sKeyValue: String): String;
       function GetAReceber(iEntregador: Integer): TFDQuery;
-
+      procedure SetupSelf(fdQuery: TFDQuery);
     end;
 
 const
@@ -571,6 +571,10 @@ begin
     FDQuery.SQL.Add(aParam[1]);
   end;
   FDQuery.Open();
+  if not fdquery.IsEmpty then
+  begin
+    SetupSelf(fdQuery);
+  end;
   Result := FDQuery;
 end;
 
@@ -618,6 +622,65 @@ begin
   FDQuery.ParamByName('data2').AsDate := aParam[2];
   FDQuery.Open();
   Result := FDQuery;
+end;
+
+procedure TEntregas.SetupSelf(fdQuery: TFDQuery);
+begin
+  Self.NN := FDQuery.FieldByName('NUM_NOSSONUMERO').AsString;
+  Self.Distribuidor := fdQuery.FieldByName('COD_AGENTE').AsInteger;
+  Self.Entregador := fdQuery.FieldByName('COD_ENTREGADOR').AsInteger;
+  Self.Cliente := fdQuery.FieldByName('COD_CLIENTE').AsInteger;
+  Self.NF := fdQuery.FieldByName('NUM_NF').AsString;
+  Self.Consumidor := fdQuery.FieldByName('NOM_CONSUMIDOR').AsString;
+  Self.Endereco := fdQuery.FieldByName('DES_ENDERECO').AsString;
+  Self.Complemento := fdQuery.FieldByName('DES_COMPLEMENTO').AsString;
+  Self.Bairro := fdQuery.FieldByName('DES_BAIRRO').AsString;
+  Self.Cidade := fdQuery.FieldByName('NOM_CIDADE').AsString;
+  Self.Cep := fdQuery.FieldByName('NUM_CEP').AsString;
+  Self.Telefone := fdQuery.FieldByName('NUM_TELEFONE').AsString;
+  Self.Expedicao := fdQuery.FieldByName('DAT_EXPEDICAO').AsDateTime;
+  Self.Previsao := fdQuery.FieldByName('DAT_PREV_DISTRIBUICAO').AsDateTime;
+  Self.Volumes := fdQuery.FieldByName('QTD_VOLUMES').AsInteger;
+  Self.Atribuicao := fdQuery.FieldByName('DAT_ATRIBUICAO').AsDateTime;
+  Self.Baixa := fdQuery.FieldByName('DAT_BAIXA').AsDateTime;
+  Self.Baixado := fdQuery.FieldByName('DOM_BAIXADO').AsString;
+  Self.Pagamento := fdQuery.FieldByName('DAT_PAGAMENTO').AsDateTime;
+  Self.Pago := fdQuery.FieldByName('DOM_PAGO').AsString;
+  Self.Fechado := fdQuery.FieldByName('DOM_FECHADO').AsString;
+  Self.Status := fdQuery.FieldByName('COD_STATUS').AsInteger;
+  Self.Entrega := fdQuery.FieldByName('DAT_ENTREGA').AsDateTime;
+  Self.PesoReal := fdQuery.FieldByName('QTD_PESO_REAL').AsFloat;
+  Self.PesoFranquia := fdQuery.FieldByName('QTD_PESO_FRANQUIA').AsFloat;
+  Self.VerbaFranquia := fdQuery.FieldByName('VAL_VERBA_FRANQUIA').AsFloat;
+  Self.Advalorem := fdQuery.FieldByName('VAL_ADVALOREM').AsFloat;
+  Self.PagoFranquia := fdQuery.FieldByName('VAL_PAGO_FRANQUIA').AsFloat;
+  Self.VerbaEntregador := fdQuery.FieldByName('VAL_VERBA_ENTREGADOR').AsFloat;
+  Self.Extrato := fdQuery.FieldByName('NUM_EXTRATO').AsString;
+  Self.Atraso := fdQuery.FieldByName('QTD_DIAS_ATRASO').AsInteger;
+  Self.VolumesExtra := fdQuery.FieldByName('QTD_VOLUMES_EXTRA').AsFloat;
+  Self.ValorVolumes := fdQuery.FieldByName('VAL_VOLUMES_EXTRA').AsFloat;
+  Self.PesoCobrado := fdQuery.FieldByName('QTD_PESO_COBRADO').AsFloat;
+  Self.TipoPeso := fdQuery.FieldByName('DES_TIPO_PESO').AsString;
+  Self.Recebimento := fdQuery.FieldByName('DAT_RECEBIDO').AsDateTime;
+  Self.Recebido := fdQuery.FieldByName('DOM_RECEBIDO').AsString;
+  Self.CTRC := fdQuery.FieldByName('NUM_CTRC').AsInteger;
+  Self.Manifesto := fdQuery.FieldByName('NUM_MANIFESTO').AsInteger;
+  Self.Rastreio := fdQuery.FieldByName('DES_RASTREIO').AsString;
+  Self.VerbaFranquia := fdQuery.FieldByName('VAL_VERBA_FRANQUIA').AsFloat;
+  Self.Lote := fdQuery.FieldByName('NUM_LOTE_REMESSA').AsInteger;
+  Self.Retorno := fdQuery.FieldByName('DES_RETORNO').AsString;
+  Self.Credito := fdQuery.FieldByName('DAT_CREDITO').AsDateTime;
+  Self.Creditado := fdQuery.FieldByName('DOM_CREDITO').AsString;
+  Self.Container := fdQuery.FieldByName('NUM_CONTAINER').AsString;
+  Self.ValorProduto := fdQuery.FieldByName('VAL_PRODUTO').AsFloat;
+  Self.Altura := fdQuery.FieldByName('QTD_ALTURA').AsInteger;
+  Self.Largura := fdQuery.FieldByName('QTD_LARGURA').AsInteger;
+  Self.Comprimento := fdQuery.FieldByName('QTD_COMPRIMENTO').AsInteger;
+  Self.CodigoFeedback := fdQuery.FieldByName('COD_FEEDBACK').AsInteger;
+  Self.DataFeedback := fdQuery.FieldByName('DAT_FEEDBACK').AsDateTime;
+  Self.Conferido := fdQuery.FieldByName('DOM_CONFERIDO').AsInteger;
+  Self.Pedido := fdQuery.FieldByName('NUM_PEDIDO').AsString;
+  Self.CodCliente := fdQuery.FieldByName('COD_CLIENTE_EMPRESA').AsInteger;
 end;
 
 end.

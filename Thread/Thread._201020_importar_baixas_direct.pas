@@ -330,7 +330,10 @@ begin
             end;
           end;
 
-          sOperacao := 'TD';
+          sOperacao := '';
+         { *** Regra TD / TC desativada em 28/10/2020
+         Solicitação feito pelo Carlão
+
           SetLength(aParam,2);
           aParam[0] := 'REMESSA';
           aParam[1] := FEntregas.Entregas.NN;
@@ -346,6 +349,7 @@ begin
           begin
             dPeso := 999999;
           end;
+          }
 
           if dVerba = 0 then
           begin
