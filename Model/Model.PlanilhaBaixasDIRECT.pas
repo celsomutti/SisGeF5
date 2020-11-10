@@ -71,7 +71,6 @@ var
   ArquivoCSV: TextFile;
   sLinha: String;
   sDetalhe: TStringList;
-  //FPlanilha : TObjectList<TPlanilhaBaixasDIRECT>;
   i : Integer;
   sValor: String;
 begin
@@ -91,7 +90,7 @@ begin
   sDetalhe.DelimitedText := sLinha;
   if Pos('Numero Viagem',sLinha) = 0 then
   begin
-    FMensagemProcesso := 'Arquivo ' + sFile + ' não foi encontrado!';
+    FMensagemProcesso := 'Arquivo ' + sFile + ' não é planilha de baixas!';
     CloseFile(ArquivoCSV);
     Exit;
   end;
@@ -113,7 +112,7 @@ begin
       FPlanilha[i].SiglaBase := sDetalhe[4];
       FPlanilha[i].Pedido := sDetalhe[5];
       FPlanilha[i].Remessa := sDetalhe[6];
-      FPlanilha[i].NF := sDetalhe[7];
+      FPlanilha[i].NF := Trim(sDetalhe[7]);
       FPlanilha[i].Municipio := sDetalhe[8];
       FPlanilha[i].CEP := sDetalhe[9];
       FPlanilha[i].Volumes := StrToIntDef(sDetalhe[10], 1);
@@ -131,7 +130,14 @@ begin
       FPlanilha[i].PesoCTE := StrToFloatDef(sValor, 0);
       FPlanilha[i].Operacao := sDetalhe[18];
       FPlanilha[i].Regiao := sDetalhe[19];
-      FPLanilha[i].Loja := sDetalhe[20];
+      if sDetalhe.Count = 21 then
+      begin
+        FPLanilha[i].Loja := sDetalhe[20];
+      end
+      else
+      begin
+        FPLanilha[i].Loja := 'N';
+      end;
     end;
   end;
   CloseFile(ArquivoCSV);

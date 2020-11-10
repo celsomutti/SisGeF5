@@ -136,6 +136,7 @@ interface
       function GetField(sField: String; sKey: String; sKeyValue: String): String;
       function GetAReceber(iEntregador: Integer): TFDQuery;
       procedure SetupSelf(fdQuery: TFDQuery);
+      procedure ClearSelf();
     end;
 
 const
@@ -217,6 +218,65 @@ begin
     FDQuery.Free;
   end;
 
+end;
+
+procedure TEntregas.ClearSelf;
+begin
+  Self.NN := '';
+  Self.Distribuidor := 0;
+  Self.Entregador := 0;
+  Self.Cliente := 0;
+  Self.NF := '';
+  Self.Consumidor := '';
+  Self.Endereco := '';
+  Self.Complemento := '';
+  Self.Bairro := '';
+  Self.Cidade := '';
+  Self.Cep := '';
+  Self.Telefone := '';
+  Self.Expedicao := StrToDate('31/12/1899');
+  Self.Previsao := StrToDate('31/12/1899');
+  Self.Volumes := 0;
+  Self.Atribuicao := StrToDate('31/12/1899');;
+  Self.Baixa := StrToDate('31/12/1899');;
+  Self.Baixado := 'N';
+  Self.Pagamento := StrToDate('31/12/1899 23:59:59');
+  Self.Pago := 'N';
+  Self.Fechado := 'N';
+  Self.Status := 0;
+  Self.Entrega := StrToDate('31/12/1899 23:59:59');
+  Self.PesoReal := 0;
+  Self.PesoFranquia := 0;
+  Self.VerbaFranquia := 0;
+  Self.Advalorem := 0;
+  Self.PagoFranquia := 0;
+  Self.VerbaEntregador := 0;
+  Self.Extrato := '0';
+  Self.Atraso := 0;
+  Self.VolumesExtra := 0;
+  Self.ValorVolumes := 0;
+  Self.PesoCobrado := 0;
+  Self.TipoPeso := '';
+  Self.Recebimento := StrToDate('31/12/1899 23:59:59');
+  Self.Recebido := 'N';
+  Self.CTRC := 0;
+  Self.Manifesto := 0;
+  Self.Rastreio := '';
+  Self.VerbaFranquia := 0;
+  Self.Lote := 0;
+  Self.Retorno := '';
+  Self.Credito := StrToDate('31/12/1899 23:59:59');
+  Self.Creditado := 'N';
+  Self.Container := '';
+  Self.ValorProduto := 0;
+  Self.Altura := 0;
+  Self.Largura := 0;
+  Self.Comprimento := 0;
+  Self.CodigoFeedback := 0;
+  Self.DataFeedback := StrToDate('31/12/1899 23:59:59');
+  Self.Conferido := 0;
+  Self.Pedido := '';
+  Self.CodCliente := 0;
 end;
 
 constructor TEntregas.Create;
@@ -574,6 +634,10 @@ begin
   if not fdquery.IsEmpty then
   begin
     SetupSelf(fdQuery);
+  end
+  else
+  begin
+    ClearSelf;
   end;
   Result := FDQuery;
 end;
