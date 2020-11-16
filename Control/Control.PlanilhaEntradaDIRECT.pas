@@ -2,16 +2,17 @@ unit Control.PlanilhaEntradaDIRECT;
 
 interface
 
-uses System.SysUtils, Generics.Collections, Model.PlanilhaEntradaDIRECT;
+uses Model.PlanilhaEntradaDIRECT;
 
 type
   TPlanilhaEntradaDIRECTControl = class
-  private
-    FPlanilha: TPlanilhaEntradaDIRECT;
-  public
-    constructor Create();
-    destructor Destroy(); override;
-    function GetPlanilha(sFile: String): TObjectList<TPlanilhaEntradaDIRECT>;
+    private
+      FPlanilha: TPlanilhaEntradaDIRECT;
+    public
+      constructor Create();
+      destructor Destroy(); override;
+      function GetPlanilha(sFile: String): boolean;
+      property Planilha: TPlanilhaEntradaDIRECT read FPlanilha write FPlanilha;
   end;
 
 implementation
@@ -29,7 +30,7 @@ begin
   inherited;
 end;
 
-function TPlanilhaEntradaDIRECTControl.GetPlanilha(sFile: String): TObjectList<TPlanilhaEntradaDIRECT>;
+function TPlanilhaEntradaDIRECTControl.GetPlanilha(sFile: String): Boolean;
 begin
   Result := FPlanilha.GetPlanilha(sFile);
 end;

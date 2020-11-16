@@ -417,6 +417,9 @@
             <Form>view_LancamentosExtratos</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Model\Model.PlanilhaEntradaTFO.pas"/>
+        <DCCReference Include="Control\Control.PlanilhaEntradaTFO.pas"/>
+        <DCCReference Include="Thread\Thread.ImportarPedidosTFO.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -490,12 +493,6 @@
                     <Platform Name="Win32">
                         <RemoteDir>Assets\</RemoteDir>
                         <RemoteName>Logo150x150.png</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Win64\Debug\SisGeF5.rsm" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win64">
-                        <RemoteName>SisGeF5.rsm</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

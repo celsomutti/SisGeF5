@@ -172,7 +172,10 @@ uses
   View.CadastroEntregadores in 'View\View.CadastroEntregadores.pas' {view_CadastroEntregadores},
   Thread._201020_importar_baixas_tfo in 'Thread\Thread._201020_importar_baixas_tfo.pas',
   Thread._201020_importar_baixas_direct in 'Thread\Thread._201020_importar_baixas_direct.pas',
-  View.LancamentosExtratos in 'View\View.LancamentosExtratos.pas' {view_LancamentosExtratos};
+  View.LancamentosExtratos in 'View\View.LancamentosExtratos.pas' {view_LancamentosExtratos},
+  Model.PlanilhaEntradaTFO in 'Model\Model.PlanilhaEntradaTFO.pas',
+  Control.PlanilhaEntradaTFO in 'Control\Control.PlanilhaEntradaTFO.pas',
+  Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas';
 
 {$R *.res}
 
