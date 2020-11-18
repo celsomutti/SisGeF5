@@ -37,7 +37,8 @@ type
     function GetID(): Integer;
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
-    
+    procedure SetupSelf(fdQuery: TFDQuery);
+    procedure ClearSelf;
   end;
   const
     TABLENAME = 'expressas_controle_awb';
@@ -67,6 +68,18 @@ begin
     fdQuery.Connection.Close;
     fdQuery.Free;
   end;
+end;
+
+procedure TControleAWB.ClearSelf;
+begin
+  Self.ID := 0;
+  Self.Remessa := '';
+  Self.AWB1 := '';
+  Self.AWB2 := '';
+  Self.CEP := '';
+  Self.Operacao := '';
+  Self.Tipo := 0;
+  Self.Peso := 0;
 end;
 
 constructor TControleAWB.Create;
@@ -188,7 +201,27 @@ begin
     FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
   end;
   FDQuery.Open;
+  if FDQuery.IsEmpty then
+  begin
+    ClearSelf;
+  end
+  else
+  begin
+    SetupSelf(FDQuery);
+  end;
   Result := FDQuery;
+end;
+
+procedure TControleAWB.SetupSelf(fdQuery: TFDQuery);
+begin
+  Self.ID := fdQuery.FieldByName('id_awb').AsInteger;
+  Self.Remessa := fdQuery.FieldByName('num_remessa').AsString;
+  Self.AWB1 := fdQuery.FieldByName('cod_awb1').AsString;
+  Self.AWB2 := fdQuery.FieldByName('cod_awb2').AsString;
+  Self.CEP := fdQuery.FieldByName('num_cep').AsString;
+  Self.Operacao := fdQuery.FieldByName('cod_operacao').AsString;
+  Self.Tipo := fdQuery.FieldByName('cod_tipo').AsString;
+  Self.Peso := fdQuery.FieldByName('qtd_peso').AsFloat;
 end;
 
 end.

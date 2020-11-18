@@ -91,8 +91,8 @@ uses
   View.VisualizacaoPlanilha in 'View\View.VisualizacaoPlanilha.pas' {view_VisualizacaoPlanilhas},
   Thread.ImportarPlanilhaEntradaEntregas in 'Thread\Thread.ImportarPlanilhaEntradaEntregas.pas',
   DAO.PlanilhaEntradaEntregas in 'DAO\DAO.PlanilhaEntradaEntregas.pas',
-  Model.PlanilhaEntradaCarriers in 'Model\Model.PlanilhaEntradaCarriers.pas',
-  Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas',
+  Model.PlanilhaEntradaSIMExpress in 'Model\Model.PlanilhaEntradaSIMExpress.pas',
+  Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas',
   Thread.ImportarPlanilhaEntradaCarriers in 'Thread\Thread.ImportarPlanilhaEntradaCarriers.pas',
   View.BIPedidos in 'View\View.BIPedidos.pas' {view_BIPedidos},
   View.ControleEntregas in 'View\View.ControleEntregas.pas' {view_ControleEntregas},
@@ -175,6 +175,9 @@ uses
   View.LancamentosExtratos in 'View\View.LancamentosExtratos.pas' {view_LancamentosExtratos},
   Model.PlanilhaEntradaTFO in 'Model\Model.PlanilhaEntradaTFO.pas',
   Control.PlanilhaEntradaTFO in 'Control\Control.PlanilhaEntradaTFO.pas',
+  Thread.ImportarPedidosDIRECT in 'Thread\Thread.ImportarPedidosDIRECT.pas',
+  Model.PlanilhaEntradaCarriers in 'Model\Model.PlanilhaEntradaCarriers.pas',
+  Thread.ImportarPedidosSIMExpress in 'Thread\Thread.ImportarPedidosSIMExpress.pas',
   Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas';
 
 {$R *.res}
@@ -183,7 +186,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Sistema Gerenciador de Franquias';
-  Application.CreateForm(TData_Sisgef, Data_Sisgef);
-  Application.CreateForm(Tview_Main, view_Main);
-  Application.Run;
+  AApplication.CreateForm(TData_Sisgef, Data_Sisgef);
+  AApplication.CreateForm(Tview_Main, view_Main);
+  plication.Run;
 end.

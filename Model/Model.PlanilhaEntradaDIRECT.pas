@@ -107,7 +107,7 @@ implementation
 
 uses Common.Utils;
 
-function TPlanilhaEntradaDIRECT.GetPlanilha(sFile: String): TObjectList<TPlanilhaEntradaDIRECT>;
+function TPlanilhaEntradaDIRECT.GetPlanilha(sFile: String): boolean;
 var
   ArquivoCSV: TextFile;
   sLinha: String;

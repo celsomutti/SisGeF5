@@ -210,7 +210,7 @@ begin
     FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
     FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
     FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
-    FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[5];
+    FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
   end;
   if aParam[0] = 'SLA' then
   begin
@@ -220,7 +220,7 @@ begin
     FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
     FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
     FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
-    FDQuery.ParamByName('pval_performance').AsFloat := aParam[5];
+    FDQuery.ParamByName('pval_performance').AsFloat := aParam[8];
   end;
   if aParam[0] = 'CEPPESO' then
   begin
@@ -243,7 +243,7 @@ begin
     FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
     FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
     FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
-    FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[5];
+    FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
     FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
   end;
   if aParam[0] = 'ROTEIROFIXA' then
@@ -254,7 +254,7 @@ begin
     FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
     FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
     FDQuery.ParamByName('pdat_vigencia').AsDate :=aParam[4];
-    FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[5];
+    FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
   end;
 
   if aParam[0] = 'FILTRO' then

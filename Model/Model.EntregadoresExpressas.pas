@@ -2,7 +2,7 @@ unit Model.EntregadoresExpressas;
 
 interface
 uses
-  Common.ENum, FireDAC.Comp.Client, DAO.Conexao;
+  Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils;
   type
     TEntregadoresExpressas = class
 
@@ -64,7 +64,7 @@ uses
     function Gravar(): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
     function SetupModel(FDEntregadores: TFDQuery): Boolean;
-
+    procedure ClearModel;
   end;
 
   const
@@ -100,6 +100,21 @@ begin
     FDQuery.Connection.Close;
     FDQuery.Free;
   end;
+end;
+
+procedure TEntregadoresExpressas.ClearModel;
+begin
+  Cadastro := 0;
+  Entregador := 0;
+  Fantasia := '';
+  Agente  := 0;
+  Data := StrToDate('1899-12-31');
+  Chave := '';
+  Grupo := 0;
+  Verba := 0;
+  Executor := '';
+  Manutencao := StrToDate('1899-12-31 23:59:59');
+  Tabela := 0;
 end;
 
 constructor TEntregadoresExpressas.Create;
@@ -220,6 +235,10 @@ begin
   if not FDQuery.IsEmpty then
   begin
     if aParam[0] <> 'APOIO' then SetupModel(FDQuery);
+  end
+  else
+  begin
+    ClearModel;
   end;
   Result := FDQuery;
 end;

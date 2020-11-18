@@ -2,7 +2,7 @@ unit Model.Bases;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils;
 
   type
     TBases = class
@@ -74,6 +74,7 @@ uses Common.ENum, FireDAC.Comp.Client;
       function Gravar(): Boolean;
       function GetField(sField: String; sKey: String; sKeyValue: String): String;
       function SetupModel(FDBases: TFDQuery): Boolean;
+      function ClearModal(): boolean;
 
     end;
 
@@ -82,6 +83,43 @@ implementation
 { TBases }
 
 uses DAO.Bases;
+
+function TBases.ClearModal: boolean;
+begin
+  try
+    Result := False;
+    Codigo := 0;
+    RazaoSocial := '';
+    NomeFantasia := '';
+    TipoDoc := '';
+    CNPJCPF := '';
+    IE := '';
+    IEST := '';
+    IM := '';
+    CNAE := '';
+    CRT := 0;
+    NumeroCNH := '';
+    CategoriaCNH := '';
+    ValidadeCNH := '';
+    PaginaWeb := '';
+    Status := 0;
+    Obs := '';
+    DataCadastro := StrToDate('1899-12-31');
+    DataAlteracao := StrToDate('1899-12-31');
+    ValorVerba := 0;
+    TipoConta := '';
+    CodigoBanco := '';
+    NumeroAgente := '';
+    NumeroConta := '';
+    NomeFavorecido := '';
+    CNPJCPFFavorecido := '';
+    FormaPagamento := '';
+    CentroCusto := 0;
+    Grupo := 0;
+  finally
+    Result := True;
+  end;
+end;
 
 function TBases.GetField(sField, sKey, sKeyValue: String): String;
 var

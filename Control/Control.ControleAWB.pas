@@ -14,6 +14,7 @@ type
     function Gravar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
     function GetId(): Integer;
+
     property ControleAWB: TControleAWB read FControleAWB write FControleAWB;
   end;
 
@@ -22,6 +23,7 @@ implementation
 
 
 { TControleAWBControl }
+
 
 constructor TControleAWBControl.Create;
 begin

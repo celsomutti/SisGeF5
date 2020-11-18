@@ -290,8 +290,8 @@
         </DCCReference>
         <DCCReference Include="Thread\Thread.ImportarPlanilhaEntradaEntregas.pas"/>
         <DCCReference Include="DAO\DAO.PlanilhaEntradaEntregas.pas"/>
-        <DCCReference Include="Model\Model.PlanilhaEntradaCarriers.pas"/>
-        <DCCReference Include="Control\Control.PlanilhaEntradaCarriers.pas"/>
+        <DCCReference Include="Model\Model.PlanilhaEntradaSIMExpress.pas"/>
+        <DCCReference Include="Control\Control.PlanilhaEntradaSimExpress.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPlanilhaEntradaCarriers.pas"/>
         <DCCReference Include="View\View.BIPedidos.pas">
             <Form>view_BIPedidos</Form>
@@ -419,6 +419,9 @@
         </DCCReference>
         <DCCReference Include="Model\Model.PlanilhaEntradaTFO.pas"/>
         <DCCReference Include="Control\Control.PlanilhaEntradaTFO.pas"/>
+        <DCCReference Include="Thread\Thread.ImportarPedidosDIRECT.pas"/>
+        <DCCReference Include="Model\Model.PlanilhaEntradaCarriers.pas"/>
+        <DCCReference Include="Thread\Thread.ImportarPedidosSIMExpress.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPedidosTFO.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
