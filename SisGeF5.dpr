@@ -87,7 +87,6 @@ uses
   DAO.ControleBaixasTFO in 'DAO\DAO.ControleBaixasTFO.pas',
   Model.ControleBaixasTFO in 'Model\Model.ControleBaixasTFO.pas',
   Control.ControleBaixasTFO in 'Control\Control.ControleBaixasTFO.pas',
-  Thread.ImportarBaixasTFO in 'Thread\Thread.ImportarBaixasTFO.pas',
   View.VisualizacaoPlanilha in 'View\View.VisualizacaoPlanilha.pas' {view_VisualizacaoPlanilhas},
   Thread.ImportarPlanilhaEntradaEntregas in 'Thread\Thread.ImportarPlanilhaEntradaEntregas.pas',
   DAO.PlanilhaEntradaEntregas in 'DAO\DAO.PlanilhaEntradaEntregas.pas',
@@ -178,6 +177,8 @@ uses
   Thread.ImportarPedidosDIRECT in 'Thread\Thread.ImportarPedidosDIRECT.pas',
   Model.PlanilhaEntradaCarriers in 'Model\Model.PlanilhaEntradaCarriers.pas',
   Thread.ImportarPedidosSIMExpress in 'Thread\Thread.ImportarPedidosSIMExpress.pas',
+  Thread.ImportarBaixasDIRECT in 'Thread\Thread.ImportarBaixasDIRECT.pas',
+  Thread.ImportarBaixasTFO in 'Thread\Thread.ImportarBaixasTFO.pas',
   Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas';
 
 {$R *.res}
@@ -186,7 +187,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Sistema Gerenciador de Franquias';
-  AApplication.CreateForm(TData_Sisgef, Data_Sisgef);
-  AApplication.CreateForm(Tview_Main, view_Main);
-  plication.Run;
+  Application.CreateForm(TData_Sisgef, Data_Sisgef);
+  Application.CreateForm(Tview_Main, view_Main);
+  Application.Run;
 end.

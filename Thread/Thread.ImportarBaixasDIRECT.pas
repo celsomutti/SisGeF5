@@ -1,17 +1,17 @@
-unit Thread.ImportarBaixasTFO;
+unit Thread.ImportarBaixasDIRECT;
 
 interface
 
 uses
   System.Classes, Control.Entregas, System.SysUtils, System.DateUtils, Control.VerbasExpressas,
   Control.Bases, Control.EntregadoresExpressas, Generics.Collections, System.StrUtils, Model.VerbasExpressas,
-  Control.PlanilhaBaixasTFO;
+  Control.PlanilhaBaixasDIRECT;
 
 type
   TThread_ImportarPedidosTFO = class(TThread)
   private
     { Private declarations }
-    FPlanilha: TPlanilhaBaixasTFOControl;
+    FPlanilha: TPlanilhaBaixasDIRECTControl;
     FEntregas: TEntregasControl;
     FVerbas: TVerbasExpressasControl;
     FBases: TBasesControl;
@@ -23,7 +23,8 @@ type
     procedure BeginProcesso;
     procedure TerminateProcess;
     function RetornaVerba(aParam: array of variant): double;
-    function RetornaAgente(iEntregador: integer): integer;
+    function RetornaAgente(sChave: string): integer;
+    function RetornaEntregador(sChave: string): integer;
   public
     FFile: String;
     iCodigoCliente: Integer;
@@ -97,7 +98,7 @@ begin
   try
     try
       Synchronize(BeginProcesso);
-      FPlanilha := TPlanilhaBaixasTFOControl.Create;
+      FPlanilha := TPlanilhaBaixasDIRECTControl.Create;
       sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
       if FPLanilha.GetPlanilha(FFile) then
       begin
@@ -109,43 +110,129 @@ begin
         begin
           FEntregas := TEntregasControl.Create;
           SetLength(aParam,2);
-          aParam := ['NN', FPlanilha.Planilha.Planilha[i].NNRemessa];
-          if not FEntregas.Localizar(aParam).IsEmpty then
+          aParam := ['NN', FPlanilha.Planilha.Planilha[i].Remessa];
+          if FEntregas.Localizar(aParam).IsEmpty then
           begin
-            FEntregas.Entregas.Distribuidor := RetornaAgente(FPlanilha.Planilha.Planilha[i].CodigoEntregador);
-            FEntregas.Entregas.Entregador := FPlanilha.Planilha.Planilha[i].CodigoEntregador;
-            FEntregas.Entregas.Baixa := FPlanilha.Planilha.Planilha[i].DataDigitacao;
+            if UpperCase(FPlanilha.Planilha.Planilha[iPos].Tipo) = 'REVERSA' then
+            begin
+              FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].Remessa;
+              FEntregas.Entregas.Distribuidor := RetornaAgente(FPlanilha.Planilha.Planilha[i].Documento);
+              FEntregas.Entregas.Entregador := RetornaEntregador(FPlanilha.Planilha.Planilha[i].Documento);
+              FEntregas.Entregas.Cliente := 0;
+              FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[i].NF;
+              FEntregas.Entregas.Consumidor := 'REVERSA';
+              FEntregas.Entregas.Endereco := '';
+              FEntregas.Entregas.Complemento := '';
+              FEntregas.Entregas.Bairro := '';
+              FEntregas.Entregas.Cidade := FPlanilha.Planilha.Planilha[i].Municipio;
+              FEntregas.Entregas.Cep :=FPlanilha.Planilha.Planilha[i].CEP;
+              FEntregas.Entregas.Telefone := '';
+              FEntregas.Entregas.Expedicao := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
+              FEntregas.Entregas.Previsao := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
+              FEntregas.Entregas.Volumes := 1;
+              FEntregas.Entregas.Atribuicao := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
+              FEntregas.Entregas.Baixa := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
+              FEntregas.Entregas.Baixado := 'S';
+              FEntregas.Entregas.Pagamento := StrToDate('30/12/1899');
+              FEntregas.Entregas.Pago := 'N';
+              FEntregas.Entregas.Fechado := 'N';
+              FEntregas.Entregas.Status := 909;
+              FEntregas.Entregas.Entrega := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
+              if FPlanilha.Planilha.Planilha[i].PesoNominal > FPlanilha.Planilha.Planilha[i].PesoCubado then
+              begin
+                FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoNominal;
+                FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.Planilha[i].PesoNominal;
+                FEntregas.Entregas.TipoPeso := 'NORMAL';
+              end
+              else
+              begin
+                FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoCubado;
+                FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.Planilha[i].PesoCubado;
+                FEntregas.Entregas.TipoPeso := 'CUBADO';
+              end;
+              FEntregas.Entregas.PesoFranquia := 0;
+              FEntregas.Entregas.Advalorem := 0;
+              FEntregas.Entregas.PagoFranquia := 0;
+              FEntregas.Entregas.VerbaEntregador := 0;
+              FEntregas.Entregas.Extrato := '0';
+              FEntregas.Entregas.Atraso := 0;
+              FEntregas.Entregas.VolumesExtra := 0;
+              FEntregas.Entregas.ValorVolumes := 0;
+              FEntregas.Entregas.Recebimento := StrToDate('30/12/1899');
+              FEntregas.Entregas.Recebido := 'N';
+              FEntregas.Entregas.CTRC := 0;
+              FEntregas.Entregas.Manifesto := 0;
+              FEntregas.Entregas.Rastreio := '';
+              FEntregas.Entregas.VerbaFranquia := 0;
+              FEntregas.Entregas.Lote := 0;
+              FEntregas.Entregas.Retorno := '';
+              FEntregas.Entregas.Credito := StrToDate('30/12/1899');;
+              FEntregas.Entregas.Creditado := 'N';
+              FEntregas.Entregas.Container := '';
+              FEntregas.Entregas.ValorProduto := 0;
+              FEntregas.Entregas.Altura := 0;
+              FEntregas.Entregas.Largura := 0;
+              FEntregas.Entregas.Comprimento := 0;
+              FEntregas.Entregas.CodigoFeedback := 0;
+              FEntregas.Entregas.DataFeedback := StrToDate('30/12/1899');
+              FEntregas.Entregas.Conferido := 0;
+              FEntregas.Entregas.Pedido := FPlanilha.Planilha.Planilha[i].Pedido;
+              FEntregas.Entregas.CodCliente := iCodigoCliente;
+              Finalize(aParam);
+              SetLength(aParam,7);
+              aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
+                         FEntregas.Entregas.PesoReal, FEntregas.Entregas.Baixa, 0, 0];
+              FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
+              Finalize(aParam);
+              if FEntregas.Entregas.VerbaEntregador = 0 then
+              begin
+                sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
+                             FPlanilha.Planilha.Planilha[i].Motorista + ' não atribuida !';
+                Synchronize(UpdateLog(sMensagem));
+              end
+              else
+              begin
+                if FPlanilha.Planilha.Planilha[i].Loja = 'S' then
+                begin
+                  dVerba := FEntregas.Entregas.VerbaEntregador;
+                  FEntregas.Entregas.VerbaEntregador := (dVerba / 2);
+                end;
+              end;
+            end
+            else
+            begin
+              sMensagem := 'Entrega NN ' + FEntregas.Entregas.NN + ' do entregador ' +
+                           FPlanilha.Planilha.Planilha[i].Motorista + ' não encontrada no banco de dados !';
+              Synchronize(UpdateLog(sMensagem));
+            end;
+          end
+          else
+          begin
+            FEntregas.Entregas.Distribuidor := RetornaAgente(FPlanilha.Planilha.Planilha[i].Documento);
+            FEntregas.Entregas.Entregador := RetornaAgente(FPlanilha.Planilha.Planilha[i].Documento);
+            FEntregas.Entregas.Baixa := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
             FEntregas.Entregas.Baixado := 'S';
             FEntregas.Entregas.Status := 909;
-            FEntregas.Entregas.Entrega := FPlanilha.Planilha.Planilha[i].DataEntrega;
-            if FPlanilha.Planilha.Planilha[i].DataEntrega < FPlanilha.Planilha.Planilha[i].DataDigitacao then
-            begin
-              FEntregas.Entregas.Atraso := DaysBetween(FPlanilha.Planilha.Planilha[iPos].DataDigitacao, FPlanilha.Planilha.Planilha[iPos].DataEntrega);
-            end;
-            FPlanilha.Planilha.Planilha[I].PesoCobrado := ReplaceStr(FPlanilha.Planilha.Planilha[I].PesoCobrado, ' KG', '');
-            FPlanilha.Planilha.Planilha[I].PesoCobrado := ReplaceStr(FPlanilha.Planilha.Planilha[I].PesoCobrado, '.', ',');
-            FEntregas.Entregas.PesoReal := StrToFloatDef(FPlanilha.Planilha.Planilha[I].PesoCobrado,0);
-            FEntregas.Entregas.PesoCobrado := StrToFloatDef(FPlanilha.Planilha.Planilha[I].PesoCobrado,0);
+            FEntregas.Entregas.Entrega := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
+            FEntregas.Entregas.Atraso := 0;
+            FPlanilha.Planilha.Planilha[I].PesoNominal := ReplaceStr(FPlanilha.Planilha.Planilha[I].PesoNominal, '.', ',');
+            FEntregas.Entregas.PesoReal := StrToFloatDef(FPlanilha.Planilha.Planilha[I].PesoNominal,0);
+            FEntregas.Entregas.PesoCobrado := StrToFloatDef(FPlanilha.Planilha.Planilha[I].PesoNominal,0);
+            Finalize(aParam);
             SetLength(aParam,7);
             aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
                        FEntregas.Entregas.PesoReal, FEntregas.Entregas.Baixa, 0, 0];
             FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
+            Finalize(aParam);
             if FEntregas.Entregas.VerbaEntregador = 0 then
             begin
               sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
-                           FPlanilha.Planilha.Planilha[i].NomeEntregador + ' não atribuida !';
+                           FPlanilha.Planilha.Planilha[i].Motorista + ' não atribuida !';
               Synchronize(UpdateLog(sMensagem));
             end;
             FEntregas.Entregas.CodigoFeedback := 0;
             FEntregas.Entregas.Acao := tacAlterar;
-          end
-          else
-          begin
-            sMensagem := 'Entrega NN ' + FEntregas.Entregas.NN + ' do entregador ' +
-                         FPlanilha.Planilha.Planilha[i].NomeEntregador + ' não encontrada no banco de dados !';
-            Synchronize(UpdateLog(sMensagem));
           end;
-          Finalize(aParam);
           if not FEntregas.Gravar() then
           begin
             sMensagem := 'Erro ao gravar o NN ' + Fentregas.Entregas.NN + ' !';
@@ -176,7 +263,33 @@ begin
   end;
 end;
 
-function TThread_ImportarPedidosTFO.RetornaAgente(iEntregador: integer): integer;
+function TThread_ImportarPedidosTFO.RetornaAgente(sChave: string): integer;
+var
+  FEntregadores: TEntregadoresExpressasControl;
+  aParam: array of variant;
+  iRetorno: integer;
+begin
+  try
+    Result := 0;
+    iRetorno := 0;
+    FEntregadores := TEntregadoresExpressasControl.Create;
+    SetLength(aParam, 3);
+    aParam := ['CHAVECLIENTE', sChave, iCodigoCliente];
+    if FEntregadores.Localizar(aParam).IsEmpty then
+    begin
+      iRetorno = FEntregadores.Entregadores.Agente;
+    end
+    else
+    begin
+      iRetorno := 1;
+    end;
+    Result := iRetorno;
+  finally
+    Fentregadores.Free;
+  end;
+end;
+
+function TThread_ImportarPedidosTFO.RetornaEntregador(sChave: string): integer;
 var
   FEntregadores: TEntregadoresExpressasControl;
   aParam: array of variant;
@@ -187,15 +300,17 @@ begin
     iRetorno := 0;
     FEntregadores := TEntregadoresExpressasControl.Create;
     SetLength(aParam, 2);
-    aParam := ['ENTREGADOR', iEntregador];
-    if FEntregadores.Localizar(aParam).IsEmpty then
+    SetLength(aParam, 3);
+    aParam := ['CHAVECLIENTE', sChave, iCodigoCliente];
+    if not Fentregadores.Localizar(aParam).IsEmpty then
     begin
-      iRetorno = FEntregadores.Entregadores.Agente;
+      iRetorno = FEntregadores.Entregadores.Entregador;
     end
     else
     begin
       iRetorno := 1;
     end;
+    Finalize(aParam);
     Result := iRetorno;
   finally
     Fentregadores.Free;

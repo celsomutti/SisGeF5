@@ -217,6 +217,18 @@ begin
     FDQuery.SQL.Add('WHERE DES_CHAVE = :DES_CHAVE');
     FDQuery.ParamByName('DES_CHAVE').AsString := aParam[1];
   end;
+  if aParam[0] = 'CHAVECLIENTE' then
+  begin
+    FDQuery.SQL.Add('WHERE DES_CHAVE = :DES_CHAVE AND COD_CLIENTE = :COD_CLIENTE');
+    FDQuery.ParamByName('DES_CHAVE').AsString := aParam[1];
+    FDQuery.ParamByName('COD_CLIENTE').AsInteger := aParam[2];
+  end;
+  if aParam[0] = 'ENTREGADORCLIENTE' then
+  begin
+    FDQuery.SQL.Add('WHERE COD_ENTREGADOR = :COD_ENTREGADOR AND COD_CLIENTE = :COD_CLIENTE');
+    FDQuery.ParamByName('COD_ENTREGADOR').AsInteger := aParam[1];
+    FDQuery.ParamByName('COD_CLIENTE').AsInteger := aParam[2];
+  end;
   if aParam[0] = 'CLIENTE' then
   begin
     FDQuery.SQL.Add('WHERE COD_CLIENTE = :COD_CLIENTE');

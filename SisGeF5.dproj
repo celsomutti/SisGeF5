@@ -283,7 +283,6 @@
         <DCCReference Include="DAO\DAO.ControleBaixasTFO.pas"/>
         <DCCReference Include="Model\Model.ControleBaixasTFO.pas"/>
         <DCCReference Include="Control\Control.ControleBaixasTFO.pas"/>
-        <DCCReference Include="Thread\Thread.ImportarBaixasTFO.pas"/>
         <DCCReference Include="View\View.VisualizacaoPlanilha.pas">
             <Form>view_VisualizacaoPlanilhas</Form>
             <FormType>dfm</FormType>
@@ -422,6 +421,8 @@
         <DCCReference Include="Thread\Thread.ImportarPedidosDIRECT.pas"/>
         <DCCReference Include="Model\Model.PlanilhaEntradaCarriers.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPedidosSIMExpress.pas"/>
+        <DCCReference Include="Thread\Thread.ImportarBaixasDIRECT.pas"/>
+        <DCCReference Include="Thread\Thread.ImportarBaixasTFO.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPedidosTFO.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
