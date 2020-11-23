@@ -18,6 +18,7 @@ type
 
     function Gravar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarExtato(aParam: array of variant): boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
 
     property Entregadores: TEntregadoresExpressas read FEntregadores write FEntregadores;
@@ -52,6 +53,11 @@ end;
 function TEntregadoresExpressasControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FEntregadores.Localizar(aParam);
+end;
+
+function TEntregadoresExpressasControl.LocalizarExtato(aParam: array of variant): boolean;
+begin
+  Result := FEntregadores.LocalizarExtato(aParam);
 end;
 
 end.

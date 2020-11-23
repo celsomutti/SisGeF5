@@ -5,10 +5,10 @@ interface
 uses
   System.Classes, Control.Entregas, System.SysUtils, System.DateUtils, Control.VerbasExpressas,
   Control.Bases, Control.EntregadoresExpressas, Generics.Collections, System.StrUtils, Control.ControleAWB,
-  Control.PlanilhaEntradaDIRECT;
+  Control.PlanilhaEntradaDIRECT, FireDAC.Comp.Client;
 
 type
-  TThread_ImportarPedidosTFO = class(TThread)
+  TThread_ImportarPedidosDIRECT = class(TThread)
   private
     { Private declarations }
     FPlanilha: TPlanilhaEntradaDIRECTControl;
@@ -43,7 +43,7 @@ implementation
 
   and UpdateCaption could look like,
 
-    procedure TThread_ImportarPedidosTFO.UpdateCaption;
+    procedure TThread_ImportarPedidosDIRECT.UpdateCaption;
     begin
       Form1.Caption := 'Updated in a thread';
     end;
@@ -68,9 +68,9 @@ implementation
 
 uses Common.ENum, Global.Parametros;
 
-{ TThread_ImportarPedidosTFO }
+{ TThread_ImportarPedidosDIRECT }
 
-procedure TThread_ImportarPedidosTFO.BeginProcesso;
+procedure TThread_ImportarPedidosDIRECT.BeginProcesso;
 var
   sMensagem: String;
 begin
@@ -78,13 +78,11 @@ begin
   bCancel := False;
   bProcess := True;
   sMensagem := '';
-  sMensagem := '>> ' +  FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > iniciando importação do arquivo ' + FFile;
-  UpdateLog(sMensagem);
   sMensagem := '>> ' +  FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > tratando os dados da planilha. Aguarde...';
   UpdateLog(sMensagem);
 end;
 
-procedure TThread_ImportarPedidosTFO.Execute;
+procedure TThread_ImportarPedidosDIRECT.Execute;
 var
   aParam: Array of variant;
   iPos, iPosition, iTotal, i, iTipo: Integer;
@@ -95,21 +93,22 @@ var
 begin
   try
     try
-      Synchronize(BeginProcesso);
+      BeginProcesso;
       FPlanilha := TPlanilhaEntradaDIRECTControl.Create;
-      sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
+      FEntregas := TEntregasControl.Create;
       if FPLanilha.GetPlanilha(FFile) then
       begin
+        sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
+        UpdateLOG(sMensagem);
         iPos := 0;
         iPosition := 0;
         dPos := 0;
         iTotal := FPlanilha.Planilha.Planilha.Count;
         for i := 0 to Pred(iTotal) do
         begin
-          FEntregas := TEntregasControl.Create;
           SetLength(aParam,2);
           aParam := ['NN', FPlanilha.Planilha.Planilha[i].Remessa];
-          if not FEntregas.Localizar(aParam).IsEmpty then
+          if not FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].Remessa;
             FEntregas.Entregas.Distribuidor := 0;
@@ -193,9 +192,8 @@ begin
           if not FEntregas.Gravar() then
           begin
             sMensagem := 'Erro ao gravar o NN ' + Fentregas.Entregas.NN + ' !';
-            Synchronize(UpdateLog(sMensagem));
+            UpdateLog(sMensagem);
           end;
-          FEntregas.Free;
           iTipo := 0;
           sOperacao := '';
           FControleAWB := TControleAWBControl.Create;
@@ -209,7 +207,7 @@ begin
           end;
           SetLength(aParam, 3);
           aParam := ['REMESSAAWB1', FPlanilha.Planilha.Planilha[iPos].Remessa,FPlanilha.Planilha.Planilha[iPos].AWB1];
-          if FControleAWB.Localizar(aParam).IsEmpty then
+          if not FControleAWB.LocalizarExato(aParam) then
           begin
             FControleAWB.ControleAWB.Remessa := FPlanilha.Planilha.Planilha[iPos].Remessa;
             FControleAWB.ControleAWB.AWB1 := FPlanilha.Planilha.Planilha[iPos].AWB1;
@@ -226,7 +224,7 @@ begin
           dPos := (iPos / iTotal) * 100;
           if not(Self.Terminated) then
           begin
-            Synchronize(UpdateProgress(dPos));
+            UpdateProgress(dPos);
           end
           else
           begin
@@ -237,21 +235,22 @@ begin
     Except on E: Exception do
       begin
         sMensagem := '** ERROR **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
-        Synchronize(UpdateLog(sMensagem));
+        UpdateLog(sMensagem);
         bCancel := True;
       end;
     end;
   finally
     FPlanilha.Free;
+    FEntregas.Free;
   end;
 end;
 
-procedure TThread_ImportarPedidosTFO.TerminateProcess;
+procedure TThread_ImportarPedidosDIRECT.TerminateProcess;
 begin
   bProcess := False;
 end;
 
-procedure TThread_ImportarPedidosTFO.UpdateLOG(sMensagem: string);
+procedure TThread_ImportarPedidosDIRECT.UpdateLOG(sMensagem: string);
 begin
 if sLog <> '' then
   begin
@@ -260,7 +259,7 @@ if sLog <> '' then
   sLog := sLog + sMensagem;
 end;
 
-procedure TThread_ImportarPedidosTFO.UpdateProgress(dPosition: Double);
+procedure TThread_ImportarPedidosDIRECT.UpdateProgress(dPosition: Double);
 begin
   dPositionRegister := dPosition;
 end;

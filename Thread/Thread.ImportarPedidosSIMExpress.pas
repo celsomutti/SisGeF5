@@ -95,8 +95,9 @@ var
 begin
   try
     try
-      Synchronize(BeginProcesso);
+      BeginProcesso;
       FPlanilha := TPlanilhaEntradaSIMExpressControl.Create;
+      FEntregas := TEntregasControl.Create;
       sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
       if FPLanilha.GetPlanilha(FFile) then
       begin
@@ -106,10 +107,9 @@ begin
         iTotal := FPlanilha.Planilha.Planilha.Count;
         for i := 0 to Pred(iTotal) do
         begin
-          FEntregas := TEntregasControl.Create;
           SetLength(aParam,2);
           aParam := ['NN', FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].IDVolume,0))];
-          if FEntregas.Localizar(aParam).IsEmpty then
+          if FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.Acao := tacIncluir;
           end
@@ -121,7 +121,7 @@ begin
           Finalize(aParam);
           SetLength(aParam,2);
           aParam := ['FANTASIA',FPlanilha.Planilha.Planilha[i].Motorista];
-          if FEntregadores.Localizar(aParam).IsEmpty then
+          if FEntregadores.LocalizarExtato(aParam) then
           begin
             FEntregas.Entregas.Distribuidor := 1;
             FEntregas.Entregas.Entregador := 781;
@@ -168,7 +168,7 @@ begin
             begin
               sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
                            FPlanilha.Planilha.Planilha[i].Motorista + ' não atribuida !';
-              Synchronize(UpdateLog(sMensagem));
+              UpdateLog(sMensagem);
             end;
           end
           else
@@ -196,14 +196,14 @@ begin
           if not FEntregas.Gravar() then
           begin
             sMensagem := 'Erro ao gravar o NN ' + FEntregas.Entregas.NN + ' !';
-            Synchronize(UpdateLog(sMensagem));
+            UpdateLog(sMensagem);
           end;
           FEntregas.Free;
           inc(iPos, 1);
           dPos := (iPos / iTotal) * 100;
           if not(Self.Terminated) then
           begin
-            Synchronize(UpdateProgress(dPos));
+            UpdateProgress(dPos);
           end
           else
           begin
@@ -214,7 +214,7 @@ begin
     Except on E: Exception do
       begin
         sMensagem := '** ERROR **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
-        Synchronize(UpdateLog(sMensagem));
+        UpdateLog(sMensagem);
         bCancel := True;
       end;
     end;
@@ -280,7 +280,7 @@ begin
         iFaixa := FEntregador.Entregadores.Grupo;
         dVerba := FEntregador.Entregadores.Verba;
       end;
-      FinalizePackage(FParam);
+      Finalize(FParam);
       FEntregador.Free;
       if dVerba = 0 then
       begin

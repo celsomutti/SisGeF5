@@ -64,11 +64,11 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 2
-      Width = 121
+      Width = 568
     end
     object cxButton1: TcxButton
       Left = 776
-      Top = 52
+      Top = 53
       Width = 92
       Height = 25
       Cursor = crHandPoint
@@ -77,7 +77,7 @@ object view_ImportarPedidos: Tview_ImportarPedidos
     end
     object memLOG: TcxMemo
       Left = 10
-      Top = 126
+      Top = 129
       ParentFont = False
       Properties.AutoSelect = True
       Properties.ClearKey = 16430
@@ -91,8 +91,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 5
-      Height = 89
-      Width = 185
+      Height = 255
+      Width = 858
     end
     object cxButton2: TcxButton
       Left = 793
@@ -115,7 +115,7 @@ object view_ImportarPedidos: Tview_ImportarPedidos
     end
     object pbImportacao: TcxProgressBar
       Left = 10
-      Top = 83
+      Top = 84
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -124,7 +124,7 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
       TabOrder = 4
-      Width = 121
+      Width = 858
     end
     object cboCliente: TcxComboBox
       Left = 10
@@ -137,7 +137,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
         'TRANSFOLHA'
         'CARRIERS'
         'SPLOG BRASIL'
-        'DIRECT')
+        'DIRECT'
+        'RODO'#202)
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
       Style.Font.Height = -11
@@ -163,6 +164,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -172,6 +175,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       CaptionOptions.Text = 'Arquivo'
       CaptionOptions.Layout = clTop
       Control = edtArquivo
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -182,6 +187,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 92
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -198,6 +205,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       CaptionOptions.Text = 'LOG'
       CaptionOptions.Layout = clTop
       Control = memLOG
+      ControlOptions.OriginalHeight = 89
+      ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -208,6 +217,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -218,6 +229,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 0
@@ -237,6 +250,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       CaptionOptions.Visible = False
       Visible = False
       Control = pbImportacao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -247,6 +262,8 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       CaptionOptions.Text = 'Cliente'
       CaptionOptions.Layout = clTop
       Control = cboCliente
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 186
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -295,5 +312,11 @@ object view_ImportarPedidos: Tview_ImportarPedidos
     Filter = 'CSV (Campo separado por virgula)|*.csv|Arquivo Texto|*.txt'
     Title = 'Localizar arquivo de planilha'
     Left = 600
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 376
+    Top = 24
   end
 end

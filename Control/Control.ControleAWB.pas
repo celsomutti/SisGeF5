@@ -13,6 +13,7 @@ type
     destructor Destroy; override;
     function Gravar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarExato(aParam: array of variant): Boolean;
     function GetId(): Integer;
 
     property ControleAWB: TControleAWB read FControleAWB write FControleAWB;
@@ -49,6 +50,11 @@ end;
 function TControleAWBControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FControleAWB.Localizar(aParam);
+end;
+
+function TControleAWBControl.LocalizarExato(aParam: array of variant): Boolean;
+begin
+  Result := FControleAWB.LocalizarExato(aParam);
 end;
 
 end.

@@ -15,6 +15,7 @@ uses
     function Alterar(ABase: TBases): Boolean;
     function Excluir(ABase: TBases): Boolean;
     function Pesquisar(aParam: array of variant): TFDQuery;
+    function LocalizarExato(aParam: array of variant): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
   end;
   const
@@ -116,6 +117,58 @@ begin
   end;
 end;
 
+function TBasesDAO.LocalizarExato(aParam: array of variant): Boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    if Length(aParam) < 2 then Exit;
+    FDQuery.SQL.Clear;
+    FDQuery.SQL.Add('select * from ' + TABLENAME);
+    if aParam[0] = 'CODIGO' then
+    begin
+      FDQuery.SQL.Add('WHERE COD_AGENTE = :COD_AGENTE');
+      FDQuery.ParamByName('COD_AGENTE').Value := aParam[1];
+    end;
+    if aParam[0] = 'CNPJ' then
+    begin
+      FDQuery.SQL.Add('WHERE NUM_CNPJ = :NUM_CNPJ');
+      FDQuery.ParamByName('NUM_CNPJ').AsString := aParam[1];
+    end;
+    if aParam[0] = 'RAZAO' then
+    begin
+      FDQuery.SQL.Add('WHERE DES_RAZAO_SOCIAL = :DES_RAZAO_SOCIAL');
+      FDQuery.ParamByName('DES_RAZAO_SOCIAL').AsString := aParam[1];
+    end;
+    if aParam[0] = 'FANTASIA' then
+    begin
+      FDQuery.SQL.Add('WHERE NOM_FANTASIA = :NOM_FANTASIA');
+      FDQuery.ParamByName('NOM_FANTASIA').AsString := aParam[1];
+    end;
+    if aParam[0] = 'IE' then
+    begin
+      FDQuery.SQL.Add('WHERE NUM_IE = :NUM_IE');
+      FDQuery.ParamByName('NUM_IE').AsString := aParam[1];
+    end;
+    if aParam[0] = 'FILTRO' then
+    begin
+      FDQuery.SQL.Add('WHERE ' + aParam[1]);
+    end;
+    if aParam[0] = 'APOIO' then
+    begin
+      FDQuery.SQL.Clear;
+      FDQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
+    end;
+    FDQuery.Open;
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
+end;
+
 function TBasesDAO.Pesquisar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
@@ -161,5 +214,6 @@ begin
   FDQuery.Open;
   Result := FDQuery;
 end;
+
 
 end.

@@ -365,8 +365,6 @@
         </DCCReference>
         <DCCReference Include="Model\Model.ControleAWB.pas"/>
         <DCCReference Include="Control\Control.ControleAWB.pas"/>
-        <DCCReference Include="Thread\Thread._201010_importar_pedidos_direct.pas"/>
-        <DCCReference Include="Thread\Thread._201010_importar_pedidos_tfo.pas"/>
         <DCCReference Include="View\View.ExtratoExpressas.pas">
             <Form>view_ExtratoExpressas</Form>
             <FormType>dfm</FormType>
@@ -410,8 +408,6 @@
             <Form>view_CadastroEntregadores</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Thread\Thread._201020_importar_baixas_tfo.pas"/>
-        <DCCReference Include="Thread\Thread._201020_importar_baixas_direct.pas"/>
         <DCCReference Include="View\View.LancamentosExtratos.pas">
             <Form>view_LancamentosExtratos</Form>
             <FormType>dfm</FormType>
@@ -424,6 +420,7 @@
         <DCCReference Include="Thread\Thread.ImportarBaixasDIRECT.pas"/>
         <DCCReference Include="Thread\Thread.ImportarBaixasTFO.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPedidosTFO.pas"/>
+        <DCCReference Include="Control\Control.PlanilhaEntradaCarriers.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

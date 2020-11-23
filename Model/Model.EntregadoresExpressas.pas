@@ -61,6 +61,7 @@ uses
     property Acao: TAcao read FAcao write SetAcao;
 
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarExtato(aParam: array of variant): boolean;
     function Gravar(): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
     function SetupModel(FDEntregadores: TFDQuery): Boolean;
@@ -253,6 +254,89 @@ begin
     ClearModel;
   end;
   Result := FDQuery;
+end;
+
+function TEntregadoresExpressas.LocalizarExtato(aParam: array of variant): boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    if Length(aParam) < 2 then Exit;
+    FDQuery.SQL.Clear;
+    FDQuery.SQL.Add('select * from ' + TABLENAME);
+    if aParam[0] = 'CADASTRO' then
+    begin
+      FDQuery.SQL.Add('WHERE COD_CADASTRO = :COD_CADASTRO');
+      FDQuery.ParamByName('COD_CADASTRO').AsInteger := aParam[1];
+    end;
+    if aParam[0] = 'ENTREGADOR' then
+    begin
+      FDQuery.SQL.Add('WHERE COD_ENTREGADOR = :COD_ENTREGADOR');
+      FDQuery.ParamByName('COD_ENTREGADOR').AsInteger := aParam[1];
+    end;
+    if aParam[0] = 'AGENTE' then
+    begin
+      FDQuery.SQL.Add('WHERE COD_AGENTE = :COD_AGENTE');
+      FDQuery.ParamByName('COD_AGENTE').AsInteger := aParam[1];
+    end;
+    if aParam[0] = 'DATA' then
+    begin
+      FDQuery.SQL.Add('WHERE DAT_CODIGO = :DAT_CODIGO');
+      FDQuery.ParamByName('DAT_CODIGO').AsDate := aParam[1];
+    end;
+    if aParam[0] = 'FANTASIA' then
+    begin
+      FDQuery.SQL.Add('WHERE NOM_FANTASIA = :NOM_FANTASIA');
+      FDQuery.ParamByName('NOM_FANTASIA').AsString := aParam[1];
+    end;
+    if aParam[0] = 'CHAVE' then
+    begin
+      FDQuery.SQL.Add('WHERE DES_CHAVE = :DES_CHAVE');
+      FDQuery.ParamByName('DES_CHAVE').AsString := aParam[1];
+    end;
+    if aParam[0] = 'CHAVECLIENTE' then
+    begin
+      FDQuery.SQL.Add('WHERE DES_CHAVE = :DES_CHAVE AND COD_CLIENTE = :COD_CLIENTE');
+      FDQuery.ParamByName('DES_CHAVE').AsString := aParam[1];
+      FDQuery.ParamByName('COD_CLIENTE').AsInteger := aParam[2];
+    end;
+    if aParam[0] = 'ENTREGADORCLIENTE' then
+    begin
+      FDQuery.SQL.Add('WHERE COD_ENTREGADOR = :COD_ENTREGADOR AND COD_CLIENTE = :COD_CLIENTE');
+      FDQuery.ParamByName('COD_ENTREGADOR').AsInteger := aParam[1];
+      FDQuery.ParamByName('COD_CLIENTE').AsInteger := aParam[2];
+    end;
+    if aParam[0] = 'CLIENTE' then
+    begin
+      FDQuery.SQL.Add('WHERE COD_CLIENTE = :COD_CLIENTE');
+      FDQuery.ParamByName('COD_CLIENTE').AsInteger := aParam[1];
+    end;
+    if aParam[0] = 'FILTRO' then
+    begin
+      FDQuery.SQL.Add('WHERE ' + aParam[1]);
+    end;
+    if aParam[0] = 'APOIO' then
+    begin
+      FDQuery.SQL.Clear;
+      FDQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
+    end;
+    FDQuery.Open;
+    if not FDQuery.IsEmpty then
+    begin
+      if aParam[0] <> 'APOIO' then SetupModel(FDQuery);
+    end
+    else
+    begin
+      ClearModel;
+      Exit;
+    end;
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
 end;
 
 procedure TEntregadoresExpressas.SetAcao(const value: TAcao);

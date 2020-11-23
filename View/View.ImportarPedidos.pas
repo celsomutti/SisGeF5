@@ -16,8 +16,8 @@ uses
   dxSkinXmas2008Blue, dxSkinscxPCPainter, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit,
   dxLayoutcxEditAdapters, cxLabel, System.Actions, Vcl.ActnList, cxTextEdit, cxMaskEdit, cxButtonEdit, dxLayoutControlAdapters,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxMemo, cxDropDownEdit, cxProgressBar, Control.PlanilhaEntradaEntregas,
-  Thread.ImportarPlanilhaEntradaEntregas, Thread.ImportarPlanilhaEntradaCarriers, ShellAPI, FileCTRL,
-  Thread.ImportarPlanilhaEntradaSPLOG, Thread._201010_importar_pedidos_direct, Thread._201010_importar_pedidos_tfo;
+  Thread.ImportarPlanilhaEntradaCarriers, ShellAPI, FileCTRL, Thread.ImportarPlanilhaEntradaSPLOG,
+  Thread.ImportarPedidosDIRECT, Thread.ImportarPedidosSIMExpress, Thread.ImportarPedidosTFO, Vcl.ExtCtrls;
 
 type
   Tview_ImportarPedidos = class(TForm)
@@ -48,31 +48,39 @@ type
     pbImportacao: TcxProgressBar;
     dxLayoutItem8: TdxLayoutItem;
     actVisualizar: TAction;
+    Timer1: TTimer;
     procedure actAbrirArquivoExecute(Sender: TObject);
     procedure actImportarExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actVisualizarExecute(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
     procedure Importar;
     procedure ImportarCarriers;
     procedure ImportaSPLOG;
     procedure ImportaDIRECT;
+    procedure ImportaRODOE;
     procedure VisualizarPlanilhas;
     procedure AbreArquivo;
     procedure AbrePasta;
+    procedure AtualizaLogTFO;
+    procedure AtualizaLOGDIRECT;
+    procedure AtualizaLogSimExpress;
+
   public
     { Public declarations }
   end;
 
 var
   view_ImportarPedidos: Tview_ImportarPedidos;
-  planilha : Tthread_201010_importar_pedidos_tfo;
+  planilha : Tthread_ImportarPedidosTFO;
   planilhaCarriers : Thread_ImportarPlanilhaEntradaCarriers;
   planilhaSPLOG: Thread_ImportarPlanilhaEntradaSPLOG;
-  planilhaDIRECT: Tthread_201010_importar_pedidos_direct;
+  planilhaDIRECT: Tthread_ImportarPedidosDIRECT;
+  planilhaSIMExpress: TThread_ImportarPedidosSIMEXpress;
   sFileExt : String;
 
 implementation
@@ -172,6 +180,7 @@ begin
     2 : ImportarCarriers;
     3 : ImportaSPLOG;
     4 : ImportaDIRECT;
+    5 : ImportaRODOE;
   else
     Application.MessageBox('Nenhum Cliente foi informado!', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
@@ -184,6 +193,156 @@ begin
   VisualizarPlanilhas
 end;
 
+procedure Tview_ImportarPedidos.AtualizaLOGDIRECT;
+begin
+  if not planilhaDIRECT.bProcess then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem8.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrirArquivo.Enabled := True;
+    Screen.Cursor := crDefault;
+    memLog.Lines.Text := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!';
+    if Length(planilhaDIRECT.sAlerta) > 0 then
+    begin
+      Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilhaDIRECT.sAlerta := '';
+    end;
+    edtArquivo.Text := '';
+    pbImportacao.Position := 0;
+  end
+  else
+  begin
+    dxLayoutItem8.Visible := True;
+    actImportar.Enabled := False;
+    actCancelar.Enabled := True;
+    actAbrirArquivo.Enabled := False;
+    pbImportacao.Position := planilhaDIRECT.dPositionRegister;
+    memLog.Lines.Text := planilhaDIRECT.sLog;
+    Screen.Cursor := crHourGlass;
+    if Length(planilhaDIRECT.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(planilhaDIRECT.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilhaDIRECT.sAlerta := '';
+    end;
+  end;
+  if planilhaDIRECT.bCancel then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem8.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrirArquivo.Enabled := True;
+    Screen.Cursor := crDefault;
+    if Length(planilhaDIRECT.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(planilhaDIRECT.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilhaDIRECT.sAlerta := '';
+    end;
+  end;
+end;
+
+procedure Tview_ImportarPedidos.AtualizaLogSimExpress;
+begin
+  if not planilhaDIRECT.bProcess then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem8.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrirArquivo.Enabled := True;
+    Screen.Cursor := crDefault;
+    memLog.Lines.Text := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!';
+    if Length(planilhaSIMExpress.sAlerta) > 0 then
+    begin
+      Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilhaSIMExpress.sAlerta := '';
+    end;
+    edtArquivo.Text := '';
+    pbImportacao.Position := 0;
+  end
+  else
+  begin
+    dxLayoutItem8.Visible := True;
+    actImportar.Enabled := False;
+    actCancelar.Enabled := True;
+    actAbrirArquivo.Enabled := False;
+    pbImportacao.Position := planilhaSIMExpress.dPositionRegister;
+    memLog.Lines.Text := planilhaSIMExpress.sLog;
+    Screen.Cursor := crHourGlass;
+    if Length(planilhaSIMExpress.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(planilhaSIMExpress.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilhaSIMExpress.sAlerta := '';
+    end;
+  end;
+  if planilhaSIMExpress.bCancel then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem8.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrirArquivo.Enabled := True;
+    Screen.Cursor := crDefault;
+    if Length(planilhaSIMExpress.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(planilhaSIMExpress.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilhaSIMExpress.sAlerta := '';
+    end;
+  end;
+end;
+
+procedure Tview_ImportarPedidos.AtualizaLogTFO;
+begin
+if not planilha.bProcess then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem8.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrirArquivo.Enabled := True;
+    Screen.Cursor := crDefault;
+    memLog.Lines.Text := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!';
+    if Length(planilha.sAlerta) > 0 then
+    begin
+      Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilha.sAlerta := '';
+    end;
+    edtArquivo.Text := '';
+    pbImportacao.Position := 0;
+  end
+  else
+  begin
+    dxLayoutItem8.Visible := True;
+    actImportar.Enabled := False;
+    actCancelar.Enabled := True;
+    actAbrirArquivo.Enabled := False;
+    Screen.Cursor := crHourGlass;
+    pbImportacao.Position := planilha.dPositionRegister;
+    memLog.Lines.Text := planilha.sLog;
+    if Length(planilha.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilha.sAlerta := '';
+    end;
+  end;
+  if planilha.bCancel then
+  begin
+    Timer1.Enabled := False;
+    dxLayoutItem8.Visible := False;
+    actImportar.Enabled := True;
+    actCancelar.Enabled := False;
+    actAbrirArquivo.Enabled := True;
+    Screen.Cursor := crDefault;
+    if Length(planilha.sAlerta) > 0 then
+    begin
+      Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      planilha.sAlerta := '';
+    end;
+  end;
+end;
+
 procedure Tview_ImportarPedidos.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
@@ -192,21 +351,23 @@ end;
 
 procedure Tview_ImportarPedidos.ImportaDIRECT;
 begin
-  planilhaDIRECT := Tthread_201010_importar_pedidos_direct.Create(True);
+  planilhaDIRECT := TThread_ImportarPedidosDIRECT.Create(True);
   planilhaDIRECT.FFile := edtArquivo.Text;
   planilhaDIRECT.iCodigoCliente := cboCliente.ItemIndex;
   planilhaDIRECT.FreeOnTerminate := True;
   planilhaDIRECT.Priority := tpNormal;
+  Timer1.Enabled := True;
   planilhaDIRECT.Start;
 end;
 
 procedure Tview_ImportarPedidos.Importar;
 begin
-  planilha := Tthread_201010_importar_pedidos_tfo.Create(True);
+  planilha := TThread_ImportarPedidosTFO.Create(True);
   planilha.FFile := edtArquivo.Text;
   planilha.iCodigoCliente := cboCliente.ItemIndex;
   planilha.FreeOnTerminate := True;
   planilha.Priority := tpNormal;
+  Timer1.Enabled := True;
   planilha.Start;
 end;
 
@@ -217,9 +378,21 @@ begin
   planilhaCarriers.iCodigoCliente := cboCliente.ItemIndex;
   planilhaCarriers.FreeOnTerminate := True;
   planilhaCarriers.Priority := tpNormal;
+  Timer1.Enabled := True;
   planilhaCarriers.Start;
 end;
 
+
+procedure Tview_ImportarPedidos.ImportaRODOE;
+begin
+  planilhaSIMExpress := TThread_ImportarPedidosSIMEXpress.Create(True);
+  planilha.FFile := edtArquivo.Text;
+  planilha.iCodigoCliente := cboCliente.ItemIndex;
+  planilha.FreeOnTerminate := True;
+  planilha.Priority := tpNormal;
+  Timer1.Enabled := True;
+  planilha.Start;
+end;
 
 procedure Tview_ImportarPedidos.ImportaSPLOG;
 begin
@@ -228,7 +401,20 @@ begin
   planilhaSPLOG.iCodigoCliente := cboCliente.ItemIndex;
   planilhaSPLOG.FreeOnTerminate := True;
   planilhaSPLOG.Priority := tpNormal;
+  Timer1.Enabled := True;
   planilhaSPLOG.Start;
+end;
+
+procedure Tview_ImportarPedidos.Timer1Timer(Sender: TObject);
+begin
+   case cboCliente.ItemIndex of
+    1 : AtualizaLogTFO;
+    4 : AtualizaLogDIRECT;
+    5 : AtualizaLogSimExpress;
+  else
+    Application.MessageBox('Nenhum Cliente foi informado!', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
 end;
 
 procedure Tview_ImportarPedidos.VisualizarPlanilhas;

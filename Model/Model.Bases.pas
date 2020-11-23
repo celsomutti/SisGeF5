@@ -100,7 +100,7 @@ begin
     CRT := 0;
     NumeroCNH := '';
     CategoriaCNH := '';
-    ValidadeCNH := '';
+    ValidadeCNH := StrToDate('1899-12-31');
     PaginaWeb := '';
     Status := 0;
     Obs := '';

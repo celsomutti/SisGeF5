@@ -2,7 +2,7 @@ unit Model.PlanilhaBaixasTFO;
 
 interface
 
-uses Generics.Collections, System.Classes, System.SysUtils;
+uses Generics.Collections, System.Classes, System.SysUtils, System.StrUtils;
 
 type
   TPlanilhaBaixasTFO = class
@@ -62,7 +62,7 @@ uses Common.Utils;
 function TPlanilhaBaixasTFO.GetPlanilha(sFile: String): boolean;
 var
   ArquivoCSV: TextFile;
-  sLinha: string;
+  sLinha, sCampo: string;
   sDetalhe: TStringList;
   i: integer;
 begin
@@ -124,7 +124,10 @@ begin
       FPlanilha[i].DataPrevisaoEntrega := StrToDateDef(sDetalhe[14], StrToDate('31/12/1899'));
       FPlanilha[i].CodigoAgenteTFO := StrToInt(sDetalhe[15]);
       FPlanilha[i].NomeAgenteTFO := sDetalhe[16];
-      FPlanilha[i].PesoCobrado := StrToFloat(sDetalhe[17]);
+      sCampo := sDetalhe[17];
+      sCampo := ReplaceStr(sCampo, ' KG', '');
+      sCampo := ReplaceStr(sCampo, '.', ',');
+      FPlanilha[i].PesoCobrado := StrToFloatDef(sCampo,0);
       FPlanilha[i].DescricaoTipoPeso := sDetalhe[18];
     end;
   end;

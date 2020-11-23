@@ -99,7 +99,10 @@ begin
 
       // Carregando o arquivo ...
 
-      planilhas := planilha.GetPlanilha(FFile);
+      if planilha.GetPlanilha(FFile) then
+      begin
+        planilhas := planilha.Planilha.Planilha;
+      end;
 
       if planilhas.Count > 0 then
       begin

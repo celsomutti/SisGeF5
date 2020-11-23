@@ -142,8 +142,6 @@ uses
   View.RoteirosExpressas in 'View\View.RoteirosExpressas.pas' {view_RoteirosExpressas},
   Model.ControleAWB in 'Model\Model.ControleAWB.pas',
   Control.ControleAWB in 'Control\Control.ControleAWB.pas',
-  Thread._201010_importar_pedidos_direct in 'Thread\Thread._201010_importar_pedidos_direct.pas',
-  Thread._201010_importar_pedidos_tfo in 'Thread\Thread._201010_importar_pedidos_tfo.pas',
   View.ExtratoExpressas in 'View\View.ExtratoExpressas.pas' {view_ExtratoExpressas},
   View.DataFechamento in 'View\View.DataFechamento.pas' {view_DataFechamento},
   View.FilterData in 'View\View.FilterData.pas' {view_FilterData},
@@ -169,8 +167,6 @@ uses
   Model.PlanilhaBaixasTFO in 'Model\Model.PlanilhaBaixasTFO.pas',
   Control.PlanilhaBaixasTFO in 'Control\Control.PlanilhaBaixasTFO.pas',
   View.CadastroEntregadores in 'View\View.CadastroEntregadores.pas' {view_CadastroEntregadores},
-  Thread._201020_importar_baixas_tfo in 'Thread\Thread._201020_importar_baixas_tfo.pas',
-  Thread._201020_importar_baixas_direct in 'Thread\Thread._201020_importar_baixas_direct.pas',
   View.LancamentosExtratos in 'View\View.LancamentosExtratos.pas' {view_LancamentosExtratos},
   Model.PlanilhaEntradaTFO in 'Model\Model.PlanilhaEntradaTFO.pas',
   Control.PlanilhaEntradaTFO in 'Control\Control.PlanilhaEntradaTFO.pas',
@@ -179,7 +175,8 @@ uses
   Thread.ImportarPedidosSIMExpress in 'Thread\Thread.ImportarPedidosSIMExpress.pas',
   Thread.ImportarBaixasDIRECT in 'Thread\Thread.ImportarBaixasDIRECT.pas',
   Thread.ImportarBaixasTFO in 'Thread\Thread.ImportarBaixasTFO.pas',
-  Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas';
+  Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas',
+  Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas';
 
 {$R *.res}
 

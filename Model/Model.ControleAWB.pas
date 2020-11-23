@@ -36,6 +36,7 @@ type
     constructor Create;
     function GetID(): Integer;
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarExato(aParam: array of variant): Boolean;
     function Gravar(): Boolean;
     procedure SetupSelf(fdQuery: TFDQuery);
     procedure ClearSelf;
@@ -212,6 +213,79 @@ begin
   Result := FDQuery;
 end;
 
+function TControleAWB.LocalizarExato(aParam: array of variant): Boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    if Length(aParam) < 2 then Exit;
+    FDQuery.SQL.Clear;
+    FDQuery.SQL.Add('select * from ' + TABLENAME);
+    if aParam[0] = 'ID' then
+    begin
+      FDQuery.SQL.Add('where id_awb = :id_awb');
+      FDQuery.ParamByName('id_awb').AsInteger := aParam[1];
+    end;
+    if aParam[0] = 'REMESSAAWB1' then
+    begin
+      FDQuery.SQL.Add('where num_remessa = :num_remessa and cod_awb1 = :cod_awb1');
+      FDQuery.ParamByName('num_remessa').AsString := aParam[1];
+      FDQuery.ParamByName('cod_awb1').AsString := aParam[2];
+    end;
+    if aParam[0] = 'REMESSAAWB2' then
+    begin
+      FDQuery.SQL.Add('where num_remessa = :num_remessa and cod_awb2 = :cod_awb2');
+      FDQuery.ParamByName('num_remessa').AsString := aParam[1];
+      FDQuery.ParamByName('cod_awb2').AsString := aParam[2];
+    end;
+    if aParam[0] = 'REMESSA' then
+    begin
+      FDQuery.SQL.Add('where num_remessa = :num_remessa');
+      FDQuery.ParamByName('num_remessa').AsString := aParam[1];
+    end;
+    if aParam[0] = 'AWB1' then
+    begin
+      FDQuery.SQL.Add('where cod_awb1 like :des_roteiro');
+      FDQuery.ParamByName('des_roteiro').AsString := aParam[1];
+    end;
+    if aParam[0] = 'AWB2' then
+    begin
+      FDQuery.SQL.Add('where cod_awb2 = :cod_awb2');
+      FDQuery.ParamByName('cod_awb2').AsString := aParam[1];
+    end;
+    if aParam[0] = 'CEP' then
+    begin
+      FDQuery.SQL.Add('where num_cep = :num_cep');
+      FDQuery.ParamByName('num_cep').AsString := aParam[1];
+    end;
+    if aParam[0] = 'FILTRO' then
+    begin
+      FDQuery.SQL.Add('where ' + aParam[1]);
+    end;
+    if aParam[0] = 'APOIO' then
+    begin
+      FDQuery.SQL.Clear;
+      FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+    end;
+    FDQuery.Open;
+    if FDQuery.IsEmpty then
+    begin
+      ClearSelf;
+      Exit;
+    end
+    else
+    begin
+      SetupSelf(FDQuery);
+    end;
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free
+  end;
+end;
+
 procedure TControleAWB.SetupSelf(fdQuery: TFDQuery);
 begin
   Self.ID := fdQuery.FieldByName('id_awb').AsInteger;
@@ -220,7 +294,7 @@ begin
   Self.AWB2 := fdQuery.FieldByName('cod_awb2').AsString;
   Self.CEP := fdQuery.FieldByName('num_cep').AsString;
   Self.Operacao := fdQuery.FieldByName('cod_operacao').AsString;
-  Self.Tipo := fdQuery.FieldByName('cod_tipo').AsString;
+  Self.Tipo := fdQuery.FieldByName('cod_tipo').AsInteger;
   Self.Peso := fdQuery.FieldByName('qtd_peso').AsFloat;
 end;
 

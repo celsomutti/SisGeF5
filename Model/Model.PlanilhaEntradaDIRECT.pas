@@ -118,7 +118,7 @@ var
   iIndex: Integer;
 begin
   try
-    REsult := False;
+    Result := False;
     FPlanilha := TObjectList<TPlanilhaEntradaDIRECT>.Create;
     if not FileExists(sFile) then
     begin
@@ -185,19 +185,19 @@ begin
           FPlanilha[i].PesoCubado := StrToFloatDef(sValor, 0);
           sValor := StringReplace(sDetalhe[28], '.', ',', [rfReplaceAll, rfIgnoreCase]);
           FPlanilha[i].PesoNominal := StrToFloatDef(sValor, 0);
-          FPlanilha[i].UltimaOcorrencia := sDetalhe[29];
-          FPlanilha[i].QtdeOcorrencia := StrToIntDef(sDetalhe[30], 0);
-          FPlanilha[i].DataAgendamento := sDetalhe[31];
-          FPlanilha[i].Devolucao := sDetalhe[32];
-          FPlanilha[i].UltimaViagem := sDetalhe[33];
-          FPlanilha[i].UltimoMotorista := sDetalhe[34];
-          FPlanilha[i].Produto := sDetalhe[35];
-          FPlanilha[i].AWB1 := sDetalhe[36];
-          FPlanilha[i].AWB2 := sDetalhe[37];
-          FPlanilha[i].DataChegada := StrToDateDef(sDetalhe[38], 0);
-          FPlanilha[i].HoraChegada := StrToTimeDef(sDetalhe[39], 0);
-          FPlanilha[i].DataChegadaLM := StrToDateDef(sDetalhe[40], 0);
-          FPlanilha[i].HoraChegadaLM := StrToTimeDef(sDetalhe[41], 0);
+          FPlanilha[i].UltimaOcorrencia := sDetalhe[31];
+          FPlanilha[i].QtdeOcorrencia := StrToIntDef(sDetalhe[32], 0);
+          FPlanilha[i].DataAgendamento := sDetalhe[33];
+          FPlanilha[i].Devolucao := sDetalhe[34];
+          FPlanilha[i].UltimaViagem := sDetalhe[35];
+          FPlanilha[i].UltimoMotorista := sDetalhe[36];
+          FPlanilha[i].Produto := sDetalhe[37];
+          FPlanilha[i].AWB1 := sDetalhe[38];
+          FPlanilha[i].AWB2 := sDetalhe[39];
+          FPlanilha[i].DataChegada := StrToDateDef(sDetalhe[40], 0);
+          FPlanilha[i].HoraChegada := StrToTimeDef(sDetalhe[41], 0);
+          FPlanilha[i].DataChegadaLM := StrToDateDef(sDetalhe[42], 0);
+          FPlanilha[i].HoraChegadaLM := StrToTimeDef(sDetalhe[43], 0);
         end;
       end;
     end;

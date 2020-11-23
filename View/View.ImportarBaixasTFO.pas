@@ -18,7 +18,7 @@ uses
   Vcl.StdCtrls, cxButtons, cxTextEdit, cxMaskEdit, cxButtonEdit, cxMemo, cxProgressBar, Thread.ImportarBaixasTFO, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxDropDownEdit,
-  ShellAPI, Thread._201020_importar_baixas_tfo, Vcl.ExtCtrls, cxCheckBox, Thread._201020_importar_baixas_direct;
+  ShellAPI, Vcl.ExtCtrls, cxCheckBox, Thread.ImportarBaixasDIRECT;
 
 type
   Tview_ImportarBaixasTFO = class(TForm)
@@ -74,8 +74,8 @@ type
 var
   view_ImportarBaixasTFO: Tview_ImportarBaixasTFO;
   controle : TControleBaixasTFOControl;
-  planilha : Tthread_201020_importar_baixas_tfo;
-  direct : Tthread_201020_importar_baixas_direct;
+  planilha : Tthread_ImportarBaixasTFO;
+  direct : Tthread_ImportarbaixasDirect;
 
 implementation
 
@@ -248,7 +248,7 @@ end;
 
 procedure Tview_ImportarBaixasTFO.Importar;
 begin
-  planilha := Tthread_201020_importar_baixas_tfo.Create(True);
+  planilha := Tthread_ImportarBaixasTFO.Create(True);
   planilha.FFile := edtArquivo.Text;
   planilha.FreeOnTerminate := True;
   planilha.Priority := tpNormal;
@@ -263,7 +263,7 @@ end;
 
 procedure Tview_ImportarBaixasTFO.ImportarDIRECT;
 begin
-  direct := Tthread_201020_importar_baixas_direct.Create(True);
+  direct := Tthread_ImportarBaixasDIRECT.Create(True);
   direct.FFile :=edtArquivo.Text;
   direct.FreeOnTerminate := True;
   direct.Priority := tpNormal;

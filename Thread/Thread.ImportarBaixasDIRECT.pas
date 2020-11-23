@@ -8,7 +8,7 @@ uses
   Control.PlanilhaBaixasDIRECT;
 
 type
-  TThread_ImportarPedidosTFO = class(TThread)
+  TThread_ImportarBaixasDIRECT = class(TThread)
   private
     { Private declarations }
     FPlanilha: TPlanilhaBaixasDIRECTControl;
@@ -33,6 +33,7 @@ type
     dPositionRegister: double;
     sLog: String;
     sAlerta: String;
+    bLojas: boolean;
   end;
 
 implementation
@@ -45,7 +46,7 @@ implementation
 
   and UpdateCaption could look like,
 
-    procedure TThread_ImportarPedidosTFO.UpdateCaption;
+    procedure TThread_ImportarBaixasDIRECT.UpdateCaption;
     begin
       Form1.Caption := 'Updated in a thread';
     end;
@@ -70,9 +71,9 @@ implementation
 
 uses Common.ENum, Global.Parametros;
 
-{ TThread_ImportarPedidosTFO }
+{ TThread_ImportarBaixasDIRECT }
 
-procedure TThread_ImportarPedidosTFO.BeginProcesso;
+procedure TThread_ImportarBaixasDIRECT.BeginProcesso;
 var
   sMensagem: String;
 begin
@@ -86,7 +87,7 @@ begin
   UpdateLog(sMensagem);
 end;
 
-procedure TThread_ImportarPedidosTFO.Execute;
+procedure TThread_ImportarBaixasDIRECT.Execute;
 var
   aParam: Array of variant;
   iPos, iPosition, iTotal, iTabela, iFaixa, iAgente, iEntregador,i: Integer;
@@ -188,14 +189,17 @@ begin
               begin
                 sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
                              FPlanilha.Planilha.Planilha[i].Motorista + ' não atribuida !';
-                Synchronize(UpdateLog(sMensagem));
+                UpdateLog(sMensagem);
               end
               else
               begin
-                if FPlanilha.Planilha.Planilha[i].Loja = 'S' then
+                if bLojas then
                 begin
-                  dVerba := FEntregas.Entregas.VerbaEntregador;
-                  FEntregas.Entregas.VerbaEntregador := (dVerba / 2);
+                  if FPlanilha.Planilha.Planilha[i].Loja = 'S' then
+                  begin
+                    dVerba := FEntregas.Entregas.VerbaEntregador;
+                    FEntregas.Entregas.VerbaEntregador := (dVerba / 2);
+                  end;
                 end;
               end;
             end
@@ -203,7 +207,7 @@ begin
             begin
               sMensagem := 'Entrega NN ' + FEntregas.Entregas.NN + ' do entregador ' +
                            FPlanilha.Planilha.Planilha[i].Motorista + ' não encontrada no banco de dados !';
-              Synchronize(UpdateLog(sMensagem));
+              UpdateLog(sMensagem);
             end;
           end
           else
@@ -215,9 +219,8 @@ begin
             FEntregas.Entregas.Status := 909;
             FEntregas.Entregas.Entrega := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
             FEntregas.Entregas.Atraso := 0;
-            FPlanilha.Planilha.Planilha[I].PesoNominal := ReplaceStr(FPlanilha.Planilha.Planilha[I].PesoNominal, '.', ',');
-            FEntregas.Entregas.PesoReal := StrToFloatDef(FPlanilha.Planilha.Planilha[I].PesoNominal,0);
-            FEntregas.Entregas.PesoCobrado := StrToFloatDef(FPlanilha.Planilha.Planilha[I].PesoNominal,0);
+            FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[I].PesoNominal;
+            FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.Planilha[I].PesoNominal;
             Finalize(aParam);
             SetLength(aParam,7);
             aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
@@ -228,7 +231,7 @@ begin
             begin
               sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
                            FPlanilha.Planilha.Planilha[i].Motorista + ' não atribuida !';
-              Synchronize(UpdateLog(sMensagem));
+              UpdateLog(sMensagem);
             end;
             FEntregas.Entregas.CodigoFeedback := 0;
             FEntregas.Entregas.Acao := tacAlterar;
@@ -236,14 +239,14 @@ begin
           if not FEntregas.Gravar() then
           begin
             sMensagem := 'Erro ao gravar o NN ' + Fentregas.Entregas.NN + ' !';
-            Synchronize(UpdateLog(sMensagem));
+            UpdateLog(sMensagem);
           end;
           FEntregas.Free;
           inc(iPos, 1);
           dPos := (iPos / iTotal) * 100;
           if not(Self.Terminated) then
           begin
-            Synchronize(UpdateProgress(dPos));
+            UpdateProgress(dPos);
           end
           else
           begin
@@ -254,7 +257,7 @@ begin
     Except on E: Exception do
       begin
         sMensagem := '** ERROR **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
-        Synchronize(UpdateLog(sMensagem));
+        UpdateLog(sMensagem);
         bCancel := True;
       end;
     end;
@@ -263,7 +266,7 @@ begin
   end;
 end;
 
-function TThread_ImportarPedidosTFO.RetornaAgente(sChave: string): integer;
+function TThread_ImportarBaixasDIRECT.RetornaAgente(sChave: string): integer;
 var
   FEntregadores: TEntregadoresExpressasControl;
   aParam: array of variant;
@@ -277,7 +280,7 @@ begin
     aParam := ['CHAVECLIENTE', sChave, iCodigoCliente];
     if FEntregadores.Localizar(aParam).IsEmpty then
     begin
-      iRetorno = FEntregadores.Entregadores.Agente;
+      iRetorno := FEntregadores.Entregadores.Agente;
     end
     else
     begin
@@ -289,7 +292,7 @@ begin
   end;
 end;
 
-function TThread_ImportarPedidosTFO.RetornaEntregador(sChave: string): integer;
+function TThread_ImportarBaixasDIRECT.RetornaEntregador(sChave: string): integer;
 var
   FEntregadores: TEntregadoresExpressasControl;
   aParam: array of variant;
@@ -304,7 +307,7 @@ begin
     aParam := ['CHAVECLIENTE', sChave, iCodigoCliente];
     if not Fentregadores.Localizar(aParam).IsEmpty then
     begin
-      iRetorno = FEntregadores.Entregadores.Entregador;
+      iRetorno := FEntregadores.Entregadores.Entregador;
     end
     else
     begin
@@ -317,7 +320,7 @@ begin
   end;
 end;
 
-function TThread_ImportarPedidosTFO.RetornaVerba(aParam: array of variant): double;
+function TThread_ImportarBaixasDIRECT.RetornaVerba(aParam: array of variant): double;
 var
   FBase: TBasesControl;
   FEntregador: TEntregadoresExpressasControl;
@@ -374,7 +377,7 @@ begin
         iFaixa := FEntregador.Entregadores.Grupo;
         dVerba := FEntregador.Entregadores.Verba;
       end;
-      FinalizePackage(FParam);
+      Finalize(FParam);
       FEntregador.Free;
       if dVerba = 0 then
       begin
@@ -401,12 +404,12 @@ begin
   end;
 end;
 
-procedure TThread_ImportarPedidosTFO.TerminateProcess;
+procedure TThread_ImportarBaixasDIRECT.TerminateProcess;
 begin
   bProcess := False;
 end;
 
-procedure TThread_ImportarPedidosTFO.UpdateLOG(sMensagem: string);
+procedure TThread_ImportarBaixasDIRECT.UpdateLOG(sMensagem: string);
 begin
 if sLog <> '' then
   begin
@@ -415,7 +418,7 @@ if sLog <> '' then
   sLog := sLog + sMensagem;
 end;
 
-procedure TThread_ImportarPedidosTFO.UpdateProgress(dPosition: Double);
+procedure TThread_ImportarBaixasDIRECT.UpdateProgress(dPosition: Double);
 begin
   dPositionRegister := dPosition;
 end;

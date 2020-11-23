@@ -95,6 +95,7 @@ begin
     try
       Synchronize(BeginProcesso);
       FPlanilha := TPlanilhaEntradaTFOControl.Create;
+      FEntregas := TEntregasControl.Create;
       sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
       if FPLanilha.GetPlanilha(FFile) then
       begin
@@ -104,10 +105,9 @@ begin
         iTotal := FPlanilha.Planilha.Planilha.Count;
         for i := 0 to Pred(iTotal) do
         begin
-          FEntregas := TEntregasControl.Create;
           SetLength(aParam,2);
           aParam := ['NN', FPlanilha.Planilha.Planilha[i].NossoNumero];
-          if not FEntregas.Localizar(aParam).IsEmpty then
+          if not FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].NossoNumero;
             FEntregas.Entregas.Distribuidor := 0;
@@ -181,14 +181,13 @@ begin
           if not FEntregas.Gravar() then
           begin
             sMensagem := 'Erro ao gravar o NN ' + Fentregas.Entregas.NN + ' !';
-            Synchronize(UpdateLog(sMensagem));
+            UpdateLog(sMensagem);
           end;
-          FEntregas.Free;
           inc(iPos, 1);
           dPos := (iPos / iTotal) * 100;
           if not(Self.Terminated) then
           begin
-            Synchronize(UpdateProgress(dPos));
+            UpdateProgress(dPos);
           end
           else
           begin
@@ -199,12 +198,13 @@ begin
     Except on E: Exception do
       begin
         sMensagem := '** ERROR **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
-        Synchronize(UpdateLog(sMensagem));
+        UpdateLog(sMensagem);
         bCancel := True;
       end;
     end;
   finally
     FPlanilha.Free;
+    FEntregas.Free;
   end;
 end;
 

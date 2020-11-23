@@ -14,6 +14,7 @@ type
 
     function Gravar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarExata(aParam: array of variant): Boolean;
     function ValidaCampos(): Boolean;
     function ValidaExclusao(): Boolean;
     function Previas(aParam: array of variant): TFDQuery;
@@ -75,6 +76,11 @@ end;
 function TEntregasControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FEntregas.Localizar(aParam);
+end;
+
+function TEntregasControl.LocalizarExata(aParam: array of variant): Boolean;
+begin
+  Result := FEntregas.LocalizarExata(aParam);
 end;
 
 function TEntregasControl.Previas(aParam: array of variant): TFDQuery;
