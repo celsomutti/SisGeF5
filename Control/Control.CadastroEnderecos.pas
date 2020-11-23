@@ -17,6 +17,8 @@ type
     function Gravar(): Boolean;
     function ValidaCampos(): Boolean;
     function SaveBatch(memTable: TFDMemTable): Boolean;
+    procedure SetupSelf(fdQuery: TFDQuery);
+    procedure ClearSelf;
   end;
 
 implementation
@@ -24,6 +26,11 @@ implementation
 { TCadastroEnderecosControl }
 
 uses Common.Utils;
+
+procedure TCadastroEnderecosControl.ClearSelf;
+begin
+  FEnderecos.ClearSelf;
+end;
 
 constructor TCadastroEnderecosControl.Create;
 begin
@@ -38,7 +45,7 @@ end;
 
 function TCadastroEnderecosControl.GetID(iID: Integer): Integer;
 begin
-  Result := FEnderecos.GetID(FEnderecos.ID, FEnderecos.TipoCadastro);
+  Result := FEnderecos.GetID(FEnderecos.ID);
 end;
 
 function TCadastroEnderecosControl.Gravar: Boolean;
@@ -59,6 +66,11 @@ end;
 function TCadastroEnderecosControl.SaveBatch(memTable: TFDMemTable): Boolean;
 begin
   Result := FEnderecos.SaveBatch(memTable);
+end;
+
+procedure TCadastroEnderecosControl.SetupSelf(fdQuery: TFDQuery);
+begin
+  FEnderecos.SetupSelf(fdQuery);
 end;
 
 function TCadastroEnderecosControl.ValidaCampos: Boolean;

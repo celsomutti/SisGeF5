@@ -16,6 +16,8 @@ type
     function ValidaCampos(): Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
+    procedure SetupSelf(fdQuery: TFDQuery);
+    procedure ClearSelf;
   end;
 
 implementation
@@ -23,6 +25,11 @@ implementation
 { TCadastrosControl }
 
 uses Common.Utils;
+
+procedure TCadastrosControl.ClearSelf;
+begin
+  FCadastro.ClearSelf;
+end;
 
 constructor TCadastrosControl.Create;
 begin
@@ -50,6 +57,11 @@ end;
 function TCadastrosControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FCadastro.Localizar(aParam);
+end;
+
+procedure TCadastrosControl.SetupSelf(fdQuery: TFDQuery);
+begin
+  SetupSelf(fdQuery);
 end;
 
 function TCadastrosControl.ValidaCampos: Boolean;

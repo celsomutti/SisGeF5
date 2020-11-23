@@ -2,7 +2,8 @@ unit Model.CadastroGeral;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, Control.Sistema, FireDAC.Stan.Option;
+uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, Control.Sistema, FireDAC.Stan.Option,
+System.SysUtils;
 
 type
   TCadastroGeral= class
@@ -93,6 +94,8 @@ type
     function GetID(): Integer;
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
+    procedure SetupSelf(fdQuery: TFDQuery);
+    procedure ClearSelf;
 
   end;
   const
@@ -154,6 +157,46 @@ begin
     FDQuery.Connection.Close;
     FDQuery.Free;
   end;
+end;
+
+procedure TCadastroGeral.ClearSelf;
+begin
+    ID :=  0;
+    TipoCadastro :=  0;
+    Pessoa :=  '';
+    Nome :=  '';
+    Alias :=  '';
+    CPF :=  '';
+    RG :=  '';
+    Expedidor :=  '';
+    DataRG :=  StrToDate('1899-12-31');
+    UFRG :=  '';
+    Nascimento :=  StrToDate('1899-12-31');;
+    NomePai :=  '';
+    NomeMae :=  '';
+    Nacionalidade :=  '';
+    Naturalidade :=  '';
+    UFNaturalidade :=  '';
+    Suframa :=  '';
+    CNAE :=  '';
+    CRT := 0;
+    CodigoSegurancaCNH :=  '';
+    NumeroCNH :=  '';
+    RegistroCNH :=  '';
+    ValidadeCNH :=  StrToDate('1899-12-31');;
+    CategoriaCNH :=  '';
+    DataEmissaoCNH :=  StrToDate('1899-12-31');;
+    PrimeiraCNH :=  StrToDate('1899-12-31');;
+    UFCNH :=  '';
+    Sexo :=  0;
+    EstadoCivil :=  '';
+    DataCadastro :=  StrToDate('1899-12-31');;
+    Usuario :=  0;
+    Imagem :=  '';
+    Status :=  0;
+    Obs :=  '';
+    InscricaoMunicipal :=  '';
+    IEST :=  '';
 end;
 
 constructor TCadastroGeral.Create;
@@ -288,7 +331,7 @@ begin
                 'des_expedidor, dat_emissao_rg, uf_expedidor_rg, dat_nascimento, nom_pai, nom_mae, des_nacionalidade, ' +
                 'des_naturalidade, uf_naturalidade, num_suframa, num_cnae, num_crt, cod_seguranca_cnh, cod_cnh, ' +
                 'num_registro_cnh, dat_validade_cnh, des_categoria, dat_emissao_cnh, dat_primeira_cnh, uf_cnh, cod_sexo, ' +
-                'des_estado_civil, dat_cadastro, cod_usuario, des_imagem, id_status, des_obs, num_iest';
+                'des_estado_civil, dat_cadastro, cod_usuario, des_imagem, id_status, des_obs, num_im, num_iest';
     end
     else
     begin
@@ -301,7 +344,59 @@ begin
     FDQuery.MacroByName('where').AsRaw := aParam[2];
   end;
   FDQuery.Open();
+  if not FDQuery.IsEmpty then
+  begin
+    FDQuery.First;
+    if aParam[0] <> 'APOIO' then
+    begin
+      SetupSelf(FDQuery);
+    end;
+  end
+  else
+  begin
+    ClearSelf;
+  end;
   Result := FDQuery;
+end;
+
+procedure TCadastroGeral.SetupSelf(fdQuery: TFDQuery);
+begin
+    ID :=  fdQuery.FieldByName('id_cadastro').asInteger;
+    TipoCadastro :=  fdQuery.FieldByName('cod_tipo_cadastro').AsInteger;
+    Pessoa :=  fdQuery.FieldByName('cod_pessoa').AsInteger;
+    Nome :=  fdQuery.FieldByName('nom_nome_razao').AsString;
+    Alias :=  fdQuery.FieldByName('nom_fantasia').AsString;
+    CPF :=  fdQuery.FieldByName('num_cpf_cnpj').AsString;
+    RG :=  fdQuery.FieldByName('num_rg_ie').AsString;
+    Expedidor :=  fdQuery.FieldByName('des_expedidor').AsString;
+    DataRG :=  fdQuery.FieldByName('dat_emissao_rg').AsDateTime;
+    UFRG :=  fdQuery.FieldByName('uf_expedidor_rg').AsString;
+    Nascimento :=  fdQuery.FieldByName('dat_nascimento').AsDateTime;
+    NomePai :=  fdQuery.FieldByName('nom_pai').AsString;
+    NomeMae :=  fdQuery.FieldByName('nom_mae').AsString;
+    Nacionalidade :=  fdQuery.FieldByName('des_nacionalidade').AsString;
+    Naturalidade :=  fdQuery.FieldByName('des_naturalidade').AsString;
+    UFNaturalidade :=  fdQuery.FieldByName('uf_naturalidade').AsString;
+    Suframa :=  fdQuery.FieldByName('num_suframa').AsString;
+    CNAE :=  fdQuery.FieldByName('num_cnae').AsString;
+    CRT :=  fdQuery.FieldByName('num_crt').AsInteger;
+    CodigoSegurancaCNH :=  fdQuery.FieldByName('cod_seguranca_cnh').AsString;
+    NumeroCNH :=  fdQuery.FieldByName('cod_cnh').AsString;
+    RegistroCNH :=  fdQuery.FieldByName('num_registro_cnh').AsString;
+    ValidadeCNH :=  fdQuery.FieldByName('dat_validade_cnh').AsDateTime;
+    CategoriaCNH :=  fdQuery.FieldByName('des_categoria').AsString;
+    DataEmissaoCNH :=  fdQuery.FieldByName('dat_emissao_cnh').AsDateTime;
+    PrimeiraCNH :=  fdQuery.FieldByName('dat_primeira_cnh').AsDateTime;
+    UFCNH :=  fdQuery.FieldByName('uf_cnh').AsString;
+    Sexo :=  fdQuery.FieldByName('cod_sexo').AsInteger;
+    EstadoCivil :=  fdQuery.FieldByName('des_estado_civil').AsString;
+    DataCadastro :=  fdQuery.FieldByName('dat_cadastro').AsDateTime;
+    Usuario :=  fdQuery.FieldByName('cod_usuario').AsInteger;
+    Imagem :=  fdQuery.FieldByName('des_imagem').AsString;
+    Status :=  fdQuery.FieldByName('id_status').AsInteger;
+    Obs :=  fdQuery.FieldByName('des_obs').AsString;
+    InscricaoMunicipal :=  fdQuery.FieldByName('num_im').AsString;
+    IEST :=  fdQuery.FieldByName('num_iest').AsString;
 end;
 
 end.

@@ -2,7 +2,8 @@ unit Model.CadastroAnexos;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Control.Sistema;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Control.Sistema,
+System.SysUtils;
 
 type
   TCadastroAnexos = class
@@ -10,7 +11,6 @@ type
     FDataAnexo: TDateTime;
     FID: Integer;
     FNomeArquivo: String;
-    FTipoCadastro: Integer;
     FDescricaoAnexo: String;
     FIdAnexo: Integer;
     FAcao: TAcao;
@@ -21,16 +21,17 @@ type
     function Delete(): Boolean;
   public
     property Id: Integer read FID write FID;
-    property TipoCadastro: Integer read FTipoCadastro write FTipoCadastro;
     property IdAnexo: Integer read FIdAnexo write FIdAnexo;
     property DescricaoAnexo: String read FDescricaoAnexo write FDescricaoAnexo;
     property NomeArquivo: String read FNomeArquivo write FNomeArquivo;
     property DataAnexo: TDateTime read FDataAnexo write FDataAnexo;
-
+    property Acao: Tacao read FAcao write FAcao;
     constructor Create();
-    function GetID(iID: Integer; iTipo: Integer): Integer;
+    function GetID(iID: Integer): Integer;
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
+    procedure SetupSelf(fdQuery: TFDQuery);
+    procedure ClearSelf;
   end;
 
 const
@@ -39,6 +40,15 @@ const
 implementation
 
 { TCadastroAnexos }
+
+procedure TCadastroAnexos.ClearSelf;
+begin
+  Id := 0;
+  IdAnexo:= 0;
+  DescricaoAnexo:= '';
+  NomeArquivo:= '';
+  DataAnexo:= StrToDate('1899-12-31');
+end;
 
 constructor TCadastroAnexos.Create;
 begin
@@ -56,14 +66,14 @@ begin
     if Self.IdAnexo = -1 then
     begin
       sSQL := 'delete drom ' + TABLENAME + ' ' +
-              'where id_cadastro = :pid_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro;';
-      FDQuery.ExecSQL(sSQL,[Self.ID, Self.TipoCadastro]);
+              'where id_cadastro = :pid_cadastro;';
+      FDQuery.ExecSQL(sSQL,[Self.ID]);
     end
     else
     begin
       sSQL := 'delete from ' + TABLENAME + ' ' +
-              'where id_cadastro = :pid_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro and id_anexo = :id_anexo;';
-      FDQuery.ExecSQL(sSQL,[Self.ID, Self.TipoCadastro, Self.IdAnexo]);
+              'where id_cadastro = :pid_cadastro and id_anexo = :id_anexo;';
+      FDQuery.ExecSQL(sSQL,[Self.ID, Self.IdAnexo]);
     end;
     Result := True;
   finally
@@ -73,14 +83,13 @@ begin
 
 end;
 
-function TCadastroAnexos.GetID(iID, iTipo: Integer): Integer;
+function TCadastroAnexos.GetID(iID: Integer): Integer;
 var
   FDQuery: TFDQuery;
 begin
   try
     FDQuery := FConexao.ReturnQuery();
-    FDQuery.Open('select coalesce(max(id_anexo),0) + 1 from ' + TABLENAME + ' where id_cadastro = ' + iID.toString + ' and ' +
-                 'cod_tipo_cadastro = ' + iTipo.toString);
+    FDQuery.Open('select coalesce(max(id_anexo),0) + 1 from ' + TABLENAME + ' where id_cadastro = ' + iID.toString);
     try
       Result := FDQuery.Fields[0].AsInteger;
     finally
@@ -109,12 +118,12 @@ begin
   try
     Result := False;
     FDQuery := FConexao.ReturnQuery();
-    Self.IDAnexo := GetID(Self.ID, Self.TipoCadastro);
+    Self.IDAnexo := GetID(Self.ID);
     sSQL := 'insert into ' + TABLENAME + '(' +
-            'id_cadastro, cod_tipo_cadastro, id_anexo, des_anexo, nom_arquivo, dat_anexo) ' +
+            'id_cadastro, id_anexo, des_anexo, nom_arquivo, dat_anexo) ' +
             'values (' +
-            ':id_cadastro, :cod_tipo_cadastro, :id_anexo, :des_anexo, :nom_arquivo, :dat_anexo);';
-    FDQuery.ExecSQL(sSQL, [Self.ID, Self.TipoCadastro ,Self.IdAnexo, Self.DescricaoAnexo, Self.NomeArquivo, Self.DataAnexo]);
+            ':id_cadastro, :id_anexo, :des_anexo, :nom_arquivo, :dat_anexo);';
+    FDQuery.ExecSQL(sSQL, [Self.ID, Self.IdAnexo, Self.DescricaoAnexo, Self.NomeArquivo, Self.DataAnexo]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -134,31 +143,14 @@ begin
   FDQuery.SQL.Add('select id_cadastro, cod_tipo_cadastro, id_anexo, des_anexo, nom_arquivo, dat_anexo from ' + TABLENAME);
   if aParam[0] = 'ID' then
   begin
-    FDQuery.SQL.Add('whew id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro');
+    FDQuery.SQL.Add('whew id_cadastro = :id_cadastro');
     FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-    FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := aParam[2];
   end;
   if aParam[0] = 'SEQUENCIA' then
   begin
-    FDQuery.SQL.Add('where id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro and id_anexo = :id_anexo');
+    FDQuery.SQL.Add('where id_cadastro = :id_cadastro and id_anexo = :id_anexo');
     FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-    FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := aParam[2];
-    FDQuery.ParamByName('id_anexo').AsInteger := aParam[3];
-  end;
-  if aParam[0] = 'NUMERO' then
-  begin
-    FDQuery.SQL.Add('where num_consulta like :num_consulta');
-    FDQuery.ParamByName('num_consulta').AsString := aParam[1];
-  end;
-  if aParam[0] = 'DATA' then
-  begin
-    FDQuery.SQL.Add('where dat_consulta = :dat_consulta');
-    FDQuery.ParamByName('dat_consulta').AsDateTime := aParam[1];
-  end;
-  if aParam[0] = 'VALIDADE' then
-  begin
-    FDQuery.SQL.Add('where dat_validade = :dat_validade');
-    FDQuery.ParamByName('dat_validade').AsDateTime := aParam[1];
+    FDQuery.ParamByName('id_anexo').AsInteger := aParam[2];
   end;
   if aParam[0] = 'FILTRO' then
   begin
@@ -170,7 +162,28 @@ begin
     FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
   end;
   FDQuery.Open();
+  if not FDQuery.IsEmpty then
+  begin
+    FDQuery.First;
+    if aParam[0] <> 'APOIO' then
+    begin
+      SetupSelf(FDQuery);
+    end;
+  end
+  else
+  begin
+    ClearSelf;
+  end;
   Result := FDQuery;
+end;
+
+procedure TCadastroAnexos.SetupSelf(fdQuery: TFDQuery);
+begin
+  Id := fdQuery.FieldByName('id_cadastro').asInteger;;
+  IdAnexo:= fdQuery.FieldByName('id_anexo').asInteger;
+  DescricaoAnexo:= fdQuery.FieldByName('des_anexo').asString;
+  NomeArquivo:= fdQuery.FieldByName('nom_arquivo').asString;
+  DataAnexo:= fdQuery.FieldByName('dat_anexo').AsDateTime;
 end;
 
 function TCadastroAnexos.Update: Boolean;
@@ -181,12 +194,11 @@ begin
   try
     Result := False;
     FDQuery := FConexao.ReturnQuery();
-    Self.IdAnexo := GetID(Self.ID, Self.TipoCadastro);
     sSQL := 'update ' + TABLENAME + ' set ' +
             'des_anexo = :des_anexo, nom_arquivo = :nom_arquivo, dat_anexo  = :dat_anexo' +
             'where ' +
-            'id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro and id_consulta = :id_consulta;';
-    FDQuery.ExecSQL(sSQL,[Self.DescricaoAnexo, Self.NomeArquivo, Self.DataAnexo, Self.ID, Self.TipoCadastro ,Self.IdAnexo]);
+            'id_cadastro = :id_cadastro and id_anexo = :id_anexo;';
+    FDQuery.ExecSQL(sSQL,[Self.DescricaoAnexo, Self.NomeArquivo, Self.DataAnexo, Self.ID, Self.IdAnexo]);
     Result := True;
   finally
     FDQuery.Connection.Close;

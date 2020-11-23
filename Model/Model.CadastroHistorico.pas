@@ -2,7 +2,7 @@ unit Model.CadastroHistorico;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, Control.Sistema;
+uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, Control.Sistema, System.SysUtils;
 
 type
   TCadastroHistorico = class
@@ -23,7 +23,6 @@ type
   public
     Constructor Create();
     property ID: Integer read FID write FID;
-    property TipoCadastro: Integer read FTipoCadastro write FTipoCadastro;
     property Sequencia: Integer read FSequencia write FSequencia;
     property Data: TDateTime read FData write FData;
     property Historico: String read FHistorico write FHistorico;
@@ -33,20 +32,22 @@ type
     function GetID(): Integer;
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
+    procedure SetupSelf(fdQuery: TFDQuery);
+    procedure ClearSelf;
 
   end;
   const
     TABLENAME = 'cadastro_historico';
     SQLINSERT = 'insert into ' + TABLENAME +
-                '(id_historico, cod_tipo_cadastro, id_cadastro, dat_log_cadastro, des_historico, id_usuario) ' +
+                '(id_historico, id_cadastro, dat_log_cadastro, des_historico, id_usuario) ' +
                 'values ' +
-                '(:id_historico, :cod_tipo_cadastro, :id_cadastro, :dat_log_cadastro, :des_historico, :id_usuario);';
+                '(:id_historico, :id_cadastro, :dat_log_cadastro, :des_historico, :id_usuario);';
     SQLUPDATE = 'update ' + TABLENAME + ' set ' +
                 'dat_log_cadastro = :dat_log_cadastro, des_historico = :des_historico, id_usuario = :id_usuario ' +
                 'where ' +
-                'id_historico = :id_historico and id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro;';
+                'id_historico = :id_historico and id_cadastro = :id_cadastro;';
     SQLQUERY =  'select ' +
-                'id_historico, cod_tipo_cadastro, id_cadastro, dat_log_cadastro, des_historico, id_usuario ' +
+                'id_historico, id_cadastro, dat_log_cadastro, des_historico, id_usuario ' +
                 'from ' + TABLENAME;
 implementation
 
@@ -60,12 +61,21 @@ begin
     Result := False;
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLUPDATE,
-                    [Self.Data, Self.Historico, Self.Usuario, Self.Sequencia, Self.ID, Self.TipoCadastro]);
+                    [Self.Data, Self.Historico, Self.Usuario, Self.Sequencia, Self.ID]);
     Result := True;
   finally
     FDQuery.Connection.Close;
     FDQuery.Free;
   end;
+end;
+
+procedure TCadastroHistorico.ClearSelf;
+begin
+  ID := 0;
+  Sequencia := 0;
+  Data := StrToDate('1899-12-31');
+  Historico := '';
+  Usuario := 0;
 end;
 
 constructor TCadastroHistorico.Create;
@@ -80,9 +90,8 @@ begin
   try
     Result := False;
     FDQuery := FConexao.ReturnQuery();
-    FDQuery.ExecSQL('delete from ' + TABLENAME + ' where id_historico = :id_historico and id_cadastro = :id_cadastro and ' +
-                    'cod_tipo_cadastro = :cod_tipo_cadastro',
-                    [Self.Sequencia, Self.ID, Self.TipoCadastro]);
+    FDQuery.ExecSQL('delete from ' + TABLENAME + ' where id_historico = :id_historico and id_cadastro = :id_cadastro;',
+                    [Self.Sequencia, Self.ID]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -96,10 +105,8 @@ var
 begin
   try
     FDQuery := FConexao.ReturnQuery();
-    FDQuery.Open('select coalesce(max(id_historico),0) + 1 from ' + TABLENAME + ' where id_cadastro = :id_cadastro and ' +
-                 'cod_tipo_cadastro = :cod_tipo_cadastro');
+    FDQuery.Open('select coalesce(max(id_historico),0) + 1 from ' + TABLENAME + ' where id_cadastro = :id_cadastro;');
     FDQuery.ParamByName('id_cadastro').AsInteger := Self.ID;
-    FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := Self.TipoCadastro;
     try
       Result := FDQuery.Fields[0].AsInteger;
     finally
@@ -129,7 +136,7 @@ begin
     Self.Sequencia := GetID;
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLUPDATE,
-                    [Self.Sequencia, Self.TipoCadastro, Self.ID, Self.Data, Self.Historico, Self.Usuario]);
+                    [Self.Sequencia, Self.ID, Self.Data, Self.Historico, Self.Usuario]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -148,16 +155,14 @@ begin
   FDQuery.SQL.Add(SQLQUERY);
   if aParam[0] = 'ID' then
   begin
-    FDQuery.SQL.Add('where id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro');
+    FDQuery.SQL.Add('where id_cadastro = :id_cadastro');
     FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-    FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := aParam[2];
   end;
-  if aParam[0] = 'SEQ' then
+  if aParam[0] = 'SEQUENCIA' then
   begin
-    FDQuery.SQL.Add('where id_historico = :id_historico and id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro');
+    FDQuery.SQL.Add('where id_historico = :id_historico and id_cadastro = :id_cadastro');
     FDQuery.ParamByName('id_historico').AsString := aParam[1];
     FDQuery.ParamByName('id_cadastro').AsString := aParam[2];
-    FDQuery.ParamByName('cod_tipo_cadastro').AsString := aParam[3];
   end;
   if aParam[0] = 'FILTRO' then
   begin
@@ -169,7 +174,28 @@ begin
     FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
   end;
   FDQuery.Open();
+  if not FDQuery.IsEmpty then
+  begin
+    FDQuery.First;
+    if aParam[0] <> 'APOIO' then
+    begin
+      SetupSelf(FDQuery);
+    end;
+  end
+  else
+  begin
+    ClearSelf;
+  end;
   Result := FDQuery;
+end;
+
+procedure TCadastroHistorico.SetupSelf(fdQuery: TFDQuery);
+begin
+  ID := fdQuery.FieldByName('id_cadastro').AsInteger;
+  Sequencia := fdQuery.FieldByName('id_historico').AsInteger;
+  Data := fdQuery.FieldByName('dat_log_cadastro').AsDateTime;
+  Historico := fdQuery.FieldByName('des_historico').AsString;
+  Usuario := fdQuery.FieldByName('id_usuario').AsInteger;
 end;
 
 end.

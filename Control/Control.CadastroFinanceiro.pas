@@ -16,6 +16,8 @@ type
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
     function SaveBatch(memTable: TFDMemTable): Boolean;
+    procedure SetupSelf(fdQuery: TFDQuery);
+    procedure ClearSelf;
   end;
 
 implementation
@@ -23,6 +25,11 @@ implementation
 { TFinanceiroEmpresaControl }
 
 uses Common.ENum;
+
+procedure TCadastroFinanceiroControl.ClearSelf;
+begin
+  Financeiro.ClearSelf;
+end;
 
 constructor TCadastroFinanceiroControl.Create;
 begin
@@ -53,6 +60,11 @@ end;
 function TCadastroFinanceiroControl.SaveBatch(memTable: TFDMemTable): Boolean;
 begin
   Result := FFinanceiro.SaveBatch(memTable);
+end;
+
+procedure TCadastroFinanceiroControl.SetupSelf(fdQuery: TFDQuery);
+begin
+  Financeiro.SetupSelf(fdQuery);
 end;
 
 end.
