@@ -47,7 +47,7 @@ type
     function Gravar(): Boolean;
     function SetupModel(FDQuery: TFDQuery): Boolean;
     procedure ClearModel;
-    function RetornaVerba(aParam: array of variant): double;
+    function RetornaVerba(): double;
     function RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
     function RetornaValorFaixa(iCliente, iTabela, iFaixa: integer): string;
     constructor Create();
@@ -87,7 +87,7 @@ begin
   FID := 0;
   FTipo := 0;
   FGrupo := 0;
-  FVigencia := StrtoDate('1899-12-31');
+  FVigencia := StrtoDate('31/12/1899');
   FVerba := 0;
   FPerformance := 0;
   FCEPInicial := '';
@@ -297,101 +297,112 @@ function TVerbasExpressas.LocalizarExato(aParam: array of variant): Boolean;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery();
-  if Length(aParam) < 2 then Exit;
-  FDQuery.SQL.Clear;
+  try
+    if aParam[0] = 'NONE' then
+    begin
+      ClearModel;
+      Result := True;
+      Exit;
+    end;
+    FDQuery := FConexao.ReturnQuery();
+    if Length(aParam) < 2 then Exit;
+    FDQuery.SQL.Clear;
 
-  FDQuery.SQL.Add('select id_verba, cod_cliente, cod_tipo, id_grupo, dat_vigencia, val_verba, ' +
-                  'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro from ' +
-                  TABLENAME);
-  if aParam[0] = 'FIXA' then
-  begin
-    FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia ' +
-                    'order by dat_vigencia desc');
-    FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-    FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
-    FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
-    FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
+    FDQuery.SQL.Add('select id_verba, cod_cliente, cod_tipo, id_grupo, dat_vigencia, val_verba, ' +
+                    'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro from ' +
+                    TABLENAME);
+    if aParam[0] = 'FIXA' then
+    begin
+      FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia ' +
+                      'order by dat_vigencia desc');
+      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
+      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
+      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
+    end;
+    if aParam[0] = 'FIXACEP' then
+    begin
+      FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
+                      'num_cep_inicial <= :pnum_cep and num_cep_final >= :pnum_cep order by dat_vigencia desc');
+      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
+      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
+      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
+      FDQuery.ParamByName('pnum_cep').AsString := aParam[5];
+    end;
+    if aParam[0] = 'FIXAPESO' then
+    begin
+      FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
+                      'qtd_peso_inicial <= :pqtd_peso and qtd_peso_final >= :pqtd_peso order by dat_vigencia desc');
+      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
+      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
+      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
+      FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
+    end;
+    if aParam[0] = 'SLA' then
+    begin
+      FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
+                      'val_performance = :pval_performance  order by dat_vigencia desc');
+      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
+      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
+      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
+      FDQuery.ParamByName('pval_performance').AsFloat := aParam[8];
+    end;
+    if aParam[0] = 'CEPPESO' then
+    begin
+      FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
+                      'num_cep_inicial <= :pnum_cep and num_cep_final >= :pnum_cep and ' +
+                      'qtd_peso_inicial <= :pqtd_peso and qtd_peso_final >= :pqtd_peso order by dat_vigencia desc');
+      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
+      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
+      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDate := aParam[4];
+      FDQuery.ParamByName('pnum_cep').AsString := aParam[5];
+      FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
+    end;
+    if aParam[0] = 'ROTEIROPESO' then
+    begin
+      FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
+                      'cod_roteiro = :pcod_roteiro and ' +
+                      'qtd_peso_inicial <= :pqtd_peso and qtd_peso_final >= :pqtd_peso order by dat_vigencia desc');
+      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
+      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
+      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
+      FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
+      FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
+    end;
+    if aParam[0] = 'ROTEIROFIXA' then
+    begin
+      FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
+                      'cod_roteiro = :pcod_roteiro order by dat_vigencia desc');
+      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
+      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
+      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
+      FDQuery.ParamByName('pdat_vigencia').AsDate :=aParam[4];
+      FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
+    end;
+    if aParam[0] = 'FILTRO' then
+    begin
+      FDQuery.SQL.Add('where ' + aParam[1]);
+    end;
+    FDQuery.Open();
+    if FDQuery.RecordCount > 0 then
+    begin
+      FDQuery.First;
+      SetupModel(FDQuery);
+    end
+    else
+    begin
+      ClearModel;
+    end;
+    Result := True;
+  finally
+    FDquery.Connection.Close;
+    FDQuery.Free;
   end;
-  if aParam[0] = 'FIXACEP' then
-  begin
-    FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
-                    'num_cep_inicial <= :pnum_cep and num_cep_final >= :pnum_cep order by dat_vigencia desc');
-    FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-    FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
-    FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
-    FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
-    FDQuery.ParamByName('pnum_cep').AsString := aParam[5];
-  end;
-  if aParam[0] = 'FIXAPESO' then
-  begin
-    FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
-                    'qtd_peso_inicial <= :pqtd_peso and qtd_peso_final >= :pqtd_peso order by dat_vigencia desc');
-    FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-    FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
-    FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
-    FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
-    FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
-  end;
-  if aParam[0] = 'SLA' then
-  begin
-    FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
-                    'val_performance = :pval_performance  order by dat_vigencia desc');
-    FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-    FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
-    FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
-    FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
-    FDQuery.ParamByName('pval_performance').AsFloat := aParam[8];
-  end;
-  if aParam[0] = 'CEPPESO' then
-  begin
-    FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
-                    'num_cep_inicial <= :pnum_cep and num_cep_final >= :pnum_cep and ' +
-                    'qtd_peso_inicial <= :pqtd_peso and qtd_peso_final >= :pqtd_peso order by dat_vigencia desc');
-    FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-    FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
-    FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
-    FDQuery.ParamByName('pdat_vigencia').AsDate := aParam[4];
-    FDQuery.ParamByName('pnum_cep').AsString := aParam[5];
-    FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
-  end;
-  if aParam[0] = 'ROTEIROPESO' then
-  begin
-    FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
-                    'cod_roteiro = :pcod_roteiro and ' +
-                    'qtd_peso_inicial <= :pqtd_peso and qtd_peso_final >= :pqtd_peso order by dat_vigencia desc');
-    FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-    FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
-    FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
-    FDQuery.ParamByName('pdat_vigencia').AsDateTime := aParam[4];
-    FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
-    FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
-  end;
-  if aParam[0] = 'ROTEIROFIXA' then
-  begin
-    FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
-                    'cod_roteiro = :pcod_roteiro order by dat_vigencia desc');
-    FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-    FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[2];
-    FDQuery.ParamByName('pid_grupo').AsInteger := aParam[3];
-    FDQuery.ParamByName('pdat_vigencia').AsDate :=aParam[4];
-    FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
-  end;
-  if aParam[0] = 'FILTRO' then
-  begin
-    FDQuery.SQL.Add('where ' + aParam[1]);
-  end;
-  FDQuery.Open();
-  if FDQuery.RecordCount > 0 then
-  begin
-    FDQuery.First;
-    SetupModel(FDQuery);
-  end
-  else
-  begin
-    ClearModel;
-  end;
-  Result := True
 end;
 
 function TVerbasExpressas.RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
@@ -457,7 +468,7 @@ begin
   end;
 end;
 
-function TVerbasExpressas.RetornaVerba(aParam: array of variant): double;
+function TVerbasExpressas.RetornaVerba(): double;
 var
   FDQuery: TFDQuery;
 begin
@@ -470,78 +481,82 @@ begin
                     'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro from ' +
                     TABLENAME);
 
-    if aParam[1] = 1 then
+    if Self.Tipo = 0 then
+    begin
+      Exit;
+    end;
+    if Self.Tipo = 1 then
     begin
       FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and ' +
                       'dat_vigencia <= :pdat_vigencia order by dat_vigencia desc');
-      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
-      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
+      FDQuery.ParamByName('pcod_cliente').AsInteger := Self.Cliente;
+      FDQuery.ParamByName('pcod_tipo').AsInteger := Self.Tipo;
+      FDQuery.ParamByName('pid_grupo').AsInteger := Self.Grupo;
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := Self.Vigencia;
     end;
-    if aParam[1] = 2 then
+    if Self.Tipo = 2 then
     begin
       FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
                       'num_cep_inicial <= :pnum_cep and num_cep_final >= :pnum_cep order by dat_vigencia desc');
-      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
-      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
-      FDQuery.ParamByName('pnum_cep').AsString := aParam[5];
+      FDQuery.ParamByName('pcod_tipo').AsInteger := Self.Tipo;
+      FDQuery.ParamByName('pcod_cliente').AsInteger := Self.Cliente;
+      FDQuery.ParamByName('pid_grupo').AsInteger := Self.Grupo;
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := Self.Vigencia;
+      FDQuery.ParamByName('pnum_cep').AsString := Self.CEPInicial;
     end;
-    if aParam[1] = 3 then
+    if Self.Tipo = 3 then
     begin
       FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
                       'qtd_peso_inicial <= :pqtd_peso and qtd_peso_final >= :pqtd_peso order by dat_vigencia desc');
-      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
-      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
-      FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
+      FDQuery.ParamByName('pcod_tipo').AsInteger := Self.Tipo;
+      FDQuery.ParamByName('pcod_cliente').AsInteger := Self.Cliente;
+      FDQuery.ParamByName('pid_grupo').AsInteger := Self.Grupo;
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := Self.Vigencia;
+      FDQuery.ParamByName('pqtd_peso').AsFloat := Self.PesoInicial;
     end;
-    if aParam[1] = 4 then
+    if Self.Tipo = 4 then
     begin
       FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
                       'val_performance = :pval_performance  order by dat_vigencia desc');
-      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
-      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
-      FDQuery.ParamByName('pval_performance').AsFloat := aParam[4];
+      FDQuery.ParamByName('pcod_tipo').AsInteger := Self.Tipo;
+      FDQuery.ParamByName('pcod_cliente').AsInteger := Self.Cliente;
+      FDQuery.ParamByName('pid_grupo').AsInteger := Self.Grupo;
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := Self.Vigencia;
+      FDQuery.ParamByName('pval_performance').AsFloat := Self.Performance;
     end;
-    if aParam[1] = 5 then
+    if Self.Tipo = 5 then
     begin
       FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
                       'num_cep_inicial <= :pnum_cep and num_cep_final >= :pnum_cep and ' +
                       'qtd_peso_inicial <= :pqtd_peso and qtd_peso_final >= :pqtd_peso order by dat_vigencia desc');
-      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
-      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDate := VarToDateTime(aParam[3]);
-      FDQuery.ParamByName('pnum_cep').AsString := aParam[5];
-      FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
+      FDQuery.ParamByName('pcod_tipo').AsInteger := Self.Tipo;
+      FDQuery.ParamByName('pcod_cliente').AsInteger := Self.Cliente;
+      FDQuery.ParamByName('pid_grupo').AsInteger := Self.Grupo;
+      FDQuery.ParamByName('pdat_vigencia').AsDate := Self.Vigencia;
+      FDQuery.ParamByName('pnum_cep').AsString := Self.CEPInicial;
+      FDQuery.ParamByName('pqtd_peso').AsFloat := Self.PesoInicial;
     end;
-    if aParam[1] = 7 then
+    if Self.Tipo = 7 then
     begin
       FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
                       'cod_roteiro = :pcod_roteiro and ' +
                       'qtd_peso_inicial <= :pqtd_peso and qtd_peso_final >= :pqtd_peso order by dat_vigencia desc');
-      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
-      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDateTime := VarToDateTime(aParam[3]);
-      FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
-      FDQuery.ParamByName('pqtd_peso').AsFloat := aParam[6];
+      FDQuery.ParamByName('pcod_tipo').AsInteger := Self.Tipo;
+      FDQuery.ParamByName('pcod_cliente').AsInteger := Self.Cliente;
+      FDQuery.ParamByName('pid_grupo').AsInteger := Self.Grupo;
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := Self.Vigencia;
+      FDQuery.ParamByName('pcod_roteiro').AsInteger := Self.Roteiro;
+      FDQuery.ParamByName('pqtd_peso').AsFloat := Self.PesoInicial;
     end;
-    if aParam[1] = 6 then
+    if Self.Tipo = 6 then
     begin
       FDQuery.SQL.Add('where cod_tipo = :pcod_tipo and cod_cliente = :pcod_cliente and id_grupo = :pid_grupo and dat_vigencia <= :pdat_vigencia and ' +
                       'cod_roteiro = :pcod_roteiro order by dat_vigencia desc');
-      FDQuery.ParamByName('pcod_tipo').AsInteger := aParam[1];
-      FDQuery.ParamByName('pcod_cliente').AsInteger := aParam[0];
-      FDQuery.ParamByName('pid_grupo').AsInteger := aParam[2];
-      FDQuery.ParamByName('pdat_vigencia').AsDate := VarToDateTime(aParam[3]);
-      FDQuery.ParamByName('pcod_roteiro').AsInteger := aParam[7];
+      FDQuery.ParamByName('pcod_tipo').AsInteger := Self.Tipo;
+      FDQuery.ParamByName('pcod_cliente').AsInteger := Self.Cliente;
+      FDQuery.ParamByName('pid_grupo').AsInteger := Self.Grupo;
+      FDQuery.ParamByName('pdat_vigencia').AsDate := Self.Vigencia;
+      FDQuery.ParamByName('pcod_roteiro').AsInteger := Self.Roteiro;
     end;
     FDQuery.Open();
     if FDQuery.RecordCount > 0 then

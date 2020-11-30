@@ -238,14 +238,14 @@ begin
   Self.Expedicao := StrToDate('31/12/1899');
   Self.Previsao := StrToDate('31/12/1899');
   Self.Volumes := 0;
-  Self.Atribuicao := StrToDate('31/12/1899');;
-  Self.Baixa := StrToDate('31/12/1899');;
+  Self.Atribuicao := StrToDate('31/12/1899');
+  Self.Baixa := StrToDate('31/12/1899');
   Self.Baixado := 'N';
-  Self.Pagamento := StrToDateTime('31/12/1899 23:59:59');
+  Self.Pagamento := StrToDate('31/12/1899');
   Self.Pago := 'N';
   Self.Fechado := 'N';
   Self.Status := 0;
-  Self.Entrega := StrToDateTime('31/12/1899 23:59:59');
+  Self.Entrega := StrToDate('31/12/1899');
   Self.PesoReal := 0;
   Self.PesoFranquia := 0;
   Self.VerbaFranquia := 0;
@@ -258,7 +258,7 @@ begin
   Self.ValorVolumes := 0;
   Self.PesoCobrado := 0;
   Self.TipoPeso := '';
-  Self.Recebimento := StrToDateTime('31/12/1899 23:59:59');
+  Self.Recebimento := StrToDate('31/12/1899');
   Self.Recebido := 'N';
   Self.CTRC := 0;
   Self.Manifesto := 0;
@@ -266,7 +266,7 @@ begin
   Self.VerbaFranquia := 0;
   Self.Lote := 0;
   Self.Retorno := '';
-  Self.Credito := StrToDateTime('31/12/1899 23:59:59');
+  Self.Credito := StrToDate('31/12/1899');
   Self.Creditado := 'N';
   Self.Container := '';
   Self.ValorProduto := 0;
@@ -274,7 +274,7 @@ begin
   Self.Largura := 0;
   Self.Comprimento := 0;
   Self.CodigoFeedback := 0;
-  Self.DataFeedback := StrToDateTime('31/12/1899 23:59:59');
+  Self.DataFeedback := StrToDate('31/12/1899');
   Self.Conferido := 0;
   Self.Pedido := '';
   Self.CodCliente := 0;

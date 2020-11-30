@@ -14,10 +14,11 @@ uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Control.
       function GetID(): Integer;
       function ValidaCampos(): Boolean;
       function Localizar(aParam: array of variant): TFDQuery;
+      function LocalizarExato(aParam: array of variant): Boolean;
       procedure ClearModel;
       function Gravar(): Boolean;
       function SetupModal(FDQuery: TFDQuery): Boolean;
-      function RetornaVerba(aParam: array of variant): double;
+      function RetornaVerba(): double;
       function RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
       function RetornaValorFaixa(iCliente, iTabela, iFaixa: integer): string;
     end;
@@ -57,6 +58,11 @@ begin
   Result := FVerbas.Localizar(aParam);
 end;
 
+function TVerbasExpressasControl.LocalizarExato(aParam: array of variant): Boolean;
+begin
+  Result := FVerbas.LocalizarExato(aParam);
+end;
+
 function TVerbasExpressasControl.RetornaListaSimples(iTabela: integer; memTable: TFDMemTable): boolean;
 begin
   Result := FVerbas.RetornaListaSimples(iTabela,memTable);
@@ -67,9 +73,9 @@ begin
   Result := FVerbas.RetornaValorFaixa(iCliente, iTabela, iFaixa);
 end;
 
-function TVerbasExpressasControl.RetornaVerba(aParam: array of variant): double;
+function TVerbasExpressasControl.RetornaVerba(): double;
 begin
-  Result := FVerbas.RetornaVerba(aParam);
+  Result := FVerbas.RetornaVerba();
 end;
 
 function TVerbasExpressasControl.SetupModal(FDQuery: TFDQuery): Boolean;

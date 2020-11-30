@@ -110,7 +110,7 @@ begin
           FEntregas := TEntregasControl.Create;
           SetLength(aParam,2);
           aParam := ['NN', FPlanilha.Planilha.Planilha[i].NNRemessa];
-          if not FEntregas.Localizar(aParam).IsEmpty then
+          if not FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.Distribuidor := RetornaAgente(FPlanilha.Planilha.Planilha[i].CodigoEntregador);
             FEntregas.Entregas.Entregador := FPlanilha.Planilha.Planilha[i].CodigoEntregador;
@@ -128,6 +128,7 @@ begin
             aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
                        FEntregas.Entregas.PesoReal, FEntregas.Entregas.Baixa, 0, 0];
             FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
+            Finalize(aParam);
             // se a verba for zerada, registra no log
             if FEntregas.Entregas.VerbaEntregador = 0 then
             begin
@@ -217,7 +218,7 @@ begin
     iFaixa := 0;
     dVerba := 0;
     SetLength(FTipoVerba,8);
-    //crua um array com as formas de pesquisa da classe
+    //cria um array com as formas de pesquisa da classe
     FTipoVerba := ['NONE','FIXA','FIXACEP','FIXAPESO','SLA','CEPPESO','ROTEIROFIXA','ROTEIROPESO'];
     // procura dos dados da base referentes à verba
     FBase := TBasesControl.Create;
@@ -225,8 +226,8 @@ begin
     FParam := ['CODIGO',aParam[0]];
     if FBase.LocalizarExato(FParam) then
     begin
-      iTabela := FBase.Bases.Grupo;
-      iFaixa := FBase.Bases.CentroCusto;
+      iTabela := FBase.Bases.CentroCusto;
+      iFaixa := FBase.Bases.Grupo;
       dVerba := FBase.Bases.ValorVerba;
     end;
     Finalize(FParam);
@@ -239,19 +240,21 @@ begin
       begin
         if iFaixa <> 0 then
         begin
-          SetLength(FParam,9);
-          FParam := [FTipoVerba[iTabela], iTabela, iCodigoCliente, iFaixa, aParam[4], aParam[2], aParam[3], aParam[6], aParam[7]];
           FVerbas := TVerbasExpressasControl.Create;
-          if not FVerbas.Localizar(aParam).IsEmpty then
-          begin
-            dVerba := FVerbas.Verbas.Verba
-          end;
-          Finalize(FParam);
+          FVerbas.Verbas.Tipo := iTabela;
+          FVerbas.Verbas.Cliente := iCodigoCliente;
+          FVerbas.Verbas.Grupo := iFaixa;
+          FVerbas.Verbas.Vigencia := aParam[4];
+          FVerbas.Verbas.CepInicial := aParam[2];
+          FVerbas.Verbas.PesoInicial := aParam[3];
+          FVerbas.Verbas.Roteiro := aParam[5];
+          FVerbas.Verbas.Performance := aParam[6];
+          dVerba := FVerbas.RetornaVerba();
           FVerbas.Free;
         end;
       end;
     end;
-    // se a verba aindaestiver zerada, indica que a verba deve estar cadsastrada para o entregador
+    // se a verba ainda estiver zerada, indica que a verba deve estar cadastrada para o entregador
     // pesquisa a tabela de entregadores e apanha os dados referente à verba
     if dVerba = 0 then
     begin
@@ -274,15 +277,17 @@ begin
         begin
           if iFaixa <> 0 then
           begin
-            SetLength(FParam,9);
-            FParam := [FTipoVerba[iTabela], iTabela, iCodigoCliente, iFaixa, aParam[4], aParam[2], aParam[3], aParam[6], aParam[7]];
-            FVerbas := TVerbasExpressasControl.Create;
-            if not FVerbas.Localizar(aParam).IsEmpty then
-            begin
-              dVerba := FVerbas.Verbas.Verba
-            end;
-            Finalize(FParam);
-            FVerbas.Free;
+          FVerbas := TVerbasExpressasControl.Create;
+          FVerbas.Verbas.Tipo := iTabela;
+          FVerbas.Verbas.Cliente := iCodigoCliente;
+          FVerbas.Verbas.Grupo := iFaixa;
+          FVerbas.Verbas.Vigencia := aParam[4];
+          FVerbas.Verbas.CepInicial := aParam[2];
+          FVerbas.Verbas.PesoInicial := aParam[3];
+          FVerbas.Verbas.Roteiro := aParam[5];
+          FVerbas.Verbas.Performance := aParam[6];
+          dVerba := FVerbas.RetornaVerba();
+          FVerbas.Free;
           end;
         end;
       end;

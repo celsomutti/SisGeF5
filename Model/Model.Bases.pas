@@ -132,12 +132,12 @@ begin
   Self.CRT := 0;
   Self.NumeroCNH := '';
   Self.CategoriaCNH := '';
-  Self.ValidadeCNH := StrToDate('1899-12-31');
+  Self.ValidadeCNH := StrToDate('31/12/1899');
   Self.PaginaWeb := '';
   Self.Status := 0;
   Self.Obs := '';
-  Self.DataCadastro := StrToDate('1899-12-31');
-  Self.DataAlteracao := StrToDate('1899-12-31');
+  Self.DataCadastro := StrToDate('31/12/1899');
+  Self.DataAlteracao := StrToDate('31/12/1899');
   Self.ValorVerba := 0;
   Self.TipoConta := '';
   Self.CodigoBanco := '';

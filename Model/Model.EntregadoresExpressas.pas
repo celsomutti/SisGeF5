@@ -109,12 +109,12 @@ begin
   Entregador := 0;
   Fantasia := '';
   Agente  := 0;
-  Data := StrToDate('1899-12-31');
+  Data := StrToDate('31/12/1899');
   Chave := '';
   Grupo := 0;
   Verba := 0;
   Executor := '';
-  Manutencao := StrToDate('1899-12-31 23:59:59');
+  Manutencao := StrToDateTime('31/12/1899 23:59:59');
   Tabela := 0;
 end;
 
