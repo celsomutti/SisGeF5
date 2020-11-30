@@ -61,7 +61,7 @@ uses
     property Acao: TAcao read FAcao write SetAcao;
 
     function Localizar(aParam: array of variant): TFDQuery;
-    function LocalizarExtato(aParam: array of variant): boolean;
+    function LocalizarExato(aParam: array of variant): boolean;
     function Gravar(): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
     function SetupModel(FDEntregadores: TFDQuery): Boolean;
@@ -256,7 +256,7 @@ begin
   Result := FDQuery;
 end;
 
-function TEntregadoresExpressas.LocalizarExtato(aParam: array of variant): boolean;
+function TEntregadoresExpressas.LocalizarExato(aParam: array of variant): boolean;
 var
   FDQuery: TFDQuery;
 begin

@@ -128,6 +128,7 @@ begin
             aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
                        FEntregas.Entregas.PesoReal, FEntregas.Entregas.Baixa, 0, 0];
             FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
+            // se a verba for zerada, registra no log
             if FEntregas.Entregas.VerbaEntregador = 0 then
             begin
               sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
@@ -186,7 +187,7 @@ begin
     FEntregadores := TEntregadoresExpressasControl.Create;
     SetLength(aParam, 2);
     aParam := ['ENTREGADOR', iEntregador];
-    if FEntregadores.Localizar(aParam).IsEmpty then
+    if FEntregadores.LocalizarExato(aParam) then
     begin
       iRetorno := FEntregadores.Entregadores.Agente;
     end
@@ -216,11 +217,13 @@ begin
     iFaixa := 0;
     dVerba := 0;
     SetLength(FTipoVerba,8);
+    //crua um array com as formas de pesquisa da classe
     FTipoVerba := ['NONE','FIXA','FIXACEP','FIXAPESO','SLA','CEPPESO','ROTEIROFIXA','ROTEIROPESO'];
+    // procura dos dados da base referentes à verba
     FBase := TBasesControl.Create;
     SetLength(FParam,2);
     FParam := ['CODIGO',aParam[0]];
-    if FBase.Localizar(FParam).IsEmpty then
+    if FBase.LocalizarExato(FParam) then
     begin
       iTabela := FBase.Bases.Grupo;
       iFaixa := FBase.Bases.CentroCusto;
@@ -228,6 +231,8 @@ begin
     end;
     Finalize(FParam);
     FBase.Free;
+    // se a base não possui uma verba fixa, verifica se a base possui uma vinculação a uma
+    // tabela e faixa.
     if dVerba = 0 then
     begin
       if iTabela <> 0 then
@@ -246,6 +251,8 @@ begin
         end;
       end;
     end;
+    // se a verba aindaestiver zerada, indica que a verba deve estar cadsastrada para o entregador
+    // pesquisa a tabela de entregadores e apanha os dados referente à verba
     if dVerba = 0 then
     begin
       FEntregador := TEntregadoresExpressasControl.Create;
@@ -259,6 +266,8 @@ begin
       end;
       Finalize(FParam);
       FEntregador.Free;
+      // verifica se o entregador possui uma verba fixa, se estiver zerada, verifica com as informações
+      // de tabela e faixa.
       if dVerba = 0 then
       begin
         if iTabela <> 0 then

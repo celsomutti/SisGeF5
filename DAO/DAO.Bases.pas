@@ -17,6 +17,9 @@ uses
     function Pesquisar(aParam: array of variant): TFDQuery;
     function LocalizarExato(aParam: array of variant): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
+    function SetupModel(FDBases: TFDQuery; ABase: TBases): Boolean;
+    procedure ClearModel(ABase: TBases);
+
   end;
   const
     TABLENAME = 'tbagentes';
@@ -53,6 +56,38 @@ begin
     FDQuery.Connection.Close;
     FDQuery.Free;
   end;
+end;
+
+procedure TBasesDAO.ClearModel;
+begin
+  ABase.Codigo := 0;
+  ABase.RazaoSocial := '';
+  ABase.NomeFantasia := '';
+  ABase.TipoDoc := '';
+  ABase.CNPJCPF := '';
+  ABase.IE := '';
+  ABase.IEST := '';
+  ABase.IM := '';
+  ABase.CNAE := '';
+  ABase.CRT := 0;
+  ABase.NumeroCNH := '';
+  ABase.CategoriaCNH := '';
+  ABase.ValidadeCNH := StrToDate('1899-12-31');
+  ABase.PaginaWeb := '';
+  ABase.Status := 0;
+  ABase.Obs := '';
+  ABase.DataCadastro := StrToDate('1899-12-31');
+  ABase.DataAlteracao := StrToDate('1899-12-31');
+  ABase.ValorVerba := 0;
+  ABase.TipoConta := '';
+  ABase.CodigoBanco := '';
+  ABase.NumeroAgente := '';
+  ABase.NumeroConta := '';
+  ABase.NomeFavorecido := '';
+  ABase.CNPJCPFFavorecido := '';
+  ABase.FormaPagamento := '';
+  ABase.CentroCusto := 0;
+  ABase.Grupo := 0;
 end;
 
 constructor TBasesDAO.Create;
@@ -117,7 +152,7 @@ begin
   end;
 end;
 
-function TBasesDAO.LocalizarExato(aParam: array of variant): Boolean;
+function TBasesDAO.LocalizarExato(aParam: array of variant; ABase: TBases): Boolean;
 var
   FDQuery: TFDQuery;
 begin
@@ -156,12 +191,17 @@ begin
     begin
       FDQuery.SQL.Add('WHERE ' + aParam[1]);
     end;
-    if aParam[0] = 'APOIO' then
-    begin
-      FDQuery.SQL.Clear;
-      FDQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
-    end;
     FDQuery.Open;
+    if not FDQuery.IsEmpty then
+    begin
+      FDQuery.First;
+      Result := SetupModel(FDQuery);
+    end
+    else
+    begin
+      ClearModel();
+      Exit;
+    end;
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -215,5 +255,42 @@ begin
   Result := FDQuery;
 end;
 
+
+function TBasesDAO.SetupModel(FDBases: TFDQuery; ABase: TBases): Boolean;
+begin
+  try
+    Result := False;
+    ABase.Codigo := FDBases.FieldByName('cod_agente').AsInteger;
+    ABase.RazaoSocial := FDBases.FieldByName('des_razao_social').AsString;
+    ABase.NomeFantasia := FDBases.FieldByName('nom_fantasia').AsString;
+    ABase.TipoDoc := FDBases.FieldByName('des_tipo_doc').AsString;
+    ABase.CNPJCPF := FDBases.FieldByName('num_cnpj').AsString;
+    ABase.IE := FDBases.FieldByName('num_ie').AsString;
+    ABase.IEST := FDBases.FieldByName('num_iest').AsString;
+    ABase.IM := FDBases.FieldByName('num_im').AsString;
+    ABase.CNAE := FDBases.FieldByName('cod_cnae').AsString;
+    ABase.CRT := FDBases.FieldByName('cod_crt').AsInteger;
+    ABase.NumeroCNH := FDBases.FieldByName('num_cnh').AsString;
+    ABase.CategoriaCNH := FDBases.FieldByName('des_categoria_cnh').AsString;
+    ABase.ValidadeCNH := FDBases.FieldByName('dat_validade_cnh').AsDateTime;
+    ABase.PaginaWeb := FDBases.FieldByName('des_pagina').AsString;
+    ABase.Status := FDBases.FieldByName('cod_status').AsInteger;
+    ABase.Obs := FDBases.FieldByName('des_observacao').AsString;
+    ABase.DataCadastro := FDBases.FieldByName('dat_cadastro').AsDateTime;
+    ABase.DataAlteracao := FDBases.FieldByName('dat_alteracao').AsDateTime;
+    ABase.ValorVerba := FDBases.FieldByName('val_verba').AsFloat;
+    ABase.TipoConta := FDBases.FieldByName('des_tipo_conta').AsString;
+    ABase.CodigoBanco := FDBases.FieldByName('cod_banco').AsString;
+    ABase.NumeroAgente := FDBases.FieldByName('cod_agencia').AsString;
+    ABase.NumeroConta := FDBases.FieldByName('num_conta').AsString;
+    ABase.NomeFavorecido := FDBases.FieldByName('nom_favorecido').AsString;
+    ABase.CNPJCPFFavorecido := FDBases.FieldByName('num_cpf_cnpj_favorecido').AsString;
+    ABase.FormaPagamento := FDBases.FieldByName('des_forma_pagamento').AsString;
+    ABase.CentroCusto := FDBases.FieldByName('cod_centro_custo').AsInteger;
+    ABase.Grupo := FDBases.FieldByName('cod_grupo').AsInteger;
+  finally
+    Result := True;
+  end;
+end;
 
 end.

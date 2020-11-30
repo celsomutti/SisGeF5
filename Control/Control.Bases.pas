@@ -19,6 +19,7 @@ interface
 
     function Gravar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarExato(aParam: array of variant): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
 
     property Bases: TBases read FBases write FBases;
@@ -53,6 +54,11 @@ end;
 function TBasesControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FBases.Localizar(aParam);
+end;
+
+function TBasesControl.LocalizarExato(aParam: array of variant): Boolean;
+begin
+  Result := FBases.LocalizarExato(aParam);
 end;
 
 end.

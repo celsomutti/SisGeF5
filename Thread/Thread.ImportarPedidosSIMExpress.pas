@@ -121,7 +121,7 @@ begin
           Finalize(aParam);
           SetLength(aParam,2);
           aParam := ['FANTASIA',FPlanilha.Planilha.Planilha[i].Motorista];
-          if FEntregadores.LocalizarExtato(aParam) then
+          if FEntregadores.LocalizarExato(aParam) then
           begin
             FEntregas.Entregas.Distribuidor := 1;
             FEntregas.Entregas.Entregador := 781;

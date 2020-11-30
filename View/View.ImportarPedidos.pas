@@ -295,7 +295,7 @@ end;
 
 procedure Tview_ImportarPedidos.AtualizaLogTFO;
 begin
-if not planilha.bProcess then
+  if not planilha.bProcess then
   begin
     Timer1.Enabled := False;
     dxLayoutItem8.Visible := False;

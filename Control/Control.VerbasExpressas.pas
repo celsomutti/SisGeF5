@@ -14,6 +14,7 @@ uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Control.
       function GetID(): Integer;
       function ValidaCampos(): Boolean;
       function Localizar(aParam: array of variant): TFDQuery;
+      procedure ClearModel;
       function Gravar(): Boolean;
       function SetupModal(FDQuery: TFDQuery): Boolean;
       function RetornaVerba(aParam: array of variant): double;
@@ -24,6 +25,11 @@ uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Control.
 implementation
 
 { TVerbasExpressasControl }
+
+procedure TVerbasExpressasControl.ClearModel;
+begin
+  FVerbas.ClearModel;
+end;
 
 constructor TVerbasExpressasControl.Create;
 begin

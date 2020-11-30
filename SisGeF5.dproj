@@ -209,7 +209,6 @@
         <DCCReference Include="DAO\DAO.Estados.pas"/>
         <DCCReference Include="Control\Control.Bases.pas"/>
         <DCCReference Include="Model\Model.Bases.pas"/>
-        <DCCReference Include="DAO\DAO.Bases.pas"/>
         <DCCReference Include="View\View.Calendario.pas">
             <Form>view_Calendario</Form>
             <FormType>dfm</FormType>

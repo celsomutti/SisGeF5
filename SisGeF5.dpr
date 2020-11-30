@@ -40,7 +40,6 @@ uses
   DAO.Estados in 'DAO\DAO.Estados.pas',
   Control.Bases in 'Control\Control.Bases.pas',
   Model.Bases in 'Model\Model.Bases.pas',
-  DAO.Bases in 'DAO\DAO.Bases.pas',
   View.Calendario in 'View\View.Calendario.pas' {view_Calendario},
   Control.Estados in 'Control\Control.Estados.pas',
   View.VerbasExpressas in 'View\View.VerbasExpressas.pas' {view_Verbas_Expressas},

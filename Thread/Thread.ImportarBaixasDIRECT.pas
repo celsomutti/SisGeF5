@@ -340,7 +340,7 @@ begin
     FBase := TBasesControl.Create;
     SetLength(FParam,2);
     FParam := ['CODIGO',aParam[0]];
-    if FBase.Localizar(FParam).IsEmpty then
+    if FBase.LocalizarExato(FParam) then
     begin
       iTabela := FBase.Bases.Grupo;
       iFaixa := FBase.Bases.CentroCusto;
