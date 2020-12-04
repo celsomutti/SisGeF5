@@ -110,7 +110,7 @@ begin
           FEntregas := TEntregasControl.Create;
           SetLength(aParam,2);
           aParam := ['NN', FPlanilha.Planilha.Planilha[i].NNRemessa];
-          if not FEntregas.LocalizarExata(aParam) then
+          if FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.Distribuidor := RetornaAgente(FPlanilha.Planilha.Planilha[i].CodigoEntregador);
             FEntregas.Entregas.Entregador := FPlanilha.Planilha.Planilha[i].CodigoEntregador;
@@ -138,6 +138,11 @@ begin
             end;
             FEntregas.Entregas.CodigoFeedback := 0;
             FEntregas.Entregas.Acao := tacAlterar;
+            if not FEntregas.Gravar() then
+            begin
+              sMensagem := 'Erro ao gravar o NN ' + Fentregas.Entregas.NN + ' !';
+              UpdateLog(sMensagem);
+            end;
           end
           else
           begin
@@ -146,11 +151,6 @@ begin
             UpdateLog(sMensagem);
           end;
           Finalize(aParam);
-          if not FEntregas.Gravar() then
-          begin
-            sMensagem := 'Erro ao gravar o NN ' + Fentregas.Entregas.NN + ' !';
-            UpdateLog(sMensagem);
-          end;
           FEntregas.Free;
           inc(iPos, 1);
           dPos := (iPos / iTotal) * 100;

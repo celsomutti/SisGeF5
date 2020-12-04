@@ -112,31 +112,23 @@ begin
           FEntregas := TEntregasControl.Create;
           SetLength(aParam,2);
           aParam := ['NN', FPlanilha.Planilha.Planilha[i].Remessa];
-          if FEntregas.Localizar(aParam).IsEmpty then
+          if not FEntregas.LocalizarExata(aParam) then
           begin
             if UpperCase(FPlanilha.Planilha.Planilha[iPos].Tipo) = 'REVERSA' then
             begin
               FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].Remessa;
               FEntregas.Entregas.Distribuidor := RetornaAgente(FPlanilha.Planilha.Planilha[i].Documento);
               FEntregas.Entregas.Entregador := RetornaEntregador(FPlanilha.Planilha.Planilha[i].Documento);
-              FEntregas.Entregas.Cliente := 0;
               FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[i].NF;
               FEntregas.Entregas.Consumidor := 'REVERSA';
-              FEntregas.Entregas.Endereco := '';
-              FEntregas.Entregas.Complemento := '';
-              FEntregas.Entregas.Bairro := '';
               FEntregas.Entregas.Cidade := FPlanilha.Planilha.Planilha[i].Municipio;
               FEntregas.Entregas.Cep :=FPlanilha.Planilha.Planilha[i].CEP;
-              FEntregas.Entregas.Telefone := '';
               FEntregas.Entregas.Expedicao := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
               FEntregas.Entregas.Previsao := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
               FEntregas.Entregas.Volumes := 1;
               FEntregas.Entregas.Atribuicao := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
               FEntregas.Entregas.Baixa := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
               FEntregas.Entregas.Baixado := 'S';
-              FEntregas.Entregas.Pagamento := StrToDate('30/12/1899');
-              FEntregas.Entregas.Pago := 'N';
-              FEntregas.Entregas.Fechado := 'N';
               FEntregas.Entregas.Status := 909;
               FEntregas.Entregas.Entrega := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
               if FPlanilha.Planilha.Planilha[i].PesoNominal > FPlanilha.Planilha.Planilha[i].PesoCubado then
@@ -160,23 +152,7 @@ begin
               FEntregas.Entregas.VolumesExtra := 0;
               FEntregas.Entregas.ValorVolumes := 0;
               FEntregas.Entregas.Recebimento := StrToDate('30/12/1899');
-              FEntregas.Entregas.Recebido := 'N';
-              FEntregas.Entregas.CTRC := 0;
-              FEntregas.Entregas.Manifesto := 0;
-              FEntregas.Entregas.Rastreio := '';
-              FEntregas.Entregas.VerbaFranquia := 0;
-              FEntregas.Entregas.Lote := 0;
-              FEntregas.Entregas.Retorno := '';
-              FEntregas.Entregas.Credito := StrToDate('30/12/1899');;
-              FEntregas.Entregas.Creditado := 'N';
-              FEntregas.Entregas.Container := '';
-              FEntregas.Entregas.ValorProduto := 0;
-              FEntregas.Entregas.Altura := 0;
-              FEntregas.Entregas.Largura := 0;
-              FEntregas.Entregas.Comprimento := 0;
-              FEntregas.Entregas.CodigoFeedback := 0;
-              FEntregas.Entregas.DataFeedback := StrToDate('30/12/1899');
-              FEntregas.Entregas.Conferido := 0;
+              FEntregas.Entregas.Recebido := 'S';
               FEntregas.Entregas.Pedido := FPlanilha.Planilha.Planilha[i].Pedido;
               FEntregas.Entregas.CodCliente := iCodigoCliente;
               Finalize(aParam);
@@ -184,28 +160,23 @@ begin
               aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
                          FEntregas.Entregas.PesoReal, FEntregas.Entregas.Baixa, 0, 0];
               FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
+              FEntregas.Entregas.Acao := tacIncluir;
               Finalize(aParam);
               if FEntregas.Entregas.VerbaEntregador = 0 then
               begin
                 sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
                              FPlanilha.Planilha.Planilha[i].Motorista + ' não atribuida !';
                 UpdateLog(sMensagem);
-              end
-              else
+              end;
+              if not FEntregas.Gravar() then
               begin
-                if bLojas then
-                begin
-                  if FPlanilha.Planilha.Planilha[i].Loja = 'S' then
-                  begin
-                    dVerba := FEntregas.Entregas.VerbaEntregador;
-                    FEntregas.Entregas.VerbaEntregador := (dVerba / 2);
-                  end;
-                end;
+                sMensagem := 'Erro ao gravar o NN ' + Fentregas.Entregas.NN + ' !';
+                UpdateLog(sMensagem);
               end;
             end
             else
             begin
-              sMensagem := 'Entrega NN ' + FEntregas.Entregas.NN + ' do entregador ' +
+              sMensagem := 'Entrega NN ' + FPlanilha.Planilha.Planilha[i].Remessa + ' do entregador ' +
                            FPlanilha.Planilha.Planilha[i].Motorista + ' não encontrada no banco de dados !';
               UpdateLog(sMensagem);
             end;
@@ -213,7 +184,7 @@ begin
           else
           begin
             FEntregas.Entregas.Distribuidor := RetornaAgente(FPlanilha.Planilha.Planilha[i].Documento);
-            FEntregas.Entregas.Entregador := RetornaAgente(FPlanilha.Planilha.Planilha[i].Documento);
+            FEntregas.Entregas.Entregador := RetornaEntregador(FPlanilha.Planilha.Planilha[i].Documento);
             FEntregas.Entregas.Baixa := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
             FEntregas.Entregas.Baixado := 'S';
             FEntregas.Entregas.Status := 909;
@@ -225,6 +196,7 @@ begin
             SetLength(aParam,7);
             aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
                        FEntregas.Entregas.PesoReal, FEntregas.Entregas.Baixa, 0, 0];
+            FEntregas.Entregas.CodigoFeedback := 0;
             FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
             Finalize(aParam);
             if FEntregas.Entregas.VerbaEntregador = 0 then
@@ -232,14 +204,25 @@ begin
               sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
                            FPlanilha.Planilha.Planilha[i].Motorista + ' não atribuida !';
               UpdateLog(sMensagem);
+            end
+            else
+            begin
+              if bLojas then
+              begin
+                if FPlanilha.Planilha.Planilha[i].Loja = 'S' then
+                begin
+                  dVerba := FEntregas.Entregas.VerbaEntregador;
+                  FEntregas.Entregas.VerbaEntregador := (dVerba / 2);
+                  FEntregas.Entregas.CodigoFeedback := 99318;
+                end;
+              end;
             end;
-            FEntregas.Entregas.CodigoFeedback := 0;
             FEntregas.Entregas.Acao := tacAlterar;
-          end;
-          if not FEntregas.Gravar() then
-          begin
-            sMensagem := 'Erro ao gravar o NN ' + Fentregas.Entregas.NN + ' !';
-            UpdateLog(sMensagem);
+              if not FEntregas.Gravar() then
+              begin
+                sMensagem := 'Erro ao gravar o NN ' + Fentregas.Entregas.NN + ' !';
+                UpdateLog(sMensagem);
+              end;
           end;
           FEntregas.Free;
           inc(iPos, 1);
@@ -278,7 +261,7 @@ begin
     FEntregadores := TEntregadoresExpressasControl.Create;
     SetLength(aParam, 3);
     aParam := ['CHAVECLIENTE', sChave, iCodigoCliente];
-    if FEntregadores.Localizar(aParam).IsEmpty then
+    if FEntregadores.LocalizarExato(aParam) then
     begin
       iRetorno := FEntregadores.Entregadores.Agente;
     end
@@ -302,10 +285,9 @@ begin
     Result := 0;
     iRetorno := 0;
     FEntregadores := TEntregadoresExpressasControl.Create;
-    SetLength(aParam, 2);
     SetLength(aParam, 3);
     aParam := ['CHAVECLIENTE', sChave, iCodigoCliente];
-    if not Fentregadores.Localizar(aParam).IsEmpty then
+    if Fentregadores.LocalizarExato(aParam) then
     begin
       iRetorno := FEntregadores.Entregadores.Entregador;
     end
@@ -336,36 +318,44 @@ begin
     iFaixa := 0;
     dVerba := 0;
     SetLength(FTipoVerba,8);
+    //cria um array com as formas de pesquisa da classe
     FTipoVerba := ['NONE','FIXA','FIXACEP','FIXAPESO','SLA','CEPPESO','ROTEIROFIXA','ROTEIROPESO'];
+    // procura dos dados da base referentes à verba
     FBase := TBasesControl.Create;
     SetLength(FParam,2);
     FParam := ['CODIGO',aParam[0]];
     if FBase.LocalizarExato(FParam) then
     begin
-      iTabela := FBase.Bases.Grupo;
-      iFaixa := FBase.Bases.CentroCusto;
+      iTabela := FBase.Bases.CentroCusto;
+      iFaixa := FBase.Bases.Grupo;
       dVerba := FBase.Bases.ValorVerba;
     end;
     Finalize(FParam);
     FBase.Free;
+    // se a base não possui uma verba fixa, verifica se a base possui uma vinculação a uma
+    // tabela e faixa.
     if dVerba = 0 then
     begin
       if iTabela <> 0 then
       begin
         if iFaixa <> 0 then
         begin
-          SetLength(FParam,9);
-          FParam := [FTipoVerba[iTabela], iTabela, iCodigoCliente, iFaixa, aParam[4], aParam[2], aParam[3], aParam[6], aParam[7]];
           FVerbas := TVerbasExpressasControl.Create;
-          if not FVerbas.Localizar(aParam).IsEmpty then
-          begin
-            dVerba := FVerbas.Verbas.Verba
-          end;
-          Finalize(FParam);
+          FVerbas.Verbas.Tipo := iTabela;
+          FVerbas.Verbas.Cliente := iCodigoCliente;
+          FVerbas.Verbas.Grupo := iFaixa;
+          FVerbas.Verbas.Vigencia := aParam[4];
+          FVerbas.Verbas.CepInicial := aParam[2];
+          FVerbas.Verbas.PesoInicial := aParam[3];
+          FVerbas.Verbas.Roteiro := aParam[5];
+          FVerbas.Verbas.Performance := aParam[6];
+          dVerba := FVerbas.RetornaVerba();
           FVerbas.Free;
         end;
       end;
     end;
+    // se a verba ainda estiver zerada, indica que a verba deve estar cadastrada para o entregador
+    // pesquisa a tabela de entregadores e apanha os dados referente à verba
     if dVerba = 0 then
     begin
       FEntregador := TEntregadoresExpressasControl.Create;
@@ -379,21 +369,25 @@ begin
       end;
       Finalize(FParam);
       FEntregador.Free;
+      // verifica se o entregador possui uma verba fixa, se estiver zerada, verifica com as informações
+      // de tabela e faixa.
       if dVerba = 0 then
       begin
         if iTabela <> 0 then
         begin
           if iFaixa <> 0 then
           begin
-            SetLength(FParam,9);
-            FParam := [FTipoVerba[iTabela], iTabela, iCodigoCliente, iFaixa, aParam[4], aParam[2], aParam[3], aParam[6], aParam[7]];
-            FVerbas := TVerbasExpressasControl.Create;
-            if not FVerbas.Localizar(aParam).IsEmpty then
-            begin
-              dVerba := FVerbas.Verbas.Verba
-            end;
-            Finalize(FParam);
-            FVerbas.Free;
+          FVerbas := TVerbasExpressasControl.Create;
+          FVerbas.Verbas.Tipo := iTabela;
+          FVerbas.Verbas.Cliente := iCodigoCliente;
+          FVerbas.Verbas.Grupo := iFaixa;
+          FVerbas.Verbas.Vigencia := aParam[4];
+          FVerbas.Verbas.CepInicial := aParam[2];
+          FVerbas.Verbas.PesoInicial := aParam[3];
+          FVerbas.Verbas.Roteiro := aParam[5];
+          FVerbas.Verbas.Performance := aParam[6];
+          dVerba := FVerbas.RetornaVerba();
+          FVerbas.Free;
           end;
         end;
       end;
