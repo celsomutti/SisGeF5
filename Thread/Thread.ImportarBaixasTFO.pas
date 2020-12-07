@@ -99,6 +99,7 @@ begin
       Synchronize(BeginProcesso);
       FPlanilha := TPlanilhaBaixasTFOControl.Create;
       sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
+      UpdateLog(sMensagem);
       if FPLanilha.GetPlanilha(FFile) then
       begin
         iPos := 0;
@@ -146,7 +147,7 @@ begin
           end
           else
           begin
-            sMensagem := 'Entrega NN ' + FEntregas.Entregas.NN + ' do entregador ' +
+            sMensagem := 'Entrega NN ' + FPlanilha.Planilha.Planilha[i].NNRemessa + ' do entregador ' +
                          FPlanilha.Planilha.Planilha[i].NomeEntregador + ' não encontrada no banco de dados !';
             UpdateLog(sMensagem);
           end;
@@ -163,6 +164,7 @@ begin
             Abort;
           end;
         end;
+        Synchronize(TerminateProcess);
       end;
     Except on E: Exception do
       begin

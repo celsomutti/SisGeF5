@@ -97,6 +97,7 @@ begin
       FPlanilha := TPlanilhaEntradaTFOControl.Create;
       FEntregas := TEntregasControl.Create;
       sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
+      UpdateLog(sMensagem);
       if FPLanilha.GetPlanilha(FFile) then
       begin
         iPos := 0;
@@ -194,6 +195,7 @@ begin
             Abort;
           end;
         end;
+        Synchronize(TerminateProcess);
       end;
     Except on E: Exception do
       begin

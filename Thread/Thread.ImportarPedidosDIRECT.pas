@@ -231,6 +231,7 @@ begin
             Abort;
           end;
         end;
+        Synchronize(TerminateProcess);
       end;
     Except on E: Exception do
       begin
