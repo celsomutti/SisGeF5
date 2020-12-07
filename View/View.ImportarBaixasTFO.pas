@@ -173,11 +173,7 @@ if not direct.bProcess then
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
-    if Length(direct.sAlerta) > 0 then
-    begin
-      Application.MessageBox(PChar(direct.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      direct.sAlerta := '';
-    end;
+    Application.MessageBox('Importação cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;
 
@@ -211,11 +207,7 @@ if not planilha.bProcess then
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
-    if Length(planilha.sAlerta) > 0 then
-    begin
-      Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilha.sAlerta := '';
-    end;
+    Application.MessageBox('Importação cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;
 
