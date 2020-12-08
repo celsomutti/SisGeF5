@@ -18,7 +18,8 @@ uses
   Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxImageComboBox, Control.Sistema, Control.Entregas, FireDAC.Comp.Client, cxDBLookupComboBox, cxBlobEdit,
-  cxCurrencyEdit, cxTextEdit, cxCalendar, cxSpinEdit, cxCheckBox, cxMaskEdit, Control.FilterData;
+  cxCurrencyEdit, cxTextEdit, cxCalendar, cxSpinEdit, cxCheckBox, cxMaskEdit, Control.FilterData, dxDateRanges,
+  cxDataControllerConditionalFormattingRulesManagerDialog;
 
 type
   Tview_BIPedidos = class(TForm)

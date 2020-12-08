@@ -21,7 +21,8 @@ uses
   Control.Clientes, frxClass, frxDBSet, cxCurrencyEdit, cxImageComboBox, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
   FireDAC.Comp.BatchMove, FireDAC.Comp.BatchMove.DataSet, FireDAC.Comp.BatchMove.Text, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, Control.RoteirosExpressas, Control.EntregadoresExpressas, Control.ControleAWB;
+  cxDBLookupComboBox, Control.RoteirosExpressas, Control.EntregadoresExpressas, Control.ControleAWB, dxDateRanges,
+  cxDataControllerConditionalFormattingRulesManagerDialog;
 
 type
   Tview_ExpedicaoExpressas = class(TForm)
