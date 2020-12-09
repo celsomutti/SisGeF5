@@ -95,7 +95,7 @@ var
 begin
   try
     try
-      BeginProcesso;
+      Synchronize(BeginProcesso);
       FPlanilha := TPlanilhaEntradaSIMExpressControl.Create;
       FEntregas := TEntregasControl.Create;
       sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
@@ -110,7 +110,7 @@ begin
         begin
           SetLength(aParam,2);
           aParam := ['NN', FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].IDVolume,0))];
-          if FEntregas.LocalizarExata(aParam) then
+          if not FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.Acao := tacIncluir;
           end
@@ -120,9 +120,9 @@ begin
           end;
           FEntregadores := TEntregadoresExpressasControl.Create;
           Finalize(aParam);
-          SetLength(aParam,2);
-          aParam := ['FANTASIA',FPlanilha.Planilha.Planilha[i].Motorista];
-          if FEntregadores.LocalizarExato(aParam) then
+          SetLength(aParam,3);
+          aParam := ['CHAVECLIENTE',FPlanilha.Planilha.Planilha[i].Motorista,iCodigoCliente];
+          if not FEntregadores.LocalizarExato(aParam) then
           begin
             FEntregas.Entregas.Distribuidor := 1;
             FEntregas.Entregas.Entregador := 781;
@@ -137,12 +137,12 @@ begin
           FEntregas.Entregas.Cliente := 0;
           FEntregas.Entregas.NN := FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].IDVolume,0));
           FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[I].NF;
-          FEntregas.Entregas.Consumidor := FPlanilha.Planilha.Planilha[I].Destinatario;
+          FEntregas.Entregas.Consumidor := LeftStr(FPlanilha.Planilha.Planilha[I].Destinatario,70);
           FEntregas.Entregas.Retorno := FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].NREntrega,0));
-          FEntregas.Entregas.Endereco := FPlanilha.Planilha.Planilha[I].Endereco;
+          FEntregas.Entregas.Endereco := LeftStr(FPlanilha.Planilha.Planilha[I].Endereco,70);
           FEntregas.Entregas.Complemento := '';
-          FEntregas.Entregas.Bairro := FPlanilha.Planilha.Planilha[I].Bairro;
-          FEntregas.Entregas.Cidade := FPlanilha.Planilha.Planilha[I].Municipio;
+          FEntregas.Entregas.Bairro := LeftStr(FPlanilha.Planilha.Planilha[I].Bairro, 70);
+          FEntregas.Entregas.Cidade := LeftStr(FPlanilha.Planilha.Planilha[I].Municipio,70);
           FEntregas.Entregas.Cep := FPlanilha.Planilha.Planilha[I].CEP;
           FEntregas.Entregas.Telefone := '';
           if FPlanilha.Planilha.Planilha[I].Coleta <> '00/00/0000' then FEntregas.Entregas.Expedicao := StrToDate(FPlanilha.Planilha.Planilha[I].Coleta);
@@ -165,6 +165,7 @@ begin
             aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
                        FEntregas.Entregas.PesoReal, FEntregas.Entregas.Baixa, 0, 0];
             FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
+            Finalize(aParam);
             if FEntregas.Entregas.VerbaEntregador = 0 then
             begin
               sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
@@ -199,7 +200,6 @@ begin
             sMensagem := 'Erro ao gravar o NN ' + FEntregas.Entregas.NN + ' !';
             UpdateLog(sMensagem);
           end;
-          FEntregas.Free;
           inc(iPos, 1);
           dPos := (iPos / iTotal) * 100;
           if not(Self.Terminated) then
@@ -211,6 +211,7 @@ begin
             Abort;
           end;
         end;
+        Synchronize(TerminateProcess);
       end;
     Except on E: Exception do
       begin
@@ -221,6 +222,7 @@ begin
     end;
   finally
     FPlanilha.Free;
+    FEntregas.Free;
   end;
 end;
 
