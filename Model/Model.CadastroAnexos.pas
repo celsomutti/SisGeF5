@@ -2,7 +2,7 @@ unit Model.CadastroAnexos;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Control.Sistema;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Control.Sistema, System.SysUtils;
 
 type
   TCadastroAnexos = class
@@ -15,6 +15,7 @@ type
     FIdAnexo: Integer;
     FAcao: TAcao;
     FConexao: TConexao;
+    FQuery: TFDQuery;
 
     function Insert(): Boolean;
     function Update(): Boolean;
@@ -26,11 +27,14 @@ type
     property DescricaoAnexo: String read FDescricaoAnexo write FDescricaoAnexo;
     property NomeArquivo: String read FNomeArquivo write FNomeArquivo;
     property DataAnexo: TDateTime read FDataAnexo write FDataAnexo;
+    property Query: TFDQuery read FQuery write FQuery;
 
     constructor Create();
     function GetID(iID: Integer; iTipo: Integer): Integer;
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
+    procedure SetupClass(FDQuery: TFDQuery);
+    procedure ClearSetup;
   end;
 
 const
@@ -39,6 +43,16 @@ const
 implementation
 
 { TCadastroAnexos }
+
+procedure TCadastroAnexos.ClearSetup;
+begin
+  FDataAnexo := StrToDate('31/12/1899');
+  FID := 0;
+  FNomeArquivo := '';
+  FTipoCadastro := 0;
+  FDescricaoAnexo := '';
+  FIdAnexo := 0;
+end;
 
 constructor TCadastroAnexos.Create;
 begin
@@ -171,6 +185,16 @@ begin
   end;
   FDQuery.Open();
   Result := FDQuery;
+end;
+
+procedure TCadastroAnexos.SetupClass(FDQuery: TFDQuery);
+begin
+  FDataAnexo := FDQuery.FieldByName();
+  FID := FDQuery.FieldByName('id_cadastro').AsInteger;
+  FNomeArquivo := FDQuery.FieldByName('nom_arquivo').AsString;
+  FTipoCadastro := FDQuery.FieldByName('cod_tipo_cadastro').asInteger;
+  FDescricaoAnexo := FDQuery.FieldByName('des_anexo').asString;
+  FIdAnexo := FDQuery.FieldByName('id_anexo').asInteger;
 end;
 
 function TCadastroAnexos.Update: Boolean;

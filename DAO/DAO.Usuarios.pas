@@ -181,10 +181,7 @@ function TUsuariosDAO.Pesquisar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
 begin
-  if not Assigned(FDQuery) then
-  begin
-    FDQuery := FConexao.ReturnQuery;
-  end;
+  FDQuery := FConexao.ReturnQuery;
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
 
