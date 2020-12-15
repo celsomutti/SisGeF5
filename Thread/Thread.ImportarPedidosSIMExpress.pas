@@ -109,7 +109,7 @@ begin
         for i := 0 to Pred(iTotal) do
         begin
           SetLength(aParam,2);
-          aParam := ['NN', FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].IDVolume,0))];
+          aParam := ['NN', FPlanilha.Planilha.Planilha[i].IDPedido];
           if not FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.Acao := tacIncluir;
@@ -135,7 +135,7 @@ begin
           Finalize(aParam);
           FEntregadores.Free;
           FEntregas.Entregas.Cliente := 0;
-          FEntregas.Entregas.NN := FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].IDVolume,0));
+          FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].IDPedido;
           FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[I].NF;
           FEntregas.Entregas.Consumidor := LeftStr(FPlanilha.Planilha.Planilha[I].Destinatario,70);
           FEntregas.Entregas.Retorno := FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].NREntrega,0));

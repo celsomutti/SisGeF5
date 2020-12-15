@@ -156,7 +156,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       object checkBoxAtivo: TcxCheckBox
         Left = 813
         Top = 161
-        Caption = 'Ativo'
+        Caption = 'APP Ativo'
         Properties.ValueChecked = '1'
         Properties.ValueUnchecked = '0'
         Style.HotTrack = False
@@ -234,6 +234,11 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
             Description = 'DIRECT'
             ImageIndex = 56
             Value = 4
+          end
+          item
+            Description = 'RODO'#202
+            ImageIndex = 56
+            Value = 5
           end>
         Style.HotTrack = False
         TabOrder = 7

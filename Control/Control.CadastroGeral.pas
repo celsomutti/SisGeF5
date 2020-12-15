@@ -14,7 +14,7 @@ type
     property Cadastro: TCadastroGeral read FCadastro write FCadastro;
     function GetID(): Integer;
     function ValidaCampos(): Boolean;
-    function Localizar(aParam: array of variant): TFDQuery;
+    function Localizar(aParam: array of variant): Boolean;
     function Gravar(): Boolean;
   end;
 
@@ -47,7 +47,7 @@ begin
   Result := FCadastro.Gravar;
 end;
 
-function TCadastrosControl.Localizar(aParam: array of variant): TFDQuery;
+function TCadastrosControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := FCadastro.Localizar(aParam);
 end;
@@ -99,7 +99,10 @@ begin
       SetLength(aParam,2);
       aParam[0] := 'CPFCNPJ';
       aParam[1] := FCadastro.CPF;
-      FDQuery := FCadastro.Localizar(aParam);
+      if FCadastro.Localizar(aParam) then
+      begin
+        FDQuery := FCadastro.Query;
+      end;
       Finalize(aParam);
       if FDQuery.RecordCount >= 1 then
       begin

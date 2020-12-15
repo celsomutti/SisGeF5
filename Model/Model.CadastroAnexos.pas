@@ -2,7 +2,7 @@ unit Model.CadastroAnexos;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Control.Sistema, System.SysUtils;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Control.Sistema;
 
 type
   TCadastroAnexos = class
@@ -189,7 +189,7 @@ end;
 
 procedure TCadastroAnexos.SetupClass(FDQuery: TFDQuery);
 begin
-  FDataAnexo := FDQuery.FieldByName();
+  FDataAnexo := FDQuery.FieldByName('dat_anexo').asDateTime;
   FID := FDQuery.FieldByName('id_cadastro').AsInteger;
   FNomeArquivo := FDQuery.FieldByName('nom_arquivo').AsString;
   FTipoCadastro := FDQuery.FieldByName('cod_tipo_cadastro').asInteger;

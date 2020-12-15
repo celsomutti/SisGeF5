@@ -388,7 +388,7 @@ begin
   FCNAE := FDquery.FieldByName('num_cnae').AsString;
   FPessoa := FDquery.FieldByName('cod_pessoa').AsInteger;
   FSuframa := FDquery.FieldByName('num_suframa').AsString;
-  FAlias := FDquery.FieldByName('nom_fantasia').AsInteger;
+  FAlias := FDquery.FieldByName('nom_fantasia').AsString;
   FTipoCadastro := FDquery.FieldByName('cod_tipo_cadastro').AsInteger;
   FCRT := FDquery.FieldByName('num_crt').AsInteger;
   FObs := FDquery.FieldByName('des_obs').AsString;

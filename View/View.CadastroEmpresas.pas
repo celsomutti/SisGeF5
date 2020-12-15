@@ -409,9 +409,14 @@ begin
     end;
     SetLength(aParam,3);
     aParam := ['MACRO', '*', sSQL];
-    memTableCadastro.CopyDataSet(cadastro.Localizar(aParam));
+    if cadastro.Localizar(aParam) then
+    begin
+      memTableCadastro.CopyDataSet(cadastro.Cadastro.Query);
+    end;
     Finalize(aParam);
   finally
+    cadastro.Cadastro.Query.Connection.Close;
+    cadastro.Cadastro.Query.Free;
     cadastro.Free;
   end;
 end;

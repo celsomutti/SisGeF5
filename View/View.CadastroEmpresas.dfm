@@ -585,7 +585,6 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
         AlignVert = avClient
         ButtonOptions.Buttons = <>
         Hidden = True
-        ItemIndex = 2
         ShowBorder = False
         Index = -1
       end
