@@ -17,6 +17,9 @@ type
     function Gravar(): Boolean;
     function ValidaCampos(): Boolean;
     function SaveBatch(memTable: TFDMemTable): Boolean;
+    function SetupClass(FDQuery: TFDQuery): Boolean;
+    function ClearClass(): Boolean;
+
   end;
 
 implementation
@@ -24,6 +27,11 @@ implementation
 { TCadastroContatosControl }
 
 uses Common.Utils;
+
+function TCadastroContatosControl.ClearClass: Boolean;
+begin
+  Result := FContatos.ClearClass;
+end;
 
 constructor TCadastroContatosControl.Create;
 begin
@@ -59,6 +67,11 @@ end;
 function TCadastroContatosControl.SaveBatch(memTable: TFDMemTable): Boolean;
 begin
   Result := FContatos.SaveBatch(memTable);
+end;
+
+function TCadastroContatosControl.SetupClass(FDQuery: TFDQuery): Boolean;
+begin
+  Result := FContatos.SetupClass(FDQuery);
 end;
 
 function TCadastroContatosControl.ValidaCampos: Boolean;

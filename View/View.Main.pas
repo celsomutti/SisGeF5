@@ -62,7 +62,6 @@ type
     dxBarLargeButton15: TdxBarLargeButton;
     actControleLacre: TAction;
     actVerbasExpressas: TAction;
-    bmMainBar6: TdxBar;
     dxBarLargeButton16: TdxBarLargeButton;
     dxRibbon1Tab3: TdxRibbonTab;
     actImportacaoTiragem: TAction;

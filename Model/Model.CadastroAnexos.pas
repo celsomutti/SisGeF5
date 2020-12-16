@@ -31,7 +31,7 @@ type
 
     constructor Create();
     function GetID(iID: Integer; iTipo: Integer): Integer;
-    function Localizar(aParam: array of variant): TFDQuery;
+    function Localizar(aParam: array of variant): Boolean;
     function Gravar(): Boolean;
     procedure SetupClass(FDQuery: TFDQuery);
     procedure ClearSetup;
@@ -137,54 +137,64 @@ begin
 
 end;
 
-function TCadastroAnexos.Localizar(aParam: array of variant): TFDQuery;
+function TCadastroAnexos.Localizar(aParam: array of variant): Boolean;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery();
-  if Length(aParam) < 2 then Exit;
-  FDQuery.SQL.Clear;
-
-  FDQuery.SQL.Add('select id_cadastro, cod_tipo_cadastro, id_anexo, des_anexo, nom_arquivo, dat_anexo from ' + TABLENAME);
-  if aParam[0] = 'ID' then
-  begin
-    FDQuery.SQL.Add('whew id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro');
-    FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-    FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := aParam[2];
-  end;
-  if aParam[0] = 'SEQUENCIA' then
-  begin
-    FDQuery.SQL.Add('where id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro and id_anexo = :id_anexo');
-    FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-    FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := aParam[2];
-    FDQuery.ParamByName('id_anexo').AsInteger := aParam[3];
-  end;
-  if aParam[0] = 'NUMERO' then
-  begin
-    FDQuery.SQL.Add('where num_consulta like :num_consulta');
-    FDQuery.ParamByName('num_consulta').AsString := aParam[1];
-  end;
-  if aParam[0] = 'DATA' then
-  begin
-    FDQuery.SQL.Add('where dat_consulta = :dat_consulta');
-    FDQuery.ParamByName('dat_consulta').AsDateTime := aParam[1];
-  end;
-  if aParam[0] = 'VALIDADE' then
-  begin
-    FDQuery.SQL.Add('where dat_validade = :dat_validade');
-    FDQuery.ParamByName('dat_validade').AsDateTime := aParam[1];
-  end;
-  if aParam[0] = 'FILTRO' then
-  begin
-    FDQuery.SQL.Add('where ' + aParam[1]);
-  end;
-  if aParam[0] = 'APOIO' then
-  begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    if Length(aParam) < 2 then Exit;
     FDQuery.SQL.Clear;
-    FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+
+    FDQuery.SQL.Add('select id_cadastro, cod_tipo_cadastro, id_anexo, des_anexo, nom_arquivo, dat_anexo from ' + TABLENAME);
+    if aParam[0] = 'ID' then
+    begin
+      FDQuery.SQL.Add('whew id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro');
+      FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
+      FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := aParam[2];
+    end;
+    if aParam[0] = 'SEQUENCIA' then
+    begin
+      FDQuery.SQL.Add('where id_cadastro = :id_cadastro and cod_tipo_cadastro = :cod_tipo_cadastro and id_anexo = :id_anexo');
+      FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
+      FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := aParam[2];
+      FDQuery.ParamByName('id_anexo').AsInteger := aParam[3];
+    end;
+    if aParam[0] = 'NUMERO' then
+    begin
+      FDQuery.SQL.Add('where num_consulta like :num_consulta');
+      FDQuery.ParamByName('num_consulta').AsString := aParam[1];
+    end;
+    if aParam[0] = 'DATA' then
+    begin
+      FDQuery.SQL.Add('where dat_consulta = :dat_consulta');
+      FDQuery.ParamByName('dat_consulta').AsDateTime := aParam[1];
+    end;
+    if aParam[0] = 'VALIDADE' then
+    begin
+      FDQuery.SQL.Add('where dat_validade = :dat_validade');
+      FDQuery.ParamByName('dat_validade').AsDateTime := aParam[1];
+    end;
+    if aParam[0] = 'FILTRO' then
+    begin
+      FDQuery.SQL.Add('where ' + aParam[1]);
+    end;
+    if aParam[0] = 'APOIO' then
+    begin
+      FDQuery.SQL.Clear;
+      FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+    end;
+    FDQuery.Open();
+    if not FDQuery.IsEmpty then
+    begin
+      FQuery := fdQuery;
+    end;
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
   end;
-  FDQuery.Open();
-  Result := FDQuery;
 end;
 
 procedure TCadastroAnexos.SetupClass(FDQuery: TFDQuery);

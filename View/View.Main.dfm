@@ -587,7 +587,6 @@
     TabStop = False
     object dxRibbon1Tab1: TdxRibbonTab
       Tag = 10
-      Active = True
       Caption = 'Cadastro'
       Groups = <
         item
@@ -606,6 +605,7 @@
     end
     object dxRibbon1Tab2: TdxRibbonTab
       Tag = 20
+      Active = True
       Caption = 'Expressas'
       Groups = <
         item
@@ -617,11 +617,8 @@
           ToolbarName = 'bmMainBar4'
         end
         item
-          Caption = 'Demonstrativos'
+          Caption = 'Extratos / Demonstrativos'
           ToolbarName = 'bmMainBar5'
-        end
-        item
-          ToolbarName = 'bmMainBar6'
         end>
       Index = 1
     end
@@ -911,24 +908,7 @@
         item
           Visible = True
           ItemName = 'dxBarLargeButton14'
-        end>
-      OneOnRow = False
-      Row = 0
-      UseOwnFont = False
-      Visible = True
-      WholeRow = False
-    end
-    object bmMainBar6: TdxBar
-      Tag = 2040
-      Caption = 'Verbas Expressas'
-      CaptionButtons = <>
-      DockedLeft = 1110
-      DockedTop = 0
-      FloatLeft = 844
-      FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
+        end
         item
           Visible = True
           ItemName = 'dxBarLargeButton16'
@@ -1946,7 +1926,7 @@
     object actVerbasExpressas: TAction
       Tag = 204010
       Category = 'Expressas'
-      Caption = '&Verbas'
+      Caption = 'Tabela de &Verbas'
       Hint = 'Verbas expressas'
       OnExecute = actVerbasExpressasExecute
     end

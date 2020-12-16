@@ -13,7 +13,7 @@ uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Model.Ca
       constructor Create;
       destructor Destroy; override;
       property Anexos: TCadastroAnexos read FAnexo write FAnexo;
-      function Localizar(aParam: array of variant): TFDQuery;
+      function Localizar(aParam: array of variant): boolean;
       function Gravar(): Boolean;
       procedure SetupClass(FDQuery: TFDQuery);
       procedure ClearSetup;
@@ -46,7 +46,7 @@ begin
   Result := FAnexo.Gravar;
 end;
 
-function TCadastroAnexosControl.Localizar(aParam: array of variant): TFDQuery;
+function TCadastroAnexosControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := FAnexo.Localizar(aParam);
 end;
