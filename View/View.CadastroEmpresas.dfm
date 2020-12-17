@@ -102,12 +102,11 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     TabOrder = 1
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object layoutControlCadastro: TdxLayoutControl
-      Left = 10000
-      Top = 10000
+      Left = 22
+      Top = 22
       Width = 749
       Height = 343
       TabOrder = 1
-      Visible = False
       LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       object imageComboBoxPessoa: TcxImageComboBox
         Left = 79
@@ -956,11 +955,12 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       end
     end
     object layoutControlPesquisa: TdxLayoutControl
-      Left = 22
-      Top = 22
+      Left = 10000
+      Top = 10000
       Width = 749
       Height = 343
       TabOrder = 0
+      Visible = False
       LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       object textEditParametro: TcxTextEdit
         Left = 72
@@ -1353,6 +1353,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 1
       LayoutDirection = ldTabbed
       ShowBorder = False
       TabbedOptions.HideTabs = True

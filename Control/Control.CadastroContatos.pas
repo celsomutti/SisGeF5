@@ -13,7 +13,7 @@ type
     destructor Destroy; override;
     property Contatos: TCadastroContatos read FContatos write FContatos;
     function GetID(iID: Integer; iTipo: Integer): Integer;
-    function Localizar(aParam: array of variant): TFDQuery;
+    function Localizar(aParam: array of variant): Boolean;
     function Gravar(): Boolean;
     function ValidaCampos(): Boolean;
     function SaveBatch(memTable: TFDMemTable): Boolean;
@@ -46,7 +46,7 @@ end;
 
 function TCadastroContatosControl.GetID(iID: Integer; iTipo: Integer): Integer;
 begin
-  Result := FContatos.GetID(iID, iTipo);
+  Result := FContatos.GetID(iID);
 end;
 
 function TCadastroContatosControl.Gravar: Boolean;
@@ -59,7 +59,7 @@ begin
   Result := FContatos.Gravar;
 end;
 
-function TCadastroContatosControl.Localizar(aParam: array of variant): TFDQuery;
+function TCadastroContatosControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := FContatos.Localizar(aParam);
 end;

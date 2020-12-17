@@ -257,7 +257,7 @@ function TCadastroFinanceiro.SetupClass(FDQuery: TFDQuery): boolean;
 begin
   Result := False;
   FID := FDQuery.FieldByName('id_cadastro').Asinteger;
-  FSequencia := FDQuery.FieldByName('seq_financeiro').AsString;
+  FSequencia := FDQuery.FieldByName('seq_financeiro').Asinteger;
   FTipoConta := FDQuery.FieldByName('des_tipo_conta').Asstring;
   FBanco := FDQuery.FieldByName('cod_banco').Asstring;
   FAgencia := FDQuery.FieldByName('num_agencia').Asstring;

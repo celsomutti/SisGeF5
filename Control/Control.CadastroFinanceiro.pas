@@ -45,7 +45,7 @@ end;
 
 function TCadastroFinanceiroControl.GetID(iID: Integer; iTipo: Integer): Integer;
 begin
-  Result := FFinanceiro.GetID(iID, iTipo);
+  Result := FFinanceiro.GetID(iID);
 end;
 
 function TCadastroFinanceiroControl.Gravar: Boolean;

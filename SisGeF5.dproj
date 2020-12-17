@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>SisGeF5.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -440,6 +440,10 @@
         <DCCReference Include="Thread\Thread.ImportarBaixasTFO.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPedidosTFO.pas"/>
         <DCCReference Include="Control\Control.PlanilhaEntradaCarriers.pas"/>
+        <DCCReference Include="View\View.CadastroGeral.pas">
+            <Form>view_CadastroGeral</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

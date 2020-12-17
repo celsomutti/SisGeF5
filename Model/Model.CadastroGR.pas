@@ -2,7 +2,7 @@ unit Model.CadastroGR;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Control.Sistema, System.SysUtils;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Control.Sistema;
 
 type
   TCadastroGR = class
@@ -54,7 +54,7 @@ begin
   FID := 0;
   FConsulta := '';
   FTipo := 0;
-  FValidade := TDate;
+  FValidade := StrToDate('31/12/1899');
   FData := StrToDate('31/12/1899');
 end;
 

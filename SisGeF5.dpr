@@ -175,7 +175,8 @@ uses
   Thread.ImportarBaixasDIRECT in 'Thread\Thread.ImportarBaixasDIRECT.pas',
   Thread.ImportarBaixasTFO in 'Thread\Thread.ImportarBaixasTFO.pas',
   Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas',
-  Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas';
+  Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas',
+  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral};
 
 {$R *.res}
 
@@ -185,5 +186,6 @@ begin
   Application.Title := 'Sistema Gerenciador de Franquias';
   Application.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
+  Application.CreateForm(Tview_CadastroGeral, view_CadastroGeral);
   Application.Run;
 end.

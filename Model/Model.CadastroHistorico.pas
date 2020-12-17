@@ -31,7 +31,7 @@ type
     property Acao: Tacao read FAcao write FAcao;
 
     function GetID(): Integer;
-    function Localizar(aParam: array of variant): TFDQuery;
+    function Localizar(aParam: array of variant): Boolean;
     function Gravar(): Boolean;
     function SetupClass(FDquery: TFDQuery): boolean;
     function ClearClass(): boolean;
@@ -143,37 +143,48 @@ begin
   end;
 end;
 
-function TCadastroHistorico.Localizar(aParam: array of variant): TFDQuery;
+function TCadastroHistorico.Localizar(aParam: array of variant): Boolean;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery();
-  if Length(aParam) < 2 then Exit;
-  FDQuery.SQL.Clear;
-
-  FDQuery.SQL.Add(SQLQUERY);
-  if aParam[0] = 'ID' then
-  begin
-    FDQuery.SQL.Add('where id_cadastro = :id_cadastro');
-    FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-  end;
-  if aParam[0] = 'SEQUENCIA' then
-  begin
-    FDQuery.SQL.Add('where id_historico = :id_historico and id_cadastro = :id_cadastro');
-    FDQuery.ParamByName('id_historico').AsString := aParam[1];
-    FDQuery.ParamByName('id_cadastro').AsString := aParam[2];
-  end;
-  if aParam[0] = 'FILTRO' then
-  begin
-    FDQuery.SQL.Add('where ' + aParam[1]);
-  end;
-  if aParam[0] = 'APOIO' then
-  begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    if Length(aParam) < 2 then Exit;
     FDQuery.SQL.Clear;
-    FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+
+    FDQuery.SQL.Add(SQLQUERY);
+    if aParam[0] = 'ID' then
+    begin
+      FDQuery.SQL.Add('where id_cadastro = :id_cadastro');
+      FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
+    end;
+    if aParam[0] = 'SEQUENCIA' then
+    begin
+      FDQuery.SQL.Add('where id_historico = :id_historico and id_cadastro = :id_cadastro');
+      FDQuery.ParamByName('id_historico').AsString := aParam[1];
+      FDQuery.ParamByName('id_cadastro').AsString := aParam[2];
+    end;
+    if aParam[0] = 'FILTRO' then
+    begin
+      FDQuery.SQL.Add('where ' + aParam[1]);
+    end;
+    if aParam[0] = 'APOIO' then
+    begin
+      FDQuery.SQL.Clear;
+      FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+    end;
+    FDQuery.Open();
+    if not FDQuery.IsEmpty then
+    begin
+      FQuery := FDQuery;
+    end;
+    Result := True;
+  finally
+    FDQuery.Close;
+    FDQuery.Connection.Close;
+    FDQuery.Free;
   end;
-  FDQuery.Open();
-  Result := FDQuery;
 end;
 
 function TCadastroHistorico.SetupClass(FDquery: TFDQuery): boolean;

@@ -2,7 +2,7 @@ unit Model.CadastroRH;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, System.SysUtils;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao;
 
 type
   TCadastroRH = class
