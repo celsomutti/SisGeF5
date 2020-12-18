@@ -8,14 +8,15 @@ uses
   dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxLabel,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxLookupEdit, cxDBLookupEdit,
   cxDBLookupComboBox, cxDBEdit, cxCheckBox, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
-  FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxNavigator, cxDBNavigator,
+  cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
+  cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, System.Actions,
+  Vcl.ActnList, dxBar;
 
 type
   Tview_CadastroGeral = class(TForm)
     layoutControlPadraoGroup_Root: TdxLayoutGroup;
     layoutControlPadrao: TdxLayoutControl;
-    labelTitle: TcxLabel;
-    layoutItemLabelTitle: TdxLayoutItem;
     maskEditID: TcxMaskEdit;
     layoutItemMaskID: TdxLayoutItem;
     comboBoxTipoPessoa: TcxComboBox;
@@ -46,8 +47,6 @@ type
     textEditNomeMae: TcxTextEdit;
     layoutItemNomeMae: TdxLayoutItem;
     layoutGroupFisica3: TdxLayoutGroup;
-    textEditNacionalidade: TcxTextEdit;
-    layoutItemNacionalidade: TdxLayoutItem;
     textEditNaturalidade: TcxTextEdit;
     layoutItemNaturalidade: TdxLayoutItem;
     lookupComboBoxNaturalidade: TcxLookupComboBox;
@@ -70,10 +69,6 @@ type
     layoutItemPrimeiraCNH: TdxLayoutItem;
     lookupComboBoxUFCNH: TcxLookupComboBox;
     layoutItemUFCNH: TdxLayoutItem;
-    comboBoxSexo: TcxComboBox;
-    layoutItemSexo: TdxLayoutItem;
-    comboBoxEstadoCivil: TcxComboBox;
-    layoutItemEstadoCivil: TdxLayoutItem;
     layoutGroupPessoaJuridica: TdxLayoutGroup;
     layoutGroupJuridica1: TdxLayoutGroup;
     textEditNomeFantasia: TcxTextEdit;
@@ -95,7 +90,6 @@ type
     layoutGroupEnderecos: TdxLayoutGroup;
     layoutGroupContatos: TdxLayoutGroup;
     layoutGroupDadosBancarios: TdxLayoutGroup;
-    layoutGroupRH: TdxLayoutGroup;
     memTableEnderecos: TFDMemTable;
     memTableEnderecosid_cadastro: TIntegerField;
     memTableEnderecosdes_tipo_endereco: TStringField;
@@ -126,8 +120,83 @@ type
     layoutItemCidade: TdxLayoutItem;
     dbLookupComboBoxUFEndereco: TcxDBLookupComboBox;
     layoutItemUFEndereco: TdxLayoutItem;
-    procedure FormShow(Sender: TObject);
-    procedure checkBoxStatusPropertiesChange(Sender: TObject);
+    memTableEnderecosseq_endereco: TIntegerField;
+    memTableEnderecosdom_correspondencia: TIntegerField;
+    memTableEnderecosdes_referencia: TStringField;
+    cxCheckBox1: TcxCheckBox;
+    layoutItemCorrespondencia: TdxLayoutItem;
+    layoutGroupEndereco4: TdxLayoutGroup;
+    dbTextEditReferencia: TcxDBTextEdit;
+    layoutItemReferencia: TdxLayoutItem;
+    dbNavigatorEnderecos: TcxDBNavigator;
+    layoutItemNavegadorEndereco: TdxLayoutItem;
+    gridContatosDBTableView1: TcxGridDBTableView;
+    gridContatosLevel1: TcxGridLevel;
+    gridContatos: TcxGrid;
+    layoutItemContatos: TdxLayoutItem;
+    memTableContatos: TFDMemTable;
+    memTableContatosid: TIntegerField;
+    memTableContatosseq_contato: TIntegerField;
+    memTableContatosdes_contato: TStringField;
+    memTableContatosnum_telefone: TStringField;
+    memTableContatosdes_email: TStringField;
+    dsContatos: TDataSource;
+    gridContatosDBTableView1id: TcxGridDBColumn;
+    gridContatosDBTableView1seq_contato: TcxGridDBColumn;
+    gridContatosDBTableView1des_contato: TcxGridDBColumn;
+    gridContatosDBTableView1num_telefone: TcxGridDBColumn;
+    gridContatosDBTableView1des_email: TcxGridDBColumn;
+    LayoutGroupDadosBancarios1: TdxLayoutGroup;
+    comboBoxFormaPagamento: TcxComboBox;
+    layoutItemFormaPagamento: TdxLayoutItem;
+    comboBoxTipoConta: TcxComboBox;
+    layoutItemTipoConta: TdxLayoutItem;
+    layoutGroupDadosBancarios2: TdxLayoutGroup;
+    lookupComboBoxBanco: TcxLookupComboBox;
+    layoutItemBanco: TdxLayoutItem;
+    textEditAgencia: TcxTextEdit;
+    layoutItemAgencia: TdxLayoutItem;
+    textEditConta: TcxTextEdit;
+    layoutItemConta: TdxLayoutItem;
+    layoutGroupDadosBancarios3: TdxLayoutGroup;
+    textEditFavorecido: TcxTextEdit;
+    layoutItemFavorecido: TdxLayoutItem;
+    maskEditCPFCNPJFavorecido: TcxMaskEdit;
+    layoutItemCPFCNPJFavorecido: TdxLayoutItem;
+    LayoutGrouPDadosBancarios4: TdxLayoutGroup;
+    textEditChavePIX: TcxTextEdit;
+    layoutItemChavePIX: TdxLayoutItem;
+    actionListCadastro: TActionList;
+    actionIncluir: TAction;
+    actionEditar: TAction;
+    actionLocalizar: TAction;
+    actionCancelar: TAction;
+    actionGravar: TAction;
+    actionDocumentosVencidos: TAction;
+    actionVencimentoGR: TAction;
+    actionFechar: TAction;
+    layoutGroupMaster: TdxLayoutGroup;
+    layoutGroupCadastro: TdxLayoutGroup;
+    actionFichaDIRECT: TAction;
+    actionSolicitarGR: TAction;
+    actionContrato: TAction;
+    barManagerCadastro: TdxBarManager;
+    barManagerCadastroBar1: TdxBar;
+    dxBarButton1: TdxBarButton;
+    dxBarButton2: TdxBarButton;
+    dxBarButton3: TdxBarButton;
+    dxBarButton4: TdxBarButton;
+    dxBarButton5: TdxBarButton;
+    dxBarSubItem1: TdxBarSubItem;
+    dxBarSubItem2: TdxBarSubItem;
+    dxBarButton6: TdxBarButton;
+    dxBarButton7: TdxBarButton;
+    dxBarButton8: TdxBarButton;
+    dxBarButton9: TdxBarButton;
+    dxBarButton10: TdxBarButton;
+    dxBarButton11: TdxBarButton;
+    dxBarButton12: TdxBarButton;
+    dxBarButton13: TdxBarButton;
     procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
   private
     { Private declarations }
@@ -141,18 +210,6 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure Tview_CadastroGeral.checkBoxStatusPropertiesChange(Sender: TObject);
-begin
-  if checkBoxStatus.Checked then
-  begin
-    checkBoxStatus.Caption := 'Ativo';
-  end
-  else
-  begin
-    checkBoxStatus.Caption := 'Inativo';
-  end;
-end;
 
 procedure Tview_CadastroGeral.comboBoxTipoPessoaPropertiesChange(Sender: TObject);
 begin
@@ -169,11 +226,6 @@ begin
     layoutGroupPessoaFisica.MakeVisible;
   end;
 
-end;
-
-procedure Tview_CadastroGeral.FormShow(Sender: TObject);
-begin
-  labelTitle.Caption := Self.Caption;
 end;
 
 end.
