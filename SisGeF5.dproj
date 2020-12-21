@@ -226,7 +226,6 @@
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="Model\Model.Estados.pas"/>
-        <DCCReference Include="DAO\DAO.Estados.pas"/>
         <DCCReference Include="Control\Control.Bases.pas"/>
         <DCCReference Include="Model\Model.Bases.pas"/>
         <DCCReference Include="View\View.Calendario.pas">
@@ -440,6 +439,10 @@
         <DCCReference Include="Thread\Thread.ImportarBaixasTFO.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPedidosTFO.pas"/>
         <DCCReference Include="Control\Control.PlanilhaEntradaCarriers.pas"/>
+        <DCCReference Include="View\View.CadastroPadrao.pas">
+            <Form>view_CadastroPadrao</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <DCCReference Include="View\View.CadastroGeral.pas">
             <Form>view_CadastroGeral</Form>
             <FormType>dfm</FormType>

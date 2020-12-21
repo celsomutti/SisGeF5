@@ -2,7 +2,7 @@ unit Model.Estados;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, Dialogs;
+uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao;
 
 
 type
@@ -11,78 +11,181 @@ type
     FAcao: TAcao;
     FUF: String;
     FNome: String;
-    FCEPInicial: String;
-    FCEPFinal: String;
-    FLog: String;
+    FQuery: TFDQuery;
+    FConexao: TConexao;
   public
     property UF: String read FUF write FUF;
     property Nome: String read FNome write FNome;
-    property CEPInicial: String read FCEPInicial write FCEPFinal;
-    property CEPFinal: String read FCEPFinal write FCEPFinal;
-    property LOG: String read FLog write FLog;
+    property Query: TFDQuery read FQuery write FQuery;
     property Acao: TAcao read FAcao write FAcao;
 
-    function Localizar(aParam: array of variant): TFDQuery;
+    constructor Create;
+    destructor Destroy;
+    function Inserir(): Boolean;
+    function Alterar(): Boolean;
+    function Excluir(): Boolean;
+    function EstadoExiste(): Boolean;
+    function Pesquisar(aParam: array of variant): TFDQuery;
+    function PesquisarExt(aParam: array of variant): Boolean;
     function Gravar(): Boolean;
-    function ValidarDados(): Boolean;
 
   end;
+  const
+    TABLENAME = 'tbestados';
 
 
 implementation
 
-uses DAO.Estados;
-
 { TEstados }
 
-function TEstados.Gravar: Boolean;
+function TEstados.Alterar: Boolean;
 var
-  estadoDAO : TEstadosDAO;
+  FDQuery: TFDQuery;
 begin
   try
     Result := False;
-    estadoDAO := TEstadosDAO.Create;
-    case FAcao of
-      Common.ENum.tacIncluir: Result := estadoDAO.Inserir(Self);
-      Common.ENum.tacAlterar: Result := estadoDAO.Alterar(Self);
-      Common.ENum.tacExcluir: Result := estadoDAO.Excluir(Self);
-    end;
-  finally
-    estadoDAO.Free;
-  end;
-end;
-
-function TEstados.Localizar(aParam: array of variant): TFDQuery;
-var
-  estadoDAO: TEstadosDAO;
-begin
-  try
-    estadoDAO := TEstadosDAO.Create;
-    Result := estadoDAO.Pesquisar(aParam);
-  finally
-    estadoDAO.Free;
-  end;
-end;
-
-function TEstados.ValidarDados: Boolean;
-var
-  estadoDAO: TEstadosDAO;
-begin
-  try
-    Result := False;
-    estadoDAO := TEstadosDAO.Create;
-    if Self.FAcao = tacIncluir then
-    begin
-      if estadoDAO.EstadoExiste(Self) then
-      begin
-        ShowMessage('Estado já cadastrado!');
-        Exit;
-      end;
-    end;
+    FDQuery := FConexao.ReturnQuery();
+    FDQuery.ExecSQL('update ' + TABLENAME + 'set nom_estado = :pnom_estado' +
+    'where uf_estado = :puf_estado;', [FNome, FUF]);
     Result := True;
   finally
-    estadoDAO.Free;
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
+end;
+
+constructor TEstados.Create;
+begin
+  FConexao := TConexao.Create;
+end;
+
+destructor TEstados.Destroy;
+begin
+  FConexao.Free;
+end;
+
+function TEstados.EstadoExiste: Boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    FDQuery.ExecSQL('select * from ' + TABLENAME +
+    'where uf_estado = :puf_estado;', [FUF]);
+    if FDQuery.IsEmpty then Exit;
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
+end;
+
+function TEstados.Excluir: Boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    FDQuery.ExecSQL('delete from ' + TABLENAME +
+    'where uf_estado = :puf_estado;', [FUF]);
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
+end;
+
+function TEstados.Gravar: Boolean;
+begin
+  Result := False;
+  case FAcao of
+    Common.ENum.tacIncluir: Result := Inserir();
+    Common.ENum.tacAlterar: Result := Alterar();
+    Common.ENum.tacExcluir: Result := Excluir();
+  end;
+end;
+
+function TEstados.Inserir: Boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    FDQuery.ExecSQL('insert into ' + TABLENAME + '(uf_estado, nom_estado) values' +
+    '(:puf_estado, :pnom_estado);',
+    [FUF, FNome]);
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
+end;
+
+function TEstados.Pesquisar(aParam: array of variant): TFDQuery;
+var
+  FDQuery : TFDQuery;
+begin
+  FDQuery := FConexao.ReturnQuery;
+  FDQuery.SQL.Add('select * from ' + TABLENAME);
+  if aParam[0] = 'UF' then
+  begin
+    FDQuery.SQL.Add('where uf_estado = :puf_estado');
+    FDQuery.ParamByName('puf_estado').AsString := aParam[1];
+  end
+  else if aParam[0] = 'NOME' then
+  begin
+    FDQuery.SQL.Add('where nom_estado = :pnom_estado');
+    FDQuery.ParamByName('pnom_estado').AsString := aParam[1];
+  end
+  else if aParam[0] = 'APOIO' then
+  begin
+    FDQuery.SQL.Clear;
+    FDQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
+  end;
+  FDQuery.Open;
+  Result := FDQuery;
+end;
+
+
+function TEstados.PesquisarExt(aParam: array of variant): Boolean;
+var
+  FDQuery : TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery;
+    FDQuery.SQL.Add('select * from ' + TABLENAME);
+    if aParam[0] = 'UF' then
+    begin
+      FDQuery.SQL.Add('where uf_estado = :puf_estado');
+      FDQuery.ParamByName('puf_estado').AsString := aParam[1];
+    end
+    else if aParam[0] = 'NOME' then
+    begin
+      FDQuery.SQL.Add('where nom_estado = :pnom_estado');
+      FDQuery.ParamByName('pnom_estado').AsString := aParam[1];
+    end
+    else if aParam[0] = 'APOIO' then
+    begin
+      FDQuery.SQL.Clear;
+      FDQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
+    end;
+    FDQuery.Open;
+    if FDQuery.IsEmpty then
+    begin
+      Exit;
+    end;
+    FQuery := FDQuery;
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
   end;
 end;
 
 end.
+
+

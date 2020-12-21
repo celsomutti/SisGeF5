@@ -37,7 +37,6 @@ uses
   Control.CadastroContatos in 'Control\Control.CadastroContatos.pas',
   Data.SisGeF in 'Common\Data.SisGeF.pas' {Data_Sisgef: TDataModule},
   Model.Estados in 'Model\Model.Estados.pas',
-  DAO.Estados in 'DAO\DAO.Estados.pas',
   Control.Bases in 'Control\Control.Bases.pas',
   Model.Bases in 'Model\Model.Bases.pas',
   View.Calendario in 'View\View.Calendario.pas' {view_Calendario},
@@ -176,6 +175,7 @@ uses
   Thread.ImportarBaixasTFO in 'Thread\Thread.ImportarBaixasTFO.pas',
   Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas',
   Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas',
+  View.CadastroPadrao in 'View\View.CadastroPadrao.pas' {view_CadastroPadrao},
   View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral};
 
 {$R *.res}
@@ -186,6 +186,7 @@ begin
   Application.Title := 'Sistema Gerenciador de Franquias';
   Application.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
+  Application.CreateForm(Tview_CadastroPadrao, view_CadastroPadrao);
   Application.CreateForm(Tview_CadastroGeral, view_CadastroGeral);
   Application.Run;
 end.

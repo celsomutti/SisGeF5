@@ -1,4 +1,4 @@
-object view_CadastroGeral: Tview_CadastroGeral
+object view_CadastroPadrao: Tview_CadastroPadrao
   Left = 0
   Top = 0
   Caption = 'Cadastro Geral'
@@ -563,7 +563,6 @@ object view_CadastroGeral: Tview_CadastroGeral
   KeyPreview = True
   OldCreateOrder = False
   ShowHint = True
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object layoutControlPadrao: TdxLayoutControl
@@ -594,7 +593,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       Left = 149
       Top = 11
       Hint = 'Tipo de pessoa'
-      Properties.DropDownListStyle = lsEditFixedList
+      Properties.DropDownListStyle = lsFixedList
       Properties.Items.Strings = (
         'Selecione ...'
         'F'#237'sica'
@@ -677,12 +676,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       object lookupComboBoxUFRG: TcxLookupComboBox
         Left = 670
         Top = 26
-        Properties.KeyFieldNames = 'uf_estado'
-        Properties.ListColumns = <
-          item
-            FieldName = 'uf_estado'
-          end>
-        Properties.ListSource = dsEstados
+        Properties.ListColumns = <>
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
@@ -739,12 +733,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Left = 563
         Top = 80
         Hint = 'Sigla do estado da naturalidade '
-        Properties.KeyFieldNames = 'uf_estado'
-        Properties.ListColumns = <
-          item
-            FieldName = 'nom_estado'
-          end>
-        Properties.ListSource = dsEstados
+        Properties.ListColumns = <>
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
@@ -836,12 +825,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Left = 650
         Top = 134
         Hint = 'Sigla do estado da CNH'
-        Properties.KeyFieldNames = 'uf_estado'
-        Properties.ListColumns = <
-          item
-            FieldName = 'uf_estado'
-          end>
-        Properties.ListSource = dsEstados
+        Properties.ListColumns = <>
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
@@ -1386,12 +1370,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Top = 100
         DataBinding.DataField = 'uf_estado'
         DataBinding.DataSource = dsEnderecos
-        Properties.KeyFieldNames = 'uf_estado'
-        Properties.ListColumns = <
-          item
-            FieldName = 'uf_estado'
-          end>
-        Properties.ListSource = dsEstados
+        Properties.ListColumns = <>
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
@@ -1399,6 +1378,17 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 8
         Width = 104
+      end
+      object CheckBoxCorrespondencia: TcxCheckBox
+        Left = 26
+        Top = 46
+        Cursor = crHandPoint
+        Hint = 'Endere'#231'o para envio de correspond'#234'ncia'
+        Caption = 'Correspond'#234'ncia'
+        Style.BorderColor = clWindowFrame
+        Style.BorderStyle = ebs3D
+        Style.HotTrack = False
+        TabOrder = 0
       end
       object dbTextEditReferencia: TcxDBTextEdit
         Left = 89
@@ -1410,7 +1400,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 9
-        Width = 121
+        Width = 629
       end
       object dbNavigatorEnderecos: TcxDBNavigator
         Left = 26
@@ -1484,7 +1474,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Left = 10000
         Top = 10000
         Hint = 'Forma de pagamento'
-        Properties.DropDownListStyle = lsEditFixedList
+        Properties.DropDownListStyle = lsFixedList
         Properties.Items.Strings = (
           'NENHUMA'
           'OBB PLUS'
@@ -1507,7 +1497,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       object comboBoxTipoConta: TcxComboBox
         Left = 10000
         Top = 10000
-        Properties.DropDownListStyle = lsEditFixedList
+        Properties.DropDownListStyle = lsFixedList
         Properties.Items.Strings = (
           'NENHUM'
           'CONTA CORRENTE'
@@ -1527,12 +1517,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Left = 10000
         Top = 10000
         Hint = 'Banco '
-        Properties.KeyFieldNames = 'cod_banco'
-        Properties.ListColumns = <
-          item
-            FieldName = 'nom_banco'
-          end>
-        Properties.ListSource = dsBancos
+        Properties.ListColumns = <>
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
@@ -1602,20 +1587,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         Visible = False
         Width = 574
       end
-      object dbCheckBoxCorrespondencia: TcxDBCheckBox
-        Left = 26
-        Top = 46
-        Caption = 'Correspond'#234'ncia'
-        DataBinding.DataField = 'dom_correspondencia'
-        DataBinding.DataSource = dsEnderecos
-        Properties.DisplayChecked = '1'
-        Properties.DisplayUnchecked = '0'
-        Properties.NullStyle = nssUnchecked
-        Style.BorderColor = clWindowFrame
-        Style.BorderStyle = ebs3D
-        Style.HotTrack = False
-        TabOrder = 0
-      end
       object layoutControlComplementoGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
         AlignVert = avClient
@@ -1629,6 +1600,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Parent = layoutControlComplementoGroup_Root
         CaptionOptions.Text = 'Endere'#231'os'
         ButtonOptions.Buttons = <>
+        ItemIndex = 2
         Index = 0
       end
       object layoutGroupContatos: TdxLayoutGroup
@@ -1758,19 +1730,27 @@ object view_CadastroGeral: Tview_CadastroGeral
         ControlOptions.ShowBorder = False
         Index = 2
       end
+      object layoutItemCorrespondencia: TdxLayoutItem
+        Parent = layoutGroupEndereco1
+        AlignVert = avBottom
+        CaptionOptions.Text = 'cxCheckBox1'
+        CaptionOptions.Visible = False
+        Control = CheckBoxCorrespondencia
+        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalWidth = 112
+        ControlOptions.ShowBorder = False
+        Index = 0
+      end
       object layoutGroupEndereco4: TdxLayoutGroup
         Parent = layoutGroupEnderecos
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 3
       end
       object layoutItemReferencia: TdxLayoutItem
         Parent = layoutGroupEndereco4
-        AlignHorz = ahLeft
-        AlignVert = avTop
         CaptionOptions.Text = 'Refer'#234'ncia:'
         Control = dbTextEditReferencia
         ControlOptions.OriginalHeight = 21
@@ -1929,25 +1909,12 @@ object view_CadastroGeral: Tview_CadastroGeral
         ControlOptions.ShowBorder = False
         Index = 0
       end
-      object layoutItemCorrespondencia: TdxLayoutItem
-        Parent = layoutGroupEndereco1
-        AlignVert = avClient
-        CaptionOptions.Text = 'cxDBCheckBox1'
-        CaptionOptions.Visible = False
-        Control = dbCheckBoxCorrespondencia
-        ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 112
-        ControlOptions.ShowBorder = False
-        Index = 0
-      end
     end
     object checkBoxStatusGR: TcxCheckBox
       Left = 10000
       Top = 10000
       Hint = 'Indicador de aprova'#231#227'o de GR'
       Caption = 'GR Aprovado'
-      Properties.ValueChecked = 'S'
-      Properties.ValueUnchecked = 'N'
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -2603,59 +2570,5 @@ object view_CadastroGeral: Tview_CadastroGeral
       Align = iaRight
       Category = 0
     end
-  end
-  object memTableEstados: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 520
-    Top = 54
-    object memTableEstadosuf_estado: TStringField
-      DisplayLabel = 'UF'
-      FieldName = 'uf_estado'
-      Size = 2
-    end
-    object memTableEstadosnom_estado: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'nom_estado'
-      Size = 72
-    end
-  end
-  object memTableBancos: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 656
-    Top = 54
-    object memTableBancoscod_banco: TStringField
-      DisplayLabel = 'C'#243'digo'
-      FieldName = 'cod_banco'
-      Size = 4
-    end
-    object memTableBancosnom_banco: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'nom_banco'
-      Size = 50
-    end
-  end
-  object dsEstados: TDataSource
-    AutoEdit = False
-    DataSet = memTableEstados
-    Left = 472
-    Top = 54
-  end
-  object dsBancos: TDataSource
-    AutoEdit = False
-    DataSet = memTableBancos
-    Left = 616
-    Top = 54
   end
 end

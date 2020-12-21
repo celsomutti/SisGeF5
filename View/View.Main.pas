@@ -183,7 +183,7 @@ type
     bmMainBar19: TdxBar;
     dxBarLargeButton63: TdxBarLargeButton;
     dxBarLargeButton64: TdxBarLargeButton;
-    actCadastroContratados: TAction;
+    actCadastroGeral: TAction;
     dxBarLargeButton65: TdxBarLargeButton;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -213,6 +213,7 @@ type
     procedure actCadastroEmpresasExecute(Sender: TObject);
     procedure actCadastroEntregadoresExecute(Sender: TObject);
     procedure actDebitoCreditoExecute(Sender: TObject);
+    procedure actCadastroGeralExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;
@@ -327,6 +328,7 @@ procedure Tview_Main.actAlterarSenhaExecute(Sender: TObject);
 begin
   AlteraSenha;
 end;
+
 
 procedure Tview_Main.actCadastroEmpresasExecute(Sender: TObject);
 begin

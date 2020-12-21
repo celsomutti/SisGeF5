@@ -12,6 +12,7 @@ type
     FNome: String;
     FConexao: TConexao;
     FAcao: TAcao;
+    FQuery: TFDQuery;
     function Inserir(): Boolean;
     function Alterar(): Boolean;
     function Excluir(): Boolean;
@@ -20,10 +21,12 @@ type
     property Codigo: String read FCodigo write FCodigo;
     property Nome: String read FNome write FNome;
     property Acao: TAcao read FAcao write FAcao;
+    property Query: TFDQuery read FQuery write FQuery;
 
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
     function SetupModel(FDBanco: TFDQuery): Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarExt(aParam: array of variant): Boolean;
     function Gravar(): Boolean;
 
   end;
@@ -141,12 +144,50 @@ begin
     FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
   end;
   FDQuery.Open();
-  if FDQuery.RecordCount > 0 then
-  begin
-    FDQuery.First;
-    SetupModel(FDQuery);
-  end;
   Result := FDQuery;
+end;
+
+function TBancos.LocalizarExt(aParam: array of variant): Boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    if Length(aParam) < 2 then Exit;
+    FDQuery.SQL.Clear;
+
+    FDQuery.SQL.Add('select * from ' + TABLENAME);
+    if aParam[0] = 'CODIGO' then
+    begin
+      FDQuery.SQL.Add('where cod_banco = :pcod_banco');
+      FDQuery.ParamByName('pcod_banco').AsString := aParam[1];
+    end;
+    if aParam[0] = 'NOME' then
+    begin
+      FDQuery.SQL.Add('where nom_banco = :pnom_banco');
+      FDQuery.ParamByName('pnom_banco').AsString := aParam[1];
+    end;
+    if aParam[0] = 'FILTRO' then
+    begin
+      FDQuery.SQL.Add('where ' + aParam[1]);
+    end;
+    if aParam[0] = 'APOIO' then
+    begin
+      FDQuery.SQL.Clear;
+      FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+    end;
+    FDQuery.Open();
+    if FDQuery.IsEmpty then
+    begin
+      Exit;
+    end;
+    FQuery := TFDQuery;
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
 end;
 
 function TBancos.SetupModel(FDBanco: TFDQuery): Boolean;
