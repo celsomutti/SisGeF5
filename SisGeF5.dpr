@@ -175,7 +175,9 @@ uses
   Thread.ImportarBaixasDIRECT in 'Thread\Thread.ImportarBaixasDIRECT.pas',
   Thread.ImportarBaixasTFO in 'Thread\Thread.ImportarBaixasTFO.pas',
   Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas',
-  Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas';
+  Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas',
+  Thread.ExtratoExpressas in 'Thread\Thread.ExtratoExpressas.pas',
+  View.ExtratoExpressasDetalhado in 'View\View.ExtratoExpressasDetalhado.pas' {view_ExtratoExpressasDetalhado};
 
 {$R *.res}
 
@@ -185,5 +187,6 @@ begin
   Application.Title := 'Sistema Gerenciador de Franquias';
   Application.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
+  Application.CreateForm(Tview_ExtratoExpressasDetalhado, view_ExtratoExpressasDetalhado);
   Application.Run;
 end.

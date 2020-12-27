@@ -32,6 +32,10 @@ var
   pSkin: String;
   pEmailUsuario: String;
   pPasta: String;
+  pdPos: Double;
+  psMessage: String;
+  psLOG: String;
+  pbProcess: Boolean;
 const
     STDPWD = 'i8f0';
     ROOTREMOTELOGO = '/root/SisGeF5/Logo/';

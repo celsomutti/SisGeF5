@@ -420,6 +420,11 @@
         <DCCReference Include="Thread\Thread.ImportarBaixasTFO.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPedidosTFO.pas"/>
         <DCCReference Include="Control\Control.PlanilhaEntradaCarriers.pas"/>
+        <DCCReference Include="Thread\Thread.ExtratoExpressas.pas"/>
+        <DCCReference Include="View\View.ExtratoExpressasDetalhado.pas">
+            <Form>view_ExtratoExpressasDetalhado</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

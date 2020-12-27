@@ -23,6 +23,7 @@ type
     function ValidaEstorno(): Boolean;
     function RetornaTotaisExtravios(aParam: Array of variant): TFDQuery;
     function ExtraviosExtrato(): TFDquery;
+    function ExtraviosExtratoEntregadores(): Boolean;
     function EncerraExtravio(aParam: Array of variant): Boolean;
     function ExtravioExiste(): Integer;
 
@@ -60,6 +61,11 @@ end;
 function TExtraviosMultasControl.ExtraviosExtrato(): TFDquery;
 begin
   Result := FExtravios.ExtraviosExtrato();
+end;
+
+function TExtraviosMultasControl.ExtraviosExtratoEntregadores: Boolean;
+begin
+  REsult := FExtravios.ExtraviosExtratoEntregadores();
 end;
 
 function TExtraviosMultasControl.Finalizar: Boolean;

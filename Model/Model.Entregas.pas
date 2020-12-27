@@ -64,6 +64,7 @@ interface
       FAcao: TAcao;
       FCodCliente: Integer;
       FConexao : TConexao;
+    FQuery: TFDQuery;
 
       function Inserir(): Boolean;
       function Alterar(): Boolean;
@@ -125,6 +126,7 @@ interface
       property Pedido: String           read  FPedido           write   FPedido;
       property CodCliente: Integer      read  FCodCliente       write   FCodCliente;
       property Acao: TAcao              read  FAcao             Write   FAcao;
+      property Query: TFDQuery          read  FQuery            Write   FQuery;
 
       constructor Create;
       function Localizar(aParam: array of variant): TFDQuery;
@@ -133,6 +135,7 @@ interface
       function ExisteNN(sNN: String): Boolean;
       function Previas(aParam: Array of variant): TFDQuery;
       function EntregasExtrato(aParam: Array of variant): TFDQuery;
+      function EntregasExtratoEntregadores(aParam: Array of variant): boolean;
       function EncerraEntregas(aParam: Array of variant): Boolean;
       function GetField(sField: String; sKey: String; sKeyValue: String): String;
       function GetAReceber(iEntregador: Integer): TFDQuery;
@@ -378,6 +381,80 @@ begin
 
   fdExtrato.Open();
   Result := fdExtrato;
+end;
+
+function TEntregas.EntregasExtratoEntregadores(aParam: array of variant): boolean;
+  var
+  sSQL : String;
+  fdExtrato : TFDQuery;
+begin
+  try
+    Result := False;
+    fdExtrato := FConexao.ReturnQuery();
+    sSQL := 'select ' +
+            ':id_extrato as id_extrato, ' +
+            ':num_ano as num_ano, ' +
+            ':num_mes as num_mes, ' +
+            ':num_quinzena as num_quinzena, ' +
+  //          ':dataini as dat_inicio, ' +
+  //          ':datafim as dat_final, ' +
+            'tbentregas.cod_agente as cod_base, tbentregas.cod_entregador as cod_entregador, ' +
+            'tbentregas.val_verba_entregador as val_verba, sum(tbentregas.qtd_volumes) as qtd_volumes, ' +
+            '0 as val_creditos, 0 as val_debitos, 0 as val_extravios, ' +
+            '"0" as num_extrato, ';
+    if aParam[0] then
+    begin
+      sSQL := sSQL + 'if(tbentregas.qtd_peso_cobrado <= 25, (sum(tbentregas.qtd_volumes) - sum(1)) / 2 , 0) as qtd_volumes_extra, ';
+    end
+    else
+    begin
+      sSQL := sSQL + '0 as qtd_volumes_extra, ';
+    end;
+    sSQL := sSQL + 'Count(tbentregas.num_nossonumero) as qtd_entregas, sum(if(tbentregas.qtd_dias_atraso > 0,1,0)) as qtd_atraso, ' +
+            '(100 - ((sum(if(tbentregas.qtd_dias_atraso > 0,1,0)) / count(tbentregas.num_nossonumero))) * 100) as val_performance, ' +
+            'tbentregas.cod_cliente_empresa as cod_cliente, ' +
+            'sum(tbentregas.val_verba_franquia) as val_total_empresa ' +
+            'from ' + TABLENAME +
+            ' where tbentregas.dom_baixado = :dom_baixado and tbentregas.dom_fechado <> :dom_fechado ';
+    if aParam[1] then
+    begin
+      sSQL := sSQL + 'AND tbentregas.dat_baixa <= :datafim ';
+    end
+    else
+    begin
+      sSQL := sSQL + 'AND tbentregas.dat_baixa BETWEEN :dataini AND :datafim ';
+    end;
+    if aParam[4] <> '' then
+    begin
+      sSQL := sSQL + 'AND tbentregas.cod_cliente_empresa in (' + aParam[4] + ') ';
+    end;
+    if aParam[5] <> '' then
+    begin
+      sSQL := sSQL + 'AND tbentregas.cod_agente in (' + aParam[5] + ') ';
+    end;
+    sSQL := sSQL + 'GROUP BY tbentregas.cod_cliente_empresa, tbentregas.cod_agente, tbentregas.cod_entregador, ' +
+            'tbentregas.val_verba_entregador;';
+    fdExtrato.SQL.Text := sSQL;
+    fdExtrato.ParamByName('dataini').AsDate := VarToDateTime(aParam[2]);
+    fdExtrato.ParamByName('datafim').AsDate := VarToDateTime(aParam[3]);
+    fdExtrato.ParamByName('dom_baixado').AsString := 'S';
+    fdExtrato.ParamByName('dom_fechado').AsString := 'S';
+    fdExtrato.ParamByName('num_ano').AsInteger := aParam[6];
+    fdExtrato.ParamByName('num_mes').AsInteger := aParam[7];
+    fdExtrato.ParamByName('num_quinzena').AsInteger := aParam[8];
+    fdExtrato.ParamByName('id_extrato').AsInteger := 0;
+
+    fdExtrato.Open();
+    if fdExtrato.IsEmpty then
+    begin
+      Exit;
+    end;
+    FQuery := fdExtrato;
+    Result := True;
+  finally
+    fdExtrato.Connection.Close;
+    fdExtrato.Free;
+  end;
 end;
 
 function TEntregas.Excluir: Boolean;

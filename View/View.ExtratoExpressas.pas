@@ -1147,7 +1147,7 @@ var
   dtData1, dtData2: TDate;
   iDias: integer;
 begin
-  try
+ try
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery();
     fdQuery1 := TSistemaControl.GetInstance.Conexao.ReturnQuery();
     entregadores := TEntregadoresExpressasControl.Create;

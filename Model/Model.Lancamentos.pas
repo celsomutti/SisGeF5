@@ -24,6 +24,7 @@ type
     FDataCadastro: TDateTime;
     FReferencia: integer;
     FUsuario: String;
+    FQuery: TFDQuery;
 
     function Inserir(): Boolean;
     function Alterar(): Boolean;
@@ -46,11 +47,13 @@ type
     property DataCadastro: TDateTime read FDataCadastro write FDataCadastro;
     property Usuario: String read FUsuario write FUsuario;
     property Acao: TAcao read FAcao write FAcao;
+    property Query: TFDQuery read FQuery write FQuery;
 
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
     function GetID(): Integer;
     function ExtratoLancamentos(aParam: Array of variant): TFDQuery;
+    function ExtratoLancamentosEntregador(aParam: Array of variant): Boolean;
     function EncerraLancamentos(aParam: Array of variant): Boolean;
     procedure SetupClass(fdQuery: TFDQuery);
 
@@ -161,6 +164,30 @@ begin
   fdQuery.ParamByName('dom').AsString := 'S';
   FDQuery.Open();
   Result := FDQuery;
+end;
+
+function TLancamentos.ExtratoLancamentosEntregador(aParam: array of variant): Boolean;
+var
+  fdQuery:TFDQuery;
+begin
+  try
+    REsult := False;
+    fdQuery := FConexao.ReturnQuery;
+    fdQuery.SQL.Add(SQLEXTRATO);
+    fdQuery.ParamByName('data1').AsDate := aParam[0];
+    fdQuery.ParamByName('dom').AsString := 'S';
+    FDQuery.Open();
+    if fdQuery.IsEmpty then
+    begin
+      Exit;
+    end;
+    FQuery := fdQuery;
+    Result := True;
+  finally
+    FDQuery.Close;
+    fdQuery.Connection.Close;
+    fdQuery.Free;
+  end;
 end;
 
 function TLancamentos.GetID: Integer;

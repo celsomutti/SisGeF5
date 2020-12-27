@@ -7870,12 +7870,12 @@ object Data_Sisgef: TData_Sisgef
   end
   object FDGUIxWaitCursor: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 672
-    Top = 112
+    Left = 664
+    Top = 416
   end
   object FDPhysMySQLDriverLink: TFDPhysMySQLDriverLink
-    Left = 616
-    Top = 112
+    Left = 552
+    Top = 416
   end
   object iml_16_16: TcxImageList
     SourceDPI = 96
@@ -10072,6 +10072,8 @@ object Data_Sisgef: TData_Sisgef
     Left = 568
     Top = 8
     object LayoutCxLookAndFeel: TdxLayoutCxLookAndFeel
+      LookAndFeel.NativeStyle = False
+      LookAndFeel.SkinName = ''
       PixelsPerInch = 96
     end
   end
@@ -10203,8 +10205,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 456
-    Top = 24
+    Left = 208
+    Top = 400
     object memTableCadastroid_cadastro: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id_cadastro'
@@ -10372,8 +10374,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 432
-    Top = 272
+    Left = 320
+    Top = 176
     object memTableRHid_cadastro: TIntegerField
       FieldName = 'id_cadastro'
     end
@@ -10439,8 +10441,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 456
-    Top = 72
+    Left = 320
+    Top = 8
     object memTableEnderecosid_cadastro: TIntegerField
       FieldName = 'id_cadastro'
     end
@@ -10512,8 +10514,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 424
-    Top = 200
+    Left = 320
+    Top = 120
     object memTableContatosid_cadastro: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id_cadastro'
@@ -10708,8 +10710,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckUpdatable = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 208
-    Top = 24
+    Left = 56
+    Top = 8
   end
   object FDBTextReaderExtravios: TFDBatchMoveTextReader
     DataDef.Fields = <
@@ -10808,14 +10810,14 @@ object Data_Sisgef: TData_Sisgef
     DataDef.Delimiter = '"'
     DataDef.Separator = ';'
     DataDef.RecordFormat = rfCustom
-    Left = 552
-    Top = 456
+    Left = 448
+    Top = 176
   end
   object FDBDSWriterExtravios: TFDBatchMoveDataSetWriter
     Direct = True
     DataSet = mtbImportacaoExtravios
-    Left = 600
-    Top = 456
+    Left = 448
+    Top = 232
   end
   object FDBmExtravios: TFDBatchMove
     Reader = FDBTextReaderExtravios
@@ -10823,8 +10825,8 @@ object Data_Sisgef: TData_Sisgef
     Options = [poClearDest, poIdentityInsert, poCreateDest]
     Mappings = <>
     LogFileName = 'Data.log'
-    Left = 344
-    Top = 24
+    Left = 448
+    Top = 8
   end
   object mtbBaixasTFO: TFDMemTable
     FieldDefs = <
@@ -10929,8 +10931,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckUpdatable = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 336
-    Top = 96
+    Left = 208
+    Top = 120
   end
   object FDBTextReader: TFDBatchMoveTextReader
     DataDef.Fields = <
@@ -10988,13 +10990,13 @@ object Data_Sisgef: TData_Sisgef
     DataDef.Separator = ';'
     DataDef.EndOfLine = elPosix
     DataDef.RecordFormat = rfCustom
-    Left = 552
-    Top = 408
+    Left = 448
+    Top = 64
   end
   object FDBDataSetWriter: TFDBatchMoveDataSetWriter
     Direct = True
-    Left = 640
-    Top = 408
+    Left = 448
+    Top = 288
   end
   object FDBatchMove: TFDBatchMove
     Reader = FDBTextReader
@@ -11002,8 +11004,8 @@ object Data_Sisgef: TData_Sisgef
     Options = [poClearDest, poCreateDest]
     Mappings = <>
     LogFileName = 'Data.log'
-    Left = 680
-    Top = 408
+    Left = 448
+    Top = 344
   end
   object mtbPlanilhas: TFDMemTable
     FieldDefs = <
@@ -11911,7 +11913,7 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
     Left = 208
-    Top = 88
+    Top = 8
   end
   object dxAlertWindowManager: TdxAlertWindowManager
     OptionsButtons.Buttons = <>
@@ -11936,8 +11938,8 @@ object Data_Sisgef: TData_Sisgef
     PixelsPerInch = 96
   end
   object FDBDataSetReader: TFDBatchMoveDataSetReader
-    Left = 600
-    Top = 408
+    Left = 448
+    Top = 120
   end
   object mtbEntregas: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -11948,7 +11950,7 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     Left = 208
-    Top = 152
+    Top = 64
     object mtbEntregasNUM_NOSSONUMERO: TStringField
       DisplayLabel = 'Nosso N'#250'mero'
       FieldName = 'NUM_NOSSONUMERO'
@@ -12192,8 +12194,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 328
-    Top = 152
+    Left = 56
+    Top = 176
     object mtbBasesdom_check: TLargeintField
       FieldName = 'dom_check'
     end
@@ -12213,8 +12215,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 208
-    Top = 224
+    Left = 56
+    Top = 120
   end
   object mtbEmbarcadores: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -12224,8 +12226,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 320
-    Top = 240
+    Left = 208
+    Top = 176
   end
   object mtbAtribuicao: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -12235,8 +12237,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 208
-    Top = 288
+    Left = 56
+    Top = 64
     object mtbAtribuicaoid_atribuicao: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id_atribuicao'
@@ -12360,8 +12362,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 304
-    Top = 304
+    Left = 56
+    Top = 232
     object mtbRecepcaoPedidosnum_nossonumero: TStringField
       DisplayLabel = 'Nosso N'#250'mero'
       FieldName = 'num_nossonumero'
@@ -12424,8 +12426,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 208
-    Top = 352
+    Left = 56
+    Top = 288
     object mtbExpedicaoid_expedicao: TIntegerField
       FieldName = 'id_expedicao'
       Origin = 'id_expedicao'
@@ -12590,7 +12592,7 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
     Left = 208
-    Top = 408
+    Top = 288
     object mtbResumoExpedicaodat_expedicao: TDateTimeField
       DisplayLabel = 'Data'
       FieldName = 'dat_expedicao'
@@ -12643,8 +12645,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 200
-    Top = 464
+    Left = 56
+    Top = 344
     object mtbConferenciaPedidodom_ok: TIntegerField
       FieldName = 'dom_ok'
     end
@@ -12663,8 +12665,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 296
-    Top = 360
+    Left = 208
+    Top = 232
     object mtbRespostasdom_flag: TStringField
       FieldName = 'dom_flag'
       Size = 1
@@ -12752,8 +12754,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 672
-    Top = 216
+    Left = 320
+    Top = 344
     object mtbFechamentoExpressascod_tipo_expressa: TIntegerField
       DisplayLabel = 'Tipo'
       FieldName = 'cod_tipo_expressa'
@@ -12894,8 +12896,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 320
-    Top = 416
+    Left = 208
+    Top = 344
     object mtbRoteirosExpressasid_roteiro: TIntegerField
       FieldName = 'id_roteiro'
     end
@@ -12955,8 +12957,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 576
-    Top = 216
+    Left = 320
+    Top = 288
     object mtbExtratosExpressasid_extrato: TLargeintField
       FieldName = 'id_extrato'
     end
@@ -13102,7 +13104,7 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 432
+    Left = 56
     Top = 456
     object mtbClientesEmpresadom_check: TIntegerField
       FieldName = 'dom_check'
@@ -13123,8 +13125,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 312
-    Top = 480
+    Left = 56
+    Top = 400
     object mtbExtravioscod_extravio: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'cod_extravio'
@@ -13243,8 +13245,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 440
-    Top = 128
+    Left = 320
+    Top = 64
     object memTableDadosBancariosid_cadastro: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id_cadastro'
@@ -13304,8 +13306,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 432
-    Top = 328
+    Left = 320
+    Top = 232
     object memTableBancoscod_banco: TStringField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'cod_banco'
@@ -13325,8 +13327,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 424
-    Top = 392
+    Left = 208
+    Top = 456
     object memTableEstadosuf_estado: TStringField
       DisplayLabel = 'UF'
       FieldName = 'uf_estado'

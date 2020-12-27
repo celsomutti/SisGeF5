@@ -15,11 +15,18 @@ uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Model.Ca
       property Anexos: TCadastroAnexos read FAnexo write FAnexo;
       function Localizar(aParam: array of variant): TFDQuery;
       function Gravar(): Boolean;
+      procedure SetupClass(FDQuery: TFDquery);
+      procedure ClearSetup;
     end;
 
 implementation
 
 { TCadastroAnexosControl }
+
+procedure TCadastroAnexosControl.ClearSetup;
+begin
+  FAnexo.ClearSetup;
+end;
 
 constructor TCadastroAnexosControl.Create;
 begin
@@ -41,6 +48,11 @@ end;
 function TCadastroAnexosControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FAnexo.Localizar(aParam);
+end;
+
+procedure TCadastroAnexosControl.SetupClass(FDQuery: TFDquery);
+begin
+  FAnexo.SetupClass(FDQuery);
 end;
 
 end.

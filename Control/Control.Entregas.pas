@@ -19,6 +19,7 @@ type
     function ValidaExclusao(): Boolean;
     function Previas(aParam: array of variant): TFDQuery;
     function EntregasExtrato(aParam: Array of variant): TFDQuery;
+    function EntregasExtratoEntregadores(aParam: Array of variant): boolean;
     function EncerraEntregas(aParam: array of variant): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
     function GetAReceber(iEntregador: Integer): TFDQuery;
@@ -50,6 +51,11 @@ end;
 function TEntregasControl.EntregasExtrato(aParam: array of variant): TFDQuery;
 begin
   Result := FEntregas.EntregasExtrato(aParam);
+end;
+
+function TEntregasControl.EntregasExtratoEntregadores(aParam: array of variant): boolean;
+begin
+  Result := FEntregas.EntregasExtratoEntregadores(aParam);
 end;
 
 function TEntregasControl.GetAReceber(iEntregador: Integer): TFDQuery;

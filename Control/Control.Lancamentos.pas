@@ -22,6 +22,7 @@ type
     function ValidaCampos(): Boolean;
     function ValidaExclusao(): Boolean;
     function ExtratoLancamentos(aParam: Array of variant): TFDQuery;
+    function ExtratoLancamentosEntregador(aParam: Array of variant): Boolean;
     function EncerraLancamentos(aParam: Array of variant): Boolean;
 
     property Lancamentos: TLancamentos read FLancamentos write FLancamentos;
@@ -51,6 +52,11 @@ end;
 function TLancamentosControl.ExtratoLancamentos(aParam: array of variant): TFDQuery;
 begin
   Result := FLancamentos.ExtratoLancamentos(aParam);
+end;
+
+function TLancamentosControl.ExtratoLancamentosEntregador(aParam: array of variant): Boolean;
+begin
+  Result := FLancamentos.ExtratoLancamentosEntregador(aParam);
 end;
 
 function TLancamentosControl.GetId: Integer;

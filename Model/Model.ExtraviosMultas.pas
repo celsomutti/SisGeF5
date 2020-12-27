@@ -34,6 +34,7 @@ type
     FExtrato: String;
     FData: TDateTime;
     FConexao : TConexao;
+    FQuery: TFDQuery;
 
     function Insert(): Boolean;
     function Update(): Boolean;
@@ -65,6 +66,7 @@ type
     property Manutencao: TDateTime read FManutencao write FManutencao;
     property Sequencia: Integer read FSequencia write FSequencia;
     property NumeroExtrato: String read FNumeroExtrato write FNumeroExtrato;
+    property Query: TFDQuery read FQuery write FQuery;
 
     property Acao: TAcao read FAcao write FAcao;
 
@@ -76,6 +78,7 @@ type
     function ExtravioExiste(): Integer;
     function RetornaTotaisExtravios(aParam: Array of variant): TFDQuery;
     function ExtraviosExtrato(): TFDquery;
+    function ExtraviosExtratoEntregadores(): Boolean;
     function GetID(): Integer;
   end;
 
@@ -208,6 +211,34 @@ begin
   fdQuery.SQL.Add(sSQL);
   FDQuery.Open();
   Result := FDQuery;
+end;
+
+function TExtraviosMultas.ExtraviosExtratoEntregadores: Boolean;
+var
+  sSQL: String;
+  fdQuery : TFDQuery;
+begin
+  try
+    Result := False;
+    sSQL := 'select tbextravios.cod_agente as cod_agente, tbextravios.cod_entregador as cod_entregador,' +
+            'sum(tbextravios.val_total) as val_total ' +
+            'from ' + TABLENAME +
+            ' where tbextravios.dom_restricao = "S" and tbextravios.val_percentual_pago < 100 ' +
+            'group by tbextravios.cod_agente, tbextravios.cod_entregador;';
+    fdQuery := FConexao.ReturnQuery;
+    fdQuery.SQL.Add(sSQL);
+    FDQuery.Open();
+    if fdQuery.IsEmpty then
+    begin
+      Exit;
+    end;
+    FQuery := fdQuery;
+    Result := True;
+  finally
+    FDQuery.Close;
+    fdQuery.Connection.Close;
+    fdQuery.Free;
+  end;
 end;
 
 function TExtraviosMultas.GetID: Integer;
