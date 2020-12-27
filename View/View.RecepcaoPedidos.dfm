@@ -61,7 +61,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
         'TRANSFOLHA'
         'CARRIERS'
         'SPLOG'
-        'DIRECT')
+        'DIRECT'
+        'RODO'#202)
       Properties.ReadOnly = False
       Properties.OnChange = cboClientePropertiesChange
       Style.Font.Charset = DEFAULT_CHARSET
@@ -73,11 +74,11 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Style.IsFontAssigned = True
       TabOrder = 1
       Text = 'Selecione ...'
-      Width = 232
+      Width = 889
     end
     object crbRecepcao: TcxRadioGroup
-      Left = 22
-      Top = 121
+      Left = 20
+      Top = 117
       Hint = 'Selecione o tipo de recep'#231#227'o'
       Caption = 'Tipo de Recep'#231#227'o'
       ParentFont = False
@@ -110,11 +111,11 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Style.IsFontAssigned = True
       TabOrder = 2
       Height = 43
-      Width = 613
+      Width = 769
     end
     object txtLeitura: TcxTextEdit
-      Left = 60
-      Top = 170
+      Left = 58
+      Top = 166
       ParentFont = False
       Properties.ReadOnly = True
       Properties.OnValidate = txtLeituraPropertiesValidate
@@ -126,12 +127,12 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 4
-      Width = 121
+      Width = 831
     end
     object cxButton1: TcxButton
-      Left = 793
-      Top = 139
-      Width = 75
+      Left = 795
+      Top = 135
+      Width = 94
       Height = 25
       Cursor = crHandPoint
       Action = actIniciar
@@ -139,9 +140,9 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
     end
     object grdRecepcao: TcxGrid
       Left = 10
-      Top = 209
-      Width = 250
-      Height = 200
+      Top = 203
+      Width = 889
+      Height = 293
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -371,6 +372,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -381,6 +384,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -389,6 +394,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'Cliente'
       CaptionOptions.Layout = clTop
       Control = cboCliente
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 232
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -428,6 +435,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'cxRadioGroup1'
       CaptionOptions.Visible = False
       Control = crbRecepcao
+      ControlOptions.OriginalHeight = 43
+      ControlOptions.OriginalWidth = 613
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -437,6 +446,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       AlignVert = avTop
       CaptionOptions.Text = 'Leitura'
       Control = txtLeitura
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -447,6 +458,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -463,6 +476,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'Grade'
       CaptionOptions.Visible = False
       Control = grdRecepcao
+      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -472,6 +487,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       AlignVert = avTop
       CaptionOptions.Text = 'In'#237'cio'
       Control = datInicio
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -480,6 +497,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       AlignVert = avClient
       CaptionOptions.Text = 'Final'
       Control = datFinal
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -494,6 +513,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Parent = dxLayoutAutoCreatedGroup2
       CaptionOptions.Text = 'Situa'#231#227'o'
       Control = cboSituacao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -503,6 +524,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'cxButton5'
       CaptionOptions.Visible = False
       Control = cxButton5
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 91
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -513,6 +536,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 0
@@ -531,6 +556,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'cxButton4'
       CaptionOptions.Visible = False
       Control = cxButton4
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 2
@@ -542,6 +569,8 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       CaptionOptions.Text = 'cxLabel2'
       CaptionOptions.Visible = False
       Control = lblResultado
+      ControlOptions.OriginalHeight = 20
+      ControlOptions.OriginalWidth = 8
       ControlOptions.ShowBorder = False
       Index = 3
     end

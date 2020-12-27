@@ -52,8 +52,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       TabOrder = 5
     end
     object cboUnitizador: TcxComboBox
-      Left = 161
-      Top = 95
+      Left = 160
+      Top = 91
       Hint = 'Selecione o tipo de unitizator'
       ParentFont = False
       Properties.DropDownListStyle = lsFixedList
@@ -71,11 +71,11 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.IsFontAssigned = True
       TabOrder = 7
       Text = 'Selecione ...'
-      Width = 139
+      Width = 120
     end
     object datExpedicao: TcxDateEdit
       Left = 286
-      Top = 95
+      Top = 91
       Hint = 'Data da expedi'#231#227'o'
       ParentFont = False
       Properties.SaveTime = False
@@ -88,11 +88,11 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 8
-      Width = 89
+      Width = 77
     end
     object mskCCEP: TcxMaskEdit
       Left = 369
-      Top = 95
+      Top = 91
       Hint = 'C'#243'digo da cabe'#231'a de CEP'
       ParentFont = False
       Properties.IgnoreMaskBlank = True
@@ -106,13 +106,13 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 9
-      Width = 83
+      Width = 72
     end
     object grdExpedicao: TcxGrid
       Left = 10
-      Top = 197
-      Width = 250
-      Height = 200
+      Top = 191
+      Width = 935
+      Height = 291
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -325,8 +325,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       TabOrder = 3
     end
     object cxButton2: TcxButton
-      Left = 858
-      Top = 91
+      Left = 860
+      Top = 87
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -334,8 +334,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       TabOrder = 13
     end
     object txtLeitura: TcxTextEdit
-      Left = 22
-      Top = 140
+      Left = 20
+      Top = 136
       Hint = 'Leitura'
       ParentFont = False
       Properties.ReadOnly = True
@@ -348,11 +348,11 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 14
-      Width = 121
+      Width = 915
     end
     object cboCliente: TcxComboBox
-      Left = 22
-      Top = 95
+      Left = 20
+      Top = 91
       Hint = 'Selecione o cliente'
       ParentFont = False
       Properties.DropDownListStyle = lsFixedList
@@ -361,7 +361,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
         'TRANSFOLHA'
         'CARRIERS'
         'SPLOG'
-        'DIRECT')
+        'DIRECT'
+        'RODO'#202)
       Properties.OnChange = cboClientePropertiesChange
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -372,11 +373,11 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.IsFontAssigned = True
       TabOrder = 6
       Text = 'Selecione ...'
-      Width = 155
+      Width = 134
     end
     object chkDANFE: TcxCheckBox
-      Left = 446
-      Top = 97
+      Left = 447
+      Top = 91
       Hint = 'Pesquisar pela chave da DANFE'
       Caption = 'DANFE'
       ParentFont = False
@@ -478,12 +479,12 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taCenter
       Properties.Alignment.Vert = taVCenter
-      AnchorX = 258
+      AnchorX = 559
       AnchorY = 502
     end
     object lcbRoteiros: TcxLookupComboBox
-      Left = 707
-      Top = 95
+      Left = 709
+      Top = 91
       Hint = 'Identifica'#231#227'o o roteiro'
       ParentFont = False
       Properties.KeyFieldNames = 'des_roteiro'
@@ -504,8 +505,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Width = 145
     end
     object lcbMotorista: TcxLookupComboBox
-      Left = 556
-      Top = 95
+      Left = 558
+      Top = 91
       Hint = 'Nome do motorista'
       ParentFont = False
       Properties.ListColumns = <
@@ -544,6 +545,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -554,6 +557,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 4
     end
@@ -588,6 +593,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'Unitizador'
       CaptionOptions.Layout = clTop
       Control = cboUnitizador
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 139
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -598,6 +605,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'Data'
       CaptionOptions.Layout = clTop
       Control = datExpedicao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 89
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -615,6 +624,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Layout = clTop
       Visible = False
       Control = mskCCEP
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 83
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -625,6 +636,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'Pedidos'
       CaptionOptions.Layout = clTop
       Control = grdExpedicao
+      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -635,6 +648,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 0
@@ -653,6 +668,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'cxButton4'
       CaptionOptions.Visible = False
       Control = cxButton4
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 1
@@ -664,6 +681,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'cxButton5'
       CaptionOptions.Visible = False
       Control = cxButton5
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 2
@@ -675,6 +694,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 7
     end
@@ -683,6 +704,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'Leitura'
       CaptionOptions.Layout = clTop
       Control = txtLeitura
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -693,6 +716,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'Cliente'
       CaptionOptions.Layout = clTop
       Control = cboCliente
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 155
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -704,6 +729,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Visible = False
       Visible = False
       Control = chkDANFE
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 4
     end
@@ -714,6 +741,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'Expedi'#231#227'o'
       CaptionOptions.Layout = clTop
       Control = datExpedicaoPesquisa
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -724,6 +753,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'Containers / CCEP / Roteiros'
       CaptionOptions.Layout = clTop
       Control = cboContainers
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 268
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -735,6 +766,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Visible = False
       CaptionOptions.Layout = clTop
       Control = cxButton6
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 85
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -745,6 +778,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'Tipo de relat'#243'rio'
       CaptionOptions.Layout = clTop
       Control = cboTipoRelatorio
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -755,6 +790,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Text = 'cxLabel2'
       CaptionOptions.Visible = False
       Control = lblResultado
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -764,6 +801,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Layout = clTop
       Visible = False
       Control = lcbRoteiros
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 145
       ControlOptions.ShowBorder = False
       Index = 6
     end
@@ -773,6 +812,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Layout = clTop
       Visible = False
       Control = lcbMotorista
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 145
       ControlOptions.ShowBorder = False
       Index = 5
     end
@@ -833,7 +874,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
     Top = 16
   end
   object frxRotulo: TfrxReport
-    Version = '5.3.14'
+    Version = '6.6.11'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
@@ -881,12 +922,16 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       RightMargin = 10.000000000000000000
       TopMargin = 10.000000000000000000
       BottomMargin = 10.000000000000000000
+      Frame.Typ = []
+      MirrorMode = []
       object ReportTitle1: TfrxReportTitle
         FillType = ftBrush
+        Frame.Typ = []
         Height = 79.370130000000000000
         Top = 18.897650000000000000
         Width = 718.110700000000000000
         object Memo2: TfrxMemoView
+          AllowVectorExport = True
           Left = 30.236240000000000000
           Top = 22.677180000000000000
           Width = 665.197280000000000000
@@ -896,11 +941,13 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = [fsBold]
+          Frame.Typ = []
           Memo.UTF8W = (
             'Motorista: [vMotorista]')
           ParentFont = False
         end
         object Memo3: TfrxMemoView
+          AllowVectorExport = True
           Left = 30.236240000000000000
           Top = 45.354360000000000000
           Width = 665.197280000000000000
@@ -910,6 +957,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = [fsBold]
+          Frame.Typ = []
           Memo.UTF8W = (
             'Roteiro: [vRoteiro]')
           ParentFont = False
@@ -917,6 +965,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object MasterData1: TfrxMasterData
         FillType = ftBrush
+        Frame.Typ = []
         Height = 22.677180000000000000
         Top = 158.740260000000000000
         Width = 718.110700000000000000
@@ -924,13 +973,16 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object PageFooter1: TfrxPageFooter
         FillType = ftBrush
+        Frame.Typ = []
         Height = 22.677180000000000000
         Top = 241.889920000000000000
         Width = 718.110700000000000000
         object Memo1: TfrxMemoView
+          AllowVectorExport = True
           Left = 510.236550000000000000
           Width = 207.874150000000000000
           Height = 18.897650000000000000
+          Frame.Typ = []
           HAlign = haRight
           Memo.UTF8W = (
             '[Page#] / [TotalPages#]')
@@ -963,7 +1015,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
     Top = 8
   end
   object frxRomaneio: TfrxReport
-    Version = '5.3.14'
+    Version = '6.6.11'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
@@ -1011,12 +1063,16 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       RightMargin = 10.000000000000000000
       TopMargin = 10.000000000000000000
       BottomMargin = 10.000000000000000000
+      Frame.Typ = []
+      MirrorMode = []
       object ReportTitle1: TfrxReportTitle
         FillType = ftBrush
+        Frame.Typ = []
         Height = 79.370130000000000000
         Top = 18.897650000000000000
         Width = 718.110700000000000000
         object Memo2: TfrxMemoView
+          AllowVectorExport = True
           Left = 30.236240000000000000
           Top = 22.677180000000000000
           Width = 665.197280000000000000
@@ -1026,11 +1082,13 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = [fsBold]
+          Frame.Typ = []
           Memo.UTF8W = (
             'Motorista: [vMotorista]')
           ParentFont = False
         end
         object Memo3: TfrxMemoView
+          AllowVectorExport = True
           Left = 30.236240000000000000
           Top = 45.354360000000000000
           Width = 665.197280000000000000
@@ -1040,6 +1098,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = [fsBold]
+          Frame.Typ = []
           Memo.UTF8W = (
             'Roteiro: [vRoteiro]')
           ParentFont = False
@@ -1047,16 +1106,19 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object MasterData1: TfrxMasterData
         FillType = ftBrush
+        Frame.Typ = []
         Height = 83.149660000000000000
         Top = 158.740260000000000000
         Width = 718.110700000000000000
         RowCount = 0
         object BarCode1: TfrxBarCodeView
+          AllowVectorExport = True
           Left = 117.165430000000000000
           Top = 3.779530000000000000
           Width = 79.000000000000000000
           Height = 68.031540000000000000
           BarType = bcCode128
+          Frame.Typ = []
           Rotation = 0
           TestLine = False
           Text = '12345678'
@@ -1067,17 +1129,21 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
+          ColorBar = clBlack
         end
       end
       object PageFooter1: TfrxPageFooter
         FillType = ftBrush
+        Frame.Typ = []
         Height = 22.677180000000000000
         Top = 302.362400000000000000
         Width = 718.110700000000000000
         object Memo1: TfrxMemoView
+          AllowVectorExport = True
           Left = 510.236550000000000000
           Width = 207.874150000000000000
           Height = 18.897650000000000000
+          Frame.Typ = []
           HAlign = haRight
           Memo.UTF8W = (
             '[Page#] / [TotalPages#]')
@@ -1114,7 +1180,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
     Top = 8
   end
   object frxDIRECT: TfrxReport
-    Version = '5.3.14'
+    Version = '6.6.11'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
@@ -1166,8 +1232,11 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       RightMargin = 10.000000000000000000
       TopMargin = 10.000000000000000000
       BottomMargin = 10.000000000000000000
+      Frame.Typ = []
+      MirrorMode = []
       object MasterData1: TfrxMasterData
         FillType = ftBrush
+        Frame.Typ = []
         Height = 98.267780000000000000
         Top = 181.417440000000000000
         Width = 718.110700000000000000
@@ -1178,12 +1247,14 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
         DataSetName = 'frxExpedicaoDIRECT'
         RowCount = 0
         object BarCode1: TfrxBarCodeView
+          AllowVectorExport = True
           Left = 7.559060000000000000
           Top = 7.559060000000000000
           Width = 79.000000000000000000
           Height = 86.929190000000000000
           BarType = bcCode128
           Expression = '<frxExpedicaoDIRECT."num_nossonumero">'
+          Frame.Typ = []
           Rotation = 0
           TestLine = False
           Text = '12345678'
@@ -1194,22 +1265,27 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
+          ColorBar = clBlack
         end
       end
       object PageFooter1: TfrxPageFooter
         FillType = ftBrush
+        Frame.Typ = []
         Height = 52.913420000000000000
         Top = 411.968770000000000000
         Width = 718.110700000000000000
         object Memo1: TfrxMemoView
+          AllowVectorExport = True
           Left = 510.236550000000000000
           Width = 204.094620000000000000
           Height = 18.897650000000000000
+          Frame.Typ = []
           HAlign = haRight
           Memo.UTF8W = (
             '[Page#] / [TotalPages#]')
         end
         object Memo4: TfrxMemoView
+          AllowVectorExport = True
           Left = 7.559060000000000000
           Top = 34.015770000000000000
           Width = 710.551640000000000000
@@ -1219,6 +1295,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
+          Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
             '[vImpressao]')
@@ -1227,10 +1304,12 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object PageHeader1: TfrxPageHeader
         FillType = ftBrush
+        Frame.Typ = []
         Height = 102.047310000000000000
         Top = 18.897650000000000000
         Width = 718.110700000000000000
         object Memo2: TfrxMemoView
+          AllowVectorExport = True
           Left = 3.779530000000000000
           Top = 56.692950000000000000
           Width = 706.772110000000000000
@@ -1240,12 +1319,14 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = [fsBold]
+          Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
             'Motorista: [vMotorista]')
           ParentFont = False
         end
         object Memo3: TfrxMemoView
+          AllowVectorExport = True
           Left = 3.779530000000000000
           Top = 15.118120000000000000
           Width = 706.772110000000000000
@@ -1255,6 +1336,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -27
           Font.Name = 'Arial'
           Font.Style = [fsBold]
+          Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
             '[vRoteiro]')
@@ -1263,10 +1345,12 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object ReportSummary1: TfrxReportSummary
         FillType = ftBrush
+        Frame.Typ = []
         Height = 49.133890000000000000
         Top = 340.157700000000000000
         Width = 718.110700000000000000
         object Memo5: TfrxMemoView
+          AllowVectorExport = True
           Left = 3.779530000000000000
           Top = 30.236240000000000000
           Width = 706.772110000000000000
@@ -1276,6 +1360,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = [fsBold]
+          Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
             '[COUNT(0,0)] Remessas')

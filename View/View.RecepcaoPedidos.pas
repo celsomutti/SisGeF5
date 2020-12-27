@@ -18,7 +18,7 @@ uses
   cxDropDownEdit, cxCalendar, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, Common.ENum,
   Control.Clientes, Control.Entregas, Control.Sistema, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
   Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  cxDBLookupComboBox, FireDAC.Comp.Client, cxCheckBox;
+  cxDBLookupComboBox, FireDAC.Comp.Client, cxCheckBox, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog;
 
 type
   Tview_RecepcaoPedidos = class(TForm)

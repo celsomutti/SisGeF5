@@ -123,6 +123,7 @@ begin
     2 : AbreArquivo;
     3 : AbreArquivo;
     4 : AbreArquivo;
+    5 : AbreArquivo;
   end;
 end;
 
@@ -147,6 +148,11 @@ begin
   begin
     planilhaDIRECT.bCancel := True;
     planilhaDIRECT.Terminate;
+  end
+  else if cboCliente.ItemIndex = 5 then
+  begin
+    planilhaSIMExpress.bCancel := True;
+    planilhaSIMExpress.Terminate;
   end;
 end;
 
@@ -203,7 +209,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
-    memLog.Lines.Text := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!';
+    memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
     if Length(planilhaDIRECT.sAlerta) > 0 then
     begin
       Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
@@ -245,7 +251,7 @@ end;
 
 procedure Tview_ImportarPedidos.AtualizaLogSimExpress;
 begin
-  if not planilhaDIRECT.bProcess then
+  if not planilhaSIMExpress.bProcess then
   begin
     Timer1.Enabled := False;
     dxLayoutItem8.Visible := False;
@@ -253,12 +259,8 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
-    memLog.Lines.Text := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!';
-    if Length(planilhaSIMExpress.sAlerta) > 0 then
-    begin
-      Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilhaSIMExpress.sAlerta := '';
-    end;
+    memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
+    Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     edtArquivo.Text := '';
     pbImportacao.Position := 0;
   end
@@ -285,11 +287,8 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
-    if Length(planilhaSIMExpress.sAlerta) > 0 then
-    begin
-      Application.MessageBox(PChar(planilhaSIMExpress.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilhaSIMExpress.sAlerta := '';
-    end;
+    memLog.Lines.Text := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importação do arquivo cancelada!' + edtArquivo.Text + '!';
+    Application.MessageBox('Importação cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;
 
@@ -303,7 +302,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
-    memLog.Lines.Text := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!';
+    memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
     if Length(planilha.sAlerta) > 0 then
     begin
       Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
@@ -386,12 +385,12 @@ end;
 procedure Tview_ImportarPedidos.ImportaRODOE;
 begin
   planilhaSIMExpress := TThread_ImportarPedidosSIMEXpress.Create(True);
-  planilha.FFile := edtArquivo.Text;
-  planilha.iCodigoCliente := cboCliente.ItemIndex;
-  planilha.FreeOnTerminate := True;
-  planilha.Priority := tpNormal;
+  planilhaSIMExpress.FFile := edtArquivo.Text;
+  planilhaSIMExpress.iCodigoCliente := cboCliente.ItemIndex;
+  planilhaSIMExpress.FreeOnTerminate := True;
+  planilhaSIMExpress.Priority := tpNormal;
   Timer1.Enabled := True;
-  planilha.Start;
+  planilhaSIMExpress.Start;
 end;
 
 procedure Tview_ImportarPedidos.ImportaSPLOG;

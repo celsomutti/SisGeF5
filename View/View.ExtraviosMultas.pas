@@ -252,6 +252,8 @@ type
     procedure ImportarDados;
     procedure ExportarDados;
     procedure ExecutaFiltro(sFiltro: String);
+    function NomeBase(iCodigo: Integer): String;
+    function NomeEntregador(iCodigo: Integer): String;
 
     var
       bFiltro: Boolean;
@@ -655,6 +657,52 @@ begin
   end;
 end;
 
+function Tview_ExtraviosMultas.NomeBase(iCodigo: Integer): String;
+var
+  aParam: array of Variant;
+  FBase: TBasesControl;
+begin
+  try
+    Result := 'NONE';
+    FBase := TBasesControl.Create;
+    SetLength(aParam,2);
+    aParam[0] := 'CODIGO';
+    aParam[1] := iCodigo;
+    if FBase.LocalizarExato(aParam) then
+    begin
+      Result := FBase.Bases.NomeFantasia;
+    end;
+  finally
+    FBase.Free;
+    Finalize(aParam);
+  end;
+end;
+
+function Tview_ExtraviosMultas.NomeEntregador(iCodigo: Integer): String;
+var
+  aParam: array of Variant;
+  FEntregadores: TEntregadoresExpressasControl;
+begin
+  try
+    Result := 'NONE';
+    FEntregadores := TEntregadoresExpressasControl.Create;
+    if iCodigo = 0 then
+    begin
+      Exit;
+    end;
+    SetLength(aParam,3);
+    aParam[0] := 'ENTREGADOR';
+    aParam[1] := iCodigo;
+    if FEntregadores.LocalizarExato(aParam) then
+    begin
+      Result := FEntregadores.Entregadores.Fantasia;
+    end;
+  finally
+    FEntregadores.Free;
+    Finalize(aParam);
+  end;
+end;
+
 procedure Tview_ExtraviosMultas.PesquisarExtravios(sParametro: String);
 var
   aParam: array of Variant;
@@ -697,10 +745,11 @@ begin
   try
     FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
     SetLength(aParam,3);
+
     FEntregadores := TEntregadoresExpressasControl.Create;
     aParam[0] := 'APOIO';
     aParam[1] := 'COD_ENTREGADOR as Código, NOM_FANTASIA as Nome, COD_AGENTE as Base';
-    aparam[2] := ' WHERE COD_CADASTRO <> 0';
+    aparam[2] := '';
     FDQuery := FEntregadores.Localizar(aParam);
     Finalize(aParam);
     if not Assigned(View_PesquisarPessoas) then
@@ -762,7 +811,7 @@ begin
     SetLength(aParam,3);
     aParam[0] := 'APOIO';
     aParam[1] := 'COD_ENTREGADOR, NOM_FANTASIA';
-    aparam[2] := ' WHERE COD_CADASTRO <> 0';
+    aparam[2] := 'WHERE COD_CADASTRO  <> 0';
     FDQuery := FEntregadores.Localizar(aParam);
     Finalize(aParam);
     mtbEntregadores.FieldDefs.Assign(FDQuery.FieldDefs);
@@ -1348,7 +1397,7 @@ procedure Tview_ExtraviosMultas.txtCodigoEntregadorPropertiesValidate(Sender: TO
 begin
   if DisplayValue = '' then DisplayValue := '0';
   if DisplayValue = '0' then Exit;
-  txtNomeEntregador.Text := FEntregadores.GetField('NOM_FANTASIA','COD_ENTREGADOR',DisplayValue);
+  txtNomeEntregador.Text :=  NomeEntregador(DisplayValue);
 end;
 
 procedure Tview_ExtraviosMultas.txtNossoNumeroPropertiesValidate(Sender: TObject; var DisplayValue: Variant;

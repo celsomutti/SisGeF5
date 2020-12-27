@@ -99,6 +99,7 @@ begin
       Synchronize(BeginProcesso);
       FPlanilha := TPlanilhaBaixasTFOControl.Create;
       sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
+      UpdateLog(sMensagem);
       if FPLanilha.GetPlanilha(FFile) then
       begin
         iPos := 0;
@@ -146,7 +147,7 @@ begin
           end
           else
           begin
-            sMensagem := 'Entrega NN ' + FEntregas.Entregas.NN + ' do entregador ' +
+            sMensagem := 'Entrega NN ' + FPlanilha.Planilha.Planilha[i].NNRemessa + ' do entregador ' +
                          FPlanilha.Planilha.Planilha[i].NomeEntregador + ' não encontrada no banco de dados !';
             UpdateLog(sMensagem);
           end;
@@ -163,6 +164,7 @@ begin
             Abort;
           end;
         end;
+        Synchronize(TerminateProcess);
       end;
     Except on E: Exception do
       begin
@@ -254,41 +256,37 @@ begin
         end;
       end;
     end;
-    // se a verba ainda estiver zerada, indica que a verba deve estar cadastrada para o entregador
     // pesquisa a tabela de entregadores e apanha os dados referente à verba
+    FEntregador := TEntregadoresExpressasControl.Create;
+    SetLength(FParam,2);
+    FParam := ['ENTREGADOR', aParam[1]];
+    if not Fentregador.Localizar(FParam).IsEmpty then
+    begin
+      iTabela := FEntregador.Entregadores.Tabela;
+      iFaixa := FEntregador.Entregadores.Grupo;
+      dVerba := FEntregador.Entregadores.Verba;
+    end;
+    Finalize(FParam);
+    FEntregador.Free;
+    // verifica se o entregador possui uma verba fixa, se estiver zerada, verifica com as informações
+    // de tabela e faixa.
     if dVerba = 0 then
     begin
-      FEntregador := TEntregadoresExpressasControl.Create;
-      SetLength(FParam,2);
-      FParam := ['ENTREGADOR', aParam[1]];
-      if not Fentregador.Localizar(FParam).IsEmpty then
+      if iTabela <> 0 then
       begin
-        iTabela := FEntregador.Entregadores.Tabela;
-        iFaixa := FEntregador.Entregadores.Grupo;
-        dVerba := FEntregador.Entregadores.Verba;
-      end;
-      Finalize(FParam);
-      FEntregador.Free;
-      // verifica se o entregador possui uma verba fixa, se estiver zerada, verifica com as informações
-      // de tabela e faixa.
-      if dVerba = 0 then
-      begin
-        if iTabela <> 0 then
+        if iFaixa <> 0 then
         begin
-          if iFaixa <> 0 then
-          begin
-          FVerbas := TVerbasExpressasControl.Create;
-          FVerbas.Verbas.Tipo := iTabela;
-          FVerbas.Verbas.Cliente := iCodigoCliente;
-          FVerbas.Verbas.Grupo := iFaixa;
-          FVerbas.Verbas.Vigencia := aParam[4];
-          FVerbas.Verbas.CepInicial := aParam[2];
-          FVerbas.Verbas.PesoInicial := aParam[3];
-          FVerbas.Verbas.Roteiro := aParam[5];
-          FVerbas.Verbas.Performance := aParam[6];
-          dVerba := FVerbas.RetornaVerba();
-          FVerbas.Free;
-          end;
+        FVerbas := TVerbasExpressasControl.Create;
+        FVerbas.Verbas.Tipo := iTabela;
+        FVerbas.Verbas.Cliente := iCodigoCliente;
+        FVerbas.Verbas.Grupo := iFaixa;
+        FVerbas.Verbas.Vigencia := aParam[4];
+        FVerbas.Verbas.CepInicial := aParam[2];
+        FVerbas.Verbas.PesoInicial := aParam[3];
+        FVerbas.Verbas.Roteiro := aParam[5];
+        FVerbas.Verbas.Performance := aParam[6];
+        dVerba := FVerbas.RetornaVerba();
+        FVerbas.Free;
         end;
       end;
     end;

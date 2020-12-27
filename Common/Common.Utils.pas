@@ -586,6 +586,8 @@ begin
     Copy(inttostr(100 + V4), 3, 2);
 end;
 
+
+
 // Retorna o tamanho de um arquivo em bytes
 class function TUtils.DSiFileSize(const fileName: string): int64;
 var
@@ -925,5 +927,6 @@ begin
     result:=retorno;
   end;
 end;
+
 
 end.

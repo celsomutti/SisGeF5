@@ -95,10 +95,11 @@ var
 begin
   try
     try
-      BeginProcesso;
+      Synchronize(BeginProcesso);
       FPlanilha := TPlanilhaEntradaSIMExpressControl.Create;
       FEntregas := TEntregasControl.Create;
       sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
+      UpdateLog(sMensagem);
       if FPLanilha.GetPlanilha(FFile) then
       begin
         iPos := 0;
@@ -108,8 +109,8 @@ begin
         for i := 0 to Pred(iTotal) do
         begin
           SetLength(aParam,2);
-          aParam := ['NN', FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].IDVolume,0))];
-          if FEntregas.LocalizarExata(aParam) then
+          aParam := ['NN', FPlanilha.Planilha.Planilha[i].IDPedido];
+          if not FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.Acao := tacIncluir;
           end
@@ -119,9 +120,9 @@ begin
           end;
           FEntregadores := TEntregadoresExpressasControl.Create;
           Finalize(aParam);
-          SetLength(aParam,2);
-          aParam := ['FANTASIA',FPlanilha.Planilha.Planilha[i].Motorista];
-          if FEntregadores.LocalizarExato(aParam) then
+          SetLength(aParam,3);
+          aParam := ['CHAVECLIENTE',FPlanilha.Planilha.Planilha[i].Motorista,iCodigoCliente];
+          if not FEntregadores.LocalizarExato(aParam) then
           begin
             FEntregas.Entregas.Distribuidor := 1;
             FEntregas.Entregas.Entregador := 781;
@@ -134,14 +135,14 @@ begin
           Finalize(aParam);
           FEntregadores.Free;
           FEntregas.Entregas.Cliente := 0;
-          FEntregas.Entregas.NN := FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].IDVolume,0));
+          FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].IDPedido;
           FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[I].NF;
-          FEntregas.Entregas.Consumidor := FPlanilha.Planilha.Planilha[I].Destinatario;
+          FEntregas.Entregas.Consumidor := LeftStr(FPlanilha.Planilha.Planilha[I].Destinatario,70);
           FEntregas.Entregas.Retorno := FormatFloat('00000000000', StrToIntDef(FPlanilha.Planilha.Planilha[i].NREntrega,0));
-          FEntregas.Entregas.Endereco := FPlanilha.Planilha.Planilha[I].Endereco;
+          FEntregas.Entregas.Endereco := LeftStr(FPlanilha.Planilha.Planilha[I].Endereco,70);
           FEntregas.Entregas.Complemento := '';
-          FEntregas.Entregas.Bairro := FPlanilha.Planilha.Planilha[I].Bairro;
-          FEntregas.Entregas.Cidade := FPlanilha.Planilha.Planilha[I].Municipio;
+          FEntregas.Entregas.Bairro := LeftStr(FPlanilha.Planilha.Planilha[I].Bairro, 70);
+          FEntregas.Entregas.Cidade := LeftStr(FPlanilha.Planilha.Planilha[I].Municipio,70);
           FEntregas.Entregas.Cep := FPlanilha.Planilha.Planilha[I].CEP;
           FEntregas.Entregas.Telefone := '';
           if FPlanilha.Planilha.Planilha[I].Coleta <> '00/00/0000' then FEntregas.Entregas.Expedicao := StrToDate(FPlanilha.Planilha.Planilha[I].Coleta);
@@ -164,6 +165,7 @@ begin
             aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
                        FEntregas.Entregas.PesoReal, FEntregas.Entregas.Baixa, 0, 0];
             FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
+            Finalize(aParam);
             if FEntregas.Entregas.VerbaEntregador = 0 then
             begin
               sMensagem := 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
@@ -198,7 +200,6 @@ begin
             sMensagem := 'Erro ao gravar o NN ' + FEntregas.Entregas.NN + ' !';
             UpdateLog(sMensagem);
           end;
-          FEntregas.Free;
           inc(iPos, 1);
           dPos := (iPos / iTotal) * 100;
           if not(Self.Terminated) then
@@ -210,6 +211,7 @@ begin
             Abort;
           end;
         end;
+        Synchronize(TerminateProcess);
       end;
     Except on E: Exception do
       begin
@@ -220,6 +222,7 @@ begin
     end;
   finally
     FPlanilha.Free;
+    FEntregas.Free;
   end;
 end;
 
@@ -239,65 +242,73 @@ begin
     iFaixa := 0;
     dVerba := 0;
     SetLength(FTipoVerba,8);
+    //cria um array com as formas de pesquisa da classe
     FTipoVerba := ['NONE','FIXA','FIXACEP','FIXAPESO','SLA','CEPPESO','ROTEIROFIXA','ROTEIROPESO'];
+    // procura dos dados da base referentes à verba
     FBase := TBasesControl.Create;
     SetLength(FParam,2);
     FParam := ['CODIGO',aParam[0]];
-    if FBase.Localizar(FParam).IsEmpty then
+    if FBase.LocalizarExato(FParam) then
     begin
-      iTabela := FBase.Bases.Grupo;
-      iFaixa := FBase.Bases.CentroCusto;
+      iTabela := FBase.Bases.CentroCusto;
+      iFaixa := FBase.Bases.Grupo;
       dVerba := FBase.Bases.ValorVerba;
     end;
     Finalize(FParam);
     FBase.Free;
+    // se a base não possui uma verba fixa, verifica se a base possui uma vinculação a uma
+    // tabela e faixa.
     if dVerba = 0 then
     begin
       if iTabela <> 0 then
       begin
         if iFaixa <> 0 then
         begin
-          SetLength(FParam,9);
-          FParam := [FTipoVerba[iTabela], iTabela, iCodigoCliente, iFaixa, aParam[4], aParam[2], aParam[3], aParam[6], aParam[7]];
           FVerbas := TVerbasExpressasControl.Create;
-          if not FVerbas.Localizar(aParam).IsEmpty then
-          begin
-            dVerba := FVerbas.Verbas.Verba
-          end;
-          Finalize(FParam);
+          FVerbas.Verbas.Tipo := iTabela;
+          FVerbas.Verbas.Cliente := iCodigoCliente;
+          FVerbas.Verbas.Grupo := iFaixa;
+          FVerbas.Verbas.Vigencia := aParam[4];
+          FVerbas.Verbas.CepInicial := aParam[2];
+          FVerbas.Verbas.PesoInicial := aParam[3];
+          FVerbas.Verbas.Roteiro := aParam[5];
+          FVerbas.Verbas.Performance := aParam[6];
+          dVerba := FVerbas.RetornaVerba();
           FVerbas.Free;
         end;
       end;
     end;
+    // pesquisa a tabela de entregadores e apanha os dados referente à verba
+    FEntregador := TEntregadoresExpressasControl.Create;
+    SetLength(FParam,2);
+    FParam := ['ENTREGADOR', aParam[1]];
+    if not Fentregador.Localizar(FParam).IsEmpty then
+    begin
+      iTabela := FEntregador.Entregadores.Tabela;
+      iFaixa := FEntregador.Entregadores.Grupo;
+      dVerba := FEntregador.Entregadores.Verba;
+    end;
+    Finalize(FParam);
+    FEntregador.Free;
+    // verifica se o entregador possui uma verba fixa, se estiver zerada, verifica com as informações
+    // de tabela e faixa.
     if dVerba = 0 then
     begin
-      FEntregador := TEntregadoresExpressasControl.Create;
-      SetLength(FParam,2);
-      FParam := ['ENTREGADOR', aParam[1]];
-      if not Fentregador.Localizar(FParam).IsEmpty then
+      if iTabela <> 0 then
       begin
-        iTabela := FEntregador.Entregadores.Tabela;
-        iFaixa := FEntregador.Entregadores.Grupo;
-        dVerba := FEntregador.Entregadores.Verba;
-      end;
-      Finalize(FParam);
-      FEntregador.Free;
-      if dVerba = 0 then
-      begin
-        if iTabela <> 0 then
+        if iFaixa <> 0 then
         begin
-          if iFaixa <> 0 then
-          begin
-            SetLength(FParam,9);
-            FParam := [FTipoVerba[iTabela], iTabela, iCodigoCliente, iFaixa, aParam[4], aParam[2], aParam[3], aParam[6], aParam[7]];
-            FVerbas := TVerbasExpressasControl.Create;
-            if not FVerbas.Localizar(aParam).IsEmpty then
-            begin
-              dVerba := FVerbas.Verbas.Verba
-            end;
-            Finalize(FParam);
-            FVerbas.Free;
-          end;
+        FVerbas := TVerbasExpressasControl.Create;
+        FVerbas.Verbas.Tipo := iTabela;
+        FVerbas.Verbas.Cliente := iCodigoCliente;
+        FVerbas.Verbas.Grupo := iFaixa;
+        FVerbas.Verbas.Vigencia := aParam[4];
+        FVerbas.Verbas.CepInicial := aParam[2];
+        FVerbas.Verbas.PesoInicial := aParam[3];
+        FVerbas.Verbas.Roteiro := aParam[5];
+        FVerbas.Verbas.Performance := aParam[6];
+        dVerba := FVerbas.RetornaVerba();
+        FVerbas.Free;
         end;
       end;
     end;

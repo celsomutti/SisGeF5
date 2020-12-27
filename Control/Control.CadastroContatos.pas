@@ -13,10 +13,13 @@ type
     destructor Destroy; override;
     property Contatos: TCadastroContatos read FContatos write FContatos;
     function GetID(iID: Integer; iTipo: Integer): Integer;
-    function Localizar(aParam: array of variant): TFDQuery;
+    function Localizar(aParam: array of variant): Boolean;
     function Gravar(): Boolean;
     function ValidaCampos(): Boolean;
     function SaveBatch(memTable: TFDMemTable): Boolean;
+    function SetupClass(FDQuery: TFDQuery): Boolean;
+    function ClearClass(): Boolean;
+
   end;
 
 implementation
@@ -24,6 +27,11 @@ implementation
 { TCadastroContatosControl }
 
 uses Common.Utils;
+
+function TCadastroContatosControl.ClearClass: Boolean;
+begin
+  Result := FContatos.ClearClass;
+end;
 
 constructor TCadastroContatosControl.Create;
 begin
@@ -38,7 +46,7 @@ end;
 
 function TCadastroContatosControl.GetID(iID: Integer; iTipo: Integer): Integer;
 begin
-  Result := FContatos.GetID(iID, iTipo);
+  Result := FContatos.GetID(iID);
 end;
 
 function TCadastroContatosControl.Gravar: Boolean;
@@ -51,7 +59,7 @@ begin
   Result := FContatos.Gravar;
 end;
 
-function TCadastroContatosControl.Localizar(aParam: array of variant): TFDQuery;
+function TCadastroContatosControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := FContatos.Localizar(aParam);
 end;
@@ -59,6 +67,11 @@ end;
 function TCadastroContatosControl.SaveBatch(memTable: TFDMemTable): Boolean;
 begin
   Result := FContatos.SaveBatch(memTable);
+end;
+
+function TCadastroContatosControl.SetupClass(FDQuery: TFDQuery): Boolean;
+begin
+  Result := FContatos.SetupClass(FDQuery);
 end;
 
 function TCadastroContatosControl.ValidaCampos: Boolean;

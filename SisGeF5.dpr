@@ -37,7 +37,6 @@ uses
   Control.CadastroContatos in 'Control\Control.CadastroContatos.pas',
   Data.SisGeF in 'Common\Data.SisGeF.pas' {Data_Sisgef: TDataModule},
   Model.Estados in 'Model\Model.Estados.pas',
-  DAO.Estados in 'DAO\DAO.Estados.pas',
   Control.Bases in 'Control\Control.Bases.pas',
   Model.Bases in 'Model\Model.Bases.pas',
   View.Calendario in 'View\View.Calendario.pas' {view_Calendario},
@@ -176,8 +175,13 @@ uses
   Thread.ImportarBaixasTFO in 'Thread\Thread.ImportarBaixasTFO.pas',
   Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas',
   Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas',
+<<<<<<< HEAD
   Thread.ExtratoExpressas in 'Thread\Thread.ExtratoExpressas.pas',
   View.ExtratoExpressasDetalhado in 'View\View.ExtratoExpressasDetalhado.pas' {view_ExtratoExpressasDetalhado};
+=======
+  View.CadastroPadrao in 'View\View.CadastroPadrao.pas' {view_CadastroPadrao},
+  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral};
+>>>>>>> f60b9e763f0b2e0e549b03584ad8219e01c1cbec
 
 {$R *.res}
 
@@ -187,6 +191,11 @@ begin
   Application.Title := 'Sistema Gerenciador de Franquias';
   Application.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
+<<<<<<< HEAD
   Application.CreateForm(Tview_ExtratoExpressasDetalhado, view_ExtratoExpressasDetalhado);
+=======
+  Application.CreateForm(Tview_CadastroPadrao, view_CadastroPadrao);
+  Application.CreateForm(Tview_CadastroGeral, view_CadastroGeral);
+>>>>>>> f60b9e763f0b2e0e549b03584ad8219e01c1cbec
   Application.Run;
 end.

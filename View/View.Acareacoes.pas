@@ -285,14 +285,16 @@ type
     procedure tvPesquisaCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
       AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
     procedure txtNNPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
-    procedure edtCodigoEntregadorPropertiesEditValueChanged(Sender: TObject);
-    procedure edtCodigoBasePropertiesEditValueChanged(Sender: TObject);
     procedure actDeclaracaoExecute(Sender: TObject);
     procedure actFiltltrarExecute(Sender: TObject);
     procedure tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure aclAcareacoesExecute(Action: TBasicAction; var Handled: Boolean);
     procedure cboUnidadePropertiesChange(Sender: TObject);
+    procedure edtCodigoEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure edtCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
 
   private
     { Private declarations }
@@ -311,7 +313,7 @@ type
     procedure SetupAcareacoes();
     procedure PopulaCampos();
     function NomeBase(iCodigo: Integer): String;
-    function NomeEntregador(iCodigo: Integer): String;
+    procedure NomeEntregador(iCodigo: Integer);
     procedure PopulaEntregadores();
     procedure PopulaBase();
     procedure LocalizarAcareacoes();
@@ -864,14 +866,20 @@ begin
   FreeAndNil(view_Impressao);
 end;
 
-procedure Tview_Acareacoes.edtCodigoBasePropertiesEditValueChanged(Sender: TObject);
+procedure Tview_Acareacoes.edtCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
 begin
-  txtNomeBase.Text := NomeBase(edtCodigoBase.EditValue);
+  if DisplayValue = '' then DisplayValue := '0';
+  if DisplayValue = '0' then Exit;
+  txtNomeBase.Text := NomeBase(DisplayValue);
 end;
 
-procedure Tview_Acareacoes.edtCodigoEntregadorPropertiesEditValueChanged(Sender: TObject);
+procedure Tview_Acareacoes.edtCodigoEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
 begin
-  txtNomeEntregador.Text := NomeEntregador(edtCodigoEntregador.EditValue);
+  if DisplayValue = '' then DisplayValue := '0';
+  if DisplayValue = '0' then Exit;
+  NomeEntregador(DisplayValue);
 end;
 
 procedure Tview_Acareacoes.ExecutarFiltro(sFiltro: String);
@@ -1205,7 +1213,7 @@ begin
     SetLength(aParam,3);
     aParam[0] := 'APOIO';
     aParam[1] := 'COD_ENTREGADOR as Código, NOM_FANTASIA as Nome, COD_AGENTE as Base';
-    aparam[2] := ' WHERE COD_CADASTRO <> 0';
+    aparam[2] := '';
     FDQuery := FEntregadores.Localizar(aParam);
     Finalize(aParam);
     if not Assigned(View_PesquisarPessoas) then
@@ -1235,51 +1243,36 @@ end;
 function Tview_Acareacoes.NomeBase(iCodigo: Integer): String;
 var
   aParam: array of Variant;
-  FDQuery : TFDQuery;
 begin
-  try
-    Result := 'NONE';
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    SetLength(aParam,2);
-    aParam[0] := 'CODIGO';
-    aParam[1] := iCodigo;
-    FDQuery := FBase.Localizar(aParam);
-    Finalize(aParam);
-    if not FDQuery.IsEmpty then
-    begin
-      Result := FDQuery.FieldByName('NOM_FANTASIA').AsString;
-    end;
-    FDQuery.Close;
-  finally
-    FDQuery.Free;
+  Result := 'NONE';
+  SetLength(aParam,2);
+  aParam[0] := 'CODIGO';
+  aParam[1] := iCodigo;
+  if FBase.LocalizarExato(aParam) then
+  begin
+    Result := FBase.Bases.NomeFantasia;
   end;
+  Finalize(aParam);
 end;
 
-function Tview_Acareacoes.NomeEntregador(iCodigo: Integer): String;
+procedure Tview_Acareacoes.NomeEntregador(iCodigo: Integer);
 var
   aParam: array of Variant;
-  FDQuery : TFDQuery;
 begin
-  try
-    Result := 'NONE';
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    if iCodigo = 0 then
-    begin
-      Exit;
-    end;
-    SetLength(aParam,3);
-    aParam[0] := 'ENTREGADOR';
-    aParam[1] := iCodigo;
-    FDQuery := FEntregadores.Localizar(aParam);
-    Finalize(aParam);
-    if not FDQuery.IsEmpty then
-    begin
-      Result := FDQuery.FieldByName('NOM_FANTASIA').AsString;
-    end;
-    FDQuery.Close;
-  finally
-    FDQuery.Free;
+  if iCodigo = 0 then
+  begin
+    Exit;
   end;
+  SetLength(aParam,3);
+  aParam[0] := 'ENTREGADOR';
+  aParam[1] := iCodigo;
+  if FEntregadores.LocalizarExato(aParam) then
+  begin
+    txtNomeEntregador.Text := FEntregadores.Entregadores.Fantasia;
+    edtCodigoBase.EditValue := FEntregadores.Entregadores.Agente;
+    txtNomeBase.Text := NomeBase(FEntregadores.Entregadores.Agente);
+  end;
+  Finalize(aParam);
 end;
 
 procedure Tview_Acareacoes.PopulaBase;
@@ -1311,9 +1304,9 @@ begin
   datAcareacao.Date := FAcareacao.Acareacoes.Data;
   txtNN.Text := FAcareacao.Acareacoes.Nossonumero;
   edtCodigoEntregador.EditValue := FAcareacao.Acareacoes.Entregador;
-  txtNomeEntregador.Text := NomeEntregador(FAcareacao.Acareacoes.Entregador);
-  edtCodigoBase.EditValue := FAcareacao.Acareacoes.Base;
-  txtNomeBase.Text := NomeBase(FAcareacao.Acareacoes.Base);
+  NomeEntregador(FAcareacao.Acareacoes.Entregador);
+  //edtCodigoBase.EditValue := FAcareacao.Acareacoes.Base;
+  //txtNomeBase.Text := NomeBase(FAcareacao.Acareacoes.Base);
   DadosEntrega(FAcareacao.Acareacoes.Nossonumero);
   datEntrega.Date := FAcareacao.Acareacoes.DataEntrega;
   cboMotivo.Text := FAcareacao.Acareacoes.Motivo;

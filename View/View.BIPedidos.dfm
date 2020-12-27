@@ -53,8 +53,8 @@ object view_BIPedidos: Tview_BIPedidos
     object grdPesquisa: TcxGrid
       Left = 10
       Top = 38
-      Width = 250
-      Height = 259
+      Width = 748
+      Height = 284
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -542,6 +542,7 @@ object view_BIPedidos: Tview_BIPedidos
         object tvPesquisaDOM_CONFERIDO: TcxGridDBColumn
           DataBinding.FieldName = 'DOM_CONFERIDO'
           PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.Alignment = taRightJustify
           Properties.DisplayChecked = '1'
           Properties.DisplayUnchecked = '0'
           Properties.NullStyle = nssUnchecked
@@ -581,6 +582,11 @@ object view_BIPedidos: Tview_BIPedidos
               Description = 'DIRECT'
               ImageIndex = 1
               Value = 4
+            end
+            item
+              Description = 'RODO'#202
+              ImageIndex = 1
+              Value = 5
             end>
           Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
@@ -632,6 +638,8 @@ object view_BIPedidos: Tview_BIPedidos
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -642,6 +650,8 @@ object view_BIPedidos: Tview_BIPedidos
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -653,6 +663,8 @@ object view_BIPedidos: Tview_BIPedidos
       CaptionOptions.Visible = False
       CaptionOptions.Layout = clTop
       Control = grdPesquisa
+      ControlOptions.OriginalHeight = 259
+      ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -663,6 +675,8 @@ object view_BIPedidos: Tview_BIPedidos
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -680,6 +694,8 @@ object view_BIPedidos: Tview_BIPedidos
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 1
@@ -692,6 +708,8 @@ object view_BIPedidos: Tview_BIPedidos
       CaptionOptions.Visible = False
       Visible = False
       Control = textQuery
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 748
       ControlOptions.ShowBorder = False
       Index = 3
     end

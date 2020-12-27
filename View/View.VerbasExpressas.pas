@@ -20,7 +20,7 @@ uses
   cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxTextEdit, cxDBLookupComboBox, cxSpinEdit, cxCalendar, cxCurrencyEdit, cxMaskEdit, cxBlobEdit,
   Control.TiposVerbasExpressas, Control.VerbasExpressas, cxGridExportLink, ShellAPI, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  Control.Sistema, Common.ENum;
+  Control.Sistema, Common.ENum, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog;
 
 type
   Tview_Verbas_Expressas = class(TForm)
@@ -301,6 +301,11 @@ if Data_Sisgef.mtbClientesEmpresa.Active then Data_Sisgef.mtbClientesEmpresa.Clo
   Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
   Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 4;
   Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'DIRECT';
+  Data_Sisgef.mtbClientesEmpresa.Post;
+  Data_Sisgef.mtbClientesEmpresa.Insert;
+  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 5;
+  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'RODOÊ';
   Data_Sisgef.mtbClientesEmpresa.Post;
   Data_Sisgef.mtbClientesEmpresa.First;
 end;

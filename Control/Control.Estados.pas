@@ -13,8 +13,10 @@ type
     destructor Destroy; override;
 
     function Gravar: Boolean;
-    function Localizar(aParam: array of variant): TFDQuery;
-    function ValidarDados(): Boolean;
+    function Pesquisar(aParam: array of variant): TFDQuery;
+    function PesquisarExt(aParam: array of variant): Boolean;
+    function EstadoExiste(): Boolean;
+
     property Estados: TEstados read FEstados write FEstados;
 
   end;
@@ -34,19 +36,25 @@ begin
   inherited;
 end;
 
+function TEstadosControl.EstadoExiste: Boolean;
+begin
+  Result := FEstados.EstadoExiste;
+end;
+
 function TEstadosControl.Gravar: Boolean;
 begin
   Result := FEstados.Gravar;
 end;
 
-function TEstadosControl.Localizar(aParam: array of variant): TFDQuery;
+function TEstadosControl.Pesquisar(aParam: array of variant): TFDQuery;
 begin
-  Result := FEstados.Localizar(aParam);
+  Result := FEstados.Pesquisar(aParam);
 end;
 
-function TEstadosControl.ValidarDados: Boolean;
+
+function TEstadosControl.PesquisarExt(aParam: array of variant): Boolean;
 begin
-  Result := FEstados.ValidarDados;
+  Result := FEstados.PesquisarExt(aParam)
 end;
 
 end.

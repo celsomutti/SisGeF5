@@ -13,9 +13,12 @@ type
     destructor Destroy; override;
     property Financeiro: TCadastroFinanceiro read FFinanceiro write FFinanceiro;
     function GetID(iID: Integer; iTipo: Integer): Integer;
-    function Localizar(aParam: array of variant): TFDQuery;
+    function Localizar(aParam: array of variant): boolean;
     function Gravar(): Boolean;
     function SaveBatch(memTable: TFDMemTable): Boolean;
+    function SetupClass(FDQuery: TFDQuery): boolean;
+    function ClearClass(): boolean;
+
   end;
 
 implementation
@@ -24,6 +27,11 @@ implementation
 
 uses Common.ENum;
 
+function TCadastroFinanceiroControl.ClearClass: boolean;
+begin
+  Result := FFinanceiro.ClearClass;
+end;
+
 constructor TCadastroFinanceiroControl.Create;
 begin
   FFinanceiro := TCadastroFinanceiro.Create;
@@ -31,13 +39,13 @@ end;
 
 destructor TCadastroFinanceiroControl.Destroy;
 begin
-  Financeiro.Free;
+  FFinanceiro.Free;
   inherited;
 end;
 
 function TCadastroFinanceiroControl.GetID(iID: Integer; iTipo: Integer): Integer;
 begin
-  Result := FFinanceiro.GetID(iID, iTipo);
+  Result := FFinanceiro.GetID(iID);
 end;
 
 function TCadastroFinanceiroControl.Gravar: Boolean;
@@ -45,7 +53,7 @@ begin
   Result := FFinanceiro.Gravar;
 end;
 
-function TCadastroFinanceiroControl.Localizar(aParam: array of variant): TFDQuery;
+function TCadastroFinanceiroControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := FFinanceiro.Localizar(aParam);
 end;
@@ -53,6 +61,11 @@ end;
 function TCadastroFinanceiroControl.SaveBatch(memTable: TFDMemTable): Boolean;
 begin
   Result := FFinanceiro.SaveBatch(memTable);
+end;
+
+function TCadastroFinanceiroControl.SetupClass(FDQuery: TFDQuery): boolean;
+begin
+  Result := FFinanceiro.SetupClass(FDQuery);
 end;
 
 end.

@@ -409,9 +409,14 @@ begin
     end;
     SetLength(aParam,3);
     aParam := ['MACRO', '*', sSQL];
-    memTableCadastro.CopyDataSet(cadastro.Localizar(aParam));
+    if cadastro.Localizar(aParam) then
+    begin
+      memTableCadastro.CopyDataSet(cadastro.Cadastro.Query);
+    end;
     Finalize(aParam);
   finally
+    cadastro.Cadastro.Query.Connection.Close;
+    cadastro.Cadastro.Query.Free;
     cadastro.Free;
   end;
 end;
@@ -558,9 +563,14 @@ begin
     contatos := TCadastroContatosControl.Create;
     SetLength(aParam,3);
     aParam := ['APOIO', '*', ''];
-    memTableContatos.Data := contatos.Localizar(aParam);
+    if contatos.Localizar(aParam) then
+    begin
+      memTableContatos.Data := contatos.Contatos.Query;
+    end;
     Finalize(aParam);
   finally
+    contatos.Contatos.Query.Close;
+    contatos.Contatos.Query.Connection.Close;
     contatos.Free;
   end;
 end;
@@ -574,9 +584,14 @@ begin
     financeiro := TCadastroFinanceiroControl.Create;
     SetLength(aParam,3);
     aParam := ['APOIO', '*', ''];
-    memTableDadosBancarios.Data := financeiro.Localizar(aParam);
+    if financeiro.Localizar(aParam) then
+    begin
+      memTableDadosBancarios.Data := financeiro.Financeiro.Query;
+    end;
     Finalize(aParam);
   finally
+    financeiro.Financeiro.Query.Close;
+    financeiro.Financeiro.Query.Connection.Close;
     financeiro.Free;
   end;
 end;
@@ -590,9 +605,14 @@ begin
     endereco := TCadastroEnderecosControl.Create;
     SetLength(aParam,3);
     aParam := ['APOIO', '*', ''];
-    memTableEnderecos.Data := endereco.Localizar(aParam);
+    if endereco.Localizar(aParam) then
+    begin
+      memTableEnderecos.Data := endereco.Enderecos.Query;
+    end;
     Finalize(aParam);
   finally
+    endereco.Enderecos.Query.Close;
+    endereco.Enderecos.Query.Connection.Close;
     endereco.Free;
   end;
 end;

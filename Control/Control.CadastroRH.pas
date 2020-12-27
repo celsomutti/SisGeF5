@@ -12,14 +12,22 @@ type
     constructor Create;
     destructor Destroy; override;
     property RH: TCadastroRH read FCadastro write FCadastro;
-    function Localizar(aParam: array of variant): TFDQuery;
+    function Localizar(aParam: array of variant): boolean;
     function Gravar(): Boolean;
     function ValidaCampos(): Boolean;
+    function SetupClass(FDQuery: TFDquery): boolean;
+    function ClearClass(): boolean;
+
   end;
 
 implementation
 
 { TCadastroRHControl }
+
+function TCadastroRHControl.ClearClass: boolean;
+begin
+  Result := FCadastro.ClearClass;
+end;
 
 constructor TCadastroRHControl.Create;
 begin
@@ -39,9 +47,14 @@ begin
   Result := FCadastro.Gravar;
 end;
 
-function TCadastroRHControl.Localizar(aParam: array of variant): TFDQuery;
+function TCadastroRHControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := FCadastro.Localizar(aParam);
+end;
+
+function TCadastroRHControl.SetupClass(FDQuery: TFDquery): boolean;
+begin
+  Result := FCadastro.SetupClass(FDQuery);
 end;
 
 function TCadastroRHControl.ValidaCampos: Boolean;

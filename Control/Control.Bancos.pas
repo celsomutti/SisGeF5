@@ -16,6 +16,7 @@ type
     function Gravar(): Boolean;
     function SetupModal(FDQuery: TFDQuery): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
+    function LocalizarExt(aParam: array of variant): Boolean;
   end;
 
 implementation
@@ -46,6 +47,11 @@ end;
 function TBancosControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FBancos.Localizar(aParam);
+end;
+
+function TBancosControl.LocalizarExt(aParam: array of variant): Boolean;
+begin
+  Result := LocalizarExt(aParam);
 end;
 
 function TBancosControl.SetupModal(FDQuery: TFDQuery): Boolean;

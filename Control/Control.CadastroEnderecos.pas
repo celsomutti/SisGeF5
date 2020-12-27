@@ -12,11 +12,13 @@ type
     constructor Create;
     destructor Destroy; override;
     property Enderecos: TCadastroEnderecos read FEnderecos write FEnderecos;
-    function GetID(iID: Integer): Integer;
-    function Localizar(aParam: array of variant): TFDQuery;
+    function Localizar(aParam: array of variant): boolean;
     function Gravar(): Boolean;
     function ValidaCampos(): Boolean;
     function SaveBatch(memTable: TFDMemTable): Boolean;
+    function SetupClass(FDQuery: TFDQuery): boolean;
+    function ClearClass(): boolean;
+
   end;
 
 implementation
@@ -24,6 +26,11 @@ implementation
 { TCadastroEnderecosControl }
 
 uses Common.Utils;
+
+function TCadastroEnderecosControl.ClearClass: boolean;
+begin
+  Result := FEnderecos.ClearClass;
+end;
 
 constructor TCadastroEnderecosControl.Create;
 begin
@@ -36,11 +43,6 @@ begin
   inherited;
 end;
 
-function TCadastroEnderecosControl.GetID(iID: Integer): Integer;
-begin
-  Result := FEnderecos.GetID(FEnderecos.ID, FEnderecos.TipoCadastro);
-end;
-
 function TCadastroEnderecosControl.Gravar: Boolean;
 begin
   Result := False;
@@ -51,7 +53,7 @@ begin
   Result := FEnderecos.Gravar;
 end;
 
-function TCadastroEnderecosControl.Localizar(aParam: array of variant): TFDQuery;
+function TCadastroEnderecosControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := FEnderecos.Localizar(aParam);
 end;
@@ -59,6 +61,11 @@ end;
 function TCadastroEnderecosControl.SaveBatch(memTable: TFDMemTable): Boolean;
 begin
   Result := FEnderecos.SaveBatch(memTable);
+end;
+
+function TCadastroEnderecosControl.SetupClass(FDQuery: TFDQuery): boolean;
+begin
+  Result := Fenderecos.SetupClass(FDQuery);
 end;
 
 function TCadastroEnderecosControl.ValidaCampos: Boolean;

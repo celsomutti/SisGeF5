@@ -617,11 +617,8 @@
           ToolbarName = 'bmMainBar4'
         end
         item
-          Caption = 'Demonstrativos'
+          Caption = 'Extratos / Demonstrativos'
           ToolbarName = 'bmMainBar5'
-        end
-        item
-          ToolbarName = 'bmMainBar6'
         end>
       Index = 1
     end
@@ -911,24 +908,7 @@
         item
           Visible = True
           ItemName = 'dxBarLargeButton14'
-        end>
-      OneOnRow = False
-      Row = 0
-      UseOwnFont = False
-      Visible = True
-      WholeRow = False
-    end
-    object bmMainBar6: TdxBar
-      Tag = 2040
-      Caption = 'Verbas Expressas'
-      CaptionButtons = <>
-      DockedLeft = 1110
-      DockedTop = 0
-      FloatLeft = 844
-      FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
+        end
         item
           Visible = True
           ItemName = 'dxBarLargeButton16'
@@ -1267,7 +1247,7 @@
     object bmMainBar2: TdxBar
       Caption = 'Expressas'
       CaptionButtons = <>
-      DockedLeft = 470
+      DockedLeft = 452
       DockedTop = 0
       FloatLeft = 1080
       FloatTop = 8
@@ -1295,7 +1275,7 @@
     object bmMainBar18: TdxBar
       Caption = 'Pessoas'
       CaptionButtons = <>
-      DockedLeft = 301
+      DockedLeft = 283
       DockedTop = 0
       FloatLeft = 801
       FloatTop = 8
@@ -1319,7 +1299,7 @@
     object bmMainBar19: TdxBar
       Caption = 'Transportes'
       CaptionButtons = <>
-      DockedLeft = 744
+      DockedLeft = 726
       DockedTop = 0
       FloatLeft = 802
       FloatTop = 8
@@ -1838,7 +1818,7 @@
       LargeImageIndex = 57
     end
     object dxBarLargeButton65: TdxBarLargeButton
-      Action = actCadastroContratados
+      Action = actCadastroGeral
       Category = 0
       LargeImageIndex = 2
     end
@@ -1946,7 +1926,7 @@
     object actVerbasExpressas: TAction
       Tag = 204010
       Category = 'Expressas'
-      Caption = '&Verbas'
+      Caption = 'Tabela de &Verbas'
       Hint = 'Verbas expressas'
       OnExecute = actVerbasExpressasExecute
     end
@@ -2204,9 +2184,11 @@
       Hint = 'Cadaastro de Entregadores'
       OnExecute = actCadastroEntregadoresExecute
     end
-    object actCadastroContratados: TAction
+    object actCadastroGeral: TAction
       Category = 'Cadastro'
-      Caption = 'Contratados'
+      Caption = 'Cadastro Geral'
+      Hint = 'Cadastro Geral'
+      OnExecute = actCadastroGeralExecute
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager

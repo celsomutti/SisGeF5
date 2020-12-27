@@ -145,6 +145,7 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
           Default = True
           Kind = bkGlyph
         end>
+      Properties.IgnoreMaskBlank = True
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d'
@@ -163,6 +164,7 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
     object txtNomeEntregador: TcxTextEdit
       Left = 853
       Top = 98
+      TabStop = False
       ParentFont = False
       Properties.ReadOnly = True
       Style.Font.Charset = DEFAULT_CHARSET
@@ -349,6 +351,7 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
       Left = 837
       Top = 185
       Hint = 'Valor debitado da franquia'
+      TabStop = False
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -367,6 +370,7 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
       Left = 837
       Top = 212
       Hint = 'Data do d'#233'bito para a franquia'
+      TabStop = False
       ParentFont = False
       Properties.ReadOnly = True
       Properties.SaveTime = False
@@ -384,6 +388,7 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
     object pbPercentual: TcxProgressBar
       Left = 837
       Top = 239
+      TabStop = False
       TabOrder = 19
       Width = 203
     end

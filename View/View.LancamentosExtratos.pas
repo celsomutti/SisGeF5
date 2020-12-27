@@ -228,7 +228,7 @@ end;
 procedure Tview_LancamentosExtratos.LimpaCampos;
 begin
   iID := 0;
-  textEditDescricao.EditValue := 0;
+  textEditDescricao.EditValue := '';
   dateEditData.Clear;
   iCadastro := 0;
   buttonEditCodigoEntregador.EditValue := 0;

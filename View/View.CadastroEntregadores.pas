@@ -668,13 +668,12 @@ begin
             'tbcodigosentregadores.cod_cadastro as "Cód. Cadastro", tbentregadores.des_razao_social as "Nome Cadastro", ' +
             'tbcodigosentregadores.cod_agente as "Cód. Agente" ' +
             'from tbcodigosentregadores ' +
-            'inner join tbentregadores ' +
+            'left join tbentregadores ' +
             'on tbentregadores.cod_cadastro = tbcodigosentregadores.cod_cadastro ';
 
     sWhere := 'where tbcodigosentregadores.cod_entregador like paraN or tbcodigosentregadores.nom_fantasia like "%param%" or ' +
               'tbcodigosentregadores.des_chave like "%param%" or tbcodigosentregadores.cod_cadastro like paraN or ' +
-              'tbentregadores.des_razao_social like "%param%" or ' +
-              'tbcodigosentregadores.cod_agente like paraN;';
+              'tbcodigosentregadores.cod_agente like paraN order by tbcodigosentregadores.cod_cadastro desc;';
     View_PesquisarPessoas.sSQL := sSQL;
     View_PesquisarPessoas.sWhere := sWhere;
     View_PesquisarPessoas.bOpen := False;
@@ -887,6 +886,10 @@ var
 begin
   try
     lancamentos := TLancamentosControl.Create;
+    if iCadastro = 0 then
+    begin
+      Exit;
+    end;
     SetLength(aParam,2);
     aParam := ['CADASTRO', iCadastro];
     if memTableLancamentos.Active then
@@ -1013,8 +1016,10 @@ begin
     end;
     if buttonEditPessoa.EditValue = 0 then
     begin
-      Application.MessageBox('Informe o código da Pessoa!', 'Atenção', MB_OK + MB_ICONWARNING);
-      Exit;
+      if Application.MessageBox('Código da Pessoa não informado. Continuar?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+      begin
+        Exit;
+      end;
     end;
     if buttonEditCodigoAgente.EditValue = 0 then
     begin
@@ -1070,7 +1075,7 @@ begin
     end;
     if (buttonEditCodigoTabela.EditValue = 0) and (buttonEditCodigoFaixa.EditValue = 0) and (currencyEditTicketMedio.Value = 0) then
     begin
-      if Application.MessageBox('Nenhum tipo de verba foi informada. Deseja continuar ?','Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+      if Application.MessageBox('Nenhum tipo de verba foi informada. Continuar?','Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
       begin
         Exit;
       end;
