@@ -439,18 +439,16 @@
         <DCCReference Include="Thread\Thread.ImportarBaixasTFO.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPedidosTFO.pas"/>
         <DCCReference Include="Control\Control.PlanilhaEntradaCarriers.pas"/>
-<<<<<<< HEAD
         <DCCReference Include="Thread\Thread.ExtratoExpressas.pas"/>
         <DCCReference Include="View\View.ExtratoExpressasDetalhado.pas">
             <Form>view_ExtratoExpressasDetalhado</Form>
-=======
+        </DCCReference>
         <DCCReference Include="View\View.CadastroPadrao.pas">
             <Form>view_CadastroPadrao</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\View.CadastroGeral.pas">
             <Form>view_CadastroGeral</Form>
->>>>>>> f60b9e763f0b2e0e549b03584ad8219e01c1cbec
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="SisGeF5.todo"/>
