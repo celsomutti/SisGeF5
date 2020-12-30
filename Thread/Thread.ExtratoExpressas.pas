@@ -12,7 +12,7 @@ type
   private
     procedure StartProcess;
     procedure StopProcess;
-    procedure UpdateLOG(sText: String);
+    procedure UpdateLOG;
   protected
     procedure Execute; override;
   public
@@ -44,7 +44,7 @@ implementation
     
     or 
     
-    Synchronize( 
+    Synchronize(
       procedure 
       begin
         Form1.Caption := 'Updated in thread via an anonymous method' 
@@ -107,7 +107,6 @@ begin
       else
       begin
         Global.Parametros.psMessage := 'Não existem informações de entregas neste período!';
-        UpdateLog(Global.Parametros.psMessage);
         Global.Parametros.pbProcess := False;
       end;
       Finalize(aParam);
@@ -317,11 +316,9 @@ begin
 
       Synchronize(StopProcess);
       Global.Parametros.psMessage := 'Processo concluído. ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now);
-      Synchronize(UpdateLog(Global.Parametros.psMessage));
     Except on E: Exception do
       begin
         Global.Parametros.psMessage := '** ERROR **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
-        UpdateLog(Global.Parametros.psMessage);
         Global.Parametros.pbProcess := False;
       end;
     end;
@@ -343,13 +340,13 @@ begin
   Global.Parametros.pbProcess := False;
 end;
 
-procedure TTHead_ExtratoExpressas.UpdateLOG(sText: String);
+procedure TTHead_ExtratoExpressas.UpdateLOG();
 begin
   if Global.Parametros.psLOG <> '' then
   begin
     Global.Parametros.psLOG := Global.Parametros.psLOG + #13;
   end;
-  Global.Parametros.psLOG := Global.Parametros.psLOG + sText;
+  Global.Parametros.psLOG := Global.Parametros.psLOG + Global.Parametros.psMessage;
 end;
 
 end.

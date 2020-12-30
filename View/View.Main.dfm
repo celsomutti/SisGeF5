@@ -2188,7 +2188,6 @@
       Category = 'Cadastro'
       Caption = 'Cadastro Geral'
       Hint = 'Cadastro Geral'
-      OnExecute = actCadastroGeralExecute
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager

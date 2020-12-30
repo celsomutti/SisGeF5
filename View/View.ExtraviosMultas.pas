@@ -745,7 +745,7 @@ begin
   try
     FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
     SetLength(aParam,3);
-
+    FBases := TBasesControl.Create;
     FEntregadores := TEntregadoresExpressasControl.Create;
     aParam[0] := 'APOIO';
     aParam[1] := 'COD_ENTREGADOR as Código, NOM_FANTASIA as Nome, COD_AGENTE as Base';
@@ -773,6 +773,7 @@ begin
     end;
   finally
     FDQuery.Free;
+    FBases.Free;
     FEntregadores.Free;
     FreeAndNil(View_PesquisarPessoas);
   end;
@@ -1226,7 +1227,12 @@ begin
     SetLength(pParam,2);
     pParam[0] := 'CADASTRO';
     pParam[1] := iCadastro;
-    FDQuery := FCadastro.Localizar(pParam);
+    if FCadastro.Localizar(pParam) then
+    begin
+      FDQuery := FCadastro.Cadastro.Query;
+    end;
+    FCadastro.Cadastro.Query.Close;
+    FCadastro.Cadastro.Query.Connection.Close;
     if not FDQuery.IsEmpty then
     begin
       sEntregador := FDQuery.FieldByName('DES_RAZAO_SOCIAL').AsString;

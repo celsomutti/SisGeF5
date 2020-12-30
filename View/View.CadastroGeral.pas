@@ -248,7 +248,7 @@ implementation
 
 procedure Tview_CadastroGeral.ClearFields;
 begin
-  maskEditID.EditingValue := 0;
+  maskEditID.EditValue := 0;
   comboBoxTipoPessoa.ItemIndex := 0;
   maskEditCPCNPJ.Clear;
   textEditNome.Clear;
@@ -383,9 +383,9 @@ end;
 
 procedure Tview_CadastroGeral.SetupFields(FCadastro: TCadastroControl);
 begin
-  maskEditID.EditingValue := FCadastro.Cadastro.Cadastro;
+  maskEditID.EditValue := FCadastro.Cadastro.Cadastro;
   comboBoxTipoPessoa.Text := FCadastro.Cadastro.Doc;
-  maskEditCPCNPJ.EditingValue := FCadastro.Cadastro.CPFCNPJ;
+  maskEditCPCNPJ.EditValue := FCadastro.Cadastro.CPFCNPJ;
   textEditNome.Text := FCadastro.Cadastro.Nome;
   textEditRG.Text := FCadastro.Cadastro.IERG;
   textEditExpedidor.Text := FCadastro.Cadastro.EmissorRG;

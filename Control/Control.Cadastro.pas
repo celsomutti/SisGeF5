@@ -13,7 +13,7 @@ type
     destructor Destroy; override;
 
     function Gravar: Boolean;
-    function Localizar(aParam: array of variant): TFDQuery;
+    function Localizar(aParam: array of variant): Boolean;
     function GetId(): Integer;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
 //    function ValidaCampos(): Boolean;
@@ -56,7 +56,7 @@ begin
   Result := Fcadastro.Gravar;
 end;
 
-function TCadastroControl.Localizar(aParam: array of variant): TFDQuery;
+function TCadastroControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := Fcadastro.Localizar(aParam);
 end;

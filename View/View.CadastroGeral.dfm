@@ -946,7 +946,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         AlignVert = avTop
         CaptionOptions.Text = 'Pessoa F'#237'sica'
         ButtonOptions.Buttons = <>
-        ItemIndex = 4
         Index = 0
       end
       object layoutItemRG: TdxLayoutItem
@@ -1012,7 +1011,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 4
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 0
@@ -1024,7 +1022,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 1
@@ -1058,7 +1055,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 2
@@ -1145,7 +1141,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 3
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 4
@@ -1198,7 +1193,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         Parent = layoutControlDadosGroup_Root
         CaptionOptions.Text = 'Pessoa Jur'#237'dica'
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         Index = 1
       end
       object layoutGroupJuridica1: TdxLayoutGroup
@@ -1206,7 +1200,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 2
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 0
@@ -1641,7 +1634,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         Parent = layoutControlComplementoGroup_Root
         CaptionOptions.Text = 'Dados Banc'#225'rios'
         ButtonOptions.Buttons = <>
-        ItemIndex = 3
         Index = 2
       end
       object layoutGroupEndereco1: TdxLayoutGroup
@@ -1808,7 +1800,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 0
@@ -1840,7 +1831,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 1
@@ -1883,7 +1873,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 2
@@ -1936,7 +1925,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Visible = False
         Control = dbCheckBoxCorrespondencia
         ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 112
+        ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
         Index = 0
       end

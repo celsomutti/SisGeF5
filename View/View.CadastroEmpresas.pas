@@ -384,7 +384,7 @@ begin
     estados := TEstadosControl.Create;
     SetLength(aParam,3);
     aParam := ['APOIO', '*', ''];
-    Data_Sisgef.memTableEstados.Data := estados.Localizar(aParam);
+    Data_Sisgef.memTableEstados.Data := estados.Pesquisar(aParam);
     Finalize(aParam);
   finally
     estados.Free;

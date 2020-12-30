@@ -1194,8 +1194,8 @@ begin
     View_PesquisarPessoas.Caption := View_PesquisarPessoas.Caption + ' de Bases';
     if View_PesquisarPessoas.ShowModal = mrOk then
     begin
-      edtCodigoBase.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger;
-      //txtNomeBase.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+      edtCodigoBase.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[2].AsInteger;
+      txtNomeBase.Text := NomeBase(View_PesquisarPessoas.qryPesquisa.Fields[2].AsInteger);
     end;
   finally
     FDQuery.Free;
@@ -1232,7 +1232,7 @@ begin
       edtCodigoEntregador.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger;
       txtNomeEntregador.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
       edtCodigoBase.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[3].AsString;
-      //txtNomeBase.Text := NomeBase(edtCodigoEntregador.EditValue);
+      txtNomeBase.Text := NomeBase(edtCodigoEntregador.EditValue);
     end;
   finally
     FDQuery.Free;

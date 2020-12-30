@@ -1353,7 +1353,6 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
       LayoutDirection = ldTabbed
       ShowBorder = False
       TabbedOptions.HideTabs = True

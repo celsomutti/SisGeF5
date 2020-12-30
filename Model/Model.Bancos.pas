@@ -182,7 +182,7 @@ begin
     begin
       Exit;
     end;
-    FQuery := TFDQuery;
+    FQuery := FDQuery;
     Result := True;
   finally
     FDQuery.Connection.Close;

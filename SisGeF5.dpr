@@ -150,7 +150,6 @@ uses
   Model.Bancos in 'Model\Model.Bancos.pas',
   Control.Bancos in 'Control\Control.Bancos.pas',
   View.ConsolidacaoExpressas in 'View\View.ConsolidacaoExpressas.pas' {view_ConsolidacaoExpressas},
-  Model.CadastroGeral in 'Model\Model.CadastroGeral.pas',
   Control.CadastroGeral in 'Control\Control.CadastroGeral.pas',
   Model.CadastroGR in 'Model\Model.CadastroGR.pas',
   Control.CadastroGR in 'Control\Control.CadastroGR.pas',
@@ -176,9 +175,9 @@ uses
   Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas',
   Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas',
   Thread.ExtratoExpressas in 'Thread\Thread.ExtratoExpressas.pas',
-  View.ExtratoExpressasDetalhado in 'View\View.ExtratoExpressasDetalhado.pas' {view_ExtratoExpressasDetalhado};
-  View.CadastroPadrao in 'View\View.CadastroPadrao.pas' {view_CadastroPadrao},
-  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral};
+  View.ExtratoExpressasDetalhado in 'View\View.ExtratoExpressasDetalhado.pas' {view_ExtratoExpressasDetalhado},
+  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
+  Model.CadastroGeral in 'Model\Model.CadastroGeral.pas';
 
 {$R *.res}
 
@@ -188,8 +187,5 @@ begin
   Application.Title := 'Sistema Gerenciador de Franquias';
   Application.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
-  Application.CreateForm(Tview_ExtratoExpressasDetalhado, view_ExtratoExpressasDetalhado);
-  Application.CreateForm(Tview_CadastroPadrao, view_CadastroPadrao);
-  Application.CreateForm(Tview_CadastroGeral, view_CadastroGeral);
   Application.Run;
 end.

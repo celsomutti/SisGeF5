@@ -47,10 +47,12 @@ uses Generics.Collections, System.Classes, System.SysUtils;
       FMensagem: STring;
       FTransportadora: String;
       FPedidoID: String;
+      FIdMotorista: String;
     public
       property NRRota : String read FNRRota write FNRRota;
       property Rota : String read FRota write FRota;
       property Motorista: String read FMotorista write FMotorista;
+      property IdMotorista: String read FIdMotorista write FIdMotorista;
       property OrdemRota: String read FOrdemRota write FOrdemRota;
       property Transportadora: String read FTransportadora write FTransportadora;
       property Embarcador: String read FEmbarcador write FEmbarcador;
@@ -110,7 +112,7 @@ var
   iIndex: Integer;
 begin
   try
-    REsult := False;
+    Result := False;
     FPlanilha := TObjectList<TPlanilhaEntradaSIMExpress>.Create;
     if not FileExists(sFile) then
     begin
@@ -136,48 +138,49 @@ begin
     begin
       Readln(ArquivoCSV, sLinha);
       sDetalhe.DelimitedText := sLinha + ';';
-      if TUtils.ENumero(sDetalhe[7]) then
+      if TUtils.ENumero(sDetalhe[8]) then
       begin
         Fplanilha.Add(TPlanilhaEntradaSIMExpress.Create);
         i := FPlanilha.Count - 1;
         FPlanilha[i].NRRota := sDetalhe[0];
         FPlanilha[i].Rota :=  sDetalhe[1];
-        FPlanilha[i].Motorista := sDetalhe[2];
-        FPlanilha[i].OrdemRota := sDetalhe[3];
-        FPlanilha[i].Transportadora := sDetalhe[4];
-        FPlanilha[i].Embarcador := sDetalhe[5];
-        FPlanilha[i].Destinatario := sDetalhe[6];
-        FPlanilha[i].PedidoID := sDetalhe[7];
-        FPlanilha[i].NREntrega := sDetalhe[8];
-        FPlanilha[i].NF := sDetalhe[9];
-        FPlanilha[i].Pedido := sDetalhe[10];
-        FPlanilha[i].Tipo := sDetalhe[11];
-        FPlanilha[i].Volumes := sDetalhe[12];
-        FPlanilha[i].ACobrar := sDetalhe[13];
-        FPlanilha[i].OBSEntrega := sDetalhe[14];
-        FPlanilha[i].IDViagem := sDetalhe[15];
-        FPlanilha[i].DataEntrega := sDetalhe[16];
-        FPlanilha[i].DataOcorrencia := sDetalhe[17];
-        FPlanilha[i].Ocorrencia := sDetalhe[18];
-        FPlanilha[i].IDRemessa := sDetalhe[19];
-        FPlanilha[i].Endereco := sDetalhe[20];
-        FPlanilha[i].Bairro := sDetalhe[21];
-        FPlanilha[i].Municipio := sDetalhe[22];
-        FPlanilha[i].CEP := sDetalhe[23];
-        FPlanilha[i].SituacaoEntrega := sDetalhe[24];
-        FPlanilha[i].Peso := sDetalhe[25];
-        FPlanilha[i].Valor := sDetalhe[26];
-        FPlanilha[i].Tentativa := sDetalhe[27];
-        FPlanilha[i].Coleta := sDetalhe[28];
-        FPlanilha[i].Viagem := sDetalhe[29];
-        FPlanilha[i].TipoBaixa := sDetalhe[30];
-        FPlanilha[i].IDVolume := sDetalhe[31];
-        FPlanilha[i].Situacao := sDetalhe[32];
-        FPlanilha[i].OBS := sDetalhe[33];
-        FPlanilha[i].NomeBase := sDetalhe[34];
-        FPlanilha[i].Latitude := sDetalhe[35];
-        FPlanilha[i].Longitude := sDetalhe[36];
-        FPlanilha[i].IDPedido := sDetalhe[37];
+        FPlanilha[i].IdMotorista := sDetalhe[2];
+        FPlanilha[i].Motorista := sDetalhe[3];
+        FPlanilha[i].OrdemRota := sDetalhe[4];
+        FPlanilha[i].Transportadora := sDetalhe[5];
+        FPlanilha[i].Embarcador := sDetalhe[6];
+        FPlanilha[i].Destinatario := sDetalhe[7];
+        FPlanilha[i].PedidoID := sDetalhe[8];
+        FPlanilha[i].NREntrega := sDetalhe[9];
+        FPlanilha[i].NF := sDetalhe[10];
+        FPlanilha[i].Pedido := sDetalhe[11];
+        FPlanilha[i].Tipo := sDetalhe[12];
+        FPlanilha[i].Volumes := sDetalhe[13];
+        FPlanilha[i].ACobrar := sDetalhe[14];
+        FPlanilha[i].OBSEntrega := sDetalhe[15];
+        FPlanilha[i].IDViagem := sDetalhe[16];
+        FPlanilha[i].DataEntrega := sDetalhe[17];
+        FPlanilha[i].DataOcorrencia := sDetalhe[18];
+        FPlanilha[i].Ocorrencia := sDetalhe[19];
+        FPlanilha[i].IDRemessa := sDetalhe[20];
+        FPlanilha[i].Endereco := sDetalhe[21];
+        FPlanilha[i].Bairro := sDetalhe[22];
+        FPlanilha[i].Municipio := sDetalhe[23];
+        FPlanilha[i].CEP := sDetalhe[24];
+        FPlanilha[i].SituacaoEntrega := sDetalhe[25];
+        FPlanilha[i].Peso := sDetalhe[26];
+        FPlanilha[i].Valor := sDetalhe[27];
+        FPlanilha[i].Tentativa := sDetalhe[28];
+        FPlanilha[i].Coleta := sDetalhe[29];
+        FPlanilha[i].Viagem := sDetalhe[30];
+        FPlanilha[i].TipoBaixa := sDetalhe[31];
+        FPlanilha[i].IDVolume := sDetalhe[32];
+        FPlanilha[i].Situacao := sDetalhe[33];
+        FPlanilha[i].OBS := sDetalhe[34];
+        FPlanilha[i].NomeBase := sDetalhe[35];
+        FPlanilha[i].Latitude := sDetalhe[36];
+        FPlanilha[i].Longitude := sDetalhe[37];
+        FPlanilha[i].IDPedido := sDetalhe[38];
       end;
     end;
     if FPlanilha.Count = 0 then

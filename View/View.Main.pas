@@ -213,7 +213,6 @@ type
     procedure actCadastroEmpresasExecute(Sender: TObject);
     procedure actCadastroEntregadoresExecute(Sender: TObject);
     procedure actDebitoCreditoExecute(Sender: TObject);
-    procedure actCadastroGeralExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;

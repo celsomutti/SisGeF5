@@ -310,7 +310,7 @@ var
   FEntregador: TEntregadoresExpressasControl;
   FVerbas: TVerbasExpressasControl;
   iTabela, iFaixa: Integer;
-  dVerba: Double;
+  dVerba, dVerbaEntregador: Double;
   FParam: array of variant;
   FTipoVerba: array of string;
 begin
@@ -319,6 +319,7 @@ begin
     iTabela := 0;
     iFaixa := 0;
     dVerba := 0;
+    dVerbaEntregador := 0;
     SetLength(FTipoVerba,8);
     //cria um array com as formas de pesquisa da classe
     FTipoVerba := ['NONE','FIXA','FIXACEP','FIXAPESO','SLA','CEPPESO','ROTEIROFIXA','ROTEIROPESO'];
@@ -357,6 +358,7 @@ begin
       end;
     end;
     // pesquisa a tabela de entregadores e apanha os dados referente à verba
+
     FEntregador := TEntregadoresExpressasControl.Create;
     SetLength(FParam,2);
     FParam := ['ENTREGADOR', aParam[1]];
@@ -364,13 +366,13 @@ begin
     begin
       iTabela := FEntregador.Entregadores.Tabela;
       iFaixa := FEntregador.Entregadores.Grupo;
-      dVerba := FEntregador.Entregadores.Verba;
+      dVerbaEntregador := FEntregador.Entregadores.Verba;
     end;
     Finalize(FParam);
     FEntregador.Free;
     // verifica se o entregador possui uma verba fixa, se estiver zerada, verifica com as informações
     // de tabela e faixa.
-    if dVerba = 0 then
+    if dVerbaEntregador = 0 then
     begin
       if iTabela <> 0 then
       begin
@@ -385,10 +387,14 @@ begin
         FVerbas.Verbas.PesoInicial := aParam[3];
         FVerbas.Verbas.Roteiro := aParam[5];
         FVerbas.Verbas.Performance := aParam[6];
-        dVerba := FVerbas.RetornaVerba();
+        dVerbaEntregador := FVerbas.RetornaVerba();
         FVerbas.Free;
         end;
       end;
+    end;
+    if dVerbaEntregador > 0 then
+    begin
+      dVerba := dVerbaEntregador;
     end;
     Result := dVerba;
   finally

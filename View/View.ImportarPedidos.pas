@@ -287,7 +287,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
-    memLog.Lines.Text := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importação do arquivo cancelada!' + edtArquivo.Text + '!';
+    memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importação do arquivo cancelada!' + edtArquivo.Text + '!');
     Application.MessageBox('Importação cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;
