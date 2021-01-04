@@ -17,6 +17,7 @@ type
     function GetId(): Integer;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
 //    function ValidaCampos(): Boolean;
+    function SetupModel(FDCadastro: TFDQuery): Boolean;
 
     property Cadastro: TCadastro read FCadastro write FCadastro;
 
@@ -59,6 +60,11 @@ end;
 function TCadastroControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := Fcadastro.Localizar(aParam);
+end;
+
+function TCadastroControl.SetupModel(FDCadastro: TFDQuery): Boolean;
+begin
+  Result := FCadastro.SetupModel(FDCadastro);
 end;
 
 end.

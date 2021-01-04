@@ -18,6 +18,7 @@ type
     function SaveBatch(memTable: TFDMemTable): Boolean;
     function SetupClass(FDQuery: TFDQuery): boolean;
     function ClearClass(): boolean;
+    function GetID(iID: Integer): Integer;
 
   end;
 
@@ -41,6 +42,11 @@ destructor TCadastroEnderecosControl.Destroy;
 begin
   FEnderecos.Free;
   inherited;
+end;
+
+function TCadastroEnderecosControl.GetID(iID: Integer): Integer;
+begin
+  Result := FEnderecos.GetID(iID);
 end;
 
 function TCadastroEnderecosControl.Gravar: Boolean;

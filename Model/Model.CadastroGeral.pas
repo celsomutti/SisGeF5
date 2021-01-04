@@ -46,6 +46,7 @@ type
     FIEST: String;
     FInscricaoMunicipal: String;
     FQuery: TFDQuery;
+    FNomeTabela: String;
 
     function Inserir(): Boolean;
     function Alterar(): Boolean;
@@ -90,6 +91,7 @@ type
     property InscricaoMunicipal: String read FInscricaoMunicipal write FInscricaoMunicipal;
     property IEST: String read FIEST write FIEST;
     property Query: TFDQuery read FQuery write FQuery;
+    property NomeTabela: String read FNomeTabela write FNomeTabela;
     property Acao: TAcao read FAcao write FAcao;
 
     function GetID(): Integer;
@@ -202,6 +204,7 @@ end;
 constructor TCadastroGeral.Create;
 begin
   Fconexao := TConexao.Create;
+  FNomeTabela := TABLENAME;
 end;
 
 function TCadastroGeral.Excluir: Boolean;

@@ -76,6 +76,7 @@ uses
       FNumeroConsultaGR: String;
       FEmpresaGR: String;
       FQuery: TFDQuery;
+      FNomeTabela: String;
 
     public
 
@@ -144,6 +145,7 @@ uses
       property NumeroConsultaGR: String             read FNumeroConsultaGR            write FNumeroConsultaGR;
       property Acao: TAcao                          read FAcao                        write FAcao;
       property Query: TFDQuery                      read FQuery                       write FQuery;
+      property NomeTabela: String                   read FNomeTabela                  write FNomeTabela;
 
       constructor Create;
       function Localizar(aParam: array of variant): Boolean;
@@ -213,6 +215,7 @@ end;
 constructor TCadastro.Create;
 begin
   FConexao := TSistemaControl.GetInstance().Conexao;
+  FNomeTabela := TABLENAME;
 end;
 
 function TCadastro.Excluir: Boolean;

@@ -38,7 +38,7 @@ uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao;
       function ClearClass(): Boolean;
     end;
 const
-  TABLENAME = 'cadastro_contatos';
+  TABLENAME = 'tbcontatosentregadores';
 
 implementation
 
@@ -71,13 +71,13 @@ begin
     if Self.Sequencia = -1 then
     begin
       sSQL := 'delete drom ' + TABLENAME + ' ' +
-              'where id_cadastro = :pid_cadastro;';
+              'where cod_cadastro = :pcod_cadastro;';
       FDQuery.ExecSQL(sSQL,[Self.ID]);
     end
     else
     begin
       sSQL := 'delete from ' + TABLENAME + ' ' +
-              'where id_cadastro = :pid_cadastro and seq_contato = :seq_contato;';
+              'where cod_cadastro = :pcod_cadastro and seq_contato = :seq_contato;';
       FDQuery.ExecSQL(sSQL,[Self.ID, Self.Sequencia]);
     end;
     Result := True;
@@ -93,7 +93,7 @@ var
 begin
   try
     FDQuery := FConexao.ReturnQuery();
-    FDQuery.Open('select coalesce(max(seq_contato),0) + 1 from ' + TABLENAME + ' where id_cadastro = ' + iID.toString);
+    FDQuery.Open('select coalesce(max(seq_contato),0) + 1 from ' + TABLENAME + ' where cod_entregador = ' + iID.toString);
     Result := FDQuery.Fields[0].AsInteger;
   finally
     FDQuery.Connection.Close;
@@ -120,9 +120,9 @@ begin
     FDQuery := FConexao.ReturnQuery;
     Self.Sequencia := GetID(Self.ID);
     sSQL := 'insert into ' + TABLENAME + '(' +
-            'id_cadastro, seq_contato, des_contato, des_telefone, des_email) ' +
+            'cod_entregador, seq_contato, des_contato, num_telefone, des_email) ' +
             'values (' +
-            ':id_cadastro, :seq_contato, :des_contato, :des_telefone, :des_email);';
+            ':cod_entregador, :seq_contato, :des_contato, :num_telefone, :des_email);';
     FDQuery.ExecSQL(sSQL,[Self.ID, Self.Sequencia, Self.Descricao, Self.Telefone, Self.EMail]);
     Result := True;
   finally
@@ -144,12 +144,12 @@ begin
     FDQuery.SQL.Add('select * from ' + TABLENAME);
     if aParam[0] = 'ID' then
     begin
-      FDQuery.SQL.Add('whew id_cadastro = :id_cadastro');
-      FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
+      FDQuery.SQL.Add('whew cod_entregador = :cod_entregador');
+      FDQuery.ParamByName('cod_entregador').AsInteger := aParam[1];
     end;
     if aParam[0] = 'SEQUENCIA' then
     begin
-      FDQuery.SQL.Add('where id_cadastro = :id_cadastro and seq_contato = :seq_contato');
+      FDQuery.SQL.Add('where cod_entregador = :cod_entregador and seq_contato = :seq_contato');
       FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
       FDQuery.ParamByName('seq_contato').AsInteger := aParam[2];
     end;
@@ -200,6 +200,7 @@ begin
   memTable.First;
   while not memTable.Eof do
   begin
+    Self.ID := memTable.FieldByName('cod_entregador').AsInteger;
     Self.Sequencia := GetID(Self.ID);
     Self.Descricao := memTable.FieldByName('des_contato').AsString;
     Self.Telefone := memTable.FieldByName('num_telefone').AsString;
@@ -217,7 +218,7 @@ end;
 function TCadastroContatos.SetupClass(FDQuery: TFDQuery): Boolean;
 begin
   Result := False;
-  FID := FDQuery.FieldByName('id_cadastro').AsInteger;
+  FID := FDQuery.FieldByName('cod_cadastro').AsInteger;
   FSequencia := FDQuery.FieldByName('seq_contato').AsInteger;
   FDescricao := FDQuery.FieldByName('des_contato').AsString;
   FTelefone := FDQuery.FieldByName('des_telefone').AsString;
@@ -235,7 +236,7 @@ begin
     FDQuery := FConexao.ReturnQuery;
     sSQL := 'update ' + TABLENAME + ' set ' +
             'des_contato = :pdes_contato,num_telefone = :pnum_telefone, des_email = :pdes_email ' +
-            'where id_cadastro = :pid_cadastro and seq_contato = :pseq_contato;';
+            'where cod_cadastro = :pcod_cadastro and seq_contato = :pseq_contato;';
     FDQuery.ExecSQL(sSQL,[Self.Descricao, Self.Telefone, Self.EMail, Self.ID,Self.Sequencia]);
     Result := True;
   finally

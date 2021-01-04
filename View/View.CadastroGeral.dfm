@@ -562,7 +562,9 @@ object view_CadastroGeral: Tview_CadastroGeral
     0000FFFF0000}
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
+  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -860,7 +862,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.HotTrack = False
         TabOrder = 17
         Visible = False
-        Width = 227
+        Width = 221
       end
       object textEditIE: TcxTextEdit
         Left = 10000
@@ -1925,7 +1927,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Visible = False
         Control = dbCheckBoxCorrespondencia
         ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 121
+        ControlOptions.OriginalWidth = 112
         ControlOptions.ShowBorder = False
         Index = 0
       end
@@ -2380,20 +2382,24 @@ object view_CadastroGeral: Tview_CadastroGeral
       Caption = 'Incluir'
       Hint = 'Incluir novo cadastro'
       ShortCut = 113
+      OnExecute = actionIncluirExecute
     end
     object actionLocalizar: TAction
       Caption = 'Localizar'
       Hint = 'Localizar cadastro'
       ShortCut = 119
+      OnExecute = actionLocalizarExecute
     end
     object actionEditar: TAction
       Caption = 'Editar'
       Hint = 'Editar dados do cadastro'
       ShortCut = 114
+      OnExecute = actionEditarExecute
     end
     object actionCancelar: TAction
       Caption = 'Cancelar'
       Hint = 'Cancelar opera'#231#227'o'
+      OnExecute = actionCancelarExecute
     end
     object actionGravar: TAction
       Caption = 'Gravar'

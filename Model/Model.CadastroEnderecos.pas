@@ -19,6 +19,9 @@ uses Common.ENum, FireDAC.Comp.Client, Dialogs, Control.Sistema, DAO.Conexao, Sy
       FAcao: TAcao;
       Fconexao : TConexao;
       FQuery: TFDQuery;
+      FSequencia: Integer;
+      FCorrespondencia: Integer;
+      FReferencia: String;
 
       function Insert(): Boolean;
       function Update(): Boolean;
@@ -26,6 +29,7 @@ uses Common.ENum, FireDAC.Comp.Client, Dialogs, Control.Sistema, DAO.Conexao, Sy
 
     public
       property ID: Integer read FID write FID;
+      property Sequencia: Integer read FSequencia write FSequencia;
       property Tipo: String read FTipo write FTipo;
       property CEP: String read FCEP write FCEP;
       property Logradouro: String read FLogradouro write FLogradouro;
@@ -34,6 +38,8 @@ uses Common.ENum, FireDAC.Comp.Client, Dialogs, Control.Sistema, DAO.Conexao, Sy
       property Bairro: String read FBairro write FBairro;
       property Cidade: String read FCidade write FCidade;
       property UF: String read FUF write FUF;
+      property Correspondencia: Integer read FCorrespondencia write FCorrespondencia;
+      property Referencia: String read FReferencia write FReferencia;
       property Query: TFDQuery read FQuery write FQuery;
       property Acao: TAcao read FAcao write FAcao;
 
@@ -43,14 +49,15 @@ uses Common.ENum, FireDAC.Comp.Client, Dialogs, Control.Sistema, DAO.Conexao, Sy
       function SaveBatch(memTable: TFDMemTable): Boolean;
       function SetupClass(FDQuery: TFDQuery): boolean;
       function ClearClass(): boolean;
+      function GetID(iID: Integer): Integer;
     end;
 const
-  TABLENAME = 'cadastro_enderecos';
+  TABLENAME = 'tbenderecosentregadores';
 
 implementation
 
 
-{ TEnderecosEmpresa }
+{ TCadastroEnderecos }
 
 uses Common.Utils;
 
@@ -66,6 +73,10 @@ begin
   FBairro := '';
   FCidade := '';
   FUF := '';
+  FSequencia := 0;
+  FCorrespondencia := 0;
+  FReferencia := '';
+  Result := True;
 end;
 
 constructor TCadastroEnderecos.Create;
@@ -83,8 +94,7 @@ begin
     sSQL := '';
     FDQuery := FConexao.ReturnQuery();
     sSQL := 'delete from ' + TABLENAME + ' ' +
-            'where id_cadastro = :pIid_cadastro and ' +
-            'des_tipo_endereco = :pdes_tipo_endereco;';
+            'where cod_entregador = :pcod_entregador;';
     FDQuery.ExecSQL(sSQL,[Self.ID, Self.FTipo]);
     Result := True;
   finally
@@ -93,6 +103,19 @@ begin
   end;
 end;
 
+function TCadastroEnderecos.GetID(iID: Integer): Integer;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    FDQuery := FConexao.ReturnQuery();
+    FDQuery.Open('select coalesce(max(seq_endereco),0) + 1 from ' + TABLENAME + ' where cod_entregador = ' + iID.toString);
+    Result := FDQuery.Fields[0].AsInteger;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
+end;
 
 function TCadastroEnderecos.Gravar: Boolean;
 begin
@@ -111,17 +134,15 @@ begin
   try
     Result := False;
     FDQuery := FConexao.ReturnQuery;
+    Self.Sequencia := GetID(Self.ID);
     sSQL := 'insert into ' + TABLENAME + ' (' +
-    'id_cadastro, des_tipo_endereco, ' +
-    'num_cep, des_logradouro, num_endereco, des_complemento, nom_bairro, '+
-    'nom_cidade, uf_endereco) ' +
+    'cod_entregador, seq_endereco, des_tipo, des_logradouro, num_logradouro, des_complemento, ' +
+    'dom_correspondencia, des_bairro, nom_cidade, uf_estado, num_cep, des_referencia) ' +
     'values (' +
-    ':pid_cadastro, :pseq_endereco, :pdes_tipo_endereco, ' +
-    ':pnum_cep, :pdes_logradouro, :pnum_endereco, :pes_complemento, ' +
-    ':pnom_bairro, nom_cidade, uf_endereco);';
-    FDQuery.ExecSQL(sSQL,[Self.ID, Self.Tipo, Self.CEP,
-                    Self.Logradouro, Self.Numero, Self.Complemento,
-                    Self.Bairro, Self.Cidade, Self.UF]);
+    ':cod_entregador, :seq_endereco, :des_tipo, :des_logradouro, :num_logradouro, :des_complemento, ' +
+    ':dom_correspondencia, :des_bairro, :nom_cidade, :uf_estado, :num_cep, :des_referencia);';
+    FDQuery.ExecSQL(sSQL,[Self.ID, Self.Sequencia, Self.Tipo, Self.Logradouro, Self.Numero, Self.Complemento,
+                    Self.Correspondencia,  Self.Bairro, Self.Cidade, Self.UF, Self.CEP, Self.Referencia]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -138,23 +159,18 @@ begin
     if Length(aParam) < 2 then Exit;
     FDQuery.SQL.Clear;
 
-    FDQuery.SQL.Add('select id_cadastro, cod_tipo_cadastro, des_tipo_endereco, ' +
-                    'num_cep, des_logradouro, num_logradouro, des_complemento, ' +
-                    'nom_bairro, nom_cidade, uf_estado from ' + TABLENAME);
+    FDQuery.SQL.Add('select cod_entregador, seq_endereco, des_tipo, des_logradouro, num_logradouro, des_complemento, ' +
+                    'dom_correspondencia, des_bairro, nom_cidade, uf_estado, num_cep, des_referencia from ' + TABLENAME);
     if aParam[0] = 'ID' then
     begin
-      FDQuery.SQL.Add('where id_cadastro = :id_cadastro and ' +
-                      'cod_tipo_cadastro = :cod_tipo_cadastro');
-      FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-      FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := aParam[2];
+      FDQuery.SQL.Add('where cod_cadastro = :cod_cadastro);');
+      FDQuery.ParamByName('cod_cadastro').AsInteger := aParam[1];
     end;
     if aParam[0] = 'TIPO' then
     begin
-      FDQuery.SQL.Add('where id_cadastro = :id_cadastro and  cod_tipo_cadastro = :cod_tipo_cadastro and ' +
-                      'des_tipo_endereco = :des_tipo_endereco');
-      FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-      FDQuery.ParamByName('cod_tipo_cadastro').AsInteger := aParam[2];
-      FDQuery.ParamByName('des_tipo_endereco').AsString := aParam[3];
+      FDQuery.SQL.Add('where cod_cadastro = :cod_cadastro and  des_tipo = :des_tipo');
+      FDQuery.ParamByName('cod_cadastro').AsInteger := aParam[1];
+      FDQuery.ParamByName('des_tipo').AsString := aParam[2];
     end;
     if aParam[0] = 'CEP' then
     begin
@@ -198,14 +214,18 @@ function TCadastroEnderecos.SaveBatch(memTable: TFDMemTable): Boolean;
   memTable.First;
   while not memTable.Eof do
   begin
-    Self.Tipo := memTable.FieldByName('des_tipo_endereco').AsString;
-    Self.CEP := memTable.FieldByName('num_cep.AsString').AsString;
+    Self.ID := memTable.FieldByName('cod_entregador').AsInteger;
+    Self.Sequencia := GetID(memTable.FieldByName('cod_entregador').AsInteger);
+    Self.Tipo := memTable.FieldByName('des_tipo').AsString;
     Self.Logradouro := memTable.FieldByName('des_logradouro').AsString;
     Self.Numero := memTable.FieldByName('num_logradouro').AsString;
     Self.Complemento := memTable.FieldByName('des_complemento').AsString;
+    Self.Correspondencia := memTable.FieldByName('dom_correspondencia').AsInteger;
     Self.Bairro := memTable.FieldByName('nom_bairro').AsString;
     Self.Cidade := memTable.FieldByName('nom_cidade').AsString;
     Self.UF := memTable.FieldByName('uf_estado').AsString;
+    Self.CEP := memTable.FieldByName('num_cep').AsString;
+    Self.Referencia := memTable.FieldByName('res_referencia').AsString;
     Self.Acao := tacIncluir;
     if not Self.Gravar then
     begin
@@ -219,14 +239,18 @@ end;
 function TCadastroEnderecos.SetupClass(FDQuery: TFDQuery): boolean;
 begin
   Result := False;
-  Self.Tipo := FDQuery.FieldByName('des_tipo_endereco').AsString;
-  Self.CEP := FDQuery.FieldByName('num_cep.AsString').AsString;
+  Self.ID := FDQuery.FieldByName('cod_entregador').AsInteger;
+  Self.Sequencia := FDQuery.FieldByName('seq_endereco').AsInteger;
+  Self.Tipo := FDQuery.FieldByName('des_tipo').AsString;
   Self.Logradouro := FDQuery.FieldByName('des_logradouro').AsString;
   Self.Numero := FDQuery.FieldByName('num_logradouro').AsString;
   Self.Complemento := FDQuery.FieldByName('des_complemento').AsString;
+  Self.Correspondencia := FDQuery.FieldByName('dom_correspondencia').AsInteger;
   Self.Bairro := FDQuery.FieldByName('nom_bairro').AsString;
   Self.Cidade := FDQuery.FieldByName('nom_cidade').AsString;
   Self.UF := FDQuery.FieldByName('uf_estado').AsString;
+  Self.CEP := FDQuery.FieldByName('num_cep').AsString;
+  Self.Referencia := FDQuery.FieldByName('res_referencia').AsString;
   Result := True;
 end;
 
@@ -239,11 +263,12 @@ begin
     Result := False;
     FDQuery := FConexao.ReturnQuery;
     sSQL := 'update '  + TABLENAME + ' set ' +
-    'num_cep = :pnum_cep, des_logradouro := :pdes_logradouro, num_logradouro = :pnum_logradouro, ' +
-    'des_complemento = :pdes_complemento, nom_bairro = :pnom_bairro, nom_cidade = :pnom_cidade, uf_estado = :puf_estado ' +
-    'where id_cadastro = :pid_cadastro and des_tipo_endereco = :pdes_tipo_endereco;';
-    FDQuery.ExecSQL(sSQL,[Self.CEP, Self.Logradouro, Self.Numero, Self.Complemento, Self.Bairro, Self.Cidade, Self.UF, Self.ID,
-                          Self.Tipo]);
+    'des_tipo = :des_tipo, des_logradouro = :des_logradouro, num_logradouro = :num_logradouro, des_complemento = :des_complemento, ' +
+    'dom_correspondencia = :dom_correspondencia, des_bairro = :des_bairro, nom_cidade = :nom_cidade, uf_estado = :uf_estado, ' +
+    'num_cep = :num_cep, des_referencia = :des_referencia ' +
+    'where cod_entregador = :cod_entregador and seq_endereco := seq_endereco';
+    FDQuery.ExecSQL(sSQL,[Self.Tipo, Self.Logradouro, Self.Numero, Self.Complemento, Self.Correspondencia, Self.Bairro,
+                          Self.Cidade, Self.UF, Self.CEP, Self.Referencia, Self.ID, Self.Sequencia]);
     Result := True;
   finally
     FDQuery.Connection.Close;

@@ -11,7 +11,8 @@ uses
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxNavigator, cxDBNavigator,
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
   cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, System.Actions,
-  Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Cadastro, Control.Estados;
+  Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Cadastro, Control.Estados,
+  Control.CadastroEnderecos, Control.CadastroContatos;
 
 type
   Tview_CadastroGeral = class(TForm)
@@ -229,22 +230,62 @@ type
     layoutItemCorrespondencia: TdxLayoutItem;
     procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure actionIncluirExecute(Sender: TObject);
+    procedure actionLocalizarExecute(Sender: TObject);
+    procedure actionEditarExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionCancelarExecute(Sender: TObject);
   private
     { Private declarations }
     procedure ClearFields;
     procedure SetupFields(FCadastro: TCadastroControl);
     procedure PopulaBancos;
     procedure PopulaEstados;
+    procedure PesquisaCadastro;
+    procedure PopulaEnderecos(iCadastro: Integer);
+    procedure PopulaContatos(iCadastro: Integer);
+    procedure Modo;
   public
     { Public declarations }
   end;
 
 var
   view_CadastroGeral: Tview_CadastroGeral;
+  FAcao : TAcao;
 
 implementation
 
 {$R *.dfm}
+
+uses View.PesquisarPessoas;
+
+procedure Tview_CadastroGeral.actionCancelarExecute(Sender: TObject);
+begin
+  if FAcao <> tacIndefinido then
+  begin
+    FAcao := tacIndefinido;
+    Modo;
+  end;
+end;
+
+procedure Tview_CadastroGeral.actionEditarExecute(Sender: TObject);
+begin
+  Facao := tacAlterar;
+  Modo;
+  comboBoxTipoPessoa.SetFocus;
+end;
+
+procedure Tview_CadastroGeral.actionIncluirExecute(Sender: TObject);
+begin
+  FAcao := tacIncluir;
+  Modo;
+  comboBoxTipoPessoa.SetFocus;
+end;
+
+procedure Tview_CadastroGeral.actionLocalizarExecute(Sender: TObject);
+begin
+  PesquisaCadastro;
+end;
 
 procedure Tview_CadastroGeral.ClearFields;
 begin
@@ -324,10 +365,325 @@ begin
 
 end;
 
+procedure Tview_CadastroGeral.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if memTableEnderecos.Active then memTableEnderecos.Close;
+  if memTableContatos.Active then memTableContatos.Close;
+  Action := caFree;
+  view_CadastroGeral := nil;
+end;
+
 procedure Tview_CadastroGeral.FormShow(Sender: TObject);
 begin
   PopulaBancos;
   PopulaEstados;
+  FAcao := tacIndefinido;
+  Modo;
+end;
+
+procedure Tview_CadastroGeral.Modo;
+begin
+
+  if FAcao = tacIndefinido then
+  begin
+    ClearFields;
+    actionIncluir.Enabled := True;
+    actionEditar.Enabled := False;
+    actionLocalizar.Enabled := True;
+    actionCancelar.Enabled := False;
+    actionGravar.Enabled := False;
+    actionDocumentosVencidos.Enabled := True;
+    actionVencimentoGR.Enabled := True;
+    actionFichaDIRECT.Enabled := False;
+    actionSolicitarGR.Enabled := False;
+    actionContrato.Enabled := False;
+    maskEditID.Properties.ReadOnly := True;
+    comboBoxTipoPessoa.Properties.ReadOnly := True;
+    maskEditCPCNPJ.Properties.ReadOnly := True;
+    textEditNome.Properties.ReadOnly := True;
+    textEditRG.Properties.ReadOnly := True;
+    textEditExpedidor.Properties.ReadOnly := True;
+    dateEditDataRG.Properties.ReadOnly := True;
+    dateEditNascimento.Properties.ReadOnly := True;
+    textEditNomePai.Properties.ReadOnly := True;
+    textEditNomeMae.Properties.ReadOnly := True;
+    textEditNaturalidade.Properties.ReadOnly := True;
+    lookupComboBoxNaturalidade.Properties.ReadOnly := True;
+    textEditSegurancaCNH.Properties.ReadOnly := True;
+    textEditNumeroCNH.Properties.ReadOnly := True;
+    textEditRegistroCNH.Properties.ReadOnly := True;
+    textEditCategoriaCNH.Properties.ReadOnly := True;
+    dateEditEmissaoCNH.Properties.ReadOnly := True;
+    dateEditValidadeCNH.Properties.ReadOnly := True;
+    dateEditPrimeiraCNH.Properties.ReadOnly := True;
+    lookupComboBoxUFCNH.Properties.ReadOnly := True;
+    textEditNomeFantasia.Properties.ReadOnly := True;
+    textEditIE.Properties.ReadOnly := True;
+    textEditIEST.Properties.ReadOnly := True;
+    textEditIM.Properties.ReadOnly := True;
+    textEditCNAE.Properties.ReadOnly := True;
+    comboBoxCRT.Properties.ReadOnly := True;
+    comboBoxFormaPagamento.Properties.ReadOnly := True;
+    comboBoxTipoConta.Properties.ReadOnly := True;
+    lookupComboBoxBanco.Properties.ReadOnly := True;
+    textEditAgencia.Properties.ReadOnly := True;
+    textEditConta.Properties.ReadOnly := True;
+    textEditFavorecido.Properties.ReadOnly := True;
+    maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
+    textEditChavePIX.Properties.ReadOnly := True;
+    checkBoxStatusGR.Properties.ReadOnly := True;
+    textEditEmpresaGR.Properties.ReadOnly := True;
+    dateEditValidadeGR.Properties.ReadOnly := True;
+    textEditNumeroConsultaGR.Properties.ReadOnly := True;
+    textEditCodigoIMEI.Properties.ReadOnly := True;
+    maskEditCNPJIMEI.Properties.ReadOnly := True;
+    textEditNomeMEI.Properties.ReadOnly := True;
+    textEditNomeFantasiaMEI.Properties.ReadOnly := True;
+    memoObservacoes.Properties.ReadOnly := True;
+    dsEnderecos.AutoEdit := False;
+    dsContatos.AutoEdit := False;
+  end
+  else if FAcao = tacIncluir then
+  begin
+    ClearFields;
+    actionIncluir.Enabled := False;
+    actionEditar.Enabled := False;
+    actionLocalizar.Enabled := False;
+    actionCancelar.Enabled := True;
+    actionGravar.Enabled := True;
+    actionDocumentosVencidos.Enabled := False;
+    actionVencimentoGR.Enabled := False;
+    actionFichaDIRECT.Enabled := False;
+    actionSolicitarGR.Enabled := False;
+    actionContrato.Enabled := False;
+    maskEditID.Properties.ReadOnly := True;
+    comboBoxTipoPessoa.Properties.ReadOnly := False;
+    maskEditCPCNPJ.Properties.ReadOnly := False;
+    textEditNome.Properties.ReadOnly := False;
+    textEditRG.Properties.ReadOnly := False;
+    textEditExpedidor.Properties.ReadOnly := False;
+    dateEditDataRG.Properties.ReadOnly := False;
+    dateEditNascimento.Properties.ReadOnly := False;
+    textEditNomePai.Properties.ReadOnly := False;
+    textEditNomeMae.Properties.ReadOnly := False;
+    textEditNaturalidade.Properties.ReadOnly := False;
+    lookupComboBoxNaturalidade.Properties.ReadOnly := False;
+    textEditSegurancaCNH.Properties.ReadOnly := False;
+    textEditNumeroCNH.Properties.ReadOnly := False;
+    textEditRegistroCNH.Properties.ReadOnly := False;
+    textEditCategoriaCNH.Properties.ReadOnly := False;
+    dateEditEmissaoCNH.Properties.ReadOnly := False;
+    dateEditValidadeCNH.Properties.ReadOnly := False;
+    dateEditPrimeiraCNH.Properties.ReadOnly := False;
+    lookupComboBoxUFCNH.Properties.ReadOnly := False;
+    textEditNomeFantasia.Properties.ReadOnly := False;
+    textEditIE.Properties.ReadOnly := False;
+    textEditIEST.Properties.ReadOnly := False;
+    textEditIM.Properties.ReadOnly := False;
+    textEditCNAE.Properties.ReadOnly := False;
+    comboBoxCRT.Properties.ReadOnly := False;
+    comboBoxFormaPagamento.Properties.ReadOnly := False;
+    comboBoxTipoConta.Properties.ReadOnly := False;
+    lookupComboBoxBanco.Properties.ReadOnly := False;
+    textEditAgencia.Properties.ReadOnly := False;
+    textEditConta.Properties.ReadOnly := False;
+    textEditFavorecido.Properties.ReadOnly := False;
+    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
+    textEditChavePIX.Properties.ReadOnly := False;
+    checkBoxStatusGR.Properties.ReadOnly := False;
+    textEditEmpresaGR.Properties.ReadOnly := False;
+    dateEditValidadeGR.Properties.ReadOnly := False;
+    textEditNumeroConsultaGR.Properties.ReadOnly := False;
+    textEditCodigoIMEI.Properties.ReadOnly := False;
+    maskEditCNPJIMEI.Properties.ReadOnly := False;
+    textEditNomeMEI.Properties.ReadOnly := False;
+    textEditNomeFantasiaMEI.Properties.ReadOnly := False;
+    memoObservacoes.Properties.ReadOnly := False;
+    dsEnderecos.AutoEdit := True;
+    dsContatos.AutoEdit := True;
+  end
+  else if FAcao = tacAlterar then
+  begin
+    actionIncluir.Enabled := False;
+    actionEditar.Enabled := False;
+    actionLocalizar.Enabled := False;
+    actionCancelar.Enabled := True;
+    actionGravar.Enabled := True;
+    actionDocumentosVencidos.Enabled := False;
+    actionVencimentoGR.Enabled := False;
+    actionFichaDIRECT.Enabled := False;
+    actionSolicitarGR.Enabled := False;
+    actionContrato.Enabled := False;
+    maskEditID.Properties.ReadOnly := True;
+    comboBoxTipoPessoa.Properties.ReadOnly := True;
+    maskEditCPCNPJ.Properties.ReadOnly := True;
+    textEditNome.Properties.ReadOnly := False;
+    textEditRG.Properties.ReadOnly := False;
+    textEditExpedidor.Properties.ReadOnly := False;
+    dateEditDataRG.Properties.ReadOnly := False;
+    dateEditNascimento.Properties.ReadOnly := False;
+    textEditNomePai.Properties.ReadOnly := False;
+    textEditNomeMae.Properties.ReadOnly := False;
+    textEditNaturalidade.Properties.ReadOnly := False;
+    lookupComboBoxNaturalidade.Properties.ReadOnly := False;
+    textEditSegurancaCNH.Properties.ReadOnly := False;
+    textEditNumeroCNH.Properties.ReadOnly := False;
+    textEditRegistroCNH.Properties.ReadOnly := False;
+    textEditCategoriaCNH.Properties.ReadOnly := False;
+    dateEditEmissaoCNH.Properties.ReadOnly := False;
+    dateEditValidadeCNH.Properties.ReadOnly := False;
+    dateEditPrimeiraCNH.Properties.ReadOnly := False;
+    lookupComboBoxUFCNH.Properties.ReadOnly := False;
+    textEditNomeFantasia.Properties.ReadOnly := False;
+    textEditIE.Properties.ReadOnly := False;
+    textEditIEST.Properties.ReadOnly := False;
+    textEditIM.Properties.ReadOnly := False;
+    textEditCNAE.Properties.ReadOnly := False;
+    comboBoxCRT.Properties.ReadOnly := False;
+    comboBoxFormaPagamento.Properties.ReadOnly := False;
+    comboBoxTipoConta.Properties.ReadOnly := False;
+    lookupComboBoxBanco.Properties.ReadOnly := False;
+    textEditAgencia.Properties.ReadOnly := False;
+    textEditConta.Properties.ReadOnly := False;
+    textEditFavorecido.Properties.ReadOnly := False;
+    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
+    textEditChavePIX.Properties.ReadOnly := False;
+    checkBoxStatusGR.Properties.ReadOnly := False;
+    textEditEmpresaGR.Properties.ReadOnly := False;
+    dateEditValidadeGR.Properties.ReadOnly := False;
+    textEditNumeroConsultaGR.Properties.ReadOnly := False;
+    textEditCodigoIMEI.Properties.ReadOnly := False;
+    maskEditCNPJIMEI.Properties.ReadOnly := False;
+    textEditNomeMEI.Properties.ReadOnly := False;
+    textEditNomeFantasiaMEI.Properties.ReadOnly := False;
+    memoObservacoes.Properties.ReadOnly := False;
+    dsEnderecos.AutoEdit := True;
+    dsContatos.AutoEdit := True;
+  end
+  else if FAcao = tacPesquisa then
+  begin
+    actionIncluir.Enabled := False;
+    actionEditar.Enabled := True;
+    actionLocalizar.Enabled := False;
+    actionCancelar.Enabled := True;
+    actionGravar.Enabled := False;
+    actionDocumentosVencidos.Enabled := True;
+    actionVencimentoGR.Enabled := True;
+    actionFichaDIRECT.Enabled := True;
+    actionSolicitarGR.Enabled := True;
+    actionContrato.Enabled := True;
+    maskEditID.Properties.ReadOnly := True;
+    comboBoxTipoPessoa.Properties.ReadOnly := True;
+    maskEditCPCNPJ.Properties.ReadOnly := True;
+    textEditNome.Properties.ReadOnly := True;
+    textEditRG.Properties.ReadOnly := True;
+    textEditExpedidor.Properties.ReadOnly := True;
+    dateEditDataRG.Properties.ReadOnly := True;
+    dateEditNascimento.Properties.ReadOnly := True;
+    textEditNomePai.Properties.ReadOnly := True;
+    textEditNomeMae.Properties.ReadOnly := True;
+    textEditNaturalidade.Properties.ReadOnly := True;
+    lookupComboBoxNaturalidade.Properties.ReadOnly := True;
+    textEditSegurancaCNH.Properties.ReadOnly := True;
+    textEditNumeroCNH.Properties.ReadOnly := True;
+    textEditRegistroCNH.Properties.ReadOnly := True;
+    textEditCategoriaCNH.Properties.ReadOnly := True;
+    dateEditEmissaoCNH.Properties.ReadOnly := True;
+    dateEditValidadeCNH.Properties.ReadOnly := True;
+    dateEditPrimeiraCNH.Properties.ReadOnly := True;
+    lookupComboBoxUFCNH.Properties.ReadOnly := True;
+    textEditNomeFantasia.Properties.ReadOnly := True;
+    textEditIE.Properties.ReadOnly := True;
+    textEditIEST.Properties.ReadOnly := True;
+    textEditIM.Properties.ReadOnly := True;
+    textEditCNAE.Properties.ReadOnly := True;
+    comboBoxCRT.Properties.ReadOnly := True;
+    comboBoxFormaPagamento.Properties.ReadOnly := True;
+    comboBoxTipoConta.Properties.ReadOnly := True;
+    lookupComboBoxBanco.Properties.ReadOnly := True;
+    textEditAgencia.Properties.ReadOnly := True;
+    textEditConta.Properties.ReadOnly := True;
+    textEditFavorecido.Properties.ReadOnly := True;
+    maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
+    textEditChavePIX.Properties.ReadOnly := True;
+    checkBoxStatusGR.Properties.ReadOnly := True;
+    textEditEmpresaGR.Properties.ReadOnly := True;
+    dateEditValidadeGR.Properties.ReadOnly := True;
+    textEditNumeroConsultaGR.Properties.ReadOnly := True;
+    textEditCodigoIMEI.Properties.ReadOnly := True;
+    maskEditCNPJIMEI.Properties.ReadOnly := True;
+    textEditNomeMEI.Properties.ReadOnly := True;
+    textEditNomeFantasiaMEI.Properties.ReadOnly := True;
+    memoObservacoes.Properties.ReadOnly := True;
+    dsEnderecos.AutoEdit := False;
+    dsContatos.AutoEdit := False;
+  end;
+end;
+
+procedure Tview_CadastroGeral.PesquisaCadastro;
+var
+  sSQL: String;
+  sWhere: String;
+  aParam: array of variant;
+  sQuery: String;
+  cadastro : TCadastroControl;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    cadastro := TCadastroControl.Create;
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
+    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
+
+
+    sSQL := 'select ' +
+            'num_cnpj as "CPF/CNPJ", cod_cadastro as ID, des_nome_razao as Nome, nom_fantasia as Alias, num_rg_ie as "RG/IE", ' +
+            'num_registro_cnh as "Registro CNH" ' +
+            'from ' + cadastro.Cadastro.NomeTabela; + ';';
+
+    sWhere := 'where num_cpf_cnpj like "%param%" or cod_cadastro like "paraN" or ' +
+              'des_nome_razao like "%param%" or nom_fantasia like "%param%" or ' +
+              'num_registro_cnh like "%param%";';
+    View_PesquisarPessoas.sSQL := sSQL;
+    View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := False;
+    View_PesquisarPessoas.Caption := 'Localizar Cadastros';
+    if View_PesquisarPessoas.ShowModal = mrOK then
+    begin
+      sQuery := 'cod_cadastro = ' + View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+      SetLength(aParam,2);
+      aparam := ['FILTRO', sQuery];
+      if cadastro.Localizar(aParam) then
+      begin
+        if not cadastro.SetupModel(cadastro.Cadastro.Query) then
+        begin
+          Application.MessageBox('Ocorreu um problema ao exibir as informações!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          Exit;
+        end
+        else
+        begin
+          FAcao := tacPesquisa;
+          SetupFields(cadastro);
+          //Modo;
+        end;
+      end
+      else
+      begin
+        Application.MessageBox('Cadastro não localizado!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+      Finalize(aParam);
+    end;
+  finally
+    cadastro.Free;
+    View_PesquisarPessoas.qryPesquisa.Close;
+    View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
+  end;
 end;
 
 procedure Tview_CadastroGeral.PopulaBancos;
@@ -354,6 +710,54 @@ begin
     FBancos.Free;
   end;
 
+end;
+
+procedure Tview_CadastroGeral.PopulaContatos(iCadastro: Integer);
+var
+  FContatos : TCadastroContatosControl;
+  aParam: array of variant;
+begin
+  try
+    FContatos := TCadastroContatosControl;
+    if memTableContatos.Active then
+    begin
+      memTableContatos.Close;
+    end;
+    SetLength(aParam,2);
+    aParam := ['ID',iCadastro];
+    if FContatos.Localizar(aParam) then
+    begin
+      memTableContatos.CopyDataSet(FContatos.Contatos.Query);
+    end;
+    FContatos.Contatos.Query.Close;
+    FContatos.Contatos.Query.Connection.Close;
+  finally
+    FContatos.Free;
+  end;
+end;
+
+procedure Tview_CadastroGeral.PopulaEnderecos(iCadastro: Integer);
+var
+  FEnderecos : TCadastroEnderecosControl;
+  aParam: array of variant;
+begin
+  try
+    FEnderecos := TCadastroEnderecosControl;
+    if memTableEnderecos.Active then
+    begin
+      memTableEnderecos.Close;
+    end;
+    SetLength(aParam,2);
+    aParam := ['ID',iCadastro];
+    if FEnderecos.Localizar(aParam) then
+    begin
+      memTableEnderecos.CopyDataSet(Fenderecos.Enderecos.Query);
+    end;
+    Fenderecos.Enderecos.Query.Close;
+    Fenderecos.Enderecos.Query.Connection.Close;
+  finally
+    FEnderecos.Free;
+  end;
 end;
 
 procedure Tview_CadastroGeral.PopulaEstados;
@@ -427,8 +831,9 @@ begin
   textEditNomeFantasiaMEI.Text := FCadastro.Cadastro.FantasiaMEI;
   memoObservacoes.Text := FCadastro.Cadastro.Obs;
   if memTableEnderecos.Active then memTableEnderecos.Close;
+  PopulaEnderecos(FCadastro.Cadastro.Cadastro);
   if memTableContatos.Active then memTableContatos.Close;
-
+  PopulaContatos(FCadastro.Cadastro.Cadastro);
 end;
 
 end.
