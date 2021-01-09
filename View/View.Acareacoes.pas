@@ -1026,6 +1026,11 @@ begin
     begin
       FExtravio.Extravios.Tipo := 0;
     end;
+    if FExtravio.ExtravioExiste() <> 0 then
+    begin
+      Application.MessageBox('Extravio/Multa já registrado!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
     SetLength(aParam,2);
     aParam[0] := 'NN';
     aParam[1] := FAcareacao.Acareacoes.Nossonumero;

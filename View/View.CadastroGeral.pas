@@ -643,7 +643,7 @@ begin
     sSQL := 'select ' +
             'num_cnpj as "CPF/CNPJ", cod_cadastro as ID, des_nome_razao as Nome, nom_fantasia as Alias, num_rg_ie as "RG/IE", ' +
             'num_registro_cnh as "Registro CNH" ' +
-            'from ' + cadastro.Cadastro.NomeTabela; + ';';
+            'from ' + cadastro.Cadastro.NomeTabela + ';';
 
     sWhere := 'where num_cpf_cnpj like "%param%" or cod_cadastro like "paraN" or ' +
               'des_nome_razao like "%param%" or nom_fantasia like "%param%" or ' +
@@ -718,7 +718,7 @@ var
   aParam: array of variant;
 begin
   try
-    FContatos := TCadastroContatosControl;
+    FContatos := TCadastroContatosControl.Create;
     if memTableContatos.Active then
     begin
       memTableContatos.Close;
@@ -742,7 +742,7 @@ var
   aParam: array of variant;
 begin
   try
-    FEnderecos := TCadastroEnderecosControl;
+    FEnderecos := TCadastroEnderecosControl.Create;
     if memTableEnderecos.Active then
     begin
       memTableEnderecos.Close;

@@ -1222,28 +1222,8 @@ begin
     end;
     FDQuery.Free;
 
-
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    SetLength(pParam,2);
-    pParam[0] := 'CADASTRO';
-    pParam[1] := iCadastro;
-    if FCadastro.Localizar(pParam) then
-    begin
-      FDQuery := FCadastro.Cadastro.Query;
-    end;
-    FCadastro.Cadastro.Query.Close;
-    FCadastro.Cadastro.Query.Connection.Close;
-    if not FDQuery.IsEmpty then
-    begin
-      sEntregador := FDQuery.FieldByName('DES_RAZAO_SOCIAL').AsString;
-      sCPF := 'CPF: ' + FDQuery.FieldByName('NUM_CNPJ').AsString;
-    end
-    else
-    begin
-      sEntregador := 'NONE';
-      sCPF := '';
-    end;
-    FDQuery.Free;
+    sEntregador := FCadastro.Cadastro.GetField('des_razao_social','cod_cadastro',iCadastro.toString);
+    sCPF := 'CPF: ' + FCadastro.Cadastro.GetField('num_cnpj','cod_cadastro',iCadastro.toString);
 
     dblValorProduto.Value := FExtravios.Extravios.ValorProduto;
     dblMulta.Value := FExtravios.Extravios.Multa;

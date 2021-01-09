@@ -101,6 +101,7 @@ begin
 
         if sForma.IsEmpty then sForma := 'NENHUMA';
 
+        // dados bancários da base
         if sForma <> 'NENHUMA' then
         begin
           iTipo := 1;
@@ -124,10 +125,18 @@ begin
 
           if sForma.IsEmpty then sForma := 'NENHUMA';
 
-          if sForma <> 'NENHUMA' then
-          begin
+          // dados bancários do entregador
+
+          // *** rotina alterada para demonstrar entregadores sem dados bancários. ***
+
+          //if sForma <> 'NENHUMA' then
+          //begin
             iTipo := 2;
-            iCodigo := Data_Sisgef.mtbExtratosExpressascod_entregador.AsInteger;
+            iCodigo := StrToIntDef(sCadastro,0);
+            if iCodigo = 0 then
+            begin
+              iCodigo := Data_Sisgef.mtbExtratosExpressascod_entregador.AsInteger;
+            end;
             sBanco := FCadastro.GetField('cod_banco','cod_cadastro', sCadastro);
             sNomeBanco := FBancos.GetField('nom_banco','cod_banco',QuotedStr(sBanco));
             sAgencia := FCadastro.GetField('cod_agencia','cod_cadastro', sCadastro);
@@ -135,7 +144,7 @@ begin
             sTipoConta := FCadastro.GetField('des_tipo_conta','cod_cadastro', sCadastro);
             sFavorecido := FCadastro.GetField('nom_favorecido','cod_cadastro', sCadastro);
             sCPFCNPJ := FCadastro.GetField('num_cpf_cnpj_favorecido','cod_cadastro', sCadastro);
-          end;
+          //end;
         end;
 
         if Data_Sisgef.mtbFechamentoExpressas.LocateEx('cod_expressa;cod_tipo_expressa', VarArrayOf([iCodigo, iTipo]), []) then
@@ -207,8 +216,11 @@ begin
         if Data_Sisgef.mtbFechamentoExpressasval_total.AsFloat <= 0 then
         begin
           Data_Sisgef.mtbFechamentoExpressas.Delete;
+        end
+        else
+        begin
+          if not Data_Sisgef.mtbFechamentoExpressas.Eof then Data_Sisgef.mtbFechamentoExpressas.Next;
         end;
-        if not Data_Sisgef.mtbFechamentoExpressas.Eof then Data_Sisgef.mtbFechamentoExpressas.Next;
       end;
       if not Data_Sisgef.mtbFechamentoExpressas.IsEmpty then Data_Sisgef.mtbFechamentoExpressas.First;
     Except

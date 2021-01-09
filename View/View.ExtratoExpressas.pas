@@ -1051,10 +1051,12 @@ var
   sExtrato: String;
   iDias: Integer;
   dtData1, dtData2: TDateTime;
+  iCliente: Integer;
 begin
   try
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery();
     extravios := TExtraviosMultasControl.Create;
+    entregadores := TEntregadoresExpressasControl.Create;
     iAno := StrToIntDef(cboAno.Text,YearOf(Now));
     iMes := cboMes.ItemIndex;
     iQuinzena := cboQuinzena.ItemIndex;
@@ -1071,6 +1073,7 @@ begin
       bFlag := False;
       iAgente := fdQuery.FieldByName('cod_agente').AsInteger;
       iEntregador := fdQuery.FieldByName('cod_entregador').AsInteger;
+      iCliente := StrToIntDef(entregadores.GetField('cod_cliente','cod_entregador', iEntregador.ToString), 0);
       if lLista.Count > 0 then
       begin
         if lLista.IndexOf(iAgente.ToString) >= 0 then
@@ -1113,13 +1116,13 @@ begin
           Data_Sisgef.mtbExtratosExpressasval_creditos.AsFloat := 0;
           Data_Sisgef.mtbExtratosExpressasval_debitos.AsFloat := 0;
           Data_Sisgef.mtbExtratosExpressasval_extravios.AsFloat := (0 - fdQuery.FieldByName('val_total').AsFloat);
-          Data_Sisgef.mtbExtratosExpressascod_cliente.AsInteger := 0;
           Data_Sisgef.mtbExtratosExpressasid_extrato.AsInteger := 0;
           Data_Sisgef.mtbExtratosExpressasnum_ano.AsInteger := iAno;
           Data_Sisgef.mtbExtratosExpressasnum_mes.AsInteger := iMes;
           Data_Sisgef.mtbExtratosExpressasnum_quinzena.AsInteger := iQuinzena;
           Data_Sisgef.mtbExtratosExpressasqtd_volumes.AsInteger := 0;
           Data_Sisgef.mtbExtratosExpressasval_total_empresa.AsFloat := 0;
+          Data_Sisgef.mtbExtratosExpressascod_cliente.AsInteger := iCliente;
           Data_Sisgef.mtbExtratosExpressasdes_unique_key.AsString := pUniqueKey;
           Data_Sisgef.mtbExtratosExpressas.Post;
         end;
@@ -1128,6 +1131,7 @@ begin
     end;
   finally
     fdQuery.Free;
+    entregadores.Free;
     extravios.Free;
   end;
 end;
@@ -1151,6 +1155,7 @@ var
   sExtrato: String;
   dtData1, dtData2: TDate;
   iDias: integer;
+  iCliente : Integer;
 begin
  try
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery();
@@ -1181,6 +1186,7 @@ begin
       begin
         iAgente := fdQuery1.FieldByName('cod_agente').AsInteger;
         iEntregador := fdQuery1.FieldByName('cod_entregador').AsInteger;
+        iCliente := fdQuery1.FieldByName('cod_cliente').AsInteger;
       end;
       fdQuery1.Close;
       bFlag := True;
@@ -1237,7 +1243,7 @@ begin
             Data_Sisgef.mtbExtratosExpressasval_debitos.AsFloat := (0 - fdQuery.FieldByName('val_total').AsFloat);
           end;
           Data_Sisgef.mtbExtratosExpressasval_extravios.AsFloat := 0;
-          Data_Sisgef.mtbExtratosExpressascod_cliente.AsInteger := 0;
+          Data_Sisgef.mtbExtratosExpressascod_cliente.AsInteger := iCliente;
           Data_Sisgef.mtbExtratosExpressasid_extrato.AsInteger := 0;
           Data_Sisgef.mtbExtratosExpressasnum_ano.AsInteger := iAno;
           Data_Sisgef.mtbExtratosExpressasnum_mes.AsInteger := iMes;

@@ -378,7 +378,7 @@ begin
     begin
       Exit;
     end;
-    FQuery := FDQuery;
+    Self.Query := FDQuery;
     Result := True;
   finally
     FDquery.Connection.Close;

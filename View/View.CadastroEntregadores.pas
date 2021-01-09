@@ -533,6 +533,7 @@ begin
     actionGravar.Enabled := False;
     maskEditCodigo.Properties.ReadOnly := True;
     buttonEditPessoa.Properties.ReadOnly := True;
+    actionLocalizarAgentes.Enabled := False;
     buttonEditCodigoAgente.Properties.ReadOnly := True;
     textEditCodigoERP.Properties.ReadOnly := True;
     imageComboBoxClientes.Properties.ReadOnly := True;
