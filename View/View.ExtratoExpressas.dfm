@@ -470,9 +470,16 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
         object tvExtratonom_base: TcxGridDBColumn
           DataBinding.FieldName = 'nom_base'
           Visible = False
-          GroupIndex = 1
+          GroupIndex = 0
           HeaderAlignmentHorz = taCenter
           Width = 212
+        end
+        object tvExtratonom_cliente: TcxGridDBColumn
+          DataBinding.FieldName = 'nom_cliente'
+          Visible = False
+          GroupIndex = 1
+          HeaderAlignmentHorz = taCenter
+          Width = 235
         end
         object tvExtratocod_entregador: TcxGridDBColumn
           DataBinding.FieldName = 'cod_entregador'
@@ -598,13 +605,6 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
           DataBinding.FieldName = 'dat_credito'
           Visible = False
           HeaderAlignmentHorz = taCenter
-        end
-        object tvExtratonom_cliente: TcxGridDBColumn
-          DataBinding.FieldName = 'nom_cliente'
-          Visible = False
-          GroupIndex = 0
-          HeaderAlignmentHorz = taCenter
-          Width = 235
         end
         object tvExtratoid_extrato: TcxGridDBColumn
           DataBinding.FieldName = 'id_extrato'
