@@ -497,9 +497,10 @@ var
 begin
   FDQuery := FConexao.ReturnQuery();
   FDQuery.SQL.Clear;
-  sSQL := 'select dat_baixa, count(num_nossonumero) as qtd_entregas, sum(qtd_volumes) as qtd_volumes, val_verba_entregador from ' +
+  sSQL := 'select dat_baixa, count(num_nossonumero) as qtd_entregas, sum(qtd_volumes) as qtd_volumes, val_verba_entregador ' +
+          'from ' +
           TABLENAME + ' where dom_baixado = "S" and dom_fechado = "N" and cod_entregador = :cod_entregador and ' +
-          'dat_baixa > "2020-06-25" ' +
+          'dat_baixa > "2020-08-25" ' +
           'group by dat_baixa, val_verba_entregador;';
   FDQuery.SQL.Add(sSQL);
   FDQuery.ParamByName('cod_entregador').AsInteger := iEntregador;

@@ -20,6 +20,7 @@ type
     function Localizar(aParam: array of variant): TFDQuery;
     function LocalizarExato(aParam: array of variant): boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
+    function EntregadorExiste(iTipo, iCliente, iEntregador: Integer; sERP: String): Boolean;
 
     property Entregadores: TEntregadoresExpressas read FEntregadores write FEntregadores;
 
@@ -38,6 +39,11 @@ destructor TEntregadoresExpressasControl.Destroy;
 begin
   FEntregadores.Free;
   inherited;
+end;
+
+function TEntregadoresExpressasControl.EntregadorExiste(iTipo, iCliente, iEntregador: Integer; sERP: String): Boolean;
+begin
+  Result := Fentregadores.EntregadorExiste(iTipo, iCliente, iEntregador, sERP);
 end;
 
 function TEntregadoresExpressasControl.GetField(sField, sKey, sKeyValue: String): String;

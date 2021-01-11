@@ -147,8 +147,8 @@ Coordinates=952,1981,185,33
 Coordinates=952,2036,113,33
 
 []
-Coordinates=952,1651,186,33
-ExplicitSubNodes=
+Coordinates=670,1770,139,51
+ExplicitSubNodes=EditValue
 
 [layoutItemNomeFantasia]
 Coordinates=191,1902,136,33
@@ -286,13 +286,6 @@ Coordinates=374,1814,213,33
 
 [actionPesquisarTabelas]
 Coordinates=513,1594,132,33
-
-[layoutItemImageComboBoxClientes]
-Coordinates=374,1869,190,33
-
-[imageComboBoxClientes]
-Coordinates=670,1770,139,51
-ExplicitSubNodes=EditValue
 
 [gridExtraviosDBTableViewExtraviosid_extrato]
 Coordinates=374,1209,241,33

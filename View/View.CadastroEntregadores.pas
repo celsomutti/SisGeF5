@@ -85,8 +85,6 @@ type
     memTableEntregadorescod_cliente: TIntegerField;
     actionPesquisarTabelas: TAction;
     memTableEntregadoresdat_manutencao: TSQLTimeStampField;
-    imageComboBoxClientes: TcxImageComboBox;
-    layoutItemImageComboBoxClientes: TdxLayoutItem;
     buttonEditar: TcxButton;
     layoutItemButtonEditar: TdxLayoutItem;
     layoutGroupHistorico: TdxLayoutGroup;
@@ -200,6 +198,15 @@ type
     memTableLancamentoscod_referencia: TIntegerField;
     memTableLancamentosdat_cadastro: TDateTimeField;
     memTableLancamentosnom_usuario: TStringField;
+    memTableExpressascod_cliente: TIntegerField;
+    memTableExpressascod_base: TIntegerField;
+    dsBases: TDataSource;
+    dsClientes: TDataSource;
+    textEditID: TcxTextEdit;
+    layoutItemID: TdxLayoutItem;
+    lookupComboBoxCliente: TcxLookupComboBox;
+    layoutItemCliente: TdxLayoutItem;
+    memTableEntregadoresid_entregador: TIntegerField;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -420,6 +427,8 @@ procedure Tview_CadastroEntregadores.FormShow(Sender: TObject);
 begin
   labelTitle.Caption := Self.Caption;
   LimpaCampos;
+  Data_Sisgef.PopulaClientesEmpresa;
+  Data_Sisgef.PopulaBases;
   FAcao := tacIndefinido;
   Modo;
 end;
@@ -430,6 +439,7 @@ var
 begin
   try
     entregadores := TEntregadoresExpressasControl.Create;
+    entregadores.Entregadores.ID := StrToIntDef(textEditID.Text,0);
     entregadores.Entregadores.Cadastro := buttonEditPessoa.EditValue;
     entregadores.Entregadores.Entregador := maskEditCodigo.EditValue;
     entregadores.Entregadores.Fantasia := textEditNomeFantasia.Text;
@@ -447,7 +457,7 @@ begin
     entregadores.Entregadores.Verba := currencyEditTicketMedio.Value;
     entregadores.Entregadores.Executor := Global.Parametros.pUser_Name;
     entregadores.Entregadores.Tabela := buttonEditCodigoTabela.EditValue;
-    entregadores.Entregadores.Cliente := imageComboBoxClientes.EditValue;
+    entregadores.Entregadores.Cliente := lookupComboBoxCliente.EditValue;
     entregadores.Entregadores.Manutencao := Now();
     entregadores.Entregadores.Ativo := checkBoxAtivo.EditValue;
     entregadores.Entregadores.Acao := FAcao;
@@ -495,6 +505,7 @@ end;
 
 procedure Tview_CadastroEntregadores.LimpaCampos;
 begin
+  textEditID.Text := '0';
   buttonEditPessoa.EditValue := 0;
   textEditNomePessoa.Text := '';
   maskEditCodigo.EditValue := 0;
@@ -507,7 +518,7 @@ begin
   currencyEditTicketMedio.Value := 0;
   buttonEditCodigoTabela.EditValue := 0;
   textEditDescricaoTabela.Text := '';
-  imageComboBoxClientes.ItemIndex := 0;
+  lookupComboBoxCliente.ItemIndex := 0;
   checkBoxAtivo.EditValue := 1;
 end;
 
@@ -532,12 +543,15 @@ begin
     actionCancelar.Enabled := False;
     actionGravar.Enabled := False;
     maskEditCodigo.Properties.ReadOnly := True;
+    actionLocalizarPessoas.Enabled := False;
     buttonEditPessoa.Properties.ReadOnly := True;
     actionLocalizarAgentes.Enabled := False;
     buttonEditCodigoAgente.Properties.ReadOnly := True;
     textEditCodigoERP.Properties.ReadOnly := True;
-    imageComboBoxClientes.Properties.ReadOnly := True;
+    lookupComboBoxCliente.Properties.ReadOnly := True;
+    actionPesquisarTabelas.Enabled := False;
     buttonEditCodigoTabela.Properties.ReadOnly := True;
+    actionPesquisarFaixas.Enabled := False;
     buttonEditCodigoFaixa.Properties.ReadOnly := True;
     currencyEditTicketMedio.Properties.ReadOnly := True;
     checkBoxAtivo.Properties.ReadOnly := True;
@@ -558,11 +572,15 @@ begin
     actionCancelar.Enabled := True;
     actionGravar.Enabled := True;
     maskEditCodigo.Properties.ReadOnly := False;
+    actionLocalizarPessoas.Enabled := True;
     buttonEditPessoa.Properties.ReadOnly := False;
+    actionLocalizarAgentes.Enabled:= True;
     buttonEditCodigoAgente.Properties.ReadOnly := False;
     textEditCodigoERP.Properties.ReadOnly := False;
-    imageComboBoxClientes.Properties.ReadOnly := False;
+    lookupComboBoxCliente.Properties.ReadOnly := False;
+    actionPesquisarTabelas.Enabled := True;
     buttonEditCodigoTabela.Properties.ReadOnly := False;
+    actionPesquisarFaixas.Enabled := True;
     buttonEditCodigoFaixa.Properties.ReadOnly := False;
     currencyEditTicketMedio.Properties.ReadOnly := False;
     checkBoxAtivo.Properties.ReadOnly := False;
@@ -579,11 +597,15 @@ begin
     actionCancelar.Enabled := True;
     actionGravar.Enabled := True;
     maskEditCodigo.Properties.ReadOnly := True;
+    actionLocalizarPessoas.Enabled := True;
     buttonEditPessoa.Properties.ReadOnly := False;
+    actionLocalizarAgentes.Enabled := True;
     buttonEditCodigoAgente.Properties.ReadOnly := False;
     textEditCodigoERP.Properties.ReadOnly := False;
-    imageComboBoxClientes.Properties.ReadOnly := False;
+    lookupComboBoxCliente.Properties.ReadOnly := False;
+    actionPesquisarTabelas.Enabled := True;
     buttonEditCodigoTabela.Properties.ReadOnly := False;
+    actionPesquisarFaixas.Enabled := True;
     buttonEditCodigoFaixa.Properties.ReadOnly := False;
     currencyEditTicketMedio.Properties.ReadOnly := False;
     checkBoxAtivo.Properties.ReadOnly := False;
@@ -598,11 +620,15 @@ begin
     actionCancelar.Enabled := True;
     actionGravar.Enabled := False;
     maskEditCodigo.Properties.ReadOnly := True;
+    actionLocalizarPessoas.Enabled := False;
     buttonEditPessoa.Properties.ReadOnly := True;
+    actionLocalizarAgentes.Enabled:= False;
     buttonEditCodigoAgente.Properties.ReadOnly := True;
     textEditCodigoERP.Properties.ReadOnly := True;
-    imageComboBoxClientes.Properties.ReadOnly := True;
+    lookupComboBoxCliente.Properties.ReadOnly := True;
+    actionPesquisarTabelas.Enabled := False;
     buttonEditCodigoTabela.Properties.ReadOnly := True;
+    actionPesquisarFaixas.Enabled := False;
     buttonEditCodigoFaixa.Properties.ReadOnly := True;
     currencyEditTicketMedio.Properties.ReadOnly := True;
     checkBoxAtivo.Properties.ReadOnly := True;
@@ -721,7 +747,7 @@ begin
     begin
       View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
     end;
-    if imageComboBoxClientes.EditValue= 0 then
+    if lookupComboBoxCliente.EditValue= 0 then
     begin
       Application.MessageBox('Informe o Cliente!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
@@ -736,7 +762,7 @@ begin
     sSQL := 'select id_grupo as "Faixa", format(val_verba,2,"de_DE") as "Ticket Médio", ' +
             'num_cep_inicial as "CEP Inicial", num_cep_final as "CEP Final", format(qtd_peso_inicial,3,"de_DE") as "Peso Inicial", ' +
             'format(qtd_peso_final,3,"de_DE") as "Peso Final" ' +
-            'from expressas_verbas where cod_cliente = ' + VarToStr(imageComboBoxClientes.EditValue) +
+            'from expressas_verbas where cod_cliente = ' + VarToStr(lookupComboBoxCliente.EditValue) +
             ' and cod_tipo = ' + VarToStr(buttonEditCodigoTabela.EditValue);
     sWhere := '';
     View_PesquisarPessoas.dxLayoutItem1.Visible := False;
@@ -828,6 +854,7 @@ end;
 
 procedure Tview_CadastroEntregadores.PopulaCampos;
 begin
+  textEditID.Text := memTableEntregadoresid_entregador.AsString;
   buttonEditPessoa.EditValue := memTableEntregadorescod_cadastro.AsInteger;
   textEditNomePessoa.Text := RetornaNomePessoa(memTableEntregadorescod_cadastro.AsInteger);
   maskEditCodigo.EditValue := memTableEntregadorescod_entregador.AsInteger;
@@ -840,7 +867,7 @@ begin
   currencyEditTicketMedio.Value := memTableEntregadoresval_verba.AsFloat;
   buttonEditCodigoTabela.EditValue := memTableEntregadorescod_tabela.AsInteger;
   textEditDescricaoTabela.Text := RetornaDescricaoTabela(memTableEntregadorescod_tabela.AsInteger);
-  imageComboBoxClientes.EditValue := memTableEntregadorescod_cliente.AsInteger;
+  lookupComboBoxCliente.EditValue := memTableEntregadorescod_cliente.AsInteger;
   checkBoxAtivo.EditValue := memTableEntregadoresdom_ativo.AsInteger;
 end;
 
@@ -1032,27 +1059,47 @@ begin
       Application.MessageBox('Informe o código ERP!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    if imageComboBoxClientes.EditValue = 0 then
+    if lookupComboBoxCliente.ItemIndex = -1 then
     begin
       Application.MessageBox('Informe o código do cliente!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
     if Facao = tacIncluir then
     begin
-      if entregadores.GetField('cod_entregador','cod_entregador',VarToStr(maskEditCodigo.EditValue)) <> '' then
+      if entregadores.EntregadorExiste(1,maskEditCodigo.EditValue, lookupComboBoxCliente.EditValue, '') then
       begin
         Application.MessageBox('Código de entregador já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
         Exit;
       end;
       if entregadores.GetField('nom_fantasia','nom_fantasia',QuotedStr(textEditNomeFantasia.Text)) <> '' then
       begin
-        Application.MessageBox('Nome fantasia já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
-        Exit;
+        if Application.MessageBox('Nome fantasia já existe. Continuar com este mesmo?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+        begin
+          Exit;
+        end;
       end;
-      if entregadores.GetField('des_chave','des_chave',QuotedStr(textEditCodigoERP.Text)) <> '' then
+      if entregadores.EntregadorExiste(2,maskEditCodigo.EditValue, 0, textEditCodigoERP.Text) then
       begin
         Application.MessageBox('Código ERP já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
         Exit;
+      end;
+    end;
+    if FAcao = tacAlterar then
+    begin
+      SetLength(aParam,2);
+      aParam := ['ID',StrTOIntDef(textEditID.Text, 0)];
+      if entregadores.LocalizarExato(aParam) then
+      begin
+        if buttonEditPessoa.EditValue <> 0 then
+        begin
+          if entregadores.Entregadores.Cadastro <> buttonEditPessoa.EditValue then
+          begin
+            if Application.MessageBox('Entregador já está vinculado a outra pessoa. Conrtinuar ?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+            begin
+              Exit;
+            end;
+          end;
+        end;
       end;
     end;
     if buttonEditCodigoTabela.EditValue <> 0 then
@@ -1065,7 +1112,7 @@ begin
       if buttonEditCodigoFaixa.EditValue <> 0 then
       begin
         SetLength(aParam,2);
-        aParam := ['FILTRO', 'cod_cliente = ' + VarToStr(imageComboBoxClientes.EditValue) + ' and cod_tipo = ' +
+        aParam := ['FILTRO', 'cod_cliente = ' + VarToStr(lookupComboBoxCliente.EditValue) + ' and cod_tipo = ' +
                   buttonEditCodigoTabela.EditText + ' and id_grupo = ' + buttonEditCodigoFaixa.EditText];
         if verbas.Localizar(aParam).IsEmpty then
         begin

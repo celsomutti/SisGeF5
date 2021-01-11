@@ -23,6 +23,7 @@ uses
     FTabela: Integer;
     FCliente: Integer;
     FAtivo: Integer;
+    FID: Integer;
 
     function Inserir(): Boolean;
     function Alterar(): Boolean;
@@ -42,9 +43,11 @@ uses
     procedure SetTabela(const Value: Integer);
     procedure SetCliente(const Value: Integer);
     procedure setAtivo(const Value: Integer);
+    procedure SetID(const Value: Integer);
 
   public
     constructor Create;
+    property ID: Integer read FID write SetID;
     property Cadastro: Integer read FCadastro write SetCadastro;
     property Entregador: Integer read FEntregador write SetEntregador;
     property Fantasia: String read FFantasia write SetFantasia;
@@ -64,6 +67,7 @@ uses
     function LocalizarExato(aParam: array of variant): boolean;
     function Gravar(): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
+    function EntregadorExiste(iTipo, iCliente, iEntregador: Integer; sERP: String): Boolean;
     function SetupModel(FDEntregadores: TFDQuery): Boolean;
     procedure ClearModel;
   end;
@@ -76,10 +80,11 @@ uses
                 '(:COD_CADASTRO, :COD_ENTREGADOR, :NOM_FANTASIA, :COD_AGENTE, :DAT_CODIGO, :DES_CHAVE, :COD_GRUPO, ' +
                 ':VAL_VERBA, :NOM_EXECUTANTE, :COM_ATIVO, :DAT_MANUTENCAO, :COD_TABELA, :COD_CLIENTE);';
     SQLUPDATE = 'UPDATE ' + TABLENAME + ' SET ' +
+                'COD_CADASTRO = :COD_CADASTRO, COD_ENTREGADOR = :COD_ENTREGADOR, ' +
                 'NOM_FANTASIA = :NOM_FANTASIA, COD_AGENTE = :COD_AGENTE, DAT_CODIGO = :DAT_CODIGO, DES_CHAVE = :DES_CHAVE, ' +
                 'COD_GRUPO = :COD_GRUPO, VAL_VERBA = :VAL_VERBA, NOM_EXECUTANTE = :NOM_EXECUTANTE, ' +
                 'DOM_ATIVO = :DOM_ATIVO, DAT_MANUTENCAO = :DAT_MANUTENCAO, COD_TABELA = :COD_TABELA, COD_CLIENTE = :COD_CLIENTE ' +
-                'WHERE COD_CADASTRO = :COD_CADASTRO AND COD_ENTREGADOR = :COD_ENTREGADOR;';
+                'WHERE ID_ENTREGADOR = :ID;';
 
 implementation
 
@@ -94,8 +99,8 @@ begin
   try
     Result := False;
     FDQuery := FConexao.ReturnQuery();
-    FDQuery.ExecSQL(SQLUPDATE, [Self.Fantasia, Self.Agente, Self.Data, Self.Chave, Self.Grupo, Self.Verba, Self.Executor,
-                    Self.Ativo, Self.Manutencao, Self.Tabela, Self.Cliente, Self.Cadastro, Self.Entregador]);
+    FDQuery.ExecSQL(SQLUPDATE, [Self.Cadastro, Self.Entregador, Self.Fantasia, Self.Agente, Self.Data, Self.Chave, Self.Grupo, Self.Verba, Self.Executor,
+                    Self.Ativo, Self.Manutencao, Self.Tabela, Self.Cliente, Self.ID]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -105,6 +110,7 @@ end;
 
 procedure TEntregadoresExpressas.ClearModel;
 begin
+  ID := 0;
   Cadastro := 0;
   Entregador := 0;
   Fantasia := '';
@@ -123,6 +129,43 @@ begin
   FConexao := TSistemaControl.GetInstance().Conexao;
 end;
 
+function TEntregadoresExpressas.EntregadorExiste(iTipo, iCliente, iEntregador: Integer; sERP: String): Boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.ReturnQuery();
+    if iTipo = 1 then
+    begin
+      FDQuery.SQL.Add('select cod_cliente, cod_entregador from ' + TABLENAME + ' where cod_cliente = :cliente and cod_entregador = :entregador;');
+      FDQuery.ParamByName('cliente').AsInteger := iCliente;
+      FDQuery.ParamByName('entregador').AsInteger := iEntregador;
+      FDQuery.Open();
+      if FDQuery.IsEmpty then
+      begin
+        Exit;
+      end;
+      Result := True;
+    end
+    else if iTipo = 2 then
+    begin
+      FDQuery.SQL.Add('select cod_cliente, des_chave from ' + TABLENAME + ' where cod_cliente = :cliente and des_chave = :chave;');
+      FDQuery.ParamByName('cliente').AsInteger := iCliente;
+      FDQuery.ParamByName('chave').AsString := sERP;
+      FDQuery.Open();
+      if FDQuery.IsEmpty then
+      begin
+        Exit;
+      end;
+      Result := True;
+    end;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
+end;
+
 function TEntregadoresExpressas.Excluir: Boolean;
 var
   FDQuery: TFDQuery;
@@ -130,8 +173,8 @@ begin
   try
     Result := False;
     FDQuery := FConexao.ReturnQuery();
-    FDQuery.ExecSQL('delete from ' + TABLENAME + ' where COD_CADASTRO = :COD_CADASTRO AND COD_ENTREGADOR = :COD_ENTREGADOR',
-                    [Self.Cadastro, Self.Entregador]);
+    FDQuery.ExecSQL('delete from ' + TABLENAME + ' where id_entregador = :id',
+                    [Self.ID]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -188,6 +231,11 @@ begin
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
   FDQuery.SQL.Add('select * from ' + TABLENAME);
+  if aParam[0] = 'ID' then
+  begin
+    FDQuery.SQL.Add('WHERE id_entregador = :id');
+    FDQuery.ParamByName('id').AsInteger := aParam[1];
+  end;
   if aParam[0] = 'CADASTRO' then
   begin
     FDQuery.SQL.Add('WHERE COD_CADASTRO = :COD_CADASTRO');
@@ -394,6 +442,11 @@ begin
   FGrupo := value;
 end;
 
+procedure TEntregadoresExpressas.SetID(const Value: Integer);
+begin
+  FID := Value;
+end;
+
 procedure TEntregadoresExpressas.SetManutencao(const value: TDateTime);
 begin
   FManutencao := value;
@@ -408,6 +461,7 @@ function TEntregadoresExpressas.SetupModel(FDEntregadores: TFDQuery): Boolean;
 begin
   try
     Result := False;
+    ID := FDEntregadores.FieldByName('id_entregador').AsInteger;
     Cadastro := FDEntregadores.FieldByName('cod_cadastro').AsInteger;
     Entregador := FDEntregadores.FieldByName('cod_entregador').AsInteger;
     Fantasia := FDEntregadores.FieldByName('nom_fantasia').AsString;
