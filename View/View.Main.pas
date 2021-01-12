@@ -16,7 +16,7 @@ uses
   dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
   dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxRibbonPainter, dxSkinsdxBarPainter, dxSkinscxPCPainter, Control.Usuarios, FireDAC.Comp.Client,
-  Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems;
+  Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems, cxFilterControl;
 
 type
   Tview_Main = class(TForm)

@@ -10,9 +10,9 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
   Visible = True
   OnClose = FormClose
