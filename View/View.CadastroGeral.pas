@@ -12,7 +12,7 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
   cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, System.Actions,
   Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Cadastro, Control.Estados,
-  Control.CadastroEnderecos, Control.CadastroContatos;
+  Control.CadastroEnderecos, Control.CadastroContatos, System.DateUtils ;
 
 type
   Tview_CadastroGeral = class(TForm)
@@ -245,6 +245,7 @@ type
     procedure PopulaEnderecos(iCadastro: Integer);
     procedure PopulaContatos(iCadastro: Integer);
     procedure Modo;
+    function ValidaDados(): boolean;
   public
     { Public declarations }
   end;
@@ -296,6 +297,7 @@ begin
   textEditRG.Clear;
   textEditExpedidor.Clear;
   dateEditDataRG.Clear;
+  lookupComboBoxUFRG.Clear;
   dateEditNascimento.Clear;
   textEditNomePai.Clear;
   textEditNomeMae.Clear;
@@ -341,6 +343,7 @@ begin
   if comboBoxTipoPessoa.ItemIndex = 1 then
   begin
     layoutGroupPessoaFisica.MakeVisible;
+    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
     maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
     maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
     maskEditCPFCNPJFavorecido.Properties.EditMask := '!000\.000\.000\-00;1; ';
@@ -349,6 +352,7 @@ begin
   else if comboBoxTipoPessoa.ItemIndex = 2 then
   begin
     layoutGroupPessoaJuridica.MakeVisible;
+    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
     maskEditCPCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;1; ';
     maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
     maskEditCPFCNPJFavorecido.Properties.EditMask := '!000\.000\.000\-00;1; ';
@@ -357,6 +361,7 @@ begin
   else
   begin
     layoutGroupPessoaFisica.MakeVisible;
+    maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
     maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
     maskEditCPFCNPJFavorecido.Properties.EditMask := '!000\.000\.000\-00;1; ';
@@ -458,7 +463,7 @@ begin
     actionContrato.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
     comboBoxTipoPessoa.Properties.ReadOnly := False;
-    maskEditCPCNPJ.Properties.ReadOnly := False;
+    maskEditCPCNPJ.Properties.ReadOnly := True;
     textEditNome.Properties.ReadOnly := False;
     textEditRG.Properties.ReadOnly := False;
     textEditExpedidor.Properties.ReadOnly := False;
@@ -834,6 +839,233 @@ begin
   PopulaEnderecos(FCadastro.Cadastro.Cadastro);
   if memTableContatos.Active then memTableContatos.Close;
   PopulaContatos(FCadastro.Cadastro.Cadastro);
+end;
+
+function Tview_CadastroGeral.ValidaDados: boolean;
+var
+  FCadastro : TCadastroControl;
+begin
+  try
+    Result := False;
+    FCadastro := TCadastroControl.Create;
+    if FAcao = tacIncluir then
+    begin
+      if comboBoxTipoPessoa.ItemIndex = 1 then
+      begin
+        if not Common.Utils.TUtils.CPF(maskEditCPCNPJ.Text) then
+        begin
+          Application.MessageBox('CPF incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          maskEditCPCNPJ.SetFocus;
+          Exit;
+        end;
+      end
+      else if comboBoxTipoPessoa.ItemIndex = 2 then
+      begin
+        if not Common.Utils.TUtils.CNPJ(maskEditCPCNPJ.Text) then
+        begin
+          Application.MessageBox('CNPJ incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          maskEditCPCNPJ.SetFocus;
+          Exit;
+        end;
+      end
+      else
+      begin
+        Application.MessageBox('Informe o tipo de pessoa!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        comboBoxTipoPessoa.SetFocus;
+        Exit;
+      end;
+    end;
+    if maskEditCNPJIMEI.Text <> '' then
+    begin
+      if textEditNomeMEI.Text = '' then
+      begin
+        Application.MessageBox('Informe a razão social do MEI!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        textEditNomeMEI.SetFocus;
+        Exit;
+      end;
+      if textEditNomeFantasiaMEI.Text = '' then
+      begin
+        Application.MessageBox('Informe nome fantasia do MEI!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        textEditNomeFantasiaMEI.SetFocus;
+        Exit;
+      end;
+      if not Common.Utils.TUtils.CNPJ(maskEditCNPJIMEI.Text) then
+      begin
+        Application.MessageBox('CNPJ do MEI incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        maskEditCPFCNPJFavorecido.SetFocus;
+        Exit;
+      end;
+    end;
+    if not textEditNome.Text = '' then
+    begin
+      Application.MessageBox('Informe o nome ou razão social!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+      textEditNome.SetFocus;
+      Exit;
+    end;
+    if comboBoxTipoPessoa.ItemIndex = 2 then
+    begin
+      if not textEditNomeFantasia.Text = '' then
+      begin
+        Application.MessageBox('Informe o nome fantasia!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        textEditNomeFantasia.SetFocus;
+        Exit;
+      end;
+      if maskEditCPFCNPJFavorecido.Text <> '' then
+      begin
+        if not Common.Utils.TUtils.CPF(maskEditCPFCNPJFavorecido.Text) then
+        begin
+          Application.MessageBox('CPF do Favorecido incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          maskEditCPFCNPJFavorecido.SetFocus;
+          Exit;
+        end;
+      end;
+    end;
+    if comboBoxTipoPessoa.ItemIndex = 1 then
+    begin
+      if Facao = tacIncluir then
+      begin
+        if textEditRG.Text <> '' then
+        begin
+          if textEditExpedidor.Text = '' then
+          begin
+            Application.MessageBox('Informe o orgão expedidor do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            textEditExpedidor.SetFocus;
+            Exit;
+          end;
+          if dateEditDataRG.Date = 0 then
+          begin
+            Application.MessageBox('Informe o data da emissão do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            dateEditDataRG.SetFocus;
+            Exit;
+          end;
+          if dateEditDataRG.Date > Now then
+          begin
+            Application.MessageBox('Data da emissão do RG inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            dateEditDataRG.SetFocus;
+            Exit;
+          end;
+          if lookupComboBoxUFRG.Text = '' then
+          begin
+            Application.MessageBox('Informe a UF do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            lookupComboBoxUFRG.SetFocus;
+            Exit;
+          end;
+        end
+        else
+        begin
+          textEditExpedidor.Clear;
+          dateEditDataRG.Clear;
+          lookupComboBoxUFRG.Clear;
+        end;
+        if dateEditNascimento.Date <> 0 then
+        begin
+          if dateEditNascimento.Date >= Now then
+          begin
+            Application.MessageBox('Data de nascimento inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            dateEditNascimento.SetFocus;
+            Exit;
+          end;
+          if YearsBetween(Now,dateEditNascimento.Date) < 18 then
+          begin
+            if Application.MessageBox('Data de nascimento indica que pessoa é menor! Ignorar?', 'Atenção', MB_YESNO + MB_ICONEXCLAMATION + MB_DEFBUTTON2) = IDNO then
+            begin
+              dateEditNascimento.SetFocus;
+              Exit;
+            end;
+          end;
+        end;
+      end;
+      if maskEditCPFCNPJFavorecido.Text <> '' then
+      begin
+        if not Common.Utils.TUtils.CNPJ(maskEditCPFCNPJFavorecido.Text) then
+        begin
+          Application.MessageBox('CNPJ do Favorecido incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          maskEditCPFCNPJFavorecido.SetFocus;
+          Exit;
+        end;
+      end;
+      if textEditNaturalidade.Text <> '' then
+      begin
+        if lookupComboBoxNaturalidade.Text = '' then
+        begin
+          Application.MessageBox('Informe a UF da naturalidade da Pessoa!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          lookupComboBoxNaturalidade.SetFocus;
+          Exit;
+        end;
+      end;
+      if textEditRegistroCNH.Text <> '' then
+      begin
+        if Length(textEditRegistroCNH.Text) <> 11 then
+        begin
+          Application.MessageBox('Quantidade de caracteres do número do registro da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          textEditRegistroCNH.SetFocus;
+          Exit;
+        end;
+        if Length(textEditNumeroCNH.Text) <> 10 then
+        begin
+          Application.MessageBox('Quantidade de caracteres do número da cédula da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          textEditNumeroCNH.SetFocus;
+          Exit;
+        end;
+        if Length(textEditSegurancaCNH.Text) <> 11 then
+        begin
+          Application.MessageBox('Quantidade de caracteres do código de segurança da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          textEditSegurancaCNH.SetFocus;
+          Exit;
+        end;
+        if textEditCategoriaCNH.Text = '' then
+        begin
+          Application.MessageBox('Informe a categoria da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          textEditCategoriaCNH.SetFocus;
+          Exit;
+        end;
+        if lookupComboBoxUFCNH.Text = '' then
+        begin
+          Application.MessageBox('Informe UF da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          lookupComboBoxUFRG.SetFocus;
+          Exit;
+        end;
+        if dateEditEmissaoCNH.Date = 0  then
+        begin
+          Application.MessageBox('Informe a data da emissão da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dateEditEmissaoCNH.SetFocus;
+          Exit;
+        end;
+        if dateEditValidadeCNH.Date < Now  then
+        begin
+          Application.MessageBox('Data da validade da CNH inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dateEditValidadeCNH.SetFocus;
+          Exit;
+        end;
+        if dateEditPrimeiraCNH.Date = 0  then
+        begin
+          Application.MessageBox('Informe a data da primeira da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dateEditPrimeiraCNH.SetFocus;
+          Exit;
+        end;
+        if dateEditPrimeiraCNH.Date > Now  then
+        begin
+          Application.MessageBox('Data da primeira da CNH inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dateEditPrimeiraCNH.SetFocus;
+          Exit;
+        end;
+      end
+      else
+      begin
+        textEditSegurancaCNH.Clear;
+        textEditNumeroCNH.Clear;
+        textEditRegistroCNH.Clear;
+        textEditCategoriaCNH.Clear;
+        dateEditEmissaoCNH.Clear;
+        dateEditValidadeCNH.Clear;
+        dateEditPrimeiraCNH.Clear;
+        lookupComboBoxUFCNH.Clear;
+      end;
+    end;
+    Result := True;
+  finally
+    FCadastro.Free;
+  end;
 end;
 
 end.

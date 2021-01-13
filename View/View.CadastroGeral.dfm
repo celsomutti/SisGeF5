@@ -643,7 +643,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       Height = 197
       TabOrder = 4
       object textEditRG: TcxTextEdit
-        Left = 102
+        Left = 104
         Top = 26
         Hint = 'N'#250'mero do RG'
         Properties.MaxLength = 20
@@ -651,10 +651,10 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 0
-        Width = 84
+        Width = 83
       end
       object textEditExpedidor: TcxTextEdit
-        Left = 253
+        Left = 254
         Top = 26
         Hint = 'Org'#227'o expedidor do RG'
         Properties.MaxLength = 20
@@ -665,7 +665,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Width = 98
       end
       object dateEditDataRG: TcxDateEdit
-        Left = 408
+        Left = 409
         Top = 26
         Hint = 'Data da emiss'#227'o do RG'
         Style.BorderColor = clWindowFrame
@@ -694,7 +694,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Width = 48
       end
       object dateEditNascimento: TcxDateEdit
-        Left = 561
+        Left = 562
         Top = 26
         Hint = 'Data do nascimento'
         Style.BorderColor = clWindowFrame
@@ -703,10 +703,10 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 3
-        Width = 80
+        Width = 79
       end
       object textEditNomePai: TcxTextEdit
-        Left = 102
+        Left = 104
         Top = 53
         Hint = 'Nome do Pai'
         Properties.MaxLength = 70
@@ -714,20 +714,20 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 5
-        Width = 264
+        Width = 263
       end
       object textEditNomeMae: TcxTextEdit
-        Left = 452
+        Left = 453
         Top = 53
         Properties.MaxLength = 70
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 6
-        Width = 266
+        Width = 265
       end
       object textEditNaturalidade: TcxTextEdit
-        Left = 102
+        Left = 104
         Top = 80
         Hint = 'Naturalidade'
         Properties.MaxLength = 70
@@ -735,10 +735,10 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 7
-        Width = 432
+        Width = 431
       end
       object lookupComboBoxNaturalidade: TcxLookupComboBox
-        Left = 563
+        Left = 564
         Top = 80
         Hint = 'Sigla do estado da naturalidade '
         Properties.KeyFieldNames = 'uf_estado'
@@ -753,53 +753,53 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 8
-        Width = 155
+        Width = 154
       end
       object textEditSegurancaCNH: TcxTextEdit
-        Left = 102
+        Left = 447
         Top = 107
         Hint = 'C'#243'digo de seguran'#231'a da CNH'
         Properties.MaxLength = 30
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
-        TabOrder = 9
-        Width = 107
+        TabOrder = 11
+        Width = 129
       end
       object textEditNumeroCNH: TcxTextEdit
-        Left = 266
+        Left = 282
         Top = 107
-        Hint = 'N'#250'mero da CNH'
+        Hint = 'N'#250'mero c'#233'dula da CNH'
         Properties.MaxLength = 20
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 10
-        Width = 110
+        Width = 102
       end
       object textEditRegistroCNH: TcxTextEdit
-        Left = 460
+        Left = 104
         Top = 107
         Hint = 'C'#243'digo do regsitro do CNH'
         Properties.MaxLength = 30
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
-        TabOrder = 11
-        Width = 133
+        TabOrder = 9
+        Width = 121
       end
       object textEditCategoriaCNH: TcxTextEdit
-        Left = 658
+        Left = 641
         Top = 107
         Properties.MaxLength = 3
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 12
-        Width = 60
+        Width = 77
       end
       object dateEditEmissaoCNH: TcxDateEdit
-        Left = 102
+        Left = 104
         Top = 134
         Hint = 'Data de emiss'#227'o da CNH'
         Style.BorderColor = clWindowFrame
@@ -811,7 +811,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Width = 117
       end
       object dateEditValidadeCNH: TcxDateEdit
-        Left = 305
+        Left = 307
         Top = 134
         Hint = 'Data da validade da CNH'
         Style.BorderColor = clWindowFrame
@@ -823,7 +823,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Width = 117
       end
       object dateEditPrimeiraCNH: TcxDateEdit
-        Left = 504
+        Left = 506
         Top = 134
         Hint = 'Data da emiss'#227'o da primeira CNH'
         Style.BorderColor = clWindowFrame
@@ -832,10 +832,10 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 15
-        Width = 117
+        Width = 116
       end
       object lookupComboBoxUFCNH: TcxLookupComboBox
-        Left = 650
+        Left = 651
         Top = 134
         Hint = 'Sigla do estado da CNH'
         Properties.KeyFieldNames = 'uf_estado'
@@ -850,7 +850,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 16
-        Width = 68
+        Width = 67
       end
       object textEditNomeFantasia: TcxTextEdit
         Left = 10000
@@ -948,6 +948,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         AlignVert = avTop
         CaptionOptions.Text = 'Pessoa F'#237'sica'
         ButtonOptions.Buttons = <>
+        ItemIndex = 3
         Index = 0
       end
       object layoutItemRG: TdxLayoutItem
@@ -1088,6 +1089,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
+        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 3
@@ -1101,12 +1103,11 @@ object view_CadastroGeral: Tview_CadastroGeral
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 97
         ControlOptions.ShowBorder = False
-        Index = 0
+        Index = 2
       end
       object layoutItemNumeroCNH: TdxLayoutItem
         Parent = layoutGroupFisica4
-        AlignHorz = ahClient
-        AlignVert = avTop
+        AlignVert = avClient
         CaptionOptions.Text = 'N'#186'. CNH:'
         Control = textEditNumeroCNH
         ControlOptions.OriginalHeight = 21
@@ -1116,14 +1117,13 @@ object view_CadastroGeral: Tview_CadastroGeral
       end
       object layoutItemRegistroCNH: TdxLayoutItem
         Parent = layoutGroupFisica4
-        AlignHorz = ahClient
-        AlignVert = avTop
+        AlignVert = avClient
         CaptionOptions.Text = 'Registro CNH:'
         Control = textEditRegistroCNH
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
-        Index = 2
+        Index = 0
       end
       object layoutItemCategoriaCNH: TdxLayoutItem
         Parent = layoutGroupFisica4
@@ -1405,7 +1405,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 9
-        Width = 121
+        Width = 629
       end
       object dbNavigatorEnderecos: TcxDBNavigator
         Left = 26
@@ -1763,7 +1763,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       end
       object layoutItemReferencia: TdxLayoutItem
         Parent = layoutGroupEndereco4
-        AlignHorz = ahLeft
+        AlignHorz = ahClient
         AlignVert = avTop
         CaptionOptions.Text = 'Refer'#234'ncia:'
         Control = dbTextEditReferencia
@@ -1927,7 +1927,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Visible = False
         Control = dbCheckBoxCorrespondencia
         ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 121
+        ControlOptions.OriginalWidth = 112
         ControlOptions.ShowBorder = False
         Index = 0
       end
