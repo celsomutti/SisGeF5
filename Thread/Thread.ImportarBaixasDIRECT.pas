@@ -132,17 +132,17 @@ begin
               FEntregas.Entregas.Baixado := 'S';
               FEntregas.Entregas.Status := 909;
               FEntregas.Entregas.Entrega := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
+              FEntregas.Entregas.TipoPeso := FPlanilha.Planilha.Planilha[i].Tipo;
               if FPlanilha.Planilha.Planilha[i].PesoNominal > FPlanilha.Planilha.Planilha[i].PesoCubado then
               begin
                 FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoNominal;
                 FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.Planilha[i].PesoNominal;
-                FEntregas.Entregas.TipoPeso := 'NORMAL';
+
               end
               else
               begin
                 FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoCubado;
                 FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.Planilha[i].PesoCubado;
-                FEntregas.Entregas.TipoPeso := 'CUBADO';
               end;
               FEntregas.Entregas.PesoFranquia := 0;
               FEntregas.Entregas.Advalorem := 0;
@@ -215,6 +215,7 @@ begin
                   dVerba := FEntregas.Entregas.VerbaEntregador;
                   FEntregas.Entregas.VerbaEntregador := (dVerba / 2);
                   FEntregas.Entregas.CodigoFeedback := 99318;
+                  FEntregas.Entregas.TipoPeso := 'Loja';
                 end;
               end;
             end;

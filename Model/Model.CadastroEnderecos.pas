@@ -150,57 +150,50 @@ begin
   end;end;
 
 function TCadastroEnderecos.Localizar(aParam: array of variant): Boolean;
-var
-  FDQuery: TFDQuery;
 begin
-  try
-    Result := False;
-    FDQuery := FConexao.ReturnQuery();
-    if Length(aParam) < 2 then Exit;
-    FDQuery.SQL.Clear;
+  Result := False;
+  FQuery := FConexao.ReturnQuery();
+  if Length(aParam) < 2 then Exit;
+  FQuery.SQL.Clear;
 
-    FDQuery.SQL.Add('select cod_entregador, seq_endereco, des_tipo, des_logradouro, num_logradouro, des_complemento, ' +
-                    'dom_correspondencia, des_bairro, nom_cidade, uf_estado, num_cep, des_referencia from ' + TABLENAME);
-    if aParam[0] = 'ID' then
-    begin
-      FDQuery.SQL.Add('where cod_cadastro = :cod_cadastro);');
-      FDQuery.ParamByName('cod_cadastro').AsInteger := aParam[1];
-    end;
-    if aParam[0] = 'TIPO' then
-    begin
-      FDQuery.SQL.Add('where cod_cadastro = :cod_cadastro and  des_tipo = :des_tipo');
-      FDQuery.ParamByName('cod_cadastro').AsInteger := aParam[1];
-      FDQuery.ParamByName('des_tipo').AsString := aParam[2];
-    end;
-    if aParam[0] = 'CEP' then
-    begin
-      FDQuery.SQL.Add('where num_cep like :num_cep');
-      FDQuery.ParamByName('NUM_CEP').AsString := aParam[1];
-    end;
-    if aParam[0] = 'ENDERECO' then
-    begin
-      FDQuery.SQL.Add('where des_logradouro like :des_logradouro');
-      FDQuery.ParamByName('des_logradouro').AsString := aParam[1];
-    end;
-    if aParam[0] = 'FILTRO' then
-    begin
-      FDQuery.SQL.Add('where ' + aParam[1]);
-    end;
-    if aParam[0] = 'APOIO' then
-    begin
-      FDQuery.SQL.Clear;
-      FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
-    end;
-    FDQuery.Open();
-    if not FDQuery.IsEmpty then
-    begin
-      FQuery := FDQuery;
-    end;
-    Result := True;
-  finally
-    FDquery.Connection.Close;
-    FDquery.Free;
+  FQuery.SQL.Add('select cod_entregador, seq_endereco, des_tipo, des_logradouro, num_logradouro, des_complemento, ' +
+                 'dom_correspondencia, des_bairro, nom_cidade, uf_estado, num_cep, des_referencia from ' + TABLENAME);
+  if aParam[0] = 'ID' then
+  begin
+    FQuery.SQL.Add('where cod_cadastro = :cod_cadastro);');
+    FQuery.ParamByName('cod_cadastro').AsInteger := aParam[1];
   end;
+  if aParam[0] = 'TIPO' then
+  begin
+    FQuery.SQL.Add('where cod_cadastro = :cod_cadastro and  des_tipo = :des_tipo');
+    FQuery.ParamByName('cod_cadastro').AsInteger := aParam[1];
+    FQuery.ParamByName('des_tipo').AsString := aParam[2];
+  end;
+  if aParam[0] = 'CEP' then
+  begin
+    FQuery.SQL.Add('where num_cep like :num_cep');
+    FQuery.ParamByName('NUM_CEP').AsString := aParam[1];
+  end;
+  if aParam[0] = 'ENDERECO' then
+  begin
+    FQuery.SQL.Add('where des_logradouro like :des_logradouro');
+    FQuery.ParamByName('des_logradouro').AsString := aParam[1];
+  end;
+  if aParam[0] = 'FILTRO' then
+  begin
+    FQuery.SQL.Add('where ' + aParam[1]);
+  end;
+  if aParam[0] = 'APOIO' then
+  begin
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+  end;
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    Exit;
+  end;
+  Result := True;
 end;
 
 function TCadastroEnderecos.SaveBatch(memTable: TFDMemTable): Boolean;

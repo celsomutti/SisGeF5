@@ -132,61 +132,54 @@ begin
 end;
 
 function TCadastroContatos.Localizar(aParam: array of variant): Boolean;
-var
-  FDQuery: TFDQuery;
 begin
-  try
-    Result := False;
-    FDQuery := FConexao.ReturnQuery();
-    if Length(aParam) < 2 then Exit;
-    FDQuery.SQL.Clear;
+  Result := False;
+  FQuery := FConexao.ReturnQuery();
+  if Length(aParam) < 2 then Exit;
+  FQuery.SQL.Clear;
 
-    FDQuery.SQL.Add('select * from ' + TABLENAME);
-    if aParam[0] = 'ID' then
-    begin
-      FDQuery.SQL.Add('whew cod_entregador = :cod_entregador');
-      FDQuery.ParamByName('cod_entregador').AsInteger := aParam[1];
-    end;
-    if aParam[0] = 'SEQUENCIA' then
-    begin
-      FDQuery.SQL.Add('where cod_entregador = :cod_entregador and seq_contato = :seq_contato');
-      FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-      FDQuery.ParamByName('seq_contato').AsInteger := aParam[2];
-    end;
-    if aParam[0] = 'DESCRICAO' then
-    begin
-      FDQuery.SQL.Add('where des_contato like :des_contato');
-      FDQuery.ParamByName('des_contato').AsString := aParam[1];
-    end;
-    if aParam[0] = 'TELEFONE' then
-    begin
-      FDQuery.SQL.Add('where num_telefone like :num_telefone');
-      FDQuery.ParamByName('num_telefone').AsString := aParam[1];
-    end;
-    if aParam[0] = 'EMAIL' then
-    begin
-      FDQuery.SQL.Add('where des_email like :des_email');
-      FDQuery.ParamByName('des_email').AsString := aParam[1];
-    end;
-    if aParam[0] = 'FILTRO' then
-    begin
-      FDQuery.SQL.Add('where ' + aParam[1]);
-    end;
-    if aParam[0] = 'APOIO' then
-    begin
-      FDQuery.SQL.Clear;
-      FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
-    end;
-    FDQuery.Open();
-    if not FDquery.IsEmpty then
-    begin
-      FQuery := FDQuery;
-    end;
-    Result := True;
-  finally
-    FDQuery.Connection.close;
-    FDQuery.Free;
+  FQuery.SQL.Add('select * from ' + TABLENAME);
+  if aParam[0] = 'ID' then
+  begin
+    FQuery.SQL.Add('whew cod_entregador = :cod_entregador');
+    FQuery.ParamByName('cod_entregador').AsInteger := aParam[1];
   end;
+  if aParam[0] = 'SEQUENCIA' then
+  begin
+    FQuery.SQL.Add('where cod_entregador = :cod_entregador and seq_contato = :seq_contato');
+    FQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
+    FQuery.ParamByName('seq_contato').AsInteger := aParam[2];
+  end;
+  if aParam[0] = 'DESCRICAO' then
+  begin
+    FQuery.SQL.Add('where des_contato like :des_contato');
+    FQuery.ParamByName('des_contato').AsString := aParam[1];
+  end;
+  if aParam[0] = 'TELEFONE' then
+  begin
+    FQuery.SQL.Add('where num_telefone like :num_telefone');
+    FQuery.ParamByName('num_telefone').AsString := aParam[1];
+  end;
+  if aParam[0] = 'EMAIL' then
+  begin
+    FQuery.SQL.Add('where des_email like :des_email');
+    FQuery.ParamByName('des_email').AsString := aParam[1];
+  end;
+  if aParam[0] = 'FILTRO' then
+  begin
+    FQuery.SQL.Add('where ' + aParam[1]);
+  end;
+  if aParam[0] = 'APOIO' then
+  begin
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+  end;
+  FQuery.Open();
+  if Fquery.IsEmpty then
+  begin
+    Exit;
+  end;
+  Result := True;
 end;
 
 function TCadastroContatos.SaveBatch(memTable: TFDMemTable): Boolean;

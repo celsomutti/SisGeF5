@@ -274,91 +274,84 @@ end;
 
 function TCadastroGeral.Localizar(aParam: array of variant): Boolean;
 var
-  FDQuery: TFDQuery;
   sfields: String;
 begin
-  try
-    REsult := False;
-    FDQuery := FConexao.ReturnQuery();
-    if Length(aParam) < 2 then Exit;
-    FDQuery.SQL.Clear;
+  REsult := False;
+  FQuery := FConexao.ReturnQuery();
+  if Length(aParam) < 2 then Exit;
+  FQuery.SQL.Clear;
 
-    FDQuery.SQL.Add(SQLQUERY);
-    if aParam[0] = 'ID' then
-    begin
-      FDQuery.SQL.Add('where id_cadastro = :id_cadastro');
-      FDQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
-    end;
-    if aParam[0] = 'RG' then
-    begin
-      FDQuery.SQL.Add('where um_rg = :um_rg');
-      FDQuery.ParamByName('um_rg').AsString := aParam[1];
-    end;
-    if aParam[0] = 'CPFCNPJ' then
-    begin
-      FDQuery.SQL.Add('where num_cpf = :num_cpf');
-      FDQuery.ParamByName('num_cpf').AsString := aParam[1];
-    end;
-    if aParam[0] = 'SEGCNH' then
-    begin
-      FDQuery.SQL.Add('where cod_seguranca_cnh = :cod_seguranca_cnh');
-      FDQuery.ParamByName('cod_seguranca_cnh').AsString := aParam[1];
-    end;
-    if aParam[0] = 'REGISTROCNH' then
-    begin
-      FDQuery.SQL.Add('where num_registro_cnh = :num_registro_cnh');
-      FDQuery.ParamByName('num_registro_cnh').AsString := aParam[1];
-    end;
-    if aParam[0] = 'NOME' then
-    begin
-      FDQuery.SQL.Add('where nom_nome_razao LIKE :nom_nome_razao');
-      FDQuery.ParamByName('nom_nome_razao').AsString := aParam[1];
-    end;
-    if aParam[0] = 'ALIAS' then
-    begin
-      FDQuery.SQL.Add('where nom_fantasia LIKE :nom_fantasia');
-      FDQuery.ParamByName('nom_fantasia').AsString := aParam[1];
-    end;
-    if aParam[0] = 'FILTRO' then
-    begin
-      FDQuery.SQL.Add('where ' + aParam[1]);
-    end;
-    if aParam[0] = 'APOIO' then
-    begin
-      FDQuery.SQL.Clear;
-      FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
-    end;
-    if aParam[0] = 'MACRO' then
-    begin
-      if aParam[1] = '*' then
-      begin
-        sFields :=  'id_cadastro, cod_tipo_cadastro, cod_pessoa, nom_nome_razao, nom_fantasia, num_cpf_cnpj, num_rg_ie, ' +
-                  'des_expedidor, dat_emissao_rg, uf_expedidor_rg, dat_nascimento, nom_pai, nom_mae, des_nacionalidade, ' +
-                  'des_naturalidade, uf_naturalidade, num_suframa, num_cnae, num_crt, cod_seguranca_cnh, cod_cnh, ' +
-                  'num_registro_cnh, dat_validade_cnh, des_categoria, dat_emissao_cnh, dat_primeira_cnh, uf_cnh, cod_sexo, ' +
-                  'des_estado_civil, dat_cadastro, cod_usuario, des_imagem, id_status, des_obs, num_iest';
-      end
-      else
-      begin
-        sFields := aParam[1];
-      end;
-      FDQuery.SQL.Clear;
-      FDQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
-      FDQuery.MacroByName('colums').AsRaw := sFields;
-      FDQuery.MacroByName('table').AsRaw := TABLENAME;
-      FDQuery.MacroByName('where').AsRaw := aParam[2];
-    end;
-    FDQuery.Open();
-    if FDQuery.IsEmpty then
-    begin
-      Exit;
-    end;
-    FQuery := FDQuery;
-    Result := True;
-  finally
-    FDQuery.Connection.Close;
-    FDQuery.Free;
+  FQuery.SQL.Add(SQLQUERY);
+  if aParam[0] = 'ID' then
+  begin
+    FQuery.SQL.Add('where id_cadastro = :id_cadastro');
+    FQuery.ParamByName('id_cadastro').AsInteger := aParam[1];
   end;
+  if aParam[0] = 'RG' then
+  begin
+    FQuery.SQL.Add('where um_rg = :um_rg');
+    FQuery.ParamByName('um_rg').AsString := aParam[1];
+  end;
+  if aParam[0] = 'CPFCNPJ' then
+  begin
+    FQuery.SQL.Add('where num_cpf = :num_cpf');
+    FQuery.ParamByName('num_cpf').AsString := aParam[1];
+  end;
+  if aParam[0] = 'SEGCNH' then
+  begin
+    FQuery.SQL.Add('where cod_seguranca_cnh = :cod_seguranca_cnh');
+    FQuery.ParamByName('cod_seguranca_cnh').AsString := aParam[1];
+  end;
+  if aParam[0] = 'REGISTROCNH' then
+  begin
+    FQuery.SQL.Add('where num_registro_cnh = :num_registro_cnh');
+    FQuery.ParamByName('num_registro_cnh').AsString := aParam[1];
+  end;
+  if aParam[0] = 'NOME' then
+  begin
+    FQuery.SQL.Add('where nom_nome_razao LIKE :nom_nome_razao');
+    FQuery.ParamByName('nom_nome_razao').AsString := aParam[1];
+  end;
+  if aParam[0] = 'ALIAS' then
+  begin
+    FQuery.SQL.Add('where nom_fantasia LIKE :nom_fantasia');
+    FQuery.ParamByName('nom_fantasia').AsString := aParam[1];
+  end;
+  if aParam[0] = 'FILTRO' then
+  begin
+    FQuery.SQL.Add('where ' + aParam[1]);
+  end;
+  if aParam[0] = 'APOIO' then
+  begin
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+  end;
+  if aParam[0] = 'MACRO' then
+  begin
+    if aParam[1] = '*' then
+    begin
+      sFields :=  'id_cadastro, cod_tipo_cadastro, cod_pessoa, nom_nome_razao, nom_fantasia, num_cpf_cnpj, num_rg_ie, ' +
+                'des_expedidor, dat_emissao_rg, uf_expedidor_rg, dat_nascimento, nom_pai, nom_mae, des_nacionalidade, ' +
+                'des_naturalidade, uf_naturalidade, num_suframa, num_cnae, num_crt, cod_seguranca_cnh, cod_cnh, ' +
+                'num_registro_cnh, dat_validade_cnh, des_categoria, dat_emissao_cnh, dat_primeira_cnh, uf_cnh, cod_sexo, ' +
+                'des_estado_civil, dat_cadastro, cod_usuario, des_imagem, id_status, des_obs, num_iest';
+    end
+    else
+    begin
+      sFields := aParam[1];
+    end;
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
+    FQuery.MacroByName('colums').AsRaw := sFields;
+    FQuery.MacroByName('table').AsRaw := TABLENAME;
+    FQuery.MacroByName('where').AsRaw := aParam[2];
+  end;
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    Exit;
+  end;
+  Result := True;
 end;
 
 procedure TCadastroGeral.SetupClass(FDquery: TFDQuery);

@@ -133,16 +133,15 @@ begin
             FEntregas.Entregas.Fechado := 'N';
             FEntregas.Entregas.Status := 0;
             FEntregas.Entregas.Entrega := StrToDate('30/12/1899');
+            FEntregas.Entregas.TipoPeso := FPlanilha.Planilha.Planilha[i].Tipo;
             dPeso := 0;
             if FPlanilha.Planilha.Planilha[i].PesoCubado > FPlanilha.Planilha.Planilha[i].PesoNominal then
             begin
               FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoCubado;
-              FEntregas.Entregas.TipoPeso := 'CUBADO';
             end
             else
             begin
               FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoNominal;
-              FEntregas.Entregas.TipoPeso := 'NOMINAL';
             end;
             dPeso := FEntregas.Entregas.PesoReal;
             FEntregas.Entregas.PesoFranquia := 0;
