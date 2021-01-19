@@ -81,7 +81,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.VisualizacaoPlanilha;
+uses Data.SisGeF, View.VisualizacaoPlanilha, Global.Parametros;
 
 procedure Tview_ImportarBaixasTFO.actAbrirExecute(Sender: TObject);
 begin
@@ -145,7 +145,7 @@ end;
 
 procedure Tview_ImportarBaixasTFO.AtualizaLOGDIRECT;
 begin
-if not direct.bProcess then
+if not Global.Parametros.pbProcess then
   begin
     Timer1.Enabled := False;
     dxLayoutItem7.Visible := False;
@@ -158,12 +158,12 @@ if not direct.bProcess then
   end
   else
   begin
-    pbImportacao.Position := direct.dPositionRegister;
-    memLog.Lines.Text := direct.sLog;
-    if Length(direct.sAlerta) > 0 then
+    pbImportacao.Position := Global.Parametros.pdPos;
+    memLog.Lines.Text := Global.Parametros.psLOG;
+    if Length(Global.Parametros.psMessage) > 0 then
     begin
-      Application.MessageBox(PChar(direct.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilha.sAlerta := '';
+      Application.MessageBox(PChar(Global.Parametros.psMessage), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Global.Parametros.psMessage := '';
     end;
   end;
   if direct.bCancel then
@@ -179,7 +179,7 @@ end;
 
 procedure Tview_ImportarBaixasTFO.AtualizaLogTFO;
 begin
-if not planilha.bProcess then
+if not Global.Parametros.pbProcess then
   begin
     Timer1.Enabled := False;
     dxLayoutItem7.Visible := False;
@@ -192,12 +192,12 @@ if not planilha.bProcess then
   end
   else
   begin
-    pbImportacao.Position := planilha.dPositionRegister;
-    memLog.Lines.Text := planilha.sLog;
-    if Length(planilha.sAlerta) > 0 then
+    pbImportacao.Position := Global.Parametros.pdPos;
+    memLog.Lines.Text := Global.Parametros.psLOG;
+    if Length(Global.Parametros.psMessage) > 0 then
     begin
-      Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilha.sAlerta := '';
+      Application.MessageBox(PChar(Global.Parametros.psMessage), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Global.Parametros.psMessage := '';
     end;
   end;
   if planilha.bCancel then

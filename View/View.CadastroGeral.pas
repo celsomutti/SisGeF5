@@ -896,7 +896,7 @@ begin
         Exit;
       end;
     end;
-    if not textEditNome.Text = '' then
+    if textEditNome.Text = '' then
     begin
       Application.MessageBox('Informe o nome ou razão social!','Atenção',MB_OK + MB_ICONEXCLAMATION);
       textEditNome.SetFocus;
@@ -904,7 +904,7 @@ begin
     end;
     if comboBoxTipoPessoa.ItemIndex = 2 then
     begin
-      if not textEditNomeFantasia.Text = '' then
+      if textEditNomeFantasia.Text = '' then
       begin
         Application.MessageBox('Informe o nome fantasia!','Atenção',MB_OK + MB_ICONEXCLAMATION);
         textEditNomeFantasia.SetFocus;

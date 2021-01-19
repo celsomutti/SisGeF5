@@ -75,9 +75,9 @@ procedure TThread_ImportarBaixasTFO.BeginProcesso;
 var
   sMensagem: String;
 begin
-  sLog := '';
+  Global.Parametros.psLog := '';
   bCancel := False;
-  bProcess := True;
+  Global.Parametros.pbProcess := True;
   sMensagem := '';
   sMensagem := '>> ' +  FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > iniciando importação do arquivo ' + FFile;
   UpdateLog(sMensagem);
@@ -308,16 +308,16 @@ end;
 
 procedure TThread_ImportarBaixasTFO.UpdateLOG(sMensagem: string);
 begin
-if sLog <> '' then
+if Global.Parametros.psLog <> '' then
   begin
-    sLog := sLog + #13;
+    Global.Parametros.psLog := Global.Parametros.psLog + #13;
   end;
-  sLog := sLog + sMensagem;
+  Global.Parametros.psLog := Global.Parametros.psLog + sMensagem;
 end;
 
 procedure TThread_ImportarBaixasTFO.UpdateProgress(dPosition: Double);
 begin
-  dPositionRegister := dPosition;
+  Global.Parametros.pdPos := dPosition;
 end;
 
 end.

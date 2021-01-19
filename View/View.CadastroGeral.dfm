@@ -948,7 +948,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         AlignVert = avTop
         CaptionOptions.Text = 'Pessoa F'#237'sica'
         ButtonOptions.Buttons = <>
-        ItemIndex = 3
         Index = 0
       end
       object layoutItemRG: TdxLayoutItem
@@ -1089,7 +1088,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 3
@@ -1927,7 +1925,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Visible = False
         Control = dbCheckBoxCorrespondencia
         ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 112
+        ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
         Index = 0
       end

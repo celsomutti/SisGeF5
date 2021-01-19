@@ -518,7 +518,7 @@ begin
   currencyEditTicketMedio.Value := 0;
   buttonEditCodigoTabela.EditValue := 0;
   textEditDescricaoTabela.Text := '';
-  lookupComboBoxCliente.ItemIndex := 0;
+  lookupComboBoxCliente.ItemIndex := -1;
   checkBoxAtivo.EditValue := 1;
 end;
 

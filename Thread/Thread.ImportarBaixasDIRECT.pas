@@ -1,3 +1,4 @@
+
 unit Thread.ImportarBaixasDIRECT;
 
 interface
@@ -77,9 +78,9 @@ procedure TThread_ImportarBaixasDIRECT.BeginProcesso;
 var
   sMensagem: String;
 begin
-  sLog := '';
+  Global.Parametros.psLOG := '';
   bCancel := False;
-  bProcess := True;
+  Global.Parametros.pbProcess := True;
   sMensagem := '';
   sMensagem := '>> ' +  FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + ' > iniciando importação do arquivo ' + FFile;
   UpdateLog(sMensagem);
@@ -405,21 +406,21 @@ end;
 
 procedure TThread_ImportarBaixasDIRECT.TerminateProcess;
 begin
-  bProcess := False;
+  Global.Parametros.pbProcess := False;
 end;
 
 procedure TThread_ImportarBaixasDIRECT.UpdateLOG(sMensagem: string);
 begin
-if sLog <> '' then
+if Global.Parametros.psLOG <> '' then
   begin
-    sLog := sLog + #13;
+    Global.Parametros.psLOG := Global.Parametros.psLOG + #13;
   end;
-  sLog := sLog + sMensagem;
+  Global.Parametros.psLOG := Global.Parametros.psLOG + sMensagem;
 end;
 
 procedure TThread_ImportarBaixasDIRECT.UpdateProgress(dPosition: Double);
 begin
-  dPositionRegister := dPosition;
+  Global.Parametros.pdPos := dPosition;
 end;
 
 end.
