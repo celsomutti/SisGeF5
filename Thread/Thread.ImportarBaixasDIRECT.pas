@@ -1,4 +1,3 @@
-
 unit Thread.ImportarBaixasDIRECT;
 
 interface

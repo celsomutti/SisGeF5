@@ -130,7 +130,7 @@ begin
       FPlanilha[i].PesoCTE := StrToFloatDef(sValor, 0);
       FPlanilha[i].Operacao := sDetalhe[18];
       FPlanilha[i].Regiao := sDetalhe[19];
-      if sDetalhe.Count = 21 then
+      if sDetalhe.Count >= 21 then
       begin
         FPLanilha[i].Loja := sDetalhe[20];
       end
