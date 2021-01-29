@@ -10,9 +10,9 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
   Font.Height = -11
   Font.Name = 'Segoe UI'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
   Visible = True
   OnClose = FormClose
@@ -510,7 +510,7 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
       Visible = False
       OnEnter = txtParametroEnter
       OnExit = txtParametroExit
-      Width = 121
+      Width = 892
     end
     object cxButton11: TcxButton
       Left = 10000
@@ -524,8 +524,8 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
     object grdExtravios: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 1101
-      Height = 375
+      Width = 1031
+      Height = 344
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -569,9 +569,25 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
         OnCellDblClick = tvExtraviosCellDblClick
         DataController.DataSource = dsExtravios
         DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Column = tvExtraviosVAL_TOTAL
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Column = tvExtraviosVAL_PRODUTO
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Column = tvExtraviosVAL_VERBA
+          end>
         DataController.Summary.SummaryGroups = <>
         OptionsCustomize.ColumnsQuickCustomization = True
+        OptionsView.Footer = True
         OptionsView.Indicator = True
         object tvExtraviosRecId: TcxGridDBColumn
           DataBinding.FieldName = 'RecId'
@@ -802,7 +818,7 @@ object view_ExtraviosMultas: Tview_ExtraviosMultas
       Style.HotTrack = False
       TabOrder = 33
       Visible = False
-      Width = 121
+      Width = 1031
     end
     object cboTipo: TcxComboBox
       Left = 106

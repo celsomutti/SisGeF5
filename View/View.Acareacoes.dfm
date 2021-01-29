@@ -10,9 +10,9 @@ object view_Acareacoes: Tview_Acareacoes
   Font.Height = -11
   Font.Name = 'Segoe UI'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
   Visible = True
   OnClose = FormClose
@@ -732,7 +732,7 @@ object view_Acareacoes: Tview_Acareacoes
         'Selecione ...'
         'RAMOS'
         'NIT 2'
-        'ZNO')
+        'ZNO 1')
       Properties.OnChange = cboUnidadePropertiesChange
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -2228,7 +2228,7 @@ object view_Acareacoes: Tview_Acareacoes
           7B5C727466315C616E73695C616E7369637067313235325C64656666305C6E6F
           7569636F6D7061745C6465666C616E67313034367B5C666F6E7474626C7B5C66
           305C666E696C5C666368617273657430205461686F6D613B7D7D0D0A7B5C2A5C
-          67656E657261746F722052696368656432302031302E302E31383336327D5C76
+          67656E657261746F722052696368656432302031302E302E31393034317D5C76
           6965776B696E64345C756331200D0A5C706172645C66305C667331365C706172
           0D0A7D0D0A00}
       end

@@ -374,9 +374,35 @@ end;
 procedure Tview_ExtraviosMultas.Finalizar;
 var
   lLog : TStringList;
+  FEntregas: TEntregasControl;
+  dVerba: Double;
+  aParam: array of variant;
 begin
   try
     if Application.MessageBox('Confirma finalizar este Extravio/Multa?', 'Finalizar', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit;
+    dVerba := 0;
+
+    // I-2021-01-26 CM **********
+    // Verificando se houve o pagamento da verba após o registro do extravio e antes da
+    // finalização.
+    if FExtravios.Extravios.Tipo = 0 then
+    begin
+      FEntregas := TEntregasControl.Create;
+      SetLength(aParam,2);
+      aParam := ['NN', FExtravios.Extravios.NN];
+      if FEntregas.LocalizarExata(aParam) then
+      begin
+        dVerba := FEntregas.Entregas.VerbaEntregador;
+      end;
+      Finalize(aParam);
+      FEntregas.Free;
+      if FExtravios.Extravios.Verba <> dVerba then
+      begin
+        FExtravios.Extravios.Verba := dVerba;
+      end;
+    end;
+    // I-2021-01-26 CM **********
+
     lLog := TStringList.Create;
     lLog.Text := FExtravios.Extravios.Obs;
     lLog.Add('Extravio finalizado em ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' por ' + Global.Parametros.pNameUser);
@@ -562,6 +588,11 @@ var
   dVerba: Double;
 begin
   try
+
+    FBases := TBasesControl.Create;
+    FEntregadores := TEntregadoresExpressasControl.Create;
+    FEntregas := TEntregasControl.Create;
+
     // procura extravio;
     sNN := FormatFloat('0',StrToFloatDef(sNN,0));
     FExtravios.Extravios.NN := sNN;
@@ -573,7 +604,6 @@ begin
       ClearFields;
       AccessField(False);
       Setupbuttons;
-      FDQuery.Free;
       Exit;
     end;
 
@@ -585,9 +615,6 @@ begin
     sAgente := 'NONE';
 
     {apanha os dados da entrega para lançamento do extravio}
-    FBases := TBasesControl.Create;
-    FEntregadores := TEntregadoresExpressasControl.Create;
-    FEntregas := TEntregasControl.Create;
 
     SetLength(pParam,2);
     pParam := ['NN', sNN];
@@ -848,7 +875,7 @@ end;
 
 procedure Tview_ExtraviosMultas.ClearFields();
 begin
-  txtNossoNumero.Text := '';
+  txtNossoNumero.Clear;
   cboTipo.ItemIndex := -1;
   cboMotivo.ItemIndex := -1;
   datExtravio.Clear;
@@ -1398,7 +1425,7 @@ begin
   end;
   if FExtravios.Extravios.Acao = Common.ENum.tacIncluir then
   begin
-    LocalizaEntrega(txtNossoNumero.Text, cboTipo.ItemIndex);
+    LocalizaEntrega(DisplayValue, cboTipo.ItemIndex);
   end;
 end;
 
