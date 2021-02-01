@@ -560,9 +560,6 @@ begin
     if memTableLancamentos.Active then memTableLancamentos.Close;
     if memTableExpressas.Active then memTableExpressas.Close;
     if memTableEntregadores.Active then memTableEntregadores.Close;
-    textEditDescricaoTabela.Text := '';
-    textEditNomeAgente.Text := '';
-    textEditNomePessoa.Text := '';
   end
   else if FAcao = tacIncluir then
   begin
@@ -585,9 +582,6 @@ begin
     currencyEditTicketMedio.Properties.ReadOnly := False;
     checkBoxAtivo.Properties.ReadOnly := False;
     layoutGroupHistorico.Visible := False;
-    textEditDescricaoTabela.Text := '';
-    textEditNomeAgente.Text := '';
-    textEditNomePessoa.Text := '';
   end
   else if FAcao = tacAlterar then
   begin
@@ -614,9 +608,9 @@ begin
   end
   else if FAcao = tacPesquisa then
   begin
-    actionNovo.Enabled := False;
+    actionNovo.Enabled := True;
     actionEditar.Enabled := True;
-    actionLocalizar.Enabled := False;
+    actionLocalizar.Enabled := True;
     actionCancelar.Enabled := True;
     actionGravar.Enabled := False;
     maskEditCodigo.Properties.ReadOnly := True;
@@ -1090,9 +1084,9 @@ begin
       aParam := ['ID',StrTOIntDef(textEditID.Text, 0)];
       if entregadores.LocalizarExato(aParam) then
       begin
-        if buttonEditPessoa.EditValue <> 0 then
+        if entregadores.Entregadores.Cadastro <> buttonEditPessoa.EditValue then
         begin
-          if entregadores.Entregadores.Cadastro <> buttonEditPessoa.EditValue then
+          if buttonEditPessoa.EditValue <> 0 then
           begin
             if Application.MessageBox('Entregador já está vinculado a outra pessoa. Conrtinuar ?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
             begin

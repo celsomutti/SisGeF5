@@ -87,7 +87,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.VisualizacaoPlanilha;
+uses Data.SisGeF, View.VisualizacaoPlanilha, Global.Parametros;
 
 procedure Tview_ImportarPedidos.AbreArquivo;
 begin
@@ -201,7 +201,7 @@ end;
 
 procedure Tview_ImportarPedidos.AtualizaLOGDIRECT;
 begin
-  if not planilhaDIRECT.bProcess then
+  if not Global.Parametros.pbProcess then
   begin
     Timer1.Enabled := False;
     dxLayoutItem8.Visible := False;
@@ -210,11 +210,8 @@ begin
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
     memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
-    if Length(planilhaDIRECT.sAlerta) > 0 then
-    begin
-      Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilhaDIRECT.sAlerta := '';
-    end;
+    Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    planilhaDIRECT.sAlerta := '';
     edtArquivo.Text := '';
     pbImportacao.Position := 0;
   end
@@ -224,14 +221,9 @@ begin
     actImportar.Enabled := False;
     actCancelar.Enabled := True;
     actAbrirArquivo.Enabled := False;
-    pbImportacao.Position := planilhaDIRECT.dPositionRegister;
-    memLog.Lines.Text := planilhaDIRECT.sLog;
+    pbImportacao.Position := Global.Parametros.pdPos;
+    memLog.Lines.Text := Global.Parametros.psLog;
     Screen.Cursor := crHourGlass;
-    if Length(planilhaDIRECT.sAlerta) > 0 then
-    begin
-      Application.MessageBox(PChar(planilhaDIRECT.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilhaDIRECT.sAlerta := '';
-    end;
   end;
   if planilhaDIRECT.bCancel then
   begin
@@ -241,11 +233,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
-    if Length(planilhaDIRECT.sAlerta) > 0 then
-    begin
-      Application.MessageBox(PChar(planilhaDIRECT.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilhaDIRECT.sAlerta := '';
-    end;
+    Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;
 
@@ -270,14 +258,9 @@ begin
     actImportar.Enabled := False;
     actCancelar.Enabled := True;
     actAbrirArquivo.Enabled := False;
-    pbImportacao.Position := planilhaSIMExpress.dPositionRegister;
-    memLog.Lines.Text := planilhaSIMExpress.sLog;
+    pbImportacao.Position := Global.Parametros.pdPos;
+    memLog.Lines.Text := Global.Parametros.psLog;
     Screen.Cursor := crHourGlass;
-    if Length(planilhaSIMExpress.sAlerta) > 0 then
-    begin
-      Application.MessageBox(PChar(planilhaSIMExpress.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilhaSIMExpress.sAlerta := '';
-    end;
   end;
   if planilhaSIMExpress.bCancel then
   begin
@@ -294,7 +277,7 @@ end;
 
 procedure Tview_ImportarPedidos.AtualizaLogTFO;
 begin
-  if not planilha.bProcess then
+  if not Global.Parametros.pbProcess then
   begin
     Timer1.Enabled := False;
     dxLayoutItem8.Visible := False;
@@ -303,11 +286,7 @@ begin
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
     memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
-    if Length(planilha.sAlerta) > 0 then
-    begin
-      Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilha.sAlerta := '';
-    end;
+    Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     edtArquivo.Text := '';
     pbImportacao.Position := 0;
   end
@@ -318,13 +297,8 @@ begin
     actCancelar.Enabled := True;
     actAbrirArquivo.Enabled := False;
     Screen.Cursor := crHourGlass;
-    pbImportacao.Position := planilha.dPositionRegister;
-    memLog.Lines.Text := planilha.sLog;
-    if Length(planilha.sAlerta) > 0 then
-    begin
-      Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilha.sAlerta := '';
-    end;
+    pbImportacao.Position := Global.Parametros.pdPos;
+    memLog.Lines.Text := Global.Parametros.psLog;
   end;
   if planilha.bCancel then
   begin
@@ -334,11 +308,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
-    if Length(planilha.sAlerta) > 0 then
-    begin
-      Application.MessageBox(PChar(planilha.sAlerta), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      planilha.sAlerta := '';
-    end;
+    Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;
 

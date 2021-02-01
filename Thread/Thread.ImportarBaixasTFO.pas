@@ -303,7 +303,7 @@ end;
 
 procedure TThread_ImportarBaixasTFO.TerminateProcess;
 begin
-  bProcess := False;
+   Global.Parametros.pbProcess := False;
 end;
 
 procedure TThread_ImportarBaixasTFO.UpdateLOG(sMensagem: string);
