@@ -1925,7 +1925,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         CaptionOptions.Visible = False
         Control = dbCheckBoxCorrespondencia
         ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 121
+        ControlOptions.OriginalWidth = 112
         ControlOptions.ShowBorder = False
         Index = 0
       end
