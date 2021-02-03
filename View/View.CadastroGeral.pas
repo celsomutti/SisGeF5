@@ -206,15 +206,6 @@ type
     layoutItemValidadeGR: TdxLayoutItem;
     textEditNumeroConsultaGR: TcxTextEdit;
     layoutItemNumeroConsultaGR: TdxLayoutItem;
-    layoutGroupMEI: TdxLayoutGroup;
-    textEditCodigoIMEI: TcxTextEdit;
-    layoutItemCodigoIMEI: TdxLayoutItem;
-    maskEditCNPJIMEI: TcxMaskEdit;
-    layoutItemCNPJIMEI: TdxLayoutItem;
-    textEditNomeMEI: TcxTextEdit;
-    layoutItemNomeMEI: TdxLayoutItem;
-    textEditNomeFantasiaMEI: TcxTextEdit;
-    layoutItemFantasiaMEI: TdxLayoutItem;
     layoutGroupObs: TdxLayoutGroup;
     memoObservacoes: TcxMemo;
     layoutItemObservacoes: TdxLayoutItem;

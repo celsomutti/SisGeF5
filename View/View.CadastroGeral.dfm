@@ -1979,62 +1979,13 @@ object view_CadastroGeral: Tview_CadastroGeral
       Visible = False
       Width = 119
     end
-    object textEditCodigoIMEI: TcxTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'C'#243'digo do IMEI'
-      Properties.MaxLength = 12
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 10
-      Visible = False
-      Width = 73
-    end
-    object maskEditCNPJIMEI: TcxMaskEdit
-      Left = 10000
-      Top = 10000
-      Properties.IgnoreMaskBlank = True
-      Properties.EditMask = '!00\.000\.000\/0000\-00;1; '
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 11
-      Text = '  .   .   /    -  '
-      Visible = False
-      Width = 106
-    end
-    object textEditNomeMEI: TcxTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Raz'#227'o Social MEI'
-      Properties.MaxLength = 70
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 12
-      Visible = False
-      Width = 135
-    end
-    object textEditNomeFantasiaMEI: TcxTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Nome Fantasia MEI'
-      Properties.MaxLength = 70
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 13
-      Visible = False
-      Width = 136
-    end
     object memoObservacoes: TcxMemo
       Left = 10000
       Top = 10000
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 14
+      TabOrder = 10
       Visible = False
       Height = 89
       Width = 744
@@ -2143,9 +2094,9 @@ object view_CadastroGeral: Tview_CadastroGeral
     end
     object layoutGroupComplementos: TdxLayoutGroup
       Parent = layoutGroupMaster
-      CaptionOptions.Text = 'GR / MEI / Observa'#231#245'es'
+      CaptionOptions.Text = 'GR / Observa'#231#245'es'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
+      ItemIndex = 1
       Index = 1
     end
     object layoutGroupGR: TdxLayoutGroup
@@ -2202,66 +2153,13 @@ object view_CadastroGeral: Tview_CadastroGeral
       ControlOptions.ShowBorder = False
       Index = 3
     end
-    object layoutGroupMEI: TdxLayoutGroup
-      Parent = layoutGroupComplementos
-      AlignHorz = ahClient
-      AlignVert = avTop
-      CaptionOptions.Text = 'MEI'
-      ButtonOptions.Buttons = <>
-      LayoutDirection = ldHorizontal
-      Index = 1
-    end
-    object layoutItemCodigoIMEI: TdxLayoutItem
-      Parent = layoutGroupMEI
-      AlignHorz = ahClient
-      AlignVert = avTop
-      CaptionOptions.Text = 'C'#243'd. IMEI:'
-      Control = textEditCodigoIMEI
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 64
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object layoutItemCNPJIMEI: TdxLayoutItem
-      Parent = layoutGroupMEI
-      AlignHorz = ahClient
-      AlignVert = avTop
-      CaptionOptions.Text = 'CNPJ:'
-      Control = maskEditCNPJIMEI
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 96
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object layoutItemNomeMEI: TdxLayoutItem
-      Parent = layoutGroupMEI
-      AlignHorz = ahClient
-      AlignVert = avTop
-      CaptionOptions.Text = 'Raz'#227'o Social:'
-      Control = textEditNomeMEI
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
-    object layoutItemFantasiaMEI: TdxLayoutItem
-      Parent = layoutGroupMEI
-      AlignHorz = ahClient
-      AlignVert = avTop
-      CaptionOptions.Text = 'Nome Fantasia:'
-      Control = textEditNomeFantasiaMEI
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 3
-    end
     object layoutGroupObs: TdxLayoutGroup
       Parent = layoutGroupComplementos
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
       ShowBorder = False
-      Index = 2
+      Index = 1
     end
     object layoutItemObservacoes: TdxLayoutItem
       Parent = layoutGroupObs
