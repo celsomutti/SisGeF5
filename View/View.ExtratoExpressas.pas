@@ -1178,7 +1178,7 @@ begin
     while not fdQuery.Eof do
     begin
       SetLength(aParam,2);
-      aParam[0] := 'CADASTRO';
+      aParam[0] := 'ENTREGADOR';
       aParam[1] := fdQuery.FieldByName('cod_entregador').AsInteger;
       fdQuery1 := entregadores.Localizar(aParam);
       Finalize(aParam);

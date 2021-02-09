@@ -322,10 +322,6 @@ begin
   textEditEmpresaGR.Clear;
   dateEditValidadeGR.Clear;
   textEditNumeroConsultaGR.Clear;
-  textEditCodigoIMEI.Clear;
-  maskEditCNPJIMEI.Clear;
-  textEditNomeMEI.Clear;
-  textEditNomeFantasiaMEI.Clear;
   memoObservacoes.Lines.Clear;
 end;
 
@@ -431,10 +427,6 @@ begin
     textEditEmpresaGR.Properties.ReadOnly := True;
     dateEditValidadeGR.Properties.ReadOnly := True;
     textEditNumeroConsultaGR.Properties.ReadOnly := True;
-    textEditCodigoIMEI.Properties.ReadOnly := True;
-    maskEditCNPJIMEI.Properties.ReadOnly := True;
-    textEditNomeMEI.Properties.ReadOnly := True;
-    textEditNomeFantasiaMEI.Properties.ReadOnly := True;
     memoObservacoes.Properties.ReadOnly := True;
     dsEnderecos.AutoEdit := False;
     dsContatos.AutoEdit := False;
@@ -490,10 +482,6 @@ begin
     textEditEmpresaGR.Properties.ReadOnly := False;
     dateEditValidadeGR.Properties.ReadOnly := False;
     textEditNumeroConsultaGR.Properties.ReadOnly := False;
-    textEditCodigoIMEI.Properties.ReadOnly := False;
-    maskEditCNPJIMEI.Properties.ReadOnly := False;
-    textEditNomeMEI.Properties.ReadOnly := False;
-    textEditNomeFantasiaMEI.Properties.ReadOnly := False;
     memoObservacoes.Properties.ReadOnly := False;
     dsEnderecos.AutoEdit := True;
     dsContatos.AutoEdit := True;
@@ -548,10 +536,6 @@ begin
     textEditEmpresaGR.Properties.ReadOnly := False;
     dateEditValidadeGR.Properties.ReadOnly := False;
     textEditNumeroConsultaGR.Properties.ReadOnly := False;
-    textEditCodigoIMEI.Properties.ReadOnly := False;
-    maskEditCNPJIMEI.Properties.ReadOnly := False;
-    textEditNomeMEI.Properties.ReadOnly := False;
-    textEditNomeFantasiaMEI.Properties.ReadOnly := False;
     memoObservacoes.Properties.ReadOnly := False;
     dsEnderecos.AutoEdit := True;
     dsContatos.AutoEdit := True;
@@ -606,10 +590,6 @@ begin
     textEditEmpresaGR.Properties.ReadOnly := True;
     dateEditValidadeGR.Properties.ReadOnly := True;
     textEditNumeroConsultaGR.Properties.ReadOnly := True;
-    textEditCodigoIMEI.Properties.ReadOnly := True;
-    maskEditCNPJIMEI.Properties.ReadOnly := True;
-    textEditNomeMEI.Properties.ReadOnly := True;
-    textEditNomeFantasiaMEI.Properties.ReadOnly := True;
     memoObservacoes.Properties.ReadOnly := True;
     dsEnderecos.AutoEdit := False;
     dsContatos.AutoEdit := False;
@@ -821,10 +801,6 @@ begin
   textEditEmpresaGR.Text := FCadastro.Cadastro.EmpresaGR;
   dateEditValidadeGR.Date := FCadastro.Cadastro.DataGV;
   textEditNumeroConsultaGR.Text := FCadastro.Cadastro.NumeroConsultaGR;
-  textEditCodigoIMEI.Text := FCadastro.Cadastro.MEI;
-  maskEditCNPJIMEI.Text := FCadastro.Cadastro.CNPJMEI;
-  textEditNomeMEI.Text := FCadastro.Cadastro.RazaoMEI;
-  textEditNomeFantasiaMEI.Text := FCadastro.Cadastro.FantasiaMEI;
   memoObservacoes.Text := FCadastro.Cadastro.Obs;
   if memTableEnderecos.Active then memTableEnderecos.Close;
   PopulaEnderecos(FCadastro.Cadastro.Cadastro);
@@ -866,27 +842,7 @@ begin
         Exit;
       end;
     end;
-    if maskEditCNPJIMEI.Text <> '' then
-    begin
-      if textEditNomeMEI.Text = '' then
-      begin
-        Application.MessageBox('Informe a razão social do MEI!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-        textEditNomeMEI.SetFocus;
-        Exit;
-      end;
-      if textEditNomeFantasiaMEI.Text = '' then
-      begin
-        Application.MessageBox('Informe nome fantasia do MEI!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-        textEditNomeFantasiaMEI.SetFocus;
-        Exit;
-      end;
-      if not Common.Utils.TUtils.CNPJ(maskEditCNPJIMEI.Text) then
-      begin
-        Application.MessageBox('CNPJ do MEI incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-        maskEditCPFCNPJFavorecido.SetFocus;
-        Exit;
-      end;
-    end;
+
     if textEditNome.Text = '' then
     begin
       Application.MessageBox('Informe o nome ou razão social!','Atenção',MB_OK + MB_ICONEXCLAMATION);
