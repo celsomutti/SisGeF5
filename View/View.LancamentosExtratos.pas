@@ -95,6 +95,8 @@ type
     buttonFechar: TcxButton;
     layoutItemFechar: TdxLayoutItem;
     actionPesquisaEntregadores: TAction;
+    spinEditParcelas: TcxSpinEdit;
+    layoutItemParcelas: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionEditarExecute(Sender: TObject);
@@ -107,12 +109,16 @@ type
       var Error: Boolean);
     procedure comboBoxTipoPropertiesChange(Sender: TObject);
     procedure calcEditValorPropertiesChange(Sender: TObject);
+    procedure comboBoxProcessamentoPropertiesChange(Sender: TObject);
+    procedure actionProcessarExecute(Sender: TObject);
   private
     { Private declarations }
     procedure Modo;
     procedure LimpaCampos;
     procedure PesquisaEntregadores;
     procedure PesquisaLancamentos;
+    procedure ProcessaParcelamento;
+    procedure SetupForm(iID: integer);
     function VerificaProcesso(): Boolean;
     function RetornaNomeEntregador(iCodigo: integer): String;
   public
@@ -176,6 +182,11 @@ begin
   textEditDescricao.SetFocus;
 end;
 
+procedure Tview_LancamentosExtratos.actionProcessarExecute(Sender: TObject);
+begin
+  ProcessaParcelamento;
+end;
+
 procedure Tview_LancamentosExtratos.buttonEditCodigoEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
   var ErrorText: TCaption; var Error: Boolean);
 begin
@@ -196,6 +207,22 @@ begin
   else
   begin
     calcEditValor.Style.Font.Color := clNone;
+  end;
+end;
+
+procedure Tview_LancamentosExtratos.comboBoxProcessamentoPropertiesChange(Sender: TObject);
+begin
+  if  FAcao = tacIncluir then
+  begin
+    if comboBoxProcessamento.ItemIndex >= 2 then
+    begin
+      dateEditDataInicial.Date := dateEditData.Date;
+      layoutGroupParcelamento.Visible := True;
+    end
+    else
+    begin
+      layoutGroupParcelamento.Visible := False;
+    end;
   end;
 end;
 
@@ -449,6 +476,35 @@ begin
   end;
 end;
 
+procedure Tview_LancamentosExtratos.ProcessaParcelamento;
+var
+  dtData : TDate;
+  i, iDias, iParcelas : integer;
+  dValor : Double;
+begin
+  if memTableParcelamento.Active then
+  begin
+    memTableParcelamento.Close;
+  end;
+  memTableParcelamento.Open;
+  iParcelas := spinEditParcelas.Value;
+  dValor := calcEditValor.Value / iParcelas;
+  dtData := dateEditDataInicial.Date;
+  iDias := spinEditIntervaloDias.Value;
+  for i := 1 to iParcelas do
+  begin
+    memTableParcelamento.Insert;
+    memTableParcelamentonum_parcela.AsInteger := i;
+    memTableParcelamentodat_parcela.AsDateTime := dtData;
+    memTableParcelamentoval_parcela.AsFloat := dValor;
+    memTableParcelamento.Post;
+  end;
+  if not memTableParcelamento.IsEmpty then
+  begin
+    memTableParcelamento.First;
+  end;
+end;
+
 function Tview_LancamentosExtratos.RetornaNomeEntregador(iCodigo: integer): String;
 var
   entregador : TEntregadoresExpressasControl;
@@ -469,6 +525,52 @@ begin
     Result := sRetorno;
   finally
     entregador.free;
+  end;
+end;
+
+procedure Tview_LancamentosExtratos.SetupForm(iID: integer);
+var
+  lancamentos : TLancamentosControl;
+  aParam: array of variant;
+begin
+  try
+    lancamentos := TLancamentosControl.Create;
+    SetLength(aParam,2);
+    aParam := ['CODIGO', iID];
+    if not lancamentos.Localizar(aParam).IsEmpty then
+    begin
+      textEditDescricao.Text := lancamentos.Lancamentos.Descricao;
+      dateEditData.Date := lancamentos.Lancamentos.Data;
+      buttonEditCodigoEntregador.EditValue := lancamentos.Lancamentos.Entregador;
+      textEditNomeEntregador.Text := RetornaNomeEntregador(lancamentos.Lancamentos.Entregador);
+      if lancamentos.Lancamentos.Tipo = 'CREDITO' then
+      begin
+        comboBoxTipo.ItemIndex := 1;
+      end
+      else if lancamentos.Lancamentos.Tipo = 'DEBITO' then
+      begin
+        comboBoxTipo.ItemIndex := 2;
+      end
+      else
+      begin
+        comboBoxTipo.ItemIndex := 0;
+      end;
+      calcEditValor.EditValue := lancamentos.Lancamentos.Valor;
+      if lancamentos.Lancamentos.Desconto = 'S' then
+      begin
+        checkBoxProcessado.Checked := True;
+      end
+      else
+      begin
+        checkBoxProcessado.Checked := False;
+      end;
+      maskEditDataProcessamento.Text := FormatDateTime('dd/mm/yyyy', lancamentos.Lancamentos.DataDesconto);
+      textEditExtrato.Text := lancamentos.Lancamentos.Extrato;
+      maskEditDataCadastro.Text := FormatDateTime('dd/mm/yyyy', lancamentos.Lancamentos.DataCadastro);
+      buttonEditReferencia.Text := lancamentos.Lancamentos.Codigo.ToString;
+    end;
+  finally
+    lancamentos.Free;
   end;
 end;
 

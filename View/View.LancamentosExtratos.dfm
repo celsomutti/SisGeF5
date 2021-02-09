@@ -164,7 +164,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 12
+      TabOrder = 13
     end
     object maskEditDataProcessamento: TcxMaskEdit
       Left = 133
@@ -177,7 +177,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 13
+      TabOrder = 14
       Text = '  /  /    '
       Width = 131
     end
@@ -190,7 +190,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 14
+      TabOrder = 15
       Width = 127
     end
     object maskEditDataCadastro: TcxMaskEdit
@@ -204,7 +204,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 15
+      TabOrder = 16
       Text = '  /  /    '
       Width = 128
     end
@@ -222,7 +222,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 16
+      TabOrder = 17
       Text = '0'
       Width = 95
     end
@@ -234,7 +234,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 17
+      TabOrder = 18
       Width = 128
     end
     object spinEditIntervaloDias: TcxSpinEdit
@@ -253,7 +253,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Width = 64
     end
     object dateEditDataInicial: TcxDateEdit
-      Left = 100
+      Left = 169
       Top = 246
       Hint = 'Data inicial do percelamento ou repeti'#231#227'o'
       Style.BorderColor = clWindowFrame
@@ -261,24 +261,24 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 9
+      TabOrder = 10
       Width = 96
     end
     object buttonProcessar: TcxButton
-      Left = 204
+      Left = 273
       Top = 246
       Width = 96
       Height = 25
       Cursor = crHandPoint
       Action = actionProcessar
-      TabOrder = 10
+      TabOrder = 11
     end
     object gridParcelamento: TcxGrid
       Left = 28
       Top = 302
       Width = 389
       Height = 157
-      TabOrder = 11
+      TabOrder = 12
       object gridParcelamentoDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = fdParcelamentos
@@ -321,6 +321,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
         'A Vista'
         'Parcelar'
         'Repetir')
+      Properties.OnChange = comboBoxProcessamentoPropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.Font.Charset = ANSI_CHARSET
@@ -342,7 +343,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Width = 75
       Height = 25
       Action = actionNovo
-      TabOrder = 18
+      TabOrder = 19
     end
     object buttonEditar: TcxButton
       Left = 111
@@ -350,7 +351,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Width = 75
       Height = 25
       Action = actionEditar
-      TabOrder = 19
+      TabOrder = 20
     end
     object buttonCancelar: TcxButton
       Left = 194
@@ -359,7 +360,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Height = 25
       Action = actionCancelar
       Cancel = True
-      TabOrder = 20
+      TabOrder = 21
     end
     object buttonExcluir: TcxButton
       Left = 281
@@ -367,7 +368,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Width = 75
       Height = 25
       Action = actionExcluir
-      TabOrder = 21
+      TabOrder = 22
     end
     object buttonLocalizar: TcxButton
       Left = 364
@@ -375,7 +376,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Width = 85
       Height = 25
       Action = actionLocalizar
-      TabOrder = 22
+      TabOrder = 23
     end
     object buttonGravar: TcxButton
       Left = 457
@@ -383,7 +384,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Width = 75
       Height = 25
       Action = actionGravar
-      TabOrder = 23
+      TabOrder = 24
     end
     object buttonFechar: TcxButton
       Left = 699
@@ -391,7 +392,21 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Width = 75
       Height = 25
       Action = actionFechar
-      TabOrder = 24
+      TabOrder = 25
+    end
+    object spinEditParcelas: TcxSpinEdit
+      Left = 100
+      Top = 246
+      Properties.Alignment.Horz = taRightJustify
+      Properties.MaxValue = 12.000000000000000000
+      Properties.MinValue = 2.000000000000000000
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 9
+      Value = 2
+      Width = 61
     end
     object layoutControlPadraoGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -614,7 +629,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
     end
     object dxLayoutAutoCreatedGroup3: TdxLayoutAutoCreatedGroup
       Parent = layoutGroupParcelamento
-      AlignVert = avTop
+      AlignHorz = ahLeft
       LayoutDirection = ldHorizontal
       Index = 0
       AutoCreated = True
@@ -627,7 +642,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 96
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object layoutItemProcessar: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup3
@@ -639,7 +654,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 96
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object layoutItemGridParcelamento: TdxLayoutItem
       Parent = layoutGroupParcelamento
@@ -767,6 +782,17 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       ControlOptions.ShowBorder = False
       Index = 6
     end
+    object layoutItemParcelas: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup3
+      AlignVert = avClient
+      CaptionOptions.Text = 'Parcelas:'
+      CaptionOptions.Layout = clTop
+      Control = spinEditParcelas
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 61
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
   end
   object actionListLancamentos: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -828,6 +854,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Caption = '&Processar'
       Hint = 'Processar parcelamentos ou repeti'#231#245'es'
       ImageIndex = 1
+      OnExecute = actionProcessarExecute
     end
     object actionReferencia: TAction
       Category = 'Lan'#231'amentos'
