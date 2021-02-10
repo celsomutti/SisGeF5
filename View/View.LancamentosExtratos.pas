@@ -111,6 +111,7 @@ type
     procedure calcEditValorPropertiesChange(Sender: TObject);
     procedure comboBoxProcessamentoPropertiesChange(Sender: TObject);
     procedure actionProcessarExecute(Sender: TObject);
+    procedure actionPesquisaEntregadoresExecute(Sender: TObject);
   private
     { Private declarations }
     procedure Modo;
@@ -119,6 +120,7 @@ type
     procedure PesquisaLancamentos;
     procedure ProcessaParcelamento;
     procedure SetupForm(iID: integer);
+    procedure SetupClass;
     function VerificaProcesso(): Boolean;
     function RetornaNomeEntregador(iCodigo: integer): String;
   public
@@ -127,6 +129,7 @@ type
 
 var
   view_LancamentosExtratos: Tview_LancamentosExtratos;
+  lancamentos : TLancamentosControl;
   FAcao : TAcao;
   iCadastro: Integer;
   iID: Integer;
@@ -180,6 +183,11 @@ begin
   LimpaCampos;
   Modo;
   textEditDescricao.SetFocus;
+end;
+
+procedure Tview_LancamentosExtratos.actionPesquisaEntregadoresExecute(Sender: TObject);
+begin
+  PesquisaEntregadores;
 end;
 
 procedure Tview_LancamentosExtratos.actionProcessarExecute(Sender: TObject);
@@ -405,7 +413,6 @@ var
   sWhere: String;
   aParam: array of variant;
   sQuery: String;
-  lancamentos : TLancamentosControl;
 begin
   try
     sSQL := '';
@@ -469,7 +476,6 @@ begin
       end;
     end;
   finally
-    lancamentos.Free;
     View_PesquisarPessoas.qryPesquisa.Close;
     View_PesquisarPessoas.tvPesquisa.ClearItems;
     FreeAndNil(View_PesquisarPessoas);
@@ -528,49 +534,86 @@ begin
   end;
 end;
 
+procedure Tview_LancamentosExtratos.SetupClass;
+begin
+  lancamentos := TLancamentosControl.Create;
+  lancamentos.Lancamentos.Descricao := textEditDescricao.Text;
+  lancamentos.Lancamentos.Data := dateEditData.Date;
+  lancamentos.Lancamentos.Cadastro := 0;
+  lancamentos.Lancamentos.Entregador := buttonEditCodigoEntregador.EditValue;
+  if comboBoxTipo.ItemIndex = 1 then
+  begin
+    lancamentos.Lancamentos.Tipo := 'CREDITO';
+  end
+  else
+  begin
+    lancamentos.Lancamentos.Tipo := 'DEBITO';
+  end;
+  lancamentos.Lancamentos.Valor := calcEditValor.Value;
+  if checkBoxProcessado.Checked then
+  begin
+    lancamentos.Lancamentos.Desconto := 'S';
+    lancamentos.Lancamentos.DataDesconto := StrToDate(maskEditDataProcessamento.EditText);
+    lancamentos.Lancamentos.Extrato := textEditExtrato.Text;
+    lancamentos.Lancamentos.Referencia := buttonEditReferencia.EditValue;
+  end
+  else
+  begin
+    lancamentos.Lancamentos.Desconto := 'N';
+    lancamentos.Lancamentos.DataDesconto := StrToDate('31/12/1899');
+    lancamentos.Lancamentos.Extrato := '';
+  end;
+  lancamentos.Lancamentos.Persistir := 'N';
+  lancamentos.Lancamentos.Referencia := 0;
+  if FAcao = tacIncluir then
+  begin
+    lancamentos.Lancamentos.DataCadastro := Now;
+  end
+  else
+  begin
+    lancamentos.Lancamentos.DataCadastro := StrToDate(maskEditDataCadastro.EditText);
+  end;
+  lancamentos.Lancamentos.Usuario
+end;
+
 procedure Tview_LancamentosExtratos.SetupForm(iID: integer);
 var
-  lancamentos : TLancamentosControl;
   aParam: array of variant;
 begin
-  try
-    lancamentos := TLancamentosControl.Create;
-    SetLength(aParam,2);
-    aParam := ['CODIGO', iID];
-    if not lancamentos.Localizar(aParam).IsEmpty then
+  lancamentos := TLancamentosControl.Create;
+  SetLength(aParam,2);
+  aParam := ['CODIGO', iID];
+  if not lancamentos.Localizar(aParam).IsEmpty then
+  begin
+    textEditDescricao.Text := lancamentos.Lancamentos.Descricao;
+    dateEditData.Date := lancamentos.Lancamentos.Data;
+    buttonEditCodigoEntregador.EditValue := lancamentos.Lancamentos.Entregador;
+    textEditNomeEntregador.Text := RetornaNomeEntregador(lancamentos.Lancamentos.Entregador);
+    if lancamentos.Lancamentos.Tipo = 'CREDITO' then
     begin
-      textEditDescricao.Text := lancamentos.Lancamentos.Descricao;
-      dateEditData.Date := lancamentos.Lancamentos.Data;
-      buttonEditCodigoEntregador.EditValue := lancamentos.Lancamentos.Entregador;
-      textEditNomeEntregador.Text := RetornaNomeEntregador(lancamentos.Lancamentos.Entregador);
-      if lancamentos.Lancamentos.Tipo = 'CREDITO' then
-      begin
-        comboBoxTipo.ItemIndex := 1;
-      end
-      else if lancamentos.Lancamentos.Tipo = 'DEBITO' then
-      begin
-        comboBoxTipo.ItemIndex := 2;
-      end
-      else
-      begin
-        comboBoxTipo.ItemIndex := 0;
-      end;
-      calcEditValor.EditValue := lancamentos.Lancamentos.Valor;
-      if lancamentos.Lancamentos.Desconto = 'S' then
-      begin
-        checkBoxProcessado.Checked := True;
-      end
-      else
-      begin
-        checkBoxProcessado.Checked := False;
-      end;
-      maskEditDataProcessamento.Text := FormatDateTime('dd/mm/yyyy', lancamentos.Lancamentos.DataDesconto);
-      textEditExtrato.Text := lancamentos.Lancamentos.Extrato;
-      maskEditDataCadastro.Text := FormatDateTime('dd/mm/yyyy', lancamentos.Lancamentos.DataCadastro);
-      buttonEditReferencia.Text := lancamentos.Lancamentos.Codigo.ToString;
+      comboBoxTipo.ItemIndex := 1;
+    end
+    else if lancamentos.Lancamentos.Tipo = 'DEBITO' then
+    begin
+      comboBoxTipo.ItemIndex := 2;
+    end
+    else
+    begin
+      comboBoxTipo.ItemIndex := 0;
     end;
-  finally
-    lancamentos.Free;
+    calcEditValor.EditValue := lancamentos.Lancamentos.Valor;
+    if lancamentos.Lancamentos.Desconto = 'S' then
+    begin
+      checkBoxProcessado.Checked := True;
+    end
+    else
+    begin
+      checkBoxProcessado.Checked := False;
+    end;
+    maskEditDataProcessamento.Text := FormatDateTime('dd/mm/yyyy', lancamentos.Lancamentos.DataDesconto);
+    textEditExtrato.Text := lancamentos.Lancamentos.Extrato;
+    maskEditDataCadastro.Text := FormatDateTime('dd/mm/yyyy', lancamentos.Lancamentos.DataCadastro);
+    buttonEditReferencia.Text := lancamentos.Lancamentos.Codigo.ToString;
   end;
 end;
 

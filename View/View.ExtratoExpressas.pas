@@ -476,16 +476,17 @@ begin
       end;
       if bFlag then
       begin
-        SetLength(aParam,2);
-        aParam[0] := 'ENTREGADOR';
-        aParam[1] :=  Data_Sisgef.mtbExtratosExpressascod_entregador.AsInteger;
-        fdQuery1 := entregadores.Localizar(aParam);
-        Finalize(aParam);
-        if not fdQuery1.IsEmpty then
-        begin
-          iEntregador := fdQuery1.FieldByName('cod_cadastro').AsInteger;
-        end;
-        fdQuery1.Close;
+        //SetLength(aParam,2);
+        //aParam[0] := 'ENTREGADOR';
+        //aParam[1] :=  Data_Sisgef.mtbExtratosExpressascod_entregador.AsInteger;
+        //fdQuery1 := entregadores.Localizar(aParam);
+        //Finalize(aParam);
+        //if not fdQuery1.IsEmpty then
+        //begin
+        //  iEntregador := fdQuery1.FieldByName('cod_cadastro').AsInteger;
+        //end;
+        //fdQuery1.Close;
+        iEntregador := Data_Sisgef.mtbExtratosExpressascod_entregador.AsInteger;
         SetLength(aParam,4);
         aParam[0] := dtData;
         aParam[1] := Data_Sisgef.mtbExtratosExpressasnum_extrato.AsString;;

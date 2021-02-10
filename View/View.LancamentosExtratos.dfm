@@ -413,7 +413,6 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 2
       ShowBorder = False
       Index = -1
     end
@@ -436,7 +435,6 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       CaptionOptions.Text = 'Lan'#231'amentos'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       Index = 1
     end
     object layoutItemDescricao: TdxLayoutItem
@@ -867,6 +865,7 @@ object view_LancamentosExtratos: Tview_LancamentosExtratos
       Caption = 'Entregadores'
       Hint = 'Pesquisa entregadores'
       ImageIndex = 14
+      OnExecute = actionPesquisaEntregadoresExecute
     end
   end
   object memTableParcelamento: TFDMemTable
