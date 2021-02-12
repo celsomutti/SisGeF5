@@ -37,6 +37,7 @@ uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao;
       FCentroCusto: Integer;
       FGrupo: Integer;
       FAcao: TAcao;
+      FTabela: Integer;
 
       function Inserir(): Boolean;
       function Alterar(): Boolean;
@@ -72,6 +73,7 @@ uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao;
       property FormaPagamento: String read FFormaPagamento write FFormaPagamento;
       property CentroCusto: Integer read FCentroCusto write FCentroCusto;
       property Grupo: Integer read FGrupo write FGrupo;
+      property Tabela: Integer read FTabela write FTabela;
       property Acao: TAcao read FAcao write FAcao;
 
       constructor Create();
@@ -106,11 +108,11 @@ begin
     'DAT_ALTERACAO = :DAT_ALTERACAO, VAL_VERBA = :VAL_VERBA, DES_TIPO_CONTA = :DES_TIPO_CONTA, COD_BANCO = :COD_BANCO, ' +
     'COD_AGENCIA = :COD_AGENCIA, NUM_CONTA = :NUM_CONTA, NOM_FAVORECIDO = :NOM_FAVORECIDO, ' +
     'NUM_CPF_CNPJ_FAVORECIDO = :NUM_CPF_CNPJ_FAVORECIDO, DES_FORMA_PAGAMENTO = :DES_FORMA_PAGAMENTO, ' +
-    'COD_CENTRO_CUSTO = :COD_CENTRO_CUSTO, COD_GRUPO = :COD_GRUPO WHERE COD_AGENTE = :COD_AGENTE;', [Self.RazaoSocial,
+    'COD_CENTRO_CUSTO = :COD_CENTRO_CUSTO, COD_GRUPO = :COD_GRUPO, COD_TABELA = :COD_TABELA WHERE COD_AGENTE = :COD_AGENTE;', [Self.RazaoSocial,
     Self.NomeFantasia, Self.TipoDoc, Self.CNPJCPF, Self.IE, Self.IEST, Self.IM, Self.CNAE, Self.CRT,
     Self.NumeroCNH, Self.CategoriaCNH, Self.ValidadeCNH, Self.PaginaWeb, Self.Status, Self.Obs, Self.DataCadastro,
     Self.DataAlteracao, Self.ValorVerba, Self.TipoConta, Self.CodigoBanco, Self.NumeroAgente, Self.NumeroConta,
-    Self.NomeFavorecido, Self.CNPJCPFFavorecido, Self.FormaPagamento, Self.CentroCusto, Self.Grupo, Self.Codigo]);
+    Self.NomeFavorecido, Self.CNPJCPFFavorecido, Self.FormaPagamento, Self.CentroCusto, Self.Grupo,Tabela, Self.Codigo]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -148,6 +150,7 @@ begin
   Self.FormaPagamento := '';
   Self.CentroCusto := 0;
   Self.Grupo := 0;
+  Self.Tabela := 0;
 end;
 
 constructor TBases.Create;
@@ -204,17 +207,18 @@ begin
     FDQuery.ExecSQL('INSERT INTO ' + TABLENAME  + '(COD_AGENTE, DES_RAZAO_SOCIAL, NOM_FANTASIA, DES_TIPO_DOC, NUM_CNPJ, NUM_IE, ' +
                     'NUM_IEST, NUM_IM, COD_CNAE, COD_CRT, NUM_CNH, DES_CATEGORIA_CNH, DAT_VALIDADE_CNH, DES_PAGINA, COD_STATUS, ' +
                     'DES_OBSERVACAO, DAT_CADASTRO, DAT_ALTERACAO, VAL_VERBA, DES_TIPO_CONTA, COD_BANCO, COD_AGENCIA, NUM_CONTA, ' +
-                    'NOM_FAVORECIDO, NUM_CPF_CNPJ_FAVORECIDO, DES_FORMA_PAGAMENTO, COD_CENTRO_CUSTO, COD_GRUPO) ' +
+                    'NOM_FAVORECIDO, NUM_CPF_CNPJ_FAVORECIDO, DES_FORMA_PAGAMENTO, COD_CENTRO_CUSTO, COD_GRUPO, COD_TABELA) ' +
                     'VALUES ' +
                     '(:COD_AGENTE, :DES_RAZAO_SOCIAL, :NOM_FANTASIA, :DES_TIPO_DOC, :NUM_CNPJ, :NUM_IE, :NUM_IEST, :NUM_IM, ' +
                     ':COD_CNAE, :COD_CRT, :NUM_CNH, :DES_CATEGORIA_CNH, :DAT_VALIDADE_CNH, :DES_PAGINA, :COD_STATUS, ' +
                     ':DES_OBSERVACAO, :DAT_CADASTRO, :DAT_ALTERACAO, :VAL_VERBA, :DES_TIPO_CONTA, :COD_BANCO, :COD_AGENCIA, ' +
-                    ':NUM_CONTA, :NOM_FAVORECIDO, :NUM_CPF_CNPJ_FAVORECIDO, :DES_FORMA_PAGAMENTO, :COD_CENTRO_CUSTO, :COD_GRUPO);',
+                    ':NUM_CONTA, :NOM_FAVORECIDO, :NUM_CPF_CNPJ_FAVORECIDO, :DES_FORMA_PAGAMENTO, :COD_CENTRO_CUSTO, :COD_GRUPO, ' +
+                    ':COD_TABELA);',
                     [Self.Codigo, Self.RazaoSocial, Self.NomeFantasia, Self.TipoDoc, Self.CNPJCPF, Self.IE, Self.IEST,
                     Self.IM, Self.CNAE, Self.CRT, Self.NumeroCNH, Self.CategoriaCNH, Self.ValidadeCNH, Self.PaginaWeb,
                     Self.Status, Self.Obs, Self.DataCadastro, Self.DataAlteracao, Self.ValorVerba, Self.TipoConta,
                     Self.CodigoBanco, Self.NumeroAgente, Self.NumeroConta, Self.NomeFavorecido, Self.CNPJCPFFavorecido,
-                    Self.FormaPagamento, Self.CentroCusto, Self.Grupo]);
+                    Self.FormaPagamento, Self.CentroCusto, Self.Grupo, Self.Tabela]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -359,6 +363,7 @@ begin
     Self.FormaPagamento := FDBases.FieldByName('des_forma_pagamento').AsString;
     Self.CentroCusto := FDBases.FieldByName('cod_centro_custo').AsInteger;
     Self.Grupo := FDBases.FieldByName('cod_grupo').AsInteger;
+    Self.Tabela := FDBases.FieldByName('cod_tabela').AsInteger;
   finally
     Result := True;
   end;
