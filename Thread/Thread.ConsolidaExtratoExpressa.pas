@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, Control.Bases, Control.EntregadoresExpressas, Control.Cadastro, System.SysUtils, Forms, Windows, System.Variants,
-  Control.Bancos, Control.FechamentoExpressas;
+  Control.Bancos, Control.FechamentoExpressas, System.DateUtils;
 
 type
   TThread_ConsolidaExtratoExpressa = class(TThread)
@@ -59,15 +59,16 @@ implementation
 
 }
 
-uses Data.SisGeF, View.ConsolidacaoExpressas, View.ExtratoExpressas;
+uses Data.SisGeF, View.ConsolidacaoExpressas, View.ExtratoExpressas, Common.Utils;
 
 { Thread_ConsolidaExtratoExpressa }
 
 procedure TThread_ConsolidaExtratoExpressa.Execute;
 var
   bCancel : Boolean;
+  dtDate : TDate;
   iTipo, iCodigo, iEntregador: Integer;
-  sForma, sBanco, sAgencia, sConta, sTipoConta, sFavorecido, sCPFCNPJ, sCadastro, sNome, sNomeBanco: String;
+  sForma, sBanco, sAgencia, sConta, sTipoConta, sFavorecido, sCPFCNPJ, sCadastro, sNome, sNomeBanco, sBimer, sTitulo: String;
 
 begin
   { Place thread code here }
@@ -96,10 +97,20 @@ begin
         sFavorecido := '';
         sCPFCNPJ := '';
         sCadastro := '';
+        sBimer := '';
+        sTitulo := '';
 
         sForma := FBases.GetField('des_forma_pagamento','cod_agente', Data_Sisgef.mtbExtratosExpressascod_base.AsString);
 
         if sForma.IsEmpty then sForma := 'NENHUMA';
+
+        sTitulo :=  IntToStr(YearOf(Data_Sisgef.mtbExtratosExpressasdat_inicio.AsDateTime)) +
+                    IntToStr(DayOf(Data_Sisgef.mtbExtratosExpressasdat_inicio.AsDateTime)) +
+                    IntToStr(MonthOf(Data_Sisgef.mtbExtratosExpressasdat_inicio.AsDateTime)) +
+                    IntToStr(DayOf(Data_Sisgef.mtbExtratosExpressasdat_final.AsDateTime)) +
+                    IntToStr(MonthOf(Data_Sisgef.mtbExtratosExpressasdat_final.AsDateTime));
+
+        dtDate := IncMonth(Data_Sisgef.mtbFechamentoExpressasdat_fim.AsDateTime,1);
 
         // dados bancários da base
         if sForma <> 'NENHUMA' then
@@ -114,6 +125,8 @@ begin
           sTipoConta := FBases.GetField('des_tipo_conta','cod_agente', iCodigo.ToString);
           sFavorecido := FBases.GetField('nom_favorecido','cod_agente', iCodigo.ToString);
           sCPFCNPJ := FBases.GetField('num_cpf_cnpj_favorecido','cod_agente', iCodigo.ToString);
+          sBimer := FBases.GetField('cod_centro_custo','cod_agente', iCodigo.ToString);
+          sTitulo := sTitulo + IntToStr(iTipo) + IntToStr(iCodigo);
         end
         else
         begin
@@ -144,6 +157,8 @@ begin
             sTipoConta := FCadastro.GetField('des_tipo_conta','cod_cadastro', sCadastro);
             sFavorecido := FCadastro.GetField('nom_favorecido','cod_cadastro', sCadastro);
             sCPFCNPJ := FCadastro.GetField('num_cpf_cnpj_favorecido','cod_cadastro', sCadastro);
+            sBimer := FCadastro.GetField('cod_centro_custo','cod_cadastro', sCadastro);
+            sTitulo := sTitulo + IntToStr(iTipo) + IntToStr(iCodigo);
           //end;
         end;
 
@@ -172,6 +187,19 @@ begin
                                                                  Data_Sisgef.mtbExtratosExpressasval_total_expressa.AsFloat;
           Data_Sisgef.mtbFechamentoExpressasval_volume_extra.AsFloat := Data_Sisgef.mtbFechamentoExpressasval_volume_extra.AsFloat +
                                                                         Data_Sisgef.mtbExtratosExpressasval_volumes_extra.AsFloat;
+          Data_Sisgef.mtbFechamentoExpressasCampoEmpresa.AsString := '00003';
+          Data_Sisgef.mtbFechamentoExpressasCampoCodigoPessoa.AsString := Format('%.6d', [StrToIntDef(sBimer,0)]);
+          Data_Sisgef.mtbFechamentoExpressasCampoNomeTitulo.AsString := sFavorecido;
+          Data_Sisgef.mtbFechamentoExpressasCampoCNPJCPFPessoa.AsString := Common.Utils.TUtils.DesmontaCPFCNPJ(sCPFCNPJ);
+          Data_Sisgef.mtbFechamentoExpressasCampoNumeroTitulo.AsString := sTitulo;
+          Data_Sisgef.mtbFechamentoExpressasCampoNaturezaLancamento.AsString := '000054';
+          Data_Sisgef.mtbFechamentoExpressasCampoFormaPagamento.AsString := '000011';
+          Data_Sisgef.mtbFechamentoExpressasCampoAgencia.AsString := sAgencia;
+          Data_Sisgef.mtbFechamentoExpressasCampoConta.AsString := sConta;
+          Data_Sisgef.mtbFechamentoExpressasCampoBanco.AsString := Format('%.3d', [StrToIntDef(sBanco,0)]);
+          Data_Sisgef.mtbFechamentoExpressasCampoValorTitulo.AsString := FormatFloat( '###0.00' , Data_Sisgef.mtbFechamentoExpressasval_total.AsFloat);
+          Data_Sisgef.mtbFechamentoExpressasCampoDtEmissao.AsString := FormatDateTime('dd/mm/yyyy', Now);
+          Data_Sisgef.mtbFechamentoExpressasCampoDtVencimento.AsString := FormatDateTime('dd/mm/yyyy', dtDate);
           Data_Sisgef.mtbFechamentoExpressas.Post;
         end
         else
@@ -204,6 +232,19 @@ begin
           Data_Sisgef.mtbFechamentoExpressasdat_credito.AsDateTime := Data_Sisgef.mtbExtratosExpressasdat_credito.AsDateTime;
           Data_Sisgef.mtbFechamentoExpressasdom_boleto.AsInteger := 0;
           Data_Sisgef.mtbFechamentoExpressasnum_extrato.AsString := Data_Sisgef.mtbExtratosExpressasnum_extrato.AsString;
+          Data_Sisgef.mtbFechamentoExpressasCampoEmpresa.AsString := '00003';
+          Data_Sisgef.mtbFechamentoExpressasCampoCodigoPessoa.AsString := Format('%.6d', [StrToIntDef(sBimer,0)]);
+          Data_Sisgef.mtbFechamentoExpressasCampoNomeTitulo.AsString := sFavorecido;
+          Data_Sisgef.mtbFechamentoExpressasCampoCNPJCPFPessoa.AsString := Common.Utils.TUtils.DesmontaCPFCNPJ(sCPFCNPJ);
+          Data_Sisgef.mtbFechamentoExpressasCampoNumeroTitulo.AsString := sTitulo;
+          Data_Sisgef.mtbFechamentoExpressasCampoNaturezaLancamento.AsString := '000054';
+          Data_Sisgef.mtbFechamentoExpressasCampoFormaPagamento.AsString := '000011';
+          Data_Sisgef.mtbFechamentoExpressasCampoAgencia.AsString := sAgencia;
+          Data_Sisgef.mtbFechamentoExpressasCampoConta.AsString := sConta;
+          Data_Sisgef.mtbFechamentoExpressasCampoBanco.AsString := Format('%.3d', [StrToIntDef(sBanco,0)]);
+          Data_Sisgef.mtbFechamentoExpressasCampoValorTitulo.AsString := FormatFloat( '###0.00' , Data_Sisgef.mtbFechamentoExpressasval_total.AsFloat);
+          Data_Sisgef.mtbFechamentoExpressasCampoDtEmissao.AsString := FormatDateTime('dd/mm/yyyy', Now);
+          Data_Sisgef.mtbFechamentoExpressasCampoDtVencimento.AsString := FormatDateTime('dd/mm/yyyy', dtDate);
           Data_Sisgef.mtbFechamentoExpressas.Post;
         end;
         iConta := Data_Sisgef.mtbExtratosExpressas.RecNo;

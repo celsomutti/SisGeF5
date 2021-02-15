@@ -573,7 +573,7 @@ begin
   begin
     lancamentos.Lancamentos.DataCadastro := StrToDate(maskEditDataCadastro.EditText);
   end;
-  lancamentos.Lancamentos.Usuario
+  //lancamentos.Lancamentos.Usuario
 end;
 
 procedure Tview_LancamentosExtratos.SetupForm(iID: integer);

@@ -12883,6 +12883,55 @@ object Data_Sisgef: TData_Sisgef
       FieldName = 'num_extrato'
       Size = 30
     end
+    object mtbFechamentoExpressasCampoEmpresa: TStringField
+      FieldName = 'CampoEmpresa'
+      Size = 5
+    end
+    object mtbFechamentoExpressasCampoCodigoPessoa: TStringField
+      FieldName = 'CampoCodigoPessoa'
+      Size = 6
+    end
+    object mtbFechamentoExpressasCampoNomeTitulo: TStringField
+      FieldName = 'CampoNomeTitulo'
+      Size = 50
+    end
+    object mtbFechamentoExpressasCampoCNPJCPFPessoa: TStringField
+      FieldName = 'CampoCNPJCPFPessoa'
+    end
+    object mtbFechamentoExpressasCampoDtEmissao: TStringField
+      FieldName = 'CampoDtEmissao'
+      Size = 10
+    end
+    object mtbFechamentoExpressasCampoNumeroTitulo: TStringField
+      FieldName = 'CampoNumeroTitulo'
+    end
+    object mtbFechamentoExpressasCampoDtVencimento: TStringField
+      FieldName = 'CampoDtVencimento'
+      Size = 10
+    end
+    object mtbFechamentoExpressasCampoNaturezaLancamento: TStringField
+      FieldName = 'CampoNaturezaLancamento'
+      Size = 6
+    end
+    object mtbFechamentoExpressasCampoFormaPagamento: TStringField
+      FieldName = 'CampoFormaPagamento'
+      Size = 6
+    end
+    object mtbFechamentoExpressasCampoValorTitulo: TStringField
+      FieldName = 'CampoValorTitulo'
+      Size = 15
+    end
+    object mtbFechamentoExpressasCampoAgencia: TStringField
+      FieldName = 'CampoAgencia'
+      Size = 10
+    end
+    object mtbFechamentoExpressasCampoConta: TStringField
+      FieldName = 'CampoConta'
+    end
+    object mtbFechamentoExpressasCampoBanco: TStringField
+      FieldName = 'CampoBanco'
+      Size = 3
+    end
   end
   object frxRichObject1: TfrxRichObject
     Left = 600

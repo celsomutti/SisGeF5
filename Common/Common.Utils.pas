@@ -48,6 +48,7 @@ type
     class Procedure TocaErro;
     class Procedure CancelaTocaErro;
     class function GenerateUniqueKey(pPrefix: String = ''): String;
+    class Function DesmontaCPFCNPJ(sNum: String): String;
   end;
 
 implementation
@@ -928,5 +929,17 @@ begin
   end;
 end;
 
+
+class function TUtils.DesmontaCPFCNPJ(sNum: String): String;
+var
+  numero: string;
+begin
+  numero := ReplaceStr(sNum, '.', '');
+  numero := ReplaceStr(numero, '-', '');
+  numero := ReplaceStr(numero, ' ', '');
+  numero := ReplaceStr(numero, '_', '');
+  numero := ReplaceStr(numero, '/', '');
+  Result := numero;
+end;
 
 end.

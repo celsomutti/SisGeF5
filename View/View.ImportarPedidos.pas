@@ -213,6 +213,8 @@ begin
     Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     planilhaDIRECT.sAlerta := '';
     edtArquivo.Text := '';
+    Global.Parametros.psLog := '';
+    Global.Parametros.pdPos := 0;
     pbImportacao.Position := 0;
   end
   else
@@ -233,6 +235,9 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
+    Global.Parametros.psLog := '';
+    Global.Parametros.pdPos := 0;
+    pbImportacao.Position := 0;
     Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;
@@ -250,6 +255,8 @@ begin
     memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
     Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     edtArquivo.Text := '';
+    Global.Parametros.psLog := '';
+    Global.Parametros.pdPos := 0;
     pbImportacao.Position := 0;
   end
   else
@@ -270,6 +277,9 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
+    Global.Parametros.psLog := '';
+    Global.Parametros.pdPos := 0;
+    pbImportacao.Position := 0;
     memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importação do arquivo cancelada!' + edtArquivo.Text + '!');
     Application.MessageBox('Importação cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
@@ -288,6 +298,8 @@ begin
     memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
     Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     edtArquivo.Text := '';
+    Global.Parametros.psLog := '';
+    Global.Parametros.pdPos := 0;
     pbImportacao.Position := 0;
   end
   else
@@ -308,6 +320,9 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
+    Global.Parametros.psLog := '';
+    Global.Parametros.pdPos := 0;
+    pbImportacao.Position := 0;
     Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;

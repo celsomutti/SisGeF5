@@ -367,6 +367,70 @@ object view_ConsolidacaoExpressas: Tview_ConsolidacaoExpressas
           DataBinding.FieldName = 'des_unique_key'
           Visible = False
         end
+        object tvFechamentodat_credito: TcxGridDBColumn
+          DataBinding.FieldName = 'dat_credito'
+          Visible = False
+        end
+        object tvFechamentodom_boleto: TcxGridDBColumn
+          DataBinding.FieldName = 'dom_boleto'
+          Visible = False
+        end
+        object tvFechamentonum_extrato: TcxGridDBColumn
+          DataBinding.FieldName = 'num_extrato'
+          Visible = False
+        end
+        object tvFechamentoCampoEmpresa: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoEmpresa'
+          Visible = False
+        end
+        object tvFechamentoCampoCodigoPessoa: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoCodigoPessoa'
+          Visible = False
+        end
+        object tvFechamentoCampoNomeTitulo: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoNomeTitulo'
+          Visible = False
+        end
+        object tvFechamentoCampoCNPJCPFPessoa: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoCNPJCPFPessoa'
+          Visible = False
+        end
+        object tvFechamentoCampoDtEmissao: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoDtEmissao'
+          Visible = False
+        end
+        object tvFechamentoCampoNumeroTitulo: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoNumeroTitulo'
+          Visible = False
+        end
+        object tvFechamentoCampoDtVencimento: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoDtVencimento'
+          Visible = False
+        end
+        object tvFechamentoCampoNaturezaLancamento: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoNaturezaLancamento'
+          Visible = False
+        end
+        object tvFechamentoCampoFormaPagamento: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoFormaPagamento'
+          Visible = False
+        end
+        object tvFechamentoCampoValorTitulo: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoValorTitulo'
+          Visible = False
+        end
+        object tvFechamentoCampoAgencia: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoAgencia'
+          Visible = False
+        end
+        object tvFechamentoCampoConta: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoConta'
+          Visible = False
+        end
+        object tvFechamentoCampoBanco: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoBanco'
+          Visible = False
+        end
       end
       object lvFechamento: TcxGridLevel
         GridView = tvFechamento
@@ -375,7 +439,7 @@ object view_ConsolidacaoExpressas: Tview_ConsolidacaoExpressas
     object buttonGravar: TcxButton
       Left = 12
       Top = 424
-      Width = 77
+      Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionGravar
@@ -389,6 +453,15 @@ object view_ConsolidacaoExpressas: Tview_ConsolidacaoExpressas
       Cursor = crHandPoint
       Action = actionFechar
       Cancel = True
+      TabOrder = 5
+    end
+    object cxButton1: TcxButton
+      Left = 97
+      Top = 424
+      Width = 89
+      Height = 25
+      Cursor = crHandPoint
+      Action = actFinanceiro
       TabOrder = 4
     end
     object dxLayoutControlGroup_Root: TdxLayoutGroup
@@ -441,7 +514,7 @@ object view_ConsolidacaoExpressas: Tview_ConsolidacaoExpressas
       CaptionOptions.Visible = False
       Control = buttonGravar
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 77
+      ControlOptions.OriginalWidth = 78
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -455,7 +528,7 @@ object view_ConsolidacaoExpressas: Tview_ConsolidacaoExpressas
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 86
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
       Parent = dxLayoutControlGroup_Root
@@ -463,6 +536,16 @@ object view_ConsolidacaoExpressas: Tview_ConsolidacaoExpressas
       LayoutDirection = ldHorizontal
       Index = 3
       AutoCreated = True
+    end
+    object dxLayoutItem3: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup1
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 89
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object dsFechamento: TDataSource
@@ -488,6 +571,11 @@ object view_ConsolidacaoExpressas: Tview_ConsolidacaoExpressas
       Hint = 'Gravar a consolida'#231#227'o no banco de dados'
       ImageIndex = 13
       OnExecute = actionGravarExecute
+    end
+    object actFinanceiro: TAction
+      Category = 'Consolida'#231#227'o'
+      Caption = 'Financeiro'
+      ImageIndex = 58
     end
   end
   object SaveDialog: TSaveDialog
