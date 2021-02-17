@@ -431,6 +431,10 @@ object view_ConsolidacaoExpressas: Tview_ConsolidacaoExpressas
           DataBinding.FieldName = 'CampoBanco'
           Visible = False
         end
+        object tvFechamentoCampoModalidade: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoModalidade'
+          Visible = False
+        end
       end
       object lvFechamento: TcxGridLevel
         GridView = tvFechamento

@@ -89,6 +89,7 @@ type
     tvFechamentoCampoAgencia: TcxGridDBColumn;
     tvFechamentoCampoConta: TcxGridDBColumn;
     tvFechamentoCampoBanco: TcxGridDBColumn;
+    tvFechamentoCampoModalidade: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

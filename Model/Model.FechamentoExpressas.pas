@@ -52,6 +52,7 @@ interface
       FCampoNaturezaLancamento: String;
       FCampoFormaPagamento: String;
       FCampoValorTitulo: String;
+      FCampoModalidade: String;
 
       function Insert(): Boolean;
       function Update(): Boolean;
@@ -99,6 +100,7 @@ interface
       property CampoAgencia: String read FCampoAgencia write FCampoAgencia;
       property CampoConta: String read FCampoConta write FCampoConta;
       property CampoBanco: String read FCampoBanco write FCampoBanco;
+      property CampoModalidade: String read FCampoModalidade write FCampoModalidade;
       property Acao: TAcao read FAcao write FAcao;
 
       constructor Create;
@@ -117,14 +119,16 @@ const
               'des_tipo_conta, num_agencia, num_conta, nom_favorecido, num_cpf_cnpj, qtd_pfp, val_ticket_medio, val_extravios, ' +
               'val_debitos, val_creditos, val_total, des_unique_key, dat_credito, dom_boleto, num_extrato, CampoEmpresa, ' +
               'CampoCodigoPessoa, CampoNomeTitulo, CampoCNPJCPFPessoa, CampoDtEmissao, CampoNumeroTitulo, CampoDtVencimento, ' +
-              'CampoNaturezaLancamento, CampoFormaPagamento, CampoValorTitulo, CampoAgencia, CampoConta, CampoBanco) ' +
+              'CampoNaturezaLancamento, CampoFormaPagamento, CampoValorTitulo, CampoAgencia, CampoConta, CampoBanco, ' +
+              'CampoModalidade) ' +
               'value ' +
               '(:id_registro, :cod_tipo_expressa, :cod_expressa, :nom_expressa, :qtd_volumes, :qtd_entregas, :qtd_volumes_extra, ' +
               ':val_volume_extra, :qtd_atraso, :val_producao, :val_performance, :val_total_ticket, :cod_banco, :nom_banco, ' +
               ':des_tipo_conta, :num_agencia, :num_conta, :nom_favorecido, :num_cpf_cnpj, :qtd_pfp, :val_ticket_medio, :val_extravios, ' +
               ':val_debitos, :val_creditos, :val_total, :des_unique_key, :dat_credito, :dom_boleto, :num_extrato, :CampoEmpresa, ' +
               ':CampoCodigoPessoa, :CampoNomeTitulo, :CampoCNPJCPFPessoa, :CampoDtEmissao, :CampoNumeroTitulo, :CampoDtVencimento, ' +
-              ':CampoNaturezaLancamento, :CampoFormaPagamento, :CampoValorTitulo, :CampoAgencia, :CampoConta, :CampoBanco);';
+              ':CampoNaturezaLancamento, :CampoFormaPagamento, :CampoValorTitulo, :CampoAgencia, :CampoConta, :CampoBanco, ' +
+              ':CampoModalidade);';
 
   SQLUPDATE = 'update ' + TABLENAME + ' set ' +
               'cod_tipo_expressa = :cod_tipo_expressa, cod_expressa = :cod_expressa, nom_expressa = :nom_expressa, ' +
@@ -140,7 +144,7 @@ const
               'CampoCNPJCPFPessoa = :CampoCNPJCPFPessoa, CampoDtEmissao = :CampoDtEmissao, CampoNumeroTitulo = :CampoNumeroTitulo,'+
               'CampoDtVencimento = :CampoDtVencimento, CampoNaturezaLancamento = :CampoNaturezaLancamento, ' +
               'CampoFormaPagamento = :CampoFormaPagamento, CampoValorTitulo = :CampoValorTitulo, CampoAgencia = :CampoAgencia, ' +
-              'CampoConta = :CampoConta, CampoBanco = :CampoBanco ' +
+              'CampoConta = :CampoConta, CampoBanco = :CampoBanco, CampoModalidade = :CampoModalidade ' +
               'where id_registro = :id_registro';
 
   SQLQUERY  = 'select id_registro, cod_tipo_expressa, cod_expressa, nom_expressa, qtd_volumes, qtd_entregas, qtd_volumes_extra, ' +
@@ -148,7 +152,8 @@ const
               'des_tipo_conta, num_agencia, num_conta, nom_favorecido, num_cpf_cnpj, qtd_pfp, val_ticket_medio, val_extravios, ' +
               'val_debitos, val_creditos, val_total, des_unique_key, dat_credito, dom_boleto, num_extrato CampoEmpresa, ' +
               'CampoCodigoPessoa, CampoNomeTitulo, CampoCNPJCPFPessoa, CampoDtEmissao, CampoNumeroTitulo, CampoDtVencimento, ' +
-              'CampoNaturezaLancamento, CampoFormaPagamento, CampoValorTitulo, CampoAgencia, CampoConta, CampoBanco ' +
+              'CampoNaturezaLancamento, CampoFormaPagamento, CampoValorTitulo, CampoAgencia, CampoConta, CampoBanco, ' +
+              'CampoModalidade ' +
               'from ' + TABLENAME;
   SQLDELETE = ' detele from ' + TABLENAME + ' where id_fechamento = :id_fechamento;';
   SQLID     = 'select coalesce(max(id_fechamento),0) + 1 from ' + TABLENAME;
@@ -252,7 +257,10 @@ begin
     Id := GetID;
     FDQuery.ExecSQL(SQLINSERT, [Id, Tipo, Codigo, Nome, Entregas, Volumes, VolumesExtra, ValorVolumesExtra, Atrasos, ValorProducao,
                                 Performance, TotalTitket, Agencia, TipoConta, Conta, Favorecido, CPFCNPJ, PFP, ValorTicketMedio,
-                                ValorExtravios, TotalDebitos, TotalCreditos, TotalGeral, UniqueKey, DataCredito, Boleto, Extrato]);
+                                ValorExtravios, TotalDebitos, TotalCreditos, TotalGeral, UniqueKey, DataCredito, Boleto, Extrato,
+                                CampoEmpresa, CampoCodigoPessoa, CampoNomeTitulo, CampoCNPJCPFPessoa, CampoDtEmissao,
+                                CampoNumeroTitulo, CampoDtVencimento, CampoNaturezaLancamento, CampoFormaPagamento,
+                                CampoValorTitulo, CampoAgencia, CampoConta, CampoBanco, CampoModalidade]);
     Result := True;
   finally
     fdQuery.Free;
@@ -357,7 +365,9 @@ begin
   FDQuery.ExecSQL(SQLUPDATE, [Tipo, Codigo, Nome, Entregas, Volumes, VolumesExtra, ValorVolumesExtra, Atrasos, ValorProducao,
                              Performance, TotalTitket, Agencia, TipoConta, Conta, Favorecido, CPFCNPJ, PFP, ValorTicketMedio,
                              ValorExtravios, TotalDebitos, TotalCreditos, TotalGeral, UniqueKey, DataCredito, Boleto, Extrato,
-                             Id]);
+                             CampoEmpresa, CampoCodigoPessoa, CampoNomeTitulo, CampoCNPJCPFPessoa, CampoDtEmissao,
+                             CampoNumeroTitulo, CampoDtVencimento, CampoNaturezaLancamento, CampoFormaPagamento,
+                             CampoValorTitulo, CampoAgencia, CampoConta, CampoBanco, CampoModalidade, Id]);
   Result := True;
 end;
 

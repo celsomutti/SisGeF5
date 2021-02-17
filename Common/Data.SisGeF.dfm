@@ -12932,6 +12932,10 @@ object Data_Sisgef: TData_Sisgef
       FieldName = 'CampoBanco'
       Size = 3
     end
+    object mtbFechamentoExpressasCampoModalidade: TStringField
+      FieldName = 'CampoModalidade'
+      Size = 6
+    end
   end
   object frxRichObject1: TfrxRichObject
     Left = 600

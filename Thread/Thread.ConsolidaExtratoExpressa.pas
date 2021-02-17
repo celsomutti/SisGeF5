@@ -68,7 +68,7 @@ var
   bCancel : Boolean;
   dtDate : TDate;
   iTipo, iCodigo, iEntregador: Integer;
-  sForma, sBanco, sAgencia, sConta, sTipoConta, sFavorecido, sCPFCNPJ, sCadastro, sNome, sNomeBanco, sBimer, sTitulo: String;
+  sForma, sBanco, sAgencia, sConta, sTipoConta, sFavorecido, sCPFCNPJ, sCadastro, sNome, sNomeBanco, sBimer, sTitulo, sModalidade: String;
 
 begin
   { Place thread code here }
@@ -120,6 +120,7 @@ begin
           sNome :=  FBases.GetField('nom_fantasia','cod_agente', iCodigo.ToString);
           sBanco := FBases.GetField('cod_banco','cod_agente', iCodigo.ToString);
           sNomeBanco := FBancos.GetField('nom_banco','cod_banco',QuotedStr(sBanco));
+          sModalidade := FBancos.GetField('cod_modalidade','cod_banco',QuotedStr(sBanco));
           sAgencia := FBases.GetField('cod_agencia','cod_agente', iCodigo.ToString);
           sConta := FBases.GetField('num_conta','cod_agente', iCodigo.ToString);
           sTipoConta := FBases.GetField('des_tipo_conta','cod_agente', iCodigo.ToString);
@@ -152,6 +153,7 @@ begin
             end;
             sBanco := FCadastro.GetField('cod_banco','cod_cadastro', sCadastro);
             sNomeBanco := FBancos.GetField('nom_banco','cod_banco',QuotedStr(sBanco));
+            sModalidade := FBancos.GetField('cod_modalidade','cod_banco',QuotedStr(sBanco));
             sAgencia := FCadastro.GetField('cod_agencia','cod_cadastro', sCadastro);
             sConta := FCadastro.GetField('num_conta','cod_cadastro', sCadastro);
             sTipoConta := FCadastro.GetField('des_tipo_conta','cod_cadastro', sCadastro);
@@ -200,6 +202,7 @@ begin
           Data_Sisgef.mtbFechamentoExpressasCampoValorTitulo.AsString := FormatFloat( '###0.00' , Data_Sisgef.mtbFechamentoExpressasval_total.AsFloat);
           Data_Sisgef.mtbFechamentoExpressasCampoDtEmissao.AsString := FormatDateTime('dd/mm/yyyy', Now);
           Data_Sisgef.mtbFechamentoExpressasCampoDtVencimento.AsString := FormatDateTime('dd/mm/yyyy', dtDate);
+          Data_Sisgef.mtbFechamentoExpressasCampoModalidade.AsString := sModalidade;
           Data_Sisgef.mtbFechamentoExpressas.Post;
         end
         else
@@ -245,6 +248,7 @@ begin
           Data_Sisgef.mtbFechamentoExpressasCampoValorTitulo.AsString := FormatFloat( '###0.00' , Data_Sisgef.mtbFechamentoExpressasval_total.AsFloat);
           Data_Sisgef.mtbFechamentoExpressasCampoDtEmissao.AsString := FormatDateTime('dd/mm/yyyy', Now);
           Data_Sisgef.mtbFechamentoExpressasCampoDtVencimento.AsString := FormatDateTime('dd/mm/yyyy', dtDate);
+          Data_Sisgef.mtbFechamentoExpressasCampoModalidade.AsString := sModalidade;
           Data_Sisgef.mtbFechamentoExpressas.Post;
         end;
         iConta := Data_Sisgef.mtbExtratosExpressas.RecNo;
