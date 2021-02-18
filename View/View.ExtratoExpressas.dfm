@@ -105,7 +105,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
         'Julho'
         'Agosto'
         'Setembro'
-        'Outuibro '
+        'Outubro '
         'Novembro'
         'Dezembro')
       Style.Font.Charset = DEFAULT_CHARSET
