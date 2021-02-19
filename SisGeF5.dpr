@@ -177,7 +177,8 @@ uses
   Thread.ExtratoExpressas in 'Thread\Thread.ExtratoExpressas.pas',
   View.ExtratoExpressasDetalhado in 'View\View.ExtratoExpressasDetalhado.pas' {view_ExtratoExpressasDetalhado},
   View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
-  Model.CadastroGeral in 'Model\Model.CadastroGeral.pas';
+  Model.CadastroGeral in 'Model\Model.CadastroGeral.pas',
+  View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas};
 
 {$R *.res}
 
