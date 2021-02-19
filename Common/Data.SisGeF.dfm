@@ -13415,4 +13415,13 @@ object Data_Sisgef: TData_Sisgef
     Left = 624
     Top = 56
   end
+  object FDConnectionMySQL: TFDConnection
+    Params.Strings = (
+      'Compress=True'
+      'Pooled=False')
+    LoginPrompt = False
+    BeforeConnect = FDConnectionMySQLBeforeConnect
+    Left = 320
+    Top = 408
+  end
 end

@@ -417,10 +417,12 @@ type
     mtbFechamentoExpressasCampoDtEmissao: TStringField;
     mtbFechamentoExpressasCampoDtVencimento: TStringField;
     mtbFechamentoExpressasCampoModalidade: TStringField;
+    FDConnectionMySQL: TFDConnection;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
     procedure mtbExtratosExpressasCalcFields(DataSet: TDataSet);
+    procedure FDConnectionMySQLBeforeConnect(Sender: TObject);
   private
     { Private declarations }
     procedure DoServerKeyValidate(FileStorage: TScFileStorage;  const HostKeyName: string; NewServerKey: TScKey;
@@ -480,6 +482,17 @@ begin
       Accept := True;
    // end;
   end;
+end;
+
+
+procedure TData_Sisgef.FDConnectionMySQLBeforeConnect(Sender: TObject);
+begin
+  FDConnectionMySQL.ConnectionString := 'DriverID=' + Global.Parametros.pDriverID +
+                                        ';Server=' + Global.Parametros.pServer +
+                                        ';Database=' + Global.Parametros.pDatabase +
+                                        ';Port=' + Global.Parametros.pPort +
+                                        ';User_name=' + Global.Parametros.pUBD +
+                                        ';Password=' + Global.Parametros.pPBD;
 end;
 
 procedure TData_Sisgef.mtbExtratosExpressasCalcFields(DataSet: TDataSet);
