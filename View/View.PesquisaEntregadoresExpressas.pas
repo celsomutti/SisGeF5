@@ -11,7 +11,7 @@ uses
   cxGridTableView, cxGridDBTableView, cxGrid, dxLayoutControlAdapters, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.StdCtrls,
   cxButtons, Vcl.Buttons, cxCheckBox, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxTextEdit,
-  cxMaskEdit, cxButtonEdit;
+  cxMaskEdit, cxButtonEdit, dxBar;
 
 type
   Tview_PesquisaEntregadoresExpressas = class(TForm)
@@ -53,9 +53,7 @@ type
     layoutItemtextoPesquisa: TdxLayoutItem;
     actionPesquisar: TAction;
     actionLimpar: TAction;
-    layoutControlFooterGroup_Root: TdxLayoutGroup;
-    layoutControlFooter: TdxLayoutControl;
-    Action1: TAction;
+    actionNovo: TAction;
     fdMemTablePesquisa: TFDMemTable;
     fdMemTablePesquisaid_entregador: TFDAutoIncField;
     fdMemTablePesquisacod_agente: TIntegerField;
@@ -65,6 +63,17 @@ type
     fdMemTablePesquisades_chave: TStringField;
     fdMemTablePesquisacod_cadastro: TIntegerField;
     fdMemTablePesquisanom_cadastro: TStringField;
+    actionEditar: TAction;
+    actionExportar: TAction;
+    barManagerEntregadores: TdxBarManager;
+    barManagerEntregadoresBar1: TdxBar;
+    dxBarLargeButton1: TdxBarLargeButton;
+    dxBarLargeButton2: TdxBarLargeButton;
+    dxBarLargeButton3: TdxBarLargeButton;
+    actionFechar: TAction;
+    dxBarLargeButton4: TdxBarLargeButton;
+    actLimparConsulta: TAction;
+    dxBarLargeButton5: TdxBarLargeButton;
     procedure FormShow(Sender: TObject);
     procedure actionExpandirGridExecute(Sender: TObject);
     procedure actionRetrairGridExecute(Sender: TObject);
@@ -75,9 +84,12 @@ type
       var Error: Boolean);
     procedure actionPesquisarExecute(Sender: TObject);
     procedure fdPesquisaAfterClose(DataSet: TDataSet);
+    procedure actionFecharExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     procedure StartForm;
+    procedure SetGroup(bFlag: Boolean);
     procedure PesquisaEntregador(sFiltro: String);
     function FormulaFilro(sTexto: String): String;
   public
@@ -100,6 +112,11 @@ begin
   gridPesquisaDBTableView1.ViewData.Expand(True);
 end;
 
+procedure Tview_PesquisaEntregadoresExpressas.actionFecharExecute(Sender: TObject);
+begin
+  Perform(WM_CLOSE, 0, 0);
+end;
+
 procedure Tview_PesquisaEntregadoresExpressas.actionLimparExecute(Sender: TObject);
 begin
   buttonEditTextoPesquisar.Clear;
@@ -112,7 +129,7 @@ end;
 
 procedure Tview_PesquisaEntregadoresExpressas.actionRetrairGridExecute(Sender: TObject);
 begin
-  gridPesquisaDBTableView1.ViewData.Expand(False);
+  gridPesquisaDBTableView1.ViewData.Collapse(True);
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.buttonEditTextoPesquisarPropertiesChange(Sender: TObject);
@@ -135,12 +152,18 @@ end;
 
 procedure Tview_PesquisaEntregadoresExpressas.checkBoxBarraGruposPropertiesChange(Sender: TObject);
 begin
-  gridPesquisaDBTableView1.OptionsView.GroupByBox := checkBoxBarraGrupos.Checked;
+  SetGroup(checkBoxBarraGrupos.Checked);
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.fdPesquisaAfterClose(DataSet: TDataSet);
 begin
   Data_Sisgef.FDConnectionMySQL.Close;
+end;
+
+procedure Tview_PesquisaEntregadoresExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+  view_PesquisaEntregadoresExpressas := nil;
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.FormShow(Sender: TObject);
@@ -184,7 +207,10 @@ begin
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.PesquisaEntregador(sFiltro: String);
+var
+  sSQL: String;
 begin
+  sSQL := '';
   if sFiltro = 'NONE' then
   begin
     Exit;
@@ -193,13 +219,14 @@ begin
   begin
     fdPesquisa.Close;
   end;
+  sSQL := fdPesquisa.SQL.Text;
   if not sFiltro.IsEmpty then
   begin
     if fdPesquisa.SQL.Count > 1 then
     begin
       fdPesquisa.SQL[1] := '';
     end;
-    fdPesquisa.SQL.Add('where ' + sFiltro);
+    fdPesquisa.SQL.Text := sSQL + ' where ' + sFiltro;
   end;
   fdPesquisa.Open();
   if fdMemTablePesquisa.Active then
@@ -208,11 +235,18 @@ begin
   end;
   fdMemTablePesquisa.Data := fdPesquisa.Data;
   fdPesquisa.Close;
+  fdPesquisa.SQL.Text := sSQL;
+end;
+
+procedure Tview_PesquisaEntregadoresExpressas.SetGroup(bFlag: Boolean);
+begin
+  gridPesquisaDBTableView1.OptionsView.GroupByBox := bFlag;
+  gridPesquisaDBTableView1.OptionsCustomize.ColumnGrouping := bFlag;
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.StartForm;
 begin
-  gridPesquisaDBTableView1.OptionsView.GroupByBox := checkBoxBarraGrupos.Checked;
+  SetGroup(checkBoxBarraGrupos.Checked);
 end;
 
 end.

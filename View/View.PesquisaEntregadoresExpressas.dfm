@@ -1,7 +1,7 @@
 object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
   Left = 0
   Top = 0
-  Caption = 'Pesquisa Entregadores Expressas'
+  Caption = 'Entregadores Expressas'
   ClientHeight = 472
   ClientWidth = 761
   Color = clBtnFace
@@ -44,32 +44,47 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
   OldCreateOrder = False
   ShowHint = True
   Visible = True
+  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
   object layoutControlGrid: TdxLayoutControl
     Left = 0
-    Top = 0
+    Top = 54
     Width = 761
-    Height = 432
+    Height = 418
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitTop = 65
-    ExplicitHeight = 328
+    ExplicitTop = 0
+    ExplicitHeight = 432
     object gridPesquisa: TcxGrid
       Left = 12
       Top = 64
       Width = 737
-      Height = 356
+      Height = 342
       TabOrder = 4
       object gridPesquisaDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Insert.Visible = False
+        Navigator.Buttons.Delete.Visible = False
+        Navigator.Buttons.Edit.Visible = False
+        Navigator.Buttons.Post.Visible = False
+        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.Visible = False
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
         DataController.DataSource = dsPesquisa
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsCustomize.ColumnsQuickCustomization = True
         object gridPesquisaDBTableView1id_entregador: TcxGridDBColumn
           Caption = 'ID'
           DataBinding.FieldName = 'id_entregador'
@@ -254,22 +269,6 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       Index = 2
     end
   end
-  object layoutControlFooter: TdxLayoutControl
-    Left = 0
-    Top = 432
-    Width = 761
-    Height = 40
-    Align = alBottom
-    TabOrder = 1
-    object layoutControlFooterGroup_Root: TdxLayoutGroup
-      AlignHorz = ahClient
-      AlignVert = avClient
-      ButtonOptions.Buttons = <>
-      Hidden = True
-      ShowBorder = False
-      Index = -1
-    end
-  end
   object actionListPesquisa: TActionList
     Images = Data_Sisgef.iml_16_16
     Left = 544
@@ -303,22 +302,49 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       ImageIndex = 9
       OnExecute = actionLimparExecute
     end
-    object Action1: TAction
+    object actionNovo: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Novo'
       Hint = 'Novo entregador'
+      ShortCut = 113
+    end
+    object actionEditar: TAction
+      Category = 'Op'#231#245'es'
+      Caption = 'Editar'
+      Hint = 'Editar os dados do entregador'
+      ShortCut = 114
+    end
+    object actionExportar: TAction
+      Category = 'Op'#231#245'es'
+      Caption = 'Exportar'
+      Hint = 'Exportar dados do grid'
+      ShortCut = 49240
+    end
+    object actionFechar: TAction
+      Category = 'Op'#231#245'es'
+      Caption = 'Fechar'
+      Hint = 'Fechar a tela'
+      OnExecute = actionFecharExecute
+    end
+    object actLimparConsulta: TAction
+      Category = 'Op'#231#245'es'
+      Caption = 'Limpar'
+      Hint = 'Limpar a consulta'
+      ShortCut = 16411
     end
   end
   object fdPesquisa: TFDQuery
     AfterClose = fdPesquisaAfterClose
-    FilterOptions = [foCaseInsensitive]
     Connection = Data_Sisgef.FDConnectionMySQL
+    FetchOptions.AssignedValues = [evMode, evRowsetSize]
+    FetchOptions.Mode = fmAll
     SQL.Strings = (
       'select * from view_EntregadoresExpressaBases')
     Left = 392
     object fdPesquisaid_entregador: TFDAutoIncField
       FieldName = 'id_entregador'
       Origin = 'id_entregador'
+      ReadOnly = True
     end
     object fdPesquisacod_agente: TIntegerField
       AutoGenerateValue = arDefault
@@ -421,6 +447,7 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
     Left = 352
     object fdMemTablePesquisaid_entregador: TFDAutoIncField
       FieldName = 'id_entregador'
+      ReadOnly = True
     end
     object fdMemTablePesquisacod_agente: TIntegerField
       FieldName = 'cod_agente'
@@ -448,6 +475,106 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
     object fdMemTablePesquisanom_cadastro: TStringField
       FieldName = 'nom_cadastro'
       Size = 70
+    end
+  end
+  object barManagerEntregadores: TdxBarManager
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Categories.Strings = (
+      'Default')
+    Categories.ItemsVisibles = (
+      2)
+    Categories.Visibles = (
+      True)
+    ImageOptions.LargeImages = Data_Sisgef.lmi_32_32
+    PopupMenuLinks = <>
+    UseSystemFont = True
+    Left = 624
+    Top = 16
+    PixelsPerInch = 96
+    DockControlHeights = (
+      0
+      0
+      54
+      0)
+    object barManagerEntregadoresBar1: TdxBar
+      AllowClose = False
+      AllowCustomizing = False
+      AllowQuickCustomizing = False
+      BorderStyle = bbsNone
+      Caption = 'Cadastro'
+      CaptionButtons = <>
+      DockedDockingStyle = dsTop
+      DockedLeft = 0
+      DockedTop = 0
+      DockingStyle = dsTop
+      FloatLeft = 789
+      FloatTop = 2
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton1'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton2'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton3'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton5'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton4'
+        end>
+      OneOnRow = True
+      Row = 0
+      ShowMark = False
+      SizeGrip = False
+      UseOwnFont = False
+      UseRestSpace = True
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarLargeButton1: TdxBarLargeButton
+      Action = actionNovo
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 59
+    end
+    object dxBarLargeButton2: TdxBarLargeButton
+      Action = actionEditar
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 61
+    end
+    object dxBarLargeButton3: TdxBarLargeButton
+      Action = actionExportar
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 62
+    end
+    object dxBarLargeButton4: TdxBarLargeButton
+      Action = actionFechar
+      Align = iaRight
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 64
+    end
+    object dxBarLargeButton5: TdxBarLargeButton
+      Action = actLimparConsulta
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 65
     end
   end
 end
