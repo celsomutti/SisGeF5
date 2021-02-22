@@ -1,16 +1,17 @@
 object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
   Caption = 'Entregadores Expressas'
-  ClientHeight = 472
-  ClientWidth = 761
+  ClientHeight = 465
+  ClientWidth = 716
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  FormStyle = fsMDIChild
   Icon.Data = {
     0000010001001010000001001800680300001600000028000000100000002000
     0000010018000000000040030000000000000000000000000000000000000000
@@ -42,29 +43,27 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
     0000801F0000801F0000801F0000801F0000C03F0000E07F0000FFFF0000}
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
-  Visible = True
-  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
   object layoutControlGrid: TdxLayoutControl
     Left = 0
-    Top = 54
-    Width = 761
-    Height = 418
+    Top = 0
+    Width = 716
+    Height = 465
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitTop = 0
-    ExplicitHeight = 432
     object gridPesquisa: TcxGrid
       Left = 12
       Top = 64
-      Width = 737
-      Height = 342
+      Width = 692
+      Height = 357
       TabOrder = 4
+      OnEnter = gridPesquisaEnter
       object gridPesquisaDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         Navigator.Buttons.PriorPage.Visible = False
@@ -80,6 +79,7 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
         Navigator.Buttons.Filter.Visible = False
         Navigator.InfoPanel.Visible = True
         Navigator.Visible = True
+        OnCellDblClick = gridPesquisaDBTableView1CellDblClick
         DataController.DataSource = dsPesquisa
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
@@ -129,7 +129,7 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       end
     end
     object buttonExpandir: TcxButton
-      Left = 455
+      Left = 405
       Top = 32
       Width = 84
       Height = 25
@@ -144,7 +144,7 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       TabStop = False
     end
     object buttonRetrair: TcxButton
-      Left = 546
+      Left = 496
       Top = 32
       Width = 88
       Height = 25
@@ -157,10 +157,10 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       TabStop = False
     end
     object checkBoxBarraGrupos: TcxCheckBox
-      Left = 641
+      Left = 591
       Top = 34
       TabStop = False
-      Caption = 'Barra de Grupos'
+      Caption = 'Painel de Grupos'
       Properties.OnChange = checkBoxBarraGruposPropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -174,11 +174,6 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       Hint = 'Digite o texto a ser pesquisado'
       Properties.Buttons = <
         item
-          Action = actionPesquisar
-          Default = True
-          Kind = bkGlyph
-        end
-        item
           Action = actionLimpar
           Kind = bkGlyph
         end>
@@ -190,13 +185,51 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 2
-      Width = 436
+      OnEnter = buttonEditTextoPesquisarEnter
+      Width = 386
+    end
+    object buttonFechar: TcxButton
+      Left = 619
+      Top = 428
+      Width = 85
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionFechar
+      TabOrder = 8
+    end
+    object buttonOK: TcxButton
+      Left = 523
+      Top = 428
+      Width = 89
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionOK
+      TabOrder = 7
+    end
+    object buttonLocalizar: TcxButton
+      Left = 419
+      Top = 428
+      Width = 97
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionPesquisar
+      TabOrder = 6
+    end
+    object buttonExportar: TcxButton
+      Left = 12
+      Top = 428
+      Width = 101
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionExportar
+      TabOrder = 5
     end
     object layoutControlGridGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 2
       ShowBorder = False
       Index = -1
     end
@@ -252,7 +285,7 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       CaptionOptions.Visible = False
       Control = checkBoxBarraGrupos
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 108
+      ControlOptions.OriginalWidth = 113
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -267,6 +300,61 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       ControlOptions.OriginalWidth = 412
       ControlOptions.ShowBorder = False
       Index = 2
+    end
+    object layoutItemFechar: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup2
+      AlignHorz = ahRight
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = buttonFechar
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 85
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object layoutItemOK: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup2
+      AlignHorz = ahRight
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = buttonOK
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 89
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutAutoCreatedGroup2: TdxLayoutAutoCreatedGroup
+      Parent = layoutControlGridGroup_Root
+      AlignVert = avBottom
+      LayoutDirection = ldHorizontal
+      Index = 2
+      AutoCreated = True
+    end
+    object layoutItemLocalizar: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup2
+      AlignHorz = ahRight
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = buttonLocalizar
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 97
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object layoutItemExportar: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup2
+      AlignHorz = ahLeft
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = buttonExportar
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 101
+      ControlOptions.ShowBorder = False
+      Index = 0
     end
   end
   object actionListPesquisa: TActionList
@@ -289,9 +377,9 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
     object actionPesquisar: TAction
       Category = 'Op'#231#245'es'
       AutoCheck = True
-      Caption = 'Pesquisar'
-      Hint = 'Pesquisar o texto'
-      ImageIndex = 14
+      Caption = 'Localizar'
+      Hint = 'Realizar pesquisa'
+      ImageIndex = 12
       OnExecute = actionPesquisarExecute
     end
     object actionLimpar: TAction
@@ -302,39 +390,31 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       ImageIndex = 9
       OnExecute = actionLimparExecute
     end
-    object actionNovo: TAction
-      Category = 'Op'#231#245'es'
-      Caption = 'Novo'
-      Hint = 'Novo entregador'
-      ShortCut = 113
-    end
-    object actionEditar: TAction
-      Category = 'Op'#231#245'es'
-      Caption = 'Editar'
-      Hint = 'Editar os dados do entregador'
-      ShortCut = 114
-    end
     object actionExportar: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Exportar'
       Hint = 'Exportar dados do grid'
+      ImageIndex = 11
       ShortCut = 49240
     end
     object actionFechar: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Fechar'
       Hint = 'Fechar a tela'
+      ImageIndex = 17
       OnExecute = actionFecharExecute
     end
-    object actLimparConsulta: TAction
+    object actionOK: TAction
       Category = 'Op'#231#245'es'
-      Caption = 'Limpar'
-      Hint = 'Limpar a consulta'
-      ShortCut = 16411
+      Caption = 'OK'
+      Hint = 'Selecionar o registro'
+      ImageIndex = 1
+      OnExecute = actionOKExecute
     end
   end
   object fdPesquisa: TFDQuery
     AfterClose = fdPesquisaAfterClose
+    FilterOptions = [foCaseInsensitive]
     Connection = Data_Sisgef.FDConnectionMySQL
     FetchOptions.AssignedValues = [evMode, evRowsetSize]
     FetchOptions.Mode = fmAll
@@ -388,193 +468,8 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
   end
   object dsPesquisa: TDataSource
     AutoEdit = False
-    DataSet = fdMemTablePesquisa
+    DataSet = fdPesquisa
+    OnStateChange = dsPesquisaStateChange
     Left = 440
-  end
-  object fdMemTablePesquisa: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'id_entregador'
-        DataType = ftAutoInc
-      end
-      item
-        Name = 'cod_agente'
-        DataType = ftInteger
-      end
-      item
-        Name = 'nom_base'
-        DataType = ftString
-        Size = 80
-      end
-      item
-        Name = 'cod_entregador'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'nom_entregador'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'des_chave'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'cod_cadastro'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'nom_cadastro'
-        DataType = ftString
-        Size = 70
-      end>
-    IndexDefs = <>
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
-    FormatOptions.MaxBcdPrecision = 2147483647
-    FormatOptions.MaxBcdScale = 1073741823
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    StoreDefs = True
-    Left = 352
-    object fdMemTablePesquisaid_entregador: TFDAutoIncField
-      FieldName = 'id_entregador'
-      ReadOnly = True
-    end
-    object fdMemTablePesquisacod_agente: TIntegerField
-      FieldName = 'cod_agente'
-    end
-    object fdMemTablePesquisanom_base: TStringField
-      FieldName = 'nom_base'
-      Size = 80
-    end
-    object fdMemTablePesquisacod_entregador: TIntegerField
-      FieldName = 'cod_entregador'
-      Required = True
-    end
-    object fdMemTablePesquisanom_entregador: TStringField
-      FieldName = 'nom_entregador'
-      Size = 70
-    end
-    object fdMemTablePesquisades_chave: TStringField
-      FieldName = 'des_chave'
-      Size = 70
-    end
-    object fdMemTablePesquisacod_cadastro: TIntegerField
-      FieldName = 'cod_cadastro'
-      Required = True
-    end
-    object fdMemTablePesquisanom_cadastro: TStringField
-      FieldName = 'nom_cadastro'
-      Size = 70
-    end
-  end
-  object barManagerEntregadores: TdxBarManager
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    Categories.Strings = (
-      'Default')
-    Categories.ItemsVisibles = (
-      2)
-    Categories.Visibles = (
-      True)
-    ImageOptions.LargeImages = Data_Sisgef.lmi_32_32
-    PopupMenuLinks = <>
-    UseSystemFont = True
-    Left = 624
-    Top = 16
-    PixelsPerInch = 96
-    DockControlHeights = (
-      0
-      0
-      54
-      0)
-    object barManagerEntregadoresBar1: TdxBar
-      AllowClose = False
-      AllowCustomizing = False
-      AllowQuickCustomizing = False
-      BorderStyle = bbsNone
-      Caption = 'Cadastro'
-      CaptionButtons = <>
-      DockedDockingStyle = dsTop
-      DockedLeft = 0
-      DockedTop = 0
-      DockingStyle = dsTop
-      FloatLeft = 789
-      FloatTop = 2
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton1'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton2'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton3'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton5'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton4'
-        end>
-      OneOnRow = True
-      Row = 0
-      ShowMark = False
-      SizeGrip = False
-      UseOwnFont = False
-      UseRestSpace = True
-      Visible = True
-      WholeRow = False
-    end
-    object dxBarLargeButton1: TdxBarLargeButton
-      Action = actionNovo
-      Category = 0
-      AutoGrayScale = False
-      LargeImageIndex = 59
-    end
-    object dxBarLargeButton2: TdxBarLargeButton
-      Action = actionEditar
-      Category = 0
-      AutoGrayScale = False
-      LargeImageIndex = 61
-    end
-    object dxBarLargeButton3: TdxBarLargeButton
-      Action = actionExportar
-      Category = 0
-      AutoGrayScale = False
-      LargeImageIndex = 62
-    end
-    object dxBarLargeButton4: TdxBarLargeButton
-      Action = actionFechar
-      Align = iaRight
-      Category = 0
-      AutoGrayScale = False
-      LargeImageIndex = 64
-    end
-    object dxBarLargeButton5: TdxBarLargeButton
-      Action = actLimparConsulta
-      Category = 0
-      AutoGrayScale = False
-      LargeImageIndex = 65
-    end
   end
 end

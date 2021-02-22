@@ -239,8 +239,7 @@ implementation
 uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsuarios, View.CadastraSenha,
   View.Calendario, View.VerbasExpressas, View.ExtraviosMultas, View.Acareacoes, View.ImportarPedidos, View.ImportarBaixasTFO,
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
-  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.CadastroEntregadores, View.LancamentosExtratos,
-  View.PesquisaEntregadoresExpressas;
+  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.CadastroEntregadores, View.LancamentosExtratos;
 
 procedure Tview_Main.Acessos;
 var
@@ -341,11 +340,11 @@ end;
 
 procedure Tview_Main.actCadastroEntregadoresExecute(Sender: TObject);
 begin
-  if not Assigned(view_PesquisaEntregadoresExpressas) then
+  if not Assigned(view_CadastroEntregadores) then
   begin
-    view_PesquisaEntregadoresExpressas := Tview_PesquisaEntregadoresExpressas.Create(Application);
+    view_CadastroEntregadores := Tview_CadastroEntregadores.Create(Application);
   end;
-  view_PesquisaEntregadoresExpressas.Show;
+  view_CadastroEntregadores.Show;
 end;
 
 procedure Tview_Main.actCalendarioExecute(Sender: TObject);

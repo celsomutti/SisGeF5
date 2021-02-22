@@ -13872,7 +13872,12 @@ object Data_Sisgef: TData_Sisgef
   object FDConnectionMySQL: TFDConnection
     Params.Strings = (
       'Compress=True'
-      'Pooled=False')
+      'Pooled=False'
+      'DriverID=MySQL'
+      'Database=bderpsisgef'
+      'Password=al0c@rioca'
+      'Server=localhost'
+      'User_Name=root')
     LoginPrompt = False
     BeforeConnect = FDConnectionMySQLBeforeConnect
     Left = 664

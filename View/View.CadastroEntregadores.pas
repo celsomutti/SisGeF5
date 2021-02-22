@@ -14,7 +14,7 @@ uses
   Control.TiposVerbasExpressas, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
   cxCheckBox, Data.Bind.EngExt, Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors, Data.Bind.Components,
   Data.Bind.DBScope, Control.EntregadoresExpressas, Control.Bases, Control.Cadastro, cxDBEdit, cxImageComboBox, cxBlobEdit,
-  Control.ExtraviosMultas, Control.Lancamentos, Control.Entregas, Vcl.Bind.Navigator;
+  Control.ExtraviosMultas, Control.Lancamentos, Control.Entregas, Vcl.Bind.Navigator, FireDAC.Stan.Async, FireDAC.DApt;
 
 type
   Tview_CadastroEntregadores = class(TForm)
@@ -234,6 +234,7 @@ type
     procedure actionEditarExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
     procedure actionGravarExecute(Sender: TObject);
+    procedure fdqueryEntregadoresAfterClose(DataSet: TDataSet);
   private
     { Private declarations }
     procedure PesquisaAgente;
@@ -269,7 +270,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.PesquisarPessoas;
+uses Data.SisGeF, View.PesquisarPessoas, View.PesquisaEntregadoresExpressas;
 
 procedure Tview_CadastroEntregadores.actionCancelarExecute(Sender: TObject);
 begin
@@ -399,6 +400,11 @@ begin
   begin
     TUtils.ExportarDados(gridExtravios, SaveDialog.FileName);
   end;
+end;
+
+procedure Tview_CadastroEntregadores.fdqueryEntregadoresAfterClose(DataSet: TDataSet);
+begin
+  Data_Sisgef.FDConnectionMySQL.Close;
 end;
 
 procedure Tview_CadastroEntregadores.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -666,67 +672,34 @@ end;
 
 procedure Tview_CadastroEntregadores.PesquisaEntregadores;
 var
-  sSQL: String;
-  sWhere: String;
   aParam: array of variant;
   sQuery: String;
   entregadores : TEntregadoresExpressasControl;
 begin
-  try
-    sSQL := '';
-    sWhere := '';
-    entregadores := TEntregadoresExpressasControl.Create;
-    if not Assigned(View_PesquisarPessoas) then
-    begin
-      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
-    end;
-    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
-    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-
-
-    sSQL := 'select tbcodigosentregadores.cod_entregador as "Cód. Entregador", ' +
-            'tbcodigosentregadores.nom_fantasia as "Nome Entregador", tbcodigosentregadores.des_chave as "Cód. ERP", ' +
-            'tbcodigosentregadores.cod_cadastro as "Cód. Cadastro", tbentregadores.des_razao_social as "Nome Cadastro", ' +
-            'tbcodigosentregadores.cod_agente as "Cód. Agente" ' +
-            'from tbcodigosentregadores ' +
-            'left join tbentregadores ' +
-            'on tbentregadores.cod_cadastro = tbcodigosentregadores.cod_cadastro ';
-
-    sWhere := 'where tbcodigosentregadores.cod_entregador like paraN or tbcodigosentregadores.nom_fantasia like "%param%" or ' +
-              'tbcodigosentregadores.des_chave like "%param%" or tbcodigosentregadores.cod_cadastro like paraN or ' +
-              'tbcodigosentregadores.cod_agente like paraN order by tbcodigosentregadores.cod_cadastro desc;';
-    View_PesquisarPessoas.sSQL := sSQL;
-    View_PesquisarPessoas.sWhere := sWhere;
-    View_PesquisarPessoas.bOpen := False;
-    View_PesquisarPessoas.Caption := 'Localizar Entregadores';
-    if View_PesquisarPessoas.ShowModal = mrOK then
-    begin
-      sQuery := 'cod_cadastro = ' + View_PesquisarPessoas.qryPesquisa.Fields[4].AsString + ' and ' +
-                'cod_entregador = ' + View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
-      SetLength(aParam,2);
-      aparam := ['FILTRO', sQuery];
-      if memTableEntregadores.Active then
-      begin
-        memTableEntregadores.Close;
-      end;
-      memTableEntregadores.CopyDataSet(entregadores.Localizar(aParam));
-      Finalize(aParam);
-      if not memTableEntregadores.IsEmpty then
-      begin
-        FAcao := tacPesquisa;
-        PopulaCampos;
-        PopulaExtravios(memTableEntregadorescod_entregador.AsInteger);
-        PopulaLancamentos(memTableEntregadorescod_cadastro.AsInteger);
-        PopulaExpressas(memTableEntregadorescod_entregador.AsInteger);
-        Modo;
-      end;
-    end;
-  finally
-    entregadores.Free;
-    View_PesquisarPessoas.qryPesquisa.Close;
-    View_PesquisarPessoas.tvPesquisa.ClearItems;
-    FreeAndNil(View_PesquisarPessoas);
+  if not Assigned(view_PesquisaEntregadoresExpressas) then
+  begin
+    view_PesquisaEntregadoresExpressas := Tview_PesquisaEntregadoresExpressas.Create(Application);
   end;
+  if view_PesquisaEntregadoresExpressas.ShowModal = mrOK then
+  begin
+    entregadores := TEntregadoresExpressasControl.Create;
+    sQuery := 'id_entregador = ' + view_PesquisaEntregadoresExpressas.iID.ToString;
+    SetLength(aParam,2);
+    aparam := ['FILTRO', sQuery];
+    memTableEntregadores.CopyDataSet(entregadores.Localizar(aParam));
+    Finalize(aParam);
+    if not memTableEntregadores.IsEmpty then
+    begin
+      FAcao := tacPesquisa;
+      PopulaCampos;
+      PopulaExtravios(memTableEntregadorescod_entregador.AsInteger);
+      PopulaLancamentos(memTableEntregadorescod_cadastro.AsInteger);
+      PopulaExpressas(memTableEntregadorescod_entregador.AsInteger);
+      Modo;
+    end;
+    entregadores.Free;
+  end;
+  FreeAndNil(view_PesquisaEntregadoresExpressas);
 end;
 
 procedure Tview_CadastroEntregadores.PesquisaFaixas;

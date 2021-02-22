@@ -26,7 +26,9 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     Width = 938
     Height = 582
     Align = alClient
+    ParentBackground = True
     TabOrder = 0
+    Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object labelTitle: TcxLabel
       Left = 11
@@ -1144,7 +1146,6 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
     end
   end
   object dsEntregadores: TDataSource
-    DataSet = memTableEntregadores
     Left = 512
     Top = 8
   end
