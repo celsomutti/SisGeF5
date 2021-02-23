@@ -77,8 +77,6 @@ type
     procedure dsPesquisaStateChange(Sender: TObject);
     procedure actionOKExecute(Sender: TObject);
     procedure gridPesquisaEnter(Sender: TObject);
-    procedure buttonEditTextoPesquisarPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
-      var Error: Boolean);
     procedure gridPesquisaDBTableView1DblClick(Sender: TObject);
     procedure buttonEditTextoPesquisarEnter(Sender: TObject);
     procedure gridPesquisaDBTableView1CellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
@@ -156,12 +154,6 @@ begin
     actionLimpar.Enabled := True;
     buttonLocalizar.Enabled := True;
   end;
-end;
-
-procedure Tview_PesquisaEntregadoresExpressas.buttonEditTextoPesquisarPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
-  var ErrorText: TCaption; var Error: Boolean);
-begin
-  PesquisaEntregador(FormulaFilro(DisplayValue));
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.checkBoxBarraGruposPropertiesChange(Sender: TObject);
@@ -253,10 +245,7 @@ begin
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.PesquisaEntregador(sFiltro: String);
-var
-  sSQL: String;
 begin
-  sSQL := '';
   if sFiltro = 'NONE' then
   begin
     Exit;
@@ -265,10 +254,8 @@ begin
   begin
     fdPesquisa.Close;
   end;
-  sSQL := fdPesquisa.SQL.Text;
   if not sFiltro.IsEmpty then
   begin
-    //fdPesquisa.SQL.Text := sSQL + ' where ' + sFiltro;
     fdpesquisa.Filter := sFiltro;
     fdpesquisa.Filtered := True;
   end;

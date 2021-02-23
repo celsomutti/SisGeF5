@@ -10,7 +10,7 @@ uses
   Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Data.Bind.EngExt, Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors,
-  Data.Bind.Components, Data.Bind.DBScope, dxBar, dxBarDBNav;
+  Data.Bind.Components, Data.Bind.DBScope, dxBar, dxBarDBNav, System.Actions, Vcl.ActnList, cxBarEditItem;
 
 type
   Tview_CadastroEntregadoresExpressas = class(TForm)
@@ -32,8 +32,6 @@ type
     layoutItemNomeBase: TdxLayoutItem;
     textEditCodigoERP: TcxTextEdit;
     layoutItemCodigoERP: TdxLayoutItem;
-    checkBoxAtivo: TcxCheckBox;
-    layoutItemAtivo: TdxLayoutItem;
     lookupComboBoxCliente: TcxLookupComboBox;
     layoutItemClientes: TdxLayoutItem;
     dxLayoutGroup1: TdxLayoutGroup;
@@ -48,15 +46,38 @@ type
     layoutItemFaixa: TdxLayoutItem;
     currencyEditVerbaFixa: TcxCurrencyEdit;
     layoutItemVerbaFixa: TdxLayoutItem;
-    dxLayoutGroup5: TdxLayoutGroup;
+    layoutGroupInfo: TdxLayoutGroup;
     dateEditVigencia: TcxDateEdit;
     layoutItemDataVigencia: TdxLayoutItem;
     textEditNomeManutencao: TcxTextEdit;
     layoutItemNomeManutencao: TdxLayoutItem;
     dateEditDataManutencao: TcxDateEdit;
     layoutItemDataManutencao: TdxLayoutItem;
+    barManager: TdxBarManager;
+    barManagerBar1: TdxBar;
+    dxBarLargeButton1: TdxBarLargeButton;
+    dxBarLargeButton2: TdxBarLargeButton;
+    dxBarLargeButton3: TdxBarLargeButton;
+    dxBarLargeButton4: TdxBarLargeButton;
+    actionLisCadastro: TActionList;
+    actionNovo: TAction;
+    actionEditar: TAction;
+    actionLocalizar: TAction;
+    actionCancelar: TAction;
+    dxBarLargeButton5: TdxBarLargeButton;
+    actionGravar: TAction;
+    dxBarLargeButton6: TdxBarLargeButton;
+    actionFechar: TAction;
+    dxBarLargeButton7: TdxBarLargeButton;
+    dsClientes: TDataSource;
+    cxBarEditItem1: TcxBarEditItem;
+    dxBarLargeButton8: TdxBarLargeButton;
+    cxBarEditItem2: TcxBarEditItem;
+    checkBoxAtivo: TcxCheckBox;
+    dxLayoutItem1: TdxLayoutItem;
+    BindSourceDB1: TBindSourceDB;
     fdEntregadores: TFDQuery;
-    fdEntregadoresID_ENTREGADOR: TFDAutoIncField;
+    fdEntregadoresid_entregador: TFDAutoIncField;
     fdEntregadoresCOD_CADASTRO: TIntegerField;
     fdEntregadoresCOD_ENTREGADOR: TIntegerField;
     fdEntregadoresNOM_FANTASIA: TStringField;
@@ -70,32 +91,30 @@ type
     fdEntregadoresDAT_MANUTENCAO: TSQLTimeStampField;
     fdEntregadoresCOD_TABELA: TIntegerField;
     fdEntregadoresCOD_CLIENTE: TIntegerField;
-    BindSourceDB1: TBindSourceDB;
     BindingsList1: TBindingsList;
-    LinkPropertyToFieldValue: TLinkPropertyToField;
     LinkPropertyToFieldEditValue: TLinkPropertyToField;
-    LinkPropertyToFieldItemIndex: TLinkPropertyToField;
     LinkPropertyToFieldEditValue2: TLinkPropertyToField;
-    LinkPropertyToFieldDate: TLinkPropertyToField;
     LinkPropertyToFieldText: TLinkPropertyToField;
+    LinkPropertyToFieldDate: TLinkPropertyToField;
     LinkPropertyToFieldText2: TLinkPropertyToField;
     LinkPropertyToFieldEditValue3: TLinkPropertyToField;
     LinkPropertyToFieldEditValue4: TLinkPropertyToField;
     LinkPropertyToFieldEditValue5: TLinkPropertyToField;
-    LinkPropertyToFieldText3: TLinkPropertyToField;
+    LinkPropertyToFieldValue: TLinkPropertyToField;
     LinkPropertyToFieldEditValue6: TLinkPropertyToField;
+    LinkPropertyToFieldItemIndex: TLinkPropertyToField;
+    LinkPropertyToFieldText3: TLinkPropertyToField;
     LinkPropertyToFieldEditValue7: TLinkPropertyToField;
-    barManager: TdxBarManager;
-    barManagerBar1: TdxBar;
-    dxBarLargeButton1: TdxBarLargeButton;
-    dxBarLargeButton2: TdxBarLargeButton;
-    dxBarLargeButton3: TdxBarLargeButton;
-    dxBarLargeButton4: TdxBarLargeButton;
     LinkPropertyToFieldDate2: TLinkPropertyToField;
-    procedure dxBarLargeButton2Click(Sender: TObject);
-    procedure dxBarLargeButton3Click(Sender: TObject);
-    procedure dxBarLargeButton4Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure _fdEntregadoresAfterClose(DataSet: TDataSet);
+    procedure actionNovoExecute(Sender: TObject);
+    procedure actionEditarExecute(Sender: TObject);
+    procedure actionLocalizarExecute(Sender: TObject);
+    procedure actionFecharExecute(Sender: TObject);
+    procedure actionCancelarExecute(Sender: TObject);
+    procedure actionGravarExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure fdEntregadoresAfterClose(DataSet: TDataSet);
   private
     { Private declarations }
@@ -103,6 +122,7 @@ type
     { Public declarations }
     procedure StartForm;
     procedure PesquisaEntregadores;
+    procedure Modo;
   end;
 
 var
@@ -116,19 +136,44 @@ uses Data.SisGeF, View.PesquisaEntregadoresExpressas;
 
 { Tview_CadastroEntregadoresExpressas }
 
-procedure Tview_CadastroEntregadoresExpressas.dxBarLargeButton2Click(Sender: TObject);
+procedure Tview_CadastroEntregadoresExpressas.actionCancelarExecute(Sender: TObject);
 begin
-  BindSourceDB1.DataSet.Insert;
+  if BindSourceDB1.DataSource.State <> dsInactive then
+  begin
+    BindSourceDB1.DataSet.Cancel;
+  end;
+  Modo;
 end;
 
-procedure Tview_CadastroEntregadoresExpressas.dxBarLargeButton3Click(Sender: TObject);
+procedure Tview_CadastroEntregadoresExpressas.actionEditarExecute(Sender: TObject);
 begin
   BindSourceDB1.DataSet.Edit;
+  Modo;
 end;
 
-procedure Tview_CadastroEntregadoresExpressas.dxBarLargeButton4Click(Sender: TObject);
+procedure Tview_CadastroEntregadoresExpressas.actionFecharExecute(Sender: TObject);
+begin
+  Perform(WM_CLOSE, 0, 0);
+  Modo;
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.actionGravarExecute(Sender: TObject);
+begin
+  ShowMessage('Gravar!');
+  Modo;
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.actionLocalizarExecute(Sender: TObject);
 begin
   PesquisaEntregadores;
+  Modo;
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.actionNovoExecute(Sender: TObject);
+begin
+  fdEntregadores.Open();
+  BindSourceDB1.DataSet.Insert;
+  Modo;
 end;
 
 procedure Tview_CadastroEntregadoresExpressas.fdEntregadoresAfterClose(DataSet: TDataSet);
@@ -136,13 +181,114 @@ begin
   Data_Sisgef.FDConnectionMySQL.Close;
 end;
 
+procedure Tview_CadastroEntregadoresExpressas._fdEntregadoresAfterClose(DataSet: TDataSet);
+begin
+  Data_Sisgef.FDConnectionMySQL.Close;
+end;
+
 procedure Tview_CadastroEntregadoresExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if fdEntregadores.Active then fdEntregadores.Close;
-  fdEntregadores.Filter := '';
-  fdEntregadores.Filtered := False;
+  Data_Sisgef.mtbBases.Close;
   Action := caFree;
   view_CadastroEntregadoresExpressas := nil;
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.FormShow(Sender: TObject);
+begin
+  StartForm;
+  Modo;
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.Modo;
+begin
+if BindSourceDB1.DataSource.State = dsInactive then
+  begin
+    actionNovo.Enabled := True;
+    actionEditar.Enabled := False;
+    actionLocalizar.Enabled := True;
+    actionCancelar.Enabled := False;
+    actionGravar.Enabled := False;
+    maskEditCodigo.Properties.ReadOnly := True;
+    textEditNomeEntregador.Properties.ReadOnly := True;
+    buttonEditCodigoPessoa.Properties.ReadOnly := True;
+    buttonEditCodigoBase.Properties.ReadOnly := True;
+    //actionLocalizarPessoas.Enabled := False;
+    //actionLocalizarAgentes.Enabled := False;
+    textEditCodigoERP.Properties.ReadOnly := True;
+    lookupComboBoxCliente.Properties.ReadOnly := True;
+    //actionPesquisarTabelas.Enabled := False;
+    buttonEditCodigoTabela.Properties.ReadOnly := True;
+    comboBoxFaixa.Properties.ReadOnly := True;
+    currencyEditVerbaFixa.Properties.ReadOnly := True;
+    //checkBoxAtivo.Properties.ReadOnly := True;
+    layoutGroupInfo.Visible := False;
+  end
+  else if BindSourceDB1.DataSource.State = dsInsert then
+  begin
+    actionNovo.Enabled := False;
+    actionEditar.Enabled := False;
+    actionLocalizar.Enabled := False;
+    actionCancelar.Enabled := True;
+    actionGravar.Enabled := True;
+    maskEditCodigo.Properties.ReadOnly := False;
+    textEditNomeEntregador.Properties.ReadOnly := False;
+    buttonEditCodigoPessoa.Properties.ReadOnly := False;
+    buttonEditCodigoBase.Properties.ReadOnly := False;
+    //actionLocalizarPessoas.Enabled := False;
+    //actionLocalizarAgentes.Enabled := False;
+    textEditCodigoERP.Properties.ReadOnly := False;
+    lookupComboBoxCliente.Properties.ReadOnly := False;
+    //actionPesquisarTabelas.Enabled := False;
+    buttonEditCodigoTabela.Properties.ReadOnly := False;
+    comboBoxFaixa.Properties.ReadOnly := False;
+    currencyEditVerbaFixa.Properties.ReadOnly := False;
+    //checkBoxAtivo.Properties.ReadOnly := False;
+    layoutGroupInfo.Visible := False;
+  end
+  else if BindSourceDB1.DataSource.State = dsEdit then
+  begin
+    actionNovo.Enabled := False;
+    actionEditar.Enabled := False;
+    actionLocalizar.Enabled := False;
+    actionCancelar.Enabled := True;
+    actionGravar.Enabled := True;
+    maskEditCodigo.Properties.ReadOnly := True;
+    textEditNomeEntregador.Properties.ReadOnly := False;
+    buttonEditCodigoPessoa.Properties.ReadOnly := False;
+    buttonEditCodigoBase.Properties.ReadOnly := False;
+    //actionLocalizarPessoas.Enabled := False;
+    //actionLocalizarAgentes.Enabled := False;
+    textEditCodigoERP.Properties.ReadOnly := False;
+    lookupComboBoxCliente.Properties.ReadOnly := False;
+    //actionPesquisarTabelas.Enabled := False;
+    buttonEditCodigoTabela.Properties.ReadOnly := False;
+    comboBoxFaixa.Properties.ReadOnly := False;
+    currencyEditVerbaFixa.Properties.ReadOnly := False;
+    //checkBoxAtivo.Properties.ReadOnly := False;
+    layoutGroupInfo.Visible := False;
+  end
+  else if BindSourceDB1.DataSource.State = dsBrowse then
+  begin
+    actionNovo.Enabled := True;
+    actionEditar.Enabled := True;
+    actionLocalizar.Enabled := True;
+    actionCancelar.Enabled := True;
+    actionGravar.Enabled := True;
+    maskEditCodigo.Properties.ReadOnly := True;
+    textEditNomeEntregador.Properties.ReadOnly := True;
+    buttonEditCodigoPessoa.Properties.ReadOnly := True;
+    buttonEditCodigoBase.Properties.ReadOnly := True;
+    //actionLocalizarPessoas.Enabled := False;
+    //actionLocalizarAgentes.Enabled := False;
+    textEditCodigoERP.Properties.ReadOnly := True;
+    lookupComboBoxCliente.Properties.ReadOnly := True;
+    //actionPesquisarTabelas.Enabled := False;
+    buttonEditCodigoTabela.Properties.ReadOnly := True;
+    comboBoxFaixa.Properties.ReadOnly := True;
+    currencyEditVerbaFixa.Properties.ReadOnly := True;
+    //checkBoxAtivo.Properties.ReadOnly := True;
+    layoutGroupInfo.Visible := True;
+  end;
 end;
 
 procedure Tview_CadastroEntregadoresExpressas.PesquisaEntregadores;
@@ -156,10 +302,13 @@ begin
   if view_PesquisaEntregadoresExpressas.ShowModal = mrOK then
   begin
     sQuery := 'id_entregador = ' + view_PesquisaEntregadoresExpressas.iID.ToString;
-    if fdEntregadores.Active then fdEntregadores.Close;
-    fdEntregadores.Filtered := False;
+    BindSourceDB1.ResetNeeded;
     fdEntregadores.Filter := sQuery;
     fdEntregadores.Filtered := True;
+    if not fdEntregadores.Active then
+    begin
+      fdEntregadores.Close;
+    end;
     fdEntregadores.Open();
   end;
   FreeAndNil(view_PesquisaEntregadoresExpressas);
@@ -168,7 +317,7 @@ end;
 procedure Tview_CadastroEntregadoresExpressas.StartForm;
 begin
   // função
-
+  Data_Sisgef.PopulaClientesEmpresa;
 end;
 
 end.

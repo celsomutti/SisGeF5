@@ -3,7 +3,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
   Top = 0
   Caption = 'Cadastro de Entregadores de Expressas'
   ClientHeight = 500
-  ClientWidth = 752
+  ClientWidth = 910
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -15,21 +15,19 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
   Position = poMainFormCenter
   ShowHint = True
   OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
   object layoutControlPadrao: TdxLayoutControl
     Left = 0
     Top = 54
-    Width = 752
+    Width = 910
     Height = 446
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     OptionsImage.Images = Data_Sisgef.lmi_32_32
-    ExplicitTop = 0
-    ExplicitWidth = 762
-    ExplicitHeight = 510
     object maskEditID: TcxMaskEdit
       Left = 26
       Top = 54
@@ -46,10 +44,10 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.TransparentBorder = False
       TabOrder = 0
       Text = '0'
-      Width = 60
+      Width = 74
     end
     object maskEditCodigo: TcxMaskEdit
-      Left = 93
+      Left = 107
       Top = 54
       Hint = 'C'#243'digo do entregador'
       Properties.Alignment.Horz = taRightJustify
@@ -61,10 +59,10 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.HotTrack = False
       TabOrder = 1
       Text = '0'
-      Width = 72
+      Width = 90
     end
     object textEditNomeEntregador: TcxTextEdit
-      Left = 172
+      Left = 204
       Top = 54
       Hint = 'Nome do entregador (Apelido)'
       Properties.MaxLength = 70
@@ -72,10 +70,10 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 2
-      Width = 203
+      Width = 250
     end
     object textEditNomePessoa: TcxTextEdit
-      Left = 475
+      Left = 574
       Top = 54
       Hint = 'Nome da pessoa'
       TabStop = False
@@ -85,10 +83,10 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 4
-      Width = 251
+      Width = 310
     end
     object buttonEditCodigoPessoa: TcxButtonEdit
-      Left = 382
+      Left = 461
       Top = 54
       Hint = 'C'#243'digo de cadastro da pessoa'
       Properties.Alignment.Horz = taRightJustify
@@ -109,7 +107,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.ButtonStyle = bts3D
       TabOrder = 3
       Text = '0'
-      Width = 86
+      Width = 106
     end
     object buttonEditCodigoBase: TcxButtonEdit
       Left = 26
@@ -132,10 +130,10 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.ButtonStyle = bts3D
       TabOrder = 5
       Text = '0'
-      Width = 82
+      Width = 104
     end
     object textEditNomeBase: TcxTextEdit
-      Left = 115
+      Left = 137
       Top = 105
       TabStop = False
       Properties.ReadOnly = True
@@ -143,42 +141,37 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 6
-      Width = 172
+      Width = 218
     end
     object textEditCodigoERP: TcxTextEdit
-      Left = 294
+      Left = 449
       Top = 105
       Hint = 'C'#243'sigo ERP'
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 7
-      Width = 116
-    end
-    object checkBoxAtivo: TcxCheckBox
-      Left = 479
-      Top = 107
-      Properties.ValueChecked = '1'
-      Properties.ValueUnchecked = '0'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
       TabOrder = 8
-      Transparent = True
+      Width = 148
     end
     object lookupComboBoxCliente: TcxLookupComboBox
-      Left = 506
+      Left = 604
       Top = 105
       Hint = 'Cliente ao qual o entregador est'#225' vinculado'
-      Properties.ListColumns = <>
+      Properties.KeyFieldNames = 'cod_cliente'
+      Properties.ListColumns = <
+        item
+          FieldName = 'nom_cliente'
+        end>
+      Properties.ListOptions.ShowHeader = False
+      Properties.ListSource = dsClientes
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 9
-      Width = 220
+      Width = 280
     end
     object buttonEditCodigoTabela: TcxButtonEdit
       Left = 26
@@ -389,6 +382,18 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       TabOrder = 16
       Width = 151
     end
+    object checkBoxAtivo: TcxCheckBox
+      Left = 362
+      Top = 107
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = '1'
+      Properties.ValueUnchecked = '0'
+      State = cbsGrayed
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 7
+    end
     object layoutControlPadraoGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
@@ -493,17 +498,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 2
-    end
-    object layoutItemAtivo: TdxLayoutItem
-      Parent = dxLayoutGroup3
-      AlignHorz = ahClient
-      AlignVert = avBottom
-      CaptionOptions.Text = 'App Ativo:'
-      Control = checkBoxAtivo
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 21
-      ControlOptions.ShowBorder = False
       Index = 3
     end
     object layoutItemClientes: TdxLayoutItem
@@ -538,7 +532,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Parent = dxLayoutGroup1
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 4
+      ItemIndex = 3
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -598,7 +592,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       ControlOptions.ShowBorder = False
       Index = 3
     end
-    object dxLayoutGroup5: TdxLayoutGroup
+    object layoutGroupInfo: TdxLayoutGroup
       Parent = layoutControlPadraoGroup_Root
       AlignHorz = ahClient
       AlignVert = avBottom
@@ -609,7 +603,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Index = 2
     end
     object layoutItemDataVigencia: TdxLayoutItem
-      Parent = dxLayoutGroup5
+      Parent = layoutGroupInfo
       AlignHorz = ahLeft
       AlignVert = avTop
       CaptionOptions.Text = 'Vig'#234'ncia:'
@@ -620,7 +614,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Index = 0
     end
     object layoutItemNomeManutencao: TdxLayoutItem
-      Parent = dxLayoutGroup5
+      Parent = layoutGroupInfo
       AlignHorz = ahLeft
       AlignVert = avTop
       CaptionOptions.Text = #218'ltima manuten'#231#227'o feita por:'
@@ -631,7 +625,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Index = 1
     end
     object layoutItemDataManutencao: TdxLayoutItem
-      Parent = dxLayoutGroup5
+      Parent = layoutGroupInfo
       AlignHorz = ahLeft
       AlignVert = avTop
       CaptionOptions.Text = 'em '
@@ -641,24 +635,228 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       ControlOptions.ShowBorder = False
       Index = 2
     end
+    object dxLayoutItem1: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      AlignHorz = ahLeft
+      AlignVert = avBottom
+      CaptionOptions.Text = 'APP Ativo'
+      CaptionOptions.Layout = clRight
+      Control = checkBoxAtivo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 21
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+  end
+  object barManager: TdxBarManager
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Categories.Strings = (
+      'Default')
+    Categories.ItemsVisibles = (
+      2)
+    Categories.Visibles = (
+      True)
+    ImageOptions.LargeImages = Data_Sisgef.lmi_32_32
+    ImageOptions.LargeIcons = True
+    PopupMenuLinks = <>
+    UseSystemFont = True
+    Left = 712
+    Top = 248
+    PixelsPerInch = 96
+    DockControlHeights = (
+      0
+      0
+      54
+      0)
+    object barManagerBar1: TdxBar
+      AllowClose = False
+      AllowCustomizing = False
+      AllowQuickCustomizing = False
+      AllowReset = False
+      BorderStyle = bbsNone
+      Caption = 'Cadastro'
+      CaptionButtons = <>
+      DockedDockingStyle = dsTop
+      DockedLeft = 0
+      DockedTop = 0
+      DockingStyle = dsTop
+      FloatLeft = 780
+      FloatTop = 2
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton2'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton3'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton5'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'dxBarLargeButton4'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'dxBarLargeButton6'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'cxBarEditItem2'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton8'
+        end>
+      OneOnRow = True
+      Row = 0
+      ShowMark = False
+      SizeGrip = False
+      UseOwnFont = False
+      UseRecentItems = False
+      UseRestSpace = True
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarLargeButton1: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarLargeButton2: TdxBarLargeButton
+      Action = actionNovo
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 59
+    end
+    object dxBarLargeButton3: TdxBarLargeButton
+      Action = actionEditar
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 61
+    end
+    object dxBarLargeButton4: TdxBarLargeButton
+      Action = actionLocalizar
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 66
+    end
+    object dxBarLargeButton5: TdxBarLargeButton
+      Action = actionCancelar
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 67
+    end
+    object dxBarLargeButton6: TdxBarLargeButton
+      Action = actionGravar
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 63
+    end
+    object dxBarLargeButton7: TdxBarLargeButton
+      Action = actionFechar
+      Align = iaRight
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 64
+    end
+    object cxBarEditItem1: TcxBarEditItem
+      Caption = 'New Item'
+      Category = 0
+      Hint = 'New Item'
+      Visible = ivAlways
+      PropertiesClassName = 'TcxLabelProperties'
+      Properties.Alignment.Horz = taLeftJustify
+    end
+    object dxBarLargeButton8: TdxBarLargeButton
+      Action = actionFechar
+      Align = iaRight
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 64
+    end
+    object cxBarEditItem2: TcxBarEditItem
+      Category = 0
+      Visible = ivAlways
+      PropertiesClassName = 'TcxLabelProperties'
+      InternalEditValue = nil
+    end
+  end
+  object actionLisCadastro: TActionList
+    Left = 648
+    Top = 254
+    object actionNovo: TAction
+      Caption = 'Novo'
+      Hint = 'Novo entregador'
+      ShortCut = 113
+      OnExecute = actionNovoExecute
+    end
+    object actionEditar: TAction
+      Caption = 'Editar'
+      Hint = 'Editar dados'
+      ShortCut = 114
+      OnExecute = actionEditarExecute
+    end
+    object actionLocalizar: TAction
+      Caption = 'Localizar'
+      Hint = 'Localizar dados'
+      ShortCut = 119
+      OnExecute = actionLocalizarExecute
+    end
+    object actionCancelar: TAction
+      Caption = ' Cancelar'
+      Hint = 'Cancelar opera'#231#227'o atual'
+      OnExecute = actionCancelarExecute
+    end
+    object actionGravar: TAction
+      Caption = 'Gravar'
+      Hint = 'Gravar dados'
+      ShortCut = 116
+      OnExecute = actionGravarExecute
+    end
+    object actionFechar: TAction
+      Caption = 'Fechar'
+      Hint = 'Fechar a tela'
+      OnExecute = actionFecharExecute
+    end
+  end
+  object dsClientes: TDataSource
+    AutoEdit = False
+    DataSet = Data_Sisgef.mtbClientesEmpresa
+    Left = 712
+    Top = 190
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = fdEntregadores
+    ScopeMappings = <>
+    Left = 56
+    Top = 278
   end
   object fdEntregadores: TFDQuery
     AfterClose = fdEntregadoresAfterClose
     Connection = Data_Sisgef.FDConnectionMySQL
     SQL.Strings = (
-      'select '
-      '  ID_ENTREGADOR, COD_CADASTRO, COD_ENTREGADOR,   '
-      '  NOM_FANTASIA, COD_AGENTE, DAT_CODIGO, DES_CHAVE, '
-      '  COD_GRUPO, VAL_VERBA, NOM_EXECUTANTE, DOM_ATIVO,  '
-      '  DAT_MANUTENCAO, COD_TABELA, COD_CLIENTE '
-      'from '
-      '  tbcodigosentregadores')
-    Left = 648
-    Top = 192
-    object fdEntregadoresID_ENTREGADOR: TFDAutoIncField
-      FieldName = 'ID_ENTREGADOR'
+      'select * from tbcodigosentregadores')
+    Left = 656
+    Top = 198
+    object fdEntregadoresid_entregador: TFDAutoIncField
+      FieldName = 'id_entregador'
       Origin = 'id_entregador'
       ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
     end
     object fdEntregadoresCOD_CADASTRO: TIntegerField
       FieldName = 'COD_CADASTRO'
@@ -728,37 +926,17 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Origin = 'COD_CLIENTE'
     end
   end
-  object BindSourceDB1: TBindSourceDB
-    DataSet = fdEntregadores
-    ScopeMappings = <>
-    Left = 64
-    Top = 248
-  end
   object BindingsList1: TBindingsList
     Methods = <>
     OutputConverters = <>
-    Left = 28
-    Top = 245
-    object LinkPropertyToFieldValue: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'VAL_VERBA'
-      Component = currencyEditVerbaFixa
-      ComponentProperty = 'Value'
-    end
+    Left = 56
+    Top = 334
     object LinkPropertyToFieldEditValue: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB1
-      FieldName = 'COD_TABELA'
-      Component = buttonEditCodigoTabela
+      FieldName = 'id_entregador'
+      Component = maskEditID
       ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldItemIndex: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'COD_GRUPO'
-      Component = comboBoxFaixa
-      ComponentProperty = 'ItemIndex'
     end
     object LinkPropertyToFieldEditValue2: TLinkPropertyToField
       Category = 'Quick Bindings'
@@ -767,32 +945,32 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Component = maskEditCodigo
       ComponentProperty = 'EditValue'
     end
-    object LinkPropertyToFieldDate: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'DES_CHAVE'
-      Component = dateEditVigencia
-      ComponentProperty = 'Date'
-    end
     object LinkPropertyToFieldText: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'NOM_EXECUTANTE'
-      Component = textEditNomeManutencao
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldText2: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB1
       FieldName = 'NOM_FANTASIA'
       Component = textEditNomeEntregador
       ComponentProperty = 'Text'
     end
+    object LinkPropertyToFieldDate: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      FieldName = 'DAT_CODIGO'
+      Component = dateEditVigencia
+      ComponentProperty = 'Date'
+    end
+    object LinkPropertyToFieldText2: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      FieldName = 'NOM_EXECUTANTE'
+      Component = textEditNomeManutencao
+      ComponentProperty = 'Text'
+    end
     object LinkPropertyToFieldEditValue3: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB1
-      FieldName = 'ID_ENTREGADOR'
-      Component = maskEditID
+      FieldName = 'DOM_ATIVO'
+      Component = checkBoxAtivo
       ComponentProperty = 'EditValue'
     end
     object LinkPropertyToFieldEditValue4: TLinkPropertyToField
@@ -805,9 +983,30 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     object LinkPropertyToFieldEditValue5: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB1
+      FieldName = 'COD_TABELA'
+      Component = buttonEditCodigoTabela
+      ComponentProperty = 'EditValue'
+    end
+    object LinkPropertyToFieldValue: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      FieldName = 'VAL_VERBA'
+      Component = currencyEditVerbaFixa
+      ComponentProperty = 'Value'
+    end
+    object LinkPropertyToFieldEditValue6: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
       FieldName = 'COD_AGENTE'
       Component = buttonEditCodigoBase
       ComponentProperty = 'EditValue'
+    end
+    object LinkPropertyToFieldItemIndex: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      FieldName = 'COD_GRUPO'
+      Component = comboBoxFaixa
+      ComponentProperty = 'ItemIndex'
     end
     object LinkPropertyToFieldText3: TLinkPropertyToField
       Category = 'Quick Bindings'
@@ -816,18 +1015,11 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Component = textEditCodigoERP
       ComponentProperty = 'Text'
     end
-    object LinkPropertyToFieldEditValue6: TLinkPropertyToField
+    object LinkPropertyToFieldEditValue7: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB1
       FieldName = 'COD_CADASTRO'
       Component = buttonEditCodigoPessoa
-      ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldEditValue7: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'DOM_ATIVO'
-      Component = checkBoxAtivo
       ComponentProperty = 'EditValue'
     end
     object LinkPropertyToFieldDate2: TLinkPropertyToField
@@ -836,102 +1028,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       FieldName = 'DAT_MANUTENCAO'
       Component = dateEditDataManutencao
       ComponentProperty = 'Date'
-    end
-  end
-  object barManager: TdxBarManager
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    Categories.Strings = (
-      'Default')
-    Categories.ItemsVisibles = (
-      2)
-    Categories.Visibles = (
-      True)
-    ImageOptions.LargeImages = Data_Sisgef.lmi_32_32
-    ImageOptions.LargeIcons = True
-    PopupMenuLinks = <>
-    UseSystemFont = True
-    Left = 584
-    Top = 288
-    PixelsPerInch = 96
-    DockControlHeights = (
-      0
-      0
-      54
-      0)
-    object barManagerBar1: TdxBar
-      AllowClose = False
-      AllowCustomizing = False
-      AllowQuickCustomizing = False
-      AllowReset = False
-      BorderStyle = bbsNone
-      Caption = 'Cadastro'
-      CaptionButtons = <>
-      DockedDockingStyle = dsTop
-      DockedLeft = 0
-      DockedTop = 0
-      DockingStyle = dsTop
-      FloatLeft = 780
-      FloatTop = 2
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton2'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton3'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton4'
-        end>
-      OneOnRow = True
-      Row = 0
-      ShowMark = False
-      SizeGrip = False
-      UseOwnFont = False
-      UseRecentItems = False
-      UseRestSpace = True
-      Visible = True
-      WholeRow = False
-    end
-    object dxBarLargeButton1: TdxBarLargeButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxBarLargeButton2: TdxBarLargeButton
-      Caption = 'Novo'
-      Category = 0
-      Hint = 'Novo'
-      Visible = ivAlways
-      OnClick = dxBarLargeButton2Click
-      AutoGrayScale = False
-      LargeImageIndex = 59
-    end
-    object dxBarLargeButton3: TdxBarLargeButton
-      Caption = 'Editar'
-      Category = 0
-      Hint = 'Editar'
-      Visible = ivAlways
-      OnClick = dxBarLargeButton3Click
-      AutoGrayScale = False
-      LargeImageIndex = 61
-    end
-    object dxBarLargeButton4: TdxBarLargeButton
-      Caption = 'Localizar'
-      Category = 0
-      Hint = 'Localizar'
-      Visible = ivAlways
-      OnClick = dxBarLargeButton4Click
-      LargeImageIndex = 66
     end
   end
 end

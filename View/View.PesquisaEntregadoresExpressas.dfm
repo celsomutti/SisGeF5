@@ -84,7 +84,14 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsBehavior.CopyCaptionsToClipboard = False
+        OptionsBehavior.CopyPreviewToClipboard = False
         OptionsCustomize.ColumnsQuickCustomization = True
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
+        OptionsView.Indicator = True
         object gridPesquisaDBTableView1id_entregador: TcxGridDBColumn
           Caption = 'ID'
           DataBinding.FieldName = 'id_entregador'
@@ -179,7 +186,6 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
         end>
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.OnChange = buttonEditTextoPesquisarPropertiesChange
-      Properties.OnValidate = buttonEditTextoPesquisarPropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -213,6 +219,7 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       Height = 25
       Cursor = crHandPoint
       Action = actionPesquisar
+      Default = True
       TabOrder = 6
     end
     object buttonExportar: TcxButton

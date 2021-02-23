@@ -1,8 +1,9 @@
 ﻿[layoutControlPadrao]
 Coordinates=2590,3670,116,33
+Visible=True
 
 [Data_Sisgef.mtbClientesEmpresa]
-Coordinates=165,3312,178,105
+Coordinates=2800,3340,178,105
 
 [Data_Sisgef.mtbEntregas]
 Coordinates=182,10,144,1023
@@ -14,7 +15,7 @@ Coordinates=2610,3580,105,33
 Coordinates=383,3312,164,87
 
 [buttonEditCodigoPessoa]
-Coordinates=2440,3480,137,51
+Coordinates=2480,3500,137,51
 ExplicitSubNodes=EditValue
 
 [Data_Sisgef.memTableEstados]
@@ -25,10 +26,6 @@ Coordinates=462,3774,130,33
 
 [layoutItemCodigoPessoa]
 Coordinates=462,3829,137,33
-
-[checkBoxAtivo]
-Coordinates=2450,3570,88,51
-ExplicitSubNodes=EditValue
 
 [Data_Sisgef.mtbImportacaoExtravios]
 Coordinates=1054,10,196,501
@@ -58,9 +55,6 @@ ExplicitSubNodes=EditValue
 
 [Data_Sisgef.memTableCadastro]
 Coordinates=616,10,171,699
-
-[layoutItemAtivo]
-Coordinates=708,2641,91,33
 
 [Data_Sisgef.mtbAtribuicao]
 Coordinates=1652,10,145,411
@@ -147,29 +141,11 @@ Coordinates=2013,10,147,357
 [Data_Sisgef.mtbResumoExpedicao]
 Coordinates=2736,10,187,249
 
-[fdEntregadoresDAT_CODIGO]
-Coordinates=987,1,159,33
-
-[fdEntregadoresVAL_VERBA]
-Coordinates=529,3921,152,33
-
-[fdEntregadoresCOD_CADASTRO]
-Coordinates=987,56,177,33
-
-[fdEntregadoresCOD_GRUPO]
-Coordinates=987,111,156,33
-
-[fdEntregadoresCOD_CLIENTE]
-Coordinates=987,166,163,33
-
 [layoutItemCodigoTabela]
 Coordinates=370,3921,133,33
 
 [dxLayoutGroup2]
 Coordinates=251,3921,96,33
-
-[fdEntregadoresCOD_AGENTE]
-Coordinates=987,221,161,33
 
 [dxLayoutGroup3]
 Coordinates=132,3921,96,33
@@ -185,15 +161,6 @@ Coordinates=987,386,115,33
 
 [layoutItemNomeManutencao]
 Coordinates=987,441,154,33
-
-[fdEntregadoresCOD_ENTREGADOR]
-Coordinates=987,496,192,33
-
-[fdEntregadoresID_ENTREGADOR]
-Coordinates=987,551,179,33
-
-[fdEntregadoresNOM_EXECUTANTE]
-Coordinates=987,606,190,33
 
 [dxLayoutGroup1]
 Coordinates=987,661,96,33
@@ -217,24 +184,11 @@ ExplicitSubNodes=Date
 Coordinates=1660,3670,140,51
 ExplicitSubNodes=Text
 
-[fdEntregadores]
-Coordinates=1880,3360,90,33
-Visible=False
-
-[fdEntregadoresDES_CHAVE]
-Coordinates=987,991,153,33
-
-[fdEntregadoresCOD_TABELA]
-Coordinates=987,1046,160,33
-
 [textEditDescricaoTabela]
 Coordinates=2340,3660,133,33
 
 [layoutItemDescricaoTabela]
 Coordinates=987,1156,147,33
-
-[dxLayoutGroup5]
-Coordinates=987,1211,96,33
 
 [currencyEditVerbaFixa]
 Coordinates=2180,3500,126,51
@@ -243,27 +197,14 @@ ExplicitSubNodes=Value
 [layoutItemDataVigencia]
 Coordinates=987,1321,130,33
 
-[fdEntregadoresDOM_ATIVO]
-Coordinates=987,1376,151,33
-
-[fdEntregadoresNOM_FANTASIA]
-Coordinates=987,1431,172,33
-
 [dateEditDataManutencao]
 Coordinates=2480,3420,137,51
 ExplicitSubNodes=Date
 
-[fdEntregadoresDAT_MANUTENCAO]
-Coordinates=987,1541,191,33
-
 []
-Coordinates=708,3631,105,36
-
-[BindSourceDB1]
-Coordinates=1880,3360,107,339
-
-[BindingsList1]
-Coordinates=191,1275,82,33
+Coordinates=1220,2480,191,4083
+ExplicitSubNodes=Active;Adapter.ComponentIndex;Adapter.DatSTableName;Adapter.DesignInfo;Adapter.Name;Adapter.SourceRecordSetID;Adapter.SourceRecordSetName;Adapter.Tag;Adapter.UpdateTableName;Aggregates.Capacity;AggregatesActive;AutoCalcFields;BlockReadSize;CachedUpdates;CatalogName;ChangeAlertName;Command.Active;Command.BaseObjectName;Command.CatalogName;Command.ComponentIndex;Command.ConnectionName;Command.DesignInfo;Command.FixedCommandKind;Command.Name;Command.Overload;Command.Prepared;Command.SchemaName;Command.Tag;ComponentIndex;Connection.ComponentIndex;Connection.Connected;Connection.ConnectionDefName;Connection.ConnectionName;Connection.ConnectionString;Connection.DesignInfo;Connection.DriverName;Connection.LoginPrompt;Connection.Name;Connection.Offlined;Connection.Tag;Connection.Temporary;ConnectionName;Constraints.Capacity;ConstraintsEnabled;DatSManager.CaseSensitive;DatSManager.CheckNotNull;DatSManager.CheckPrecision;DatSManager.CheckReadOnly;DatSManager.EnforceConstraints;DatSManager.Locale;DatSManager.Name;DatSManager.Round2Scale;DatSManager.StrsTrim2Len;DatSManager.UpdatesRegistry;DesignInfo;DetailFields;Exclusive;FetchOptions.AutoClose;FetchOptions.DetailCascade;FetchOptions.DetailDelay;FetchOptions.DetailOptimize;FetchOptions.DetailServerCascade;FetchOptions.LiveWindowFastFirst;FetchOptions.LiveWindowParanoic;FetchOptions.RecsMax;FetchOptions.RecsSkip;FetchOptions.RowsetSize;FetchOptions.Unidirectional;FieldDefList.Capacity;FieldDefList.CaseSensitive;FieldDefList.CommaText;FieldDefList.DelimitedText;FieldDefList.Delimiter;FieldDefList.LineBreak;FieldDefList.NameValueSeparator;FieldDefList.OwnsObjects;FieldDefList.QuoteChar;FieldDefList.Sorted;FieldDefList.StrictDelimiter;FieldDefList.Text;FieldDefList.TrailingLineBreak;FieldDefList.UseLocale;FieldDefList.WriteBOM;FieldDefs.Capacity;FieldDefs.HiddenFields;FieldDefs.Updated;FieldList.Capacity;FieldList.CaseSensitive;FieldList.CommaText;FieldList.DelimitedText;FieldList.Delimiter;FieldList.LineBreak;FieldList.NameValueSeparator;FieldList.OwnsObjects;FieldList.QuoteChar;FieldList.Sorted;FieldList.StrictDelimiter;FieldList.Text;FieldList.TrailingLineBreak;FieldList.UseLocale;FieldList.WriteBOM;FieldOptions.UpdatePersistent;Filter;Filtered;FormatOptions.ADOCompatibility;FormatOptions.CheckPrecision;FormatOptions.DataSnapCompatibility;FormatOptions.FmtDisplayDate;FormatOptions.FmtDisplayDateTime;FormatOptions.FmtDisplayNumeric;FormatOptions.FmtDisplayTime;FormatOptions.FmtEditNumeric;FormatOptions.InlineDataSize;FormatOptions.MaxBcdPrecision;FormatOptions.MaxBcdScale;FormatOptions.MaxStringSize;FormatOptions.OwnMapRules;FormatOptions.QuoteIdentifiers;FormatOptions.Round2Scale;FormatOptions.SortLocale;FormatOptions.StrsDivLen2;FormatOptions.StrsEmpty2Null;FormatOptions.StrsTrim;FormatOptions.StrsTrim2Len;IndexDefs.Capacity;IndexDefs.Updated;Indexes.Capacity;IndexesActive;IndexFieldNames;IndexName;KeyExclusive;KeyFieldCount;MasterFields;MasterLink.ActiveRecord;MasterLink.BufferCount;MasterLink.DataSourceFixed;MasterLink.FieldNames;MasterLink.ReadOnly;ObjectView;Owner.ComponentIndex;Owner.DesignInfo;Owner.Name;Owner.Tag;Params.ArraySize;Params.Capacity;PointedConnection.ComponentIndex;PointedConnection.Connected;PointedConnection.ConnectionDefName;PointedConnection.ConnectionName;PointedConnection.ConnectionString;PointedConnection.DesignInfo;PointedConnection.DriverName;PointedConnection.LoginPrompt;PointedConnection.Name;PointedConnection.Offlined;PointedConnection.Tag;PointedConnection.Temporary;Prepared;RecNo;ResourceOptions.ArrayDMLSize;ResourceOptions.Backup;ResourceOptions.CmdExecTimeout;ResourceOptions.DirectExecute;ResourceOptions.EscapeExpand;ResourceOptions.MacroCreate;ResourceOptions.MacroExpand;ResourceOptions.ParamCreate;ResourceOptions.ParamExpand;ResourceOptions.Persistent;ResourceOptions.PersistentFileName;ResourceOptions.PreprocessCmdText;ResourceOptions.SilentMode;ResourceOptions.StorePrettyPrint;ResourceOptions.StoreVersion;ResourceOptions.UnifyParams;SavePoint;SchemaName;SparseArrays;SQL.Capacity;SQL.CommaText;SQL.DelimitedText;SQL.Delimiter;SQL.LineBreak;SQL.NameValueSeparator;SQL.QuoteChar;SQL.StrictDelimiter;SQL.Text;SQL.TrailingLineBreak;SQL.UseLocale;SQL.WriteBOM;Table.CaseSensitive;Table.CheckNotNull;Table.CheckPrecision;Table.CheckReadOnly;Table.EnforceConstraints;Table.Locale;Table.MinimumCapacity;Table.Name;Table.Nested;Table.PrimaryKey;Table.Round2Scale;Table.SourceID;Table.SourceName;Table.StrsTrim2Len;TableName;Tag;UpdateOptions.AutoCommitUpdates;UpdateOptions.AutoIncFields;UpdateOptions.CheckReadOnly;UpdateOptions.CheckRequired;UpdateOptions.CheckUpdatable;UpdateOptions.CountUpdatedRecords;UpdateOptions.EnableDelete;UpdateOptions.EnableInsert;UpdateOptions.EnableUpdate;UpdateOptions.FastUpdates;UpdateOptions.GeneratorName;UpdateOptions.KeyFields;UpdateOptions.LockWait;UpdateOptions.ReadOnly;UpdateOptions.RefreshDelete;UpdateOptions.RequestLive;UpdateOptions.UpdateChangedFields;UpdateOptions.UpdateNonBaseFields;UpdateOptions.UpdateTableName
+Visible=True
 
 [dxBarLargeButton1]
 Coordinates=169,1052,110,33
@@ -282,4 +223,114 @@ Coordinates=169,1327,110,33
 
 [dxBarLargeButton4]
 Coordinates=169,1379,110,33
+
+[layoutGroupInfo]
+Coordinates=987,1211,94,33
+
+[actionGravar]
+Coordinates=191,1434,77,33
+
+[dxBarLargeButton6]
+Coordinates=191,1489,110,33
+
+[actionLisCadastro]
+Coordinates=191,1544,104,33
+
+[actionLocalizar]
+Coordinates=191,1599,89,33
+
+[actionNovo]
+Coordinates=191,1654,70,33
+
+[actionEditar]
+Coordinates=191,1709,73,33
+
+[actionCancelar]
+Coordinates=191,1764,88,33
+
+[actionFechar]
+Coordinates=191,1819,78,33
+
+[dxBarLargeButton7]
+Coordinates=191,1874,110,33
+
+[dxBarLargeButton5]
+Coordinates=191,1929,110,33
+
+[dxBarLargeButton8]
+Coordinates=169,2105,110,33
+
+[dsClientes]
+Coordinates=169,1981,66,33
+
+[dxLayoutItem1]
+Coordinates=169,2157,87,33
+
+[cxBarEditItem2]
+Coordinates=169,2209,89,33
+
+[cxBarEditItem1]
+Coordinates=169,2261,89,33
+
+[checkBoxAtivo]
+Coordinates=1900,3700,88,51
+ExplicitSubNodes=EditValue
+
+[fdEntregadores]
+Visible=False
+Coordinates=70,2726,90,33
+
+[fdEntregadoresDAT_MANUTENCAO]
+Coordinates=345,872,191,33
+
+[fdEntregadoresCOD_GRUPO]
+Coordinates=169,1260,156,33
+
+[fdEntregadoresDOM_ATIVO]
+Coordinates=169,2653,151,33
+
+[fdEntregadoresVAL_VERBA]
+Coordinates=169,2705,152,33
+
+[fdEntregadoresCOD_CADASTRO]
+Coordinates=364,924,177,33
+
+[fdEntregadoresid_entregador]
+Coordinates=364,976,159,33
+
+[fdEntregadoresNOM_FANTASIA]
+Coordinates=364,1028,172,33
+
+[fdEntregadoresCOD_ENTREGADOR]
+Coordinates=345,1080,192,33
+
+[fdEntregadoresNOM_EXECUTANTE]
+Coordinates=345,1132,190,33
+
+[fdEntregadoresDES_CHAVE]
+Coordinates=364,1184,153,33
+
+[fdEntregadoresDAT_CODIGO]
+Coordinates=364,1236,159,33
+
+[fdEntregadoresCOD_CLIENTE]
+Coordinates=364,1288,163,33
+
+[fdEntregadoresCOD_AGENTE]
+Coordinates=364,1340,161,33
+
+[BindSourceDB1]
+Coordinates=1840,3330,107,321
+LayerNames=
+
+[BindingsList1]
+Coordinates=364,1392,82,33
+
+[fdEntregadoresCOD_TABELA]
+Coordinates=364,1444,160,33
+
+[Module Settings]
+ModelLayerNames=
+ActiveLayerNames=
+EditingLayerName=
 
