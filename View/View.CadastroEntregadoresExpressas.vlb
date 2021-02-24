@@ -1,204 +1,204 @@
 ﻿[layoutControlPadrao]
-Coordinates=2590,3670,116,33
+Coordinates=2590,3670,132,36
 Visible=True
 
 [Data_Sisgef.mtbClientesEmpresa]
-Coordinates=2800,3340,178,105
+Coordinates=2800,3340,208,124
 
 [Data_Sisgef.mtbEntregas]
-Coordinates=182,10,144,1023
+Coordinates=182,10,173,1246
 
 [textEditNomeBase]
-Coordinates=2610,3580,105,33
+Coordinates=2610,3580,121,36
 
 [Data_Sisgef.memTableBancos]
-Coordinates=383,3312,164,87
+Coordinates=383,3312,191,102
 
 [buttonEditCodigoPessoa]
-Coordinates=2480,3500,137,51
+Coordinates=2480,3500,156,58
 ExplicitSubNodes=EditValue
 
 [Data_Sisgef.memTableEstados]
-Coordinates=3660,10,167,159
+Coordinates=3660,10,195,190
 
 [layoutItemNomePessoa]
-Coordinates=462,3774,130,33
+Coordinates=462,3774,151,36
 
 [layoutItemCodigoPessoa]
-Coordinates=462,3829,137,33
+Coordinates=462,3829,157,36
 
 [Data_Sisgef.mtbImportacaoExtravios]
-Coordinates=1054,10,196,501
+Coordinates=1054,10,227,608
 
 [textEditCodigoERP]
-Coordinates=2440,3340,108,51
+Coordinates=2440,3340,125,58
 ExplicitSubNodes=Text
 
 [layoutItemCodigoBase]
-Coordinates=75,3847,125,33
+Coordinates=75,3847,144,36
 
 [layoutItemNomeBase]
-Coordinates=708,2476,119,33
+Coordinates=708,2476,137,36
 
 [Data_Sisgef.mtbExtratosExpressas]
-Coordinates=827,10,187,555
+Coordinates=827,10,217,674
 
 [layoutItemCodigo]
-Coordinates=708,2531,101,33
+Coordinates=708,2531,115,36
 
 [Data_Sisgef.mtbEntregadores]
-Coordinates=787,3312,161,51
+Coordinates=787,3312,187,58
 
 [buttonEditCodigoBase]
-Coordinates=2230,3420,125,51
+Coordinates=2230,3420,143,58
 ExplicitSubNodes=EditValue
 
 [Data_Sisgef.memTableCadastro]
-Coordinates=616,10,171,699
+Coordinates=616,10,201,850
 
 [Data_Sisgef.mtbAtribuicao]
-Coordinates=1652,10,145,411
+Coordinates=1652,10,167,498
 
 [Data_Sisgef.memTableRH]
-Coordinates=2193,10,141,357
+Coordinates=2193,10,167,432
 
 [Data_Sisgef.mtbEmbarcadores]
-Coordinates=584,3312,166,51
+Coordinates=584,3312,193,58
 
 [Data_Sisgef.mtbRoteirosExpressas]
-Coordinates=2508,10,188,285
+Coordinates=2508,10,218,344
 
 [layoutItemNomeEntregador]
-Coordinates=708,2696,149,33
+Coordinates=708,2696,172,36
 
 [Data_Sisgef.mtbConferenciaPedido]
-Coordinates=4075,10,188,105
+Coordinates=4075,10,219,124
 
 [Data_Sisgef.mtbFechamentoExpressas]
-Coordinates=365,10,207,843
+Coordinates=365,10,241,1026
 
 [lookupComboBoxCliente]
-Coordinates=2130,3700,137,51
+Coordinates=2130,3700,156,58
 ExplicitSubNodes=EditValue
 
 [maskEditID]
-Coordinates=1610,3350,70,51
+Coordinates=1610,3350,80,58
 ExplicitSubNodes=EditValue
 
 [layoutItemClientes]
-Coordinates=708,2861,105,33
+Coordinates=708,2861,121,36
 
 [layoutItemCodigoERP]
-Coordinates=708,2916,122,33
+Coordinates=708,2916,141,36
 
 [Data_Sisgef.mtbBaixasTFO]
-Coordinates=1829,10,148,393
+Coordinates=1829,10,174,476
 
 [Data_Sisgef.mtbExtravios]
-Coordinates=1291,10,143,501
+Coordinates=1291,10,171,608
 
 [layoutControlPadraoGroup_Root]
-Coordinates=708,2971,176,33
+Coordinates=708,2971,202,36
 
 [Data_Sisgef.mtbRecepcaoPedidos]
-Coordinates=3216,10,183,231
+Coordinates=3216,10,214,278
 
 [Data_Sisgef.memTableEnderecos]
-Coordinates=3440,10,179,213
+Coordinates=3440,10,210,256
 
 [Data_Sisgef.mtbExpedicao]
-Coordinates=1472,10,146,411
+Coordinates=1472,10,170,498
 
 [layoutItemID]
-Coordinates=708,3026,76,33
+Coordinates=708,3026,87,36
 
 [textEditNomeEntregador]
-Coordinates=1580,3510,135,51
+Coordinates=1580,3510,155,58
 ExplicitSubNodes=Text
 
 [maskEditCodigo]
-Coordinates=1600,3430,95,51
+Coordinates=1600,3430,108,58
 ExplicitSubNodes=EditValue
 
 [Data_Sisgef.mtbPlanilhas]
-Coordinates=10,10,140,2697
+Coordinates=10,10,162,3292
 
 [Data_Sisgef.mtbBases]
-Coordinates=10,3312,125,105
+Coordinates=10,3312,145,124
 
 [textEditNomePessoa]
-Coordinates=2044,3312,116,33
+Coordinates=2044,3312,134,36
 
 [Data_Sisgef.memTableContatos]
-Coordinates=3865,10,171,141
+Coordinates=3865,10,200,168
 
 [Data_Sisgef.memTableDadosBancarios]
-Coordinates=2963,10,208,249
+Coordinates=2963,10,243,300
 
 [Data_Sisgef.mtbRespostas]
-Coordinates=2013,10,147,357
+Coordinates=2013,10,170,432
 
 [Data_Sisgef.mtbResumoExpedicao]
-Coordinates=2736,10,187,249
+Coordinates=2736,10,217,300
 
 [layoutItemCodigoTabela]
-Coordinates=370,3921,133,33
+Coordinates=370,3921,154,36
 
 [dxLayoutGroup2]
-Coordinates=251,3921,96,33
+Coordinates=251,3921,109,36
 
 [dxLayoutGroup3]
-Coordinates=132,3921,96,33
+Coordinates=132,3921,109,36
 
 [layoutItemFaixa]
-Coordinates=23,3921,92,33
+Coordinates=23,3921,106,36
 
 [dxLayoutGroup4]
-Coordinates=987,276,96,33
+Coordinates=987,276,109,36
 
 [layoutItemVerbaFixa]
-Coordinates=987,386,115,33
+Coordinates=987,386,133,36
 
 [layoutItemNomeManutencao]
-Coordinates=987,441,154,33
+Coordinates=987,441,178,36
 
 [dxLayoutGroup1]
-Coordinates=987,661,96,33
+Coordinates=987,661,109,36
 
 [buttonEditCodigoTabela]
-Coordinates=2130,3600,133,51
+Coordinates=2130,3600,153,58
 ExplicitSubNodes=EditValue
 
 [comboBoxFaixa]
-Coordinates=2080,3370,93,51
+Coordinates=2080,3370,106,58
 ExplicitSubNodes=ItemIndex
 
 [layoutItemDataManutencao]
-Coordinates=987,826,148,33
+Coordinates=987,826,172,36
 
 [dateEditVigencia]
-Coordinates=1510,3600,97,51
+Coordinates=1510,3600,111,58
 ExplicitSubNodes=Date
 
 [textEditNomeManutencao]
-Coordinates=1660,3670,140,51
+Coordinates=1660,3670,162,58
 ExplicitSubNodes=Text
 
 [textEditDescricaoTabela]
-Coordinates=2340,3660,133,33
+Coordinates=2340,3660,154,36
 
 [layoutItemDescricaoTabela]
-Coordinates=987,1156,147,33
+Coordinates=987,1156,171,36
 
 [currencyEditVerbaFixa]
-Coordinates=2180,3500,126,51
+Coordinates=2180,3500,145,58
 ExplicitSubNodes=Value
 
 [layoutItemDataVigencia]
-Coordinates=987,1321,130,33
+Coordinates=987,1321,151,36
 
 [dateEditDataManutencao]
-Coordinates=2480,3420,137,51
+Coordinates=2480,3420,159,58
 ExplicitSubNodes=Date
 
 []
@@ -207,130 +207,134 @@ ExplicitSubNodes=Active;Adapter.ComponentIndex;Adapter.DatSTableName;Adapter.Des
 Visible=True
 
 [dxBarLargeButton1]
-Coordinates=169,1052,110,33
+Coordinates=169,1052,125,36
 
 [barManagerBar1]
-Coordinates=169,1104,95,33
+Coordinates=169,1104,111,36
 
 [barManager]
-Coordinates=169,1156,72,33
+Coordinates=169,1156,84,36
 
 [dxBarLargeButton2]
-Coordinates=169,1208,110,33
+Coordinates=169,1208,125,36
 
 [dxBarLargeButton3]
-Coordinates=169,1327,110,33
+Coordinates=169,1327,125,36
 
 [dxBarLargeButton4]
-Coordinates=169,1379,110,33
+Coordinates=169,1379,125,36
 
 [layoutGroupInfo]
-Coordinates=987,1211,94,33
+Coordinates=987,1211,106,36
 
 [actionGravar]
-Coordinates=191,1434,77,33
+Coordinates=191,1434,88,36
 
 [dxBarLargeButton6]
-Coordinates=191,1489,110,33
+Coordinates=191,1489,125,36
 
 [actionLisCadastro]
-Coordinates=191,1544,104,33
+Coordinates=191,1544,118,36
 
 [actionLocalizar]
-Coordinates=191,1599,89,33
+Coordinates=191,1599,101,36
 
 [actionNovo]
-Coordinates=191,1654,70,33
+Coordinates=191,1654,79,36
 
 [actionEditar]
-Coordinates=191,1709,73,33
+Coordinates=191,1709,83,36
 
 [actionCancelar]
-Coordinates=191,1764,88,33
+Coordinates=191,1764,101,36
 
 [actionFechar]
-Coordinates=191,1819,78,33
+Coordinates=191,1819,89,36
 
 [dxBarLargeButton7]
-Coordinates=191,1874,110,33
+Coordinates=191,1874,125,36
 
 [dxBarLargeButton5]
-Coordinates=191,1929,110,33
+Coordinates=191,1929,125,36
 
 [dxBarLargeButton8]
-Coordinates=169,2105,110,33
+Coordinates=169,2105,125,36
 
 [dsClientes]
-Coordinates=169,1981,66,33
+Coordinates=169,1981,75,36
 
 [dxLayoutItem1]
-Coordinates=169,2157,87,33
+Coordinates=169,2157,99,36
 
 [cxBarEditItem2]
-Coordinates=169,2209,89,33
+Coordinates=169,2209,102,36
 
 [cxBarEditItem1]
-Coordinates=169,2261,89,33
+Coordinates=169,2261,102,36
 
 [checkBoxAtivo]
-Coordinates=1900,3700,88,51
+Coordinates=1900,3700,99,58
 ExplicitSubNodes=EditValue
 
 [fdEntregadores]
 Visible=False
-Coordinates=70,2726,90,33
+Coordinates=70,2726,102,36
 
 [fdEntregadoresDAT_MANUTENCAO]
-Coordinates=345,872,191,33
+Coordinates=345,872,225,36
 
 [fdEntregadoresCOD_GRUPO]
-Coordinates=169,1260,156,33
+Coordinates=169,1260,184,36
 
 [fdEntregadoresDOM_ATIVO]
-Coordinates=169,2653,151,33
+Coordinates=169,2653,177,36
 
 [fdEntregadoresVAL_VERBA]
-Coordinates=169,2705,152,33
+Coordinates=169,2705,177,36
 
 [fdEntregadoresCOD_CADASTRO]
-Coordinates=364,924,177,33
+Coordinates=364,924,208,36
 
 [fdEntregadoresid_entregador]
-Coordinates=364,976,159,33
+Coordinates=364,976,182,36
 
 [fdEntregadoresNOM_FANTASIA]
-Coordinates=364,1028,172,33
+Coordinates=364,1028,202,36
 
 [fdEntregadoresCOD_ENTREGADOR]
-Coordinates=345,1080,192,33
+Coordinates=345,1080,227,36
 
 [fdEntregadoresNOM_EXECUTANTE]
-Coordinates=345,1132,190,33
+Coordinates=345,1132,225,36
 
 [fdEntregadoresDES_CHAVE]
-Coordinates=364,1184,153,33
+Coordinates=364,1184,180,36
 
 [fdEntregadoresDAT_CODIGO]
-Coordinates=364,1236,159,33
+Coordinates=364,1236,187,36
 
 [fdEntregadoresCOD_CLIENTE]
-Coordinates=364,1288,163,33
+Coordinates=364,1288,192,36
 
 [fdEntregadoresCOD_AGENTE]
-Coordinates=364,1340,161,33
+Coordinates=364,1340,190,36
 
 [BindSourceDB1]
-Coordinates=1840,3330,107,321
+Coordinates=1840,3330,128,388
 LayerNames=
+Visible=True
 
 [BindingsList1]
-Coordinates=364,1392,82,33
+Coordinates=364,1392,91,36
 
 [fdEntregadoresCOD_TABELA]
-Coordinates=364,1444,160,33
+Coordinates=364,1444,187,36
 
 [Module Settings]
 ModelLayerNames=
 ActiveLayerNames=
 EditingLayerName=
+
+[fdMemTableEntregadores]
+Coordinates=191,2316,163,36
 

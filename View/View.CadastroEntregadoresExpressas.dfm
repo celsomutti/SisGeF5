@@ -43,7 +43,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.HotTrack = False
       Style.TransparentBorder = False
       TabOrder = 0
-      Text = '0'
       Width = 74
     end
     object maskEditCodigo: TcxMaskEdit
@@ -58,7 +57,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 1
-      Text = '0'
       Width = 90
     end
     object textEditNomeEntregador: TcxTextEdit
@@ -106,7 +104,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 3
-      Text = '0'
       Width = 106
     end
     object buttonEditCodigoBase: TcxButtonEdit
@@ -129,7 +126,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 5
-      Text = '0'
       Width = 104
     end
     object textEditNomeBase: TcxTextEdit
@@ -165,6 +161,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
         end>
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsClientes
+      EditValue = ''
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -191,7 +188,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 10
-      Text = '0'
       Width = 83
     end
     object textEditDescricaoTabela: TcxTextEdit
@@ -343,6 +339,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Top = 397
       Hint = 'Data do in'#237'cio da ving'#234'ncia do cadastro'
       TabStop = False
+      EditValue = 0d
       Properties.Alignment.Horz = taCenter
       Properties.ReadOnly = True
       Properties.ShowTime = False
@@ -372,6 +369,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Top = 397
       Hint = 'Data da '#250'ltima manuten'#231#227'o do cadastro'
       TabStop = False
+      EditValue = 0.558958333333333d
       Properties.ReadOnly = True
       Properties.ShowToday = False
       Style.BorderColor = clWindowFrame
@@ -840,10 +838,10 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     Top = 190
   end
   object BindSourceDB1: TBindSourceDB
-    DataSet = fdEntregadores
+    DataSet = fdMemTableEntregadores
     ScopeMappings = <>
-    Left = 56
-    Top = 278
+    Left = 304
+    Top = 6
   end
   object fdEntregadores: TFDQuery
     AfterClose = fdEntregadoresAfterClose
@@ -929,8 +927,8 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
   object BindingsList1: TBindingsList
     Methods = <>
     OutputConverters = <>
-    Left = 56
-    Top = 334
+    Left = 368
+    Top = 6
     object LinkPropertyToFieldEditValue: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB1
@@ -1029,5 +1027,87 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Component = dateEditDataManutencao
       ComponentProperty = 'Date'
     end
+  end
+  object fdMemTableEntregadores: TFDMemTable
+    FieldDefs = <
+      item
+        Name = 'id_entregador'
+        DataType = ftAutoInc
+      end
+      item
+        Name = 'COD_CADASTRO'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'COD_ENTREGADOR'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'NOM_FANTASIA'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'COD_AGENTE'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DAT_CODIGO'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'DES_CHAVE'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'COD_GRUPO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'VAL_VERBA'
+        DataType = ftFloat
+        Precision = 22
+      end
+      item
+        Name = 'NOM_EXECUTANTE'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'DOM_ATIVO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DAT_MANUTENCAO'
+        DataType = ftTimeStamp
+      end
+      item
+        Name = 'COD_TABELA'
+        DataType = ftInteger
+      end
+      item
+        Name = 'COD_CLIENTE'
+        DataType = ftInteger
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 600
+    Top = 198
   end
 end

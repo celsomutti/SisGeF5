@@ -10,7 +10,7 @@ uses
   Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Data.Bind.EngExt, Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors,
-  Data.Bind.Components, Data.Bind.DBScope, dxBar, dxBarDBNav, System.Actions, Vcl.ActnList, cxBarEditItem;
+  Data.Bind.Components, Data.Bind.DBScope, dxBar, dxBarDBNav, System.Actions, Vcl.ActnList, cxBarEditItem, FireDAC.Stan.StorageBin;
 
 type
   Tview_CadastroEntregadoresExpressas = class(TForm)
@@ -106,6 +106,7 @@ type
     LinkPropertyToFieldText3: TLinkPropertyToField;
     LinkPropertyToFieldEditValue7: TLinkPropertyToField;
     LinkPropertyToFieldDate2: TLinkPropertyToField;
+    fdMemTableEntregadores: TFDMemTable;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure _fdEntregadoresAfterClose(DataSet: TDataSet);
     procedure actionNovoExecute(Sender: TObject);
@@ -188,6 +189,7 @@ end;
 
 procedure Tview_CadastroEntregadoresExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  fdMemTableEntregadores.Close;
   Data_Sisgef.mtbBases.Close;
   Action := caFree;
   view_CadastroEntregadoresExpressas := nil;
@@ -310,6 +312,7 @@ begin
       fdEntregadores.Close;
     end;
     fdEntregadores.Open();
+    fdMemTableEntregadores.Data := fdEntregadores.Data;
   end;
   FreeAndNil(view_PesquisaEntregadoresExpressas);
 end;
