@@ -101,14 +101,29 @@ type
     LinkPropertyToFieldEditValue4: TLinkPropertyToField;
     LinkPropertyToFieldEditValue5: TLinkPropertyToField;
     LinkPropertyToFieldValue: TLinkPropertyToField;
-    LinkPropertyToFieldEditValue6: TLinkPropertyToField;
     LinkPropertyToFieldItemIndex: TLinkPropertyToField;
     LinkPropertyToFieldText3: TLinkPropertyToField;
     LinkPropertyToFieldEditValue7: TLinkPropertyToField;
     LinkPropertyToFieldDate2: TLinkPropertyToField;
     fdMemTableEntregadores: TFDMemTable;
+    actionLocalizarBases: TAction;
+    fdMemTableEntregadoresid_entregador: TFDAutoIncField;
+    fdMemTableEntregadoresCOD_CADASTRO: TIntegerField;
+    fdMemTableEntregadoresCOD_ENTREGADOR: TIntegerField;
+    fdMemTableEntregadoresNOM_FANTASIA: TStringField;
+    fdMemTableEntregadoresCOD_AGENTE: TIntegerField;
+    fdMemTableEntregadoresDAT_CODIGO: TDateTimeField;
+    fdMemTableEntregadoresDES_CHAVE: TStringField;
+    fdMemTableEntregadoresCOD_GRUPO: TIntegerField;
+    fdMemTableEntregadoresVAL_VERBA: TFloatField;
+    fdMemTableEntregadoresNOM_EXECUTANTE: TStringField;
+    fdMemTableEntregadoresDOM_ATIVO: TIntegerField;
+    fdMemTableEntregadoresDAT_MANUTENCAO: TSQLTimeStampField;
+    fdMemTableEntregadoresCOD_TABELA: TIntegerField;
+    fdMemTableEntregadoresCOD_CLIENTE: TIntegerField;
+    LinkPropertyToFieldEditValue6: TLinkPropertyToField;
+    fdBase: TFDQuery;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure _fdEntregadoresAfterClose(DataSet: TDataSet);
     procedure actionNovoExecute(Sender: TObject);
     procedure actionEditarExecute(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
@@ -116,14 +131,16 @@ type
     procedure actionCancelarExecute(Sender: TObject);
     procedure actionGravarExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure fdEntregadoresAfterClose(DataSet: TDataSet);
+    procedure actionLocalizarBasesExecute(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
     procedure StartForm;
     procedure PesquisaEntregadores;
+    procedure PesquisaBases;
     procedure Modo;
+    function RetornaNomeAgente(iCodigo: Integer): String;
   end;
 
 var
@@ -133,7 +150,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.PesquisaEntregadoresExpressas;
+uses Data.SisGeF, View.PesquisaEntregadoresExpressas, View.PesquisaBasesExpressas;
 
 { Tview_CadastroEntregadoresExpressas }
 
@@ -143,11 +160,13 @@ begin
   begin
     BindSourceDB1.DataSet.Cancel;
   end;
+  if fdMemTableEntregadores.Active then fdMemTableEntregadores.Close;
   Modo;
 end;
 
 procedure Tview_CadastroEntregadoresExpressas.actionEditarExecute(Sender: TObject);
 begin
+  if not fdMemTableEntregadores.Active then fdMemTableEntregadores.Open;
   BindSourceDB1.DataSet.Edit;
   Modo;
 end;
@@ -164,6 +183,11 @@ begin
   Modo;
 end;
 
+procedure Tview_CadastroEntregadoresExpressas.actionLocalizarBasesExecute(Sender: TObject);
+begin
+  PesquisaBases;
+end;
+
 procedure Tview_CadastroEntregadoresExpressas.actionLocalizarExecute(Sender: TObject);
 begin
   PesquisaEntregadores;
@@ -172,25 +196,15 @@ end;
 
 procedure Tview_CadastroEntregadoresExpressas.actionNovoExecute(Sender: TObject);
 begin
-  fdEntregadores.Open();
+  if not fdMemTableEntregadores.Active then fdMemTableEntregadores.Open;
   BindSourceDB1.DataSet.Insert;
   Modo;
-end;
-
-procedure Tview_CadastroEntregadoresExpressas.fdEntregadoresAfterClose(DataSet: TDataSet);
-begin
-  Data_Sisgef.FDConnectionMySQL.Close;
-end;
-
-procedure Tview_CadastroEntregadoresExpressas._fdEntregadoresAfterClose(DataSet: TDataSet);
-begin
-  Data_Sisgef.FDConnectionMySQL.Close;
 end;
 
 procedure Tview_CadastroEntregadoresExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   fdMemTableEntregadores.Close;
-  Data_Sisgef.mtbBases.Close;
+  Data_Sisgef.mtbClientesEmpresa.Close;
   Action := caFree;
   view_CadastroEntregadoresExpressas := nil;
 end;
@@ -215,7 +229,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     buttonEditCodigoPessoa.Properties.ReadOnly := True;
     buttonEditCodigoBase.Properties.ReadOnly := True;
     //actionLocalizarPessoas.Enabled := False;
-    //actionLocalizarAgentes.Enabled := False;
+    actionLocalizarBases.Enabled := False;
     textEditCodigoERP.Properties.ReadOnly := True;
     lookupComboBoxCliente.Properties.ReadOnly := True;
     //actionPesquisarTabelas.Enabled := False;
@@ -224,6 +238,9 @@ if BindSourceDB1.DataSource.State = dsInactive then
     currencyEditVerbaFixa.Properties.ReadOnly := True;
     //checkBoxAtivo.Properties.ReadOnly := True;
     layoutGroupInfo.Visible := False;
+    textEditNomeBase.Clear;
+    textEditDescricaoTabela.Clear;
+    textEditNomePessoa.Clear;
   end
   else if BindSourceDB1.DataSource.State = dsInsert then
   begin
@@ -237,7 +254,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     buttonEditCodigoPessoa.Properties.ReadOnly := False;
     buttonEditCodigoBase.Properties.ReadOnly := False;
     //actionLocalizarPessoas.Enabled := False;
-    //actionLocalizarAgentes.Enabled := False;
+    actionLocalizarBases.Enabled := True;
     textEditCodigoERP.Properties.ReadOnly := False;
     lookupComboBoxCliente.Properties.ReadOnly := False;
     //actionPesquisarTabelas.Enabled := False;
@@ -246,6 +263,9 @@ if BindSourceDB1.DataSource.State = dsInactive then
     currencyEditVerbaFixa.Properties.ReadOnly := False;
     //checkBoxAtivo.Properties.ReadOnly := False;
     layoutGroupInfo.Visible := False;
+    textEditNomeBase.Clear;
+    textEditDescricaoTabela.Clear;
+    textEditNomePessoa.Clear;
   end
   else if BindSourceDB1.DataSource.State = dsEdit then
   begin
@@ -259,7 +279,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     buttonEditCodigoPessoa.Properties.ReadOnly := False;
     buttonEditCodigoBase.Properties.ReadOnly := False;
     //actionLocalizarPessoas.Enabled := False;
-    //actionLocalizarAgentes.Enabled := False;
+    actionLocalizarBases.Enabled := True;
     textEditCodigoERP.Properties.ReadOnly := False;
     lookupComboBoxCliente.Properties.ReadOnly := False;
     //actionPesquisarTabelas.Enabled := False;
@@ -281,7 +301,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     buttonEditCodigoPessoa.Properties.ReadOnly := True;
     buttonEditCodigoBase.Properties.ReadOnly := True;
     //actionLocalizarPessoas.Enabled := False;
-    //actionLocalizarAgentes.Enabled := False;
+    actionLocalizarBases.Enabled := False;
     textEditCodigoERP.Properties.ReadOnly := True;
     lookupComboBoxCliente.Properties.ReadOnly := True;
     //actionPesquisarTabelas.Enabled := False;
@@ -293,28 +313,70 @@ if BindSourceDB1.DataSource.State = dsInactive then
   end;
 end;
 
-procedure Tview_CadastroEntregadoresExpressas.PesquisaEntregadores;
+procedure Tview_CadastroEntregadoresExpressas.PesquisaBases;
 var
   sQuery: String;
 begin
+  if not Assigned(view_PesquisaBasesExpressas) then
+  begin
+    view_PesquisaBasesExpressas := Tview_PesquisaBasesExpressas.Create(Application);
+  end;
+  if view_PesquisaBasesExpressas.ShowModal = mrOK then
+  begin
+    buttonEditCodigoBase.EditValue := view_PesquisaBasesExpressas.iID;
+    textEditNomeBase.Text := view_PesquisaBasesExpressas.sNome;
+  end;
+  FreeAndNil(view_PesquisaBasesExpressas);
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.PesquisaEntregadores;
+var
+  sQuery: String;
+  sSQL : String;
+begin
+  sSQL := '';
+  sQuery := '';
   if not Assigned(view_PesquisaEntregadoresExpressas) then
   begin
     view_PesquisaEntregadoresExpressas := Tview_PesquisaEntregadoresExpressas.Create(Application);
   end;
   if view_PesquisaEntregadoresExpressas.ShowModal = mrOK then
   begin
-    sQuery := 'id_entregador = ' + view_PesquisaEntregadoresExpressas.iID.ToString;
-    BindSourceDB1.ResetNeeded;
-    fdEntregadores.Filter := sQuery;
-    fdEntregadores.Filtered := True;
+    sSQL := fdEntregadores.SQL.Text;
+    sQuery := ' where id_entregador = ' + view_PesquisaEntregadoresExpressas.iID.ToString;
     if not fdEntregadores.Active then
     begin
       fdEntregadores.Close;
     end;
+    fdEntregadores.SQL.Text := sSQL + sQuery;
     fdEntregadores.Open();
+    if fdMemTableEntregadores.Active then fdMemTableEntregadores.Close;
     fdMemTableEntregadores.Data := fdEntregadores.Data;
+    textEditNomeBase.Text := RetornaNomeAgente(fdEntregadoresCOD_AGENTE.AsInteger);
   end;
+  fdEntregadores.Close;
+  fdEntregadores.SQL.Text := sSQL;
   FreeAndNil(view_PesquisaEntregadoresExpressas);
+end;
+
+function Tview_CadastroEntregadoresExpressas.RetornaNomeAgente(iCodigo: Integer): String;
+var
+  sNome: String;
+begin
+  if fdBase.Active then fdBase.Close;
+  fdBase.Filter := 'cod_agente = ' + iCodigo.ToString;
+  fdBase.Filtered := True;
+  fdBase.Open();
+  if not fdBase.IsEmpty then
+  begin
+    sNome := fdBase.FieldByName('nom_fantasia').AsString;
+  end
+  else
+  begin
+    sNome := '';
+  end;
+  fdBase.Close;
+  Result := sNome;
 end;
 
 procedure Tview_CadastroEntregadoresExpressas.StartForm;

@@ -124,6 +124,8 @@ begin
           aParam := ['CHAVECLIENTE',FPlanilha.Planilha.Planilha[i].IdMotorista,iCodigoCliente];
           if not FEntregadores.LocalizarExato(aParam) then
           begin
+            sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' entregador não encontrado ' + FPlanilha.Planilha.Planilha[i].Motorista;
+            UpdateLog(sMensagem);
             FEntregas.Entregas.Distribuidor := 1;
             FEntregas.Entregas.Entregador := 781;
           end

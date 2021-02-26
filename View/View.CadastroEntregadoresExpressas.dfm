@@ -112,13 +112,16 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
+          Action = actionLocalizarBases
           Default = True
-          Kind = bkEllipsis
+          ImageIndex = 14
+          Kind = bkGlyph
         end
         item
           Visible = False
         end>
       Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d'
       Style.BorderColor = clWindowFrame
@@ -172,7 +175,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object buttonEditCodigoTabela: TcxButtonEdit
       Left = 26
-      Top = 191
+      Top = 192
       Hint = 'C'#243'digo da tabela de verbas'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
@@ -192,7 +195,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object textEditDescricaoTabela: TcxTextEdit
       Left = 116
-      Top = 191
+      Top = 192
       Hint = 'Descri'#231#227'o da tabela de verbas'
       TabStop = False
       Properties.ReadOnly = True
@@ -204,7 +207,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object comboBoxFaixa: TcxComboBox
       Left = 423
-      Top = 191
+      Top = 192
       Hint = 'Faixa da tabela selecionada'
       Properties.Alignment.Horz = taRightJustify
       Properties.DropDownListStyle = lsEditFixedList
@@ -324,7 +327,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object currencyEditVerbaFixa: TcxCurrencyEdit
       Left = 481
-      Top = 191
+      Top = 192
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ',0.00;-,0.00'
@@ -382,7 +385,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object checkBoxAtivo: TcxCheckBox
       Left = 362
-      Top = 107
+      Top = 108
       Properties.NullStyle = nssUnchecked
       Properties.ValueChecked = '1'
       Properties.ValueUnchecked = '0'
@@ -468,7 +471,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       CaptionOptions.Text = 'C'#243'd. Base:'
       CaptionOptions.Layout = clTop
       Control = buttonEditCodigoBase
-      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 85
       ControlOptions.ShowBorder = False
       Index = 0
@@ -794,8 +797,8 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
   end
   object actionLisCadastro: TActionList
-    Left = 648
-    Top = 254
+    Left = 632
+    Top = 246
     object actionNovo: TAction
       Caption = 'Novo'
       Hint = 'Novo entregador'
@@ -830,6 +833,11 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Hint = 'Fechar a tela'
       OnExecute = actionFecharExecute
     end
+    object actionLocalizarBases: TAction
+      Caption = 'Localizar Bases'
+      Hint = 'Localizar Bases'
+      OnExecute = actionLocalizarBasesExecute
+    end
   end
   object dsClientes: TDataSource
     AutoEdit = False
@@ -844,7 +852,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     Top = 6
   end
   object fdEntregadores: TFDQuery
-    AfterClose = fdEntregadoresAfterClose
     Connection = Data_Sisgef.FDConnectionMySQL
     SQL.Strings = (
       'select * from tbcodigosentregadores')
@@ -992,13 +999,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Component = currencyEditVerbaFixa
       ComponentProperty = 'Value'
     end
-    object LinkPropertyToFieldEditValue6: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'COD_AGENTE'
-      Component = buttonEditCodigoBase
-      ComponentProperty = 'EditValue'
-    end
     object LinkPropertyToFieldItemIndex: TLinkPropertyToField
       Category = 'Quick Bindings'
       DataSource = BindSourceDB1
@@ -1027,71 +1027,16 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Component = dateEditDataManutencao
       ComponentProperty = 'Date'
     end
+    object LinkPropertyToFieldEditValue6: TLinkPropertyToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      FieldName = 'COD_AGENTE'
+      Component = buttonEditCodigoBase
+      ComponentProperty = 'EditValue'
+    end
   end
   object fdMemTableEntregadores: TFDMemTable
-    FieldDefs = <
-      item
-        Name = 'id_entregador'
-        DataType = ftAutoInc
-      end
-      item
-        Name = 'COD_CADASTRO'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'COD_ENTREGADOR'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'NOM_FANTASIA'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'COD_AGENTE'
-        DataType = ftInteger
-      end
-      item
-        Name = 'DAT_CODIGO'
-        DataType = ftDateTime
-      end
-      item
-        Name = 'DES_CHAVE'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'COD_GRUPO'
-        DataType = ftInteger
-      end
-      item
-        Name = 'VAL_VERBA'
-        DataType = ftFloat
-        Precision = 22
-      end
-      item
-        Name = 'NOM_EXECUTANTE'
-        DataType = ftString
-        Size = 20
-      end
-      item
-        Name = 'DOM_ATIVO'
-        DataType = ftInteger
-      end
-      item
-        Name = 'DAT_MANUTENCAO'
-        DataType = ftTimeStamp
-      end
-      item
-        Name = 'COD_TABELA'
-        DataType = ftInteger
-      end
-      item
-        Name = 'COD_CLIENTE'
-        DataType = ftInteger
-      end>
+    FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -1109,5 +1054,60 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     StoreDefs = True
     Left = 600
     Top = 198
+    object fdMemTableEntregadoresid_entregador: TFDAutoIncField
+      FieldName = 'id_entregador'
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      IdentityInsert = True
+    end
+    object fdMemTableEntregadoresCOD_CADASTRO: TIntegerField
+      FieldName = 'COD_CADASTRO'
+      Required = True
+    end
+    object fdMemTableEntregadoresCOD_ENTREGADOR: TIntegerField
+      FieldName = 'COD_ENTREGADOR'
+      Required = True
+    end
+    object fdMemTableEntregadoresNOM_FANTASIA: TStringField
+      FieldName = 'NOM_FANTASIA'
+      Size = 70
+    end
+    object fdMemTableEntregadoresCOD_AGENTE: TIntegerField
+      FieldName = 'COD_AGENTE'
+    end
+    object fdMemTableEntregadoresDAT_CODIGO: TDateTimeField
+      FieldName = 'DAT_CODIGO'
+    end
+    object fdMemTableEntregadoresDES_CHAVE: TStringField
+      FieldName = 'DES_CHAVE'
+      Size = 70
+    end
+    object fdMemTableEntregadoresCOD_GRUPO: TIntegerField
+      FieldName = 'COD_GRUPO'
+    end
+    object fdMemTableEntregadoresVAL_VERBA: TFloatField
+      FieldName = 'VAL_VERBA'
+    end
+    object fdMemTableEntregadoresNOM_EXECUTANTE: TStringField
+      FieldName = 'NOM_EXECUTANTE'
+    end
+    object fdMemTableEntregadoresDOM_ATIVO: TIntegerField
+      FieldName = 'DOM_ATIVO'
+    end
+    object fdMemTableEntregadoresDAT_MANUTENCAO: TSQLTimeStampField
+      FieldName = 'DAT_MANUTENCAO'
+    end
+    object fdMemTableEntregadoresCOD_TABELA: TIntegerField
+      FieldName = 'COD_TABELA'
+    end
+    object fdMemTableEntregadoresCOD_CLIENTE: TIntegerField
+      FieldName = 'COD_CLIENTE'
+    end
+  end
+  object fdBase: TFDQuery
+    Connection = Data_Sisgef.FDConnectionMySQL
+    SQL.Strings = (
+      'select * from view_BasesPesquisa')
+    Left = 648
+    Top = 302
   end
 end

@@ -244,7 +244,7 @@ end;
 
 procedure Tview_ImportarPedidos.AtualizaLogSimExpress;
 begin
-  if not planilhaSIMExpress.bProcess then
+  if not Global.Parametros.pbProcess then
   begin
     Timer1.Enabled := False;
     dxLayoutItem8.Visible := False;
