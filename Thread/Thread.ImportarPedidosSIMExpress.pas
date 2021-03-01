@@ -258,7 +258,7 @@ begin
     FParam := ['CODIGO',aParam[0]];
     if FBase.LocalizarExato(FParam) then
     begin
-      iTabela := FBase.Bases.CentroCusto;
+      iTabela := FBase.Bases.Tabela;
       iFaixa := FBase.Bases.Grupo;
       dVerba := FBase.Bases.ValorVerba;
     end;
