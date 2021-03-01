@@ -123,6 +123,21 @@ type
     fdMemTableEntregadoresCOD_CLIENTE: TIntegerField;
     LinkPropertyToFieldEditValue6: TLinkPropertyToField;
     fdBase: TFDQuery;
+    fdPessoas: TFDQuery;
+    actionLocalizarPessoas: TAction;
+    fdVerbas: TFDQuery;
+    fdVerbasid_verba: TIntegerField;
+    fdVerbascod_cliente: TIntegerField;
+    fdVerbascod_tipo: TIntegerField;
+    fdVerbasid_grupo: TIntegerField;
+    fdVerbasdat_vigencia: TDateField;
+    fdVerbasval_verba: TSingleField;
+    fdVerbasval_performance: TSingleField;
+    fdVerbasnum_cep_inicial: TStringField;
+    fdVerbasnum_cep_final: TStringField;
+    fdVerbasqtd_peso_inicial: TSingleField;
+    fdVerbasqtd_peso_final: TSingleField;
+    fdVerbascod_roteiro: TIntegerField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionNovoExecute(Sender: TObject);
     procedure actionEditarExecute(Sender: TObject);
@@ -132,6 +147,11 @@ type
     procedure actionGravarExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actionLocalizarBasesExecute(Sender: TObject);
+    procedure buttonEditCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure actionLocalizarPessoasExecute(Sender: TObject);
+    procedure buttonEditCodigoPessoaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
   private
     { Private declarations }
   public
@@ -139,8 +159,13 @@ type
     procedure StartForm;
     procedure PesquisaEntregadores;
     procedure PesquisaBases;
+    procedure PesquisaPessoas;
+    procedure PesquisaTabelas;
     procedure Modo;
     function RetornaNomeAgente(iCodigo: Integer): String;
+    function RetornaNomePessoa(iCodigo: Integer): String;
+    function RetornaFaixaXTabela(iTabela, iFaixa: integer): Boolean;
+    function ValidaDados(): Boolean;
   end;
 
 var
@@ -150,7 +175,8 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.PesquisaEntregadoresExpressas, View.PesquisaBasesExpressas;
+uses Data.SisGeF, View.PesquisaEntregadoresExpressas, View.PesquisaBasesExpressas, View.PesquisaPessoasCRM, View.PesquisarGeral,
+  Control.EntregadoresExpressas, Control.TiposVerbasExpressas, Control.VerbasExpressas;
 
 { Tview_CadastroEntregadoresExpressas }
 
@@ -194,11 +220,28 @@ begin
   Modo;
 end;
 
+procedure Tview_CadastroEntregadoresExpressas.actionLocalizarPessoasExecute(Sender: TObject);
+begin
+  PesquisaPessoas;
+end;
+
 procedure Tview_CadastroEntregadoresExpressas.actionNovoExecute(Sender: TObject);
 begin
   if not fdMemTableEntregadores.Active then fdMemTableEntregadores.Open;
   BindSourceDB1.DataSet.Insert;
   Modo;
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.buttonEditCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  textEditNomeBase.Text := RetornaNomeAgente(DisplayValue);
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.buttonEditCodigoPessoaPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  textEditNomePessoa.Text := RetornaNomePessoa(DisplayValue);
 end;
 
 procedure Tview_CadastroEntregadoresExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -228,7 +271,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     textEditNomeEntregador.Properties.ReadOnly := True;
     buttonEditCodigoPessoa.Properties.ReadOnly := True;
     buttonEditCodigoBase.Properties.ReadOnly := True;
-    //actionLocalizarPessoas.Enabled := False;
+    actionLocalizarPessoas.Enabled := False;
     actionLocalizarBases.Enabled := False;
     textEditCodigoERP.Properties.ReadOnly := True;
     lookupComboBoxCliente.Properties.ReadOnly := True;
@@ -236,7 +279,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     buttonEditCodigoTabela.Properties.ReadOnly := True;
     comboBoxFaixa.Properties.ReadOnly := True;
     currencyEditVerbaFixa.Properties.ReadOnly := True;
-    //checkBoxAtivo.Properties.ReadOnly := True;
+    checkBoxAtivo.Properties.ReadOnly := True;
     layoutGroupInfo.Visible := False;
     textEditNomeBase.Clear;
     textEditDescricaoTabela.Clear;
@@ -253,7 +296,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     textEditNomeEntregador.Properties.ReadOnly := False;
     buttonEditCodigoPessoa.Properties.ReadOnly := False;
     buttonEditCodigoBase.Properties.ReadOnly := False;
-    //actionLocalizarPessoas.Enabled := False;
+    actionLocalizarPessoas.Enabled := False;
     actionLocalizarBases.Enabled := True;
     textEditCodigoERP.Properties.ReadOnly := False;
     lookupComboBoxCliente.Properties.ReadOnly := False;
@@ -261,7 +304,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     buttonEditCodigoTabela.Properties.ReadOnly := False;
     comboBoxFaixa.Properties.ReadOnly := False;
     currencyEditVerbaFixa.Properties.ReadOnly := False;
-    //checkBoxAtivo.Properties.ReadOnly := False;
+    checkBoxAtivo.Properties.ReadOnly := False;
     layoutGroupInfo.Visible := False;
     textEditNomeBase.Clear;
     textEditDescricaoTabela.Clear;
@@ -278,7 +321,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     textEditNomeEntregador.Properties.ReadOnly := False;
     buttonEditCodigoPessoa.Properties.ReadOnly := False;
     buttonEditCodigoBase.Properties.ReadOnly := False;
-    //actionLocalizarPessoas.Enabled := False;
+    actionLocalizarPessoas.Enabled := True;
     actionLocalizarBases.Enabled := True;
     textEditCodigoERP.Properties.ReadOnly := False;
     lookupComboBoxCliente.Properties.ReadOnly := False;
@@ -286,7 +329,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     buttonEditCodigoTabela.Properties.ReadOnly := False;
     comboBoxFaixa.Properties.ReadOnly := False;
     currencyEditVerbaFixa.Properties.ReadOnly := False;
-    //checkBoxAtivo.Properties.ReadOnly := False;
+    checkBoxAtivo.Properties.ReadOnly := False;
     layoutGroupInfo.Visible := False;
   end
   else if BindSourceDB1.DataSource.State = dsBrowse then
@@ -300,7 +343,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     textEditNomeEntregador.Properties.ReadOnly := True;
     buttonEditCodigoPessoa.Properties.ReadOnly := True;
     buttonEditCodigoBase.Properties.ReadOnly := True;
-    //actionLocalizarPessoas.Enabled := False;
+    actionLocalizarPessoas.Enabled := False;
     actionLocalizarBases.Enabled := False;
     textEditCodigoERP.Properties.ReadOnly := True;
     lookupComboBoxCliente.Properties.ReadOnly := True;
@@ -308,7 +351,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     buttonEditCodigoTabela.Properties.ReadOnly := True;
     comboBoxFaixa.Properties.ReadOnly := True;
     currencyEditVerbaFixa.Properties.ReadOnly := True;
-    //checkBoxAtivo.Properties.ReadOnly := True;
+    checkBoxAtivo.Properties.ReadOnly := True;
     layoutGroupInfo.Visible := True;
   end;
 end;
@@ -353,10 +396,82 @@ begin
     if fdMemTableEntregadores.Active then fdMemTableEntregadores.Close;
     fdMemTableEntregadores.Data := fdEntregadores.Data;
     textEditNomeBase.Text := RetornaNomeAgente(fdEntregadoresCOD_AGENTE.AsInteger);
+    textEditNomePessoa.Text := RetornaNomePessoa(fdEntregadoresCOD_CADASTRO.AsInteger);
   end;
   fdEntregadores.Close;
   fdEntregadores.SQL.Text := sSQL;
   FreeAndNil(view_PesquisaEntregadoresExpressas);
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.PesquisaPessoas;
+var
+  sQuery: String;
+begin
+  sQuery := '';
+  if not Assigned(view_PesquisaPessoasCRM) then
+  begin
+    view_PesquisaPessoasCRM := Tview_PesquisaPessoasCRM.Create(Application);
+  end;
+  if view_PesquisaPessoasCRM.ShowModal = mrOK then
+  begin
+    buttonEditCodigoPessoa.EditValue := view_PesquisaPessoasCRM.iID;
+    textEditNomePessoa.Text := view_PesquisaPessoasCRM.sNome;
+  end;
+  FreeAndNil(view_PesquisaPessoasCRM);
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.PesquisaTabelas;
+var
+  sSQL: String;
+  sWhere: String;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    if not Assigned(View_PesquisarGeral) then
+    begin
+      View_PesquisarGeral := TView_PesquisarGeral.Create(Application);
+    end;
+    View_PesquisarGeral.dxLayoutItem1.Visible := True;
+    View_PesquisarGeral.dxLayoutItem2.Visible := True;
+    sSQL := 'select cod_tipo as "Código", des_tipo as "Descrição" ' +
+            'from expressas_tipos_verbas ';
+    sWhere := 'where cod_tipo like paraN or des_tipo like "%param%"';
+
+    View_PesquisarGeral.sSQL := sSQL;
+    View_PesquisarGeral.sWhere := sWhere;
+    View_PesquisarGeral.bOpen := True;
+    View_PesquisarGeral.Caption := 'Pesquisa de Tabelas';
+    if View_PesquisarGeral.ShowModal = mrOK then
+    begin
+      buttonEditCodigoTabela.EditValue := View_PesquisarGeral.qryPesquisa.Fields[1].AsString;
+      textEditDescricaoTabela.Text := View_PesquisarGeral.qryPesquisa.Fields[2].AsString;
+    end;
+  finally
+    View_PesquisarGeral.qryPesquisa.Close;
+    View_PesquisarGeral.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarGeral);
+  end;end;
+
+function Tview_CadastroEntregadoresExpressas.RetornaFaixaXTabela(iTabela, iFaixa: integer): Boolean;
+var
+  sSQL, sFiltro : String;
+begin
+  try
+    Result := False;
+    if fdVerbas.Active then fdVerbas.Close;
+    sSQL := fdVerbas.SQL.Text;
+    fdVerbas.SQL.Text := sSQL + ' where cod_tipo = ' + iTabela.ToString + ' and id_grupo = ' + iFaixa.ToString;
+    fdVerbas.Open();
+    if fdVerbas.IsEmpty then
+    begin
+      Result := False;
+    end;
+    Result := True;
+  finally
+    if fdVerbas.Active then fdVerbas.Close;
+    fdVerbas.SQL.Text := sSQL;
+  end;
 end;
 
 function Tview_CadastroEntregadoresExpressas.RetornaNomeAgente(iCodigo: Integer): String;
@@ -379,10 +494,149 @@ begin
   Result := sNome;
 end;
 
+function Tview_CadastroEntregadoresExpressas.RetornaNomePessoa(iCodigo: Integer): String;
+var
+  sNome: String;
+begin
+  if fdPessoas.Active then fdBase.Close;
+  fdPessoas.Filter := 'cod_cadastro = ' + iCodigo.ToString;
+  fdPessoas.Filtered := True;
+  fdPessoas.Open();
+  if not fdPessoas.IsEmpty then
+  begin
+    sNome := fdPessoas.FieldByName('des_razao_social').AsString;
+  end
+  else
+  begin
+    sNome := '';
+  end;
+  fdPessoas.Close;
+  Result := sNome;
+end;
+
 procedure Tview_CadastroEntregadoresExpressas.StartForm;
 begin
   // função
   Data_Sisgef.PopulaClientesEmpresa;
 end;
+
+function Tview_CadastroEntregadoresExpressas.ValidaDados: Boolean;
+var
+  entregadores: TEntregadoresExpressasControl;
+  tipos: TTiposVerbasExpressasControl;
+  verbas : TVerbasExpressasControl;
+  aParam : array of variant;
+begin
+  try
+    Result := False;
+    entregadores := TEntregadoresExpressasControl.Create;
+    tipos := TTiposVerbasExpressasControl.Create;
+    verbas := TVerbasExpressasControl.Create;
+    if maskEditCodigo.EditValue = 0 then
+    begin
+      Application.MessageBox('Informe o código do entregador!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if textEditNomeEntregador.Text = '' then
+    begin
+      Application.MessageBox('Informe o noe Fantasia!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if buttonEditCodigoPessoa.EditValue = 0 then
+    begin
+      if Application.MessageBox('Código da Pessoa não informado. Continuar?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+      begin
+        Exit;
+      end;
+    end;
+    if buttonEditCodigoBase.EditValue = 0 then
+    begin
+      Application.MessageBox('Informe o código do Agente!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if textEditCodigoERP.Text = '' then
+    begin
+      Application.MessageBox('Informe o código ERP!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if lookupComboBoxCliente.ItemIndex = -1 then
+    begin
+      Application.MessageBox('Informe o código do cliente!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if BindSourceDB1.DataSource.State = dsInsert then
+    begin
+      if entregadores.EntregadorExiste(1,maskEditCodigo.EditValue, lookupComboBoxCliente.EditValue, '') then
+      begin
+        Application.MessageBox('Código de entregador já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+      if entregadores.GetField('nom_fantasia','nom_fantasia',QuotedStr(textEditNomeEntregador.Text)) <> '' then
+      begin
+        if Application.MessageBox('Nome fantasia já existe. Continuar com este mesmo?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+        begin
+          Exit;
+        end;
+      end;
+      if entregadores.EntregadorExiste(2,maskEditCodigo.EditValue, 0, textEditCodigoERP.Text) then
+      begin
+        Application.MessageBox('Código ERP já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    if BindSourceDB1.DataSource.State = dsEdit then
+    begin
+      SetLength(aParam,2);
+      aParam := ['ID',StrTOIntDef(maskEditID.Text, 0)];
+      if entregadores.LocalizarExato(aParam) then
+      begin
+        if entregadores.Entregadores.Cadastro <> buttonEditCodigoPessoa.EditValue then
+        begin
+          if buttonEditCodigoPessoa.EditValue <> 0 then
+          begin
+            if Application.MessageBox('Entregador já está vinculado a outra pessoa. Conrtinuar ?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+            begin
+              Exit;
+            end;
+          end;
+        end;
+      end;
+    end;
+    if buttonEditCodigoTabela.EditValue <> 0 then
+    begin
+      if tipos.GetField('cod_tipo','cod_tipo',VarToStr(buttonEditCodigoTabela.EditValue)) = '' then
+      begin
+        Application.MessageBox('Código de tabela não cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+      if comboBoxFaixa.ItemIndex <> 0 then
+      begin
+        SetLength(aParam,2);
+        aParam := ['FILTRO', 'cod_cliente = ' + VarToStr(lookupComboBoxCliente.EditValue) + ' and cod_tipo = ' +
+                  buttonEditCodigoTabela.EditText + ' and id_grupo = ' + comboBoxFaixa.Text];
+        if verbas.Localizar(aParam).IsEmpty then
+        begin
+          Application.MessageBox('Faixa de tabela inexistente!', 'Atenção', MB_OK + MB_ICONWARNING);
+          Exit;
+        end;
+      end;
+    end;
+    if (buttonEditCodigoTabela.EditValue = 0) and (comboBoxFaixa.ItemIndex = 0) and (currencyEditVerbaFixa.Value = 0) then
+    begin
+      if Application.MessageBox('Nenhum tipo de verba foi informada. Continuar?','Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+      begin
+        Exit;
+      end;
+    end;
+    Result := True;
+  finally
+    if Length(aParam) <> 0 then
+    begin
+      Finalize(aParam);
+    end;
+    entregadores.Free;
+    tipos.Free;
+    verbas.Free;
+  end;end;
 
 end.

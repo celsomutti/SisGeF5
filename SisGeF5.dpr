@@ -27,7 +27,7 @@ uses
   Model.CadastroRH in 'Model\Model.CadastroRH.pas',
   Control.CadastroRH in 'Control\Control.CadastroRH.pas',
   View.CadastroUsuarios in 'View\View.CadastroUsuarios.pas' {view_CadastroUsuarios},
-  View.PesquisarPessoas in 'View\View.PesquisarPessoas.pas' {View_PesquisarPessoas},
+  View.PesquisarGeral in 'View\View.PesquisarGeral.pas' {View_PesquisarGeral},
   View.CadastraSenha in 'View\View.CadastraSenha.pas' {view_CadastraSenha},
   Model.CadastroEnderecos in 'Model\Model.CadastroEnderecos.pas',
   Control.CadastroEnderecos in 'Control\Control.CadastroEnderecos.pas',
@@ -179,8 +179,10 @@ uses
   View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
   Model.CadastroGeral in 'Model\Model.CadastroGeral.pas',
   View.CadastroEntregadoresExpressas in 'View\View.CadastroEntregadoresExpressas.pas' {view_CadastroEntregadoresExpressas},
+  View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
+  View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas},
   View.PesquisaBasesExpressas in 'View\View.PesquisaBasesExpressas.pas' {view_PesquisaBasesExpressas},
-  View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas};
+  View.PesquisarPessoas in 'View\View.PesquisarPessoas.pas' {View_PesquisarPessoas};
 
 {$R *.res}
 

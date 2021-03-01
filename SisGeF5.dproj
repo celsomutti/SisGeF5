@@ -208,8 +208,8 @@
         <DCCReference Include="View\View.CadastroUsuarios.pas">
             <Form>view_CadastroUsuarios</Form>
         </DCCReference>
-        <DCCReference Include="View\View.PesquisarPessoas.pas">
-            <Form>View_PesquisarPessoas</Form>
+        <DCCReference Include="View\View.PesquisarGeral.pas">
+            <Form>View_PesquisarGeral</Form>
         </DCCReference>
         <DCCReference Include="View\View.CadastraSenha.pas">
             <Form>view_CadastraSenha</Form>
@@ -451,12 +451,20 @@
             <Form>view_CadastroEntregadoresExpressas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="View\View.PesquisaBasesExpressas.pas">
-            <Form>view_PesquisaBasesExpressas</Form>
+        <DCCReference Include="View\View.PesquisaPessoasCRM.pas">
+            <Form>view_PesquisaPessoasCRM</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\View.PesquisaEntregadoresExpressas.pas">
             <Form>view_PesquisaEntregadoresExpressas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\View.PesquisaBasesExpressas.pas">
+            <Form>view_PesquisaBasesExpressas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\View.PesquisarPessoas.pas">
+            <Form>View_PesquisarPessoas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="SisGeF5.todo"/>
@@ -514,9 +522,10 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Release\SisGeF5.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>SisGeF5.exe</RemoteName>
+                <DeployFile LocalName="Images\logo_150_150.png" Configuration="Release" Class="UWP_DelphiLogo150">
+                    <Platform Name="Win64">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo150x150.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -534,10 +543,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Images\logo_150_150.png" Configuration="Release" Class="UWP_DelphiLogo150">
-                    <Platform Name="Win64">
-                        <RemoteDir>Assets\</RemoteDir>
-                        <RemoteName>Logo150x150.png</RemoteName>
+                <DeployFile LocalName="Win32\Release\SisGeF5.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>SisGeF5.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

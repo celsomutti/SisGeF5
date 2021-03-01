@@ -90,15 +90,19 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
+          Action = actionLocalizarPessoas
           Default = True
-          Kind = bkEllipsis
+          ImageIndex = 14
+          Kind = bkGlyph
         end
         item
           Visible = False
         end>
       Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d'
+      Properties.OnValidate = buttonEditCodigoPessoaPropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -108,7 +112,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object buttonEditCodigoBase: TcxButtonEdit
       Left = 26
-      Top = 105
+      Top = 106
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
@@ -124,6 +128,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d'
+      Properties.OnValidate = buttonEditCodigoBasePropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -133,7 +138,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object textEditNomeBase: TcxTextEdit
       Left = 137
-      Top = 105
+      Top = 106
       TabStop = False
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
@@ -144,7 +149,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object textEditCodigoERP: TcxTextEdit
       Left = 449
-      Top = 105
+      Top = 106
       Hint = 'C'#243'sigo ERP'
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
@@ -155,7 +160,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object lookupComboBoxCliente: TcxLookupComboBox
       Left = 604
-      Top = 105
+      Top = 106
       Hint = 'Cliente ao qual o entregador est'#225' vinculado'
       Properties.KeyFieldNames = 'cod_cliente'
       Properties.ListColumns = <
@@ -175,7 +180,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object buttonEditCodigoTabela: TcxButtonEdit
       Left = 26
-      Top = 192
+      Top = 193
       Hint = 'C'#243'digo da tabela de verbas'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
@@ -195,7 +200,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object textEditDescricaoTabela: TcxTextEdit
       Left = 116
-      Top = 192
+      Top = 193
       Hint = 'Descri'#231#227'o da tabela de verbas'
       TabStop = False
       Properties.ReadOnly = True
@@ -207,7 +212,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object comboBoxFaixa: TcxComboBox
       Left = 423
-      Top = 192
+      Top = 193
       Hint = 'Faixa da tabela selecionada'
       Properties.Alignment.Horz = taRightJustify
       Properties.DropDownListStyle = lsEditFixedList
@@ -327,7 +332,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object currencyEditVerbaFixa: TcxCurrencyEdit
       Left = 481
-      Top = 192
+      Top = 193
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ',0.00;-,0.00'
@@ -385,7 +390,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
     end
     object checkBoxAtivo: TcxCheckBox
       Left = 362
-      Top = 108
+      Top = 109
       Properties.NullStyle = nssUnchecked
       Properties.ValueChecked = '1'
       Properties.ValueUnchecked = '0'
@@ -459,7 +464,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       CaptionOptions.Text = 'C'#243'd. Pessoa:'
       CaptionOptions.Layout = clTop
       Control = buttonEditCodigoPessoa
-      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 87
       ControlOptions.ShowBorder = False
       Index = 3
@@ -838,6 +843,11 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Hint = 'Localizar Bases'
       OnExecute = actionLocalizarBasesExecute
     end
+    object actionLocalizarPessoas: TAction
+      Caption = 'Localizar Pessoas'
+      Hint = 'Localizar pessoas'
+      OnExecute = actionLocalizarPessoasExecute
+    end
   end
   object dsClientes: TDataSource
     AutoEdit = False
@@ -848,7 +858,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
   object BindSourceDB1: TBindSourceDB
     DataSet = fdMemTableEntregadores
     ScopeMappings = <>
-    Left = 304
+    Left = 656
     Top = 6
   end
   object fdEntregadores: TFDQuery
@@ -934,7 +944,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
   object BindingsList1: TBindingsList
     Methods = <>
     OutputConverters = <>
-    Left = 368
+    Left = 704
     Top = 6
     object LinkPropertyToFieldEditValue: TLinkPropertyToField
       Category = 'Quick Bindings'
@@ -1109,5 +1119,82 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       'select * from view_BasesPesquisa')
     Left = 648
     Top = 302
+  end
+  object fdPessoas: TFDQuery
+    Connection = Data_Sisgef.FDConnectionMySQL
+    SQL.Strings = (
+      'select * from view_PesquisaPessoasCRM')
+    Left = 704
+    Top = 302
+  end
+  object fdVerbas: TFDQuery
+    Connection = Data_Sisgef.FDConnectionMySQL
+    SQL.Strings = (
+      'select * from expressas_verbas')
+    Left = 712
+    Top = 358
+    object fdVerbasid_verba: TIntegerField
+      FieldName = 'id_verba'
+      Origin = 'id_verba'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object fdVerbascod_cliente: TIntegerField
+      FieldName = 'cod_cliente'
+      Origin = 'cod_cliente'
+      Required = True
+    end
+    object fdVerbascod_tipo: TIntegerField
+      FieldName = 'cod_tipo'
+      Origin = 'cod_tipo'
+      Required = True
+    end
+    object fdVerbasid_grupo: TIntegerField
+      FieldName = 'id_grupo'
+      Origin = 'id_grupo'
+      Required = True
+    end
+    object fdVerbasdat_vigencia: TDateField
+      FieldName = 'dat_vigencia'
+      Origin = 'dat_vigencia'
+      Required = True
+    end
+    object fdVerbasval_verba: TSingleField
+      FieldName = 'val_verba'
+      Origin = 'val_verba'
+      Required = True
+    end
+    object fdVerbasval_performance: TSingleField
+      AutoGenerateValue = arDefault
+      FieldName = 'val_performance'
+      Origin = 'val_performance'
+    end
+    object fdVerbasnum_cep_inicial: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_cep_inicial'
+      Origin = 'num_cep_inicial'
+      Size = 9
+    end
+    object fdVerbasnum_cep_final: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_cep_final'
+      Origin = 'num_cep_final'
+      Size = 9
+    end
+    object fdVerbasqtd_peso_inicial: TSingleField
+      AutoGenerateValue = arDefault
+      FieldName = 'qtd_peso_inicial'
+      Origin = 'qtd_peso_inicial'
+    end
+    object fdVerbasqtd_peso_final: TSingleField
+      AutoGenerateValue = arDefault
+      FieldName = 'qtd_peso_final'
+      Origin = 'qtd_peso_final'
+    end
+    object fdVerbascod_roteiro: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'cod_roteiro'
+      Origin = 'cod_roteiro'
+    end
   end
 end
