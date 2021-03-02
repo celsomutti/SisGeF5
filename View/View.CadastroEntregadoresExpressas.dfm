@@ -15,6 +15,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
   Position = poMainFormCenter
   ShowHint = True
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
@@ -185,12 +186,16 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
+          Action = actionLocalizarTabelas
           Default = True
-          Kind = bkEllipsis
+          ImageIndex = 14
+          Kind = bkGlyph
         end>
       Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d'
+      Properties.OnValidate = buttonEditCodigoTabelaPropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -558,7 +563,7 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       CaptionOptions.Text = 'C'#243'd. Tabela:'
       CaptionOptions.Layout = clTop
       Control = buttonEditCodigoTabela
-      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 83
       ControlOptions.ShowBorder = False
       Index = 0
@@ -848,18 +853,17 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       Hint = 'Localizar pessoas'
       OnExecute = actionLocalizarPessoasExecute
     end
+    object actionLocalizarTabelas: TAction
+      Caption = 'Localizar Tabelas'
+      Hint = 'Localizar tabelas de verbas'
+      OnExecute = actionLocalizarTabelasExecute
+    end
   end
   object dsClientes: TDataSource
     AutoEdit = False
     DataSet = Data_Sisgef.mtbClientesEmpresa
     Left = 712
     Top = 190
-  end
-  object BindSourceDB1: TBindSourceDB
-    DataSet = fdMemTableEntregadores
-    ScopeMappings = <>
-    Left = 656
-    Top = 6
   end
   object fdEntregadores: TFDQuery
     Connection = Data_Sisgef.FDConnectionMySQL
@@ -939,110 +943,6 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       AutoGenerateValue = arDefault
       FieldName = 'COD_CLIENTE'
       Origin = 'COD_CLIENTE'
-    end
-  end
-  object BindingsList1: TBindingsList
-    Methods = <>
-    OutputConverters = <>
-    Left = 704
-    Top = 6
-    object LinkPropertyToFieldEditValue: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'id_entregador'
-      Component = maskEditID
-      ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldEditValue2: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'COD_ENTREGADOR'
-      Component = maskEditCodigo
-      ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldText: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'NOM_FANTASIA'
-      Component = textEditNomeEntregador
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldDate: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'DAT_CODIGO'
-      Component = dateEditVigencia
-      ComponentProperty = 'Date'
-    end
-    object LinkPropertyToFieldText2: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'NOM_EXECUTANTE'
-      Component = textEditNomeManutencao
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldEditValue3: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'DOM_ATIVO'
-      Component = checkBoxAtivo
-      ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldEditValue4: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'COD_CLIENTE'
-      Component = lookupComboBoxCliente
-      ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldEditValue5: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'COD_TABELA'
-      Component = buttonEditCodigoTabela
-      ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldValue: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'VAL_VERBA'
-      Component = currencyEditVerbaFixa
-      ComponentProperty = 'Value'
-    end
-    object LinkPropertyToFieldItemIndex: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'COD_GRUPO'
-      Component = comboBoxFaixa
-      ComponentProperty = 'ItemIndex'
-    end
-    object LinkPropertyToFieldText3: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'DES_CHAVE'
-      Component = textEditCodigoERP
-      ComponentProperty = 'Text'
-    end
-    object LinkPropertyToFieldEditValue7: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'COD_CADASTRO'
-      Component = buttonEditCodigoPessoa
-      ComponentProperty = 'EditValue'
-    end
-    object LinkPropertyToFieldDate2: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'DAT_MANUTENCAO'
-      Component = dateEditDataManutencao
-      ComponentProperty = 'Date'
-    end
-    object LinkPropertyToFieldEditValue6: TLinkPropertyToField
-      Category = 'Quick Bindings'
-      DataSource = BindSourceDB1
-      FieldName = 'COD_AGENTE'
-      Component = buttonEditCodigoBase
-      ComponentProperty = 'EditValue'
     end
   end
   object fdMemTableEntregadores: TFDMemTable
@@ -1196,5 +1096,11 @@ object view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas
       FieldName = 'cod_roteiro'
       Origin = 'cod_roteiro'
     end
+  end
+  object ClientDataSet1: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 576
+    Top = 318
   end
 end

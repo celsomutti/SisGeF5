@@ -10,7 +10,8 @@ uses
   Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Data.Bind.EngExt, Vcl.Bind.DBEngExt, System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors,
-  Data.Bind.Components, Data.Bind.DBScope, dxBar, dxBarDBNav, System.Actions, Vcl.ActnList, cxBarEditItem, FireDAC.Stan.StorageBin;
+  Data.Bind.Components, Data.Bind.DBScope, dxBar, dxBarDBNav, System.Actions, Vcl.ActnList, cxBarEditItem, FireDAC.Stan.StorageBin,
+  Common.ENum, Datasnap.DBClient;
 
 type
   Tview_CadastroEntregadoresExpressas = class(TForm)
@@ -75,7 +76,6 @@ type
     cxBarEditItem2: TcxBarEditItem;
     checkBoxAtivo: TcxCheckBox;
     dxLayoutItem1: TdxLayoutItem;
-    BindSourceDB1: TBindSourceDB;
     fdEntregadores: TFDQuery;
     fdEntregadoresid_entregador: TFDAutoIncField;
     fdEntregadoresCOD_CADASTRO: TIntegerField;
@@ -91,20 +91,6 @@ type
     fdEntregadoresDAT_MANUTENCAO: TSQLTimeStampField;
     fdEntregadoresCOD_TABELA: TIntegerField;
     fdEntregadoresCOD_CLIENTE: TIntegerField;
-    BindingsList1: TBindingsList;
-    LinkPropertyToFieldEditValue: TLinkPropertyToField;
-    LinkPropertyToFieldEditValue2: TLinkPropertyToField;
-    LinkPropertyToFieldText: TLinkPropertyToField;
-    LinkPropertyToFieldDate: TLinkPropertyToField;
-    LinkPropertyToFieldText2: TLinkPropertyToField;
-    LinkPropertyToFieldEditValue3: TLinkPropertyToField;
-    LinkPropertyToFieldEditValue4: TLinkPropertyToField;
-    LinkPropertyToFieldEditValue5: TLinkPropertyToField;
-    LinkPropertyToFieldValue: TLinkPropertyToField;
-    LinkPropertyToFieldItemIndex: TLinkPropertyToField;
-    LinkPropertyToFieldText3: TLinkPropertyToField;
-    LinkPropertyToFieldEditValue7: TLinkPropertyToField;
-    LinkPropertyToFieldDate2: TLinkPropertyToField;
     fdMemTableEntregadores: TFDMemTable;
     actionLocalizarBases: TAction;
     fdMemTableEntregadoresid_entregador: TFDAutoIncField;
@@ -121,7 +107,6 @@ type
     fdMemTableEntregadoresDAT_MANUTENCAO: TSQLTimeStampField;
     fdMemTableEntregadoresCOD_TABELA: TIntegerField;
     fdMemTableEntregadoresCOD_CLIENTE: TIntegerField;
-    LinkPropertyToFieldEditValue6: TLinkPropertyToField;
     fdBase: TFDQuery;
     fdPessoas: TFDQuery;
     actionLocalizarPessoas: TAction;
@@ -138,6 +123,8 @@ type
     fdVerbasqtd_peso_inicial: TSingleField;
     fdVerbasqtd_peso_final: TSingleField;
     fdVerbascod_roteiro: TIntegerField;
+    actionLocalizarTabelas: TAction;
+    ClientDataSet1: TClientDataSet;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionNovoExecute(Sender: TObject);
     procedure actionEditarExecute(Sender: TObject);
@@ -152,6 +139,10 @@ type
     procedure actionLocalizarPessoasExecute(Sender: TObject);
     procedure buttonEditCodigoPessoaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
       var Error: Boolean);
+    procedure actionLocalizarTabelasExecute(Sender: TObject);
+    procedure buttonEditCodigoTabelaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -162,14 +153,17 @@ type
     procedure PesquisaPessoas;
     procedure PesquisaTabelas;
     procedure Modo;
+    procedure Gravar;
     function RetornaNomeAgente(iCodigo: Integer): String;
     function RetornaNomePessoa(iCodigo: Integer): String;
     function RetornaFaixaXTabela(iTabela, iFaixa: integer): Boolean;
+    function RetornaDescricaoTabela(iCodigo: Integer): String;
     function ValidaDados(): Boolean;
   end;
 
 var
   view_CadastroEntregadoresExpressas: Tview_CadastroEntregadoresExpressas;
+  FAcao : TAcao;
 
 implementation
 
@@ -205,7 +199,18 @@ end;
 
 procedure Tview_CadastroEntregadoresExpressas.actionGravarExecute(Sender: TObject);
 begin
-  ShowMessage('Gravar!');
+  fdMemTableEntregadores.Post;
+  if not ValidaDados() then
+  begin
+    BindSourceDB1.DataSet.Cancel;
+    Exit;
+  end;
+  if Application.MessageBox('Confirma gravar os dados?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
+  begin
+    BindSourceDB1.DataSet.Cancel;
+    Exit;
+  end;
+  Gravar;
   Modo;
 end;
 
@@ -223,6 +228,11 @@ end;
 procedure Tview_CadastroEntregadoresExpressas.actionLocalizarPessoasExecute(Sender: TObject);
 begin
   PesquisaPessoas;
+end;
+
+procedure Tview_CadastroEntregadoresExpressas.actionLocalizarTabelasExecute(Sender: TObject);
+begin
+  PesquisaTabelas;
 end;
 
 procedure Tview_CadastroEntregadoresExpressas.actionNovoExecute(Sender: TObject);
@@ -244,6 +254,12 @@ begin
   textEditNomePessoa.Text := RetornaNomePessoa(DisplayValue);
 end;
 
+procedure Tview_CadastroEntregadoresExpressas.buttonEditCodigoTabelaPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  textEditDescricaoTabela.Text := RetornaDescricaoTabela(DisplayValue);
+end;
+
 procedure Tview_CadastroEntregadoresExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   fdMemTableEntregadores.Close;
@@ -252,16 +268,70 @@ begin
   view_CadastroEntregadoresExpressas := nil;
 end;
 
+procedure Tview_CadastroEntregadoresExpressas.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+If Key = #13 then
+  begin
+    Key := #0;
+    Perform(Wm_NextDlgCtl, 0, 0);
+  end;
+end;
+
 procedure Tview_CadastroEntregadoresExpressas.FormShow(Sender: TObject);
 begin
   StartForm;
   Modo;
 end;
 
+procedure Tview_CadastroEntregadoresExpressas.Gravar;
+var
+  entregadores : TEntregadoresExpressasControl;
+begin
+  try
+    entregadores := TEntregadoresExpressasControl.Create;
+    entregadores.Entregadores.ID := fdMemTableEntregadoresid_entregador.AsInteger;
+    entregadores.Entregadores.Cadastro := fdMemTableEntregadoresCOD_CADASTRO.AsInteger;
+    entregadores.Entregadores.Entregador := fdMemTableEntregadoresCOD_ENTREGADOR.AsInteger;
+    entregadores.Entregadores.Fantasia := fdMemTableEntregadoresNOM_FANTASIA.AsString;
+    entregadores.Entregadores.Agente := fdMemTableEntregadoresCOD_AGENTE.AsInteger;
+    if fdMemTableEntregadoresDAT_CODIGO.Value = 0 then
+    begin
+      entregadores.Entregadores.Data := Now();
+    end
+    else
+    begin
+      entregadores.Entregadores.Data := fdMemTableEntregadoresDAT_CODIGO.AsDateTime;
+    end;
+    entregadores.Entregadores.Chave := fdMemTableEntregadoresDES_CHAVE.AsString;
+    entregadores.Entregadores.Grupo := fdMemTableEntregadoresCOD_GRUPO.AsInteger;
+    entregadores.Entregadores.Verba := fdMemTableEntregadoresVAL_VERBA.AsFloat;
+    entregadores.Entregadores.Executor := fdMemTableEntregadoresNOM_EXECUTANTE.AsString;
+    entregadores.Entregadores.Tabela := fdMemTableEntregadoresCOD_TABELA.AsInteger;
+    entregadores.Entregadores.Cliente := fdMemTableEntregadoresCOD_CLIENTE.AsInteger;
+    entregadores.Entregadores.Manutencao := Now();
+    entregadores.Entregadores.Ativo := fdMemTableEntregadoresDOM_ATIVO.AsInteger;
+    entregadores.Entregadores.Acao := FAcao;
+    if not entregadores.Gravar() then
+    begin
+      Application.MessageBox('Ocorreu um problema ao tentar gravar os dados!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end
+    else
+    begin
+      Application.MessageBox('Dados gravados com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+      Modo;
+      Exit;
+    end;
+  finally
+    entregadores.Free;
+  end;
+end;
+
 procedure Tview_CadastroEntregadoresExpressas.Modo;
 begin
 if BindSourceDB1.DataSource.State = dsInactive then
   begin
+    FAcao := tacIndefinido;
     actionNovo.Enabled := True;
     actionEditar.Enabled := False;
     actionLocalizar.Enabled := True;
@@ -275,7 +345,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     actionLocalizarBases.Enabled := False;
     textEditCodigoERP.Properties.ReadOnly := True;
     lookupComboBoxCliente.Properties.ReadOnly := True;
-    //actionPesquisarTabelas.Enabled := False;
+    actionLocalizarTabelas.Enabled := False;
     buttonEditCodigoTabela.Properties.ReadOnly := True;
     comboBoxFaixa.Properties.ReadOnly := True;
     currencyEditVerbaFixa.Properties.ReadOnly := True;
@@ -287,6 +357,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
   end
   else if BindSourceDB1.DataSource.State = dsInsert then
   begin
+    FAcao := tacIncluir;
     actionNovo.Enabled := False;
     actionEditar.Enabled := False;
     actionLocalizar.Enabled := False;
@@ -300,7 +371,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     actionLocalizarBases.Enabled := True;
     textEditCodigoERP.Properties.ReadOnly := False;
     lookupComboBoxCliente.Properties.ReadOnly := False;
-    //actionPesquisarTabelas.Enabled := False;
+    actionLocalizarTabelas.Enabled := False;
     buttonEditCodigoTabela.Properties.ReadOnly := False;
     comboBoxFaixa.Properties.ReadOnly := False;
     currencyEditVerbaFixa.Properties.ReadOnly := False;
@@ -312,6 +383,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
   end
   else if BindSourceDB1.DataSource.State = dsEdit then
   begin
+    fAcao := tacAlterar;
     actionNovo.Enabled := False;
     actionEditar.Enabled := False;
     actionLocalizar.Enabled := False;
@@ -325,7 +397,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     actionLocalizarBases.Enabled := True;
     textEditCodigoERP.Properties.ReadOnly := False;
     lookupComboBoxCliente.Properties.ReadOnly := False;
-    //actionPesquisarTabelas.Enabled := False;
+    actionLocalizarTabelas.Enabled := False;
     buttonEditCodigoTabela.Properties.ReadOnly := False;
     comboBoxFaixa.Properties.ReadOnly := False;
     currencyEditVerbaFixa.Properties.ReadOnly := False;
@@ -334,6 +406,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
   end
   else if BindSourceDB1.DataSource.State = dsBrowse then
   begin
+    Facao := tacPesquisa;
     actionNovo.Enabled := True;
     actionEditar.Enabled := True;
     actionLocalizar.Enabled := True;
@@ -347,7 +420,7 @@ if BindSourceDB1.DataSource.State = dsInactive then
     actionLocalizarBases.Enabled := False;
     textEditCodigoERP.Properties.ReadOnly := True;
     lookupComboBoxCliente.Properties.ReadOnly := True;
-    //actionPesquisarTabelas.Enabled := False;
+    actionLocalizarTabelas.Enabled := False;
     buttonEditCodigoTabela.Properties.ReadOnly := True;
     comboBoxFaixa.Properties.ReadOnly := True;
     currencyEditVerbaFixa.Properties.ReadOnly := True;
@@ -397,6 +470,7 @@ begin
     fdMemTableEntregadores.Data := fdEntregadores.Data;
     textEditNomeBase.Text := RetornaNomeAgente(fdEntregadoresCOD_AGENTE.AsInteger);
     textEditNomePessoa.Text := RetornaNomePessoa(fdEntregadoresCOD_CADASTRO.AsInteger);
+    textEditDescricaoTabela.Text := RetornaDescricaoTabela(fdEntregadoresCOD_TABELA.AsInteger);
   end;
   fdEntregadores.Close;
   fdEntregadores.SQL.Text := sSQL;
@@ -452,6 +526,20 @@ begin
     View_PesquisarGeral.tvPesquisa.ClearItems;
     FreeAndNil(View_PesquisarGeral);
   end;end;
+
+function Tview_CadastroEntregadoresExpressas.RetornaDescricaoTabela(iCodigo: Integer): String;
+var
+  tipoverba: TTiposVerbasExpressasControl;
+  sDescricao: String;
+begin
+  try
+    tipoverba := TTiposVerbasExpressasControl.Create;
+    sDescricao := tipoverba.GetField('des_tipo','cod_tipo',iCodigo.ToString);
+    Result := sDescricao;
+  finally
+    tipoverba.Free
+  end;
+end;
 
 function Tview_CadastroEntregadoresExpressas.RetornaFaixaXTabela(iTabela, iFaixa: integer): Boolean;
 var
@@ -626,6 +714,10 @@ begin
       if Application.MessageBox('Nenhum tipo de verba foi informada. Continuar?','Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
       begin
         Exit;
+      end
+      else
+      begin
+        comboBoxFaixa.ItemIndex := 0;
       end;
     end;
     Result := True;

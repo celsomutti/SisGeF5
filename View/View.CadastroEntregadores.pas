@@ -693,7 +693,7 @@ begin
       FAcao := tacPesquisa;
       PopulaCampos;
       PopulaExtravios(memTableEntregadorescod_entregador.AsInteger);
-      PopulaLancamentos(memTableEntregadorescod_cadastro.AsInteger);
+      PopulaLancamentos(memTableEntregadorescod_entregador.AsInteger);
       PopulaExpressas(memTableEntregadorescod_entregador.AsInteger);
       Modo;
     end;
@@ -886,7 +886,7 @@ begin
       Exit;
     end;
     SetLength(aParam,2);
-    aParam := ['CADASTRO', iCadastro];
+    aParam := ['ENTREGADOR', iCadastro];
     if memTableLancamentos.Active then
     begin
       memTableLancamentos.Close;

@@ -178,7 +178,6 @@ uses
   View.ExtratoExpressasDetalhado in 'View\View.ExtratoExpressasDetalhado.pas' {view_ExtratoExpressasDetalhado},
   View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
   Model.CadastroGeral in 'Model\Model.CadastroGeral.pas',
-  View.CadastroEntregadoresExpressas in 'View\View.CadastroEntregadoresExpressas.pas' {view_CadastroEntregadoresExpressas},
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
   View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas},
   View.PesquisaBasesExpressas in 'View\View.PesquisaBasesExpressas.pas' {view_PesquisaBasesExpressas},

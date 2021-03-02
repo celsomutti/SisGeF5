@@ -643,6 +643,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
           item
             FieldName = 'nom_cliente'
           end>
+        Properties.ListOptions.ShowHeader = False
         Properties.ListSource = dsClientes
         Style.HotTrack = False
         TabOrder = 8

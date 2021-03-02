@@ -341,17 +341,16 @@ end;
 
 procedure Tview_Main.actCadastroEntregadoresExecute(Sender: TObject);
 begin
-  {if not Assigned(view_CadastroEntregadores) then
+  if not Assigned(view_CadastroEntregadores) then
   begin
     view_CadastroEntregadores := Tview_CadastroEntregadores.Create(Application);
   end;
-  view_CadastroEntregadores.Show;}
-  if not Assigned(view_CadastroEntregadoresExpressas) then
+  view_CadastroEntregadores.Show;
+  {if not Assigned(view_CadastroEntregadoresExpressas) then
   begin
     view_CadastroEntregadoresExpressas := Tview_CadastroEntregadoresExpressas.Create(Application);
   end;
-  view_CadastroEntregadoresExpressas.Show;
-
+  view_CadastroEntregadoresExpressas.Show;}
 end;
 
 procedure Tview_Main.actCalendarioExecute(Sender: TObject);
