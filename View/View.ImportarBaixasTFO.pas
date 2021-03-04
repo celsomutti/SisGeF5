@@ -152,7 +152,9 @@ if not Global.Parametros.pbProcess then
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
+    memLog.Lines.Text := Global.Parametros.psLOG;
     Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Global.Parametros.psLOG := '';
     edtArquivo.Text := '';
     pbImportacao.Position := 0;
   end
@@ -173,6 +175,8 @@ if not Global.Parametros.pbProcess then
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
+    memLog.Lines.Text := Global.Parametros.psLOG;
+    Global.Parametros.psLOG := '';
     Application.MessageBox('Importação cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;
@@ -186,6 +190,8 @@ if not Global.Parametros.pbProcess then
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
+    memLog.Lines.Text := Global.Parametros.psLOG;
+    Global.Parametros.psLOG := '';
     Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     edtArquivo.Text := '';
     pbImportacao.Position := 0;
@@ -207,6 +213,8 @@ if not Global.Parametros.pbProcess then
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
+    memLog.Lines.Text := Global.Parametros.psLOG;
+    Global.Parametros.psLOG := '';
     Application.MessageBox('Importação cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;

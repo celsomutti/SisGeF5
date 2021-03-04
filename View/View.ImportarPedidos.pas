@@ -209,6 +209,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
+    memLog.Lines.Text := Global.Parametros.psLOG;
     memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
     Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     planilhaDIRECT.sAlerta := '';
@@ -234,6 +235,7 @@ begin
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
+    memLog.Lines.Text := Global.Parametros.psLog;
     Screen.Cursor := crDefault;
     Global.Parametros.psLog := '';
     Global.Parametros.pdPos := 0;
@@ -252,6 +254,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
+    memLog.Lines.Text := Global.Parametros.psLog;
     memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
     Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     edtArquivo.Text := '';
@@ -277,6 +280,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
+    memLog.Lines.Text := Global.Parametros.psLog;
     Global.Parametros.psLog := '';
     Global.Parametros.pdPos := 0;
     pbImportacao.Position := 0;
@@ -295,6 +299,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
+    memLog.Lines.Text := Global.Parametros.psLog;
     memLog.Lines.Add(FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' término da importação do arquivo ' + edtArquivo.Text + '!');
     Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     edtArquivo.Text := '';
@@ -320,6 +325,7 @@ begin
     actCancelar.Enabled := False;
     actAbrirArquivo.Enabled := True;
     Screen.Cursor := crDefault;
+    memLog.Lines.Text := Global.Parametros.psLog;
     Global.Parametros.psLog := '';
     Global.Parametros.pdPos := 0;
     pbImportacao.Position := 0;
