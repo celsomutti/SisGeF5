@@ -2,7 +2,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
   Left = 0
   Top = 0
   Caption = 'Extrato de Expressas'
-  ClientHeight = 609
+  ClientHeight = 557
   ClientWidth = 1143
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     Left = 0
     Top = 0
     Width = 1143
-    Height = 609
+    Height = 557
     Align = alClient
     TabOrder = 0
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
@@ -43,7 +43,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     end
     object sbExtrato: TdxStatusBar
       Left = 10
-      Top = 579
+      Top = 527
       Width = 1123
       Height = 20
       Panels = <
@@ -80,7 +80,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     end
     object btnFechar: TcxButton
       Left = 1058
-      Top = 548
+      Top = 496
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -123,7 +123,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
       Left = 10
       Top = 61
       Width = 811
-      Height = 481
+      Height = 429
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -407,6 +407,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
                 Column = tvExtratoval_volumes_extra
               end>
           end>
+        OptionsBehavior.CopyCaptionsToClipboard = False
         OptionsBehavior.FocusCellOnTab = True
         OptionsBehavior.GoToNextCellOnEnter = True
         OptionsBehavior.FocusCellOnCycle = True
@@ -626,7 +627,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
       Left = 839
       Top = 232
       Width = 282
-      Height = 115
+      Height = 90
       Hint = 'Selecione o cliente (nenhum selecionado = TODOS)'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -711,9 +712,9 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     end
     object grdBases: TcxGrid
       Left = 839
-      Top = 371
+      Top = 346
       Width = 282
-      Height = 128
+      Height = 101
       Hint = 
         'Selecione os agentes a serem processados (nenhum selecionado = T' +
         'ODOS)'
@@ -882,7 +883,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     end
     object cxButton3: TcxButton
       Left = 10
-      Top = 548
+      Top = 496
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -891,7 +892,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     end
     object cxButton4: TcxButton
       Left = 91
-      Top = 548
+      Top = 496
       Width = 75
       Height = 25
       Action = actCancelarExtrato
@@ -922,7 +923,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     end
     object cxButton2: TcxButton
       Left = 172
-      Top = 548
+      Top = 496
       Width = 84
       Height = 25
       Cursor = crHandPoint
@@ -931,7 +932,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     end
     object cxLabel2: TcxLabel
       Left = 262
-      Top = 548
+      Top = 496
       Caption = 'cxLabel2'
       Style.HotTrack = False
       Transparent = True
@@ -951,7 +952,7 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     end
     object cxButton1: TcxButton
       Left = 942
-      Top = 505
+      Top = 453
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -1351,6 +1352,20 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
       ImageIndex = 14
       OnExecute = actVisualizarParamatrosExecute
     end
+    object actDetalharLinha: TAction
+      Category = 'Extrato'
+      Caption = 'Detalhar Linha'
+      Hint = 'Detalhar a linha selecionada'
+      ImageIndex = 60
+      OnExecute = actDetalharLinhaExecute
+    end
+    object actDetalharEntregador: TAction
+      Category = 'Extrato'
+      Caption = 'Detalhar Entregador'
+      Hint = 'Detalhar as remessas do entregador'
+      ImageIndex = 28
+      OnExecute = actDetalharEntregadorExecute
+    end
   end
   object SaveDialog: TSaveDialog
     Left = 384
@@ -1378,6 +1393,15 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     end
     object Retrair1: TMenuItem
       Action = acrRetrair
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object DetalharLinha1: TMenuItem
+      Action = actDetalharLinha
+    end
+    object DetalharEntregador1: TMenuItem
+      Action = actDetalharEntregador
     end
   end
   object popMenuBases: TPopupMenu

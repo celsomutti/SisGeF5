@@ -134,6 +134,11 @@ type
     dxLayoutItem12: TdxLayoutItem;
     tvExtratoid_extrato: TcxGridDBColumn;
     tvExtratodes_unique_key: TcxGridDBColumn;
+    actDetalharLinha: TAction;
+    actDetalharEntregador: TAction;
+    DetalharLinha1: TMenuItem;
+    DetalharEntregador1: TMenuItem;
+    N1: TMenuItem;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure tvExtratoNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
@@ -150,6 +155,8 @@ type
     procedure actConsolidarExecute(Sender: TObject);
     procedure actVisualizarParamatrosExecute(Sender: TObject);
     procedure cboStatusPropertiesChange(Sender: TObject);
+    procedure actDetalharLinhaExecute(Sender: TObject);
+    procedure actDetalharEntregadorExecute(Sender: TObject);
   private
     { Private declarations }
     procedure Exportar;
@@ -177,6 +184,7 @@ type
     procedure Consolidacao(bForm: boolean);
     procedure ViewParametros;
     procedure ListaConsolidacao(pUniqueKey: String);
+    procedure DetalheRemessas(iTipo: Integer);
   public
     { Public declarations }
     dtDataInicial: TDate;
@@ -192,7 +200,7 @@ implementation
 {$R *.dfm}
 
 uses Data.SisGeF, FireDAC.Comp.Client, Control.Bases, Control.Parametros, View.PesquisarPessoas, Common.ENum,
-  Global.Parametros, View.DataFechamento, View.ConsolidacaoExpressas;
+  Global.Parametros, View.DataFechamento, View.ConsolidacaoExpressas, View.DetalheRemessasExtrato;
 
 procedure Tview_ExtratoExpressas.acrRetrairExecute(Sender: TObject);
 begin
@@ -218,6 +226,16 @@ end;
 procedure Tview_ExtratoExpressas.actDesconsiderarBasesExecute(Sender: TObject);
 begin
   SelecaoBases(0);
+end;
+
+procedure Tview_ExtratoExpressas.actDetalharEntregadorExecute(Sender: TObject);
+begin
+  DetalheRemessas(1);
+end;
+
+procedure Tview_ExtratoExpressas.actDetalharLinhaExecute(Sender: TObject);
+begin
+  DetalheRemessas(2);
 end;
 
 procedure Tview_ExtratoExpressas.actEncerrarExtratoExecute(Sender: TObject);
@@ -357,6 +375,29 @@ begin
   planilha.Priority := tpNormal;
   planilha.FbGravar := bForm;
   planilha.Start;
+end;
+
+procedure Tview_ExtratoExpressas.DetalheRemessas(iTipo: Integer);
+begin
+   if not Assigned(view_DetalheRemessasExtrato) then
+  begin
+    view_DetalheRemessasExtrato := Tview_DetalheRemessasExtrato.Create(Application);
+  end;
+  view_DetalheRemessasExtrato.FCliente := Data_Sisgef.mtbExtratosExpressascod_cliente.AsInteger;
+  view_DetalheRemessasExtrato.FAgente := Data_Sisgef.mtbExtratosExpressascod_base.AsInteger;
+  view_DetalheRemessasExtrato.FEntregador := Data_Sisgef.mtbExtratosExpressascod_entregador.AsInteger;
+  view_DetalheRemessasExtrato.FDataInicial := Data_Sisgef.mtbExtratosExpressasdat_inicio.AsDateTime;
+  view_DetalheRemessasExtrato.FDataFinal := Data_Sisgef.mtbExtratosExpressasdat_final.AsDateTime;
+  if iTipo = 1 then
+  begin
+    view_DetalheRemessasExtrato.FValor := 0;
+  end
+  else
+  begin
+    view_DetalheRemessasExtrato.FValor := Data_Sisgef.mtbExtratosExpressasval_verba.AsFloat;
+  end;
+  view_DetalheRemessasExtrato.ShowModal;
+  FreeAndNil(view_DetalheRemessasExtrato);
 end;
 
 function Tview_ExtratoExpressas.EncerraEntregas(dtData: TDate): Boolean;

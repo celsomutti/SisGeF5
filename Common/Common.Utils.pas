@@ -721,6 +721,8 @@ begin
   FileExt := LowerCase(ExtractFileExt(sFile));
   if FileExt = '.xls' then
     ExportGridToExcel(sFile, grdGrid, True, True, False)
+  else if FileExt = '.xlsx' then
+    ExportGridToXLSX(sFile, grdGrid, True, True, False)
   else if FileExt = '.xml' then
     ExportGridToXML(sFile, grdGrid, False)
   else if FileExt = '.txt' then

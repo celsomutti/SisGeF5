@@ -116,8 +116,8 @@ begin
       end
       else if FListFieldType[iCampo] = ftFloat then
       begin
-       sLinhaSQL := sLinhaSQL + ReplaceStr(sValor1,'.','');
-       sLinhaTitulo := sLinhaTitulo + ReplaceStr(sValor1,'.','');
+       sLinhaSQL := sLinhaSQL + ReplaceStr(sValor1,',','.');
+       sLinhaTitulo := sLinhaTitulo + ReplaceStr(sValor1,',','.');
       end
       else if FListFieldType[iCampo] = ftBoolean  then
       begin
@@ -162,8 +162,8 @@ begin
       end
       else if FListFieldType[iCampo] = ftFloat then
       begin
-       sLinhaSQL := sLinhaSQL +  ReplaceStr(sValor1,'.','') + ' and ' + ReplaceStr(sValor2,'.','');
-       sLinhaTitulo := sLinhaTitulo +  ReplaceStr(sValor1,'.','') + ' e ' + ReplaceStr(sValor2,'.','');
+       sLinhaSQL := sLinhaSQL +  ReplaceStr(sValor1,',','.') + ' and ' + ReplaceStr(sValor2,',','.');
+       sLinhaTitulo := sLinhaTitulo +  ReplaceStr(sValor1,',','.') + ' e ' + ReplaceStr(sValor2,',','.');
       end
       else if FListFieldType[iCampo] = ftBoolean  then
       begin
@@ -255,7 +255,7 @@ begin
       end
       else if FListFieldType[iCampo] = ftFloat then
       begin
-        sLinhaIn.DelimitedText := ReplaceStr(sValor1,'.','');
+        sLinhaIn.DelimitedText := ReplaceStr(sValor1,',','.');
         sValor1 := '';
         sLinhaSQL := sLinhaSQL + '(';
         sLinhaTitulo := sLinhaTitulo + '(';
@@ -313,8 +313,8 @@ begin
     end
     else if FListFieldType[iCampo] = ftFloat then
     begin
-     sLinhaSQL := sLinhaSQL +  ReplaceStr(sValor1,'.','');
-     sLinhaTitulo := sLinhaTitulo +  ReplaceStr(sValor1,'.','');
+     sLinhaSQL := sLinhaSQL +  ReplaceStr(sValor1,',','.');
+     sLinhaTitulo := sLinhaTitulo +  ReplaceStr(sValor1,',','.');
     end
     else if FListFieldType[iCampo] = ftBoolean  then
     begin

@@ -85,7 +85,6 @@ uses
   DAO.ControleBaixasTFO in 'DAO\DAO.ControleBaixasTFO.pas',
   Model.ControleBaixasTFO in 'Model\Model.ControleBaixasTFO.pas',
   Control.ControleBaixasTFO in 'Control\Control.ControleBaixasTFO.pas',
-  View.VisualizacaoPlanilha in 'View\View.VisualizacaoPlanilha.pas' {view_VisualizacaoPlanilhas},
   Thread.ImportarPlanilhaEntradaEntregas in 'Thread\Thread.ImportarPlanilhaEntradaEntregas.pas',
   DAO.PlanilhaEntradaEntregas in 'DAO\DAO.PlanilhaEntradaEntregas.pas',
   Model.PlanilhaEntradaSIMExpress in 'Model\Model.PlanilhaEntradaSIMExpress.pas',
@@ -181,7 +180,9 @@ uses
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
   View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas},
   View.PesquisaBasesExpressas in 'View\View.PesquisaBasesExpressas.pas' {view_PesquisaBasesExpressas},
-  View.PesquisarPessoas in 'View\View.PesquisarPessoas.pas' {View_PesquisarPessoas};
+  View.PesquisarPessoas in 'View\View.PesquisarPessoas.pas' {View_PesquisarPessoas},
+  View.DetalheRemessasExtrato in 'View\View.DetalheRemessasExtrato.pas' {view_DetalheRemessasExtrato},
+  View.VisualizacaoPlanilha in 'View\View.VisualizacaoPlanilha.pas' {view_VisualizacaoPlanilhas};
 
 {$R *.res}
 
