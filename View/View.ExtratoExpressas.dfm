@@ -138,6 +138,14 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
           item
             Hint = 'Exportar dados'
             ImageIndex = 11
+          end
+          item
+            Hint = 'Expandir'
+            ImageIndex = 38
+          end
+          item
+            Hint = 'Retrair'
+            ImageIndex = 37
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.Hint = 'Primeiro registro'
@@ -164,7 +172,86 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
         Navigator.InfoPanel.Visible = True
         Navigator.Visible = True
         DataController.DataSource = dsExtrato
-        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.DefaultGroupSummaryItems = <
+          item
+            Format = ',0;-,0'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoqtd_atraso
+          end
+          item
+            Format = ',0;-,0'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoqtd_entregas
+          end
+          item
+            Format = ',0;-,0'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoqtd_volumes
+          end
+          item
+            Format = ',0.0;-,0.0'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoqtd_volumes_extra
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoval_creditos
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoval_debitos
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoval_extravios
+          end
+          item
+            Format = ',0.0;-,0.0'
+            Kind = skAverage
+            Position = spFooter
+            Column = tvExtratoval_performance
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoval_producao
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoval_total_empresa
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoval_total_expressa
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skAverage
+            Position = spFooter
+            Column = tvExtratoval_verba
+            DisplayText = 'Ticket M'#233'dio'
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = tvExtratoval_volumes_extra
+          end>
         DataController.Summary.FooterSummaryItems = <
           item
             Format = ',0;-,0'
@@ -230,183 +317,13 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
             Format = 'TOTAL GERAL'
             Kind = skCount
             Column = tvExtratonom_entregador
-          end>
-        DataController.Summary.SummaryGroups = <
-          item
-            Links = <
-              item
-              end
-              item
-                Column = tvExtratonom_base
-              end>
-            SummaryItems = <
-              item
-                Format = 'TOTAL DA BASE'
-                Kind = skCount
-                Position = spFooter
-                Column = tvExtratonom_entregador
-              end
-              item
-                Format = ',0;-,0'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoqtd_atraso
-              end
-              item
-                Column = tvExtratoqtd_atraso
-              end
-              item
-                Format = ',0;-,0'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoqtd_entregas
-              end
-              item
-                Format = ',0;-,0'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoqtd_volumes
-              end
-              item
-                Format = ',0.0;-,0.0'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoqtd_volumes_extra
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_creditos
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_debitos
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_extravios
-              end
-              item
-                Format = ',0.0;-,0.0'
-                Kind = skAverage
-                Position = spFooter
-                Column = tvExtratoval_performance
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_producao
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_total_empresa
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_total_expressa
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_volumes_extra
-              end>
           end
           item
-            Links = <
-              item
-                Column = tvExtratonom_cliente
-              end>
-            SummaryItems = <
-              item
-                Format = 'TOTAL DO CLIENTE'
-                Kind = skCount
-                Position = spFooter
-                Column = tvExtratonom_entregador
-              end
-              item
-                Format = ',0;-,0'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoqtd_atraso
-              end
-              item
-                Format = ',0;-,0'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoqtd_entregas
-              end
-              item
-                Format = ',0;-,0'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoqtd_volumes
-              end
-              item
-                Format = ',0.0;-,0.0'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoqtd_volumes_extra
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_creditos
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_debitos
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_extravios
-              end
-              item
-                Format = ',0.0;-,0.0'
-                Kind = skAverage
-                Position = spFooter
-                Column = tvExtratoval_performance
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_producao
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_total_empresa
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_total_expressa
-              end
-              item
-                Format = ',0.00;-,0.00'
-                Kind = skSum
-                Position = spFooter
-                Column = tvExtratoval_volumes_extra
-              end>
+            Format = ',0.00;-,0.00'
+            Kind = skAverage
+            Column = tvExtratoval_verba
           end>
+        DataController.Summary.SummaryGroups = <>
         OptionsBehavior.CopyCaptionsToClipboard = False
         OptionsBehavior.FocusCellOnTab = True
         OptionsBehavior.GoToNextCellOnEnter = True
@@ -425,7 +342,6 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
         OptionsView.ColumnAutoWidth = True
         OptionsView.Footer = True
         OptionsView.FooterMultiSummaries = True
-        OptionsView.GroupByBox = False
         OptionsView.GroupFooterMultiSummaries = True
         OptionsView.GroupFooters = gfAlwaysVisible
         OptionsView.GroupSummaryLayout = gslAlignWithColumns
@@ -1314,14 +1230,12 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
       Caption = 'Expandir'
       Hint = 'Expandir os detalhes'
       ImageIndex = 38
-      OnExecute = actExpandirExecute
     end
     object acrRetrair: TAction
       Category = 'Extrato'
       Caption = 'Retrair'
       Hint = 'Retrair detalhes'
       ImageIndex = 37
-      OnExecute = acrRetrairExecute
     end
     object actSelecionarTodasBases: TAction
       Category = 'Extrato'
@@ -1387,12 +1301,6 @@ object view_ExtratoExpressas: Tview_ExtratoExpressas
     Top = 16
     object AlterarCliente1: TMenuItem
       Action = actAlterarCliente
-    end
-    object Expandir1: TMenuItem
-      Action = actExpandir
-    end
-    object Retrair1: TMenuItem
-      Action = acrRetrair
     end
     object N1: TMenuItem
       Caption = '-'

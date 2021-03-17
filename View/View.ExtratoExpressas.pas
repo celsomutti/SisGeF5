@@ -110,8 +110,6 @@ type
     AlterarCliente1: TMenuItem;
     actExpandir: TAction;
     acrRetrair: TAction;
-    Expandir1: TMenuItem;
-    Retrair1: TMenuItem;
     cboStatus: TcxComboBox;
     dxLayoutItem13: TdxLayoutItem;
     dxLayoutAutoCreatedGroup4: TdxLayoutAutoCreatedGroup;
@@ -147,8 +145,6 @@ type
     procedure actAlterarClienteExecute(Sender: TObject);
     procedure actEncerrarExtratoExecute(Sender: TObject);
     procedure actCancelarExtratoExecute(Sender: TObject);
-    procedure actExpandirExecute(Sender: TObject);
-    procedure acrRetrairExecute(Sender: TObject);
     procedure chkExtraPropertiesChange(Sender: TObject);
     procedure actSelecionarTodasBasesExecute(Sender: TObject);
     procedure actDesconsiderarBasesExecute(Sender: TObject);
@@ -201,11 +197,6 @@ implementation
 
 uses Data.SisGeF, FireDAC.Comp.Client, Control.Bases, Control.Parametros, View.PesquisarPessoas, Common.ENum,
   Global.Parametros, View.DataFechamento, View.ConsolidacaoExpressas, View.DetalheRemessasExtrato;
-
-procedure Tview_ExtratoExpressas.acrRetrairExecute(Sender: TObject);
-begin
-  tvExtrato.ViewData.Collapse(True);
-end;
 
 procedure Tview_ExtratoExpressas.actAlterarClienteExecute(Sender: TObject);
 begin
@@ -273,11 +264,6 @@ begin
       FreeAndNil(view_DataFechamento);
     end;
   end;
-end;
-
-procedure Tview_ExtratoExpressas.actExpandirExecute(Sender: TObject);
-begin
-  tvExtrato.ViewData.Expand(True);
 end;
 
 procedure Tview_ExtratoExpressas.actFecharExecute(Sender: TObject);
@@ -388,6 +374,7 @@ begin
   view_DetalheRemessasExtrato.FEntregador := Data_Sisgef.mtbExtratosExpressascod_entregador.AsInteger;
   view_DetalheRemessasExtrato.FDataInicial := Data_Sisgef.mtbExtratosExpressasdat_inicio.AsDateTime;
   view_DetalheRemessasExtrato.FDataFinal := Data_Sisgef.mtbExtratosExpressasdat_final.AsDateTime;
+  view_DetalheRemessasExtrato.FExtrato := Data_Sisgef.mtbExtratosExpressasnum_extrato.AsString;
   if iTipo = 1 then
   begin
     view_DetalheRemessasExtrato.FValor := 0;
@@ -1399,6 +1386,8 @@ procedure Tview_ExtratoExpressas.tvExtratoNavigatorButtonsButtonClick(Sender: TO
 begin
   case AButtonIndex of
     16: Exportar;
+    17: tvExtrato.ViewData.Expand(True);
+    18: tvExtrato.ViewData.Collapse(True);
   end;
 end;
 
