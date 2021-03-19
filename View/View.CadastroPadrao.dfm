@@ -567,9 +567,9 @@ object view_CadastroPadrao: Tview_CadastroPadrao
   TextHeight = 13
   object layoutControlPadrao: TdxLayoutControl
     Left = 0
-    Top = 22
+    Top = 24
     Width = 796
-    Height = 512
+    Height = 510
     Align = alClient
     TabOrder = 0
     object maskEditID: TcxMaskEdit
@@ -637,7 +637,7 @@ object view_CadastroPadrao: Tview_CadastroPadrao
       Left = 26
       Top = 73
       Width = 744
-      Height = 197
+      Height = 195
       TabOrder = 4
       object textEditRG: TcxTextEdit
         Left = 102
@@ -1267,7 +1267,7 @@ object view_CadastroPadrao: Tview_CadastroPadrao
     end
     object layoutControlComplemento: TdxLayoutControl
       Left = 26
-      Top = 276
+      Top = 274
       Width = 744
       Height = 210
       TabOrder = 5
@@ -2423,7 +2423,7 @@ object view_CadastroPadrao: Tview_CadastroPadrao
     DockControlHeights = (
       0
       0
-      22
+      24
       0)
     object barManagerCadastroBar1: TdxBar
       AllowClose = False
