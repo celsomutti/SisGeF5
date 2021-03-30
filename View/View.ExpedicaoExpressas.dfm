@@ -52,7 +52,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       TabOrder = 5
     end
     object cboUnitizador: TcxComboBox
-      Left = 160
+      Left = 207
       Top = 91
       Hint = 'Selecione o tipo de unitizator'
       ParentFont = False
@@ -69,12 +69,12 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 7
+      TabOrder = 8
       Text = 'Selecione ...'
-      Width = 120
+      Width = 93
     end
     object datExpedicao: TcxDateEdit
-      Left = 286
+      Left = 306
       Top = 91
       Hint = 'Data da expedi'#231#227'o'
       ParentFont = False
@@ -87,11 +87,11 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 8
-      Width = 77
+      TabOrder = 9
+      Width = 60
     end
     object mskCCEP: TcxMaskEdit
-      Left = 369
+      Left = 372
       Top = 91
       Hint = 'C'#243'digo da cabe'#231'a de CEP'
       ParentFont = False
@@ -105,8 +105,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 9
-      Width = 72
+      TabOrder = 10
+      Width = 56
     end
     object grdExpedicao: TcxGrid
       Left = 10
@@ -119,7 +119,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 19
+      TabOrder = 21
       object tvExpedicao: TcxGridDBTableView
         Navigator.Buttons.OnButtonClick = tvExpedicaoNavigatorButtonsButtonClick
         Navigator.Buttons.CustomButtons = <
@@ -309,14 +309,20 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
     object cxButton4: TcxButton
       Left = 91
       Top = 488
-      Width = 75
+      Width = 86
       Height = 25
       Cursor = crHandPoint
-      Action = actRotulo
+      Hint = 'Emitir R'#243'tulos / Romaneio'
+      Caption = 'Imprimir'
+      DropDownMenu = PopupMenu1
+      Kind = cxbkOfficeDropDown
+      OptionsImage.ImageIndex = 27
+      OptionsImage.Images = Data_Sisgef.iml_16_16
       TabOrder = 2
+      OnClick = actRotuloExecute
     end
     object cxButton5: TcxButton
-      Left = 172
+      Left = 183
       Top = 488
       Width = 75
       Height = 25
@@ -331,7 +337,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Height = 25
       Cursor = crHandPoint
       Action = actIniciar
-      TabOrder = 13
+      TabOrder = 15
     end
     object txtLeitura: TcxTextEdit
       Left = 20
@@ -347,7 +353,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 14
+      TabOrder = 16
       Width = 915
     end
     object cboCliente: TcxComboBox
@@ -373,10 +379,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.IsFontAssigned = True
       TabOrder = 6
       Text = 'Selecione ...'
-      Width = 134
+      Width = 104
     end
     object chkDANFE: TcxCheckBox
-      Left = 447
+      Left = 434
       Top = 91
       Hint = 'Pesquisar pela chave da DANFE'
       Caption = 'DANFE'
@@ -388,7 +394,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 10
+      TabOrder = 11
       Transparent = True
     end
     object datExpedicaoPesquisa: TcxDateEdit
@@ -405,7 +411,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 15
+      TabOrder = 17
       Visible = False
       Width = 121
     end
@@ -425,7 +431,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 17
+      TabOrder = 19
       Text = 'Todos'
       Visible = False
       Width = 268
@@ -437,7 +443,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Height = 25
       Cursor = crHandPoint
       Action = actPesquisarExpedicao
-      TabOrder = 18
+      TabOrder = 20
       Visible = False
     end
     object cboTipoRelatorio: TcxComboBox
@@ -458,13 +464,13 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 16
+      TabOrder = 18
       Text = 'Selecione...'
       Visible = False
       Width = 121
     end
     object lblResultado: TcxLabel
-      Left = 253
+      Left = 264
       Top = 490
       ParentColor = False
       ParentFont = False
@@ -479,7 +485,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taCenter
       Properties.Alignment.Vert = taVCenter
-      AnchorX = 559
+      AnchorX = 564
       AnchorY = 502
     end
     object lcbRoteiros: TcxLookupComboBox
@@ -501,21 +507,17 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 12
+      TabOrder = 14
       Width = 145
     end
     object lcbMotorista: TcxLookupComboBox
-      Left = 558
+      Left = 521
       Top = 91
       Hint = 'Nome do motorista'
       ParentFont = False
+      Properties.KeyFieldNames = 'cod_entregador'
       Properties.ListColumns = <
         item
-          Caption = 'C'#243'digo'
-          FieldName = 'cod_entregador'
-        end
-        item
-          Caption = 'Nome'
           FieldName = 'nom_fantasia'
         end>
       Properties.ListOptions.ShowHeader = False
@@ -527,14 +529,33 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 11
+      TabOrder = 12
       Width = 145
+    end
+    object cxButton7: TcxButton
+      Left = 672
+      Top = 87
+      Width = 31
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionInserirRoteiro
+      PaintStyle = bpsGlyph
+      TabOrder = 13
+    end
+    object checkBoxProvisorio: TcxCheckBox
+      Left = 130
+      Top = 91
+      Caption = 'Provis'#243'rio'
+      Properties.OnChange = checkBoxProvisorioPropertiesChange
+      Style.HotTrack = False
+      TabOrder = 7
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 2
       ShowBorder = False
       Index = -1
     end
@@ -596,7 +617,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 139
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutItem4: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup1
@@ -608,7 +629,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 89
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
       Parent = dxLayoutGroup2
@@ -627,7 +648,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 83
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object dxLayoutItem7: TdxLayoutItem
       Parent = dxLayoutControl1Group_Root
@@ -669,9 +690,8 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       CaptionOptions.Visible = False
       Control = cxButton4
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 86
       ControlOptions.ShowBorder = False
-      Enabled = False
       Index = 1
     end
     object dxLayoutItem10: TdxLayoutItem
@@ -697,7 +717,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 7
+      Index = 9
     end
     object dxLayoutItem11: TdxLayoutItem
       Parent = dxLayoutGroup2
@@ -732,7 +752,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 4
+      Index = 5
     end
     object dxLayoutItem14: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -804,7 +824,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 145
       ControlOptions.ShowBorder = False
-      Index = 6
+      Index = 8
     end
     object dxLayoutItem19: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup1
@@ -815,7 +835,31 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 145
       ControlOptions.ShowBorder = False
-      Index = 5
+      Index = 6
+    end
+    object dxLayoutItem21: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup1
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton7'
+      CaptionOptions.Visible = False
+      Visible = False
+      Control = cxButton7
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 31
+      ControlOptions.ShowBorder = False
+      Index = 7
+    end
+    object dxLayoutItem22: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup1
+      AlignVert = avBottom
+      CaptionOptions.Text = 'Provis'#243'rio'
+      CaptionOptions.Visible = False
+      Visible = False
+      Control = checkBoxProvisorio
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 71
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object aclExpedicao: TActionList
@@ -853,7 +897,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
     end
     object actRotulo: TAction
       Category = 'Expedi'#231#227'o'
-      Caption = 'Imprimir'
+      Caption = 'R'#243'tulos'
       Enabled = False
       Hint = 'Emitir R'#243'tulos / Romaneio'
       ImageIndex = 27
@@ -865,6 +909,27 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Hint = 'Pesquisar expedi'#231#227'o'
       ImageIndex = 19
       OnExecute = actPesquisarExpedicaoExecute
+    end
+    object actionInserirRoteiro: TAction
+      Category = 'Expedi'#231#227'o'
+      Caption = 'Inseir'
+      Hint = 'Inserir Roteiro Provis'#243'rio Manualmente'
+      ImageIndex = 3
+      OnExecute = actionInserirRoteiroExecute
+    end
+    object actRomaneio: TAction
+      Category = 'Expedi'#231#227'o'
+      Caption = 'Romaneio'
+      Hint = 'Imprimir Romaneio'
+      ImageIndex = 27
+      OnExecute = actRomaneioExecute
+    end
+    object actiExpedicao: TAction
+      Category = 'Expedi'#231#227'o'
+      Caption = 'Barras'
+      Hint = 'C'#243'digos de barras'
+      ImageIndex = 27
+      OnExecute = actiExpedicaoExecute
     end
   end
   object dsExpedicao: TDataSource
@@ -1413,5 +1478,20 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
     DataSet = mtbEntregadores
     Left = 376
     Top = 8
+  end
+  object PopupMenu1: TPopupMenu
+    Images = Data_Sisgef.iml_16_16
+    Left = 480
+    Top = 120
+    object Imprimir1: TMenuItem
+      Action = actRotulo
+    end
+    object Romaneio1: TMenuItem
+      Action = actRomaneio
+    end
+    object Expedio1: TMenuItem
+      Action = actiExpedicao
+      ImageIndex = 61
+    end
   end
 end

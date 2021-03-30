@@ -115,6 +115,17 @@ type
     lcbMotorista: TcxLookupComboBox;
     dxLayoutItem19: TdxLayoutItem;
     dsEntregadores: TDataSource;
+    cxButton7: TcxButton;
+    dxLayoutItem21: TdxLayoutItem;
+    actionInserirRoteiro: TAction;
+    checkBoxProvisorio: TcxCheckBox;
+    dxLayoutItem22: TdxLayoutItem;
+    PopupMenu1: TPopupMenu;
+    Imprimir1: TMenuItem;
+    actRomaneio: TAction;
+    actiExpedicao: TAction;
+    Romaneio1: TMenuItem;
+    Expedio1: TMenuItem;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure cboClientePropertiesChange(Sender: TObject);
@@ -131,6 +142,10 @@ type
     procedure cboContainersPropertiesChange(Sender: TObject);
     procedure datExpedicaoPesquisaPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure actionInserirRoteiroExecute(Sender: TObject);
+    procedure checkBoxProvisorioPropertiesChange(Sender: TObject);
+    procedure actRomaneioExecute(Sender: TObject);
+    procedure actiExpedicaoExecute(Sender: TObject);
   private
     { Private declarations }
     procedure LocalizaPedido(sNossoNumero: String; iCliente: Integer; bDANFE: Boolean);
@@ -161,6 +176,8 @@ type
     procedure ListRoteiros;
     procedure ListEntregadores;
     procedure ListaRoteiro(sData: String);
+    procedure InserirRoteiroProvisorio;
+    procedure GravaProvisorio;
   public
     { Public declarations }
   end;
@@ -196,14 +213,29 @@ begin
   GravarExpedicao;
 end;
 
+procedure Tview_ExpedicaoExpressas.actiExpedicaoExecute(Sender: TObject);
+begin
+  ImprimirExpedicaoDIRECT(lcbMotorista.Text, lcbRoteiros.Text);
+end;
+
 procedure Tview_ExpedicaoExpressas.actIniciarExecute(Sender: TObject);
 begin
   Iniciar;
 end;
 
+procedure Tview_ExpedicaoExpressas.actionInserirRoteiroExecute(Sender: TObject);
+begin
+  InserirRoteiroProvisorio;
+end;
+
 procedure Tview_ExpedicaoExpressas.actPesquisarExpedicaoExecute(Sender: TObject);
 begin
   PesquisaExpedicao;
+end;
+
+procedure Tview_ExpedicaoExpressas.actRomaneioExecute(Sender: TObject);
+begin
+  ImprimirRomaneio(datExpedicao.Text,mskCCEP.EditText);
 end;
 
 procedure Tview_ExpedicaoExpressas.actRotuloExecute(Sender: TObject);
@@ -319,6 +351,8 @@ begin
     dxLayoutItem13.Visible := True;
     dxLayoutItem19.Visible := False;
     dxLayoutItem20.Visible := False;
+    dxLayoutItem21.Visible := False;
+    dxLayoutItem22.Visible := False;
   end
   else if cboCliente.ItemIndex = 4 then
   begin
@@ -326,6 +360,8 @@ begin
     dxLayoutItem13.Visible := False;
     dxLayoutItem19.Visible := True;
     dxLayoutItem20.Visible := True;
+    dxLayoutItem21.Visible := True;
+    dxLayoutItem22.Visible := True;
   end
   else if cboCliente.ItemIndex = 0 then
   begin
@@ -335,6 +371,8 @@ begin
     dxLayoutItem19.Visible := False;
     dxLayoutItem20.Visible := False;
     dxLayoutItem5.Visible := False;
+    dxLayoutItem21.Visible := False;
+    dxLayoutItem22.Visible := False;
   end
   else
   begin
@@ -344,6 +382,8 @@ begin
     dxLayoutItem19.Visible := False;
     dxLayoutItem20.Visible := False;
     dxLayoutItem5.Visible := True;
+    dxLayoutItem21.Visible := False;
+    dxLayoutItem22.Visible := False;
   end;
 end;
 
@@ -369,6 +409,19 @@ begin
   else
   begin
     cboContainers.Properties.Items.Clear;
+  end;
+end;
+
+procedure Tview_ExpedicaoExpressas.checkBoxProvisorioPropertiesChange(Sender: TObject);
+begin
+  if checkBoxProvisorio.Checked then
+  begin
+    chkDANFE.Checked := False;
+    dxLayoutItem13.Visible := False;
+  end
+  else
+  begin
+    dxLayoutItem13.Visible := True;
   end;
 end;
 
@@ -451,6 +504,28 @@ procedure Tview_ExpedicaoExpressas.FormShow(Sender: TObject);
 begin
   ListRoteiros;
   ListEntregadores;
+end;
+
+procedure Tview_ExpedicaoExpressas.GravaProvisorio;
+begin
+    if not Data_Sisgef.mtbExpedicao.Active then Data_Sisgef.mtbExpedicao.Active := True;
+    Data_Sisgef.mtbExpedicao.Insert;
+    Data_Sisgef.mtbExpedicaoid_expedicao.AsInteger := 0;
+    Data_Sisgef.mtbExpedicaodom_ccep.AsInteger := 1;
+    Data_Sisgef.mtbExpedicaodat_expedicao.AsDateTime := datExpedicao.Date;
+    Data_Sisgef.mtbExpedicaocod_ccep.AsString := '000';
+    Data_Sisgef.mtbExpedicaonum_container.AsInteger := 0;
+    Data_Sisgef.mtbExpedicaocod_unitizador.AsInteger := cboUnitizador.ItemIndex;
+    Data_Sisgef.mtbExpedicaonum_nossonumero.AsString := txtLeitura.Text;
+    Data_Sisgef.mtbExpedicaocod_base.AsInteger := 0;
+    Data_Sisgef.mtbExpedicaocod_embarcador.AsInteger := 0;
+    Data_Sisgef.mtbExpedicaoqtd_volumes.AsInteger := 1;
+    Data_Sisgef.mtbExpedicaoqtd_peso.AsFloat := 0;
+    Data_Sisgef.mtbExpedicaodes_executor.AsString := pUser_Name;
+    Data_Sisgef.mtbExpedicaodat_execucao.AsDateTime := Now;
+    Data_Sisgef.mtbExpedicaodes_embarcador.AsString := 'NONE';
+    Data_Sisgef.mtbExpedicaodes_roteiro.AsString := lcbRoteiros.Text;
+    Data_Sisgef.mtbExpedicao.Post;
 end;
 
 procedure Tview_ExpedicaoExpressas.GravaRemessa(vvalue: Variant; smotorista, sRoteiro: String);
@@ -747,6 +822,19 @@ begin
   Data_Sisgef.mtbExpedicao.Open;
 end;
 
+procedure Tview_ExpedicaoExpressas.InserirRoteiroProvisorio;
+var
+  sRoteiro : String;
+begin
+  sRoteiro := InputBox('Informe um nome de Roteiro','Roteiro','Roteiro');
+  if sRoteiro.IsEmpty then
+    Exit;
+  mtbRoteiros.Insert;
+  mtbRoteirosdes_roteiro.AsString := sRoteiro;
+  mtbRoteiros.Post;
+  lcbRoteiros.EditText := sRoteiro;
+end;
+
 procedure Tview_ExpedicaoExpressas.LabelResultado(iTipo: Integer; sTexto: String);
 begin
   lblResultado.Caption := sTexto;
@@ -921,8 +1009,8 @@ begin
     aParam[1] := 'cod_entregador, nom_fantasia';
     aParam[2] := 'where cod_cadastro <> 0';
     FDQuery := FEntregadores.Localizar(aParam);
-    if mtbRoteiros.Active then mtbRoteiros.Close;
-    mtbRoteiros.Data := FDQuery.Data;
+    if mtbEntregadores.Active then mtbEntregadores.Close;
+    mtbEntregadores.Data := FDQuery.Data;
   finally
     FDQuery.Connection.Close;
     FDQuery.Free;
@@ -1060,40 +1148,49 @@ begin
     begin
       FDQueryRoteiro := TSistemaControl.GetInstance.Conexao.ReturnQuery;
       sCEP := TUtils.ReplaceStr(FDQuery.FieldByName('num_cep').AsString,'-','');
-      FRoteiro := TRoteirosExpressasControl.Create;
-      SetLength(aParam,2);
-      aParam[0] := 'CEP';
-      aParam[1] := sCEP;
-      FDQueryRoteiro := FRoteiro.Localizar(aParam);
-      Finalize(aParam);
-      if FDQueryRoteiro.IsEmpty then
+      if not sCEP.IsEmpty then
       begin
-        LabelResultado(2, 'CEP ' + sCEP + ' não encontrado!');
-        Aviso('CEP ' + sCEP + ' não encontrado!');
-        LabelResultado(0,'');
-        Exit;
-      end;
+        FRoteiro := TRoteirosExpressasControl.Create;
+        SetLength(aParam,2);
+        aParam[0] := 'CEP';
+        aParam[1] := sCEP;
+        FDQueryRoteiro := FRoteiro.Localizar(aParam);
+        Finalize(aParam);
+        if FDQueryRoteiro.IsEmpty then
+        begin
+          LabelResultado(2, 'CEP ' + sCEP + ' não encontrado!');
+          Aviso('CEP ' + sCEP + ' não encontrado!');
+          LabelResultado(0,'');
+          Exit;
+        end;
 
-      if lcbRoteiros.Text <> FDQueryRoteiro.FieldByName('des_roteiro').AsString  then
-      begin
-        LabelResultado(2, 'CEP ' + sCEP + ' não pertence ao roteiro selecionado!');
-        Aviso('CEP ' + sCEP + ' não pertence ao roteiro selecionado!');
-        LabelResultado(0,'');
-        Exit;
-      end;
+        if lcbRoteiros.Text <> FDQueryRoteiro.FieldByName('des_roteiro').AsString  then
+        begin
+          LabelResultado(2, 'CEP ' + sCEP + ' não pertence ao roteiro selecionado!');
+          Aviso('CEP ' + sCEP + ' não pertence ao roteiro selecionado!');
+          LabelResultado(0,'');
+          Exit;
+        end;
 
-      if FDQueryRoteiro.FieldByName('dom_zona').AsString = 'N' then
-      begin
-        LabelResultado(2, 'CEP ' + sCEP + ' FORA DE ABRANGÊNCIA!');
-        Aviso('CEP ' + sCEP + ' FORA DE ABRANGÊNCIA!');
-        LabelResultado(0,'');
-        Exit;
+        if FDQueryRoteiro.FieldByName('dom_zona').AsString = 'N' then
+        begin
+          LabelResultado(2, 'CEP ' + sCEP + ' FORA DE ABRANGÊNCIA!');
+          Aviso('CEP ' + sCEP + ' FORA DE ABRANGÊNCIA!');
+          LabelResultado(0,'');
+          Exit;
+        end;
       end;
     end;
 
-    iVolumes := FDQuery.FieldByName('qtd_volumes').AsInteger;
-
-    sNN := FDQuery.FieldByName('num_nossonumero').AsString;
+    if not FDQuery.IsEmpty then
+    begin
+      iVolumes := FDQuery.FieldByName('qtd_volumes').AsInteger;
+      sNN := FDQuery.FieldByName('num_nossonumero').AsString;
+    end
+    else
+    begin
+      iVolumes := 0;
+    end;
 
     if iCliente <> 4 then
     begin
@@ -1419,6 +1516,10 @@ begin
   else if icliente = 3 then
   begin
     sNN := Copy(sLeitura,23,12);
+  end
+  else
+  begin
+    sNN := sLeitura;
   end;
   Result := sNN;
 end;
@@ -1614,7 +1715,10 @@ begin
   begin
     if DisplayValue <> '' then
     begin
-      LocalizaPedido(DisplayValue,cboCliente.ItemIndex,chkDANFE.Checked);
+      if not checkBoxProvisorio.Checked then
+        LocalizaPedido(DisplayValue,cboCliente.ItemIndex,chkDANFE.Checked)
+      else
+        GravaProvisorio;
     end;
   end;
   DisplayValue := '';
