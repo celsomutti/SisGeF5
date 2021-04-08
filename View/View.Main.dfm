@@ -2053,8 +2053,9 @@
     object actImportarExtrato: TAction
       Tag = 601010
       Category = 'Financeiro'
-      Caption = 'Importar Extrato (TFO)'
+      Caption = 'Importar Extrato Cliente'
       Hint = 'Importa'#231#227'o de extrato da Franquia  gerado pela Transfolha'
+      OnExecute = actImportarExtratoExecute
     end
     object actCadastroFornecedores: TAction
       Tag = 601020

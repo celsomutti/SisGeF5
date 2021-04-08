@@ -213,6 +213,7 @@ type
     procedure actCadastroEmpresasExecute(Sender: TObject);
     procedure actCadastroEntregadoresExecute(Sender: TObject);
     procedure actDebitoCreditoExecute(Sender: TObject);
+    procedure actImportarExtratoExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;
@@ -240,7 +241,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.Calendario, View.VerbasExpressas, View.ExtraviosMultas, View.Acareacoes, View.ImportarPedidos, View.ImportarBaixasTFO,
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.CadastroEntregadores, View.LancamentosExtratos,
-  View.CadastroEntregadoresExpressas;
+  View.CadastroEntregadoresExpressas, View.ImportaExtratoCliente;
 
 procedure Tview_Main.Acessos;
 var
@@ -438,6 +439,15 @@ begin
     view_ImportarBaixasTFO := Tview_ImportarBaixasTFO.Create(Application);
   end;
   view_ImportarBaixasTFO.Show;
+end;
+
+procedure Tview_Main.actImportarExtratoExecute(Sender: TObject);
+begin
+  if not Assigned(view_ImportaExtratoCliente) then
+  begin
+    view_ImportaExtratoCliente := Tview_ImportaExtratoCliente.Create(Application);
+  end;
+  view_ImportaExtratoCliente.Show;
 end;
 
 procedure Tview_Main.actRecepcaoPedidoExecute(Sender: TObject);

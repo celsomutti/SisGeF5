@@ -28,10 +28,6 @@ type
     FFile: String;
     iCodigoCliente: Integer;
     bCancel : Boolean;
-    bProcess: Boolean;
-    dPositionRegister: double;
-    sLog: String;
-    sAlerta: String;
   end;
 
 implementation
@@ -98,7 +94,7 @@ begin
     try
       Synchronize(BeginProcesso);
       FPlanilha := TPlanilhaBaixasTFOControl.Create;
-      sMensagem := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
+      sMensagem := '>>> ' +  FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' importando os dados. Aguarde...';
       UpdateLog(sMensagem);
       if FPLanilha.GetPlanilha(FFile) then
       begin

@@ -176,7 +176,8 @@ if not Global.Parametros.pbProcess then
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
     memLog.Lines.Text := Global.Parametros.psLOG;
-    Global.Parametros.psLOG := '';
+    if Global.Parametros.psLOG <> '' then
+        memLog.Lines.Text := Global.Parametros.psLOG;
     Application.MessageBox('Importação cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
 end;
@@ -213,7 +214,8 @@ if not Global.Parametros.pbProcess then
     actImportar.Enabled := True;
     actCancelar.Enabled := False;
     actAbrir.Enabled := True;
-    memLog.Lines.Text := Global.Parametros.psLOG;
+    if Global.Parametros.psLOG <> '' then
+        memLog.Lines.Text := Global.Parametros.psLOG;
     Global.Parametros.psLOG := '';
     Application.MessageBox('Importação cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
   end;
