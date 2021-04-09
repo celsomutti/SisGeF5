@@ -175,10 +175,6 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="View\View.Main.pas">
-            <Form>view_Main</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Control\Control.Sistema.pas"/>
         <DCCReference Include="Common\Common.ENum.pas"/>
         <DCCReference Include="Common\Common.Utils.pas"/>
@@ -467,10 +463,21 @@
             <Form>view_VisualizacaoPlanilhas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="View.ImportaExtratoCliente.pas">
-            <Form>view_ImportaExtratoCliente</Form>
+        <DCCReference Include="View\View.CadastroEntregadoresExpressas.pas">
+            <Form>view_CadastroEntregadoresExpressas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="View\View.Main.pas">
+            <Form>view_Main</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\View.ImportaCapaFinanceiroDIRECT.pas">
+            <Form>view_ImportaCapaFinanceiroDIRECT</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Model\Model.CapaDIRECT.pas"/>
+        <DCCReference Include="Control\Control.CapaDIRECT.pas"/>
+        <DCCReference Include="Thread\Thread.CapaDIRECT.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -519,12 +526,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win64\Debug\SisGeF5.rsm" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win64">
-                        <RemoteName>SisGeF5.rsm</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="Images\logo_44_44.png" Configuration="Release" Class="UWP_DelphiLogo44">
                     <Platform Name="Win64">
                         <RemoteDir>Assets\</RemoteDir>
@@ -532,9 +533,10 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Release\SisGeF5.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>SisGeF5.exe</RemoteName>
+                <DeployFile LocalName="Images\logo_150_150.png" Configuration="Release" Class="UWP_DelphiLogo150">
+                    <Platform Name="Win64">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo150x150.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -552,10 +554,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Images\logo_150_150.png" Configuration="Release" Class="UWP_DelphiLogo150">
-                    <Platform Name="Win64">
-                        <RemoteDir>Assets\</RemoteDir>
-                        <RemoteName>Logo150x150.png</RemoteName>
+                <DeployFile LocalName="Win32\Release\SisGeF5.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>SisGeF5.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

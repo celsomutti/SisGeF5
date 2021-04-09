@@ -88,7 +88,7 @@ var
   aParam: Array of variant;
   iPos, iPosition, iTotal, iTabela, iFaixa, iAgente, iEntregador,i: Integer;
   sCEP, sMensagem: String;
-  dPos, dPerformance, dVerba, dVerbaTabela: double;
+  dPos, dPerformance, dVerba, dVerbaTabela, dPeso: double;
   slParam: TStringList;
   bProcess: Boolean;
 begin
@@ -103,12 +103,13 @@ begin
         iPos := 0;
         iPosition := 0;
         dPos := 0;
+        dPeso := 0;
         iTotal := FPlanilha.Planilha.Planilha.Count;
         for i := 0 to Pred(iTotal) do
         begin
           FEntregas := TEntregasControl.Create;
-          SetLength(aParam,2);
-          aParam := ['NN', FPlanilha.Planilha.Planilha[i].Remessa];
+          SetLength(aParam,3);
+          aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Remessa, iCodigoCliente];
           if not FEntregas.LocalizarExata(aParam) then
           begin
             if UpperCase(FPlanilha.Planilha.Planilha[iPos].Tipo) = 'REVERSA' then
@@ -129,18 +130,9 @@ begin
               FEntregas.Entregas.Status := 909;
               FEntregas.Entregas.Entrega := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
               FEntregas.Entregas.TipoPeso := FPlanilha.Planilha.Planilha[i].Tipo;
-              if FPlanilha.Planilha.Planilha[i].PesoAferido = 0 then
-              begin
-                FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoNominal;
-                FEntregas.Entregas.PesoCobrado := 0;
-
-              end
-              else
-              begin
-                FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoAferido;
-                FEntregas.Entregas.PesoCobrado := 0;
-              end;
+              FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoNominal;
               FEntregas.Entregas.PesoFranquia := FPlanilha.Planilha.Planilha[i].PesoAferido;
+              FEntregas.Entregas.PesoCobrado := 0;
               FEntregas.Entregas.Advalorem := 0;
               FEntregas.Entregas.PagoFranquia := 0;
               FEntregas.Entregas.VerbaEntregador := 0;
@@ -153,11 +145,18 @@ begin
               FEntregas.Entregas.Pedido := FPlanilha.Planilha.Planilha[i].Pedido;
               FEntregas.Entregas.CodCliente := iCodigoCliente;
               Finalize(aParam);
+              dPeso := 0;
+              if FEntregas.Entregas.PesoCobrado > 0 then
+                dPeso := FEntregas.Entregas.PesoCobrado
+              else if FEntregas.Entregas.PesoFranquia > 0 then
+                dPeso := FEntregas.Entregas.PesoFranquia
+              else
+                dPeso := FEntregas.Entregas.PesoReal;
               SetLength(aParam,7);
               aParam := [FEntregas.Entregas.Distribuidor,
                          FEntregas.Entregas.Entregador,
                          FEntregas.Entregas.CEP,
-                         FEntregas.Entregas.PesoReal,
+                         dPeso,
                          FEntregas.Entregas.Baixa,
                          0,
                          0];
@@ -192,27 +191,23 @@ begin
             FEntregas.Entregas.Status := 909;
             FEntregas.Entregas.Entrega := FPlanilha.Planilha.Planilha[i].DataAtualizacao;
             FEntregas.Entregas.Atraso := 0;
-            if FPlanilha.Planilha.Planilha[i].PesoAferido = 0 then
-            begin
-              FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoNominal;
-              FEntregas.Entregas.PesoCobrado := 0;
-
-            end
-            else
-            begin
-              FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoAferido;
-              FEntregas.Entregas.PesoCobrado := 0;
-            end;
-            FEntregas.Entregas.PesoFranquia := FPlanilha.Planilha.Planilha[I].PesoAferido;
-            FEntregas.Entregas.PesoCobrado := 0;
+            FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoNominal;
+            FEntregas.Entregas.PesoFranquia := FPlanilha.Planilha.Planilha[i].PesoAferido;
             FEntregas.Entregas.CodigoFeedback := 0;
             FEntregas.Entregas.TipoPeso := 'ENTREGA';
             Finalize(aParam);
+            dPeso := 0;
+            if FEntregas.Entregas.PesoCobrado > 0 then
+              dPeso := FEntregas.Entregas.PesoCobrado
+            else if FEntregas.Entregas.PesoFranquia > 0 then
+              dPeso := FEntregas.Entregas.PesoFranquia
+            else
+              dPeso := FEntregas.Entregas.PesoReal;
             SetLength(aParam,7);
             aParam := [FEntregas.Entregas.Distribuidor,
                        FEntregas.Entregas.Entregador,
                        FEntregas.Entregas.CEP,
-                       FEntregas.Entregas.PesoReal,
+                       dPeso,
                        FEntregas.Entregas.Baixa,
                        0,
                        0];

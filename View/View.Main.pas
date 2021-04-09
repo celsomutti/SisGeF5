@@ -241,7 +241,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.Calendario, View.VerbasExpressas, View.ExtraviosMultas, View.Acareacoes, View.ImportarPedidos, View.ImportarBaixasTFO,
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.CadastroEntregadores, View.LancamentosExtratos,
-  View.CadastroEntregadoresExpressas, View.ImportaExtratoCliente;
+  View.CadastroEntregadoresExpressas, View.ImportaCapaFinanceiroDIRECT;
 
 procedure Tview_Main.Acessos;
 var
@@ -443,11 +443,11 @@ end;
 
 procedure Tview_Main.actImportarExtratoExecute(Sender: TObject);
 begin
-  if not Assigned(view_ImportaExtratoCliente) then
+  if not Assigned(view_ImportaCapaFinanceiroDIRECT) then
   begin
-    view_ImportaExtratoCliente := Tview_ImportaExtratoCliente.Create(Application);
+    view_ImportaCapaFinanceiroDIRECT := Tview_ImportaCapaFinanceiroDIRECT.Create(Application);
   end;
-  view_ImportaExtratoCliente.Show;
+  view_ImportaCapaFinanceiroDIRECT.Show;
 end;
 
 procedure Tview_Main.actRecepcaoPedidoExecute(Sender: TObject);

@@ -37,6 +37,8 @@ var
   psLOG: String;
   pbProcess: Boolean;
   psConexao : String;
+  piTotal1: integer;
+  piTotal2: Integer;
 const
     STDPWD = 'i8f0';
     ROOTREMOTELOGO = '/root/SisGeF5/Logo/';

@@ -2,7 +2,6 @@ program SisGeF5;
 
 uses
   Vcl.Forms,
-  View.Main in 'View\View.Main.pas' {view_Main},
   Control.Sistema in 'Control\Control.Sistema.pas',
   Common.ENum in 'Common\Common.ENum.pas',
   Common.Utils in 'Common\Common.Utils.pas',
@@ -183,7 +182,12 @@ uses
   View.PesquisarPessoas in 'View\View.PesquisarPessoas.pas' {View_PesquisarPessoas},
   View.DetalheRemessasExtrato in 'View\View.DetalheRemessasExtrato.pas' {view_DetalheRemessasExtrato},
   View.VisualizacaoPlanilha in 'View\View.VisualizacaoPlanilha.pas' {view_VisualizacaoPlanilhas},
-  View.ImportaExtratoCliente in 'View.ImportaExtratoCliente.pas' {view_ImportaExtratoCliente};
+  View.CadastroEntregadoresExpressas in 'View\View.CadastroEntregadoresExpressas.pas' {view_CadastroEntregadoresExpressas},
+  View.Main in 'View\View.Main.pas' {view_Main},
+  View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT},
+  Model.CapaDIRECT in 'Model\Model.CapaDIRECT.pas',
+  Control.CapaDIRECT in 'Control\Control.CapaDIRECT.pas',
+  Thread.CapaDIRECT in 'Thread\Thread.CapaDIRECT.pas';
 
 {$R *.res}
 

@@ -739,6 +739,12 @@ begin
       FDQuery.SQL.Add('WHERE NUM_NOSSONUMERO = :NN');
       FDQuery.ParamByName('NN').AsString := aParam[1];
     end;
+    if aParam[0] = 'NNCLIENTE' then
+    begin
+      FDQuery.SQL.Add('WHERE NUM_NOSSONUMERO = :NN AND COD_CLIENTE_EMPRESA = :CLIENTE');
+      FDQuery.ParamByName('NN').AsString := aParam[1];
+      FDQuery.ParamByName('CLIENTE').AsInteger := aParam[2];
+    end;
     FDQuery.Open();
     if not fdquery.IsEmpty then
     begin

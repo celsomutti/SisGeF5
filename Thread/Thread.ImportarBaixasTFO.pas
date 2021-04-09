@@ -105,8 +105,8 @@ begin
         for i := 0 to Pred(iTotal) do
         begin
           FEntregas := TEntregasControl.Create;
-          SetLength(aParam,2);
-          aParam := ['NN', FPlanilha.Planilha.Planilha[i].NNRemessa];
+          SetLength(aParam,3);
+          aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].NNRemessa, iCodigoCliente];
           if FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.Distribuidor := RetornaAgente(FPlanilha.Planilha.Planilha[i].CodigoEntregador);

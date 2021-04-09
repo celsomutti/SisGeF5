@@ -1155,6 +1155,7 @@
           ItemName = 'dxBarLargeButton37'
         end
         item
+          BeginGroup = True
           Visible = True
           ItemName = 'dxBarLargeButton38'
         end
@@ -2053,8 +2054,8 @@
     object actImportarExtrato: TAction
       Tag = 601010
       Category = 'Financeiro'
-      Caption = 'Importar Extrato Cliente'
-      Hint = 'Importa'#231#227'o de extrato da Franquia  gerado pela Transfolha'
+      Caption = 'Importar Capa DIRECT'
+      Hint = 'Importa'#231#227'o de planilha da Capa de Financeiro da DIRECT'
       OnExecute = actImportarExtratoExecute
     end
     object actCadastroFornecedores: TAction
@@ -2195,6 +2196,7 @@
     Active = True
     FormCaptionMask = '[MainFormCaption]'
     TabProperties.CustomButtons.Buttons = <>
+    TabProperties.TabSlants.Kind = skCutCorner
     Left = 984
     Top = 264
     PixelsPerInch = 96

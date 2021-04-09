@@ -106,8 +106,8 @@ begin
         iTotal := FPlanilha.Planilha.Planilha.Count;
         for i := 0 to Pred(iTotal) do
         begin
-          SetLength(aParam,2);
-          aParam := ['NN', FPlanilha.Planilha.Planilha[i].Remessa];
+          SetLength(aParam,3);
+          aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Remessa, iCodigoCliente];
           if not FEntregas.LocalizarExata(aParam) then
           begin
             FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].Remessa;
