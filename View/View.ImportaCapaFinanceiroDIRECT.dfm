@@ -2,7 +2,7 @@
   Left = 0
   Top = 0
   Caption = 'Importar Capa de Financeiro DIRECT'
-  ClientHeight = 377
+  ClientHeight = 422
   ClientWidth = 905
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
@@ -567,22 +567,21 @@
   Visible = True
   OnClose = FormClose
   OnShow = FormShow
+  DesignSize = (
+    905
+    422)
   PixelsPerInch = 96
   TextHeight = 16
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
     Width = 905
-    Height = 377
+    Height = 422
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitLeft = 160
-    ExplicitTop = 88
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object labelTitle: TcxLabel
       Left = 49
       Top = 16
@@ -637,7 +636,7 @@
     end
     object labelAtalhos: TcxLabel
       Left = 109
-      Top = 345
+      Top = 390
       Caption = 
         'Atalhos: (F8) Selecionar o arquivo, (CTRL + ENTER) Iniciar impor' +
         'ta'#231#227'o, (Shift + ESC) Limpa o campo, (Alt+F4) Fechar a tela'
@@ -695,9 +694,18 @@
       Properties.ReadOnly = True
       Properties.ScrollBars = ssBoth
       Style.HotTrack = False
-      TabOrder = 7
-      Height = 234
+      TabOrder = 8
+      Height = 279
       Width = 753
+    end
+    object cxButton2: TcxButton
+      Left = 26
+      Top = 294
+      Width = 93
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionCancelar
+      TabOrder = 7
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -832,7 +840,6 @@
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 2
@@ -842,7 +849,6 @@
       AlignHorz = ahLeft
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
-      Visible = False
       ButtonOptions.Buttons = <>
       ShowBorder = False
       Index = 0
@@ -852,7 +858,6 @@
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
-      Visible = False
       ButtonOptions.Buttons = <>
       ShowBorder = False
       Index = 1
@@ -909,6 +914,43 @@
       ControlOptions.ShowBorder = False
       Index = 0
     end
+    object dxLayoutItem10: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahCenter
+      AlignVert = avTop
+      CaptionOptions.Text = 'cxButton2'
+      CaptionOptions.Visible = False
+      CaptionOptions.Layout = clTop
+      Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 93
+      ControlOptions.ShowBorder = False
+      Enabled = False
+      Index = 4
+    end
+  end
+  object indicador: TdxActivityIndicator
+    Left = 139
+    Top = 93
+    Width = 754
+    Height = 13
+    Anchors = [akLeft, akTop, akRight]
+    PropertiesClassName = 'TdxActivityIndicatorHorizontalDotsProperties'
+    Properties.DotSize = 4
+    Transparent = True
+  end
+  object cxButton3: TcxButton
+    Left = 814
+    Top = 73
+    Width = 79
+    Height = 25
+    Cursor = crHandPoint
+    Action = actionSalvarArquivo
+    Anchors = [akTop, akRight]
+    SpeedButtonOptions.CanBeFocused = False
+    SpeedButtonOptions.Flat = True
+    SpeedButtonOptions.Transparent = True
+    TabOrder = 1
   end
   object actionListImportar: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -941,11 +983,36 @@
       ShortCut = 16397
       OnExecute = actionImportarExecute
     end
+    object actionCancelar: TAction
+      Caption = 'Cancelar'
+      Enabled = False
+      Hint = 'Cancelar importa'#231#227'o'
+      ImageIndex = 2
+      OnExecute = actionCancelarExecute
+    end
+    object actionSalvarArquivo: TAction
+      Caption = 'Salvar'
+      Enabled = False
+      Hint = 'Salvar LOG para arquivo'
+      ImageIndex = 13
+      OnExecute = actionSalvarArquivoExecute
+    end
   end
   object OpenDialog: TOpenDialog
     Filter = 'Arquivo CSV|*.csv'
     Title = 'Abrir'
     Left = 643
     Top = 3
+  end
+  object Timer: TTimer
+    Enabled = False
+    OnTimer = TimerTimer
+    Left = 728
+    Top = 8
+  end
+  object SaveDialog: TSaveDialog
+    Filter = 'Arquivo CSV|*.csv'
+    Title = 'Slvar Arquivo;'
+    Left = 680
   end
 end

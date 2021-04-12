@@ -461,7 +461,6 @@ end;
 
 procedure Tview_Main.actRoteirosExpressasExecute(Sender: TObject);
 begin
-  if not Assigned(view_RoteirosExpressas) then
   begin
     view_RoteirosExpressas := Tview_RoteirosExpressas.Create(Application);
   end;

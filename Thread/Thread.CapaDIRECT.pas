@@ -11,7 +11,6 @@ type
   private
     FPlanilha : TCapaDirectControl;
     FArquivo: String;
-    FCancelar: Boolean;
     FProcesso: Boolean;
     FLog: String;
     FTotalGravados: Integer;
@@ -19,6 +18,7 @@ type
     FTotalInconsistencias: Integer;
     FProgresso: Double;
     FCliente: Integer;
+    FCancelar: Boolean;
     procedure UpdateLOG(sMensagem: String);
     function RetornaVerba(aParam: array of variant): Double;
     { Private declarations }
@@ -26,7 +26,6 @@ type
     procedure Execute; override;
   public
     property Arquivo: String read FArquivo write FArquivo;
-    property Cancelar: Boolean read FCancelar write FCancelar;
     property Processo: Boolean read FProcesso write FProcesso;
     property Log: String read FLog write FLog;
     property Progresso: Double read FProgresso write FProgresso;
@@ -34,6 +33,7 @@ type
     property TotalGravados: Integer read FTotalGravados write FTotalGravados;
     property TotalInconsistencias: Integer read FTotalInconsistencias write FTotalInconsistencias;
     property Cliente: Integer read FCliente write FCliente;
+    property Cancelar: Boolean read FCancelar write FCancelar;
   end;
 
 implementation
@@ -53,7 +53,7 @@ implementation
     
     or 
     
-    Synchronize( 
+    Synchronize(
       procedure 
       begin
         Form1.Caption := 'Updated in thread via an anonymous method' 
@@ -86,40 +86,38 @@ var
 begin
   { Place thread code here }
   try
-    try
-      FProcesso := True;
-      FPlanilha := TCapaDirectControl.Create;
-      if FPLanilha.GetPlanilha(FArquivo) then
+    FProcesso := True;
+    FCancelar := False;
+    FPlanilha := TCapaDirectControl.Create;
+    if FPLanilha.GetPlanilha(FArquivo) then
+    begin
+      iPos := 0;
+      FTotalRegistros := FPlanilha.Planilha.Planilha.Count;
+      FTotalGravados := 0;
+      FTotalInconsistencias := 0;
+      FProgresso := 0;
+      for i := 0 to Pred(FTotalRegistros) do
       begin
-        iPos := 0;
-        FTotalRegistros := FPlanilha.Planilha.Planilha.Count;
-        FTotalGravados := 0;
-        FTotalInconsistencias := 0;
-        FProgresso := 0;
-        for i := 0 to Pred(FTotalRegistros) do
+        dVerba := 0;
+        FEntregas := TEntregasControl.Create;
+        SetLength(aParam,3);
+        aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Remessa,FCliente];
+        if FEntregas.LocalizarExata(aParam) then
         begin
-          dVerba := 0;
-          FEntregas := TEntregasControl.Create;
-          SetLength(aParam,3);
-          aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Remessa,FCliente];
-          if FEntregas.LocalizarExata(aParam) then
+          if FEntregas.Entregas.Baixado <> 'S' then
           begin
-            if FPlanilha.Planilha.Planilha[i].KGM3 <> FEntregas.Entregas.PesoReal then
-            begin
-              sMensagem := 'Peso da baixa DIFERENTE do peso da capa;Remessa ' + FPlanilha.Planilha.Planilha[i].Remessa +
-                           '; Valor da Baixa ' + FEntregas.Entregas.PesoReal.ToString + '; Valor da Capa' +
-                           FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';';
-              UpdateLOG(sMensagem);
-              Inc(FTotalInconsistencias,1);
-            end;
-            if FEntregas.Entregas.Baixado <> 'S' then
-            begin
-              sMensagem := 'Entrega ainda não foi baixada;Remessa ' + FPlanilha.Planilha.Planilha[i].Remessa + ';;;';
-              UpdateLOG(sMensagem);
-              Inc(FTotalInconsistencias,1);
-              dVerba := 0;
-            end
-            else
+            sMensagem := 'Entrega ainda não foi baixada;' + FPlanilha.Planilha.Planilha[i].Remessa +
+                         ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
+                         FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
+                         FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
+
+            UpdateLOG(sMensagem);
+            Inc(FTotalInconsistencias,1);
+            dVerba := 0;
+          end
+          else
+          begin
+            if FEntregas.Entregas.Fechado <> 'S' then
             begin
               SetLength(aParam,7);
               aParam := [FEntregas.Entregas.Distribuidor,
@@ -132,50 +130,70 @@ begin
               dVerba := RetornaVerba(aParam);
               if dVerba = 0 then
               begin
-                sMensagem := 'Verba não foi localizada;Remessa ' + FPlanilha.Planilha.Planilha[i].Remessa + ';Motorista ' +
-                             FPlanilha.Planilha.Planilha[i].Motorista + ';;';
+                sMensagem := 'Verba do entregador não foi localizada;' + FPlanilha.Planilha.Planilha[i].Remessa +
+                             ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
+                             FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
+                             FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
                 UpdateLOG(sMensagem);
                 Inc(FTotalInconsistencias,1);
               end
-            end;
-            FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.Planilha[i].KGM3;
-            FEntregas.Entregas.VerbaEntregador := dVerba;
-            FEntregas.Entregas.VerbaFranquia := FPlanilha.Planilha.Planilha[i].ValorPagar;
-            FEntregas.Entregas.Endereco := FPlanilha.Planilha.Planilha[i].EnderecoEntrega;
-            FEntregas.Entregas.Conferido := 1;
-            FEntregas.Entregas.Acao := tacAlterar;
-            if not Fentregas.Gravar() then
-            begin
-              sMensagem := 'Erro ao gravar;Remessa ' + FPlanilha.Planilha.Planilha[i].Remessa + ';Motorista ' +
-                           FPlanilha.Planilha.Planilha[i].Motorista + ';;';
-              UpdateLOG(sMensagem);
-              Inc(FTotalInconsistencias,1);
             end
             else
             begin
-              Inc(FTotalGravados,1);
+              dVerba := FEntregas.Entregas.VerbaEntregador;
             end;
+          end;
+          if FPlanilha.Planilha.Planilha[i].KGM3 <> FEntregas.Entregas.PesoReal then
+          begin
+            sMensagem := 'Peso da baixa DIFERENTE do peso da capa;' + FPlanilha.Planilha.Planilha[i].Remessa +
+                         ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
+                         FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
+                         FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
+            UpdateLOG(sMensagem);
+            Inc(FTotalInconsistencias,1);
+          end;
+          FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.Planilha[i].KGM3;
+          FEntregas.Entregas.VerbaEntregador := dVerba;
+          FEntregas.Entregas.VerbaFranquia := FPlanilha.Planilha.Planilha[i].ValorPagar;
+          FEntregas.Entregas.Endereco := FPlanilha.Planilha.Planilha[i].EnderecoEntrega;
+          FEntregas.Entregas.Conferido := 1;
+          FEntregas.Entregas.Acao := tacAlterar;
+          if not Fentregas.Gravar() then
+          begin
+            sMensagem := 'Erro ao gravar;' + FPlanilha.Planilha.Planilha[i].Remessa +
+                         ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
+                         FEntregas.Entregas.VerbaEntregador.ToString + ';' + FEntregas.Entregas.VerbaFranquia.ToString + ';' +
+                         FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
+            UpdateLOG(sMensagem);
+            Inc(FTotalInconsistencias,1);
           end
           else
           begin
-            sMensagem := 'Remessa NÃO ENCONTRADA;Renessa ' + FPlanilha.Planilha.Planilha[i].Remessa + ';;;';
-            UpdateLOG(sMensagem);
+            Inc(FTotalGravados,1);
           end;
-          FEntregas.Free;
-          Finalize(aParam);
-          iPos := i;
-          FProgresso := (iPos * FTotalRegistros) * 100;
+        end
+        else
+        begin
+          sMensagem := 'Remessa NÃO ENCONTRADA;' + FPlanilha.Planilha.Planilha[i].Remessa +
+                       ';0,0;' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';0,00;0,00;' +
+                       FPlanilha.Planilha.Planilha[i].Motorista + ';' + FPlanilha.Planilha.Planilha[i].CEPEntrega;
+          Inc(FTotalInconsistencias,1);
+          UpdateLOG(sMensagem);
         end;
+        FEntregas.Free;
+        Finalize(aParam);
+        iPos := i;
+        FProgresso := (iPos / FTotalRegistros) * 100;
+        if Self.Terminated then Abort;
       end;
-    Except on E: Exception do
-      begin
-        sMensagem := '** ERROR **;' + Chr(13) + 'Classe:;' + E.ClassName + chr(13) + 'Mensagem:;' + E.Message + ';';
-        UpdateLOG(sMensagem);
-        FCancelar := True;
-      end;
+      FProcesso := False;
     end;
-  finally
-
+  Except on E: Exception do
+    begin
+      sMensagem := '** ERROR **;' + Chr(13) + 'Classe:;' + E.ClassName + chr(13) + 'Mensagem:;' + E.Message + ';';
+      UpdateLOG(sMensagem);
+      FProcesso := False;
+    end;
   end;
 end;
 
@@ -272,6 +290,8 @@ end;
 
 procedure Thread_CapaDirect.UpdateLOG(sMensagem: String);
 begin
+  if FLog.IsEmpty then
+    FLog := 'Descrição;Remessa;Peso Baixa;Peso Capa;Verba Entregador;Verba Empresa;Motorista;CEP';
   FLog := FLog + #13 + sMensagem;
 end;
 

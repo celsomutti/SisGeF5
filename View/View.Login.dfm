@@ -25,7 +25,9 @@ object view_Login: Tview_Login
     Height = 213
     Align = alClient
     BevelKind = bkFlat
+    ParentBackground = True
     TabOrder = 0
+    Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     OptionsImage.Images = Data_Sisgef.iml_16_16
     object cxLabel1: TcxLabel
@@ -114,6 +116,7 @@ object view_Login: Tview_Login
       AlignVert = avParentManaged
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 4
       ShowBorder = False
       Index = -1
     end
