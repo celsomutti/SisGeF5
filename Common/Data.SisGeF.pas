@@ -418,6 +418,7 @@ type
     mtbFechamentoExpressasCampoDtVencimento: TStringField;
     mtbFechamentoExpressasCampoModalidade: TStringField;
     FDConnectionMySQL: TFDConnection;
+    SaveDialog: TSaveDialog;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

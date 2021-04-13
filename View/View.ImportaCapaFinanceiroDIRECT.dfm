@@ -688,16 +688,6 @@
       TabOrder = 6
       Width = 121
     end
-    object inconsistencias: TcxMemo
-      Left = 140
-      Top = 104
-      Properties.ReadOnly = True
-      Properties.ScrollBars = ssBoth
-      Style.HotTrack = False
-      TabOrder = 8
-      Height = 279
-      Width = 753
-    end
     object cxButton2: TcxButton
       Left = 26
       Top = 294
@@ -706,6 +696,81 @@
       Cursor = crHandPoint
       Action = actionCancelar
       TabOrder = 7
+    end
+    object gridInconsistencias: TcxGrid
+      Left = 140
+      Top = 104
+      Width = 753
+      Height = 279
+      TabOrder = 8
+      object gridInconsistenciasDBTableView1: TcxGridDBTableView
+        Navigator.Buttons.OnButtonClick = gridInconsistenciasDBTableView1NavigatorButtonsButtonClick
+        Navigator.Buttons.CustomButtons = <
+          item
+            Hint = 'Exportar Grade'
+            ImageIndex = 11
+          end>
+        Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+        Navigator.Buttons.First.ImageIndex = 5
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.Prior.ImageIndex = 8
+        Navigator.Buttons.Next.ImageIndex = 7
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Last.ImageIndex = 6
+        Navigator.Buttons.Insert.Visible = False
+        Navigator.Buttons.Delete.Visible = False
+        Navigator.Buttons.Edit.Visible = False
+        Navigator.Buttons.Post.Visible = False
+        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.ImageIndex = 19
+        Navigator.Buttons.Filter.Visible = True
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
+        DataController.DataSource = dsLOG
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+        OptionsView.ColumnAutoWidth = True
+        OptionsView.GroupByBox = False
+        object gridInconsistenciasDBTableView1des_descricao: TcxGridDBColumn
+          DataBinding.FieldName = 'des_descricao'
+          Width = 79
+        end
+        object gridInconsistenciasDBTableView1num_remessa: TcxGridDBColumn
+          DataBinding.FieldName = 'num_remessa'
+          Width = 125
+        end
+        object gridInconsistenciasDBTableView1qtd_peso_baixa: TcxGridDBColumn
+          DataBinding.FieldName = 'qtd_peso_baixa'
+          Width = 77
+        end
+        object gridInconsistenciasDBTableView1qtd_peso_capa: TcxGridDBColumn
+          DataBinding.FieldName = 'qtd_peso_capa'
+          Width = 77
+        end
+        object gridInconsistenciasDBTableView1val_verba_entregador: TcxGridDBColumn
+          DataBinding.FieldName = 'val_verba_entregador'
+          Width = 124
+        end
+        object gridInconsistenciasDBTableView1val_verba_Empresa: TcxGridDBColumn
+          DataBinding.FieldName = 'val_verba_Empresa'
+          Width = 107
+        end
+        object gridInconsistenciasDBTableView1nom_motorista: TcxGridDBColumn
+          DataBinding.FieldName = 'nom_motorista'
+          Width = 77
+        end
+        object gridInconsistenciasDBTableView1num_cep: TcxGridDBColumn
+          DataBinding.FieldName = 'num_cep'
+          Width = 85
+        end
+      end
+      object gridInconsistenciasLevel1: TcxGridLevel
+        GridView = gridInconsistenciasDBTableView1
+      end
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -902,18 +967,6 @@
       ControlOptions.ShowBorder = False
       Index = 3
     end
-    object dxLayoutItem9: TdxLayoutItem
-      Parent = dxLayoutGroup6
-      AlignHorz = ahClient
-      AlignVert = avClient
-      CaptionOptions.Text = 'Inconsist'#234'ncias:'
-      CaptionOptions.Layout = clTop
-      Control = inconsistencias
-      ControlOptions.OriginalHeight = 89
-      ControlOptions.OriginalWidth = 185
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
     object dxLayoutItem10: TdxLayoutItem
       Parent = dxLayoutGroup5
       AlignHorz = ahCenter
@@ -928,10 +981,22 @@
       Enabled = False
       Index = 4
     end
+    object dxLayoutItem9: TdxLayoutItem
+      Parent = dxLayoutGroup6
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'Inconsist'#234'ncias'
+      CaptionOptions.Layout = clTop
+      Control = gridInconsistencias
+      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalWidth = 250
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
   end
   object indicador: TdxActivityIndicator
-    Left = 139
-    Top = 93
+    Left = 140
+    Top = 94
     Width = 754
     Height = 13
     Anchors = [akLeft, akTop, akRight]
@@ -939,18 +1004,56 @@
     Properties.DotSize = 4
     Transparent = True
   end
-  object cxButton3: TcxButton
-    Left = 814
-    Top = 73
-    Width = 79
-    Height = 25
-    Cursor = crHandPoint
-    Action = actionSalvarArquivo
+  object ativaPainelGrupo: TcxCheckBox
+    Left = 674
+    Top = 76
     Anchors = [akTop, akRight]
+    Caption = 'Painel de Grupo'
+    Properties.OnChange = ativaPainelGrupoPropertiesChange
+    TabOrder = 2
+    Transparent = True
+  end
+  object cxButton3: TcxButton
+    Left = 802
+    Top = 71
+    Width = 26
+    Height = 27
+    Cursor = crHandPoint
+    Action = actionExpandirGrupos
+    Anchors = [akTop, akRight]
+    PaintStyle = bpsGlyph
     SpeedButtonOptions.CanBeFocused = False
     SpeedButtonOptions.Flat = True
     SpeedButtonOptions.Transparent = True
-    TabOrder = 1
+    TabOrder = 3
+  end
+  object cxButton4: TcxButton
+    Left = 834
+    Top = 71
+    Width = 26
+    Height = 27
+    Cursor = crHandPoint
+    Action = actionColapsarGrupos
+    Anchors = [akTop, akRight]
+    PaintStyle = bpsGlyph
+    SpeedButtonOptions.CanBeFocused = False
+    SpeedButtonOptions.Flat = True
+    SpeedButtonOptions.Transparent = True
+    TabOrder = 4
+  end
+  object cxButton5: TcxButton
+    Left = 867
+    Top = 71
+    Width = 26
+    Height = 27
+    Cursor = crHandPoint
+    Action = actionRestaurar
+    Anchors = [akTop, akRight]
+    PaintStyle = bpsGlyph
+    SpeedButtonOptions.CanBeFocused = False
+    SpeedButtonOptions.Flat = True
+    SpeedButtonOptions.Transparent = True
+    TabOrder = 5
   end
   object actionListImportar: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -995,7 +1098,24 @@
       Enabled = False
       Hint = 'Salvar LOG para arquivo'
       ImageIndex = 13
-      OnExecute = actionSalvarArquivoExecute
+    end
+    object actionExpandirGrupos: TAction
+      Caption = 'Expandir'
+      Hint = 'Expandir grupos'
+      ImageIndex = 62
+      OnExecute = actionExpandirGruposExecute
+    end
+    object actionColapsarGrupos: TAction
+      Caption = 'Colapsar'
+      Hint = 'Colapsar Grupos'
+      ImageIndex = 63
+      OnExecute = actionColapsarGruposExecute
+    end
+    object actionRestaurar: TAction
+      Caption = 'Restaurar '
+      Hint = 'Restaurar layout'
+      ImageIndex = 64
+      OnExecute = actionRestaurarExecute
     end
   end
   object OpenDialog: TOpenDialog
@@ -1010,9 +1130,61 @@
     Left = 728
     Top = 8
   end
-  object SaveDialog: TSaveDialog
-    Filter = 'Arquivo CSV|*.csv'
-    Title = 'Slvar Arquivo;'
-    Left = 680
+  object memTableLOG: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 784
+    Top = 8
+    object memTableLOGdes_descricao: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'des_descricao'
+      Size = 126
+    end
+    object memTableLOGnum_remessa: TStringField
+      DisplayLabel = 'Remessa'
+      FieldName = 'num_remessa'
+    end
+    object memTableLOGqtd_peso_baixa: TFloatField
+      DisplayLabel = 'Peso Baixa'
+      FieldName = 'qtd_peso_baixa'
+      EditFormat = ',0.000;-,0.000'
+    end
+    object memTableLOGqtd_peso_capa: TFloatField
+      DisplayLabel = 'Peso Capa'
+      FieldName = 'qtd_peso_capa'
+      EditFormat = ',0.000;-,0.000'
+    end
+    object memTableLOGval_verba_entregador: TCurrencyField
+      DisplayLabel = 'Verba Entregador'
+      FieldName = 'val_verba_entregador'
+      EditFormat = ',0.00;-,0.00'
+    end
+    object memTableLOGval_verba_Empresa: TCurrencyField
+      DisplayLabel = 'Verba Empresa'
+      FieldName = 'val_verba_Empresa'
+      EditFormat = ',0.00;-,0.00'
+    end
+    object memTableLOGnom_motorista: TStringField
+      DisplayLabel = 'Motorista'
+      FieldName = 'nom_motorista'
+      Size = 70
+    end
+    object memTableLOGnum_cep: TStringField
+      DisplayLabel = 'CEP'
+      FieldName = 'num_cep'
+      Size = 9
+    end
+  end
+  object dsLOG: TDataSource
+    AutoEdit = False
+    DataSet = memTableLOG
+    Enabled = False
+    Left = 824
+    Top = 8
   end
 end

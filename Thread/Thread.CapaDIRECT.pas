@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, Control.Bases, Control.EntregadoresExpressas, Control.Entregas, Control.VerbasExpressas, Control.CapaDIRECT,
-  System.SysUtils;
+  System.SysUtils, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
   Thread_CapaDirect = class(TThread)
@@ -19,6 +19,7 @@ type
     FProgresso: Double;
     FCliente: Integer;
     FCancelar: Boolean;
+    FMemTab: TFDMemTable;
     procedure UpdateLOG(sMensagem: String);
     function RetornaVerba(aParam: array of variant): Double;
     { Private declarations }
@@ -34,6 +35,7 @@ type
     property TotalInconsistencias: Integer read FTotalInconsistencias write FTotalInconsistencias;
     property Cliente: Integer read FCliente write FCliente;
     property Cancelar: Boolean read FCancelar write FCancelar;
+    property MemTab: TFDMemTable read FMemTab write FMemTab;
   end;
 
 implementation
@@ -190,7 +192,7 @@ begin
     end;
   Except on E: Exception do
     begin
-      sMensagem := '** ERROR **;' + Chr(13) + 'Classe:;' + E.ClassName + chr(13) + 'Mensagem:;' + E.Message + ';';
+      sMensagem := '** ERROR **' + 'Classe:' + E.ClassName + chr(13) + 'Mensagem:' + E.Message;
       UpdateLOG(sMensagem);
       FProcesso := False;
     end;
@@ -289,10 +291,32 @@ begin
 end;
 
 procedure Thread_CapaDirect.UpdateLOG(sMensagem: String);
+var
+  sDetalhe: TStringList;
 begin
-  if FLog.IsEmpty then
-    FLog := 'Descrição;Remessa;Peso Baixa;Peso Capa;Verba Entregador;Verba Empresa;Motorista;CEP';
-  FLog := FLog + #13 + sMensagem;
+  sDetalhe := TStringList.Create;
+  sDetalhe.StrictDelimiter := True;
+  sDetalhe.Delimiter := ';';
+  sDetalhe.DelimitedText := sMensagem;
+  if sDetalhe.Count = 8 then
+  begin
+    memTab.Insert;
+    memTab.Fields[0].Value := sDetalhe[0];
+    memTab.Fields[1].Value := sDetalhe[1];
+    memTab.Fields[2].Value := StrToFloatDef(sDetalhe[2], 0);
+    memTab.Fields[3].Value := StrToFloatDef(sDetalhe[3], 0);
+    memTab.Fields[4].Value := StrToFloatDef(sDetalhe[4], 0);
+    memTab.Fields[5].Value := StrToFloatDef(sDetalhe[5], 0);
+    memTab.Fields[6].Value := sDetalhe[6];
+    memTab.Fields[7].Value := sDetalhe[7];
+    MemTab.Post;
+  end
+  else
+  begin
+    memTab.Insert;
+    memTab.Fields[0].Value := sDetalhe[0];
+    MemTab.Post;
+  end;
 end;
 
 end.
