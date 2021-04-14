@@ -194,7 +194,7 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.Title := 'Sistema Gerenciador de Franquias';
+  Application.Title := 'Sistema Gerenciador de Faturamento';
   Application.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
   Application.Run;

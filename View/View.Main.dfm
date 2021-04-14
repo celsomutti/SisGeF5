@@ -578,6 +578,7 @@
     Top = 3
     Width = 1360
     Height = 122
+    Cursor = crHandPoint
     BarManager = bmMain
     Style = rs2016
     ColorSchemeName = 'Colorful'
@@ -701,13 +702,11 @@
     Panels = <
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        PanelStyle.Alignment = taCenter
         PanelStyle.ImageIndex = 29
         Width = 120
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        PanelStyle.Alignment = taCenter
         PanelStyle.AutoHint = True
         PanelStyle.ImageIndex = 42
         Fixed = False
@@ -715,14 +714,12 @@
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        PanelStyle.Alignment = taCenter
         PanelStyle.ImageIndex = 32
         Width = 250
         OnDblClick = dxRibbonStatusBar1Panels2DblClick
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        PanelStyle.Alignment = taCenter
         PanelStyle.ImageIndex = 30
         Width = 270
         OnDblClick = dxRibbonStatusBar1Panels3DblClick
@@ -730,15 +727,19 @@
       item
         PanelStyleClassName = 'TdxStatusBarKeyboardStatePanelStyle'
         PanelStyle.CapsLockKeyAppearance.ActiveFontColor = clDefault
+        PanelStyle.CapsLockKeyAppearance.InactiveFontColor = clWindow
         PanelStyle.CapsLockKeyAppearance.ActiveCaption = 'CAPS'
         PanelStyle.CapsLockKeyAppearance.InactiveCaption = 'CAPS'
         PanelStyle.NumLockKeyAppearance.ActiveFontColor = clDefault
+        PanelStyle.NumLockKeyAppearance.InactiveFontColor = clWindow
         PanelStyle.NumLockKeyAppearance.ActiveCaption = 'NUM'
         PanelStyle.NumLockKeyAppearance.InactiveCaption = 'NUM'
         PanelStyle.ScrollLockKeyAppearance.ActiveFontColor = clDefault
+        PanelStyle.ScrollLockKeyAppearance.InactiveFontColor = clWindow
         PanelStyle.ScrollLockKeyAppearance.ActiveCaption = 'SCRL'
         PanelStyle.ScrollLockKeyAppearance.InactiveCaption = 'SCRL'
         PanelStyle.InsertKeyAppearance.ActiveFontColor = clDefault
+        PanelStyle.InsertKeyAppearance.InactiveFontColor = clWindowText
         PanelStyle.InsertKeyAppearance.ActiveCaption = 'OVR'
         PanelStyle.InsertKeyAppearance.InactiveCaption = 'INS'
       end>

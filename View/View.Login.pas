@@ -15,7 +15,7 @@ uses
   dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinscxPCPainter, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit,
   dxLayoutcxEditAdapters, cxLabel, cxTextEdit, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls,
-  cxButtons;
+  cxButtons, cxImage, dxGDIPlusClasses;
 
 type
   Tview_Login = class(TForm)
@@ -34,14 +34,18 @@ type
     dxLayoutItem4: TdxLayoutItem;
     cxButton2: TcxButton;
     dxLayoutItem5: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     lblSistema: TcxLabel;
     dxLayoutItem6: TdxLayoutItem;
+    dxLayoutGroup1: TdxLayoutGroup;
+    dxLayoutGroup2: TdxLayoutGroup;
+    imageLogoSisGeF: TcxImage;
+    dxLayoutItem7: TdxLayoutItem;
     procedure actLogarExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure txtSenhaEnter(Sender: TObject);
     procedure txtSenhaExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -74,6 +78,15 @@ begin
     Key := #0;
     Perform(Wm_NextDlgCtl, 0, 0);
   end;
+end;
+
+procedure Tview_Login.FormShow(Sender: TObject);
+begin
+  Self.Top := Screen.WorkAreaTop;
+  Self.Left := Screen.WorkAreaLeft;
+  Self.Width := Screen.WorkAreaWidth;
+  Self.Height := Screen.WorkAreaHeight;
+  Self.Caption := Application.Title;
 end;
 
 procedure Tview_Login.txtSenhaEnter(Sender: TObject);

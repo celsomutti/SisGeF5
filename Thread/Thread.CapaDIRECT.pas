@@ -121,14 +121,15 @@ begin
           begin
             if FEntregas.Entregas.Fechado <> 'S' then
             begin
-              SetLength(aParam,7);
+              SetLength(aParam,8);
               aParam := [FEntregas.Entregas.Distribuidor,
                          FEntregas.Entregas.Entregador,
                          FEntregas.Entregas.CEP,
                          FPlanilha.Planilha.Planilha[i].KGM3,
                          FEntregas.Entregas.Baixa,
                          0,
-                         0];
+                         0,
+                         FEntregas.Entregas.TipoPeso];
               dVerba := RetornaVerba(aParam);
               if dVerba = 0 then
               begin
@@ -189,6 +190,10 @@ begin
         if Self.Terminated then Abort;
       end;
       FProcesso := False;
+    end
+    else
+    begin
+      UpdateLOG(FPlanilha.Planilha.Mensagem);
     end;
   Except on E: Exception do
     begin
@@ -286,6 +291,10 @@ begin
   if dVerbaEntregador > 0 then
   begin
     dVerba := dVerbaEntregador;
+    if UpperCase(aParam[7]) = 'LOJA' then
+    begin
+      dVerba := dVerbaEntregador / 2;
+    end;
   end;
   Result := dVerba;
 end;

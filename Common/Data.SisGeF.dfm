@@ -12758,15 +12758,15 @@ object Data_Sisgef: TData_Sisgef
       FieldName = 'DAT_ENTREGA'
     end
     object mtbEntregasQTD_PESO_REAL: TFloatField
-      DisplayLabel = 'Peso Real'
+      DisplayLabel = 'Peso Baixado'
       FieldName = 'QTD_PESO_REAL'
     end
     object mtbEntregasQTD_PESO_FRANQUIA: TFloatField
-      DisplayLabel = 'Peso Franquia'
+      DisplayLabel = 'Peso Aferido'
       FieldName = 'QTD_PESO_FRANQUIA'
     end
     object mtbEntregasVAL_VERBA_FRANQUIA: TFloatField
-      DisplayLabel = 'Verba Franquia'
+      DisplayLabel = 'Verba de Entrega'
       FieldName = 'VAL_VERBA_FRANQUIA'
     end
     object mtbEntregasVAL_ADVALOREM: TFloatField
@@ -12774,7 +12774,7 @@ object Data_Sisgef: TData_Sisgef
       FieldName = 'VAL_ADVALOREM'
     end
     object mtbEntregasVAL_PAGO_FRANQUIA: TFloatField
-      DisplayLabel = 'Valor Franquia'
+      DisplayLabel = 'Valor Recebido'
       FieldName = 'VAL_PAGO_FRANQUIA'
     end
     object mtbEntregasVAL_VERBA_ENTREGADOR: TFloatField
@@ -12799,7 +12799,7 @@ object Data_Sisgef: TData_Sisgef
       FieldName = 'VAL_VOLUMES_EXTRA'
     end
     object mtbEntregasQTD_PESO_COBRADO: TFloatField
-      DisplayLabel = 'Peso Cobrado'
+      DisplayLabel = 'Peso Real'
       FieldName = 'QTD_PESO_COBRADO'
     end
     object mtbEntregasDES_TIPO_PESO: TStringField
