@@ -578,7 +578,6 @@
     Top = 3
     Width = 1360
     Height = 122
-    Cursor = crHandPoint
     BarManager = bmMain
     Style = rs2016
     ColorSchemeName = 'Colorful'
@@ -618,8 +617,11 @@
           ToolbarName = 'bmMainBar4'
         end
         item
-          Caption = 'Extratos / Demonstrativos'
+          Caption = 'Demonstrativos'
           ToolbarName = 'bmMainBar5'
+        end
+        item
+          ToolbarName = 'bmMainBar6'
         end>
       Index = 1
     end
@@ -702,11 +704,13 @@
     Panels = <
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        PanelStyle.Alignment = taCenter
         PanelStyle.ImageIndex = 29
         Width = 120
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        PanelStyle.Alignment = taCenter
         PanelStyle.AutoHint = True
         PanelStyle.ImageIndex = 42
         Fixed = False
@@ -714,12 +718,14 @@
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        PanelStyle.Alignment = taCenter
         PanelStyle.ImageIndex = 32
         Width = 250
         OnDblClick = dxRibbonStatusBar1Panels2DblClick
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        PanelStyle.Alignment = taCenter
         PanelStyle.ImageIndex = 30
         Width = 270
         OnDblClick = dxRibbonStatusBar1Panels3DblClick
@@ -727,19 +733,15 @@
       item
         PanelStyleClassName = 'TdxStatusBarKeyboardStatePanelStyle'
         PanelStyle.CapsLockKeyAppearance.ActiveFontColor = clDefault
-        PanelStyle.CapsLockKeyAppearance.InactiveFontColor = clWindow
         PanelStyle.CapsLockKeyAppearance.ActiveCaption = 'CAPS'
         PanelStyle.CapsLockKeyAppearance.InactiveCaption = 'CAPS'
         PanelStyle.NumLockKeyAppearance.ActiveFontColor = clDefault
-        PanelStyle.NumLockKeyAppearance.InactiveFontColor = clWindow
         PanelStyle.NumLockKeyAppearance.ActiveCaption = 'NUM'
         PanelStyle.NumLockKeyAppearance.InactiveCaption = 'NUM'
         PanelStyle.ScrollLockKeyAppearance.ActiveFontColor = clDefault
-        PanelStyle.ScrollLockKeyAppearance.InactiveFontColor = clWindow
         PanelStyle.ScrollLockKeyAppearance.ActiveCaption = 'SCRL'
         PanelStyle.ScrollLockKeyAppearance.InactiveCaption = 'SCRL'
         PanelStyle.InsertKeyAppearance.ActiveFontColor = clDefault
-        PanelStyle.InsertKeyAppearance.InactiveFontColor = clWindowText
         PanelStyle.InsertKeyAppearance.ActiveCaption = 'OVR'
         PanelStyle.InsertKeyAppearance.InactiveCaption = 'INS'
       end>
@@ -909,7 +911,24 @@
         item
           Visible = True
           ItemName = 'dxBarLargeButton14'
-        end
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object bmMainBar6: TdxBar
+      Tag = 2040
+      Caption = 'Verbas Expressas'
+      CaptionButtons = <>
+      DockedLeft = 1110
+      DockedTop = 0
+      FloatLeft = 844
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
         item
           Visible = True
           ItemName = 'dxBarLargeButton16'
@@ -1156,7 +1175,6 @@
           ItemName = 'dxBarLargeButton37'
         end
         item
-          BeginGroup = True
           Visible = True
           ItemName = 'dxBarLargeButton38'
         end
@@ -1249,7 +1267,7 @@
     object bmMainBar2: TdxBar
       Caption = 'Expressas'
       CaptionButtons = <>
-      DockedLeft = 452
+      DockedLeft = 470
       DockedTop = 0
       FloatLeft = 1080
       FloatTop = 8
@@ -1277,7 +1295,7 @@
     object bmMainBar18: TdxBar
       Caption = 'Pessoas'
       CaptionButtons = <>
-      DockedLeft = 283
+      DockedLeft = 301
       DockedTop = 0
       FloatLeft = 801
       FloatTop = 8
@@ -1301,7 +1319,7 @@
     object bmMainBar19: TdxBar
       Caption = 'Transportes'
       CaptionButtons = <>
-      DockedLeft = 726
+      DockedLeft = 744
       DockedTop = 0
       FloatLeft = 802
       FloatTop = 8
@@ -1820,7 +1838,7 @@
       LargeImageIndex = 57
     end
     object dxBarLargeButton65: TdxBarLargeButton
-      Action = actCadastroGeral
+      Action = actCadastroContratados
       Category = 0
       LargeImageIndex = 2
     end
@@ -1928,7 +1946,7 @@
     object actVerbasExpressas: TAction
       Tag = 204010
       Category = 'Expressas'
-      Caption = 'Tabela de &Verbas'
+      Caption = '&Verbas'
       Hint = 'Verbas expressas'
       OnExecute = actVerbasExpressasExecute
     end
@@ -2055,9 +2073,8 @@
     object actImportarExtrato: TAction
       Tag = 601010
       Category = 'Financeiro'
-      Caption = 'Importar Capa DIRECT'
-      Hint = 'Importa'#231#227'o de planilha da Capa de Financeiro da DIRECT'
-      OnExecute = actImportarExtratoExecute
+      Caption = 'Importar Financeiro DIRECT'
+      Hint = 'Importa'#231#227'o de extrato da Franquia  gerado pela Transfolha'
     end
     object actCadastroFornecedores: TAction
       Tag = 601020
@@ -2076,7 +2093,6 @@
       Category = 'Financeiro'
       Caption = '&D'#233'bitos e Cr'#233'ditos'
       Hint = 'Registro e controle de cr'#233'ditos e d'#233'bitos para os colaboradores'
-      OnExecute = actDebitoCreditoExecute
     end
     object actContasReceber: TAction
       Tag = 601050
@@ -2185,19 +2201,16 @@
       Category = 'Cadastro'
       Caption = 'E&ntregadores'
       Hint = 'Cadaastro de Entregadores'
-      OnExecute = actCadastroEntregadoresExecute
     end
-    object actCadastroGeral: TAction
+    object actCadastroContratados: TAction
       Category = 'Cadastro'
-      Caption = 'Cadastro Geral'
-      Hint = 'Cadastro Geral'
+      Caption = 'Contratados'
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager
     Active = True
     FormCaptionMask = '[MainFormCaption]'
     TabProperties.CustomButtons.Buttons = <>
-    TabProperties.TabSlants.Kind = skCutCorner
     Left = 984
     Top = 264
     PixelsPerInch = 96

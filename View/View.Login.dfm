@@ -581,7 +581,7 @@ object view_Login: Tview_Login
     OptionsImage.Images = Data_Sisgef.iml_16_16
     object cxLabel1: TcxLabel
       Left = 262
-      Top = 145
+      Top = 140
       Caption = 'Login'
       ParentFont = False
       Style.Font.Charset = ANSI_CHARSET
@@ -593,11 +593,11 @@ object view_Login: Tview_Login
       Style.IsFontAssigned = True
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      AnchorY = 160
+      AnchorY = 155
     end
     object txtLogin: TcxTextEdit
       Left = 176
-      Top = 207
+      Top = 202
       Hint = 'Login do usu'#225'rio'
       ParentFont = False
       Properties.MaxLength = 30
@@ -613,7 +613,7 @@ object view_Login: Tview_Login
     end
     object txtSenha: TcxTextEdit
       Left = 177
-      Top = 262
+      Top = 257
       ParentFont = False
       Properties.EchoMode = eemPassword
       Properties.MaxLength = 100
@@ -640,7 +640,7 @@ object view_Login: Tview_Login
     end
     object cxButton2: TcxButton
       Left = 219
-      Top = 331
+      Top = 336
       Width = 100
       Height = 28
       Cursor = crHandPoint
@@ -662,7 +662,7 @@ object view_Login: Tview_Login
     end
     object imageLogoSisGeF: TcxImage
       Left = 193
-      Top = 28
+      Top = 23
       TabStop = False
       Picture.Data = {
         0B546478504E47496D61676589504E470D0A1A0A0000000D49484452000001AA
@@ -2741,8 +2741,6 @@ object view_Login: Tview_Login
         D0D0D0B0ADD1125543434343C3B6464B540D0D0D0D0DDB1829FD7FC8C57A3FF2
         B86D2A0000000049454E44AE426082}
       Properties.ReadOnly = True
-      Style.BorderColor = clNone
-      Style.BorderStyle = ebsNone
       Style.Edges = []
       Style.HotTrack = False
       Style.Shadow = False
@@ -2937,6 +2935,8 @@ object view_Login: Tview_Login
       AlignVert = avTop
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
+      Padding.Top = 5
+      Padding.AssignedValues = [lpavTop]
       Control = cxButton1
       ControlOptions.OriginalHeight = 30
       ControlOptions.OriginalWidth = 100
@@ -2949,6 +2949,8 @@ object view_Login: Tview_Login
       AlignVert = avTop
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
+      Padding.Top = 5
+      Padding.AssignedValues = [lpavTop]
       Control = cxButton2
       ControlOptions.OriginalHeight = 28
       ControlOptions.OriginalWidth = 100
@@ -2973,6 +2975,7 @@ object view_Login: Tview_Login
       AlignVert = avCenter
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 4
       ShowBorder = False
       Index = 0
     end

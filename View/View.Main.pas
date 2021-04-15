@@ -16,7 +16,7 @@ uses
   dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
   dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxRibbonPainter, dxSkinsdxBarPainter, dxSkinscxPCPainter, Control.Usuarios, FireDAC.Comp.Client,
-  Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems, cxFilterControl;
+  Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems;
 
 type
   Tview_Main = class(TForm)
@@ -62,6 +62,7 @@ type
     dxBarLargeButton15: TdxBarLargeButton;
     actControleLacre: TAction;
     actVerbasExpressas: TAction;
+    bmMainBar6: TdxBar;
     dxBarLargeButton16: TdxBarLargeButton;
     dxRibbon1Tab3: TdxRibbonTab;
     actImportacaoTiragem: TAction;
@@ -183,7 +184,7 @@ type
     bmMainBar19: TdxBar;
     dxBarLargeButton63: TdxBarLargeButton;
     dxBarLargeButton64: TdxBarLargeButton;
-    actCadastroGeral: TAction;
+    actCadastroContratados: TAction;
     dxBarLargeButton65: TdxBarLargeButton;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -211,9 +212,6 @@ type
     procedure actExtratoEntregadoresExpressasExecute(Sender: TObject);
     procedure actRoteirosExpressasExecute(Sender: TObject);
     procedure actCadastroEmpresasExecute(Sender: TObject);
-    procedure actCadastroEntregadoresExecute(Sender: TObject);
-    procedure actDebitoCreditoExecute(Sender: TObject);
-    procedure actImportarExtratoExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;
@@ -240,8 +238,7 @@ implementation
 uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsuarios, View.CadastraSenha,
   View.Calendario, View.VerbasExpressas, View.ExtraviosMultas, View.Acareacoes, View.ImportarPedidos, View.ImportarBaixasTFO,
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
-  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.CadastroEntregadores, View.LancamentosExtratos,
-  View.CadastroEntregadoresExpressas, View.ImportaCapaFinanceiroDIRECT;
+  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas;
 
 procedure Tview_Main.Acessos;
 var
@@ -330,7 +327,6 @@ begin
   AlteraSenha;
 end;
 
-
 procedure Tview_Main.actCadastroEmpresasExecute(Sender: TObject);
 begin
   if not Assigned(view_CadastroEmpresas) then
@@ -338,20 +334,6 @@ begin
     view_CadastroEmpresas := Tview_CadastroEmpresas.Create(Application);
   end;
   view_CadastroEmpresas.Show;
-end;
-
-procedure Tview_Main.actCadastroEntregadoresExecute(Sender: TObject);
-begin
-  if not Assigned(view_CadastroEntregadores) then
-  begin
-    view_CadastroEntregadores := Tview_CadastroEntregadores.Create(Application);
-  end;
-  view_CadastroEntregadores.Show;
-  {if not Assigned(view_CadastroEntregadoresExpressas) then
-  begin
-    view_CadastroEntregadoresExpressas := Tview_CadastroEntregadoresExpressas.Create(Application);
-  end;
-  view_CadastroEntregadoresExpressas.Show;}
 end;
 
 procedure Tview_Main.actCalendarioExecute(Sender: TObject);
@@ -376,15 +358,6 @@ begin
   end;
   view_ControleEntregas.Show;
 
-end;
-
-procedure Tview_Main.actDebitoCreditoExecute(Sender: TObject);
-begin
-  if not Assigned(view_LancamentosExtratos) then
-  begin
-    view_LancamentosExtratos := Tview_LancamentosExtratos.Create(Application);
-  end;
-  view_LancamentosExtratos.Show;
 end;
 
 procedure Tview_Main.actEnvioRespostaCTNCTFOExecute(Sender: TObject);
@@ -441,15 +414,6 @@ begin
   view_ImportarBaixasTFO.Show;
 end;
 
-procedure Tview_Main.actImportarExtratoExecute(Sender: TObject);
-begin
-  if not Assigned(view_ImportaCapaFinanceiroDIRECT) then
-  begin
-    view_ImportaCapaFinanceiroDIRECT := Tview_ImportaCapaFinanceiroDIRECT.Create(Application);
-  end;
-  view_ImportaCapaFinanceiroDIRECT.Show;
-end;
-
 procedure Tview_Main.actRecepcaoPedidoExecute(Sender: TObject);
 begin
 if not Assigned(view_RecepcaoPedidos) then
@@ -461,6 +425,7 @@ end;
 
 procedure Tview_Main.actRoteirosExpressasExecute(Sender: TObject);
 begin
+  if not Assigned(view_RoteirosExpressas) then
   begin
     view_RoteirosExpressas := Tview_RoteirosExpressas.Create(Application);
   end;

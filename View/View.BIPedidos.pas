@@ -19,30 +19,112 @@ uses
   cxDataStorage, cxNavigator, Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxImageComboBox, Control.Sistema, Control.Entregas, FireDAC.Comp.Client, cxDBLookupComboBox, cxBlobEdit,
   cxCurrencyEdit, cxTextEdit, cxCalendar, cxSpinEdit, cxCheckBox, cxMaskEdit, Control.FilterData, dxDateRanges,
-  cxDataControllerConditionalFormattingRulesManagerDialog;
+  cxDataControllerConditionalFormattingRulesManagerDialog, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet,
+  cxButtonEdit, cxFilterControl, cxDBFilterControl, FireDAC.Stan.Async, FireDAC.DApt;
 
 type
   Tview_BIPedidos = class(TForm)
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
-    cxLabel1: TcxLabel;
-    dxLayoutItem1: TdxLayoutItem;
     aclBIPedidos: TActionList;
     actFiltro: TAction;
     actlimparDados: TAction;
     actFechar: TAction;
-    cxButton1: TcxButton;
-    dxLayoutItem2: TdxLayoutItem;
     tvPesquisa: TcxGridDBTableView;
     lvPesquisa: TcxGridLevel;
     grdPesquisa: TcxGrid;
     dxLayoutItem3: TdxLayoutItem;
     ds: TDataSource;
+    SaveDialog: TSaveDialog;
+    parametrosLeitura: TcxButtonEdit;
+    dxLayoutItem6: TdxLayoutItem;
+    actionEditarFiltro: TAction;
+    dxLayoutGroup1: TdxLayoutGroup;
+    dxLayoutGroup2: TdxLayoutGroup;
+    filtroBI: TcxDBFilterControl;
+    dxLayoutItem1: TdxLayoutItem;
+    actionSalvarFilro: TAction;
+    actionCarregarFiltro: TAction;
+    dxLayoutGroup3: TdxLayoutGroup;
+    cxButton1: TcxButton;
+    dxLayoutItem2: TdxLayoutItem;
+    cxButton2: TcxButton;
+    dxLayoutItem4: TdxLayoutItem;
+    cxButton3: TcxButton;
+    dxLayoutItem5: TdxLayoutItem;
+    fdQueryBI: TFDQuery;
+    fdQueryBINUM_NOSSONUMERO: TStringField;
+    fdQueryBICOD_AGENTE: TIntegerField;
+    fdQueryBINOM_AGENTE: TStringField;
+    fdQueryBICOD_ENTREGADOR: TIntegerField;
+    fdQueryBINOM_ENTREGADOR: TStringField;
+    fdQueryBICOD_CLIENTE: TIntegerField;
+    fdQueryBINOM_CLIENTE: TStringField;
+    fdQueryBINUM_NF: TStringField;
+    fdQueryBINOM_CONSUMIDOR: TStringField;
+    fdQueryBIDES_ENDERECO: TStringField;
+    fdQueryBIDES_COMPLEMENTO: TStringField;
+    fdQueryBIDES_BAIRRO: TStringField;
+    fdQueryBINOM_CIDADE: TStringField;
+    fdQueryBINUM_CEP: TStringField;
+    fdQueryBINUM_TELEFONE: TStringField;
+    fdQueryBIDAT_EXPEDICAO: TDateField;
+    fdQueryBIDAT_PREV_DISTRIBUICAO: TDateField;
+    fdQueryBIQTD_VOLUMES: TIntegerField;
+    fdQueryBIDAT_ATRIBUICAO: TDateTimeField;
+    fdQueryBIDAT_BAIXA: TDateField;
+    fdQueryBIDOM_BAIXADO: TStringField;
+    fdQueryBIDAT_PAGAMENTO: TDateField;
+    fdQueryBIDOM_PAGO: TStringField;
+    fdQueryBIDOM_FECHADO: TStringField;
+    fdQueryBICOD_STATUS: TIntegerField;
+    fdQueryBIDAT_ENTREGA: TDateField;
+    fdQueryBIQTD_PESO_REAL: TFloatField;
+    fdQueryBIQTD_PESO_FRANQUIA: TFloatField;
+    fdQueryBIVAL_VERBA_FRANQUIA: TFloatField;
+    fdQueryBIVAL_ADVALOREM: TFloatField;
+    fdQueryBIVAL_PAGO_FRANQUIA: TFloatField;
+    fdQueryBIVAL_VERBA_ENTREGADOR: TFloatField;
+    fdQueryBINUM_EXTRATO: TStringField;
+    fdQueryBIQTD_DIAS_ATRASO: TIntegerField;
+    fdQueryBIQTD_VOLUMES_EXTRA: TSingleField;
+    fdQueryBIVAL_VOLUMES_EXTRA: TFloatField;
+    fdQueryBIQTD_PESO_COBRADO: TFloatField;
+    fdQueryBIDES_TIPO_PESO: TStringField;
+    fdQueryBIDAT_RECEBIDO: TDateField;
+    fdQueryBIDOM_RECEBIDO: TStringField;
+    fdQueryBINUM_CTRC: TIntegerField;
+    fdQueryBINUM_MANIFESTO: TIntegerField;
+    fdQueryBIDES_RASTREIO: TMemoField;
+    fdQueryBINUM_LOTE_REMESSA: TIntegerField;
+    fdQueryBIDES_RETORNO: TStringField;
+    fdQueryBIDAT_CREDITO: TDateField;
+    fdQueryBIDOM_CREDITO: TStringField;
+    fdQueryBINUM_CONTAINER: TStringField;
+    fdQueryBIVAL_PRODUTO: TSingleField;
+    fdQueryBIQTD_ALTURA: TIntegerField;
+    fdQueryBIQTD_LARGURA: TIntegerField;
+    fdQueryBIQTD_COMPRIMENTO: TIntegerField;
+    fdQueryBICOD_FEEDBACK: TIntegerField;
+    fdQueryBIDAT_FEEDBACK: TDateTimeField;
+    fdQueryBIDOM_CONFERIDO: TIntegerField;
+    fdQueryBINUM_PEDIDO: TStringField;
+    fdQueryBICOD_CLIENTE_EMPRESA: TIntegerField;
+    labelTitle: TcxLabel;
+    dxLayoutItem7: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
+    cxButton4: TcxButton;
     tvPesquisaNUM_NOSSONUMERO: TcxGridDBColumn;
+    tvPesquisaNUM_PEDIDO: TcxGridDBColumn;
     tvPesquisaCOD_AGENTE: TcxGridDBColumn;
+    tvPesquisaNOM_AGENTE: TcxGridDBColumn;
     tvPesquisaCOD_ENTREGADOR: TcxGridDBColumn;
+    tvPesquisaNOM_ENTREGADOR: TcxGridDBColumn;
     tvPesquisaCOD_CLIENTE: TcxGridDBColumn;
+    tvPesquisaNOM_CLIENTE: TcxGridDBColumn;
     tvPesquisaNUM_NF: TcxGridDBColumn;
+    tvPesquisaDES_RETORNO: TcxGridDBColumn;
     tvPesquisaNOM_CONSUMIDOR: TcxGridDBColumn;
     tvPesquisaDES_ENDERECO: TcxGridDBColumn;
     tvPesquisaDES_COMPLEMENTO: TcxGridDBColumn;
@@ -79,7 +161,6 @@ type
     tvPesquisaNUM_MANIFESTO: TcxGridDBColumn;
     tvPesquisaDES_RASTREIO: TcxGridDBColumn;
     tvPesquisaNUM_LOTE_REMESSA: TcxGridDBColumn;
-    tvPesquisaDES_RETORNO: TcxGridDBColumn;
     tvPesquisaDAT_CREDITO: TcxGridDBColumn;
     tvPesquisaDOM_CREDITO: TcxGridDBColumn;
     tvPesquisaNUM_CONTAINER: TcxGridDBColumn;
@@ -90,36 +171,18 @@ type
     tvPesquisaCOD_FEEDBACK: TcxGridDBColumn;
     tvPesquisaDAT_FEEDBACK: TcxGridDBColumn;
     tvPesquisaDOM_CONFERIDO: TcxGridDBColumn;
-    tvPesquisaNUM_PEDIDO: TcxGridDBColumn;
     tvPesquisaCOD_CLIENTE_EMPRESA: TcxGridDBColumn;
-    cxButton2: TcxButton;
-    dxLayoutItem4: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
-    cxButton3: TcxButton;
-    dxLayoutItem5: TdxLayoutItem;
-    dsBases: TDataSource;
-    dsEntregadores: TDataSource;
-    dsEmbarcadores: TDataSource;
-    SaveDialog: TSaveDialog;
-    textQuery: TcxTextEdit;
-    layoutFilterText: TdxLayoutItem;
-    tvPesquisaColumnCOD_AGENTE_NUMERO: TcxGridDBColumn;
-    tvPesquisaColumnCOD_ENTREGADOR_NUMERO: TcxGridDBColumn;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
-    procedure actlimparDadosExecute(Sender: TObject);
     procedure actFiltroExecute(Sender: TObject);
     procedure tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
   private
     { Private declarations }
-    procedure PopulaBases;
-    procedure Populaentregadores;
-    procedure PopulaClientes;
     procedure Filtro;
-    procedure ExecutaFiltro(sFiltro: String);
-    procedure PopulaPesquisa(FDQuery: TFDQuery);
     procedure ExportarDados;
+    procedure SaveLayout;
+    procedure RestoreLayout;
   public
     { Public declarations }
   end;
@@ -129,6 +192,7 @@ var
   entregadores : TEntregadoresExpressasControl;
   bases : TBasesControl;
   clientes : TClientesControl;
+  sFileLayout, sSQLOld: String;
 
 implementation
 
@@ -146,195 +210,74 @@ begin
   Filtro;
 end;
 
-procedure Tview_BIPedidos.actlimparDadosExecute(Sender: TObject);
-begin
-  if Application.MessageBox('Confirma limpar os dados da tela?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDYES then
-  begin
-    if Data_Sisgef.mtbEntregas.Active then Data_Sisgef.mtbEntregas.Close;
-    actlimparDados.Enabled := False;
-    layoutFilterText.Visible := False;
-    textQuery.Clear;
-  end;
-end;
-
-procedure Tview_BIPedidos.ExecutaFiltro(sFiltro: String);
+procedure Tview_BIPedidos.ExportarDados;
 var
-  entregas : TEntregasControl;
-  fdEntregas : TFDQuery;
-  aParam : Array of Variant;
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
 begin
   try
-    entregas := TEntregasControl.Create();
-    fdEntregas := TSistemaControl.GetInstance.Conexao.ReturnQuery();
-    if Data_Sisgef.mtbEntregas.Active then Data_Sisgef.mtbEntregas.Close;
-    SetLength(aParam, 2);
-    aParam := ['FILTRO','where ' + sFiltro];
-    fdEntregas := entregas.Localizar(aParam);
-    if not fdEntregas.IsEmpty then
-    begin
-      PopulaPesquisa(fdEntregas);
-    end
-    else
-    begin
-      Application.MessageBox('Nenhum registro encontrado!', 'Atenção', MB_OK + MB_ICONWARNING);
-    end;
-    fdEntregas.Close
-  finally
-    fdEntregas.Free;
-    entregas.Free;
-  end;
-end;
+    fnUtil := Common.Utils.TUtils.Create;
 
-procedure Tview_BIPedidos.ExportarDados;
-begin
-  SaveDialog.Filter := '';
-  SaveDialog.Filter := 'Excel (*.xls) |*.xls|XML (*.xml) |*.xml|Arquivo Texto (*.txt) |*.txt|Página Web (*.html)|*.html|Arquivo separado por virgulas (*.csv)|*.csv';
-  SaveDialog.Title := 'Exportar Dados';
-  SaveDialog.DefaultExt := 'xls';
-  if SaveDialog.Execute then
-  begin
-    TUtils.ExportarDados(grdPesquisa, SaveDialog.FileName);
+    if fdQueryBI.IsEmpty then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(grdPesquisa,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
   end;
 end;
 
 procedure Tview_BIPedidos.Filtro;
 var
-  filtro : TFilterDataControl;
-  i: Integer;
+  sFiltro : String;
 begin
-  try
-    filtro := TFilterDataControl.Create;
-    textQuery.Text := '';
-    if not Assigned(view_FilterData) then
-    begin
-      view_FilterData := Tview_FilterData.Create(Application);
-    end;
-    view_FilterData.mtbPesquisa := Data_Sisgef.mtbEntregas;
-    view_FilterData.filtro := filtro;
-    if view_FilterData.ShowModal = mrOk then
-    begin
-      layoutFilterText.Visible := True;
-      for i := 0 to Pred(filtro.Filtro.Params.Count) do
-      begin
-        textQuery.Text := textQuery.Text + ' ' + filtro.Filtro.Params[i];
-      end;
-      //textQuery.Text := filtro.Filtro.TextFilter;
-    end
-    else
-    begin
-      textQuery.Clear;
-      layoutFilterText.Visible := False;
-    end;
-    FreeAndNil(view_FilterData);
-    if not filtro.Filtro.TextFilter.IsEmpty then
-    begin
-      ExecutaFiltro(filtro.Filtro.TextFilter);
-    end;
-  finally
-    filtro.Free;
-  end;
+  sFiltro := filtroBI.FilterText;
+  parametrosLeitura.Text := filtroBI.FilterCaption;
+  fdQueryBI.SQL.Text := sSQlOld + ' where ' + sFiltro;
+  fdQueryBI.Active := true;
 end;
 
 procedure Tview_BIPedidos.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Data_Sisgef.mtbentregadores.Active:= False;
-  Data_Sisgef.mtbBases.Active := False;
-  Data_Sisgef.mtbEmbarcadores.Active := False;
-  Data_Sisgef.mtbEntregas.Active := False;
+  fdQueryBI.Active := False;
   Action := caFree;
   view_BIPedidos := nil;
 end;
 
 procedure Tview_BIPedidos.FormShow(Sender: TObject);
 begin
-  PopulaBases;
-  Populaentregadores;
-  PopulaClientes;
+  labelTitle.Caption := Self.Caption;
+  sFileLayout := ExtractFilePath(Application.ExeName) + '\layoutBIRemessas' + Global.Parametros.pUser_ID.ToString + '.ini';
+  SaveLayout;
+  sSQLOld := fdQueryBI.SQL.Text;
 end;
 
-procedure Tview_BIPedidos.PopulaBases;
-var
-  FDQuery : TFDQuery;
-  aParam : Array of variant;
+procedure Tview_BIPedidos.RestoreLayout;
 begin
-  try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    bases := TBasesControl.Create;
-    SetLength(aParam,3);
-    aParam[0] := 'APOIO';
-    aParam[1] := '0 as dom_check, cod_agente as cod_base, nom_fantasia as nom_base';
-    aParam[2] := 'WHERE COD_STATUS = 1';
-    FDQuery := bases.Localizar(aParam);
-    if not FDQuery.IsEmpty then
-    begin
-      Data_Sisgef.mtbBases.Data := FDQuery.Data;
-    end;
-    FDQuery.Close;
-  finally
-    bases.Free;
-    FDquery.Free;
-  end;
+  tvPesquisa.RestoreFromIniFile(sFileLayout);
 end;
 
-procedure Tview_BIPedidos.PopulaClientes;
-var
-  FDQuery : TFDQuery;
-  aParam : Array of variant;
+procedure Tview_BIPedidos.SaveLayout;
 begin
-  try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    clientes := TClientesControl.Create;
-    SetLength(aParam,3);
-    aParam[0] := 'APOIO';
-    aParam[1] := '*';
-    aParam[2] := '';
-    FDQuery := clientes.Localizar(aParam);
-    if not FDQuery.IsEmpty then
-    begin
-      Data_Sisgef.mtbEmbarcadores.Data := FDQuery.Data;
-    end;
-    FDQuery.Close;
-  finally
-    clientes.Free;
-    FDquery.Free;
-  end;
-end;
-
-procedure Tview_BIPedidos.Populaentregadores;
-var
-  FDQuery : TFDQuery;
-  aParam : Array of variant;
-begin
-  try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    entregadores := TEntregadoresExpressasControl.Create;
-    SetLength(aParam,3);
-    aParam[0] := 'APOIO';
-    aParam[1] := '*';
-    aParam[2] := 'WHERE COD_CADASTRO <> 0';
-    FDQuery := entregadores.Localizar(aParam);
-    Data_Sisgef.mtbEntregadores.Data := FDQuery.Data;
-    FDQuery.Close;
-  finally
-    entregadores.Free;
-    FDquery.Free;
-  end;
-end;
-
-procedure Tview_BIPedidos.PopulaPesquisa(FDQuery: TFDQuery);
-begin
-  if Data_Sisgef.mtbEntregas.Active then Data_Sisgef.mtbEntregas.Close;
-  if not FDQuery.IsEmpty then
-  begin
-    Data_Sisgef.mtbEntregas.Data := FDQuery.Data;
-    actlimparDados.Enabled := True;
-  end;
+  tvPesquisa.StoreToIniFile(sFileLayout);
 end;
 
 procedure Tview_BIPedidos.tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
 begin
 case AButtonIndex of
-    16: ExportarDados;
+    16 : ExportarDados;
+    17 : tvPesquisa.ViewData.Expand(True);
+    18 : tvPesquisa.ViewData.Collapse(True);
+    19 : RestoreLayout;
   end;
 end;
 
