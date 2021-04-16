@@ -2075,6 +2075,7 @@
       Category = 'Financeiro'
       Caption = 'Importar Financeiro DIRECT'
       Hint = 'Importa'#231#227'o de extrato da Franquia  gerado pela Transfolha'
+      OnExecute = actImportarExtratoExecute
     end
     object actCadastroFornecedores: TAction
       Tag = 601020
@@ -2201,6 +2202,7 @@
       Category = 'Cadastro'
       Caption = 'E&ntregadores'
       Hint = 'Cadaastro de Entregadores'
+      OnExecute = actCadastroEntregadoresExecute
     end
     object actCadastroContratados: TAction
       Category = 'Cadastro'

@@ -76,9 +76,6 @@ type
     gridInconsistenciasDBTableView1num_cep: TcxGridDBColumn;
     actionExpandirGrupos: TAction;
     actionColapsarGrupos: TAction;
-    cxButton3: TcxButton;
-    cxButton4: TcxButton;
-    cxButton5: TcxButton;
     actionRestaurar: TAction;
     procedure FormShow(Sender: TObject);
     procedure actionFecharTelaExecute(Sender: TObject);
@@ -217,6 +214,9 @@ procedure Tview_ImportaCapaFinanceiroDIRECT.gridInconsistenciasDBTableView1Navig
 begin
   case AButtonIndex of
     16 : ExportarGrade;
+    17 : gridInconsistenciasDBTableView1.ViewData.Expand(True);
+    18 : gridInconsistenciasDBTableView1.ViewData.Collapse(True);
+    19 : RestoreLayout;
   end;
 end;
 

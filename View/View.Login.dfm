@@ -3,7 +3,7 @@ object view_Login: Tview_Login
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'Login'
-  ClientHeight = 387
+  ClientHeight = 369
   ClientWidth = 538
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
@@ -563,25 +563,26 @@ object view_Login: Tview_Login
     0000FFFF0000}
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
   OnKeyPress = FormKeyPress
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 17
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
     Width = 538
-    Height = 387
+    Height = 369
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     OptionsImage.Images = Data_Sisgef.iml_16_16
+    ExplicitHeight = 387
     object cxLabel1: TcxLabel
       Left = 262
-      Top = 140
+      Top = 130
       Caption = 'Login'
       ParentFont = False
       Style.Font.Charset = ANSI_CHARSET
@@ -593,11 +594,11 @@ object view_Login: Tview_Login
       Style.IsFontAssigned = True
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      AnchorY = 155
+      AnchorY = 145
     end
     object txtLogin: TcxTextEdit
       Left = 176
-      Top = 202
+      Top = 192
       Hint = 'Login do usu'#225'rio'
       ParentFont = False
       Properties.MaxLength = 30
@@ -608,12 +609,12 @@ object view_Login: Tview_Login
       Style.Font.Style = []
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 2
+      TabOrder = 3
       Width = 185
     end
     object txtSenha: TcxTextEdit
       Left = 177
-      Top = 257
+      Top = 247
       ParentFont = False
       Properties.EchoMode = eemPassword
       Properties.MaxLength = 100
@@ -624,33 +625,33 @@ object view_Login: Tview_Login
       Style.Font.Style = []
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 3
+      TabOrder = 4
       OnEnter = txtSenhaEnter
       OnExit = txtSenhaExit
       Width = 183
     end
     object cxButton1: TcxButton
-      Left = 219
-      Top = 294
+      Left = 165
+      Top = 284
       Width = 100
       Height = 30
       Cursor = crHandPoint
       Action = actLogar
-      TabOrder = 4
+      TabOrder = 5
     end
     object cxButton2: TcxButton
-      Left = 219
-      Top = 336
+      Left = 272
+      Top = 284
       Width = 100
-      Height = 28
+      Height = 30
       Cursor = crHandPoint
       Action = actCancelar
       Cancel = True
-      TabOrder = 5
+      TabOrder = 6
     end
     object lblSistema: TcxLabel
       Left = 13
-      Top = 353
+      Top = 335
       Caption = 'Sistema'
       Style.HotTrack = False
       Style.Shadow = False
@@ -658,11 +659,11 @@ object view_Login: Tview_Login
       Properties.Alignment.Vert = taVCenter
       Transparent = True
       AnchorX = 525
-      AnchorY = 364
+      AnchorY = 346
     end
     object imageLogoSisGeF: TcxImage
       Left = 193
-      Top = 23
+      Top = 13
       TabStop = False
       Picture.Data = {
         0B546478504E47496D61676589504E470D0A1A0A0000000D49484452000001AA
@@ -2745,7 +2746,7 @@ object view_Login: Tview_Login
       Style.HotTrack = False
       Style.Shadow = False
       Style.TransparentBorder = True
-      TabOrder = 0
+      TabOrder = 1
       Transparent = True
       Height = 100
       Width = 152
@@ -2755,6 +2756,7 @@ object view_Login: Tview_Login
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end
@@ -2930,8 +2932,8 @@ object view_Login: Tview_Login
       Index = 3
     end
     object dxLayoutItem4: TdxLayoutItem
-      Parent = dxLayoutGroup1
-      AlignHorz = ahCenter
+      Parent = dxLayoutAutoCreatedGroup1
+      AlignHorz = ahRight
       AlignVert = avTop
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
@@ -2941,12 +2943,12 @@ object view_Login: Tview_Login
       ControlOptions.OriginalHeight = 30
       ControlOptions.OriginalWidth = 100
       ControlOptions.ShowBorder = False
-      Index = 4
+      Index = 0
     end
     object dxLayoutItem5: TdxLayoutItem
-      Parent = dxLayoutGroup1
-      AlignHorz = ahCenter
-      AlignVert = avTop
+      Parent = dxLayoutAutoCreatedGroup1
+      AlignHorz = ahRight
+      AlignVert = avClient
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Padding.Top = 5
@@ -2955,7 +2957,7 @@ object view_Login: Tview_Login
       ControlOptions.OriginalHeight = 28
       ControlOptions.OriginalWidth = 100
       ControlOptions.ShowBorder = False
-      Index = 5
+      Index = 1
     end
     object dxLayoutItem6: TdxLayoutItem
       Parent = dxLayoutControl1Group_Root
@@ -2967,17 +2969,15 @@ object view_Login: Tview_Login
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 43
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
-      AlignHorz = ahClient
-      AlignVert = avCenter
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ItemIndex = 4
       ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = dxLayoutGroup1
@@ -2997,6 +2997,14 @@ object view_Login: Tview_Login
       ControlOptions.OriginalWidth = 152
       ControlOptions.ShowBorder = False
       Index = 0
+    end
+    object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
+      Parent = dxLayoutGroup1
+      AlignHorz = ahCenter
+      AlignVert = avTop
+      LayoutDirection = ldHorizontal
+      Index = 4
+      AutoCreated = True
     end
   end
   object aclLogin: TActionList

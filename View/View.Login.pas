@@ -40,12 +40,12 @@ type
     dxLayoutGroup2: TdxLayoutGroup;
     imageLogoSisGeF: TcxImage;
     dxLayoutItem7: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     procedure actLogarExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure txtSenhaEnter(Sender: TObject);
     procedure txtSenhaExit(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -78,15 +78,6 @@ begin
     Key := #0;
     Perform(Wm_NextDlgCtl, 0, 0);
   end;
-end;
-
-procedure Tview_Login.FormShow(Sender: TObject);
-begin
-  Self.Top := Screen.WorkAreaTop;
-  Self.Left := Screen.WorkAreaLeft;
-  Self.Width := Screen.WorkAreaWidth;
-  Self.Height := Screen.WorkAreaHeight;
-  Self.Caption := Application.Title;
 end;
 
 procedure Tview_Login.txtSenhaEnter(Sender: TObject);

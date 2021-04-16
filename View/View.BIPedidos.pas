@@ -56,11 +56,8 @@ type
     fdQueryBI: TFDQuery;
     fdQueryBINUM_NOSSONUMERO: TStringField;
     fdQueryBICOD_AGENTE: TIntegerField;
-    fdQueryBINOM_AGENTE: TStringField;
     fdQueryBICOD_ENTREGADOR: TIntegerField;
-    fdQueryBINOM_ENTREGADOR: TStringField;
     fdQueryBICOD_CLIENTE: TIntegerField;
-    fdQueryBINOM_CLIENTE: TStringField;
     fdQueryBINUM_NF: TStringField;
     fdQueryBINOM_CONSUMIDOR: TStringField;
     fdQueryBIDES_ENDERECO: TStringField;
@@ -91,6 +88,7 @@ type
     fdQueryBIQTD_VOLUMES_EXTRA: TSingleField;
     fdQueryBIVAL_VOLUMES_EXTRA: TFloatField;
     fdQueryBIQTD_PESO_COBRADO: TFloatField;
+
     fdQueryBIDES_TIPO_PESO: TStringField;
     fdQueryBIDAT_RECEBIDO: TDateField;
     fdQueryBIDOM_RECEBIDO: TStringField;
@@ -118,11 +116,8 @@ type
     tvPesquisaNUM_NOSSONUMERO: TcxGridDBColumn;
     tvPesquisaNUM_PEDIDO: TcxGridDBColumn;
     tvPesquisaCOD_AGENTE: TcxGridDBColumn;
-    tvPesquisaNOM_AGENTE: TcxGridDBColumn;
     tvPesquisaCOD_ENTREGADOR: TcxGridDBColumn;
-    tvPesquisaNOM_ENTREGADOR: TcxGridDBColumn;
     tvPesquisaCOD_CLIENTE: TcxGridDBColumn;
-    tvPesquisaNOM_CLIENTE: TcxGridDBColumn;
     tvPesquisaNUM_NF: TcxGridDBColumn;
     tvPesquisaDES_RETORNO: TcxGridDBColumn;
     tvPesquisaNOM_CONSUMIDOR: TcxGridDBColumn;
@@ -172,17 +167,23 @@ type
     tvPesquisaDAT_FEEDBACK: TcxGridDBColumn;
     tvPesquisaDOM_CONFERIDO: TcxGridDBColumn;
     tvPesquisaCOD_CLIENTE_EMPRESA: TcxGridDBColumn;
+    ativaPainelGrupo: TcxCheckBox;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure actFiltroExecute(Sender: TObject);
     procedure tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+    procedure ativaPainelGrupoPropertiesChange(Sender: TObject);
+    procedure actionEditarFiltroExecute(Sender: TObject);
+    procedure actlimparDadosExecute(Sender: TObject);
+    procedure parametrosLeituraPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     procedure Filtro;
     procedure ExportarDados;
     procedure SaveLayout;
     procedure RestoreLayout;
+    function VerifyColumnsView(): boolean;
   public
     { Public declarations }
   end;
@@ -208,6 +209,23 @@ end;
 procedure Tview_BIPedidos.actFiltroExecute(Sender: TObject);
 begin
   Filtro;
+end;
+
+procedure Tview_BIPedidos.actionEditarFiltroExecute(Sender: TObject);
+begin
+  dxLayoutGroup2.Visible := True;
+end;
+
+procedure Tview_BIPedidos.actlimparDadosExecute(Sender: TObject);
+begin
+  dxLayoutGroup2.Visible := True;
+  parametrosLeitura.Clear;
+  filtroBI.Clear;
+end;
+
+procedure Tview_BIPedidos.ativaPainelGrupoPropertiesChange(Sender: TObject);
+begin
+  tvPesquisa.OptionsView.GroupByBox := ativaPainelGrupo.Checked;
 end;
 
 procedure Tview_BIPedidos.ExportarDados;
@@ -238,12 +256,25 @@ end;
 
 procedure Tview_BIPedidos.Filtro;
 var
-  sFiltro : String;
+  sFiltro, sMessage: String;
 begin
+  if filtroBI.FilterText.IsEmpty then
+  begin
+    sMessage := 'Devido a grande quantidade de registros da tabela de pedidos, esse filtro somente ' +
+                'pode ser realizado com critérios de consulta!';
+    MessageDlg(sMessage, mtWarning, [mbCancel], 0);
+    Exit;
+  end;
+  if not VerifyColumnsView() then
+  begin
+    Application.MessageBox('Selecione as colunas que deseja visualizar.','Visualizar Colunas', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
   sFiltro := filtroBI.FilterText;
   parametrosLeitura.Text := filtroBI.FilterCaption;
   fdQueryBI.SQL.Text := sSQlOld + ' where ' + sFiltro;
   fdQueryBI.Active := true;
+  dxLayoutGroup2.Visible := False;
 end;
 
 procedure Tview_BIPedidos.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -261,9 +292,16 @@ begin
   sSQLOld := fdQueryBI.SQL.Text;
 end;
 
+procedure Tview_BIPedidos.parametrosLeituraPropertiesChange(Sender: TObject);
+begin
+  actlimparDados.Enabled := (parametrosLeitura.Text <> '');
+  actionEditarFiltro.Enabled := (parametrosLeitura.Text <> '');
+end;
+
 procedure Tview_BIPedidos.RestoreLayout;
 begin
   tvPesquisa.RestoreFromIniFile(sFileLayout);
+  ativaPainelGrupo.Checked := False;
 end;
 
 procedure Tview_BIPedidos.SaveLayout;
@@ -279,6 +317,13 @@ case AButtonIndex of
     18 : tvPesquisa.ViewData.Collapse(True);
     19 : RestoreLayout;
   end;
+end;
+
+function Tview_BIPedidos.VerifyColumnsView: boolean;
+begin
+  Result := False;
+  if tvPesquisa.VisibleColumnCount > 0 then
+    Result := True;
 end;
 
 end.

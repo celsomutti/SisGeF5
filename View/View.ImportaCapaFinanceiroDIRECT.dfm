@@ -709,6 +709,15 @@
           item
             Hint = 'Exportar Grade'
             ImageIndex = 11
+          end
+          item
+            ImageIndex = 62
+          end
+          item
+            ImageIndex = 63
+          end
+          item
+            ImageIndex = 64
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.ImageIndex = 5
@@ -1005,55 +1014,13 @@
     Transparent = True
   end
   object ativaPainelGrupo: TcxCheckBox
-    Left = 674
+    Left = 778
     Top = 76
     Anchors = [akTop, akRight]
     Caption = 'Painel de Grupo'
     Properties.OnChange = ativaPainelGrupoPropertiesChange
     TabOrder = 2
     Transparent = True
-  end
-  object cxButton3: TcxButton
-    Left = 802
-    Top = 71
-    Width = 26
-    Height = 27
-    Cursor = crHandPoint
-    Action = actionExpandirGrupos
-    Anchors = [akTop, akRight]
-    PaintStyle = bpsGlyph
-    SpeedButtonOptions.CanBeFocused = False
-    SpeedButtonOptions.Flat = True
-    SpeedButtonOptions.Transparent = True
-    TabOrder = 3
-  end
-  object cxButton4: TcxButton
-    Left = 834
-    Top = 71
-    Width = 26
-    Height = 27
-    Cursor = crHandPoint
-    Action = actionColapsarGrupos
-    Anchors = [akTop, akRight]
-    PaintStyle = bpsGlyph
-    SpeedButtonOptions.CanBeFocused = False
-    SpeedButtonOptions.Flat = True
-    SpeedButtonOptions.Transparent = True
-    TabOrder = 4
-  end
-  object cxButton5: TcxButton
-    Left = 867
-    Top = 71
-    Width = 26
-    Height = 27
-    Cursor = crHandPoint
-    Action = actionRestaurar
-    Anchors = [akTop, akRight]
-    PaintStyle = bpsGlyph
-    SpeedButtonOptions.CanBeFocused = False
-    SpeedButtonOptions.Flat = True
-    SpeedButtonOptions.Transparent = True
-    TabOrder = 5
   end
   object actionListImportar: TActionList
     Images = Data_Sisgef.iml_16_16
