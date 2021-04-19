@@ -111,7 +111,6 @@ type
     fdQueryBICOD_CLIENTE_EMPRESA: TIntegerField;
     labelTitle: TcxLabel;
     dxLayoutItem7: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     cxButton4: TcxButton;
     tvPesquisaNUM_NOSSONUMERO: TcxGridDBColumn;
     tvPesquisaNUM_PEDIDO: TcxGridDBColumn;
@@ -167,22 +166,39 @@ type
     tvPesquisaDAT_FEEDBACK: TcxGridDBColumn;
     tvPesquisaDOM_CONFERIDO: TcxGridDBColumn;
     tvPesquisaCOD_CLIENTE_EMPRESA: TcxGridDBColumn;
-    ativaPainelGrupo: TcxCheckBox;
+    OpenDialog: TOpenDialog;
+    fdQueryBINOM_AGENTE: TStringField;
+    fdQueryBINOM_ENTREGADOR: TStringField;
+    fdQueryBINOM_CLIENTE: TStringField;
+    tvPesquisaNOM_AGENTE: TcxGridDBColumn;
+    tvPesquisaNOM_ENTREGADOR: TcxGridDBColumn;
+    tvPesquisaNOM_CLIENTE: TcxGridDBColumn;
+    dsEmpresas: TDataSource;
+    dxLayoutGroup4: TdxLayoutGroup;
+    mtbClientesEmpresa: TFDMemTable;
+    mtbClientesEmpresadom_check: TIntegerField;
+    mtbClientesEmpresacod_cliente: TIntegerField;
+    mtbClientesEmpresanom_cliente: TStringField;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure actFiltroExecute(Sender: TObject);
     procedure tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
-    procedure ativaPainelGrupoPropertiesChange(Sender: TObject);
     procedure actionEditarFiltroExecute(Sender: TObject);
     procedure actlimparDadosExecute(Sender: TObject);
-    procedure parametrosLeituraPropertiesChange(Sender: TObject);
+    procedure actionSalvarFilroExecute(Sender: TObject);
+    procedure actionCarregarFiltroExecute(Sender: TObject);
   private
     { Private declarations }
+    procedure StartForm;
+    procedure CloseForm;
     procedure Filtro;
     procedure ExportarDados;
     procedure SaveLayout;
     procedure RestoreLayout;
+    procedure SaveFilter;
+    procedure LoadFilter;
+    procedure PainelGroup;
     function VerifyColumnsView(): boolean;
   public
     { Public declarations }
@@ -211,21 +227,33 @@ begin
   Filtro;
 end;
 
+procedure Tview_BIPedidos.actionCarregarFiltroExecute(Sender: TObject);
+begin
+  LoadFilter;
+end;
+
 procedure Tview_BIPedidos.actionEditarFiltroExecute(Sender: TObject);
 begin
-  dxLayoutGroup2.Visible := True;
+  dxLayoutGroup2.MakeVisible;
+end;
+
+procedure Tview_BIPedidos.actionSalvarFilroExecute(Sender: TObject);
+begin
+  SaveFilter;
 end;
 
 procedure Tview_BIPedidos.actlimparDadosExecute(Sender: TObject);
 begin
-  dxLayoutGroup2.Visible := True;
+  fdQueryBI.Close;
   parametrosLeitura.Clear;
   filtroBI.Clear;
+  dxLayoutGroup2.MakeVisible;
 end;
 
-procedure Tview_BIPedidos.ativaPainelGrupoPropertiesChange(Sender: TObject);
+procedure Tview_BIPedidos.CloseForm;
 begin
-  tvPesquisa.OptionsView.GroupByBox := ativaPainelGrupo.Checked;
+  fdQueryBI.Active := False;
+  mtbClientesEmpresa.Active := False;
 end;
 
 procedure Tview_BIPedidos.ExportarDados;
@@ -243,7 +271,7 @@ begin
       if FileExists(Data_Sisgef.SaveDialog.FileName) then
       begin
         sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
-        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+        if MessageDlg(sMensagem, mtConfirmation, [mbYes,mbNo], 0) = mrNo then Exit
       end;
 
       fnUtil.ExportarDados(grdPesquisa,Data_Sisgef.SaveDialog.FileName);
@@ -265,48 +293,84 @@ begin
     MessageDlg(sMessage, mtWarning, [mbCancel], 0);
     Exit;
   end;
+  dxLayoutGroup1.MakeVisible;
   if not VerifyColumnsView() then
   begin
-    Application.MessageBox('Selecione as colunas que deseja visualizar.','Visualizar Colunas', MB_OK + MB_ICONWARNING);
+    MessageDlg('Selecione as colunas que deseja visualizar.', mtWarning, [mbCancel], 0);
     Exit;
   end;
   sFiltro := filtroBI.FilterText;
-  parametrosLeitura.Text := filtroBI.FilterCaption;
   fdQueryBI.SQL.Text := sSQlOld + ' where ' + sFiltro;
   fdQueryBI.Active := true;
-  dxLayoutGroup2.Visible := False;
+  parametrosLeitura.Text := filtroBI.FilterCaption;
+  dxLayoutGroup1.MakeVisible;
 end;
 
 procedure Tview_BIPedidos.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  fdQueryBI.Active := False;
+  CloseForm;
   Action := caFree;
   view_BIPedidos := nil;
 end;
 
 procedure Tview_BIPedidos.FormShow(Sender: TObject);
 begin
-  labelTitle.Caption := Self.Caption;
-  sFileLayout := ExtractFilePath(Application.ExeName) + '\layoutBIRemessas' + Global.Parametros.pUser_ID.ToString + '.ini';
-  SaveLayout;
-  sSQLOld := fdQueryBI.SQL.Text;
+  StartForm;
 end;
 
-procedure Tview_BIPedidos.parametrosLeituraPropertiesChange(Sender: TObject);
+procedure Tview_BIPedidos.LoadFilter;
 begin
-  actlimparDados.Enabled := (parametrosLeitura.Text <> '');
-  actionEditarFiltro.Enabled := (parametrosLeitura.Text <> '');
+  if OpenDialog.Execute then
+  begin
+    if not FileExists(OpenDialog.FileName) then
+    begin
+        MessageDlg('Arquivo ' + OpenDialog.FileName + ' não foi encontrado', mtWarning, [mbCancel], 0);
+        Exit;
+    end;
+    FiltroBI.LoadFromFile(OpenDialog.FileName);
+  end;
+end;
+
+procedure Tview_BIPedidos.PainelGroup;
+begin
+  if tvPesquisa.OptionsView.GroupByBox then
+    tvPesquisa.OptionsView.GroupByBox := False
+  else
+    tvPesquisa.OptionsView.GroupByBox := True;
 end;
 
 procedure Tview_BIPedidos.RestoreLayout;
 begin
   tvPesquisa.RestoreFromIniFile(sFileLayout);
-  ativaPainelGrupo.Checked := False;
+end;
+
+procedure Tview_BIPedidos.SaveFilter;
+begin
+  if SaveDialog.Execute then
+  begin
+    if FileExists(SaveDialog.FileName) then
+    begin
+      if MessageDlg('Arquivo ' + SaveDialog.FileName + ' já existe. Sobrepor ?', mtConfirmation, [mbYes,mbNo], 0) = mrNo then
+        Exit;
+    end;
+    FiltroBI.SaveToFile(SaveDialog.FileName);
+  end;
 end;
 
 procedure Tview_BIPedidos.SaveLayout;
 begin
   tvPesquisa.StoreToIniFile(sFileLayout);
+end;
+
+procedure Tview_BIPedidos.StartForm;
+begin
+  labelTitle.Caption := Self.Caption;
+  Data_Sisgef.PopulaClientesEmpresa;
+  mtbClientesEmpresa.Data := Data_Sisgef.mtbClientesEmpresa.Data;
+  Data_Sisgef.mtbClientesEmpresa.Close;
+  sFileLayout := ExtractFilePath(Application.ExeName) + '\layoutBIRemessas' + Global.Parametros.pUser_ID.ToString + '.ini';
+  SaveLayout;
+  sSQLOld := fdQueryBI.SQL.Text;
 end;
 
 procedure Tview_BIPedidos.tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
@@ -316,6 +380,7 @@ case AButtonIndex of
     17 : tvPesquisa.ViewData.Expand(True);
     18 : tvPesquisa.ViewData.Collapse(True);
     19 : RestoreLayout;
+    20 : PainelGroup;
   end;
 end;
 

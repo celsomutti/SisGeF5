@@ -2,9 +2,10 @@ object view_Login: Tview_Login
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
   Caption = 'Login'
-  ClientHeight = 369
-  ClientWidth = 538
+  ClientHeight = 358
+  ClientWidth = 548
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -571,17 +572,18 @@ object view_Login: Tview_Login
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 538
-    Height = 369
+    Width = 548
+    Height = 358
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     OptionsImage.Images = Data_Sisgef.iml_16_16
-    ExplicitHeight = 387
+    ExplicitWidth = 554
+    ExplicitHeight = 360
     object cxLabel1: TcxLabel
-      Left = 262
+      Left = 267
       Top = 130
       Caption = 'Login'
       ParentFont = False
@@ -597,7 +599,7 @@ object view_Login: Tview_Login
       AnchorY = 145
     end
     object txtLogin: TcxTextEdit
-      Left = 176
+      Left = 181
       Top = 192
       Hint = 'Login do usu'#225'rio'
       ParentFont = False
@@ -613,7 +615,7 @@ object view_Login: Tview_Login
       Width = 185
     end
     object txtSenha: TcxTextEdit
-      Left = 177
+      Left = 182
       Top = 247
       ParentFont = False
       Properties.EchoMode = eemPassword
@@ -631,7 +633,7 @@ object view_Login: Tview_Login
       Width = 183
     end
     object cxButton1: TcxButton
-      Left = 165
+      Left = 170
       Top = 284
       Width = 100
       Height = 30
@@ -640,7 +642,7 @@ object view_Login: Tview_Login
       TabOrder = 5
     end
     object cxButton2: TcxButton
-      Left = 272
+      Left = 277
       Top = 284
       Width = 100
       Height = 30
@@ -651,18 +653,18 @@ object view_Login: Tview_Login
     end
     object lblSistema: TcxLabel
       Left = 13
-      Top = 335
+      Top = 324
       Caption = 'Sistema'
       Style.HotTrack = False
       Style.Shadow = False
       Properties.Alignment.Horz = taRightJustify
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      AnchorX = 525
-      AnchorY = 346
+      AnchorX = 535
+      AnchorY = 335
     end
     object imageLogoSisGeF: TcxImage
-      Left = 193
+      Left = 198
       Top = 13
       TabStop = False
       Picture.Data = {

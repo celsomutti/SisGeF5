@@ -583,10 +583,10 @@ object view_BIPedidos: Tview_BIPedidos
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object grdPesquisa: TcxGrid
-      Left = 461
-      Top = 72
-      Width = 398
-      Height = 297
+      Left = 10000
+      Top = 10000
+      Width = 823
+      Height = 273
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -594,6 +594,7 @@ object view_BIPedidos: Tview_BIPedidos
       Font.Style = []
       ParentFont = False
       TabOrder = 5
+      Visible = False
       LookAndFeel.Kind = lfUltraFlat
       object tvPesquisa: TcxGridDBTableView
         Navigator.Buttons.OnButtonClick = tvPesquisaNavigatorButtonsButtonClick
@@ -609,6 +610,10 @@ object view_BIPedidos: Tview_BIPedidos
           end
           item
             ImageIndex = 64
+          end
+          item
+            Hint = 'Painel de Grupo'
+            ImageIndex = 65
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.ImageIndex = 5
@@ -642,219 +647,274 @@ object view_BIPedidos: Tview_BIPedidos
         OptionsView.Indicator = True
         object tvPesquisaNUM_NOSSONUMERO: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_NOSSONUMERO'
-          Visible = False
+          Width = 120
         end
         object tvPesquisaNUM_PEDIDO: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_PEDIDO'
-          Visible = False
+          Width = 96
         end
         object tvPesquisaCOD_AGENTE: TcxGridDBColumn
           DataBinding.FieldName = 'COD_AGENTE'
-          Visible = False
+        end
+        object tvPesquisaNOM_AGENTE: TcxGridDBColumn
+          DataBinding.FieldName = 'NOM_AGENTE'
+          Width = 230
         end
         object tvPesquisaCOD_ENTREGADOR: TcxGridDBColumn
           DataBinding.FieldName = 'COD_ENTREGADOR'
-          Visible = False
+          Width = 105
+        end
+        object tvPesquisaNOM_ENTREGADOR: TcxGridDBColumn
+          DataBinding.FieldName = 'NOM_ENTREGADOR'
+          Width = 251
         end
         object tvPesquisaCOD_CLIENTE: TcxGridDBColumn
           DataBinding.FieldName = 'COD_CLIENTE'
-          Visible = False
+          Width = 105
+        end
+        object tvPesquisaNOM_CLIENTE: TcxGridDBColumn
+          DataBinding.FieldName = 'NOM_CLIENTE'
+          Width = 305
         end
         object tvPesquisaNUM_NF: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_NF'
-          Visible = False
         end
         object tvPesquisaDES_RETORNO: TcxGridDBColumn
           DataBinding.FieldName = 'DES_RETORNO'
-          Visible = False
+          Width = 341
         end
         object tvPesquisaNOM_CONSUMIDOR: TcxGridDBColumn
           DataBinding.FieldName = 'NOM_CONSUMIDOR'
-          Visible = False
+          Width = 308
         end
         object tvPesquisaDES_ENDERECO: TcxGridDBColumn
           DataBinding.FieldName = 'DES_ENDERECO'
-          Visible = False
+          Width = 256
         end
         object tvPesquisaDES_COMPLEMENTO: TcxGridDBColumn
           DataBinding.FieldName = 'DES_COMPLEMENTO'
-          Visible = False
+          Width = 168
         end
         object tvPesquisaDES_BAIRRO: TcxGridDBColumn
           DataBinding.FieldName = 'DES_BAIRRO'
-          Visible = False
+          Width = 306
         end
         object tvPesquisaNOM_CIDADE: TcxGridDBColumn
           DataBinding.FieldName = 'NOM_CIDADE'
-          Visible = False
+          Width = 258
         end
         object tvPesquisaNUM_CEP: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_CEP'
-          Visible = False
         end
         object tvPesquisaNUM_TELEFONE: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_TELEFONE'
-          Visible = False
+          Width = 156
         end
         object tvPesquisaDAT_EXPEDICAO: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_EXPEDICAO'
-          Visible = False
+          Width = 95
         end
         object tvPesquisaDAT_PREV_DISTRIBUICAO: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_PREV_DISTRIBUICAO'
-          Visible = False
+          Width = 99
         end
         object tvPesquisaQTD_VOLUMES: TcxGridDBColumn
           DataBinding.FieldName = 'QTD_VOLUMES'
-          Visible = False
         end
         object tvPesquisaDAT_ATRIBUICAO: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_ATRIBUICAO'
-          Visible = False
         end
         object tvPesquisaDAT_BAIXA: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_BAIXA'
-          Visible = False
         end
         object tvPesquisaDOM_BAIXADO: TcxGridDBColumn
           DataBinding.FieldName = 'DOM_BAIXADO'
-          Visible = False
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.NullStyle = nssUnchecked
+          Properties.ValueChecked = 'S'
+          Properties.ValueUnchecked = 'N'
+          Width = 86
         end
         object tvPesquisaDAT_PAGAMENTO: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_PAGAMENTO'
-          Visible = False
+          Width = 113
         end
         object tvPesquisaDOM_PAGO: TcxGridDBColumn
           DataBinding.FieldName = 'DOM_PAGO'
-          Visible = False
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.NullStyle = nssUnchecked
+          Properties.ValueChecked = 'S'
+          Properties.ValueUnchecked = 'N'
+          Width = 110
         end
         object tvPesquisaDOM_FECHADO: TcxGridDBColumn
           DataBinding.FieldName = 'DOM_FECHADO'
-          Visible = False
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.NullStyle = nssUnchecked
+          Properties.ValueChecked = 'S'
+          Properties.ValueUnchecked = 'N'
+          Width = 102
         end
         object tvPesquisaCOD_STATUS: TcxGridDBColumn
           DataBinding.FieldName = 'COD_STATUS'
-          Visible = False
         end
         object tvPesquisaDAT_ENTREGA: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_ENTREGA'
-          Visible = False
+          Width = 91
         end
         object tvPesquisaQTD_PESO_REAL: TcxGridDBColumn
           DataBinding.FieldName = 'QTD_PESO_REAL'
-          Visible = False
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DecimalPlaces = 3
+          Properties.DisplayFormat = ',0.00;-,0.00'
         end
         object tvPesquisaQTD_PESO_FRANQUIA: TcxGridDBColumn
           DataBinding.FieldName = 'QTD_PESO_FRANQUIA'
-          Visible = False
-        end
-        object tvPesquisaVAL_VERBA_FRANQUIA: TcxGridDBColumn
-          DataBinding.FieldName = 'VAL_VERBA_FRANQUIA'
-          Visible = False
-        end
-        object tvPesquisaVAL_ADVALOREM: TcxGridDBColumn
-          DataBinding.FieldName = 'VAL_ADVALOREM'
-          Visible = False
-        end
-        object tvPesquisaVAL_PAGO_FRANQUIA: TcxGridDBColumn
-          DataBinding.FieldName = 'VAL_PAGO_FRANQUIA'
-          Visible = False
-        end
-        object tvPesquisaVAL_VERBA_ENTREGADOR: TcxGridDBColumn
-          DataBinding.FieldName = 'VAL_VERBA_ENTREGADOR'
-          Visible = False
-        end
-        object tvPesquisaNUM_EXTRATO: TcxGridDBColumn
-          DataBinding.FieldName = 'NUM_EXTRATO'
-          Visible = False
-        end
-        object tvPesquisaQTD_DIAS_ATRASO: TcxGridDBColumn
-          DataBinding.FieldName = 'QTD_DIAS_ATRASO'
-          Visible = False
-        end
-        object tvPesquisaQTD_VOLUMES_EXTRA: TcxGridDBColumn
-          DataBinding.FieldName = 'QTD_VOLUMES_EXTRA'
-          Visible = False
-        end
-        object tvPesquisaVAL_VOLUMES_EXTRA: TcxGridDBColumn
-          DataBinding.FieldName = 'VAL_VOLUMES_EXTRA'
-          Visible = False
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DecimalPlaces = 3
+          Properties.DisplayFormat = ',0.00;-,0.00'
+          Width = 77
         end
         object tvPesquisaQTD_PESO_COBRADO: TcxGridDBColumn
           DataBinding.FieldName = 'QTD_PESO_COBRADO'
-          Visible = False
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DecimalPlaces = 3
+          Properties.DisplayFormat = ',0.00;-,0.00'
+          Width = 94
+        end
+        object tvPesquisaVAL_VERBA_FRANQUIA: TcxGridDBColumn
+          DataBinding.FieldName = 'VAL_VERBA_FRANQUIA'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ',0.00;-,0.00'
+          Width = 94
+        end
+        object tvPesquisaVAL_ADVALOREM: TcxGridDBColumn
+          DataBinding.FieldName = 'VAL_ADVALOREM'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ',0.00;-,0.00'
+          Width = 102
+        end
+        object tvPesquisaVAL_PAGO_FRANQUIA: TcxGridDBColumn
+          DataBinding.FieldName = 'VAL_PAGO_FRANQUIA'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ',0.00;-,0.00'
+          Width = 104
+        end
+        object tvPesquisaVAL_VERBA_ENTREGADOR: TcxGridDBColumn
+          DataBinding.FieldName = 'VAL_VERBA_ENTREGADOR'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ',0.00;-,0.00'
+          Width = 106
+        end
+        object tvPesquisaNUM_EXTRATO: TcxGridDBColumn
+          DataBinding.FieldName = 'NUM_EXTRATO'
+        end
+        object tvPesquisaQTD_DIAS_ATRASO: TcxGridDBColumn
+          DataBinding.FieldName = 'QTD_DIAS_ATRASO'
+        end
+        object tvPesquisaQTD_VOLUMES_EXTRA: TcxGridDBColumn
+          DataBinding.FieldName = 'QTD_VOLUMES_EXTRA'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DecimalPlaces = 1
+          Properties.DisplayFormat = ',0.0;-,0.00'
+          Width = 97
+        end
+        object tvPesquisaVAL_VOLUMES_EXTRA: TcxGridDBColumn
+          DataBinding.FieldName = 'VAL_VOLUMES_EXTRA'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ',0.00;-,0.00'
+          Width = 118
         end
         object tvPesquisaDES_TIPO_PESO: TcxGridDBColumn
           DataBinding.FieldName = 'DES_TIPO_PESO'
-          Visible = False
         end
         object tvPesquisaDAT_RECEBIDO: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_RECEBIDO'
-          Visible = False
+          Width = 123
         end
         object tvPesquisaDOM_RECEBIDO: TcxGridDBColumn
           DataBinding.FieldName = 'DOM_RECEBIDO'
-          Visible = False
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.NullStyle = nssUnchecked
+          Properties.ValueChecked = 'S'
+          Properties.ValueUnchecked = 'N'
+          Width = 108
         end
         object tvPesquisaNUM_CTRC: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_CTRC'
-          Visible = False
         end
         object tvPesquisaNUM_MANIFESTO: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_MANIFESTO'
-          Visible = False
+          Width = 93
         end
         object tvPesquisaDES_RASTREIO: TcxGridDBColumn
           DataBinding.FieldName = 'DES_RASTREIO'
-          Visible = False
+          PropertiesClassName = 'TcxBlobEditProperties'
+          Width = 87
         end
         object tvPesquisaNUM_LOTE_REMESSA: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_LOTE_REMESSA'
-          Visible = False
+          Width = 102
         end
         object tvPesquisaDAT_CREDITO: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_CREDITO'
-          Visible = False
+          Width = 77
         end
         object tvPesquisaDOM_CREDITO: TcxGridDBColumn
+          Caption = 'Flag Cr'#233'dito'
           DataBinding.FieldName = 'DOM_CREDITO'
-          Visible = False
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.NullStyle = nssUnchecked
+          Properties.ValueChecked = 'S'
+          Properties.ValueUnchecked = 'N'
+          Width = 77
         end
         object tvPesquisaNUM_CONTAINER: TcxGridDBColumn
           DataBinding.FieldName = 'NUM_CONTAINER'
-          Visible = False
+          Width = 79
         end
         object tvPesquisaVAL_PRODUTO: TcxGridDBColumn
           DataBinding.FieldName = 'VAL_PRODUTO'
-          Visible = False
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ',0.00;-,0.00'
+          Width = 91
         end
         object tvPesquisaQTD_ALTURA: TcxGridDBColumn
           DataBinding.FieldName = 'QTD_ALTURA'
-          Visible = False
         end
         object tvPesquisaQTD_LARGURA: TcxGridDBColumn
           DataBinding.FieldName = 'QTD_LARGURA'
-          Visible = False
         end
         object tvPesquisaQTD_COMPRIMENTO: TcxGridDBColumn
           DataBinding.FieldName = 'QTD_COMPRIMENTO'
-          Visible = False
+          Width = 96
         end
         object tvPesquisaCOD_FEEDBACK: TcxGridDBColumn
           DataBinding.FieldName = 'COD_FEEDBACK'
-          Visible = False
         end
         object tvPesquisaDAT_FEEDBACK: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_FEEDBACK'
-          Visible = False
         end
         object tvPesquisaDOM_CONFERIDO: TcxGridDBColumn
           DataBinding.FieldName = 'DOM_CONFERIDO'
-          Visible = False
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.Alignment = taRightJustify
+          Properties.NullStyle = nssUnchecked
+          Properties.ValueChecked = '1'
+          Properties.ValueUnchecked = '0'
+          Width = 89
         end
         object tvPesquisaCOD_CLIENTE_EMPRESA: TcxGridDBColumn
           DataBinding.FieldName = 'COD_CLIENTE_EMPRESA'
-          Visible = False
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.KeyFieldNames = 'cod_cliente'
+          Properties.ListColumns = <
+            item
+              FieldName = 'nom_cliente'
+            end>
+          Properties.ListOptions.ShowHeader = False
+          Properties.ListSource = dsEmpresas
+          Width = 138
         end
       end
       object lvPesquisa: TcxGridLevel
@@ -862,8 +922,8 @@ object view_BIPedidos: Tview_BIPedidos
       end
     end
     object parametrosLeitura: TcxButtonEdit
-      Left = 461
-      Top = 376
+      Left = 10000
+      Top = 10000
       TabStop = False
       Properties.Buttons = <
         item
@@ -877,18 +937,17 @@ object view_BIPedidos: Tview_BIPedidos
         end>
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.ReadOnly = True
-      Properties.OnChange = parametrosLeituraPropertiesChange
       Style.HotTrack = False
       Style.TransparentBorder = True
       TabOrder = 6
-      TextHint = 'Lista de par'#226'metros do filtro'
-      Width = 398
+      Visible = False
+      Width = 823
     end
     object filtroBI: TcxDBFilterControl
-      Left = 12
-      Top = 72
-      Width = 442
-      Height = 295
+      Left = 24
+      Top = 84
+      Width = 823
+      Height = 271
       Cursor = crHandPoint
       Color = clWindow
       DataSet = fdQueryBI
@@ -898,27 +957,27 @@ object view_BIPedidos: Tview_BIPedidos
       TabOrder = 1
     end
     object cxButton1: TcxButton
-      Left = 311
-      Top = 374
-      Width = 143
+      Left = 577
+      Top = 362
+      Width = 270
       Height = 25
       Cursor = crHandPoint
       Action = actFiltro
       TabOrder = 4
     end
     object cxButton2: TcxButton
-      Left = 12
-      Top = 374
-      Width = 143
+      Left = 24
+      Top = 362
+      Width = 270
       Height = 25
       Cursor = crHandPoint
       Action = actionCarregarFiltro
       TabOrder = 2
     end
     object cxButton3: TcxButton
-      Left = 162
-      Top = 374
-      Width = 142
+      Left = 301
+      Top = 362
+      Width = 269
       Height = 25
       Cursor = crHandPoint
       Action = actionSalvarFilro
@@ -973,21 +1032,16 @@ object view_BIPedidos: Tview_BIPedidos
       Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup
-      Parent = dxLayoutAutoCreatedGroup1
-      AlignHorz = ahClient
-      AlignVert = avClient
-      CaptionOptions.Text = 'New Group'
+      Parent = dxLayoutGroup4
+      CaptionOptions.Text = 'Resultado'
       ButtonOptions.Buttons = <>
       ShowBorder = False
       Index = 1
     end
     object dxLayoutGroup2: TdxLayoutGroup
-      Parent = dxLayoutAutoCreatedGroup1
-      AlignHorz = ahClient
-      AlignVert = avClient
-      CaptionOptions.Text = 'New Group'
+      Parent = dxLayoutGroup4
+      CaptionOptions.Text = 'Filtro'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       ShowBorder = False
       Index = 0
     end
@@ -1112,13 +1166,16 @@ object view_BIPedidos: Tview_BIPedidos
       ControlOptions.ShowBorder = False
       Index = 0
     end
-    object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
+    object dxLayoutGroup4: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       AlignHorz = ahClient
       AlignVert = avClient
-      LayoutDirection = ldHorizontal
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldTabbed
+      ShowBorder = False
+      TabbedOptions.HideTabs = True
       Index = 1
-      AutoCreated = True
     end
   end
   object cxButton4: TcxButton
@@ -1126,6 +1183,7 @@ object view_BIPedidos: Tview_BIPedidos
     Top = 16
     Width = 31
     Height = 25
+    Cursor = crHandPoint
     Action = actFechar
     Anchors = [akTop, akRight]
     PaintStyle = bpsGlyph
@@ -1133,15 +1191,6 @@ object view_BIPedidos: Tview_BIPedidos
     SpeedButtonOptions.Flat = True
     SpeedButtonOptions.Transparent = True
     TabOrder = 1
-  end
-  object ativaPainelGrupo: TcxCheckBox
-    Left = 744
-    Top = 47
-    Anchors = [akTop, akRight]
-    Caption = 'Painel de Grupo'
-    Properties.OnChange = ativaPainelGrupoPropertiesChange
-    TabOrder = 2
-    Transparent = True
   end
   object aclBIPedidos: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -1157,7 +1206,6 @@ object view_BIPedidos: Tview_BIPedidos
     object actlimparDados: TAction
       Category = 'BI Pedidos'
       Caption = 'Limpar'
-      Enabled = False
       Hint = 'Limpar dados'
       ImageIndex = 9
       OnExecute = actlimparDadosExecute
@@ -1172,7 +1220,6 @@ object view_BIPedidos: Tview_BIPedidos
     object actionEditarFiltro: TAction
       Category = 'BI Pedidos'
       Caption = 'Editar Filtro'
-      Enabled = False
       Hint = 'Editar par'#226'metros do filtro'
       ImageIndex = 10
       OnExecute = actionEditarFiltroExecute
@@ -1182,12 +1229,14 @@ object view_BIPedidos: Tview_BIPedidos
       Caption = 'Salvar'
       Hint = 'Salvar defini'#231#227'o de filtro'
       ImageIndex = 13
+      OnExecute = actionSalvarFilroExecute
     end
     object actionCarregarFiltro: TAction
       Category = 'BI Pedidos'
       Caption = 'Carregar'
       Hint = 'Carregar Filtro'
       ImageIndex = 40
+      OnExecute = actionCarregarFiltroExecute
     end
   end
   object ds: TDataSource
@@ -1196,67 +1245,16 @@ object view_BIPedidos: Tview_BIPedidos
     Left = 256
   end
   object SaveDialog: TSaveDialog
+    DefaultExt = 'ffl'
+    Filter = 'Arquivo de Filtro|*.ffl|Todos|*.*'
+    Title = 'Salvar Filtro'
     Left = 344
   end
   object fdQueryBI: TFDQuery
     Connection = Data_Sisgef.FDConnectionMySQL
     SQL.Strings = (
-      'SELECT tbentregas.NUM_NOSSONUMERO,'
-      '    tbentregas.COD_AGENTE,'
-      '    tbentregas.COD_ENTREGADOR,'
-      '    tbentregas.COD_CLIENTE,'
-      '    tbentregas.NUM_NF,'
-      '    tbentregas.NOM_CONSUMIDOR,'
-      '    tbentregas.DES_ENDERECO,'
-      '    tbentregas.DES_COMPLEMENTO,'
-      '    tbentregas.DES_BAIRRO,'
-      '    tbentregas.NOM_CIDADE,'
-      '    tbentregas.NUM_CEP,'
-      '    tbentregas.NUM_TELEFONE,'
-      '    tbentregas.DAT_EXPEDICAO,'
-      '    tbentregas.DAT_PREV_DISTRIBUICAO,'
-      '    tbentregas.QTD_VOLUMES,'
-      '    tbentregas.DAT_ATRIBUICAO,'
-      '    tbentregas.DAT_BAIXA,'
-      '    tbentregas.DOM_BAIXADO,'
-      '    tbentregas.DAT_PAGAMENTO,'
-      '    tbentregas.DOM_PAGO,'
-      '    tbentregas.DOM_FECHADO,'
-      '    tbentregas.COD_STATUS,'
-      '    tbentregas.DAT_ENTREGA,'
-      '    tbentregas.QTD_PESO_REAL,'
-      '    tbentregas.QTD_PESO_FRANQUIA,'
-      '    tbentregas.VAL_VERBA_FRANQUIA,'
-      '    tbentregas.VAL_ADVALOREM,'
-      '    tbentregas.VAL_PAGO_FRANQUIA,'
-      '    tbentregas.VAL_VERBA_ENTREGADOR,'
-      '    tbentregas.NUM_EXTRATO,'
-      '    tbentregas.QTD_DIAS_ATRASO,'
-      '    tbentregas.QTD_VOLUMES_EXTRA,'
-      '    tbentregas.VAL_VOLUMES_EXTRA,'
-      '    tbentregas.QTD_PESO_COBRADO,'
-      '    tbentregas.DES_TIPO_PESO,'
-      '    tbentregas.DAT_RECEBIDO,'
-      '    tbentregas.DOM_RECEBIDO,'
-      '    tbentregas.NUM_CTRC,'
-      '    tbentregas.NUM_MANIFESTO,'
-      '    tbentregas.DES_RASTREIO,'
-      '    tbentregas.NUM_LOTE_REMESSA,'
-      '    tbentregas.DES_RETORNO,'
-      '    tbentregas.DAT_CREDITO,'
-      '    tbentregas.DOM_CREDITO,'
-      '    tbentregas.NUM_CONTAINER,'
-      '    tbentregas.VAL_PRODUTO,'
-      '    tbentregas.QTD_ALTURA,'
-      '    tbentregas.QTD_LARGURA,'
-      '    tbentregas.QTD_COMPRIMENTO,'
-      '    tbentregas.COD_FEEDBACK,'
-      '    tbentregas.DAT_FEEDBACK,'
-      '    tbentregas.DOM_CONFERIDO,'
-      '    tbentregas.NUM_PEDIDO,'
-      '    tbentregas.COD_CLIENTE_EMPRESA'
-      'FROM tbentregas;')
-    Left = 416
+      'select * from view_entregas')
+    Left = 216
     object fdQueryBINUM_NOSSONUMERO: TStringField
       AutoGenerateValue = arDefault
       DisplayLabel = 'Remessa'
@@ -1276,17 +1274,38 @@ object view_BIPedidos: Tview_BIPedidos
       FieldName = 'COD_AGENTE'
       Origin = 'COD_AGENTE'
     end
+    object fdQueryBINOM_AGENTE: TStringField
+      AutoGenerateValue = arDefault
+      DisplayLabel = 'Nome Base'
+      FieldName = 'NOM_AGENTE'
+      Origin = 'NOM_AGENTE'
+      Size = 80
+    end
     object fdQueryBICOD_ENTREGADOR: TIntegerField
       AutoGenerateValue = arDefault
       DisplayLabel = 'C'#243'd. Entregador'
       FieldName = 'COD_ENTREGADOR'
       Origin = 'COD_ENTREGADOR'
     end
+    object fdQueryBINOM_ENTREGADOR: TStringField
+      AutoGenerateValue = arDefault
+      DisplayLabel = 'Nome Entregador'
+      FieldName = 'NOM_ENTREGADOR'
+      Origin = 'NOM_ENTREGADOR'
+      Size = 70
+    end
     object fdQueryBICOD_CLIENTE: TIntegerField
       AutoGenerateValue = arDefault
       DisplayLabel = 'C'#243'd. Embarcador'
       FieldName = 'COD_CLIENTE'
       Origin = 'COD_CLIENTE'
+    end
+    object fdQueryBINOM_CLIENTE: TStringField
+      AutoGenerateValue = arDefault
+      DisplayLabel = 'Nome Embarcador'
+      FieldName = 'NOM_CLIENTE'
+      Origin = 'NOM_CLIENTE'
+      Size = 80
     end
     object fdQueryBINUM_NF: TStringField
       AutoGenerateValue = arDefault
@@ -1598,6 +1617,37 @@ object view_BIPedidos: Tview_BIPedidos
       DisplayLabel = 'Cliente'
       FieldName = 'COD_CLIENTE_EMPRESA'
       Origin = 'COD_CLIENTE_EMPRESA'
+    end
+  end
+  object OpenDialog: TOpenDialog
+    Filter = 'Arquivo de Filtro|*.ffl|Todos|*.*'
+    Title = 'Carregr Filtro'
+    Left = 584
+  end
+  object dsEmpresas: TDataSource
+    AutoEdit = False
+    DataSet = mtbClientesEmpresa
+    Left = 680
+  end
+  object mtbClientesEmpresa: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 632
+    Top = 65535
+    object mtbClientesEmpresadom_check: TIntegerField
+      FieldName = 'dom_check'
+    end
+    object mtbClientesEmpresacod_cliente: TIntegerField
+      FieldName = 'cod_cliente'
+    end
+    object mtbClientesEmpresanom_cliente: TStringField
+      FieldName = 'nom_cliente'
+      Size = 70
     end
   end
 end
