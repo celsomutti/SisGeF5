@@ -60,7 +60,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Style.IsFontAssigned = True
       TabOrder = 1
       Text = 'Selecione ...'
-      Width = 121
+      Width = 726
     end
     object cxButton1: TcxButton
       Left = 742
@@ -83,8 +83,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
     object grdRoteiros: TcxGrid
       Left = 10
       Top = 101
-      Width = 250
-      Height = 200
+      Width = 888
+      Height = 248
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -125,9 +125,9 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
         OptionsBehavior.GoToNextCellOnEnter = True
         OptionsBehavior.FocusCellOnCycle = True
         OptionsCustomize.ColumnGrouping = False
-        OptionsSelection.InvertSelect = False
         OptionsSelection.MultiSelect = True
         OptionsSelection.CellMultiSelect = True
+        OptionsSelection.InvertSelect = False
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
         object tvRoteirosid_roteiro: TcxGridDBColumn
@@ -332,9 +332,9 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
     end
     object pbProcesso: TcxProgressBar
       Left = 10
-      Top = 375
+      Top = 373
       TabOrder = 5
-      Width = 121
+      Width = 888
     end
     object lblAviso: TcxLabel
       Left = 172
@@ -350,7 +350,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Properties.Alignment.Horz = taCenter
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      AnchorX = 176
+      AnchorX = 495
       AnchorY = 417
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
@@ -366,6 +366,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -375,6 +377,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Text = 'Cliente'
       CaptionOptions.Layout = clTop
       Control = cboCliente
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -384,6 +388,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -399,6 +405,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -409,6 +417,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Text = 'Roteiros'
       CaptionOptions.Layout = clTop
       Control = grdRoteiros
+      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -419,6 +429,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 0
@@ -430,6 +442,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Text = 'cxButton4'
       CaptionOptions.Visible = False
       Control = cxButton4
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 1
@@ -448,6 +462,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Text = 'cxButton5'
       CaptionOptions.Visible = False
       Control = cxButton5
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -459,6 +475,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Layout = clTop
       Visible = False
       Control = pbProcesso
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -469,6 +487,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Text = 'cxLabel2'
       CaptionOptions.Visible = False
       Control = lblAviso
+      ControlOptions.OriginalHeight = 17
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
     end

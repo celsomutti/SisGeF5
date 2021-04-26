@@ -111,7 +111,6 @@ uses
   Control.CCEPDistribuidor in 'Control\Control.CCEPDistribuidor.pas',
   View.EnvioRespostaCTNC in 'View\View.EnvioRespostaCTNC.pas' {view_EnvioRespostaCTNC},
   Model.ContatosBases in 'Model\Model.ContatosBases.pas',
-  DAO.ContatosBases in 'DAO\DAO.ContatosBases.pas',
   Control.ContatosBases in 'Control\Control.ContatosBases.pas',
   DAO.PlanilhaRespostaCTNC in 'DAO\DAO.PlanilhaRespostaCTNC.pas',
   Model.PlanilhaRespostaCTNC in 'Model\Model.PlanilhaRespostaCTNC.pas',
@@ -187,7 +186,9 @@ uses
   View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT},
   Model.CapaDIRECT in 'Model\Model.CapaDIRECT.pas',
   Control.CapaDIRECT in 'Control\Control.CapaDIRECT.pas',
-  Thread.CapaDIRECT in 'Thread\Thread.CapaDIRECT.pas';
+  Thread.CapaDIRECT in 'Thread\Thread.CapaDIRECT.pas',
+  Model.EnderecosBases in 'Model\Model.EnderecosBases.pas',
+  Control.EnderecosBases in 'Control\Control.EnderecosBases.pas';
 
 {$R *.res}
 

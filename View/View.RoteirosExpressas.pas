@@ -17,7 +17,7 @@ uses
   dxLayoutcxEditAdapters, cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, System.Actions, Vcl.ActnList, dxLayoutControlAdapters,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxImageComboBox, cxProgressBar,
-  Control.RoteirosExpressas, Common.Utils, cxCurrencyEdit;
+  Control.RoteirosExpressas, Common.Utils, cxCurrencyEdit, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog;
 
 type
   Tview_RoteirosExpressas = class(TForm)

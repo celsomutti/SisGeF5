@@ -20,7 +20,6 @@ type
     function DeleteCliente(iCliente: Integer): Boolean;
     function PopulateRoteiros(iCliente: Integer): Boolean;
     procedure ImportRoteiros(sFile: String; iCliente: Integer);
-    function SaveData(): Boolean;
     function ListRoteiro(): TFDQuery;
     function SetupModel(FDQuery: TFDQuery): Boolean;
     property Roteiros: TRoteirosExpressas read FRoteiros write FRoteiros;
@@ -190,11 +189,6 @@ begin
     fdQuery.Connection.Close;
     fdQuery.Free;
   end;
-end;
-
-function TRoteirosExpressasControl.SaveData(): Boolean;
-begin
-  Result := FRoteiros.SaveData(Data_Sisgef.mtbRoteirosExpressas);
 end;
 
 function TRoteirosExpressasControl.SetupModel(FDQuery: TFDQuery): Boolean;

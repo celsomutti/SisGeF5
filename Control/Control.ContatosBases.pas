@@ -12,7 +12,6 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    function GetSeq(): Integer;
     function Gravar(): Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
 
@@ -32,11 +31,6 @@ destructor TContatosBasesControls.Destroy;
 begin
   FContatos.Free;
   inherited;
-end;
-
-function TContatosBasesControls.GetSeq: Integer;
-begin
-  Result := FContatos.GetSeq();
 end;
 
 function TContatosBasesControls.Gravar: Boolean;
