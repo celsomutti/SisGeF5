@@ -682,8 +682,9 @@ begin
     begin
       view_Login := Tview_Login.Create(Application);
     end;
+    view_Login.Caption := Application.Title;
     view_Login.txtLogin.Text := Global.Parametros.pLastUser;
-    view_Login.lblSistema.Caption := Application.Title + ' ' + 'Versão ' + Common.Utils.TUtils.VersaoExe;
+    view_Login.lblSistema.Caption := 'Versão ' + Common.Utils.TUtils.VersaoExe;
     if view_Login.ShowModal = mrCancel then
     begin
       Application.Terminate;

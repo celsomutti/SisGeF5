@@ -17,27 +17,19 @@ uses
   dxLayoutcxEditAdapters, cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, System.Actions, Vcl.ActnList, dxLayoutControlAdapters,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxImageComboBox, cxProgressBar,
-  Control.RoteirosExpressas, Common.Utils, cxCurrencyEdit, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog;
+  Control.RoteirosExpressas, Common.Utils, cxCurrencyEdit, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
+  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxButtonEdit;
 
 type
   Tview_RoteirosExpressas = class(TForm)
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
-    cxLabel1: TcxLabel;
-    dxLayoutItem1: TdxLayoutItem;
-    cboCliente: TcxComboBox;
-    dxLayoutItem2: TdxLayoutItem;
     aclRoteirosExpressas: TActionList;
     actPesquisarRoteiros: TAction;
     actImportarRoteiros: TAction;
     actGravarRoteiros: TAction;
     actCancelar: TAction;
     actFechar: TAction;
-    cxButton1: TcxButton;
-    dxLayoutItem3: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
-    cxButton2: TcxButton;
-    dxLayoutItem4: TdxLayoutItem;
     tvRoteiros: TcxGridDBTableView;
     lvRoteiros: TcxGridLevel;
     grdRoteiros: TcxGrid;
@@ -54,35 +46,69 @@ type
     tvRoteirosdes_logradouro: TcxGridDBColumn;
     tvRoteirosdes_bairro: TcxGridDBColumn;
     tvRoteiroscod_cliente: TcxGridDBColumn;
+    pbProcesso: TcxProgressBar;
+    lyiProgresso: TdxLayoutItem;
+    OpenDialog: TOpenDialog;
+    tvRoteiroscod_leve: TcxGridDBColumn;
+    tvRoteiroscod_pesado: TcxGridDBColumn;
+    labelTitle: TcxLabel;
+    dxLayoutItem10: TdxLayoutItem;
+    dxLayoutGroup2: TdxLayoutGroup;
+    codigoRoteiro: TcxButtonEdit;
+    dxLayoutItem1: TdxLayoutItem;
+    dxLayoutGroup1: TdxLayoutGroup;
+    actionLocalizarRoteiro: TAction;
+    descricaoRoteiro: TcxTextEdit;
+    dxLayoutItem2: TdxLayoutItem;
+    cxButton1: TcxButton;
+    dxLayoutItem3: TdxLayoutItem;
+    dsClientes: TDataSource;
+    cxButton2: TcxButton;
+    dxLayoutItem4: TdxLayoutItem;
     cxButton3: TcxButton;
     dxLayoutItem6: TdxLayoutItem;
     cxButton4: TcxButton;
     dxLayoutItem7: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup2: TdxLayoutAutoCreatedGroup;
-    cxButton5: TcxButton;
+    cxLabel1: TcxLabel;
     dxLayoutItem8: TdxLayoutItem;
-    pbProcesso: TcxProgressBar;
-    lyiProgresso: TdxLayoutItem;
-    OpenDialog: TOpenDialog;
-    SaveDialog: TSaveDialog;
-    lblAviso: TcxLabel;
+    actionExportar: TAction;
+    actionNovoRoteiro: TAction;
+    cxButton5: TcxButton;
     dxLayoutItem9: TdxLayoutItem;
-    tvRoteiroscod_leve: TcxGridDBColumn;
-    tvRoteiroscod_pesado: TcxGridDBColumn;
+    PopupMenu: TPopupMenu;
+    Incluir1: TMenuItem;
+    ExcluirCEPdoRoteiro1: TMenuItem;
+    actionIncluirCEP: TAction;
+    actionExcluirCEP: TAction;
+    dxLayoutGroup3: TdxLayoutGroup;
+    cxButton6: TcxButton;
+    dxLayoutItem11: TdxLayoutItem;
+    cxButton7: TcxButton;
+    dxLayoutItem12: TdxLayoutItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actFecharExecute(Sender: TObject);
     procedure actPesquisarRoteirosExecute(Sender: TObject);
-    procedure actImportarRoteirosExecute(Sender: TObject);
-    procedure tvRoteirosNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
-    procedure actGravarRoteirosExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure grdRoteirosLayoutChanged(Sender: TcxCustomGrid; AGridView: TcxCustomGridView);
+    procedure codigoRoteiroPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure actionLocalizarRoteiroExecute(Sender: TObject);
+    procedure actionExportarExecute(Sender: TObject);
+    procedure actImportarRoteirosExecute(Sender: TObject);
+    procedure actionIncluirCEPExecute(Sender: TObject);
+    procedure actionExcluirCEPExecute(Sender: TObject);
   private
     { Private declarations }
+    procedure StartForm;
     procedure PopulateRoteiros();
+    procedure PopulateClientes();
     procedure ExportData();
     procedure ImportData();
-    procedure SaveData();
     procedure Cancelar();
+    procedure PesquisaRoteiro();
+    procedure IncludeCEP();
+    procedure ExcludeCEP();
   public
     { Public declarations }
   end;
@@ -94,6 +120,8 @@ implementation
 
 {$R *.dfm}
 
+uses View.PesquisarPessoas;
+
 procedure Tview_RoteirosExpressas.actCancelarExecute(Sender: TObject);
 begin
   Cancelar();
@@ -104,37 +132,34 @@ begin
   Perform(WM_CLOSE, 0, 0);
 end;
 
-procedure Tview_RoteirosExpressas.actGravarRoteirosExecute(Sender: TObject);
-begin
-if Application.MessageBox('Confirma a gravação no banco de dados?','Gravar',MB_YESNO + MB_ICONQUESTION) = IDYES then
-  begin
-    case cboCliente.ItemIndex of
-      0 : Application.MessageBox('Selecione um cliente!','Atenção',MB_OK + MB_ICONWARNING);
-      4 : SaveData;
-    else
-      Application.MessageBox('Rotina não implementada!','Atenção',MB_OK + MB_ICONWARNING);
-    end;
-  end;
-end;
-
 procedure Tview_RoteirosExpressas.actImportarRoteirosExecute(Sender: TObject);
 begin
-  case cboCliente.ItemIndex of
-    0 : Application.MessageBox('Selecione um cliente!','Atenção',MB_OK + MB_ICONWARNING);
-    4 : ImportData;
-  else
-    Application.MessageBox('Rotina não implementada!','Atenção',MB_OK + MB_ICONWARNING);
-  end;
+  ImportData;
+end;
+
+procedure Tview_RoteirosExpressas.actionExcluirCEPExecute(Sender: TObject);
+begin
+  ExcludeCEP;
+end;
+
+procedure Tview_RoteirosExpressas.actionExportarExecute(Sender: TObject);
+begin
+  ExportData;
+end;
+
+procedure Tview_RoteirosExpressas.actionIncluirCEPExecute(Sender: TObject);
+begin
+  IncludeCEP;
+end;
+
+procedure Tview_RoteirosExpressas.actionLocalizarRoteiroExecute(Sender: TObject);
+begin
+  PesquisaRoteiro;
 end;
 
 procedure Tview_RoteirosExpressas.actPesquisarRoteirosExecute(Sender: TObject);
 begin
-  case cboCliente.ItemIndex of
-    0 : Application.MessageBox('Selecione um cliente!','Atenção',MB_OK + MB_ICONWARNING);
-    4 : PopulateRoteiros;
-  else
-    Application.MessageBox('Rotina não implementada!','Atenção',MB_OK + MB_ICONWARNING);
-  end;
+  PopulateRoteiros;
 end;
 
 procedure Tview_RoteirosExpressas.Cancelar;
@@ -142,19 +167,42 @@ begin
   Data_Sisgef.mtbRoteirosExpressas.Close;
   actGravarRoteiros.Enabled := False;
   actCancelar.Enabled := False;
-  cboCliente.ItemIndex := 0;
-  cboCliente.SetFocus;
+end;
+
+procedure Tview_RoteirosExpressas.codigoRoteiroPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  DisplayValue := formatfloat('000',DisplayValue);
+end;
+
+procedure Tview_RoteirosExpressas.ExcludeCEP;
+begin
+  // Imnplementar
 end;
 
 procedure Tview_RoteirosExpressas.ExportData;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
 begin
-  SaveDialog.Filter := '';
-  SaveDialog.Filter := 'Excel (*.xls) |*.xls|XML (*.xml) |*.xml|Arquivo Texto (*.txt) |*.txt|Página Web (*.html)|*.html';
-  SaveDialog.Title := 'Exportar Dados';
-  SaveDialog.DefaultExt := 'xls';
-  if view_RoteirosExpressas.SaveDialog.Execute then
-  begin
-    TUtils.ExportarDados(view_RoteirosExpressas.grdRoteiros, view_RoteirosExpressas.SaveDialog.FileName);
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if Data_Sisgef.mtbRoteirosExpressas.IsEmpty then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(grdRoteiros,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
   end;
 end;
 
@@ -165,32 +213,95 @@ begin
   view_RoteirosExpressas := nil;
 end;
 
+procedure Tview_RoteirosExpressas.FormShow(Sender: TObject);
+begin
+  StartForm;
+end;
+
+procedure Tview_RoteirosExpressas.grdRoteirosLayoutChanged(Sender: TcxCustomGrid; AGridView: TcxCustomGridView);
+begin
+  if tvRoteirosnum_cep_final.Visible then
+    tvRoteirosnum_cep_inicial.Caption := 'CEP Inicial'
+  else
+    tvRoteirosnum_cep_inicial.Caption := 'CEP';
+end;
+
 procedure Tview_RoteirosExpressas.ImportData;
 var
   FRoteiros : TRoteirosExpressasControl;
+  sMensagem : string;
 begin
   try
     FRoteiros := TRoteirosExpressasControl.Create;
-    if cboCliente.ItemIndex <= 0 then
-    begin
-      Application.MessageBox('Informe o cliente!', 'Atenção!', MB_OK + MB_ICONWARNING);
-      Exit;
-    end;
-    if Application.MessageBox('Confirma a importação da planilha?','Importar',MB_YESNO + MB_ICONQUESTION) = IDNO then Exit;
     if OpenDialog.Execute then
     begin
+      sMensagem := 'Confirma a importação da planilha ' + OpenDialog.FileName + '?';
+      if Application.MessageBox(PChar(sMensagem),'Importar',MB_YESNO + MB_ICONQUESTION) = IDNO then Exit;
       if not FileExists(OpenDialog.FileName) then
       begin
-        Application.MessageBox('Arquivo não encontrado!', 'Atenção',MB_OK + MB_ICONWARNING);
+        sMensagem := 'Arquivo ' + OpenDialog.FileName + ' !';
+        Application.MessageBox(PChar(sMensagem), 'Atenção',MB_OK + MB_ICONWARNING);
         Exit;
       end
       else
       begin
-        FRoteiros.ImportRoteiros(OpenDialog.FileName,cboCliente.ItemIndex);
+        FRoteiros.ImportRoteiros(OpenDialog.FileName,0);
       end;
     end;
   finally
     FRoteiros.Free;
+  end;
+end;
+
+procedure Tview_RoteirosExpressas.IncludeCEP;
+begin
+  // Implementar
+end;
+
+procedure Tview_RoteirosExpressas.PesquisaRoteiro;
+var
+  sSQL: String;
+  sWhere: String;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
+    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
+    sSQL := 'select cod_ccep5 as "Código", des_roteiro as "Descrição" ' +
+            'from expressas_roteiros ';
+    sWhere := 'where cod_ccep like "%param%" or des_roteiro like "%param%"';
+
+    View_PesquisarPessoas.sSQL := sSQL;
+    View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := True;
+    View_PesquisarPessoas.Caption := 'Localização de Roteiros';
+    if View_PesquisarPessoas.ShowModal = mrOK then
+    begin
+      codigoRoteiro.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+      descricaoRoteiro.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+    end;
+  finally
+    View_PesquisarPessoas.qryPesquisa.Close;
+    View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
+  end;
+end;
+
+procedure Tview_RoteirosExpressas.PopulateClientes;
+begin
+  with Data_Sisgef do
+  begin
+    PopulaClientesEmpresa;
+    mtbClientesEmpresa.Insert;
+    mtbClientesEmpresadom_check.AsInteger := 0;
+    mtbClientesEmpresacod_cliente.AsInteger := 0;
+    mtbClientesEmpresanom_cliente.AsString := 'TODOS';
+    mtbClientesEmpresa.Post;
   end;
 end;
 
@@ -199,15 +310,17 @@ var
   FRoteiros : TRoteirosExpressasControl;
 begin
   try
-     if cboCliente.ItemIndex <= 0 then
+    FRoteiros := TRoteirosExpressasControl.Create;
+
+    if codigoRoteiro.Text = '' then
     begin
-      Application.MessageBox('Informe o cliente!', 'Atenção!', MB_OK + MB_ICONWARNING);
+      Application.MessageBox('Informe um roteiro!', 'Atenção!', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    FRoteiros := TRoteirosExpressasControl.Create;
-    if not FRoteiros.PopulateRoteiros(cboCliente.ItemIndex) then
+
+    if not FRoteiros.PopulateRoteiros(codigoRoteiro.Text) then
     begin
-      Application.MessageBox('Roteiros não encontrados no banco de dados!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Application.MessageBox('Roteiro não cadastrado! ', 'Atenção', MB_OK + MB_ICONWARNING);
       actGravarRoteiros.Enabled := False;
       actCancelar.Enabled := False;
     end
@@ -221,38 +334,11 @@ begin
   end;
 end;
 
-procedure Tview_RoteirosExpressas.SaveData;
-var
-  FRoteiros : TRoteirosExpressasControl;
-begin
-  try
-    lblAviso.Caption := 'Gravando no banco de dados. Aguarde ...';
-    lblAviso.Refresh;
-    if not Data_Sisgef.mtbRoteirosExpressas.Active then Exit;
-    if Data_Sisgef.mtbRoteirosExpressas.IsEmpty then Exit;
 
-    FRoteiros := TRoteirosExpressasControl.Create;
-    FRoteiros.DeleteCliente(cboCliente.ItemIndex);
-    if not FRoteiros.SaveData then
-    begin
-      Application.MessageBox('Ocorreu um problema ao salvar as informações no banco de dados!','Atenção',MB_OK + MB_ICONERROR);
-    end
-    else
-    begin
-      Application.MessageBox('Roteiro gravado no banco de dados!','Atenção',MB_OK + MB_ICONINFORMATION);
-    end;
-  finally
-    FRoteiros.Free;
-    lblAviso.Caption := '';
-    lblAviso.Refresh;
-  end;
-end;
-
-procedure Tview_RoteirosExpressas.tvRoteirosNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+procedure Tview_RoteirosExpressas.StartForm;
 begin
-  case AButtonIndex of
-    16: ExportData;
-  end;
+  labelTitle.Caption := Self.Caption;
+  PopulateClientes;
 end;
 
 end.

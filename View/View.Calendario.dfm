@@ -26,7 +26,9 @@ object view_Calendario: Tview_Calendario
     Width = 457
     Height = 441
     Align = alClient
+    ParentBackground = True
     TabOrder = 0
+    Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object cxButton1: TcxButton
       Left = 372
@@ -41,8 +43,8 @@ object view_Calendario: Tview_Calendario
     object CalendarView1: TCalendarView
       Left = 11
       Top = 11
-      Width = 302
-      Height = 246
+      Width = 435
+      Height = 320
       Cursor = crHandPoint
       BorderStyle = bsNone
       Date = 43378.000000000000000000
@@ -101,6 +103,8 @@ object view_Calendario: Tview_Calendario
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -111,6 +115,8 @@ object view_Calendario: Tview_Calendario
       CaptionOptions.Text = 'CalendarView1'
       CaptionOptions.Visible = False
       Control = CalendarView1
+      ControlOptions.OriginalHeight = 246
+      ControlOptions.OriginalWidth = 302
       Index = 0
     end
     object dxLayoutItem3: TdxLayoutItem
@@ -120,6 +126,8 @@ object view_Calendario: Tview_Calendario
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 37
+      ControlOptions.OriginalWidth = 123
       Index = 0
     end
     object dxLayoutAutoCreatedGroup2: TdxLayoutAutoCreatedGroup
@@ -135,6 +143,8 @@ object view_Calendario: Tview_Calendario
       CaptionOptions.Text = 'ActivityIndicator1'
       CaptionOptions.Visible = False
       Control = ActivityIndicator1
+      ControlOptions.OriginalHeight = 48
+      ControlOptions.OriginalWidth = 48
       ControlOptions.ShowBorder = False
       Index = 1
     end

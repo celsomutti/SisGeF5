@@ -40,7 +40,9 @@ type
     dxLayoutGroup2: TdxLayoutGroup;
     imageLogoSisGeF: TcxImage;
     dxLayoutItem7: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
+    dxLayoutGroup3: TdxLayoutGroup;
+    dxLayoutGroup4: TdxLayoutGroup;
+    dxLayoutGroup5: TdxLayoutGroup;
     procedure actLogarExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);

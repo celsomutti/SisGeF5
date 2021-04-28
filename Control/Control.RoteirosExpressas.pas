@@ -18,8 +18,9 @@ type
     function Localizar(aParam: array of variant): TFDQuery;
     function GetId(): Integer;
     function DeleteCliente(iCliente: Integer): Boolean;
-    function PopulateRoteiros(iCliente: Integer): Boolean;
+    function PopulateRoteiros(sRoteiro: string): Boolean;
     procedure ImportRoteiros(sFile: String; iCliente: Integer);
+    function SaveData(): Boolean;
     function ListRoteiro(): TFDQuery;
     function SetupModel(FDQuery: TFDQuery): Boolean;
     property Roteiros: TRoteirosExpressas read FRoteiros write FRoteiros;
@@ -162,7 +163,7 @@ begin
   Result := FRoteiros.Localizar(aParam);
 end;
 
-function TRoteirosExpressasControl.PopulateRoteiros(iCliente: Integer): Boolean;
+function TRoteirosExpressasControl.PopulateRoteiros(sRoteiro: string): Boolean;
 var
   fdQuery : TFDQuery;
   aParam : Array of variant;
@@ -170,8 +171,8 @@ begin
   try
     Result := False;
     SetLength(aParam, 2);
-    aParam[0] := 'CLIENTE';
-    aParam[1] := iCliente;
+    aParam[0] := 'CCEP5';
+    aParam[1] := sRoteiro;
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery();
     fdQuery := FRoteiros.Localizar(aParam);
     Finalize(aParam);
@@ -189,6 +190,11 @@ begin
     fdQuery.Connection.Close;
     fdQuery.Free;
   end;
+end;
+
+function TRoteirosExpressasControl.SaveData(): Boolean;
+begin
+  Result := FRoteiros.SaveData(Data_Sisgef.mtbRoteirosExpressas);
 end;
 
 function TRoteirosExpressasControl.SetupModel(FDQuery: TFDQuery): Boolean;
