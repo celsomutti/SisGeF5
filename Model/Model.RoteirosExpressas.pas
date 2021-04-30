@@ -202,55 +202,68 @@ begin
   end;
   if aParam[0] = 'CEP' then
   begin
+    if Length(aParam) = 2 then
+    begin
+      FDQuery.SQL.Add('where num_cep_inicial = :num_cep and');
+      FDQuery.ParamByName('num_cep').AsString := aParam[1];
+    end
+    else
+    begin
+      FDQuery.SQL.Add('where num_cep_inicial = :num_cep and');
+      FDQuery.ParamByName('num_cep').AsString := aParam[1];
+      FDQuery.SQL.Add('and num_cep_final = :num_cep_1 and');
+      FDQuery.ParamByName('num_cep_1').AsString := aParam[2];
+    end;
+  end
+  else if aParam[0] = 'CEPCLIENTE' then
+  begin
     FDQuery.SQL.Add('where num_cep_inicial = :num_cep and cod_cliente = :cod_cliente');
     FDQuery.ParamByName('num_cep').AsString := aParam[1];
     FDQuery.ParamByName('cod_cliente').AsInteger := aParam[2];
-  end;
-  if aParam[0] = 'LEVE' then
+  end
+  else if aParam[0] = 'LEVE' then
   begin
     FDQuery.SQL.Add('where cod_leve = :cod_leve and cod_cliente = :cod_cliente');
     FDQuery.ParamByName('cod_leve').AsInteger := aParam[1];
     FDQuery.ParamByName('cod_cliente').AsInteger := aParam[2];
-  end;
-  if aParam[0] = 'PESADO' then
+  end
+  else if aParam[0] = 'PESADO' then
   begin
     FDQuery.SQL.Add('where cod_pesado = :cod_pesado and cod_cliente = :cod_cliente');
     FDQuery.ParamByName('cod_pesado').AsInteger := aParam[1];
     FDQuery.ParamByName('cod_cliente').AsInteger := aParam[2];
-  end;
-  if aParam[0] = 'CCEP5' then
+  end
+  else if aParam[0] = 'CCEP5' then
   begin
     FDQuery.SQL.Add('where cod_ccep5 = :cod_ccep5');
     FDQuery.ParamByName('cod_ccep5').AsString := aParam[1];
-  end;
-  if aParam[0] = 'LOGRADOURO' then
+  end
+  else if aParam[0] = 'LOGRADOURO' then
   begin
     FDQuery.SQL.Add('where des_descricao_sem_numero like :des_descricao_sem_numero');
     FDQuery.ParamByName('des_descricao_sem_numero').AsString := aParam[1];
-  end;
-  if aParam[0] = 'ROTEIRO' then
+  end
+  else if aParam[0] = 'ROTEIRO' then
   begin
     FDQuery.SQL.Add('where des_roteiro like :des_roteiro');
     FDQuery.ParamByName('des_roteiro').AsString := aParam[1];
-  end;
-  if aParam[0] = 'CLIENTE' then
+  end
+  else if aParam[0] = 'CLIENTE' then
   begin
     FDQuery.SQL.Add('where cod_cliente = :cod_cliente');
     FDQuery.ParamByName('cod_cliente').AsInteger := aParam[1];
-  end;
-  if aParam[0] = 'FILTRO' then
+  end
+  else if aParam[0] = 'FILTRO' then
   begin
     FDQuery.SQL.Add('where ' + aParam[1]);
-  end;
-  if aParam[0] = 'APOIO' then
+  end
+  else if aParam[0] = 'APOIO' then
   begin
     FDQuery.SQL.Clear;
     FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
   end;
   FDQuery.Open;
-
   Result := FDQuery;
-
 end;
 
 function TRoteirosExpressas.SaveData(mtbRoteiro: TFDMemTable): Boolean;

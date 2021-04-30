@@ -76,8 +76,6 @@ type
     property ValorAdvalorem: Double read FValorAdvalorem write FValorAdvalorem;
     property NomeRemetente: String read FNomeRemetente write FNomeRemetente;
     property PercentualParada: Double read FPercentualParada write FPercentualParada;
-
-
     property Planilha: TObjectList<TCapaDirect> read FPlanilha write FPlanilha;
     property Mensagem: String read FMensagem write FMensagem;
     function GetPlanilha(sFile: String): Boolean;
