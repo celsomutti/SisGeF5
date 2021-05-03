@@ -93,7 +93,7 @@ begin
         begin
           iTipo := 1;
         end;
-        FPlanilha[i].Tipo := '000';
+        FPlanilha[i].Tipo := iTipo;
       end;
     end;
     if FPlanilha.Count = 0 then

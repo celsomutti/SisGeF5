@@ -577,10 +577,6 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitLeft = 128
-    ExplicitTop = 96
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object labelTitle: TcxLabel
       Left = 49
       Top = 16
@@ -911,11 +907,13 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Caption = '&OK'
       Hint = 'Gravar registros selecionados'
       ImageIndex = 1
+      OnExecute = actionOKExecute
     end
     object actionCancelar: TAction
       Caption = '&Cancelar'
       Hint = 'Cancelar sele'#231#227'o'
       ImageIndex = 2
+      OnExecute = actionCancelarExecute
     end
   end
   object dsFiltro: TDataSource

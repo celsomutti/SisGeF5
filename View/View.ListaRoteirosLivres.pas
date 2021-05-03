@@ -43,6 +43,8 @@ type
     cxButton2: TcxButton;
     dxLayoutItem5: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
+    procedure actionOKExecute(Sender: TObject);
+    procedure actionCancelarExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -66,6 +68,16 @@ implementation
 uses Data.SisGeF, Control.RoteirosExpressas, Common.Utils;
 
 { Tview_ListaRorteirosLivres }
+
+procedure Tview_ListaRorteirosLivres.actionCancelarExecute(Sender: TObject);
+begin
+  ModalResult := mrCancel;
+end;
+
+procedure Tview_ListaRorteirosLivres.actionOKExecute(Sender: TObject);
+begin
+  ModalResult := mrOk;
+end;
 
 procedure Tview_ListaRorteirosLivres.CloseForm;
 begin

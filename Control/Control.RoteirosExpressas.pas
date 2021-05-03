@@ -205,7 +205,7 @@ end;
 procedure TRoteirosExpressasControl.StartProcess;
 begin
   view_RoteirosExpressas.ds.Enabled := False;
-  view_RoteirosExpressas.pbProcesso.Position := 0;
+  view_RoteirosExpressas.progressBar.Position := 0;
   view_RoteirosExpressas.lyiProgresso.Visible := True;
   view_RoteirosExpressas.actGravarRoteiros.Enabled := False;
   view_RoteirosExpressas.actCancelar.Enabled := False;
@@ -213,7 +213,7 @@ end;
 
 procedure TRoteirosExpressasControl.TerminateProcess;
 begin
-  view_RoteirosExpressas.pbProcesso.Position := 0;
+  view_RoteirosExpressas.progressBar.Position := 0;
   view_RoteirosExpressas.lyiProgresso.Visible := False;
   view_RoteirosExpressas.ds.Enabled := True;
   if not Data_Sisgef.mtbRoteirosExpressas.IsEmpty then
@@ -225,8 +225,8 @@ end;
 
 procedure TRoteirosExpressasControl.UpdateProcess(dCount: Double);
 begin
-  view_RoteirosExpressas.pbProcesso.Position := dCount;
-  view_RoteirosExpressas.pbProcesso.Refresh;
+  view_RoteirosExpressas.progressBar.Position := dCount;
+  view_RoteirosExpressas.progressBar.Refresh;
 end;
 
 end.

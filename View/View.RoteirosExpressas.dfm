@@ -568,6 +568,9 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
   Visible = True
   OnClose = FormClose
   OnShow = FormShow
+  DesignSize = (
+    908
+    435)
   PixelsPerInch = 96
   TextHeight = 15
   object dxLayoutControl1: TdxLayoutControl
@@ -596,6 +599,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       TabOrder = 8
       OnLayoutChanged = grdRoteirosLayoutChanged
       object tvRoteiros: TcxGridDBTableView
+        Navigator.Buttons.OnButtonClick = tvRoteirosNavigatorButtonsButtonClick
         Navigator.Buttons.CustomButtons = <
           item
             Hint = 'Incluir CEP'
@@ -788,6 +792,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
             end>
           Properties.ListOptions.ShowHeader = False
           Properties.ListSource = dsClientes
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 169
         end
@@ -812,7 +817,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
         GridView = tvRoteiros
       end
     end
-    object pbProcesso: TcxProgressBar
+    object progressBar: TcxProgressBar
       Left = 12
       Top = 375
       TabOrder = 9
@@ -1001,7 +1006,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Visible = False
       CaptionOptions.Layout = clTop
       Visible = False
-      Control = pbProcesso
+      Control = progressBar
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
@@ -1162,6 +1167,15 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Index = 1
     end
   end
+  object indicador: TdxActivityIndicator
+    Left = 12
+    Top = 365
+    Width = 884
+    Height = 10
+    Anchors = [akTop, akRight, akBottom]
+    PropertiesClassName = 'TdxActivityIndicatorHorizontalDotsProperties'
+    Transparent = True
+  end
   object aclRoteirosExpressas: TActionList
     Images = Data_Sisgef.iml_16_16
     Left = 840
@@ -1273,5 +1287,10 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
     object ExcluirCEPdoRoteiro1: TMenuItem
       Action = actionExcluirCEP
     end
+  end
+  object Timer: TTimer
+    Enabled = False
+    Left = 584
+    Top = 8
   end
 end
