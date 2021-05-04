@@ -73,7 +73,7 @@ begin
         FPlanilha[i].CEPInicial := sDetalhe[0];
         FPlanilha[i].CEPFinal :=  sDetalhe[1];
         FPlanilha[i].Prazo := sDetalhe[2];
-        FPlanilha[i].Zona := sDetalhe[3];
+        FPlanilha[i].Zona := Copy(sDetalhe[3],1,1);
         FPlanilha[i].Logradouro := sDetalhe[5];
         FPlanilha[i].Bairro := sDetalhe[6];
         FPlanilha[i].CCEP5 := '000';

@@ -79,8 +79,8 @@ begin
   try
     Result := False;
     fdQuery := FConexao.ReturnQuery();
-    fdQuery.ExecSQL(SQLUPDATE, [Self.CCEP5, Self.Descricao,Self.CEPInicial, Self.CEPFinal, Self.Prazo, self.Zona,
-                    Self.Tipo, Self.Logradouro, Self.Bairro, Self.Cliente, Self.ID]);
+    fdQuery.ExecSQL(SQLUPDATE, [FCCEP5, FDescricao,FCEPInicial, FCEPFinal, FPrazo, FZona,
+                    FTipo, FLogradouro, FBairro, FCliente, FCodigoLeve, FCodigoPesado, FID]);
     Result := True;
   finally
     fdQuery.Connection.Close;
@@ -122,7 +122,7 @@ begin
   try
     Result := False;
     fdQuery := FConexao.ReturnQuery();
-    fdQuery.ExecSQL('delete from ' + TABLENAME + ' where id_roteiro = :id_roteiro', [Self.ID]);
+    fdQuery.ExecSQL('delete from ' + TABLENAME + ' where id_roteiro = :id_roteiro', [FID]);
     Result := True;
   finally
     fdQuery.Connection.Close;
@@ -165,9 +165,9 @@ begin
   try
     Result := False;
     fdQuery := FConexao.ReturnQuery();
-    //Self.ID := Self.GetID();
-    fdQuery.ExecSQL(SQLINSERT, [Self.ID, Self.CCEP5, Self.Descricao,Self.CEPInicial, Self.CEPFinal, Self.Prazo, Self.Zona,
-                    Self.Tipo, Self.Logradouro, Self.Bairro, Self.Cliente]);
+    //FID := FGetID();
+    fdQuery.ExecSQL(SQLINSERT, [FID, FCCEP5, FDescricao,FCEPInicial, FCEPFinal, FPrazo, FZona,
+                    FTipo, FLogradouro, FBairro, FCliente, FcodigoLeve, FCodigoPesado]);
     Result := True;
   finally
     fdQuery.Connection.Close;
@@ -199,19 +199,19 @@ begin
   begin
     FDQuery.SQL.Add('where id_roteiro = :id_roteiro');
     FDQuery.ParamByName('id_roteiro').AsInteger := aParam[1];
-  end;
-  if aParam[0] = 'CEP' then
+  end
+  else if aParam[0] = 'CEP' then
   begin
     if Length(aParam) = 2 then
     begin
-      FDQuery.SQL.Add('where num_cep_inicial = :num_cep and');
+      FDQuery.SQL.Add('where num_cep_inicial = :num_cep');
       FDQuery.ParamByName('num_cep').AsString := aParam[1];
     end
     else
     begin
-      FDQuery.SQL.Add('where num_cep_inicial = :num_cep and');
+      FDQuery.SQL.Add('where num_cep_inicial = :num_cep');
       FDQuery.ParamByName('num_cep').AsString := aParam[1];
-      FDQuery.SQL.Add('and num_cep_final = :num_cep_1 and');
+      FDQuery.SQL.Add(' and num_cep_final = :num_cep_1');
       FDQuery.ParamByName('num_cep_1').AsString := aParam[2];
     end;
   end

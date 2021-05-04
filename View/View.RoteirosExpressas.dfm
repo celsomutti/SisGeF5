@@ -1172,7 +1172,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
     Top = 365
     Width = 884
     Height = 10
-    Anchors = [akTop, akRight, akBottom]
+    Anchors = [akLeft, akRight, akBottom]
     PropertiesClassName = 'TdxActivityIndicatorHorizontalDotsProperties'
     Transparent = True
   end
@@ -1203,6 +1203,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Hint = 'Gravar altera'#231#245'es no banco de dados'
       ImageIndex = 13
       ShortCut = 16500
+      OnExecute = actGravarRoteirosExecute
     end
     object actCancelar: TAction
       Category = 'Roteiros Expressas'
@@ -1243,6 +1244,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Hint = 'Criar novo roteiro'
       ImageIndex = 66
       ShortCut = 113
+      OnExecute = actionNovoRoteiroExecute
     end
     object actionIncluirCEP: TAction
       Category = 'Roteiros Expressas'
@@ -1290,6 +1292,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
   end
   object Timer: TTimer
     Enabled = False
+    OnTimer = TimerTimer
     Left = 584
     Top = 8
   end

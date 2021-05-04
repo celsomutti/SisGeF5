@@ -98,6 +98,8 @@ begin
           FRoteiros.Roteiros.Prazo := FPlanilha.Planilha.Planilha[i].Prazo;
           FRoteiros.Roteiros.Zona := FPlanilha.Planilha.Planilha[i].Zona;
           FRoteiros.Roteiros.Tipo := FPlanilha.Planilha.Planilha[i].Tipo;
+          FRoteiros.Roteiros.Logradouro := FPlanilha.Planilha.Planilha[i].Logradouro;
+          FRoteiros.Roteiros.Bairro := FPlanilha.Planilha.Planilha[i].Bairro;
           FRoteiros.Roteiros.Acao := tacIncluir;
           if not FRoteiros.Gravar() then
           begin
@@ -105,7 +107,6 @@ begin
             UpdateLOG(sMensagem);
           end;
         end;
-        FRoteiros.Free;
         Finalize(aParam);
         iPos := i;
         FProgresso := (iPos / FTotalRegistros) * 100;
@@ -117,6 +118,8 @@ begin
     begin
       UpdateLOG(FPlanilha.Planilha.Mensagem);
     end;
+    FRoteiros.Free;
+    FPlanilha.Free;
   Except on E: Exception do
     begin
       sMensagem := '** ERROR **' + 'Classe:' + E.ClassName + chr(13) + 'Mensagem:' + E.Message;
