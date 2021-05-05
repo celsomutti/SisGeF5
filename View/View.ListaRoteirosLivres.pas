@@ -45,12 +45,16 @@ type
     procedure FormShow(Sender: TObject);
     procedure actionOKExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
+    procedure actionFiltrarExecute(Sender: TObject);
+    procedure actionLimparExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
     procedure CloseForm;
+    procedure ClearFilter;
     procedure PesquisaCEP(sFiltro: String);
     function FormulaFiltro(sTexto: String): String;
+
   public
     { Public declarations }
     sSQL : String;
@@ -74,9 +78,25 @@ begin
   ModalResult := mrCancel;
 end;
 
+procedure Tview_ListaRorteirosLivres.actionFiltrarExecute(Sender: TObject);
+begin
+  PesquisaCEP(FormulaFiltro(parametro.Text));
+end;
+
+procedure Tview_ListaRorteirosLivres.actionLimparExecute(Sender: TObject);
+begin
+  ClearFilter;
+end;
+
 procedure Tview_ListaRorteirosLivres.actionOKExecute(Sender: TObject);
 begin
   ModalResult := mrOk;
+end;
+
+procedure Tview_ListaRorteirosLivres.ClearFilter;
+begin
+  parametro.Clear;
+  Data_Sisgef.mtbRoteirosLivres.Active := False;
 end;
 
 procedure Tview_ListaRorteirosLivres.CloseForm;
@@ -108,9 +128,9 @@ begin
   end
   else
   begin
-    sFiltro := 'num_cep_inicial like ' + QuotedStr('%' +  sTexto + '%') + ' or num_cep_final like ' +
-               QuotedStr('%' + sTexto + '%') + ' or des_logradouro like ' + QuotedStr('%' +  sTexto + '%') +
-               ' or des_baixo like ' + QuotedStr('%' + sTexto + '%');
+    sFiltro := 'num_cep_inicial like ' + '"%' +  sTexto + '%"' + ' or num_cep_final like ' +
+               '"%' + sTexto + '%"' + ' or des_logradouro like ' + '"%' +  sTexto + '%"' +
+               ' or des_bairro like ' + '"%' + sTexto + '%"';
   end;
 
   Result := sFiltro;
@@ -122,13 +142,15 @@ var
   sSQL : string;
 begin
   try
+    fdPesquisa := FConexao.ReturnQuery;
+    Data_Sisgef.mtbRoteirosLivres.Active := False;
+
     sSQL := 'select id_roteiro, cod_ccep5, des_roteiro, num_cep_inicial, num_cep_final, des_prazo, dom_zona, cod_tipo, ' +
             'des_logradouro, des_bairro, cod_cliente, cod_leve, cod_pesado from expressas_roteiros';
     if sFiltro = 'NONE' then
     begin
       Exit;
     end;
-    fdPesquisa := FConexao.ReturnQuery;
     fdPesquisa.SQL.Add(sSQL);
     if not sFiltro.IsEmpty then
     begin
@@ -141,6 +163,7 @@ begin
     fdPesquisa.Open();
     if not fdPesquisa.IsEmpty then
     begin
+      Data_Sisgef.mtbRoteirosLivres.Data := fdPesquisa.Data;
       gridCEP.SetFocus;
     end;
   finally

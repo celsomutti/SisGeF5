@@ -726,7 +726,6 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Cursor = crHandPoint
       Action = actionOK
       LookAndFeel.Kind = lfOffice11
-      SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Transparent = True
       TabOrder = 3
     end
@@ -738,8 +737,6 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Cursor = crHandPoint
       Action = actionCancelar
       LookAndFeel.Kind = lfOffice11
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
       TabOrder = 4
     end
@@ -896,12 +893,14 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Hint = 'Filtrar dados'
       ImageIndex = 19
       ShortCut = 119
+      OnExecute = actionFiltrarExecute
     end
     object actionLimpar: TAction
       Caption = 'Limpar'
       Hint = 'Limpar filtro'
       ImageIndex = 67
       ShortCut = 8305
+      OnExecute = actionLimparExecute
     end
     object actionOK: TAction
       Caption = '&OK'
