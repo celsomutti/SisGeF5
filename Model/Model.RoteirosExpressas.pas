@@ -22,6 +22,7 @@ type
     FConexao: TConexao;
     FCodigoPesado: Integer;
     FCodigoLeve: Integer;
+    FCheck: SmallInt;
     function Inserir(): Boolean;
     function Alterar(): Boolean;
     function Excluir(): Boolean;
@@ -41,6 +42,7 @@ type
     property Cliente: Integer read FCliente write FCliente;
     property CodigoLeve: Integer read FCodigoLeve write FCodigoLeve;
     property CodigoPesado: Integer read FCodigoPesado write FCodigoPesado;
+    property Check: SmallInt read FCheck write FCheck;
     property Acao: TAcao read FAcao write FAcao;
 
     constructor Create;
@@ -56,14 +58,15 @@ type
   const
     TABLENAME = 'expressas_roteiros';
     SQLINSERT = 'insert into ' + TABLENAME + '(id_roteiro, cod_ccep5, des_roteiro, num_cep_inicial, num_cep_final, ' +
-                'des_prazo, dom_zona, cod_tipo, des_logradouro, des_bairro, cod_cliente, cod_leve, cod_pesado)' +
+                'des_prazo, dom_zona, cod_tipo, des_logradouro, des_bairro, cod_cliente, cod_leve, cod_pesado, dom_check)' +
                 'values ' +
-                '(:id_roteiro, :cod_ccep5, :des_roteiro, :num_cep_inicial, :num_cep_final, :des_prazo, :dom_zona, :cod_tipo, '+
-                ':des_logradouro, :des_bairro, :cod_cliente, :cod_leve, :cod_pesado);';
+                '(id_roteiro, :cod_ccep5, :des_roteiro, :num_cep_inicial, :num_cep_final, :des_prazo, :dom_zona, :cod_tipo, '+
+                ':des_logradouro, :des_bairro, :cod_cliente, :cod_leve, :cod_pesado, :dom_check);';
     SQLUPDATE = 'update ' + TABLENAME + ' set cod_ccep5 = :cod_ccep5, des_roteiro = :des_roteiro, ' +
-                'num_cep_inicial = :num_cep_inicial, num_cep_final = :num_cep_final, des_prazo - :des_prazo, ' +
+                'num_cep_inicial = :num_cep_inicial, num_cep_final = :num_cep_final, des_prazo = :des_prazo, ' +
                 'dom_zona = :dom_zona, cod_tipo = :cod_tipo, des_logradouro = :des_logradouro, ' +
-                'des_bairro = :des_bairro, cod_cliente = :cod_cliente, cod_leve = :cod_leve, cod_pesado = :cod_pesado ' +
+                'des_bairro = :des_bairro, cod_cliente = :cod_cliente, cod_leve = :cod_leve, cod_pesado = :cod_pesado, ' +
+                'dom_check = :dom_check ' +
                 'where id_roteiro = :id_roteiro;';
 
 implementation
@@ -80,7 +83,7 @@ begin
     Result := False;
     fdQuery := FConexao.ReturnQuery();
     fdQuery.ExecSQL(SQLUPDATE, [FCCEP5, FDescricao,FCEPInicial, FCEPFinal, FPrazo, FZona,
-                    FTipo, FLogradouro, FBairro, FCliente, FCodigoLeve, FCodigoPesado, FID]);
+                    FTipo, FLogradouro, FBairro, FCliente, FCodigoLeve, FCodigoPesado, FCheck, FID]);
     Result := True;
   finally
     fdQuery.Connection.Close;
@@ -166,8 +169,8 @@ begin
     Result := False;
     fdQuery := FConexao.ReturnQuery();
     //FID := FGetID();
-    fdQuery.ExecSQL(SQLINSERT, [FID, FCCEP5, FDescricao,FCEPInicial, FCEPFinal, FPrazo, FZona,
-                    FTipo, FLogradouro, FBairro, FCliente, FcodigoLeve, FCodigoPesado]);
+    fdQuery.ExecSQL(SQLINSERT, [FCCEP5, FDescricao,FCEPInicial, FCEPFinal, FPrazo, FZona,
+                    FTipo, FLogradouro, FBairro, FCliente, FcodigoLeve, FCodigoPesado, FCheck]);
     Result := True;
   finally
     fdQuery.Connection.Close;
@@ -294,6 +297,7 @@ begin
       FDQuery.ParamByName('cod_cliente').AsIntegers[icounter] := mtbRoteiro.FieldByName('cod_cliente').AsInteger;
       FDQuery.ParamByName('cod_leve').AsIntegers[icounter] := mtbRoteiro.FieldByName('cod_leve').AsInteger;
       FDQuery.ParamByName('cod_pesado').AsIntegers[icounter] := mtbRoteiro.FieldByName('cod_pesado').AsInteger;
+      FDQuery.ParamByName('dom_check').AsSmallInts[icounter] := mtbRoteiro.FieldByName('dom_check').AsInteger;
       Inc(icounter);
       mtbRoteiro.Next;
     end;
@@ -323,6 +327,7 @@ begin
     FCliente := fdQuery.FieldByName('cod_cliente').AsInteger;
     FCodigoLeve := fdQuery.FieldByName('cod_leve').AsInteger;
     FCodigoPesado := fdQuery.FieldByName('cod_pesado').AsInteger;
+    FCheck := fdQuery.FieldByName('dom_check').AsInteger;
   finally
     Result := True;
   end;

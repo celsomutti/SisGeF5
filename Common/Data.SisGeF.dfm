@@ -13839,6 +13839,11 @@ object Data_Sisgef: TData_Sisgef
     Top = 312
   end
   object mtbRoteirosExpressas: TFDMemTable
+    Indexes = <
+      item
+        Active = True
+        Fields = 'id_roteiro'
+      end>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -13896,6 +13901,9 @@ object Data_Sisgef: TData_Sisgef
     object mtbRoteirosExpressascod_pesado: TIntegerField
       DisplayLabel = 'C'#243'd. Pesado'
       FieldName = 'cod_pesado'
+    end
+    object mtbRoteirosExpressasdom_check: TSmallintField
+      FieldName = 'dom_check'
     end
   end
   object mtbExtratosExpressas: TFDMemTable
@@ -14339,6 +14347,10 @@ object Data_Sisgef: TData_Sisgef
     Top = 112
   end
   object mtbRoteirosLivres: TFDMemTable
+    Indexes = <
+      item
+        Fields = 'id_roteiro'
+      end>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -14346,7 +14358,7 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 308
+    Left = 324
     Top = 400
     object IntegerField1: TIntegerField
       FieldName = 'id_roteiro'
@@ -14396,6 +14408,9 @@ object Data_Sisgef: TData_Sisgef
     object IntegerField5: TIntegerField
       DisplayLabel = 'C'#243'd. Pesado'
       FieldName = 'cod_pesado'
+    end
+    object mtbRoteirosLivresdom_check: TSmallintField
+      FieldName = 'dom_check'
     end
   end
 end

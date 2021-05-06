@@ -433,6 +433,8 @@ type
     IntegerField3: TIntegerField;
     IntegerField4: TIntegerField;
     IntegerField5: TIntegerField;
+    mtbRoteirosLivresdom_check: TSmallintField;
+    mtbRoteirosExpressasdom_check: TSmallintField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

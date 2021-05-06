@@ -42,17 +42,24 @@ type
     dxLayoutItem4: TdxLayoutItem;
     cxButton2: TcxButton;
     dxLayoutItem5: TdxLayoutItem;
+    actionMarcarSelecionados: TAction;
     procedure FormShow(Sender: TObject);
     procedure actionOKExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
     procedure actionFiltrarExecute(Sender: TObject);
     procedure actionLimparExecute(Sender: TObject);
+    procedure gridCEPDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+    procedure parametroPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure gridCEPDBTableView1id_roteiroHeaderClick(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
     procedure CloseForm;
     procedure ClearFilter;
+    procedure ExportData;
     procedure PesquisaCEP(sFiltro: String);
+    procedure CheckAll;
+    procedure CheckSelection;
     function FormulaFiltro(sTexto: String): String;
 
   public
@@ -93,6 +100,46 @@ begin
   ModalResult := mrOk;
 end;
 
+procedure Tview_ListaRorteirosLivres.CheckAll;
+begin
+  if Data_Sisgef.mtbRoteirosLivres.IsEmpty then
+    Exit;
+  Data_Sisgef.mtbRoteirosLivres.First;
+  Screen.Cursor := crHourGlass;
+  if gridCEPDBTableView1.Controller.SelectedRowCount > 1 then
+  begin
+    CheckSelection;
+  end
+  else
+  begin
+    while not Data_Sisgef.mtbRoteirosLivres.Eof do
+    begin
+      Data_Sisgef.mtbRoteirosLivres.Edit;
+      Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_check').AsInteger := 1;
+      Data_Sisgef.mtbRoteirosLivres.Post;
+      Data_Sisgef.mtbRoteirosLivres.Next;
+    end;
+  end;
+  Screen.Cursor := crDefault;
+  Data_Sisgef.mtbRoteirosLivres.First;
+end;
+
+procedure Tview_ListaRorteirosLivres.CheckSelection;
+var
+  i, iId: integer;
+begin
+  for i := 0 to Pred(gridCEPDBTableView1.Controller.SelectedRecordCount) do
+  begin
+    iId := StrToIntDef(gridCEPDBTableView1.Controller.SelectedRows[i].DisplayTexts[0], 0);
+    if Data_Sisgef.mtbRoteirosLivres.Locate('id_roteiro',iID,[]) then
+    begin
+      Data_Sisgef.mtbRoteirosLivres.Edit;
+      Data_Sisgef.mtbRoteirosLivresdom_check.AsInteger := -1;
+      Data_Sisgef.mtbRoteirosLivres.Post;
+    end;
+  end;
+end;
+
 procedure Tview_ListaRorteirosLivres.ClearFilter;
 begin
   parametro.Clear;
@@ -103,6 +150,32 @@ procedure Tview_ListaRorteirosLivres.CloseForm;
 begin
   Data_Sisgef.mtbRoteirosLivres.Active := False;
   FConexao.Free;
+end;
+
+procedure Tview_ListaRorteirosLivres.ExportData;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if Data_Sisgef.mtbRoteirosExpressas.IsEmpty then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(gridCEP,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
+  end;
 end;
 
 procedure Tview_ListaRorteirosLivres.FormShow(Sender: TObject);
@@ -136,6 +209,28 @@ begin
   Result := sFiltro;
 end;
 
+procedure Tview_ListaRorteirosLivres.gridCEPDBTableView1id_roteiroHeaderClick(Sender: TObject);
+begin
+  if Application.MessageBox('Confirma selecionar todos os registros ?', 'Selecionar Todos', MB_YESNO + MB_ICONQUESTION) = IDNO then
+    Exit;
+  CheckAll;
+end;
+
+procedure Tview_ListaRorteirosLivres.gridCEPDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
+  var ADone: Boolean);
+begin
+  case AButtonIndex of
+    16 : ExportData;
+    17 : CheckAll;
+  end;
+end;
+
+procedure Tview_ListaRorteirosLivres.parametroPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  actionFiltrarExecute(Sender);
+end;
+
 procedure Tview_ListaRorteirosLivres.PesquisaCEP(sFiltro: String);
 var
   fdPesquisa : TFDQuery;
@@ -146,7 +241,7 @@ begin
     Data_Sisgef.mtbRoteirosLivres.Active := False;
 
     sSQL := 'select id_roteiro, cod_ccep5, des_roteiro, num_cep_inicial, num_cep_final, des_prazo, dom_zona, cod_tipo, ' +
-            'des_logradouro, des_bairro, cod_cliente, cod_leve, cod_pesado from expressas_roteiros';
+            'des_logradouro, des_bairro, cod_cliente, cod_leve, cod_pesado, dom_check from expressas_roteiros';
     if sFiltro = 'NONE' then
     begin
       Exit;

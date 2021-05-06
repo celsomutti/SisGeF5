@@ -176,12 +176,12 @@ begin
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery();
     fdQuery := FRoteiros.Localizar(aParam);
     Finalize(aParam);
+    if Data_Sisgef.mtbRoteirosExpressas.Active then Data_Sisgef.mtbRoteirosExpressas.Close;
     if not fdQuery.IsEmpty then
     begin
-      if Data_Sisgef.mtbRoteirosExpressas.Active then Data_Sisgef.mtbRoteirosExpressas.Close;
       Data_Sisgef.mtbRoteirosExpressas.Data := fdQuery.Data;
-    end;
-    if Data_Sisgef.mtbRoteirosExpressas.IsEmpty then
+    end
+    else
     begin
       Exit;
     end;

@@ -1,9 +1,9 @@
 object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
   Left = 0
   Top = 0
-  Caption = 'Lista de CEP Dispon'#237'veis'
+  Caption = 'Lista de CEP Dispon'#237'veis na Abrang'#234'ncia'
   ClientHeight = 389
-  ClientWidth = 780
+  ClientWidth = 829
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -570,7 +570,7 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 780
+    Width = 829
     Height = 389
     Align = alClient
     ParentBackground = True
@@ -594,7 +594,7 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       AnchorY = 28
     end
     object parametro: TcxButtonEdit
-      Left = 162
+      Left = 118
       Top = 51
       Hint = 'Informe o par'#227'metro de filtro'
       Properties.Buttons = <
@@ -609,34 +609,77 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
+      Properties.OnValidate = parametroPropertiesValidate
       Style.HotTrack = False
       TabOrder = 1
       TextHint = 'Digite aqui o valor a ser filtrado'
-      Width = 455
+      Width = 593
     end
     object gridCEP: TcxGrid
       Left = 12
       Top = 81
-      Width = 756
+      Width = 805
       Height = 264
       TabOrder = 2
       object gridCEPDBTableView1: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
+        Navigator.Buttons.OnButtonClick = gridCEPDBTableView1NavigatorButtonsButtonClick
+        Navigator.Buttons.CustomButtons = <
+          item
+            Hint = 'Exportar grade'
+            ImageIndex = 11
+          end
+          item
+            Hint = 'Marcar Selecionados'
+            ImageIndex = 71
+          end>
+        Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+        Navigator.Buttons.First.Hint = 'Primeiro registro'
+        Navigator.Buttons.First.ImageIndex = 5
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.Prior.Hint = 'Registro anterior'
+        Navigator.Buttons.Prior.ImageIndex = 8
+        Navigator.Buttons.Next.Hint = 'Pr'#243'ximo registro'
+        Navigator.Buttons.Next.ImageIndex = 7
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Last.Hint = #218'ltimo registro'
+        Navigator.Buttons.Last.ImageIndex = 6
+        Navigator.Buttons.Insert.Visible = False
+        Navigator.Buttons.Delete.Visible = False
+        Navigator.Buttons.Edit.Visible = False
+        Navigator.Buttons.Post.Visible = False
+        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.Hint = 'Filtrar dados da grade'
+        Navigator.Buttons.Filter.ImageIndex = 19
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
         DataController.DataSource = dsFiltro
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsSelection.MultiSelect = True
         OptionsView.GroupByBox = False
         object gridCEPDBTableView1id_roteiro: TcxGridDBColumn
           Caption = 'Sele'#231#227'o'
-          DataBinding.FieldName = 'id_roteiro'
+          DataBinding.FieldName = 'dom_check'
           PropertiesClassName = 'TcxCheckBoxProperties'
           Properties.Alignment = taRightJustify
           Properties.NullStyle = nssUnchecked
           Properties.ValueChecked = '1'
           Properties.ValueUnchecked = '0'
           HeaderAlignmentHorz = taCenter
+          Options.Filtering = False
+          Options.FilteringWithFindPanel = False
+          Options.FilteringAddValueItems = False
+          Options.FilteringFilteredItemsList = False
+          Options.FilteringMRUItemsList = False
+          Options.FilteringPopup = False
+          Options.FilteringPopupMultiSelect = False
+          Options.Sorting = False
           Width = 55
+          OnHeaderClick = gridCEPDBTableView1id_roteiroHeaderClick
         end
         object gridCEPDBTableView1num_cep_inicial: TcxGridDBColumn
           Caption = 'CEP Inicial'
@@ -671,6 +714,7 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
           Caption = 'Tipo'
           DataBinding.FieldName = 'cod_tipo'
           PropertiesClassName = 'TcxImageComboBoxProperties'
+          Properties.Alignment.Horz = taLeftJustify
           Properties.Images = Data_Sisgef.iml_16_16
           Properties.Items = <
             item
@@ -730,7 +774,7 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       TabOrder = 3
     end
     object cxButton2: TcxButton
-      Left = 680
+      Left = 729
       Top = 352
       Width = 88
       Height = 25
@@ -834,7 +878,7 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       CaptionOptions.Visible = False
       Control = parametro
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 455
+      ControlOptions.OriginalWidth = 593
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -913,6 +957,11 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Hint = 'Cancelar sele'#231#227'o'
       ImageIndex = 2
       OnExecute = actionCancelarExecute
+    end
+    object actionMarcarSelecionados: TAction
+      Caption = 'Marcar'
+      Hint = 'Marcar Selecionados'
+      ImageIndex = 71
     end
   end
   object dsFiltro: TDataSource

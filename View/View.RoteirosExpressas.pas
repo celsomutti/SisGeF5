@@ -66,16 +66,12 @@ type
     dsClientes: TDataSource;
     cxButton2: TcxButton;
     dxLayoutItem4: TdxLayoutItem;
-    cxButton3: TcxButton;
-    dxLayoutItem6: TdxLayoutItem;
     cxButton4: TcxButton;
     dxLayoutItem7: TdxLayoutItem;
     cxLabel1: TcxLabel;
     dxLayoutItem8: TdxLayoutItem;
     actionExportar: TAction;
     actionNovoRoteiro: TAction;
-    cxButton5: TcxButton;
-    dxLayoutItem9: TdxLayoutItem;
     PopupMenu: TPopupMenu;
     Incluir1: TMenuItem;
     ExcluirCEPdoRoteiro1: TMenuItem;
@@ -84,10 +80,13 @@ type
     dxLayoutGroup3: TdxLayoutGroup;
     cxButton6: TcxButton;
     dxLayoutItem11: TdxLayoutItem;
-    cxButton7: TcxButton;
-    dxLayoutItem12: TdxLayoutItem;
     Timer: TTimer;
     indicador: TdxActivityIndicator;
+    tvRoteirosdom_check: TcxGridDBColumn;
+    actionRestaurar: TAction;
+    Restaurar1: TMenuItem;
+    actionSelecionarTudo: TAction;
+    Selecionartudo1: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actFecharExecute(Sender: TObject);
     procedure actPesquisarRoteirosExecute(Sender: TObject);
@@ -103,12 +102,15 @@ type
     procedure actionExcluirCEPExecute(Sender: TObject);
     procedure tvRoteirosNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
     procedure actGravarRoteirosExecute(Sender: TObject);
-    procedure actionNovoRoteiroExecute(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure PopupMenuPopup(Sender: TObject);
+    procedure actionRestaurarExecute(Sender: TObject);
+    procedure actionSelecionarTudoExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
-    procedure PopulateRoteiros();
+    procedure PopulateRoteiros(vRoteiro: Variant);
     procedure PopulateClientes();
     procedure ExportData();
     procedure ImportData();
@@ -116,11 +118,15 @@ type
     procedure PesquisaRoteiro();
     procedure IncludeCEP();
     procedure ExcludeCEP();
+    procedure SelecinarTudo;
     procedure UpdateDashboard;
     procedure TerminateProcess;
-    procedure NovoRoteiro();
+    procedure NovoRoteiro(sRoteiro: string);
     procedure SalvaLista();
     procedure GravarRoteiro;
+    procedure GetDescricaoRiteiro(varValue: Variant);
+    procedure RestoreItem(sRoteiro, sDescricao: String);
+    procedure Modo;
   public
     { Public declarations }
   end;
@@ -176,36 +182,62 @@ begin
   PesquisaRoteiro;
 end;
 
-procedure Tview_RoteirosExpressas.actionNovoRoteiroExecute(Sender: TObject);
+procedure Tview_RoteirosExpressas.actionRestaurarExecute(Sender: TObject);
 begin
-  NovoRoteiro;
+  RestoreItem(codigoRoteiro.Text, descricaoRoteiro.Text);
+end;
+
+procedure Tview_RoteirosExpressas.actionSelecionarTudoExecute(Sender: TObject);
+begin
+   SelecinarTudo;
 end;
 
 procedure Tview_RoteirosExpressas.actPesquisarRoteirosExecute(Sender: TObject);
 begin
-  PopulateRoteiros;
+  PopulateRoteiros(codigoRoteiro.Text);
 end;
 
 procedure Tview_RoteirosExpressas.Cancelar;
 begin
   Data_Sisgef.mtbRoteirosExpressas.Close;
-  actGravarRoteiros.Enabled := False;
-  actCancelar.Enabled := False;
-  descricaoRoteiro.Properties.ReadOnly := False;
+  codigoRoteiro.Text := '000';
+  descricaoRoteiro.Clear;
+  FAcao := tacIndefinido;
+  Modo;
 end;
 
 procedure Tview_RoteirosExpressas.codigoRoteiroPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
   var ErrorText: TCaption; var Error: Boolean);
 begin
-  DisplayValue := formatfloat('000',DisplayValue);
+  DisplayValue := FormatFloat('000', DisplayValue);
+  GetDescricaoRiteiro(DisplayValue);
 end;
 
 procedure Tview_RoteirosExpressas.ExcludeCEP;
+var
+  sMensagem: String;
+  i, iId : Integer;
 begin
-  Data_Sisgef.mtbRoteirosExpressas.Edit;
-  Data_Sisgef.mtbRoteirosExpressascod_ccep5.AsString := '000';
-  Data_Sisgef.mtbRoteirosExpressas.Post;
-  grdRoteiros.Canvas.Font.Color := clRed;
+
+  if tvRoteiros.Controller.SelectedRowCount > 1 then
+    sMensagem := 'Confirma excluir os registros selecionados ?'
+  else
+    sMensagem := 'Confirma excluir o CEP ' + Data_Sisgef.mtbRoteirosExpressasnum_cep_inicial.AsString + ' do roteiro ' +
+    codigoRoteiro.Text + ' ?';
+  if Application.MessageBox(PChar(sMensagem), 'Excluir', MB_YESNO + MB_ICONQUESTION) = IDNO then
+  Exit;
+  for i := 0 to Pred(tvRoteiros.Controller.SelectedRecordCount) do
+  begin
+    iId := StrToIntDef(tvRoteiros.Controller.SelectedRows[i].DisplayTexts[1], 0);
+    if Data_Sisgef.mtbRoteirosExpressas.Locate('id_roteiro',iID,[]) then
+    begin
+      Data_Sisgef.mtbRoteirosExpressas.Edit;
+      Data_Sisgef.mtbRoteirosExpressascod_ccep5.AsString := '000';
+      Data_Sisgef.mtbRoteirosExpressasdes_roteiro.Text := '';
+      Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := -1;
+      Data_Sisgef.mtbRoteirosExpressas.Post;
+    end;
+  end;
 end;
 
 procedure Tview_RoteirosExpressas.ExportData;
@@ -241,15 +273,46 @@ begin
   view_RoteirosExpressas := nil;
 end;
 
+procedure Tview_RoteirosExpressas.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if grdRoteiros.IsFocused then Exit;
+  If Key = #13 then
+  begin
+    Key := #0;
+    Perform(Wm_NextDlgCtl, 0, 0);
+  end;
+end;
+
 procedure Tview_RoteirosExpressas.FormShow(Sender: TObject);
 begin
   StartForm;
 end;
 
+procedure Tview_RoteirosExpressas.GetDescricaoRiteiro(varValue: Variant);
+var
+  FRoteiro : TRoteirosExpressasControl;
+  sNome, sRoteiro : string;
+  aParam: array of variant;
+begin
+  try
+    FRoteiro := TRoteirosExpressasControl.Create;
+    sRoteiro := FormatFloat('000', varValue);
+    SetLength(aParam, 2);
+    aParam := ['CCEP5', sRoteiro];
+    if not FRoteiro.Localizar(aParam).IsEmpty then
+    begin
+      sNome := FRoteiro.Localizar(aParam).FieldByName('des_roteiro').AsString;
+    end;
+    descricaoRoteiro.Text := sNome;
+  finally
+    FRoteiro.Free;
+  end;
+end;
+
 procedure Tview_RoteirosExpressas.GravarRoteiro;
 var
   FRoteiro : TRoteirosExpressasControl;
-  sMensagem: String;
+  sMensagem, sRoteiro: String;
 begin
   try
     Froteiro := TRoteirosExpressasControl.Create;
@@ -257,6 +320,7 @@ begin
       Exit;
     if not Data_Sisgef.mtbRoteirosExpressas.IsEmpty then
       Data_Sisgef.mtbRoteirosExpressas.First;
+    sRoteiro := codigoRoteiro.Text;
     while not Data_Sisgef.mtbRoteirosExpressas.Eof do
     begin
       FRoteiro.Roteiros.ID := Data_Sisgef.mtbRoteirosExpressasid_roteiro.AsInteger;
@@ -272,28 +336,19 @@ begin
       FRoteiro.Roteiros.Cliente := Data_Sisgef.mtbRoteirosExpressascod_cliente.AsInteger;
       FRoteiro.Roteiros.CodigoLeve := Data_Sisgef.mtbRoteirosExpressascod_leve.AsInteger;
       FRoteiro.Roteiros.CodigoPesado := Data_Sisgef.mtbRoteirosExpressascod_pesado.AsInteger;
-      if FRoteiro.Roteiros.ID = 0 then
-        FRoteiro.Roteiros.Acao := tacIncluir
-      else if FRoteiro.Roteiros.CCEP5 = '000' then
-        FRoteiro.Roteiros.Acao := tacAlterar
-      else
-        FRoteiro.Roteiros.Acao := tacIndefinido;
+      FRoteiro.Roteiros.Check := 0;
+      FRoteiro.Roteiros.Acao := tacAlterar;
       if FRoteiro.Roteiros.Acao <> tacIndefinido then
       begin
         if not FRoteiro.Gravar then
         begin
           sMensagem := 'Erro ao gravar o Roteiro ' + FRoteiro.Roteiros.CCEP5 + ' (' + FRoteiro.Roteiros.CEPInicial + ') !';
           Application.MessageBox(PChar(sMensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-        end
-        else
-        begin
-          if FRoteiro.Roteiros.CCEP5 = '000' then
-            Data_Sisgef.mtbRoteirosExpressas.Delete;
         end;
       end;
-      if not Data_Sisgef.mtbRoteirosExpressas.Eof then
-        Data_Sisgef.mtbRoteirosExpressas.Next;
+      Data_Sisgef.mtbRoteirosExpressas.Next;
     end;
+    PopulateRoteiros(sRoteiro);
   finally
     FRoteiro.Free;
   end;
@@ -348,23 +403,57 @@ begin
   FreeAndNil(view_ListaRorteirosLivres);
 end;
 
-procedure Tview_RoteirosExpressas.NovoRoteiro;
+procedure Tview_RoteirosExpressas.Modo;
+begin
+  if FAcao = tacIndefinido then
+  begin
+    actGravarRoteiros.Enabled := False;
+    actCancelar.Enabled := False;
+    actPesquisarRoteiros.Enabled := True;
+    actionNovoRoteiro.Enabled := True;
+    actionIncluirCEP.Enabled := False;
+    tvRoteiros.Navigator.Buttons.CustomButtons[0].Enabled := False;
+    actionExcluirCEP.Enabled := False;
+    tvRoteiros.Navigator.Buttons.CustomButtons[1].Enabled := False;
+    descricaoRoteiro.Clear;
+  end
+  else if FAcao = tacIncluir then
+  begin
+    actGravarRoteiros.Enabled := True;
+    actCancelar.Enabled := True;
+    actPesquisarRoteiros.Enabled := False;
+    actionNovoRoteiro.Enabled := False;
+    actionIncluirCEP.Enabled := False;
+    tvRoteiros.Navigator.Buttons.CustomButtons[0].Enabled := False;
+    actionExcluirCEP.Enabled := False;
+    tvRoteiros.Navigator.Buttons.CustomButtons[1].Enabled := False;
+  end
+  else if FAcao = tacPesquisa then
+  begin
+    actGravarRoteiros.Enabled := True;
+    actCancelar.Enabled := True;
+    actPesquisarRoteiros.Enabled := False;
+    actionNovoRoteiro.Enabled := False;
+    actionIncluirCEP.Enabled := True;
+    tvRoteiros.Navigator.Buttons.CustomButtons[0].Enabled := True;
+    actionExcluirCEP.Enabled := True;
+    tvRoteiros.Navigator.Buttons.CustomButtons[1].Enabled := True;
+  end;
+
+
+end;
+
+procedure Tview_RoteirosExpressas.NovoRoteiro(sRoteiro: string);
 var
   FRoteiros : TRoteirosExpressasControl;
-  sRoteiro: String;
+  sNome: String;
   aParam: Array of variant;
 begin
   try
     FRoteiros := TRoteirosExpressasControl.Create;
-    sRoteiro := formatfloat('000', codigoRoteiro.EditValue);
     if sRoteiro = '000' then
     begin
       Application.MessageBox('Informe um código de roteiro!', 'Atenção', MB_OK + MB_ICONWARNING);
-      Exit;
-    end;
-    if descricaoRoteiro.Text = '' then
-    begin
-      Application.MessageBox('Informe uma descrição do roteiro!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
     SetLength(aParam,2);
@@ -374,6 +463,32 @@ begin
       Application.MessageBox('Código de roteiro já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
+    sNome := '';
+    while sNome.IsEmpty do
+    begin
+      if InputQuery('Descrição do Roteiro', 'Descrição', sNome) then
+      begin
+        if sNome.IsEmpty then
+          Application.MessageBox('Informe uma descrição para o roteiro!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      end
+      else
+      begin
+        sNome := 'NONE';
+      end;
+    end;
+    if sNome = 'NONE' then
+    begin
+      Exit;
+    end;
+
+    SetLength(aParam,2);
+    aParam := ['ROTEIRO', sNome];
+    if not FRoteiros.Localizar(aParam).IsEmpty then
+    begin
+      Application.MessageBox('Descrição de roteiro já cadastrada!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    descricaoRoteiro.Text := sNome;
     if not Assigned(view_ListaRorteirosLivres) then
     begin
       view_ListaRorteirosLivres := Tview_ListaRorteirosLivres.Create(Application);
@@ -383,6 +498,8 @@ begin
       SalvaLista;
     end;
     FreeAndNil(view_ListaRorteirosLivres);
+    FAcao := tacIncluir;
+    Modo;
   finally
     FRoteiros.Free;
   end;
@@ -435,31 +552,35 @@ begin
   end;
 end;
 
-procedure Tview_RoteirosExpressas.PopulateRoteiros;
+procedure Tview_RoteirosExpressas.PopulateRoteiros(vRoteiro: Variant);
 var
   FRoteiros : TRoteirosExpressasControl;
 begin
   try
     FRoteiros := TRoteirosExpressasControl.Create;
 
-    if codigoRoteiro.Text = '' then
+    if FormatFloat('000',vRoteiro) = '000' then
     begin
       Application.MessageBox('Informe um roteiro!', 'Atenção!', MB_OK + MB_ICONWARNING);
       Exit;
     end;
 
-    if not FRoteiros.PopulateRoteiros(codigoRoteiro.Text) then
+    if not FRoteiros.PopulateRoteiros(FormatFloat('000', vRoteiro)) then
     begin
-      Application.MessageBox('Roteiro não cadastrado! ', 'Atenção', MB_OK + MB_ICONWARNING);
-      actGravarRoteiros.Enabled := False;
-      actCancelar.Enabled := False;
-      descricaoRoteiro.Properties.ReadOnly := False;
+      if Application.MessageBox('Roteiro não cadastrado! Deseja criar um novo?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+      begin
+        FAcao := tacIndefinido;
+        Modo;
+      end
+      else
+      begin
+        NovoRoteiro(FormatFloat('000', vRoteiro));
+      end;
     end
     else
     begin
-      actGravarRoteiros.Enabled := True;
-      actCancelar.Enabled := True;
-      descricaoRoteiro.Properties.ReadOnly := True;
+      FAcao := tacPesquisa;
+      Modo;
     end;
   finally
     Froteiros.Free;
@@ -467,36 +588,64 @@ begin
 end;
 
 
+procedure Tview_RoteirosExpressas.PopupMenuPopup(Sender: TObject);
+begin
+  actionRestaurar.Enabled := (Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger = -1);
+end;
+
+procedure Tview_RoteirosExpressas.RestoreItem(sRoteiro, sDescricao: String);
+begin
+  Data_Sisgef.mtbRoteirosExpressas.Edit;
+  Data_Sisgef.mtbRoteirosExpressascod_ccep5.AsString := sRoteiro;
+  Data_Sisgef.mtbRoteirosExpressasdes_roteiro.Text := sDescricao;
+  Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 0;
+  Data_Sisgef.mtbRoteirosExpressas.Post;
+end;
+
 procedure Tview_RoteirosExpressas.SalvaLista;
 var
   sRoteiro : String;
 begin
-  if Data_Sisgef.mtbRoteirosLivres.IsEmpty then Exit;
+  if Data_Sisgef.mtbRoteirosLivres.IsEmpty then
+    Exit;
+
+  if not Data_Sisgef.mtbRoteirosExpressas.Active then
+    Data_Sisgef.mtbRoteirosExpressas.Active := True;
+
+  Screen.Cursor := crHourGlass;
   Data_Sisgef.mtbRoteirosLivres.First;
   while not Data_Sisgef.mtbRoteirosLivres.Eof do
   begin
-    if Data_Sisgef.mtbRoteirosLivres.FieldByName('id_roteiro').asInteger = 1 then
+    if Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_check').asInteger = 1 then
     begin
       sRoteiro := formatfloat('000', codigoRoteiro.EditValue);
       Data_Sisgef.mtbRoteirosExpressas.Insert;
-      Data_Sisgef.mtbRoteirosExpressasid_roteiro.AsInteger := 0;
+      Data_Sisgef.mtbRoteirosExpressasid_roteiro.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('id_roteiro').AsInteger;;
       Data_Sisgef.mtbRoteirosExpressascod_ccep5.AsString := sRoteiro;
       Data_Sisgef.mtbRoteirosExpressasdes_roteiro.AsString := descricaoRoteiro.Text;
       Data_Sisgef.mtbRoteirosExpressasnum_cep_inicial.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_inicial').AsString;
       Data_Sisgef.mtbRoteirosExpressasnum_cep_final.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_final').AsString;
       Data_Sisgef.mtbRoteirosExpressasdes_prazo.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_prazo').AsString;
-      Data_Sisgef.mtbRoteirosExpressasdom_zona.AsString := '';
+      Data_Sisgef.mtbRoteirosExpressasdom_zona.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_zona').AsString;;
       Data_Sisgef.mtbRoteirosExpressascod_tipo.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_tipo').AsInteger;
       Data_Sisgef.mtbRoteirosExpressasdes_logradouro.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_logradouro').AsString;
       Data_Sisgef.mtbRoteirosExpressasdes_bairro.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_bairro').AsString;
       Data_Sisgef.mtbRoteirosExpressascod_cliente.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_cliente').AsInteger;
       Data_Sisgef.mtbRoteirosExpressascod_leve.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_leve').AsInteger;
       Data_Sisgef.mtbRoteirosExpressascod_pesado.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_pesado').AsInteger;
+      Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 0;
       Data_Sisgef.mtbRoteirosExpressas.Post;
-      Data_Sisgef.mtbRoteirosLivres.Next;
     end;
+    Data_Sisgef.mtbRoteirosLivres.Next;
   end;
-  Data_Sisgef.mtbRoteirosLivres.Active := False;
+  FAcao := tacPesquisa;
+  Modo;
+  Screen.Cursor := crDefault;
+end;
+
+procedure Tview_RoteirosExpressas.SelecinarTudo;
+begin
+  tvRoteiros.Controller.SelectAllRecords;
 end;
 
 procedure Tview_RoteirosExpressas.StartForm;
@@ -536,6 +685,9 @@ begin
   case AButtonIndex of
     16 : IncludeCEP;
     17 : ExcludeCEP;
+    18 : ImportData;
+    19 : ExportData;
+    20 : SelecinarTudo;
     else
     Exit;
   end;

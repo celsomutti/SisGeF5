@@ -567,6 +567,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
   ShowHint = True
   Visible = True
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   DesignSize = (
     908
@@ -596,7 +597,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu
-      TabOrder = 8
+      TabOrder = 5
       OnLayoutChanged = grdRoteirosLayoutChanged
       object tvRoteiros: TcxGridDBTableView
         Navigator.Buttons.OnButtonClick = tvRoteirosNavigatorButtonsButtonClick
@@ -608,6 +609,18 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           item
             Hint = 'Excluir CEP do roteiro'
             ImageIndex = 9
+          end
+          item
+            Hint = 'Importar planilha'
+            ImageIndex = 33
+          end
+          item
+            Hint = 'Exportar dados da grade'
+            ImageIndex = 11
+          end
+          item
+            Hint = 'Selecionar tudo'
+            ImageIndex = 71
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.ImageIndex = 5
@@ -644,11 +657,31 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
         OptionsCustomize.ColumnGrouping = False
         OptionsCustomize.ColumnsQuickCustomization = True
         OptionsSelection.MultiSelect = True
-        OptionsSelection.CellMultiSelect = True
-        OptionsSelection.InvertSelect = False
         OptionsView.ColumnAutoWidth = True
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
+        object tvRoteirosdom_check: TcxGridDBColumn
+          Caption = '#'
+          DataBinding.FieldName = 'dom_check'
+          PropertiesClassName = 'TcxImageComboBoxProperties'
+          Properties.Alignment.Horz = taLeftJustify
+          Properties.Images = Data_Sisgef.iml_16_16
+          Properties.Items = <
+            item
+              Description = 'Exclu'#237'do'
+              ImageIndex = 9
+              Value = -1
+            end
+            item
+              Description = 'OK'
+              ImageIndex = 1
+              Value = 0
+            end>
+          Properties.ReadOnly = True
+          Properties.ShowDescriptions = False
+          HeaderAlignmentHorz = taCenter
+          Width = 25
+        end
         object tvRoteirosid_roteiro: TcxGridDBColumn
           Caption = 'ID'
           DataBinding.FieldName = 'id_roteiro'
@@ -677,7 +710,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           Properties.MaskKind = emkRegExpr
           Properties.EditMask = '\d\d\d\d\d\d\d\d'
           HeaderAlignmentHorz = taCenter
-          Width = 84
+          Width = 105
         end
         object tvRoteirosnum_cep_final: TcxGridDBColumn
           Caption = 'CEP Final'
@@ -742,44 +775,44 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           DataBinding.FieldName = 'des_logradouro'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 311
+          Width = 388
         end
         object tvRoteirosdes_bairro: TcxGridDBColumn
           Caption = 'Bairro'
           DataBinding.FieldName = 'des_bairro'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 159
+          Width = 198
         end
         object tvRoteirosdes_sigla: TcxGridDBColumn
           Caption = 'Tipo'
           DataBinding.FieldName = 'cod_tipo'
           PropertiesClassName = 'TcxImageComboBoxProperties'
-          Properties.Alignment.Horz = taCenter
+          Properties.Alignment.Horz = taLeftJustify
           Properties.Images = Data_Sisgef.iml_16_16
           Properties.Items = <
             item
               Description = 'N'#195'O FAZ'
-              ImageIndex = 1
+              ImageIndex = 9
               Value = 0
             end
             item
               Description = 'SOMENE LEVE'
-              ImageIndex = 1
+              ImageIndex = 68
               Value = 1
             end
             item
               Description = 'SOMENE PESADO'
-              ImageIndex = 1
+              ImageIndex = 69
               Value = 2
             end
             item
               Description = 'MISTA (LEVE E PESADO)'
-              ImageIndex = 1
+              ImageIndex = 70
               Value = 3
             end>
           HeaderAlignmentHorz = taCenter
-          Width = 124
+          Width = 154
         end
         object tvRoteiroscod_cliente: TcxGridDBColumn
           Caption = 'Cliente'
@@ -820,7 +853,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
     object progressBar: TcxProgressBar
       Left = 12
       Top = 375
-      TabOrder = 9
+      TabOrder = 6
       Width = 884
     end
     object labelTitle: TcxLabel
@@ -853,56 +886,41 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Properties.EditMask = '\d\d\d'
       Properties.OnValidate = codigoRoteiroPropertiesValidate
       Style.HotTrack = False
-      TabOrder = 2
+      TabOrder = 1
       Text = '000'
       Width = 92
     end
     object descricaoRoteiro: TcxTextEdit
       Left = 162
       Top = 52
-      Properties.ReadOnly = False
+      TabStop = False
+      Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 3
+      TabOrder = 2
       TextHint = 'Descri'#231#227'o do roteiro'
-      Width = 392
+      Width = 556
     end
     object cxButton1: TcxButton
-      Left = 870
-      Top = 15
-      Width = 26
+      Left = 821
+      Top = 343
+      Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actFechar
       LookAndFeel.Kind = lfOffice11
-      PaintStyle = bpsGlyph
-      SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Transparent = True
-      TabOrder = 1
+      TabOrder = 8
     end
     object cxButton2: TcxButton
-      Left = 643
+      Left = 725
       Top = 51
       Width = 89
       Height = 25
       Cursor = crHandPoint
       Action = actPesquisarRoteiros
       LookAndFeel.Kind = lfOffice11
-      SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Transparent = True
-      TabOrder = 5
-    end
-    object cxButton3: TcxButton
-      Left = 739
-      Top = 51
-      Width = 75
-      Height = 25
-      Cursor = crHandPoint
-      Action = actImportarRoteiros
-      LookAndFeel.Kind = lfOffice11
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
-      SpeedButtonOptions.Transparent = True
-      TabOrder = 6
+      TabOrder = 3
     end
     object cxButton4: TcxButton
       Left = 821
@@ -911,10 +929,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Height = 25
       Action = actCancelar
       LookAndFeel.Kind = lfOffice11
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
-      TabOrder = 7
+      TabOrder = 4
     end
     object cxLabel1: TcxLabel
       Left = 12
@@ -937,19 +953,6 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       AnchorX = 454
       AnchorY = 414
     end
-    object cxButton5: TcxButton
-      Left = 561
-      Top = 51
-      Width = 75
-      Height = 25
-      Cursor = crHandPoint
-      Action = actionNovoRoteiro
-      LookAndFeel.Kind = lfOffice11
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
-      SpeedButtonOptions.Transparent = True
-      TabOrder = 4
-    end
     object cxButton6: TcxButton
       Left = 739
       Top = 343
@@ -958,23 +961,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Cursor = crHandPoint
       Action = actGravarRoteiros
       LookAndFeel.Kind = lfOffice11
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
-      TabOrder = 10
-    end
-    object cxButton7: TcxButton
-      Left = 821
-      Top = 343
-      Width = 75
-      Height = 25
-      Cursor = crHandPoint
-      Action = actionExportar
-      LookAndFeel.Kind = lfOffice11
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
-      SpeedButtonOptions.Transparent = True
-      TabOrder = 11
+      TabOrder = 7
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -1029,7 +1017,6 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -1065,14 +1052,14 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Index = 1
     end
     object dxLayoutItem3: TdxLayoutItem
-      Parent = dxLayoutGroup2
+      Parent = dxLayoutGroup3
       AlignHorz = ahRight
-      AlignVert = avCenter
+      AlignVert = avClient
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 26
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -1086,17 +1073,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 89
       ControlOptions.ShowBorder = False
-      Index = 3
-    end
-    object dxLayoutItem6: TdxLayoutItem
-      Parent = dxLayoutGroup1
-      CaptionOptions.Text = 'cxButton3'
-      CaptionOptions.Visible = False
-      Control = cxButton3
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
-      ControlOptions.ShowBorder = False
-      Index = 4
+      Index = 2
     end
     object dxLayoutItem7: TdxLayoutItem
       Parent = dxLayoutGroup1
@@ -1107,7 +1084,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
-      Index = 5
+      Index = 3
     end
     object dxLayoutItem8: TdxLayoutItem
       Parent = dxLayoutControl1Group_Root
@@ -1121,21 +1098,12 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       ControlOptions.ShowBorder = False
       Index = 5
     end
-    object dxLayoutItem9: TdxLayoutItem
-      Parent = dxLayoutGroup1
-      CaptionOptions.Text = 'cxButton5'
-      CaptionOptions.Visible = False
-      Control = cxButton5
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
     object dxLayoutGroup3: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 4
@@ -1153,23 +1121,10 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Enabled = False
       Index = 0
     end
-    object dxLayoutItem12: TdxLayoutItem
-      Parent = dxLayoutGroup3
-      AlignHorz = ahRight
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxButton7'
-      CaptionOptions.Visible = False
-      Control = cxButton7
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
-      ControlOptions.ShowBorder = False
-      Enabled = False
-      Index = 1
-    end
   end
   object indicador: TdxActivityIndicator
     Left = 12
-    Top = 365
+    Top = 366
     Width = 884
     Height = 10
     Anchors = [akLeft, akRight, akBottom]
@@ -1244,7 +1199,6 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Hint = 'Criar novo roteiro'
       ImageIndex = 66
       ShortCut = 113
-      OnExecute = actionNovoRoteiroExecute
     end
     object actionIncluirCEP: TAction
       Category = 'Roteiros Expressas'
@@ -1259,6 +1213,20 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Hint = 'Excluir CEP do roteiro'
       ImageIndex = 9
       OnExecute = actionExcluirCEPExecute
+    end
+    object actionRestaurar: TAction
+      Category = 'Roteiros Expressas'
+      Caption = 'Restaurar'
+      Hint = 'Restaurar item exclu'#237'do'
+      ImageIndex = 64
+      OnExecute = actionRestaurarExecute
+    end
+    object actionSelecionarTudo: TAction
+      Category = 'Roteiros Expressas'
+      Caption = 'Selecionar Tudo'
+      Hint = 'Selecionar todos os registros'
+      ImageIndex = 50
+      OnExecute = actionSelecionarTudoExecute
     end
   end
   object ds: TDataSource
@@ -1281,6 +1249,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
   end
   object PopupMenu: TPopupMenu
     Images = Data_Sisgef.iml_16_16
+    OnPopup = PopupMenuPopup
     Left = 624
     Top = 8
     object Incluir1: TMenuItem
@@ -1288,6 +1257,12 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
     end
     object ExcluirCEPdoRoteiro1: TMenuItem
       Action = actionExcluirCEP
+    end
+    object Restaurar1: TMenuItem
+      Action = actionRestaurar
+    end
+    object Selecionartudo1: TMenuItem
+      Action = actionSelecionarTudo
     end
   end
   object Timer: TTimer
