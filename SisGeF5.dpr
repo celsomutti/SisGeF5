@@ -190,9 +190,11 @@ uses
   Model.EnderecosBases in 'Model\Model.EnderecosBases.pas',
   Control.EnderecosBases in 'Control\Control.EnderecosBases.pas',
   View.ListaRoteirosLivres in 'View\View.ListaRoteirosLivres.pas' {view_ListaRorteirosLivres},
-  Thread.CapaDIRECT in 'Thread\Thread.CapaDIRECT.pas',
+  Thread.AnaliseRoteiroExpressas in 'Thread\Thread.AnaliseRoteiroExpressas.pas',
   Model.PlanilhaRoteirosExpressas in 'Model\Model.PlanilhaRoteirosExpressas.pas',
-  Control.PlanilhaRoteirosExpressas in 'Control\Control.PlanilhaRoteirosExpressas.pas';
+  Control.PlanilhaRoteirosExpressas in 'Control\Control.PlanilhaRoteirosExpressas.pas',
+  View.AnaliseRoteirosExpressas in 'View\View.AnaliseRoteirosExpressas.pas' {view_AnaliseRoteirosExpressas},
+  Thread.CapaDIRECT in 'Thread\Thread.CapaDIRECT.pas';
 
 {$R *.res}
 

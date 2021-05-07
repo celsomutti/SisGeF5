@@ -861,18 +861,6 @@
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxBarLargeButton15'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton11'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton12'
-        end
-        item
-          Visible = True
           ItemName = 'dxBarLargeButton55'
         end
         item
@@ -886,6 +874,10 @@
         item
           Visible = True
           ItemName = 'dxBarLargeButton58'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton66'
         end>
       OneOnRow = False
       Row = 0
@@ -897,7 +889,7 @@
       Tag = 2030
       Caption = 'Demonstrativos Expressas'
       CaptionButtons = <>
-      DockedLeft = 938
+      DockedLeft = 799
       DockedTop = 0
       FloatLeft = 1129
       FloatTop = 8
@@ -922,7 +914,7 @@
       Tag = 2040
       Caption = 'Verbas Expressas'
       CaptionButtons = <>
-      DockedLeft = 1110
+      DockedLeft = 971
       DockedTop = 0
       FloatLeft = 844
       FloatTop = 8
@@ -1842,6 +1834,11 @@
       Category = 0
       LargeImageIndex = 2
     end
+    object dxBarLargeButton66: TdxBarLargeButton
+      Action = actAnaliseRoteirosExpressas
+      Category = 0
+      LargeImageIndex = 68
+    end
   end
   object aclMain: TActionList
     Left = 984
@@ -2207,6 +2204,13 @@
     object actCadastroContratados: TAction
       Category = 'Cadastro'
       Caption = 'Contratados'
+    end
+    object actAnaliseRoteirosExpressas: TAction
+      Tag = 202077
+      Category = 'Expressas'
+      Caption = 'An'#225'lise de Roteiros'
+      Hint = 'An'#225'lise de Roteiros de Expressas'
+      OnExecute = actAnaliseRoteirosExpressasExecute
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager

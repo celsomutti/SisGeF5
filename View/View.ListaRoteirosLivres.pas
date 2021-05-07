@@ -43,6 +43,10 @@ type
     cxButton2: TcxButton;
     dxLayoutItem5: TdxLayoutItem;
     actionMarcarSelecionados: TAction;
+    actionDesmarcarTudo: TAction;
+    PopupMenu: TPopupMenu;
+    MarcarTudo1: TMenuItem;
+    DesmarcarTudo1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure actionOKExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
@@ -59,7 +63,7 @@ type
     procedure ExportData;
     procedure PesquisaCEP(sFiltro: String);
     procedure CheckAll;
-    procedure CheckSelection;
+    procedure UnCheckAll;
     function FormulaFiltro(sTexto: String): String;
 
   public
@@ -106,38 +110,15 @@ begin
     Exit;
   Data_Sisgef.mtbRoteirosLivres.First;
   Screen.Cursor := crHourGlass;
-  if gridCEPDBTableView1.Controller.SelectedRowCount > 1 then
+  while not Data_Sisgef.mtbRoteirosLivres.Eof do
   begin
-    CheckSelection;
-  end
-  else
-  begin
-    while not Data_Sisgef.mtbRoteirosLivres.Eof do
-    begin
-      Data_Sisgef.mtbRoteirosLivres.Edit;
-      Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_check').AsInteger := 1;
-      Data_Sisgef.mtbRoteirosLivres.Post;
-      Data_Sisgef.mtbRoteirosLivres.Next;
-    end;
+    Data_Sisgef.mtbRoteirosLivres.Edit;
+    Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_check').AsInteger := 1;
+    Data_Sisgef.mtbRoteirosLivres.Post;
+    Data_Sisgef.mtbRoteirosLivres.Next;
   end;
   Screen.Cursor := crDefault;
   Data_Sisgef.mtbRoteirosLivres.First;
-end;
-
-procedure Tview_ListaRorteirosLivres.CheckSelection;
-var
-  i, iId: integer;
-begin
-  for i := 0 to Pred(gridCEPDBTableView1.Controller.SelectedRecordCount) do
-  begin
-    iId := StrToIntDef(gridCEPDBTableView1.Controller.SelectedRows[i].DisplayTexts[0], 0);
-    if Data_Sisgef.mtbRoteirosLivres.Locate('id_roteiro',iID,[]) then
-    begin
-      Data_Sisgef.mtbRoteirosLivres.Edit;
-      Data_Sisgef.mtbRoteirosLivresdom_check.AsInteger := -1;
-      Data_Sisgef.mtbRoteirosLivres.Post;
-    end;
-  end;
 end;
 
 procedure Tview_ListaRorteirosLivres.ClearFilter;
@@ -271,6 +252,23 @@ procedure Tview_ListaRorteirosLivres.StartForm;
 begin
   labelTitle.Caption := Self.Caption;
   FConexao := TConexao.Create;
+end;
+
+procedure Tview_ListaRorteirosLivres.UnCheckAll;
+begin
+  if Data_Sisgef.mtbRoteirosLivres.IsEmpty then
+    Exit;
+  Data_Sisgef.mtbRoteirosLivres.First;
+  Screen.Cursor := crHourGlass;
+  while not Data_Sisgef.mtbRoteirosLivres.Eof do
+  begin
+    Data_Sisgef.mtbRoteirosLivres.Edit;
+    Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_check').AsInteger := 0;
+    Data_Sisgef.mtbRoteirosLivres.Post;
+    Data_Sisgef.mtbRoteirosLivres.Next;
+  end;
+  Screen.Cursor := crDefault;
+  Data_Sisgef.mtbRoteirosLivres.First;
 end;
 
 end.

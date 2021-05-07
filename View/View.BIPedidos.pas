@@ -111,7 +111,6 @@ type
     fdQueryBICOD_CLIENTE_EMPRESA: TIntegerField;
     labelTitle: TcxLabel;
     dxLayoutItem7: TdxLayoutItem;
-    cxButton4: TcxButton;
     tvPesquisaNUM_NOSSONUMERO: TcxGridDBColumn;
     tvPesquisaNUM_PEDIDO: TcxGridDBColumn;
     tvPesquisaCOD_AGENTE: TcxGridDBColumn;
@@ -179,6 +178,8 @@ type
     mtbClientesEmpresadom_check: TIntegerField;
     mtbClientesEmpresacod_cliente: TIntegerField;
     mtbClientesEmpresanom_cliente: TStringField;
+    cxButton4: TcxButton;
+    dxLayoutItem8: TdxLayoutItem;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);

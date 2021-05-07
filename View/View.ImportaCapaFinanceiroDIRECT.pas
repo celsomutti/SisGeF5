@@ -65,7 +65,6 @@ type
     gridInconsistencias: TcxGrid;
     dxLayoutItem9: TdxLayoutItem;
     dsLOG: TDataSource;
-    ativaPainelGrupo: TcxCheckBox;
     gridInconsistenciasDBTableView1des_descricao: TcxGridDBColumn;
     gridInconsistenciasDBTableView1num_remessa: TcxGridDBColumn;
     gridInconsistenciasDBTableView1qtd_peso_baixa: TcxGridDBColumn;
@@ -77,6 +76,9 @@ type
     actionExpandirGrupos: TAction;
     actionColapsarGrupos: TAction;
     actionRestaurar: TAction;
+    dxLayoutGroup7: TdxLayoutGroup;
+    cxButton3: TcxButton;
+    dxLayoutItem11: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -85,7 +87,6 @@ type
     procedure actionImportarExecute(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
-    procedure ativaPainelGrupoPropertiesChange(Sender: TObject);
     procedure gridInconsistenciasDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
       var ADone: Boolean);
     procedure actionExpandirGruposExecute(Sender: TObject);
@@ -158,11 +159,6 @@ end;
 procedure Tview_ImportaCapaFinanceiroDIRECT.actionSelecionarArquivoExecute(Sender: TObject);
 begin
   Openfile;
-end;
-
-procedure Tview_ImportaCapaFinanceiroDIRECT.ativaPainelGrupoPropertiesChange(Sender: TObject);
-begin
-  gridInconsistenciasDBTableView1.OptionsView.GroupByBox := ativaPainelGrupo.Checked;
 end;
 
 procedure Tview_ImportaCapaFinanceiroDIRECT.ExportarGrade;
@@ -249,7 +245,6 @@ end;
 procedure Tview_ImportaCapaFinanceiroDIRECT.RestoreLayout;
 begin
   gridInconsistenciasDBTableView1.RestoreFromIniFile(sFileLayout);
-  ativaPainelGrupo.Checked := False;
 end;
 
 procedure Tview_ImportaCapaFinanceiroDIRECT.StartImport(sFile: String);

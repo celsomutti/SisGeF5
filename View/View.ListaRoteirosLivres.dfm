@@ -621,7 +621,9 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Width = 805
       Height = 264
       TabOrder = 2
+      LookAndFeel.Kind = lfFlat
       object gridCEPDBTableView1: TcxGridDBTableView
+        PopupMenu = PopupMenu
         Navigator.Buttons.OnButtonClick = gridCEPDBTableView1NavigatorButtonsButtonClick
         Navigator.Buttons.CustomButtons = <
           item
@@ -631,6 +633,10 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
           item
             Hint = 'Marcar Selecionados'
             ImageIndex = 71
+          end
+          item
+            Hint = 'Desmarcar tudo'
+            ImageIndex = 72
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.Hint = 'Primeiro registro'
@@ -660,6 +666,8 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
         OptionsSelection.MultiSelect = True
+        OptionsSelection.CellMultiSelect = True
+        OptionsSelection.InvertSelect = False
         OptionsView.GroupByBox = False
         object gridCEPDBTableView1id_roteiro: TcxGridDBColumn
           Caption = 'Sele'#231#227'o'
@@ -959,14 +967,30 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       OnExecute = actionCancelarExecute
     end
     object actionMarcarSelecionados: TAction
-      Caption = 'Marcar'
+      Caption = 'Marcar Tudo'
       Hint = 'Marcar Selecionados'
       ImageIndex = 71
+    end
+    object actionDesmarcarTudo: TAction
+      Caption = 'Desmarcar Tudo'
+      Hint = 'Desmarcar todos os registros'
+      ImageIndex = 72
     end
   end
   object dsFiltro: TDataSource
     DataSet = Data_Sisgef.mtbRoteirosLivres
     Left = 672
     Top = 16
+  end
+  object PopupMenu: TPopupMenu
+    Images = Data_Sisgef.iml_16_16
+    Left = 728
+    Top = 16
+    object MarcarTudo1: TMenuItem
+      Action = actionMarcarSelecionados
+    end
+    object DesmarcarTudo1: TMenuItem
+      Action = actionDesmarcarTudo
+    end
   end
 end

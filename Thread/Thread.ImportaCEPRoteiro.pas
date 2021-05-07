@@ -94,7 +94,10 @@ begin
           FRoteiros.Roteiros.CCEP5 := FPlanilha.Planilha.Planilha[i].CCEP5;
           FRoteiros.Roteiros.Descricao := '';
           FRoteiros.Roteiros.CEPInicial := FPlanilha.Planilha.Planilha[i].CEPInicial;
-          FRoteiros.Roteiros.CEPFinal := FPlanilha.Planilha.Planilha[i].CEPFinal;
+          if FPlanilha.Planilha.Planilha[i].CEPFinal.IsEmpty then
+            FRoteiros.Roteiros.CEPFinal := FPlanilha.Planilha.Planilha[i].CEPInicial
+          else
+            FRoteiros.Roteiros.CEPFinal := FPlanilha.Planilha.Planilha[i].CEPFinal;
           FRoteiros.Roteiros.Prazo := FPlanilha.Planilha.Planilha[i].Prazo;
           FRoteiros.Roteiros.Zona := FPlanilha.Planilha.Planilha[i].Zona;
           FRoteiros.Roteiros.Tipo := FPlanilha.Planilha.Planilha[i].Tipo;

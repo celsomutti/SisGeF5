@@ -598,6 +598,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       ParentFont = False
       PopupMenu = PopupMenu
       TabOrder = 5
+      LookAndFeel.Kind = lfFlat
       OnLayoutChanged = grdRoteirosLayoutChanged
       object tvRoteiros: TcxGridDBTableView
         Navigator.Buttons.OnButtonClick = tvRoteirosNavigatorButtonsButtonClick
@@ -694,7 +695,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           Width = 64
         end
         object tvRoteiroscod_ccep5: TcxGridDBColumn
-          Caption = 'CCEP 5'
+          Caption = 'C'#243'digo'
           DataBinding.FieldName = 'cod_ccep5'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.MaskKind = emkRegExpr

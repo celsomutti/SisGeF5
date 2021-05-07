@@ -435,6 +435,16 @@ type
     IntegerField5: TIntegerField;
     mtbRoteirosLivresdom_check: TSmallintField;
     mtbRoteirosExpressasdom_check: TSmallintField;
+    memTableResumoRoteiros: TFDMemTable;
+    memTableResumoRoteiroscod_roteiro: TIntegerField;
+    memTableResumoRoteirosdes_roteiro: TStringField;
+    memTableResumoRoteirosqtd_volumes_leves: TIntegerField;
+    memTableResumoRoteirosqtd_remessas_leves: TIntegerField;
+    memTableResumoRoteirosqtd_volumes_pesado: TIntegerField;
+    memTableResumoRoteirosqtd_remessas_pesado: TIntegerField;
+    memTableResumoRoteirosqtd_total_volumes: TIntegerField;
+    memTableResumoRoteirosqtd_total_remessas: TIntegerField;
+    memTableResumoRoteirosval_total_pgr: TCurrencyField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

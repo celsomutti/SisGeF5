@@ -483,9 +483,14 @@
             <Form>view_ListaRorteirosLivres</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Thread\Thread.CapaDIRECT.pas"/>
+        <DCCReference Include="Thread\Thread.AnaliseRoteiroExpressas.pas"/>
         <DCCReference Include="Model\Model.PlanilhaRoteirosExpressas.pas"/>
         <DCCReference Include="Control\Control.PlanilhaRoteirosExpressas.pas"/>
+        <DCCReference Include="View\View.AnaliseRoteirosExpressas.pas">
+            <Form>view_AnaliseRoteirosExpressas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Thread\Thread.CapaDIRECT.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

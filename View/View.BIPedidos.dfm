@@ -567,9 +567,6 @@ object view_BIPedidos: Tview_BIPedidos
   Visible = True
   OnClose = FormClose
   OnShow = FormShow
-  DesignSize = (
-    871
-    411)
   PixelsPerInch = 96
   TextHeight = 15
   object dxLayoutControl1: TdxLayoutControl
@@ -593,9 +590,9 @@ object view_BIPedidos: Tview_BIPedidos
       Font.Name = 'Microsoft JhengHei UI'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 6
       Visible = False
-      LookAndFeel.Kind = lfUltraFlat
+      LookAndFeel.Kind = lfFlat
       object tvPesquisa: TcxGridDBTableView
         Navigator.Buttons.OnButtonClick = tvPesquisaNavigatorButtonsButtonClick
         Navigator.Buttons.CustomButtons = <
@@ -939,7 +936,7 @@ object view_BIPedidos: Tview_BIPedidos
       Properties.ReadOnly = True
       Style.HotTrack = False
       Style.TransparentBorder = True
-      TabOrder = 6
+      TabOrder = 7
       Visible = False
       Width = 823
     end
@@ -957,9 +954,9 @@ object view_BIPedidos: Tview_BIPedidos
       TabOrder = 1
     end
     object cxButton1: TcxButton
-      Left = 577
+      Left = 214
       Top = 362
-      Width = 270
+      Width = 85
       Height = 25
       Cursor = crHandPoint
       Action = actFiltro
@@ -968,16 +965,16 @@ object view_BIPedidos: Tview_BIPedidos
     object cxButton2: TcxButton
       Left = 24
       Top = 362
-      Width = 270
+      Width = 89
       Height = 25
       Cursor = crHandPoint
       Action = actionCarregarFiltro
       TabOrder = 2
     end
     object cxButton3: TcxButton
-      Left = 301
+      Left = 120
       Top = 362
-      Width = 269
+      Width = 87
       Height = 25
       Cursor = crHandPoint
       Action = actionSalvarFilro
@@ -996,6 +993,15 @@ object view_BIPedidos: Tview_BIPedidos
       Style.HotTrack = False
       Style.IsFontAssigned = True
       Transparent = True
+    end
+    object cxButton4: TcxButton
+      Left = 760
+      Top = 362
+      Width = 87
+      Height = 25
+      Cursor = crHandPoint
+      Action = actFechar
+      TabOrder = 5
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -1069,37 +1075,37 @@ object view_BIPedidos: Tview_BIPedidos
     end
     object dxLayoutItem2: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahClient
+      AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 85
       ControlOptions.ShowBorder = False
       Index = 2
     end
     object dxLayoutItem4: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahClient
+      AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 89
       ControlOptions.ShowBorder = False
       Index = 0
     end
     object dxLayoutItem5: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahClient
+      AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 87
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -1177,20 +1183,18 @@ object view_BIPedidos: Tview_BIPedidos
       TabbedOptions.HideTabs = True
       Index = 1
     end
-  end
-  object cxButton4: TcxButton
-    Left = 828
-    Top = 16
-    Width = 31
-    Height = 25
-    Cursor = crHandPoint
-    Action = actFechar
-    Anchors = [akTop, akRight]
-    PaintStyle = bpsGlyph
-    SpeedButtonOptions.CanBeFocused = False
-    SpeedButtonOptions.Flat = True
-    SpeedButtonOptions.Transparent = True
-    TabOrder = 1
+    object dxLayoutItem8: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton4'
+      CaptionOptions.Visible = False
+      Control = cxButton4
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 87
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
   end
   object aclBIPedidos: TActionList
     Images = Data_Sisgef.iml_16_16

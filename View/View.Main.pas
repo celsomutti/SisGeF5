@@ -186,6 +186,8 @@ type
     dxBarLargeButton64: TdxBarLargeButton;
     actCadastroContratados: TAction;
     dxBarLargeButton65: TdxBarLargeButton;
+    dxBarLargeButton66: TdxBarLargeButton;
+    actAnaliseRoteirosExpressas: TAction;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -214,6 +216,7 @@ type
     procedure actCadastroEmpresasExecute(Sender: TObject);
     procedure actImportarExtratoExecute(Sender: TObject);
     procedure actCadastroEntregadoresExecute(Sender: TObject);
+    procedure actAnaliseRoteirosExpressasExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;
@@ -241,7 +244,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.Calendario, View.VerbasExpressas, View.ExtraviosMultas, View.Acareacoes, View.ImportarPedidos, View.ImportarBaixasTFO,
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
-  View.CadastroEntregadores;
+  View.CadastroEntregadores, View.AnaliseRoteirosExpressas;
 
 procedure Tview_Main.Acessos;
 var
@@ -328,6 +331,15 @@ end;
 procedure Tview_Main.actAlterarSenhaExecute(Sender: TObject);
 begin
   AlteraSenha;
+end;
+
+procedure Tview_Main.actAnaliseRoteirosExpressasExecute(Sender: TObject);
+begin
+  if not Assigned(view_AnaliseRoteirosExpressas) then
+  begin
+    view_AnaliseRoteirosExpressas := Tview_AnaliseRoteirosExpressas.Create(Application);
+  end;
+  view_AnaliseRoteirosExpressas.Show;
 end;
 
 procedure Tview_Main.actCadastroEmpresasExecute(Sender: TObject);

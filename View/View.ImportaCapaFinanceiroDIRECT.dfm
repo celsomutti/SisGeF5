@@ -583,7 +583,7 @@
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object labelTitle: TcxLabel
-      Left = 49
+      Left = 65
       Top = 16
       Caption = 'labelTitle'
       ParentFont = False
@@ -597,20 +597,18 @@
       Transparent = True
     end
     object cxButton1: TcxButton
-      Left = 864
-      Top = 15
-      Width = 29
+      Left = 816
+      Top = 358
+      Width = 77
       Height = 25
       Cursor = crHandPoint
       Action = actionFecharTela
-      PaintStyle = bpsGlyph
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
+      LookAndFeel.Kind = lfOffice11
       SpeedButtonOptions.Transparent = True
-      TabOrder = 1
+      TabOrder = 10
     end
     object nomeArquivo: TcxButtonEdit
-      Left = 204
+      Left = 65
       Top = 51
       Hint = 'Nome do arquivo da planilha'
       Properties.Buttons = <
@@ -623,16 +621,12 @@
         item
           Action = actionLimparCampo
           Kind = bkGlyph
-        end
-        item
-          Action = actionImportar
-          Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
       Style.HotTrack = False
-      TabOrder = 2
+      TabOrder = 1
       TextHint = 'Informe o nome do arquivo da planilha'
-      Width = 549
+      Width = 720
     end
     object labelAtalhos: TcxLabel
       Left = 109
@@ -645,7 +639,7 @@
     end
     object totalRegistros: TcxMaskEdit
       Left = 12
-      Top = 104
+      Top = 105
       TabStop = False
       Properties.Alignment.Horz = taRightJustify
       Properties.IgnoreMaskBlank = True
@@ -659,7 +653,7 @@
     end
     object registrosProcessados: TcxMaskEdit
       Left = 12
-      Top = 157
+      Top = 158
       TabStop = False
       Properties.Alignment.Horz = taRightJustify
       Properties.IgnoreMaskBlank = True
@@ -673,7 +667,7 @@
     end
     object totalInconsistências: TcxMaskEdit
       Left = 12
-      Top = 210
+      Top = 211
       TabStop = False
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
@@ -684,24 +678,26 @@
     end
     object progressBar: TcxProgressBar
       Left = 12
-      Top = 263
+      Top = 264
       TabOrder = 6
       Width = 121
     end
     object cxButton2: TcxButton
       Left = 26
-      Top = 294
+      Top = 295
       Width = 93
       Height = 25
       Cursor = crHandPoint
       Action = actionCancelar
+      LookAndFeel.Kind = lfOffice11
+      SpeedButtonOptions.Transparent = True
       TabOrder = 7
     end
     object gridInconsistencias: TcxGrid
       Left = 140
-      Top = 104
+      Top = 105
       Width = 753
-      Height = 279
+      Height = 246
       TabOrder = 8
       object gridInconsistenciasDBTableView1: TcxGridDBTableView
         Navigator.Buttons.OnButtonClick = gridInconsistenciasDBTableView1NavigatorButtonsButtonClick
@@ -781,12 +777,23 @@
         GridView = gridInconsistenciasDBTableView1
       end
     end
+    object cxButton3: TcxButton
+      Left = 792
+      Top = 51
+      Width = 101
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionImportar
+      LookAndFeel.Kind = lfOffice11
+      SpeedButtonOptions.Transparent = True
+      TabOrder = 2
+    end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 2
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end
@@ -857,28 +864,29 @@
       Index = 0
     end
     object dxLayoutItem2: TdxLayoutItem
-      Parent = dxLayoutGroup1
+      Parent = dxLayoutGroup7
       AlignHorz = ahRight
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 29
+      ControlOptions.OriginalWidth = 77
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = dxLayoutGroup2
-      AlignHorz = ahCenter
+      AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Arquivo:'
       Control = nomeArquivo
@@ -1002,6 +1010,25 @@
       ControlOptions.ShowBorder = False
       Index = 0
     end
+    object dxLayoutGroup7: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutItem11: TdxLayoutItem
+      Parent = dxLayoutGroup2
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton3'
+      CaptionOptions.Visible = False
+      Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 101
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
   end
   object indicador: TdxActivityIndicator
     Left = 140
@@ -1011,15 +1038,6 @@
     Anchors = [akLeft, akTop, akRight]
     PropertiesClassName = 'TdxActivityIndicatorHorizontalDotsProperties'
     Properties.DotSize = 4
-    Transparent = True
-  end
-  object ativaPainelGrupo: TcxCheckBox
-    Left = 778
-    Top = 76
-    Anchors = [akTop, akRight]
-    Caption = 'Painel de Grupo'
-    Properties.OnChange = ativaPainelGrupoPropertiesChange
-    TabOrder = 2
     Transparent = True
   end
   object actionListImportar: TActionList
