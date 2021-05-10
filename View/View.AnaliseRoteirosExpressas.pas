@@ -9,7 +9,7 @@ uses
   cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
   Data.DB, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGridLevel, cxGridCustomView, cxGrid, cxProgressBar, dxActivityIndicator;
+  cxGridLevel, cxGridCustomView, cxGrid, cxProgressBar, dxActivityIndicator, Thread.AnaliseRoteiroExpressas, Vcl.ExtCtrls;
 
 type
   Tview_AnaliseRoteirosExpressas = class(TForm)
@@ -111,22 +111,26 @@ type
     dxLayoutItem7: TdxLayoutItem;
     indicador: TdxActivityIndicator;
     dxLayoutItem8: TdxLayoutItem;
+    Timer: TTimer;
     procedure FormShow(Sender: TObject);
     procedure actionAbrirArquivoExecute(Sender: TObject);
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionProcessarArquivoExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
     procedure CloseForm;
     procedure OpenFile;
+    procedure UpdateDashBoard;
+    procedure ProcessaRoteiros;
   public
     { Public declarations }
   end;
 
 var
   view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas;
-
+  FRoteiros : Thread_AnaliseRoteirosExpressas;
 implementation
 
 {$R *.dfm}
@@ -143,6 +147,11 @@ end;
 procedure Tview_AnaliseRoteirosExpressas.actionFecharTelaExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.actionProcessarArquivoExecute(Sender: TObject);
+begin
+  ProcessaRoteiros;
 end;
 
 procedure Tview_AnaliseRoteirosExpressas.CloseForm;
@@ -186,9 +195,50 @@ begin
   end;
 end;
 
+procedure Tview_AnaliseRoteirosExpressas.ProcessaRoteiros;
+begin
+  dsResumo.Enabled := False;
+  dsEntregas.Enabled := False;
+  Data_Sisgef.memTableResumoRoteiros.Active := False;
+  Data_Sisgef.memTableResumoRoteiros.Active := True;
+  Data_Sisgef.mtbEntregas.Active := False;
+  Data_Sisgef.mtbEntregas.Active := True;
+  FRoteiros := Thread_AnaliseRoteirosExpressas.Create(True);
+  FRoteiros.Arquivo := nomeArquivo.Text;
+  FRoteiros.MemTabResumo := Data_Sisgef.memTableResumoRoteiros;
+  FRoteiros.MemTabEntregas := Data_Sisgef.mtbEntregas;
+  FRoteiros.Priority := tpNormal;
+  Timer.Enabled := True;
+  indicador.Active := True;
+  FRoteiros.Start;
+end;
+
 procedure Tview_AnaliseRoteirosExpressas.StartForm;
 begin
   labelTitle.Caption := Self.Caption;
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.UpdateDashBoard;
+begin
+if not FRoteiros.Processo then
+  begin
+    Timer.Enabled := False;
+    indicador.Active := False;
+    dsResumo.Enabled := False;
+    dsEntregas.Enabled := False;
+    progresso.Position := FRoteiros.Progresso;
+    if FRoteiros.Cancelar then
+      Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION)
+    else
+      Application.MessageBox(PChar(FRoteiros.MensagemSistema), 'Atenção', MB_OK + MB_ICONINFORMATION);
+    nomeArquivo.Text := '';
+    progresso.Position := 0;
+  end
+  else
+  begin
+    progresso.Position := FRoteiros.Progresso;
+  end;
+
 end;
 
 end.

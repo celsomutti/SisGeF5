@@ -607,20 +607,24 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
         item
           Action = actionLimpar
           Kind = bkGlyph
+        end
+        item
+          Action = actionConfigurarFiltro
+          Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
-      Properties.OnValidate = parametroPropertiesValidate
       Style.HotTrack = False
       TabOrder = 1
       TextHint = 'Digite aqui o valor a ser filtrado'
       Width = 593
     end
     object gridCEP: TcxGrid
-      Left = 12
-      Top = 81
-      Width = 805
-      Height = 264
+      Left = 10000
+      Top = 10000
+      Width = 781
+      Height = 200
       TabOrder = 2
+      Visible = False
       LookAndFeel.Kind = lfFlat
       object gridCEPDBTableView1: TcxGridDBTableView
         PopupMenu = PopupMenu
@@ -666,28 +670,19 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
         OptionsSelection.MultiSelect = True
-        OptionsSelection.CellMultiSelect = True
-        OptionsSelection.InvertSelect = False
+        OptionsSelection.CheckBoxVisibility = [cbvDataRow]
+        OptionsSelection.MultiSelectMode = msmPersistent
         OptionsView.GroupByBox = False
         object gridCEPDBTableView1id_roteiro: TcxGridDBColumn
-          Caption = 'Sele'#231#227'o'
-          DataBinding.FieldName = 'dom_check'
-          PropertiesClassName = 'TcxCheckBoxProperties'
-          Properties.Alignment = taRightJustify
-          Properties.NullStyle = nssUnchecked
-          Properties.ValueChecked = '1'
-          Properties.ValueUnchecked = '0'
+          Caption = 'ID'
+          DataBinding.FieldName = 'id_roteiro'
+          PropertiesClassName = 'TcxMaskEditProperties'
+          Properties.Alignment.Horz = taRightJustify
+          Properties.IgnoreMaskBlank = True
+          Properties.MaskKind = emkRegExpr
+          Properties.EditMask = '\d\d\d\d\d\d'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
-          Options.Filtering = False
-          Options.FilteringWithFindPanel = False
-          Options.FilteringAddValueItems = False
-          Options.FilteringFilteredItemsList = False
-          Options.FilteringMRUItemsList = False
-          Options.FilteringPopup = False
-          Options.FilteringPopupMultiSelect = False
-          Options.Sorting = False
-          Width = 55
-          OnHeaderClick = gridCEPDBTableView1id_roteiroHeaderClick
         end
         object gridCEPDBTableView1num_cep_inicial: TcxGridDBColumn
           Caption = 'CEP Inicial'
@@ -779,7 +774,7 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Action = actionOK
       LookAndFeel.Kind = lfOffice11
       SpeedButtonOptions.Transparent = True
-      TabOrder = 3
+      TabOrder = 6
     end
     object cxButton2: TcxButton
       Left = 729
@@ -790,14 +785,38 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Action = actionCancelar
       LookAndFeel.Kind = lfOffice11
       SpeedButtonOptions.Transparent = True
+      TabOrder = 7
+    end
+    object cxDBFilterControl1: TcxDBFilterControl
+      Left = 24
+      Top = 119
+      Width = 781
+      Height = 168
+      Items = <>
+      TabOrder = 3
+    end
+    object cxButton3: TcxButton
+      Left = 24
+      Top = 294
+      Width = 75
+      Height = 25
+      Action = actionAplicarFiltro
       TabOrder = 4
+    end
+    object cxButton4: TcxButton
+      Left = 106
+      Top = 294
+      Width = 75
+      Height = 25
+      Action = actionCancelarFiltro
+      TabOrder = 5
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 3
+      ItemIndex = 2
       ShowBorder = False
       Index = -1
     end
@@ -891,16 +910,14 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Index = 0
     end
     object dxLayoutItem3: TdxLayoutItem
-      Parent = dxLayoutControl1Group_Root
-      AlignHorz = ahClient
-      AlignVert = avClient
+      Parent = dxLayoutGroup4
       CaptionOptions.Text = 'cxGrid1'
       CaptionOptions.Visible = False
       Control = gridCEP
       ControlOptions.OriginalHeight = 200
       ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 0
     end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -934,6 +951,70 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       ControlOptions.OriginalWidth = 88
       ControlOptions.ShowBorder = False
       Index = 1
+    end
+    object dxLayoutGroup3: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ItemIndex = 1
+      LayoutDirection = ldTabbed
+      ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup4: TdxLayoutGroup
+      Parent = dxLayoutGroup3
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      Index = 0
+    end
+    object dxLayoutGroup5: TdxLayoutGroup
+      Parent = dxLayoutGroup3
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ItemIndex = 1
+      Index = 1
+    end
+    object dxLayoutItem6: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxDBFilterControl1'
+      CaptionOptions.Visible = False
+      Control = cxDBFilterControl1
+      ControlOptions.OriginalHeight = 162
+      ControlOptions.OriginalWidth = 300
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem7: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup1
+      AlignHorz = ahLeft
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton3'
+      CaptionOptions.Visible = False
+      Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem8: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup1
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxButton4'
+      CaptionOptions.Visible = False
+      Control = cxButton4
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
+      Parent = dxLayoutGroup5
+      AlignVert = avBottom
+      LayoutDirection = ldHorizontal
+      Index = 1
+      AutoCreated = True
     end
   end
   object actionListFiltro: TActionList
@@ -970,11 +1051,28 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
       Caption = 'Marcar Tudo'
       Hint = 'Marcar Selecionados'
       ImageIndex = 71
+      OnExecute = actionMarcarSelecionadosExecute
     end
     object actionDesmarcarTudo: TAction
       Caption = 'Desmarcar Tudo'
       Hint = 'Desmarcar todos os registros'
       ImageIndex = 72
+      OnExecute = actionDesmarcarTudoExecute
+    end
+    object actionConfigurarFiltro: TAction
+      Caption = 'Configurar Filtro'
+      Hint = 'Configurar filtro'
+      ImageIndex = 73
+    end
+    object actionAplicarFiltro: TAction
+      Caption = 'Aplicar'
+      Hint = 'Aplicar filtro'
+      ImageIndex = 19
+    end
+    object actionCancelarFiltro: TAction
+      Caption = 'Cancelar'
+      Hint = 'Cancelar filtro'
+      ImageIndex = 2
     end
   end
   object dsFiltro: TDataSource

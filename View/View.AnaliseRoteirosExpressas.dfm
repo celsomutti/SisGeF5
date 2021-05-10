@@ -579,7 +579,6 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     TabOrder = 0
     Transparent = True
     OptionsImage.Images = Data_Sisgef.lmi_32_32
-    ExplicitHeight = 468
     object labelTitle: TcxLabel
       Left = 46
       Top = 14
@@ -629,7 +628,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
       Left = 10
       Top = 98
       Width = 928
-      Height = 175
+      Height = 181
       TabOrder = 3
       LookAndFeel.Kind = lfFlat
       LookAndFeel.NativeStyle = False
@@ -811,9 +810,9 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     end
     object gridEntregas: TcxGrid
       Left = 10
-      Top = 298
+      Top = 304
       Width = 928
-      Height = 111
+      Height = 115
       TabOrder = 4
       LookAndFeel.Kind = lfFlat
       LookAndFeel.NativeStyle = False
@@ -1197,7 +1196,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     end
     object progresso: TcxProgressBar
       Left = 10
-      Top = 426
+      Top = 436
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       TabOrder = 6
@@ -1205,7 +1204,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     end
     object indicador: TdxActivityIndicator
       Left = 10
-      Top = 415
+      Top = 425
       Width = 928
       Height = 5
       LookAndFeel.Kind = lfOffice11
@@ -1217,12 +1216,14 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 4
+      ItemIndex = 5
       ShowBorder = False
       Index = -1
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
@@ -1242,6 +1243,8 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
@@ -1273,6 +1276,8 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     end
     object dxLayoutGroup3: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ShowBorder = False
@@ -1314,6 +1319,8 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     end
     object dxLayoutGroup5: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ShowBorder = False
@@ -1323,7 +1330,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
       Parent = dxLayoutGroup5
       AlignHorz = ahClient
       AlignVert = avClient
-      CaptionOptions.Text = 'Fora de Abrang'#234'ncia'
+      CaptionOptions.Text = 'Fora de Abrang'#234'ncia / Sem Roteiros'
       CaptionOptions.Layout = clTop
       Control = gridEntregas
       ControlOptions.OriginalHeight = 111
@@ -1333,6 +1340,8 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     end
     object dxLayoutGroup6: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       Visible = False
       ButtonOptions.Buttons = <>
@@ -1376,6 +1385,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
       Caption = '&Processar'
       Hint = 'Processar remessa do arquivo'
       ImageIndex = 49
+      OnExecute = actionProcessarArquivoExecute
     end
     object actionFecharTela: TAction
       Caption = 'Fechar'
@@ -1399,5 +1409,9 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     DataSet = Data_Sisgef.mtbEntregas
     Left = 424
     Top = 8
+  end
+  object Timer: TTimer
+    Enabled = False
+    Left = 688
   end
 end

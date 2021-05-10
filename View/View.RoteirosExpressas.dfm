@@ -899,7 +899,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Style.HotTrack = False
       TabOrder = 2
       TextHint = 'Descri'#231#227'o do roteiro'
-      Width = 556
+      Width = 543
     end
     object cxButton1: TcxButton
       Left = 821
@@ -913,7 +913,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       TabOrder = 8
     end
     object cxButton2: TcxButton
-      Left = 725
+      Left = 712
       Top = 51
       Width = 89
       Height = 25
@@ -924,10 +924,11 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       TabOrder = 3
     end
     object cxButton4: TcxButton
-      Left = 821
+      Left = 808
       Top = 51
-      Width = 75
+      Width = 88
       Height = 25
+      Cursor = crHandPoint
       Action = actCancelar
       LookAndFeel.Kind = lfOffice11
       SpeedButtonOptions.Transparent = True
@@ -1082,7 +1083,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       CaptionOptions.Visible = False
       Control = cxButton4
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 88
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 3
@@ -1167,7 +1168,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Enabled = False
       Hint = 'Cancelar opera'#231#227'o'
       ImageIndex = 2
-      ShortCut = 32795
+      ShortCut = 8219
       OnExecute = actCancelarExecute
     end
     object actFechar: TAction

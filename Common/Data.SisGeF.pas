@@ -450,6 +450,7 @@ type
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
     procedure mtbExtratosExpressasCalcFields(DataSet: TDataSet);
     procedure FDConnectionMySQLBeforeConnect(Sender: TObject);
+    procedure memTableResumoRoteirosCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
     procedure DoServerKeyValidate(FileStorage: TScFileStorage;  const HostKeyName: string; NewServerKey: TScKey;
@@ -520,6 +521,14 @@ begin
                                         ';Port=' + Global.Parametros.pPort +
                                         ';User_name=' + Global.Parametros.pUBD +
                                         ';Password=' + Global.Parametros.pPBD;
+end;
+
+procedure TData_Sisgef.memTableResumoRoteirosCalcFields(DataSet: TDataSet);
+begin
+  memTableResumoRoteirosqtd_total_remessas.AsInteger := memTableResumoRoteirosqtd_remessas_leves.AsInteger +
+                                                       memTableResumoRoteirosqtd_remessas_pesado.AsInteger;
+  memTableResumoRoteirosqtd_total_volumes.AsInteger := memTableResumoRoteirosqtd_volumes_leves.AsInteger +
+                                                       memTableResumoRoteirosqtd_volumes_pesado.AsInteger;
 end;
 
 procedure TData_Sisgef.mtbExtratosExpressasCalcFields(DataSet: TDataSet);

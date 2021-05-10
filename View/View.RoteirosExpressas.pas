@@ -202,6 +202,7 @@ begin
   Data_Sisgef.mtbRoteirosExpressas.Close;
   codigoRoteiro.Text := '000';
   descricaoRoteiro.Clear;
+  codigoRoteiro.SetFocus;
   FAcao := tacIndefinido;
   Modo;
 end;
@@ -493,13 +494,14 @@ begin
     begin
       view_ListaRorteirosLivres := Tview_ListaRorteirosLivres.Create(Application);
     end;
+    view_ListaRorteirosLivres.FCodigoRoteiro := sRoteiro;
+    view_ListaRorteirosLivres.FDescricaoRoteiro := sNome;
     if view_ListaRorteirosLivres.ShowModal = mrOk then
     begin
-      SalvaLista;
+      FAcao := tacPesquisa;
+      Modo;
     end;
     FreeAndNil(view_ListaRorteirosLivres);
-    FAcao := tacIncluir;
-    Modo;
   finally
     FRoteiros.Free;
   end;

@@ -9,7 +9,8 @@ uses
   System.Actions, Vcl.ActnList, cxTextEdit, cxMaskEdit, cxButtonEdit, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage,
   cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxCheckBox, cxImageComboBox,
-  dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, DAO.Conexao, FireDAC.Comp.Client, FireDAC.Comp.DataSet;
+  dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, DAO.Conexao, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
+  cxFilterControl, cxDBFilterControl;
 
 type
   Tview_ListaRorteirosLivres = class(TForm)
@@ -28,7 +29,6 @@ type
     gridCEP: TcxGrid;
     dxLayoutItem3: TdxLayoutItem;
     dsFiltro: TDataSource;
-    gridCEPDBTableView1id_roteiro: TcxGridDBColumn;
     gridCEPDBTableView1num_cep_inicial: TcxGridDBColumn;
     gridCEPDBTableView1num_cep_final: TcxGridDBColumn;
     gridCEPDBTableView1des_prazo: TcxGridDBColumn;
@@ -47,14 +47,29 @@ type
     PopupMenu: TPopupMenu;
     MarcarTudo1: TMenuItem;
     DesmarcarTudo1: TMenuItem;
+    gridCEPDBTableView1id_roteiro: TcxGridDBColumn;
+    actionConfigurarFiltro: TAction;
+    dxLayoutGroup3: TdxLayoutGroup;
+    dxLayoutGroup4: TdxLayoutGroup;
+    dxLayoutGroup5: TdxLayoutGroup;
+    cxDBFilterControl1: TcxDBFilterControl;
+    dxLayoutItem6: TdxLayoutItem;
+    actionAplicarFiltro: TAction;
+    actionCancelarFiltro: TAction;
+    cxButton3: TcxButton;
+    dxLayoutItem7: TdxLayoutItem;
+    cxButton4: TcxButton;
+    dxLayoutItem8: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     procedure FormShow(Sender: TObject);
     procedure actionOKExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
     procedure actionFiltrarExecute(Sender: TObject);
     procedure actionLimparExecute(Sender: TObject);
     procedure gridCEPDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
-    procedure parametroPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure gridCEPDBTableView1id_roteiroHeaderClick(Sender: TObject);
+    procedure actionMarcarSelecionadosExecute(Sender: TObject);
+    procedure actionDesmarcarTudoExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -64,12 +79,15 @@ type
     procedure PesquisaCEP(sFiltro: String);
     procedure CheckAll;
     procedure UnCheckAll;
+    procedure SaveSelection;
     function FormulaFiltro(sTexto: String): String;
 
   public
     { Public declarations }
     sSQL : String;
     sWhere: String;
+    FCodigoRoteiro: String;
+    FDescricaoRoteiro: String;
   end;
 
 var
@@ -89,6 +107,11 @@ begin
   ModalResult := mrCancel;
 end;
 
+procedure Tview_ListaRorteirosLivres.actionDesmarcarTudoExecute(Sender: TObject);
+begin
+  UnCheckAll;
+end;
+
 procedure Tview_ListaRorteirosLivres.actionFiltrarExecute(Sender: TObject);
 begin
   PesquisaCEP(FormulaFiltro(parametro.Text));
@@ -99,26 +122,20 @@ begin
   ClearFilter;
 end;
 
+procedure Tview_ListaRorteirosLivres.actionMarcarSelecionadosExecute(Sender: TObject);
+begin
+  CheckAll;
+end;
+
 procedure Tview_ListaRorteirosLivres.actionOKExecute(Sender: TObject);
 begin
+  SaveSelection;
   ModalResult := mrOk;
 end;
 
 procedure Tview_ListaRorteirosLivres.CheckAll;
 begin
-  if Data_Sisgef.mtbRoteirosLivres.IsEmpty then
-    Exit;
-  Data_Sisgef.mtbRoteirosLivres.First;
-  Screen.Cursor := crHourGlass;
-  while not Data_Sisgef.mtbRoteirosLivres.Eof do
-  begin
-    Data_Sisgef.mtbRoteirosLivres.Edit;
-    Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_check').AsInteger := 1;
-    Data_Sisgef.mtbRoteirosLivres.Post;
-    Data_Sisgef.mtbRoteirosLivres.Next;
-  end;
-  Screen.Cursor := crDefault;
-  Data_Sisgef.mtbRoteirosLivres.First;
+  gridCEPDBTableView1.Controller.SelectAllRecords;
 end;
 
 procedure Tview_ListaRorteirosLivres.ClearFilter;
@@ -206,12 +223,6 @@ begin
   end;
 end;
 
-procedure Tview_ListaRorteirosLivres.parametroPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
-  var ErrorText: TCaption; var Error: Boolean);
-begin
-  actionFiltrarExecute(Sender);
-end;
-
 procedure Tview_ListaRorteirosLivres.PesquisaCEP(sFiltro: String);
 var
   fdPesquisa : TFDQuery;
@@ -248,6 +259,44 @@ begin
   end;
 end;
 
+procedure Tview_ListaRorteirosLivres.SaveSelection;
+var
+  i, iId: Integer;
+begin
+  if Data_Sisgef.mtbRoteirosLivres.IsEmpty then
+    Exit;
+
+  if not Data_Sisgef.mtbRoteirosExpressas.Active then
+    Data_Sisgef.mtbRoteirosExpressas.Active := True;
+
+  Screen.Cursor := crHourGlass;
+  Data_Sisgef.mtbRoteirosLivres.First;
+  for i := 0 to Pred(gridCEPDBTableView1.Controller.SelectedRowCount) do
+  begin
+    iId := StrToIntDef(gridCEPDBTableView1.Controller.SelectedRows[i].DisplayTexts[0], 0);
+    if Data_Sisgef.mtbRoteirosLivres.Locate('id_roteiro',iID,[]) then
+    begin
+      Data_Sisgef.mtbRoteirosExpressas.Insert;
+      Data_Sisgef.mtbRoteirosExpressasid_roteiro.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('id_roteiro').AsInteger;;
+      Data_Sisgef.mtbRoteirosExpressascod_ccep5.AsString := FCodigoRoteiro;
+      Data_Sisgef.mtbRoteirosExpressasdes_roteiro.AsString := FDescricaoRoteiro;
+      Data_Sisgef.mtbRoteirosExpressasnum_cep_inicial.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_inicial').AsString;
+      Data_Sisgef.mtbRoteirosExpressasnum_cep_final.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_final').AsString;
+      Data_Sisgef.mtbRoteirosExpressasdes_prazo.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_prazo').AsString;
+      Data_Sisgef.mtbRoteirosExpressasdom_zona.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_zona').AsString;;
+      Data_Sisgef.mtbRoteirosExpressascod_tipo.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_tipo').AsInteger;
+      Data_Sisgef.mtbRoteirosExpressasdes_logradouro.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_logradouro').AsString;
+      Data_Sisgef.mtbRoteirosExpressasdes_bairro.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_bairro').AsString;
+      Data_Sisgef.mtbRoteirosExpressascod_cliente.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_cliente').AsInteger;
+      Data_Sisgef.mtbRoteirosExpressascod_leve.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_leve').AsInteger;
+      Data_Sisgef.mtbRoteirosExpressascod_pesado.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_pesado').AsInteger;
+      Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 0;
+      Data_Sisgef.mtbRoteirosExpressas.Post;
+    end;
+  end;
+  Screen.Cursor := crDefault;
+end;
+
 procedure Tview_ListaRorteirosLivres.StartForm;
 begin
   labelTitle.Caption := Self.Caption;
@@ -256,19 +305,7 @@ end;
 
 procedure Tview_ListaRorteirosLivres.UnCheckAll;
 begin
-  if Data_Sisgef.mtbRoteirosLivres.IsEmpty then
-    Exit;
-  Data_Sisgef.mtbRoteirosLivres.First;
-  Screen.Cursor := crHourGlass;
-  while not Data_Sisgef.mtbRoteirosLivres.Eof do
-  begin
-    Data_Sisgef.mtbRoteirosLivres.Edit;
-    Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_check').AsInteger := 0;
-    Data_Sisgef.mtbRoteirosLivres.Post;
-    Data_Sisgef.mtbRoteirosLivres.Next;
-  end;
-  Screen.Cursor := crDefault;
-  Data_Sisgef.mtbRoteirosLivres.First;
+  gridCEPDBTableView1.Controller.ClearSelection;
 end;
 
 end.

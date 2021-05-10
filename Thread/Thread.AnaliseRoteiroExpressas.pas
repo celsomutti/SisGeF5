@@ -3,27 +3,25 @@ unit Thread.AnaliseRoteiroExpressas;
 interface
 
 uses
-  System.Classes, Control.Bases, Control.EntregadoresExpressas, Control.Entregas, Control.VerbasExpressas, Control.CapaDIRECT,
-  System.SysUtils, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  System.Classes, System.SysUtils, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Control.PlanilhaEntradaDIRECT,
+  Control.RoteirosExpressas;
 
 type
   Thread_AnaliseRoteirosExpressas = class(TThread)
   private
-    FPlanilha : TCapaDirectControl;
+    FPlanilha : TPlanilhaEntradaDIRECTControl;
     FArquivo: String;
     FProcesso: Boolean;
     FLog: String;
-    FTotalGravados: Integer;
     FTotalRegistros: Integer;
-    FTotalInconsistencias: Integer;
     FProgresso: Double;
-    FCliente: Integer;
     FCancelar: Boolean;
     FMemTab: TFDMemTable;
     FMemTabEntregas: TFDMemTable;
     FMemTabResumo: TFDMemTable;
+    FMensagemSistema: String;
+    procedure UpdateEntregas(i: integer);
     procedure UpdateLOG(sMensagem: String);
-    function RetornaVerba(aParam: array of variant): Double;
     { Private declarations }
   protected
     procedure Execute; override;
@@ -33,12 +31,10 @@ type
     property Log: String read FLog write FLog;
     property Progresso: Double read FProgresso write FProgresso;
     property TotalRegistros: Integer read FTotalRegistros write FTotalRegistros;
-    property TotalGravados: Integer read FTotalGravados write FTotalGravados;
-    property TotalInconsistencias: Integer read FTotalInconsistencias write FTotalInconsistencias;
-    property Cliente: Integer read FCliente write FCliente;
     property Cancelar: Boolean read FCancelar write FCancelar;
     property MemTabResumo: TFDMemTable read FMemTabResumo write FMemTabResumo;
     property MemTabEntregas: TFDMemTable read FMemTabEntregas write FMemTabEntregas;
+    property MensagemSistema: String read FMensagemSistema write FMensagemSistema;
   end;
 
 implementation
@@ -57,7 +53,7 @@ implementation
     end; 
     
     or 
-    
+
     Synchronize(
       procedure 
       begin
@@ -65,10 +61,10 @@ implementation
       end
       )
     );
-    
+
   where an anonymous method is passed.
-  
-  Similarly, the developer can call the Queue method with similar parameters as 
+
+  Similarly, the developer can call the Queue method with similar parameters as
   above, instead passing another TThread class as the first parameter, putting
   the calling thread in a queue with the other thread.
 
@@ -76,122 +72,78 @@ implementation
 
 uses Common.ENum;
 
-{ Thread_CapaDirect }
+{ Thread_AnaliseRoteirosExpressas }
 
 procedure Thread_AnaliseRoteirosExpressas.Execute;
 var
-  aParam: Array of variant;
+  aParam : Array of variant;
   iPos, i: Integer;
-  dVerba: Double;
-  sMensagem: String;
-  FEntregas: TEntregasControl;
-  FVerbas: TVerbasExpressasControl;
-  FBases: TBasesControl;
-  FEntregadores: TEntregadoresExpressasControl;
+  sMensagem, sCodigoRoteiro, sNomeRoteiro: String;
+  FRoteiro : TRoteirosExpressasControl;
+  fdQuery : TFDQuery;
 begin
   { Place thread code here }
   try
     FProcesso := True;
     FCancelar := False;
-    FPlanilha := TCapaDirectControl.Create;
+    FPlanilha := TPlanilhaEntradaDIRECTControl.Create;
+    FRoteiro := TRoteirosExpressasControl.Create;
     if FPLanilha.GetPlanilha(FArquivo) then
     begin
       iPos := 0;
       FTotalRegistros := FPlanilha.Planilha.Planilha.Count;
-      FTotalGravados := 0;
-      FTotalInconsistencias := 0;
       FProgresso := 0;
       for i := 0 to Pred(FTotalRegistros) do
       begin
-        dVerba := 0;
-        FEntregas := TEntregasControl.Create;
         SetLength(aParam,3);
-        aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Remessa,FCliente];
-        if FEntregas.LocalizarExata(aParam) then
+        aParam := ['CEP', FPlanilha.Planilha.Planilha[i].CEP, FPlanilha.Planilha.Planilha[i].CEP];
+        fdQuery := FRoteiro.Localizar(aParam);
+        if fdQuery.IsEmpty then
         begin
-          if FEntregas.Entregas.Baixado <> 'S' then
-          begin
-            sMensagem := 'Entrega ainda não foi baixada;' + FPlanilha.Planilha.Planilha[i].Remessa +
-                         ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
-                         FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
-                         FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
-
-            UpdateLOG(sMensagem);
-            Inc(FTotalInconsistencias,1);
-            dVerba := 0;
-          end
-          else
-          begin
-            if FEntregas.Entregas.Fechado <> 'S' then
-            begin
-              SetLength(aParam,8);
-              aParam := [FEntregas.Entregas.Distribuidor,
-                         FEntregas.Entregas.Entregador,
-                         FEntregas.Entregas.CEP,
-                         FPlanilha.Planilha.Planilha[i].KGM3,
-                         FEntregas.Entregas.Baixa,
-                         0,
-                         0,
-                         FEntregas.Entregas.TipoPeso];
-              dVerba := RetornaVerba(aParam);
-              if dVerba = 0 then
-              begin
-                sMensagem := 'Verba do entregador não foi localizada;' + FPlanilha.Planilha.Planilha[i].Remessa +
-                             ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
-                             FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
-                             FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
-                UpdateLOG(sMensagem);
-                Inc(FTotalInconsistencias,1);
-              end
-            end
-            else
-            begin
-              dVerba := FEntregas.Entregas.VerbaEntregador;
-            end;
-          end;
-          if FPlanilha.Planilha.Planilha[i].KGM3 <> FEntregas.Entregas.PesoReal then
-          begin
-            sMensagem := 'Peso da baixa DIFERENTE do peso da capa;' + FPlanilha.Planilha.Planilha[i].Remessa +
-                         ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
-                         FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
-                         FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
-            UpdateLOG(sMensagem);
-            Inc(FTotalInconsistencias,1);
-          end;
-          FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.Planilha[i].KGM3;
-          FEntregas.Entregas.VerbaEntregador := dVerba;
-          FEntregas.Entregas.VerbaFranquia := FPlanilha.Planilha.Planilha[i].ValorPagar;
-          FEntregas.Entregas.Endereco := FPlanilha.Planilha.Planilha[i].EnderecoEntrega;
-          FEntregas.Entregas.Conferido := 1;
-          FEntregas.Entregas.Acao := tacAlterar;
-          if not Fentregas.Gravar() then
-          begin
-            sMensagem := 'Erro ao gravar;' + FPlanilha.Planilha.Planilha[i].Remessa +
-                         ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
-                         FEntregas.Entregas.VerbaEntregador.ToString + ';' + FEntregas.Entregas.VerbaFranquia.ToString + ';' +
-                         FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
-            UpdateLOG(sMensagem);
-            Inc(FTotalInconsistencias,1);
-          end
-          else
-          begin
-            Inc(FTotalGravados,1);
-          end;
+          UpdateEntregas(i);
+          fdQuery.Close;
         end
         else
         begin
-          sMensagem := 'Remessa NÃO ENCONTRADA;' + FPlanilha.Planilha.Planilha[i].Remessa +
-                       ';0,0;' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';0,00;0,00;' +
-                       FPlanilha.Planilha.Planilha[i].Motorista + ';' + FPlanilha.Planilha.Planilha[i].CEPEntrega;
-          Inc(FTotalInconsistencias,1);
-          UpdateLOG(sMensagem);
+         if FRoteiro.SetupModel(fdQuery) then
+         begin
+          fdQuery.Close;
+          sCodigoRoteiro := FRoteiro.Roteiros.CCEP5;
+          sNomeRoteiro := FRoteiro.Roteiros.Descricao;
+          if sCodigoRoteiro = '000' then
+          begin
+            UpdateEntregas(i);
+          end
+          else
+          begin
+            if MemTabResumo.Locate('cod_roteiro', sCodigoRoteiro,[]) then
+            begin
+               MemTabResumo.Edit;
+               if FPlanilha.Planilha.Planilha[i].PesoNominal <= 30 then
+               begin
+                 MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger := MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger +
+                 FPlanilha.Planilha.Planilha[i].Volumes;
+                 MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger + 1;
+               end
+               else
+               begin
+                 MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger := MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger +
+                 FPlanilha.Planilha.Planilha[i].Volumes;
+                 MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger + 1;
+               end;
+               MemTabResumo.FieldByName('val_total_pgr').AsFloat := MemTabResumo.FieldByName('val_total_pgr').AsFloat +
+               FPlanilha.Planilha.Planilha[i].Valor;
+               MemTabResumo.Post;
+            end;
+          end;
+         end;
         end;
-        FEntregas.Free;
         Finalize(aParam);
         iPos := i;
         FProgresso := (iPos / FTotalRegistros) * 100;
         if Self.Terminated then Abort;
       end;
+      fdQuery.Free;
       FProcesso := False;
     end
     else
@@ -207,128 +159,36 @@ begin
   end;
 end;
 
-function Thread_AnaliseRoteirosExpressas.RetornaVerba(aParam: array of variant): Double;
+procedure Thread_AnaliseRoteirosExpressas.UpdateEntregas(i: integer);
 var
-  FBase: TBasesControl;
-  FEntregador: TEntregadoresExpressasControl;
-  FVerbas: TVerbasExpressasControl;
-  iTabela, iFaixa: Integer;
-  dVerba, dVerbaEntregador: Double;
-  FParam: array of variant;
-  FTipoVerba: array of string;
+  sTipo: String;
 begin
-  Result := 0;
-  iTabela := 0;
-  iFaixa := 0;
-  dVerba := 0;
-  dVerbaEntregador := 0;
-  SetLength(FTipoVerba,8);
-  // procura dos dados da base referentes à verba
-  FBase := TBasesControl.Create;
-  SetLength(FParam,2);
-  FParam := ['CODIGO',aParam[0]];
-  if FBase.LocalizarExato(FParam) then
-  begin
-    iTabela := FBase.Bases.Tabela;
-    iFaixa := FBase.Bases.Grupo;
-    dVerba := FBase.Bases.ValorVerba;
-  end;
-  Finalize(FParam);
-  FBase.Free;
-  // se a base não possui uma verba fixa, verifica se a base possui uma vinculação a uma
-  // tabela e faixa.
-  if dVerba = 0 then
-  begin
-    if iTabela <> 0 then
-    begin
-      if iFaixa <> 0 then
-      begin
-        FVerbas := TVerbasExpressasControl.Create;
-        FVerbas.Verbas.Tipo := iTabela;
-        FVerbas.Verbas.Cliente := FCliente;
-        FVerbas.Verbas.Grupo := iFaixa;
-        FVerbas.Verbas.Vigencia := aParam[4];
-        FVerbas.Verbas.CepInicial := aParam[2];
-        FVerbas.Verbas.PesoInicial := aParam[3];
-        FVerbas.Verbas.Roteiro := aParam[5];
-        FVerbas.Verbas.Performance := aParam[6];
-        dVerba := FVerbas.RetornaVerba();
-        FVerbas.Free;
-      end;
-    end;
-  end;
-  // pesquisa a tabela de entregadores e apanha os dados referente à verba
-  FEntregador := TEntregadoresExpressasControl.Create;
-  SetLength(FParam,2);
-  FParam := ['ENTREGADOR', aParam[1]];
-  if not Fentregador.Localizar(FParam).IsEmpty then
-  begin
-    iTabela := FEntregador.Entregadores.Tabela;
-    iFaixa := FEntregador.Entregadores.Grupo;
-    dVerbaEntregador := FEntregador.Entregadores.Verba;
-  end;
-  Finalize(FParam);
-  FEntregador.Free;
-  // verifica se o entregador possui uma verba fixa, se estiver zerada, verifica com as informações
-  // de tabela e faixa.
-  if dVerbaEntregador = 0 then
-  begin
-    if iTabela <> 0 then
-    begin
-      if iFaixa <> 0 then
-      begin
-      FVerbas := TVerbasExpressasControl.Create;
-      FVerbas.Verbas.Tipo := iTabela;
-      FVerbas.Verbas.Cliente := FCliente;
-      FVerbas.Verbas.Grupo := iFaixa;
-      FVerbas.Verbas.Vigencia := aParam[4];
-      FVerbas.Verbas.CepInicial := aParam[2];
-      FVerbas.Verbas.PesoInicial := aParam[3];
-      FVerbas.Verbas.Roteiro := aParam[5];
-      FVerbas.Verbas.Performance := aParam[6];
-      dVerbaEntregador := FVerbas.RetornaVerba();
-      FVerbas.Free;
-      end;
-    end;
-  end;
-  if dVerbaEntregador > 0 then
-  begin
-    dVerba := dVerbaEntregador;
-    if UpperCase(aParam[7]) = 'LOJA' then
-    begin
-      dVerba := dVerbaEntregador / 2;
-    end;
-  end;
-  Result := dVerba;
+  MemTabEntregas.Insert;
+  MemTabEntregas.FieldByName('num_nossonumero').AsString := FPlanilha.Planilha.Planilha[i].Remessa;
+  MemTabEntregas.FieldByName('num_nf').AsString := FPlanilha.Planilha.Planilha[i].NF;
+  MemTabEntregas.FieldByName('nom_consumidor').AsString := FPlanilha.Planilha.Planilha[i].NomeConsumidor;
+  MemTabEntregas.FieldByName('des_bairro').AsString := FPlanilha.Planilha.Planilha[i].Bairro;
+  MemTabEntregas.FieldByName('nom_cidade').AsString := FPlanilha.Planilha.Planilha[i].Municipio;
+  MemTabEntregas.FieldByName('num_cep').AsString := FPlanilha.Planilha.Planilha[i].CEP;
+  MemTabEntregas.FieldByName('qtd_peso_real').AsFloat := FPlanilha.Planilha.Planilha[i].PesoNominal;
+  MemTabEntregas.FieldByName('qtd_peso_franquia').AsFloat := 0;
+  MemTabEntregas.FieldByName('qtd_peso_cobrado').AsFloat := FPlanilha.Planilha.Planilha[i].PesoCubado;
+  if FPlanilha.Planilha.Planilha[i].PesoNominal <= 30 then
+    sTipo := 'LEVE'
+  else
+    sTipo := 'PESADO';
+  MemTabEntregas.FieldByName('des_tipo_peso').AsString := sTipo;
+  MemTabEntregas.FieldByName('val_produto').AsFloat := FPlanilha.Planilha.Planilha[i].Valor;
+  MemTabEntregas.FieldByName('qtd_altura').AsInteger := 0;
+  MemTabEntregas.FieldByName('qtd_largura').AsInteger := 0;
+  MemTabEntregas.FieldByName('qtd_comprimento').AsInteger := 0;
+  MemTabEntregas.FieldByName('num_pedido').AsString := FPlanilha.Planilha.Planilha[i].Pedido;
+  MemTabEntregas.Post;
 end;
 
 procedure Thread_AnaliseRoteirosExpressas.UpdateLOG(sMensagem: String);
-var
-  sDetalhe: TStringList;
 begin
-  sDetalhe := TStringList.Create;
-  sDetalhe.StrictDelimiter := True;
-  sDetalhe.Delimiter := ';';
-  sDetalhe.DelimitedText := sMensagem;
-  if sDetalhe.Count = 8 then
-  begin
-    memTab.Insert;
-    memTab.Fields[0].Value := sDetalhe[0];
-    memTab.Fields[1].Value := sDetalhe[1];
-    memTab.Fields[2].Value := StrToFloatDef(sDetalhe[2], 0);
-    memTab.Fields[3].Value := StrToFloatDef(sDetalhe[3], 0);
-    memTab.Fields[4].Value := StrToFloatDef(sDetalhe[4], 0);
-    memTab.Fields[5].Value := StrToFloatDef(sDetalhe[5], 0);
-    memTab.Fields[6].Value := sDetalhe[6];
-    memTab.Fields[7].Value := sDetalhe[7];
-    MemTab.Post;
-  end
-  else
-  begin
-    memTab.Insert;
-    memTab.Fields[0].Value := sDetalhe[0];
-    MemTab.Post;
-  end;
+  FMensagemSistema := sMensagem;
 end;
 
 end.

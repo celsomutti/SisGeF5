@@ -211,10 +211,10 @@ begin
       FDQuery.ParamByName('num_cep').AsString := aParam[1];
     end
     else
-    begin
-      FDQuery.SQL.Add('where num_cep_inicial = :num_cep');
+    begin if Length(aParam) = 3 then
+      FDQuery.SQL.Add('where num_cep_inicial >= :num_cep');
       FDQuery.ParamByName('num_cep').AsString := aParam[1];
-      FDQuery.SQL.Add(' and num_cep_final = :num_cep_1');
+      FDQuery.SQL.Add(' and num_cep_final <= :num_cep_1');
       FDQuery.ParamByName('num_cep_1').AsString := aParam[2];
     end;
   end
