@@ -938,9 +938,9 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Left = 12
       Top = 405
       Caption = 
-        'Atalhos: (F2) Novo, (F8) Pesquisar roteiro, (Shift+ESC) Cancelar' +
-        ' opera'#231#227'o, (Shift+F5) Importar planilha, (Ctrl+F5) Gravar roteir' +
-        'o, (Alt+F5) Exportar, (Alt+F4) Fechar tela'
+        'Atalhos: (F8) Pesquisar roteiro, (Shift+ESC) Cancelar opera'#231#227'o, ' +
+        '(Shift+F5) Importar planilha, (Ctrl+F5) Gravar roteiro, (Alt+F5)' +
+        ' Exportar, (Alt+F4) Fechar tela'
       ParentFont = False
       Style.Font.Charset = ANSI_CHARSET
       Style.Font.Color = clWindowText

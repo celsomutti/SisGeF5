@@ -57,7 +57,7 @@ implementation
     Synchronize(
       procedure 
       begin
-        Form1.Caption := 'Updated in thread via an anonymous method' 
+        Form1.Caption := 'Updated in thread via an anonymous method'
       end
       )
     );
@@ -134,6 +134,27 @@ begin
                MemTabResumo.FieldByName('val_total_pgr').AsFloat := MemTabResumo.FieldByName('val_total_pgr').AsFloat +
                FPlanilha.Planilha.Planilha[i].Valor;
                MemTabResumo.Post;
+            end
+            else
+            begin
+               MemTabResumo.Insert;
+               MemTabResumo.FieldByName('cod_roteiro').AsString := sCodigoRoteiro;
+               MemTabResumo.FieldByName('des_roteiro').AsString := sNomeRoteiro;
+               if FPlanilha.Planilha.Planilha[i].PesoNominal <= 30 then
+               begin
+                 MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger := MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger +
+                 FPlanilha.Planilha.Planilha[i].Volumes + 0;
+                 MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger + 1;
+               end
+               else
+               begin
+                 MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger := MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger +
+                 FPlanilha.Planilha.Planilha[i].Volumes + 0;
+                 MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger + 1;
+               end;
+               MemTabResumo.FieldByName('val_total_pgr').AsFloat := MemTabResumo.FieldByName('val_total_pgr').AsFloat +
+               FPlanilha.Planilha.Planilha[i].Valor;
+               MemTabResumo.Post;
             end;
           end;
          end;
@@ -182,6 +203,7 @@ begin
   MemTabEntregas.FieldByName('qtd_altura').AsInteger := 0;
   MemTabEntregas.FieldByName('qtd_largura').AsInteger := 0;
   MemTabEntregas.FieldByName('qtd_comprimento').AsInteger := 0;
+  MemTabEntregas.FieldByName('qtd_volumes').AsInteger := FPlanilha.Planilha.Planilha[i].Volumes;
   MemTabEntregas.FieldByName('num_pedido').AsString := FPlanilha.Planilha.Planilha[i].Pedido;
   MemTabEntregas.Post;
 end;

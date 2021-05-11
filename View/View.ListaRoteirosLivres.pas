@@ -52,7 +52,7 @@ type
     dxLayoutGroup3: TdxLayoutGroup;
     dxLayoutGroup4: TdxLayoutGroup;
     dxLayoutGroup5: TdxLayoutGroup;
-    cxDBFilterControl1: TcxDBFilterControl;
+    filterRoteiro: TcxDBFilterControl;
     dxLayoutItem6: TdxLayoutItem;
     actionAplicarFiltro: TAction;
     actionCancelarFiltro: TAction;
@@ -70,6 +70,9 @@ type
     procedure gridCEPDBTableView1id_roteiroHeaderClick(Sender: TObject);
     procedure actionMarcarSelecionadosExecute(Sender: TObject);
     procedure actionDesmarcarTudoExecute(Sender: TObject);
+    procedure actionAplicarFiltroExecute(Sender: TObject);
+    procedure actionConfigurarFiltroExecute(Sender: TObject);
+    procedure actionCancelarFiltroExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -102,9 +105,26 @@ uses Data.SisGeF, Control.RoteirosExpressas, Common.Utils;
 
 { Tview_ListaRorteirosLivres }
 
+procedure Tview_ListaRorteirosLivres.actionAplicarFiltroExecute(Sender: TObject);
+begin
+  dxLayoutGroup4.MakeVisible;
+  PesquisaCEP(filterRoteiro.FilterText);
+end;
+
 procedure Tview_ListaRorteirosLivres.actionCancelarExecute(Sender: TObject);
 begin
   ModalResult := mrCancel;
+end;
+
+procedure Tview_ListaRorteirosLivres.actionCancelarFiltroExecute(Sender: TObject);
+begin
+  filterRoteiro.Clear;
+  dxLayoutGroup4.MakeVisible;
+end;
+
+procedure Tview_ListaRorteirosLivres.actionConfigurarFiltroExecute(Sender: TObject);
+begin
+  dxLayoutGroup5.MakeVisible;
 end;
 
 procedure Tview_ListaRorteirosLivres.actionDesmarcarTudoExecute(Sender: TObject);
@@ -252,6 +272,10 @@ begin
     begin
       Data_Sisgef.mtbRoteirosLivres.Data := fdPesquisa.Data;
       gridCEP.SetFocus;
+    end
+    else
+    begin
+      Application.MessageBox('Nenhum registro encontrado!', 'Atenção', MB_OK + MB_ICONWARNING);
     end;
   finally
     fdPesquisa.Active := False;
@@ -294,6 +318,8 @@ begin
       Data_Sisgef.mtbRoteirosExpressas.Post;
     end;
   end;
+  Data_Sisgef.mtbRoteirosLivres.Active := False;
+  filterRoteiro.Clear;
   Screen.Cursor := crDefault;
 end;
 
@@ -301,6 +327,10 @@ procedure Tview_ListaRorteirosLivres.StartForm;
 begin
   labelTitle.Caption := Self.Caption;
   FConexao := TConexao.Create;
+  Self.Top := Screen.WorkAreaTop;
+  Self.Left := Screen.WorkAreaLeft;
+  Self.Width := Screen.WorkAreaWidth;
+  Self.Height := Screen.WorkAreaHeight;
 end;
 
 procedure Tview_ListaRorteirosLivres.UnCheckAll;

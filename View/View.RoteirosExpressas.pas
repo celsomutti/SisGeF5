@@ -316,6 +316,7 @@ var
   sMensagem, sRoteiro: String;
 begin
   try
+    Screen.Cursor := crHourGlass;
     Froteiro := TRoteirosExpressasControl.Create;
     if Application.MessageBox('Confirma Gravar as alterações?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
       Exit;
@@ -350,7 +351,9 @@ begin
       Data_Sisgef.mtbRoteirosExpressas.Next;
     end;
     PopulateRoteiros(sRoteiro);
+    Application.MessageBox('Registros gravados!', 'Atenção', MB_OK + MB_ICONINFORMATION);
   finally
+    Screen.Cursor := crDefault;
     FRoteiro.Free;
   end;
 end;
@@ -397,9 +400,12 @@ begin
   begin
     view_ListaRorteirosLivres := Tview_ListaRorteirosLivres.Create(Application);
   end;
+  view_ListaRorteirosLivres.FCodigoRoteiro := codigoRoteiro.Text;
+  view_ListaRorteirosLivres.FDescricaoRoteiro := descricaoRoteiro.Text;
   if view_ListaRorteirosLivres.ShowModal = mrOk then
   begin
-    SalvaLista;
+    FAcao := tacPesquisa;
+    Modo;
   end;
   FreeAndNil(view_ListaRorteirosLivres);
 end;
@@ -521,7 +527,7 @@ begin
     end;
     View_PesquisarPessoas.dxLayoutItem1.Visible := True;
     View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-    sSQL := 'select cod_ccep5 as "Código", des_roteiro as "Descrição" ' +
+    sSQL := 'select distinct cod_ccep5 as "Código", des_roteiro as "Descrição" ' +
             'from expressas_roteiros ';
     sWhere := 'where cod_ccep like "%param%" or des_roteiro like "%param%"';
 
@@ -573,6 +579,7 @@ begin
       begin
         FAcao := tacIndefinido;
         Modo;
+        codigoRoteiro.SetFocus;
       end
       else
       begin
@@ -674,6 +681,10 @@ begin
     view_Aviso.memAviso.Text := sLog;
     view_Aviso.ShowModal;
     FreeAndNil(view_Aviso);
+  end
+  else
+  begin
+    Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONINFORMATION);
   end;
 end;
 

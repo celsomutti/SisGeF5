@@ -14506,44 +14506,55 @@ object Data_Sisgef: TData_Sisgef
     Left = 324
     Top = 400
     object IntegerField1: TIntegerField
+      DisplayLabel = 'ID'
       FieldName = 'id_roteiro'
     end
     object StringField1: TStringField
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'cod_ccep5'
       Size = 5
     end
     object StringField2: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
       FieldName = 'des_roteiro'
       Size = 50
     end
     object StringField3: TStringField
+      DisplayLabel = 'CEP Inicial'
       FieldName = 'num_cep_inicial'
       Size = 8
     end
     object StringField4: TStringField
+      DisplayLabel = 'CEP Final'
       FieldName = 'num_cep_final'
       Size = 8
     end
     object StringField5: TStringField
+      DisplayLabel = 'Prazo'
       FieldName = 'des_prazo'
       Size = 15
     end
     object StringField6: TStringField
+      DisplayLabel = 'Flag Zona'
       FieldName = 'dom_zona'
       Size = 1
     end
     object IntegerField2: TIntegerField
+      DisplayLabel = 'Tipo'
       FieldName = 'cod_tipo'
     end
     object StringField7: TStringField
+      DisplayLabel = 'Logradouro'
       FieldName = 'des_logradouro'
       Size = 100
     end
     object StringField8: TStringField
+      DisplayLabel = 'Bairro'
       FieldName = 'des_bairro'
       Size = 70
     end
     object IntegerField3: TIntegerField
+      DisplayLabel = 'Cliente'
       FieldName = 'cod_cliente'
     end
     object IntegerField4: TIntegerField
@@ -14555,6 +14566,7 @@ object Data_Sisgef: TData_Sisgef
       FieldName = 'cod_pesado'
     end
     object mtbRoteirosLivresdom_check: TSmallintField
+      DisplayLabel = 'Check'
       FieldName = 'dom_check'
     end
   end
@@ -14573,9 +14585,10 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AutoCommitUpdates = True
     Left = 320
     Top = 456
-    object memTableResumoRoteiroscod_roteiro: TIntegerField
+    object memTableResumoRoteiroscod_roteiro: TStringField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'cod_roteiro'
+      Size = 5
     end
     object memTableResumoRoteirosdes_roteiro: TStringField
       DisplayLabel = 'Descri'#231#227'o'
@@ -14583,18 +14596,22 @@ object Data_Sisgef: TData_Sisgef
       Size = 50
     end
     object memTableResumoRoteirosqtd_volumes_leves: TIntegerField
+      DefaultExpression = '0'
       DisplayLabel = 'Vol. Leve'
       FieldName = 'qtd_volumes_leves'
     end
     object memTableResumoRoteirosqtd_remessas_leves: TIntegerField
+      DefaultExpression = '0'
       DisplayLabel = 'Rem. Leve'
       FieldName = 'qtd_remessas_leves'
     end
     object memTableResumoRoteirosqtd_volumes_pesado: TIntegerField
+      DefaultExpression = '0'
       DisplayLabel = 'Vol. Pesado'
       FieldName = 'qtd_volumes_pesado'
     end
     object memTableResumoRoteirosqtd_remessas_pesado: TIntegerField
+      DefaultExpression = '0'
       DisplayLabel = 'Rem. Pesado'
       FieldName = 'qtd_remessas_pesado'
     end
@@ -14611,6 +14628,7 @@ object Data_Sisgef: TData_Sisgef
       Calculated = True
     end
     object memTableResumoRoteirosval_total_pgr: TCurrencyField
+      DefaultExpression = '0'
       DisplayLabel = 'Total PGR'
       FieldName = 'val_total_pgr'
     end

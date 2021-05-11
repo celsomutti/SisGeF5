@@ -732,65 +732,63 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
             Column = gridResumoDBTableView1qtd_total_remessas
           end
           item
-            Format = ',0.00;-,0.00'
+            Format = 'R$ ,0.00;-R$ ,0.00'
             Kind = skSum
             Column = gridResumoDBTableView1val_total_pgr
           end>
         DataController.Summary.SummaryGroups = <>
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
         OptionsView.ColumnAutoWidth = True
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
         object gridResumoDBTableView1cod_roteiro: TcxGridDBColumn
-          Caption = 'C'#243'digo'
           DataBinding.FieldName = 'cod_roteiro'
           HeaderAlignmentHorz = taCenter
+          SortIndex = 0
+          SortOrder = soAscending
           Width = 73
         end
         object gridResumoDBTableView1des_roteiro: TcxGridDBColumn
-          Caption = 'Descri'#231#227'o'
           DataBinding.FieldName = 'des_roteiro'
           HeaderAlignmentHorz = taCenter
           Width = 292
         end
         object gridResumoDBTableView1qtd_volumes_leves: TcxGridDBColumn
-          Caption = 'Vol. Leve'
           DataBinding.FieldName = 'qtd_volumes_leves'
           HeaderAlignmentHorz = taCenter
           Width = 75
         end
         object gridResumoDBTableView1qtd_remessas_leves: TcxGridDBColumn
-          Caption = 'Rem. Leve'
           DataBinding.FieldName = 'qtd_remessas_leves'
           HeaderAlignmentHorz = taCenter
           Width = 80
         end
         object gridResumoDBTableView1qtd_volumes_pesado: TcxGridDBColumn
-          Caption = 'Vol. Pesado'
           DataBinding.FieldName = 'qtd_volumes_pesado'
           HeaderAlignmentHorz = taCenter
           Width = 82
         end
         object gridResumoDBTableView1qtd_remessas_pesado: TcxGridDBColumn
-          Caption = 'Rem. Pesado'
           DataBinding.FieldName = 'qtd_remessas_pesado'
           HeaderAlignmentHorz = taCenter
           Width = 81
         end
         object gridResumoDBTableView1qtd_total_volumes: TcxGridDBColumn
-          Caption = 'Total Volumes'
           DataBinding.FieldName = 'qtd_total_volumes'
           HeaderAlignmentHorz = taCenter
           Width = 82
         end
         object gridResumoDBTableView1qtd_total_remessas: TcxGridDBColumn
-          Caption = 'Total Remessas'
           DataBinding.FieldName = 'qtd_total_remessas'
           HeaderAlignmentHorz = taCenter
           Width = 86
         end
         object gridResumoDBTableView1val_total_pgr: TcxGridDBColumn
-          Caption = 'Total PGR'
           DataBinding.FieldName = 'val_total_pgr'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
           HeaderAlignmentHorz = taCenter
           Width = 75
         end
@@ -840,14 +838,75 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
         Navigator.InfoPanel.Visible = True
         Navigator.Visible = True
         DataController.DataSource = dsEntregas
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.DefaultGroupSummaryItems = <
+          item
+            Format = ',0;-,0'
+            Column = gridEntregasDBTableView1QTD_VOLUMES
+          end
+          item
+            Format = ',0.000;-,0.000'
+            Kind = skSum
+            Position = spFooter
+            Column = gridEntregasDBTableView1QTD_PESO_COBRADO
+          end
+          item
+            Format = ',0.000;-,0.000'
+            Kind = skSum
+            Position = spFooter
+            Column = gridEntregasDBTableView1QTD_PESO_FRANQUIA
+          end
+          item
+            Format = ',0.000;-,0.000'
+            Kind = skSum
+            Position = spFooter
+            Column = gridEntregasDBTableView1QTD_PESO_REAL
+          end
+          item
+            Format = 'R$ ,0.00;-R$ ,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridEntregasDBTableView1VAL_PRODUTO
+          end>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.000;-,0.000'
+            Kind = skSum
+            Column = gridEntregasDBTableView1QTD_PESO_REAL
+          end
+          item
+            Format = ',0.000;-,0.000'
+            Kind = skSum
+            Column = gridEntregasDBTableView1QTD_PESO_COBRADO
+          end
+          item
+            Format = ',0;-,0'
+            Kind = skSum
+            Column = gridEntregasDBTableView1QTD_VOLUMES
+          end
+          item
+            Format = ',0.000;-,0.000'
+            Kind = skSum
+            Column = gridEntregasDBTableView1QTD_PESO_FRANQUIA
+          end
+          item
+            Format = 'R$ ,0.00;-R$ ,0.00'
+            Kind = skSum
+            Column = gridEntregasDBTableView1VAL_PRODUTO
+          end>
         DataController.Summary.SummaryGroups = <>
+        OptionsData.CancelOnExit = False
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
+        OptionsView.Footer = True
         OptionsView.GroupByBox = False
         object gridEntregasDBTableView1NUM_NOSSONUMERO: TcxGridDBColumn
           Caption = 'Remessa'
           DataBinding.FieldName = 'NUM_NOSSONUMERO'
           HeaderAlignmentHorz = taCenter
+          SortIndex = 0
+          SortOrder = soAscending
           Width = 109
         end
         object gridEntregasDBTableView1COD_AGENTE: TcxGridDBColumn
@@ -932,10 +991,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
         end
         object gridEntregasDBTableView1QTD_VOLUMES: TcxGridDBColumn
           DataBinding.FieldName = 'QTD_VOLUMES'
-          Visible = False
           HeaderAlignmentHorz = taCenter
-          VisibleForCustomization = False
-          VisibleForEditForm = bFalse
         end
         object gridEntregasDBTableView1DAT_ATRIBUICAO: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_ATRIBUICAO'
@@ -1141,6 +1197,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
         end
         object gridEntregasDBTableView1VAL_PRODUTO: TcxGridDBColumn
           DataBinding.FieldName = 'VAL_PRODUTO'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
           HeaderAlignmentHorz = taCenter
           Width = 79
         end
@@ -1216,7 +1273,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 5
+      ItemIndex = 4
       ShowBorder = False
       Index = -1
     end
@@ -1401,6 +1458,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
   end
   object dsResumo: TDataSource
     AutoEdit = False
+    DataSet = Data_Sisgef.memTableResumoRoteiros
     Left = 376
     Top = 8
   end
@@ -1412,6 +1470,7 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
   end
   object Timer: TTimer
     Enabled = False
+    OnTimer = TimerTimer
     Left = 688
   end
 end

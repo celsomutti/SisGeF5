@@ -9,7 +9,8 @@ uses
   cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
   Data.DB, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGridLevel, cxGridCustomView, cxGrid, cxProgressBar, dxActivityIndicator, Thread.AnaliseRoteiroExpressas, Vcl.ExtCtrls;
+  cxGridLevel, cxGridCustomView, cxGrid, cxProgressBar, dxActivityIndicator, Thread.AnaliseRoteiroExpressas, Vcl.ExtCtrls,
+  cxCurrencyEdit;
 
 type
   Tview_AnaliseRoteirosExpressas = class(TForm)
@@ -117,6 +118,7 @@ type
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionProcessarArquivoExecute(Sender: TObject);
+    procedure TimerTimer(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -197,6 +199,8 @@ end;
 
 procedure Tview_AnaliseRoteirosExpressas.ProcessaRoteiros;
 begin
+  if Application.MessageBox('Confirma iniciar o processo de análise do roteiro?','Processar', MB_YESNO + MB_ICONQUESTION) = IDNO then
+    Exit;
   dsResumo.Enabled := False;
   dsEntregas.Enabled := False;
   Data_Sisgef.memTableResumoRoteiros.Active := False;
@@ -208,6 +212,7 @@ begin
   FRoteiros.MemTabResumo := Data_Sisgef.memTableResumoRoteiros;
   FRoteiros.MemTabEntregas := Data_Sisgef.mtbEntregas;
   FRoteiros.Priority := tpNormal;
+  dxLayoutGroup6.Visible := True;
   Timer.Enabled := True;
   indicador.Active := True;
   FRoteiros.Start;
@@ -216,6 +221,11 @@ end;
 procedure Tview_AnaliseRoteirosExpressas.StartForm;
 begin
   labelTitle.Caption := Self.Caption;
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.TimerTimer(Sender: TObject);
+begin
+  UpdateDashBoard;
 end;
 
 procedure Tview_AnaliseRoteirosExpressas.UpdateDashBoard;
@@ -228,11 +238,14 @@ if not FRoteiros.Processo then
     dsEntregas.Enabled := False;
     progresso.Position := FRoteiros.Progresso;
     if FRoteiros.Cancelar then
-      Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION)
+      Application.MessageBox(PChar('Importação Cancelada.' + FRoteiros.MensagemSistema + ' !'), 'Atenção', MB_OK + MB_ICONEXCLAMATION)
     else
-      Application.MessageBox(PChar(FRoteiros.MensagemSistema), 'Atenção', MB_OK + MB_ICONINFORMATION);
+      Application.MessageBox('Imoportação concluída.', 'Atenção', MB_OK + MB_ICONINFORMATION);
     nomeArquivo.Text := '';
     progresso.Position := 0;
+    dxLayoutGroup6.Visible := False;
+    dsResumo.Enabled := True;
+    dsEntregas.Enabled := True;
   end
   else
   begin
