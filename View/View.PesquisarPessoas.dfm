@@ -6,10 +6,10 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
   ClientHeight = 442
   ClientWidth = 804
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+  Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Microsoft JhengHei UI'
   Font.Style = []
   Icon.Data = {
     0000010001001010000001001800680300001600000028000000100000002000
@@ -48,7 +48,7 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object lcPesquisa: TdxLayoutControl
     Left = 0
     Top = 0
@@ -58,18 +58,16 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitWidth = 1038
-    ExplicitHeight = 570
     object grdPesquisa: TcxGrid
-      Left = 10
-      Top = 37
-      Width = 784
-      Height = 364
-      Font.Charset = DEFAULT_CHARSET
+      Left = 12
+      Top = 42
+      Width = 780
+      Height = 356
+      Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
+      Font.Height = -12
+      Font.Name = 'Microsoft JhengHei UI'
+      Font.Style = []
       ParentFont = False
       TabOrder = 1
       OnEnter = grdPesquisaEnter
@@ -117,8 +115,8 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       end
     end
     object cxButton2: TcxButton
-      Left = 624
-      Top = 407
+      Left = 621
+      Top = 405
       Width = 89
       Height = 25
       Cursor = crHandPoint
@@ -126,8 +124,8 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       TabOrder = 3
     end
     object cxButton3: TcxButton
-      Left = 719
-      Top = 407
+      Left = 717
+      Top = 405
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -136,15 +134,15 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       TabOrder = 4
     end
     object textEditPesquisar: TcxTextEdit
-      Left = 61
-      Top = 10
+      Left = 71
+      Top = 12
       Style.HotTrack = False
       TabOrder = 0
-      Width = 733
+      Width = 721
     end
     object cxButton1: TcxButton
-      Left = 539
-      Top = 407
+      Left = 535
+      Top = 405
       Width = 79
       Height = 25
       Cursor = crHandPoint
@@ -206,7 +204,7 @@ object View_PesquisarPessoas: TView_PesquisarPessoas
       CaptionOptions.Text = 'Pesquisar'
       Visible = False
       Control = textEditPesquisar
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0

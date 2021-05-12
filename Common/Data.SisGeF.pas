@@ -445,6 +445,8 @@ type
     memTableResumoRoteirosqtd_total_remessas: TIntegerField;
     memTableResumoRoteirosval_total_pgr: TCurrencyField;
     memTableResumoRoteiroscod_roteiro: TStringField;
+    memTableResumoRoteirosval_pgr_leves: TCurrencyField;
+    memTableResumoRoteirosval_pgr_pesado: TCurrencyField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

@@ -124,12 +124,16 @@ begin
                  MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger := MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger +
                  FPlanilha.Planilha.Planilha[i].Volumes;
                  MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger + 1;
+                 MemTabResumo.FieldByName('val_pgr_leves').AsFloat := MemTabResumo.FieldByName('val_pgr_leves').AsFloat +
+                 FPlanilha.Planilha.Planilha[i].Valor;
                end
                else
                begin
                  MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger := MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger +
                  FPlanilha.Planilha.Planilha[i].Volumes;
                  MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger + 1;
+                 MemTabResumo.FieldByName('val_pgr_pesado').AsFloat := MemTabResumo.FieldByName('val_pgr_pesado').AsFloat +
+                 FPlanilha.Planilha.Planilha[i].Valor;
                end;
                MemTabResumo.FieldByName('val_total_pgr').AsFloat := MemTabResumo.FieldByName('val_total_pgr').AsFloat +
                FPlanilha.Planilha.Planilha[i].Valor;
@@ -145,12 +149,16 @@ begin
                  MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger := MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger +
                  FPlanilha.Planilha.Planilha[i].Volumes + 0;
                  MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger + 1;
+                 MemTabResumo.FieldByName('val_pgr_leves').AsFloat := MemTabResumo.FieldByName('val_pgr_leves').AsFloat +
+                 FPlanilha.Planilha.Planilha[i].Valor;
                end
                else
                begin
                  MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger := MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger +
                  FPlanilha.Planilha.Planilha[i].Volumes + 0;
                  MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger + 1;
+                 MemTabResumo.FieldByName('val_pgr_pesado').AsFloat := MemTabResumo.FieldByName('val_pgr_pesado').AsFloat +
+                 FPlanilha.Planilha.Planilha[i].Valor;
                end;
                MemTabResumo.FieldByName('val_total_pgr').AsFloat := MemTabResumo.FieldByName('val_total_pgr').AsFloat +
                FPlanilha.Planilha.Planilha[i].Valor;

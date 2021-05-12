@@ -194,7 +194,10 @@ uses
   Model.PlanilhaRoteirosExpressas in 'Model\Model.PlanilhaRoteirosExpressas.pas',
   Control.PlanilhaRoteirosExpressas in 'Control\Control.PlanilhaRoteirosExpressas.pas',
   View.AnaliseRoteirosExpressas in 'View\View.AnaliseRoteirosExpressas.pas' {view_AnaliseRoteirosExpressas},
-  Thread.CapaDIRECT in 'Thread\Thread.CapaDIRECT.pas';
+  Thread.CapaDIRECT in 'Thread\Thread.CapaDIRECT.pas',
+  Model.AbrangenciaExpressas in 'Model\Model.AbrangenciaExpressas.pas',
+  Control.AbrangenciaExpressas in 'Control\Control.AbrangenciaExpressas.pas',
+  View.CadastroAbrangenciaExpressas in 'View\View.CadastroAbrangenciaExpressas.pas' {view_CadastroAbrangenciaExpressas};
 
 {$R *.res}
 

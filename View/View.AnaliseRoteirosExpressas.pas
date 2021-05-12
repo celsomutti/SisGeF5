@@ -10,7 +10,7 @@ uses
   Data.DB, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGridLevel, cxGridCustomView, cxGrid, cxProgressBar, dxActivityIndicator, Thread.AnaliseRoteiroExpressas, Vcl.ExtCtrls,
-  cxCurrencyEdit;
+  cxCurrencyEdit, cxGridBandedTableView, cxGridDBBandedTableView, Common.Utils, Control.RoteirosExpressas, Common.ENum;
 
 type
   Tview_AnaliseRoteirosExpressas = class(TForm)
@@ -30,19 +30,9 @@ type
     actionProcessarArquivo: TAction;
     dsResumo: TDataSource;
     dxLayoutGroup3: TdxLayoutGroup;
-    gridResumoDBTableView1: TcxGridDBTableView;
     gridResumoLevel1: TcxGridLevel;
     gridResumo: TcxGrid;
     dxLayoutItem4: TdxLayoutItem;
-    gridResumoDBTableView1cod_roteiro: TcxGridDBColumn;
-    gridResumoDBTableView1des_roteiro: TcxGridDBColumn;
-    gridResumoDBTableView1qtd_volumes_leves: TcxGridDBColumn;
-    gridResumoDBTableView1qtd_remessas_leves: TcxGridDBColumn;
-    gridResumoDBTableView1qtd_volumes_pesado: TcxGridDBColumn;
-    gridResumoDBTableView1qtd_remessas_pesado: TcxGridDBColumn;
-    gridResumoDBTableView1qtd_total_volumes: TcxGridDBColumn;
-    gridResumoDBTableView1qtd_total_remessas: TcxGridDBColumn;
-    gridResumoDBTableView1val_total_pgr: TcxGridDBColumn;
     actionFecharTela: TAction;
     dxLayoutGroup4: TdxLayoutGroup;
     cxButton2: TcxButton;
@@ -113,12 +103,36 @@ type
     indicador: TdxActivityIndicator;
     dxLayoutItem8: TdxLayoutItem;
     Timer: TTimer;
+    gridResumoDBBandedTableView1: TcxGridDBBandedTableView;
+    gridResumoDBBandedTableView1cod_roteiro: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1des_roteiro: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1qtd_volumes_leves: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1qtd_remessas_leves: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1val_pgr_leves: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1qtd_volumes_pesado: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1qtd_remessas_pesado: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1val_pgr_pesado: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1qtd_total_volumes: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1qtd_total_remessas: TcxGridDBBandedColumn;
+    gridResumoDBBandedTableView1val_total_pgr: TcxGridDBBandedColumn;
+    actionVincularCEP: TAction;
+    popupMenuEntregas: TPopupMenu;
+    actionExportarResumo: TAction;
+    actionExportarEntregas: TAction;
+    popupMenuResumo: TPopupMenu;
+    Exportar1: TMenuItem;
+    VincularCEP1: TMenuItem;
+    Exportar2: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure actionAbrirArquivoExecute(Sender: TObject);
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionProcessarArquivoExecute(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
+    procedure gridResumoDBBandedTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+    procedure gridEntregasDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+    procedure actionExportarResumoExecute(Sender: TObject);
+    procedure actionExportarEntregasExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -126,6 +140,10 @@ type
     procedure OpenFile;
     procedure UpdateDashBoard;
     procedure ProcessaRoteiros;
+    procedure ExportarResumo;
+    procedure Exportarentregas;
+    procedure VincularCEP;
+    procedure GravarRoteiro;
   public
     { Public declarations }
   end;
@@ -137,13 +155,23 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, View.PesquisarPessoas;
 
 { Tview_AnaliseRoteirosExpressas }
 
 procedure Tview_AnaliseRoteirosExpressas.actionAbrirArquivoExecute(Sender: TObject);
 begin
   OpenFile;
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.actionExportarEntregasExecute(Sender: TObject);
+begin
+  Exportarentregas;
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.actionExportarResumoExecute(Sender: TObject);
+begin
+  ExportarResumo;
 end;
 
 procedure Tview_AnaliseRoteirosExpressas.actionFecharTelaExecute(Sender: TObject);
@@ -165,6 +193,58 @@ begin
   end;
 end;
 
+procedure Tview_AnaliseRoteirosExpressas.Exportarentregas;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if Data_Sisgef.memTableResumoRoteiros.IsEmpty then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(gridEntregas,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
+  end;
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.ExportarResumo;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if Data_Sisgef.memTableResumoRoteiros.IsEmpty then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(gridResumo,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
+  end;
+end;
+
 procedure Tview_AnaliseRoteirosExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   CloseForm;
@@ -175,6 +255,40 @@ end;
 procedure Tview_AnaliseRoteirosExpressas.FormShow(Sender: TObject);
 begin
   StartForm;
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.GravarRoteiro;
+var
+  FRoteiros : TRoteirosExpressasControl;
+  aParam: Array of variant;
+  FAcao: TAcao;
+begin
+  try
+    FRoteiros := TRoteirosExpressasControl.Create;
+    SetLength(aParam,2);
+    aParam := ['CEP', Data_Sisgef.mtbEntregasNUM_CEP.AsString];
+
+  finally
+    FRoteiros.Free;
+  end;
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.gridEntregasDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
+  var ADone: Boolean);
+begin
+  case AButtonIndex of
+    16 : Exportarentregas;
+    else Exit;
+  end;
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.gridResumoDBBandedTableView1NavigatorButtonsButtonClick(Sender: TObject;
+  AButtonIndex: Integer; var ADone: Boolean);
+begin
+  case AButtonIndex of
+    16 : ExportarResumo;
+    else Exit;
+  end;
 end;
 
 procedure Tview_AnaliseRoteirosExpressas.OpenFile;
@@ -250,6 +364,43 @@ if not FRoteiros.Processo then
   else
   begin
     progresso.Position := FRoteiros.Progresso;
+  end;
+
+end;
+
+procedure Tview_AnaliseRoteirosExpressas.VincularCEP;
+var
+  sSQL: String;
+  sWhere: String;
+  sCodigoRoteiro, sDescricaoRoteiro: String;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
+    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
+    sSQL := 'select distinct cod_ccep5 as "Código", des_roteiro as "Descrição" ' +
+            'from expressas_roteiros ';
+    sWhere := 'where cod_ccep like "%param%" or des_roteiro like "%param%"';
+    sCodigoRoteiro := '';
+    sDescricaoRoteiro:= '';
+    View_PesquisarPessoas.sSQL := sSQL;
+    View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := True;
+    View_PesquisarPessoas.Caption := 'Localização de Roteiros';
+    if View_PesquisarPessoas.ShowModal = mrOK then
+    begin
+      sCodigoRoteiro := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+      sDescricaoRoteiro:= View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+    end;
+  finally
+    View_PesquisarPessoas.qryPesquisa.Close;
+    View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
   end;
 
 end;

@@ -661,6 +661,16 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
         OptionsView.ColumnAutoWidth = True
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
+        ConditionalFormatting = {
+          010000000A000000310000005400640078005300700072006500610064005300
+          680065006500740043006F006E0064006900740069006F006E0061006C004600
+          6F0072006D0061007400740069006E006700520075006C006500450078007000
+          720065007300730069006F006E009F0000000000000000000000FFFFFF7FFFFF
+          FF7F00010000002009000000150000004D006900630072006F0073006F006600
+          740020004A00680065006E006700480065006900200055004900000800000000
+          2000000020000000002000000000200000000020000000002000070000004700
+          45004E004500520041004C00000000000002000000000000000001070000003D
+          005B0023005D003D002D00310000000000}
         object tvRoteirosdom_check: TcxGridDBColumn
           Caption = '#'
           DataBinding.FieldName = 'dom_check'
@@ -687,6 +697,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           Caption = 'ID'
           DataBinding.FieldName = 'id_roteiro'
           PropertiesClassName = 'TcxMaskEditProperties'
+          Properties.Alignment.Horz = taRightJustify
           Properties.MaskKind = emkRegExpr
           Properties.EditMask = '\d\d\d\d\d\d'
           Properties.ReadOnly = True
@@ -819,6 +830,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           Caption = 'Cliente'
           DataBinding.FieldName = 'cod_cliente'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.Alignment.Horz = taRightJustify
           Properties.KeyFieldNames = 'cod_cliente'
           Properties.ListColumns = <
             item
@@ -833,18 +845,22 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
         object tvRoteiroscod_leve: TcxGridDBColumn
           DataBinding.FieldName = 'cod_leve'
           PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
           Properties.DecimalPlaces = 0
           Properties.DisplayFormat = ' ,0.;- ,0.'
           Visible = False
           HeaderAlignmentHorz = taCenter
+          Width = 74
         end
         object tvRoteiroscod_pesado: TcxGridDBColumn
           DataBinding.FieldName = 'cod_pesado'
           PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
           Properties.DecimalPlaces = 0
           Properties.DisplayFormat = ' ,0.;- ,0.'
           Visible = False
           HeaderAlignmentHorz = taCenter
+          Width = 74
         end
       end
       object lvRoteiros: TcxGridLevel

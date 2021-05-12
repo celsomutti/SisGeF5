@@ -629,13 +629,14 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
       Top = 98
       Width = 928
       Height = 181
+      PopupMenu = popupMenuResumo
       TabOrder = 3
       LookAndFeel.Kind = lfFlat
       LookAndFeel.NativeStyle = False
-      object gridResumoDBTableView1: TcxGridDBTableView
+      object gridResumoDBBandedTableView1: TcxGridDBBandedTableView
+        Navigator.Buttons.OnButtonClick = gridResumoDBBandedTableView1NavigatorButtonsButtonClick
         Navigator.Buttons.CustomButtons = <
           item
-            Hint = 'Exportar dados da grade'
             ImageIndex = 11
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -657,144 +658,161 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
         Navigator.InfoPanel.Visible = True
         Navigator.Visible = True
         DataController.DataSource = dsResumo
-        DataController.Summary.DefaultGroupSummaryItems = <
-          item
-            Format = ',0;-,0'
-            Kind = skSum
-            Position = spFooter
-            Column = gridResumoDBTableView1qtd_volumes_leves
-          end
-          item
-            Format = ',0;-,0'
-            Kind = skSum
-            Position = spFooter
-            Column = gridResumoDBTableView1qtd_remessas_leves
-          end
-          item
-            Format = ',0;-,0'
-            Kind = skSum
-            Position = spFooter
-            Column = gridResumoDBTableView1qtd_volumes_pesado
-          end
-          item
-            Format = ',0;-,0'
-            Kind = skSum
-            Position = spFooter
-            Column = gridResumoDBTableView1qtd_remessas_pesado
-          end
-          item
-            Format = ',0;-,0'
-            Kind = skSum
-            Position = spFooter
-            Column = gridResumoDBTableView1qtd_total_volumes
-          end
-          item
-            Format = ',0;-,0'
-            Kind = skSum
-            Position = spFooter
-            Column = gridResumoDBTableView1qtd_total_remessas
-          end
-          item
-            Format = ',0.00;-,0.00'
-            Kind = skSum
-            Position = spFooter
-            Column = gridResumoDBTableView1val_total_pgr
-          end>
+        DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <
           item
             Format = ',0;-,0'
             Kind = skSum
-            Column = gridResumoDBTableView1qtd_volumes_leves
+            Column = gridResumoDBBandedTableView1qtd_remessas_leves
           end
           item
             Format = ',0;-,0'
             Kind = skSum
-            Column = gridResumoDBTableView1qtd_remessas_leves
+            Column = gridResumoDBBandedTableView1qtd_remessas_pesado
           end
           item
             Format = ',0;-,0'
             Kind = skSum
-            Column = gridResumoDBTableView1qtd_volumes_pesado
+            Column = gridResumoDBBandedTableView1qtd_total_remessas
           end
           item
             Format = ',0;-,0'
             Kind = skSum
-            Column = gridResumoDBTableView1qtd_remessas_pesado
+            Column = gridResumoDBBandedTableView1qtd_total_volumes
           end
           item
             Format = ',0;-,0'
             Kind = skSum
-            Column = gridResumoDBTableView1qtd_total_volumes
+            Column = gridResumoDBBandedTableView1qtd_volumes_leves
           end
           item
             Format = ',0;-,0'
             Kind = skSum
-            Column = gridResumoDBTableView1qtd_total_remessas
+            Column = gridResumoDBBandedTableView1qtd_volumes_pesado
           end
           item
             Format = 'R$ ,0.00;-R$ ,0.00'
             Kind = skSum
-            Column = gridResumoDBTableView1val_total_pgr
+            Column = gridResumoDBBandedTableView1val_pgr_leves
+          end
+          item
+            Format = 'R$ ,0.00;-R$ ,0.00'
+            Kind = skSum
+            Column = gridResumoDBBandedTableView1val_pgr_pesado
+          end
+          item
+            Format = 'R$ ,0.00;-R$ ,0.00'
+            Kind = skSum
+            Column = gridResumoDBBandedTableView1val_total_pgr
           end>
         DataController.Summary.SummaryGroups = <>
-        OptionsData.Deleting = False
-        OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
-        OptionsData.Inserting = False
         OptionsView.ColumnAutoWidth = True
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
-        object gridResumoDBTableView1cod_roteiro: TcxGridDBColumn
+        Bands = <
+          item
+            Caption = 'Roteiro'
+            Width = 271
+          end
+          item
+            Caption = 'Leves'
+            Width = 235
+          end
+          item
+            Caption = 'Pesados'
+            Width = 219
+          end
+          item
+            Caption = 'Totais'
+          end>
+        object gridResumoDBBandedTableView1cod_roteiro: TcxGridDBBandedColumn
           DataBinding.FieldName = 'cod_roteiro'
           HeaderAlignmentHorz = taCenter
-          SortIndex = 0
-          SortOrder = soAscending
-          Width = 73
+          Width = 80
+          Position.BandIndex = 0
+          Position.ColIndex = 0
+          Position.RowIndex = 0
         end
-        object gridResumoDBTableView1des_roteiro: TcxGridDBColumn
+        object gridResumoDBBandedTableView1des_roteiro: TcxGridDBBandedColumn
           DataBinding.FieldName = 'des_roteiro'
           HeaderAlignmentHorz = taCenter
-          Width = 292
+          Width = 194
+          Position.BandIndex = 0
+          Position.ColIndex = 1
+          Position.RowIndex = 0
         end
-        object gridResumoDBTableView1qtd_volumes_leves: TcxGridDBColumn
+        object gridResumoDBBandedTableView1qtd_volumes_leves: TcxGridDBBandedColumn
           DataBinding.FieldName = 'qtd_volumes_leves'
           HeaderAlignmentHorz = taCenter
-          Width = 75
+          Width = 68
+          Position.BandIndex = 1
+          Position.ColIndex = 0
+          Position.RowIndex = 0
         end
-        object gridResumoDBTableView1qtd_remessas_leves: TcxGridDBColumn
+        object gridResumoDBBandedTableView1qtd_remessas_leves: TcxGridDBBandedColumn
           DataBinding.FieldName = 'qtd_remessas_leves'
           HeaderAlignmentHorz = taCenter
-          Width = 80
+          Width = 68
+          Position.BandIndex = 1
+          Position.ColIndex = 1
+          Position.RowIndex = 0
         end
-        object gridResumoDBTableView1qtd_volumes_pesado: TcxGridDBColumn
+        object gridResumoDBBandedTableView1val_pgr_leves: TcxGridDBBandedColumn
+          DataBinding.FieldName = 'val_pgr_leves'
+          HeaderAlignmentHorz = taCenter
+          Width = 72
+          Position.BandIndex = 1
+          Position.ColIndex = 2
+          Position.RowIndex = 0
+        end
+        object gridResumoDBBandedTableView1qtd_volumes_pesado: TcxGridDBBandedColumn
           DataBinding.FieldName = 'qtd_volumes_pesado'
           HeaderAlignmentHorz = taCenter
-          Width = 82
+          Width = 67
+          Position.BandIndex = 2
+          Position.ColIndex = 0
+          Position.RowIndex = 0
         end
-        object gridResumoDBTableView1qtd_remessas_pesado: TcxGridDBColumn
+        object gridResumoDBBandedTableView1qtd_remessas_pesado: TcxGridDBBandedColumn
           DataBinding.FieldName = 'qtd_remessas_pesado'
           HeaderAlignmentHorz = taCenter
-          Width = 81
+          Width = 62
+          Position.BandIndex = 2
+          Position.ColIndex = 1
+          Position.RowIndex = 0
         end
-        object gridResumoDBTableView1qtd_total_volumes: TcxGridDBColumn
+        object gridResumoDBBandedTableView1val_pgr_pesado: TcxGridDBBandedColumn
+          DataBinding.FieldName = 'val_pgr_pesado'
+          HeaderAlignmentHorz = taCenter
+          Width = 92
+          Position.BandIndex = 2
+          Position.ColIndex = 2
+          Position.RowIndex = 0
+        end
+        object gridResumoDBBandedTableView1qtd_total_volumes: TcxGridDBBandedColumn
           DataBinding.FieldName = 'qtd_total_volumes'
           HeaderAlignmentHorz = taCenter
-          Width = 82
+          Position.BandIndex = 3
+          Position.ColIndex = 0
+          Position.RowIndex = 0
         end
-        object gridResumoDBTableView1qtd_total_remessas: TcxGridDBColumn
+        object gridResumoDBBandedTableView1qtd_total_remessas: TcxGridDBBandedColumn
           DataBinding.FieldName = 'qtd_total_remessas'
           HeaderAlignmentHorz = taCenter
-          Width = 86
+          Position.BandIndex = 3
+          Position.ColIndex = 1
+          Position.RowIndex = 0
         end
-        object gridResumoDBTableView1val_total_pgr: TcxGridDBColumn
+        object gridResumoDBBandedTableView1val_total_pgr: TcxGridDBBandedColumn
           DataBinding.FieldName = 'val_total_pgr'
-          PropertiesClassName = 'TcxCurrencyEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 75
+          Position.BandIndex = 3
+          Position.ColIndex = 2
+          Position.RowIndex = 0
         end
       end
       object gridResumoLevel1: TcxGridLevel
-        GridView = gridResumoDBTableView1
+        GridView = gridResumoDBBandedTableView1
       end
     end
     object cxButton2: TcxButton
@@ -811,10 +829,12 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
       Top = 304
       Width = 928
       Height = 115
+      PopupMenu = popupMenuEntregas
       TabOrder = 4
       LookAndFeel.Kind = lfFlat
       LookAndFeel.NativeStyle = False
       object gridEntregasDBTableView1: TcxGridDBTableView
+        Navigator.Buttons.OnButtonClick = gridEntregasDBTableView1NavigatorButtonsButtonClick
         Navigator.Buttons.CustomButtons = <
           item
             ImageIndex = 11
@@ -1450,6 +1470,23 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
       ImageIndex = 17
       OnExecute = actionFecharTelaExecute
     end
+    object actionVincularCEP: TAction
+      Caption = 'Vincular CEP'
+      Hint = 'Vincular CEP a um roteiro existente'
+      ImageIndex = 66
+    end
+    object actionExportarResumo: TAction
+      Caption = 'Exportar'
+      Hint = 'Exportar dados do resumo'
+      ImageIndex = 11
+      OnExecute = actionExportarResumoExecute
+    end
+    object actionExportarEntregas: TAction
+      Caption = 'Exportar'
+      Hint = 'Exportar Entregas'
+      ImageIndex = 11
+      OnExecute = actionExportarEntregasExecute
+    end
   end
   object OpenDialog: TOpenDialog
     Filter = 'Arquivo CSV|*.csv'
@@ -1472,5 +1509,24 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
     Enabled = False
     OnTimer = TimerTimer
     Left = 688
+  end
+  object popupMenuEntregas: TPopupMenu
+    Images = Data_Sisgef.iml_16_16
+    Left = 480
+    Top = 8
+    object Exportar1: TMenuItem
+      Action = actionExportarEntregas
+    end
+    object VincularCEP1: TMenuItem
+      Action = actionVincularCEP
+    end
+  end
+  object popupMenuResumo: TPopupMenu
+    Images = Data_Sisgef.iml_16_16
+    Left = 544
+    Top = 8
+    object Exportar2: TMenuItem
+      Action = actionExportarResumo
+    end
   end
 end
