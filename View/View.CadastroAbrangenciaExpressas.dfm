@@ -565,6 +565,8 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
   OldCreateOrder = False
   ShowHint = True
   Visible = True
+  OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
   object dxLayoutControl1: TdxLayoutControl
@@ -578,10 +580,6 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     OptionsImage.Images = Data_Sisgef.lmi_32_32
-    ExplicitLeft = 152
-    ExplicitTop = 160
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object labelTitle: TcxLabel
       Left = 49
       Top = 16
@@ -596,11 +594,11 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       Style.IsFontAssigned = True
       Transparent = True
     end
-    object cxDBFilterControl1: TcxDBFilterControl
+    object filterAbrangencia: TcxDBFilterControl
       Left = 10000
       Top = 10000
       Width = 1125
-      Height = 248
+      Height = 274
       Items = <>
       TabOrder = 1
       Visible = False
@@ -608,7 +606,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
     object progresso: TcxProgressBar
       Left = 12
       Top = 424
-      TabOrder = 6
+      TabOrder = 14
       Width = 1149
     end
     object indicador: TdxActivityIndicator
@@ -626,7 +624,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       Height = 25
       Cursor = crHandPoint
       Action = actionFechar
-      TabOrder = 7
+      TabOrder = 15
     end
     object cxButton2: TcxButton
       Left = 10000
@@ -650,12 +648,35 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
     end
     object gridAbrangencia: TcxGrid
       Left = 24
-      Top = 89
+      Top = 93
       Width = 1125
-      Height = 200
-      TabOrder = 4
+      Height = 265
+      TabOrder = 5
+      LookAndFeel.Kind = lfFlat
+      LookAndFeel.NativeStyle = False
       object gridAbrangenciaDBTableView1: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
+        Navigator.Buttons.CustomButtons = <
+          item
+            ImageIndex = 11
+          end>
+        Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+        Navigator.Buttons.First.ImageIndex = 5
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.Prior.ImageIndex = 8
+        Navigator.Buttons.Next.ImageIndex = 7
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Last.ImageIndex = 6
+        Navigator.Buttons.Insert.ImageIndex = 3
+        Navigator.Buttons.Delete.ImageIndex = 4
+        Navigator.Buttons.Edit.ImageIndex = 10
+        Navigator.Buttons.Post.ImageIndex = 13
+        Navigator.Buttons.Cancel.ImageIndex = 2
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.ImageIndex = 19
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
         DataController.DataSource = dsAbrangencia
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
@@ -716,14 +737,14 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
           Index = -1
         end
         object gridAbrangenciaDBTableView1Group1: TdxLayoutAutoCreatedGroup
-          Parent = gridAbrangenciaDBTableView1RootGroup.Owner
+          Parent = gridAbrangenciaDBTableView1RootGroup
           AlignHorz = ahLeft
           AlignVert = avTop
           Index = 0
           AutoCreated = True
         end
         object gridAbrangenciaDBTableView1Group2: TdxLayoutAutoCreatedGroup
-          Parent = gridAbrangenciaDBTableView1RootGroup.Owner
+          Parent = gridAbrangenciaDBTableView1RootGroup
           AlignHorz = ahLeft
           AlignVert = avTop
           Index = 1
@@ -782,6 +803,109 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
         GridView = gridAbrangenciaDBTableView1
       end
     end
+    object parametro: TcxButtonEdit
+      Left = 318
+      Top = 63
+      Properties.Buttons = <
+        item
+          Action = actionLocalizar
+          Default = True
+          Kind = bkGlyph
+          LeftAlignment = True
+        end
+        item
+          Action = actionLimpar
+          Kind = bkGlyph
+        end
+        item
+          Action = actionFiltroAvancado
+          Kind = bkGlyph
+        end>
+      Properties.Images = Data_Sisgef.iml_16_16
+      Style.HotTrack = False
+      TabOrder = 4
+      TextHint = 'Informe o que deseja localizar'
+      Width = 537
+    end
+    object cxButton4: TcxButton
+      Left = 866
+      Top = 365
+      Width = 83
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionGravar
+      TabOrder = 6
+    end
+    object cxButton5: TcxButton
+      Left = 956
+      Top = 365
+      Width = 93
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionRestaurar
+      TabOrder = 7
+    end
+    object cxButton6: TcxButton
+      Left = 1056
+      Top = 365
+      Width = 93
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionimportar
+      TabOrder = 8
+    end
+    object clientes: TcxLookupComboBox
+      Left = 10000
+      Top = 10000
+      Properties.KeyFieldNames = 'cod_cliente'
+      Properties.ListColumns = <
+        item
+          FieldName = 'nom_cliente'
+        end>
+      Properties.ListOptions.ShowHeader = False
+      Properties.ListSource = dsCliente
+      Style.HotTrack = False
+      TabOrder = 10
+      Visible = False
+      Width = 322
+    end
+    object arquivo: TcxButtonEdit
+      Left = 10000
+      Top = 10000
+      Properties.Buttons = <
+        item
+          Action = actionAbrir
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.ReadOnly = True
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.HotTrack = False
+      TabOrder = 9
+      Visible = False
+      Width = 322
+    end
+    object cxButton7: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 158
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionExecutarImportacao
+      TabOrder = 11
+      Visible = False
+    end
+    object cxButton8: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 157
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionCancelarImportacao
+      TabOrder = 12
+      Visible = False
+    end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
@@ -821,6 +945,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       ItemIndex = 1
       LayoutDirection = ldTabbed
       ShowBorder = False
+      TabbedOptions.HideTabs = True
       Index = 1
     end
     object dxLayoutGroup3: TdxLayoutGroup
@@ -829,7 +954,6 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       Index = 0
     end
     object dxLayoutGroup4: TdxLayoutGroup
@@ -846,7 +970,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       AlignVert = avClient
       CaptionOptions.Text = 'Filtro'
       CaptionOptions.Layout = clTop
-      Control = cxDBFilterControl1
+      Control = filterAbrangencia
       ControlOptions.OriginalHeight = 174
       ControlOptions.OriginalWidth = 300
       ControlOptions.ShowBorder = False
@@ -944,36 +1068,181 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
     object dxLayoutItem8: TdxLayoutItem
       Parent = dxLayoutGroup4
       AlignHorz = ahClient
-      AlignVert = avTop
+      AlignVert = avClient
       CaptionOptions.Text = 'cxGrid1'
       CaptionOptions.Visible = False
       Control = gridAbrangencia
       ControlOptions.OriginalHeight = 200
       ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup7: TdxLayoutGroup
+      Parent = dxLayoutGroup4
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 0
+    end
+    object dxLayoutItem9: TdxLayoutItem
+      Parent = dxLayoutGroup7
+      AlignHorz = ahCenter
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Par'#226'metros:'
+      CaptionOptions.Visible = False
+      Control = parametro
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 537
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem10: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup2
+      AlignHorz = ahRight
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton4'
+      CaptionOptions.Visible = False
+      Control = cxButton4
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 83
+      ControlOptions.ShowBorder = False
+      Enabled = False
+      Index = 0
+    end
+    object dxLayoutItem11: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup2
+      AlignHorz = ahRight
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton5'
+      CaptionOptions.Visible = False
+      Control = cxButton5
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 93
+      ControlOptions.ShowBorder = False
+      Enabled = False
+      Index = 1
+    end
+    object dxLayoutAutoCreatedGroup2: TdxLayoutAutoCreatedGroup
+      Parent = dxLayoutGroup4
+      AlignVert = avBottom
+      LayoutDirection = ldHorizontal
+      Index = 2
+      AutoCreated = True
+    end
+    object dxLayoutItem12: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup2
+      AlignHorz = ahRight
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxButton6'
+      CaptionOptions.Visible = False
+      Control = cxButton6
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 93
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup8: TdxLayoutGroup
+      Parent = dxLayoutGroup2
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      Index = 2
+    end
+    object dxLayoutGroup9: TdxLayoutGroup
+      Parent = dxLayoutGroup8
+      AlignHorz = ahCenter
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Importa'#231#227'o'
+      ButtonOptions.Buttons = <>
+      ItemIndex = 2
+      Index = 0
+    end
+    object dxLayoutItem13: TdxLayoutItem
+      Parent = dxLayoutGroup9
+      AlignHorz = ahCenter
+      CaptionOptions.Text = 'Cliente:'
+      CaptionOptions.Layout = clTop
+      Control = clientes
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 322
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem14: TdxLayoutItem
+      Parent = dxLayoutGroup9
+      AlignHorz = ahCenter
+      CaptionOptions.Text = 'Arquivo:'
+      CaptionOptions.Layout = clTop
+      Control = arquivo
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 322
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup10: TdxLayoutGroup
+      Parent = dxLayoutGroup9
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem15: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton7'
+      CaptionOptions.Visible = False
+      Control = cxButton7
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem16: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton8'
+      CaptionOptions.Visible = False
+      Control = cxButton8
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object actionListAbrangencia: TActionList
     Images = Data_Sisgef.iml_16_16
-    Left = 984
+    Left = 904
+    Top = 8
     object actionIncluir: TAction
       Caption = 'Incluir'
       Hint = 'Incluir novo registro'
       ImageIndex = 3
+      OnExecute = actionIncluirExecute
     end
     object actionEditar: TAction
       Caption = 'Editar'
       Hint = 'Editar registro'
       ImageIndex = 10
+      OnExecute = actionEditarExecute
     end
     object actionExcluir: TAction
       Caption = 'Excluir'
       Hint = 'Excluir registro'
       ImageIndex = 4
+      OnExecute = actionExcluirExecute
     end
     object actionGravar: TAction
-      Caption = 'Gravar'
+      Caption = '&Gravar'
+      Enabled = False
       Hint = 'Gravar dados'
       ImageIndex = 13
     end
@@ -983,9 +1252,10 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       ImageIndex = 11
     end
     object actionFiltrar: TAction
-      Caption = 'Filtrar'
+      Caption = '&Filtrar'
       Hint = 'Filtrar dados'
       ImageIndex = 19
+      OnExecute = actionFiltrarExecute
     end
     object actionFechar: TAction
       Caption = 'Fechar'
@@ -1002,22 +1272,60 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       Caption = 'Filtro Avan'#231'ado'
       Hint = 'Filtro Avan'#231'ado'
       ImageIndex = 73
+      OnExecute = actionFiltroAvancadoExecute
     end
     object actionLocalizar: TAction
       Caption = 'Localizar'
       Hint = 'Localizar dados'
-      ImageIndex = 14
+      ImageIndex = 12
+      OnExecute = actionLocalizarExecute
     end
     object actionCancelarFiltro: TAction
       Caption = 'Cancelar'
       Hint = 'Cancelar filtro avan'#231'ado'
       ImageIndex = 2
     end
+    object actionRestaurar: TAction
+      Caption = 'Res&taurar'
+      Enabled = False
+      Hint = 'Restaurar dados da consulta'
+      ImageIndex = 64
+      OnExecute = actionRestaurarExecute
+    end
+    object actionimportar: TAction
+      Caption = 'Im&portar'
+      Hint = 'Importar planilha'
+      ImageIndex = 33
+      OnExecute = actionimportarExecute
+    end
+    object actionAbrir: TAction
+      Caption = 'Abrir'
+      Hint = 'Abrir arquivo'
+      ImageIndex = 40
+      OnExecute = actionAbrirExecute
+    end
+    object actionLimparArquivo: TAction
+      Caption = 'Limpar'
+      Hint = 'limpar nome do arquivo'
+      ImageIndex = 9
+    end
+    object actionExecutarImportacao: TAction
+      Caption = 'Executar'
+      Hint = 'Executar Importa'#231#227'o'
+      ImageIndex = 33
+      OnExecute = actionExecutarImportacaoExecute
+    end
+    object actionCancelarImportacao: TAction
+      Caption = 'Cancelar'
+      Hint = 'Cancelar importacao'
+      ImageIndex = 2
+      OnExecute = actionCancelarImportacaoExecute
+    end
   end
   object PopupMenu: TPopupMenu
     Images = Data_Sisgef.iml_16_16
-    Left = 632
-    Top = 16
+    Left = 672
+    Top = 8
     object Incluir1: TMenuItem
       Action = actionIncluir
     end
@@ -1034,6 +1342,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
   object dsAbrangencia: TDataSource
     AutoEdit = False
     DataSet = memTableAgrangencia
+    OnStateChange = dsAbrangenciaStateChange
     Left = 744
     Top = 8
   end
@@ -1084,5 +1393,23 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       DisplayLabel = 'Cliente'
       FieldName = 'cod_cliente'
     end
+  end
+  object OpenDialog: TOpenDialog
+    Filter = 'Arquivo CSV|*.csv'
+    Title = 'Abrir'
+    Left = 1000
+    Top = 8
+  end
+  object Timer: TTimer
+    Enabled = False
+    Left = 1064
+    Top = 8
+  end
+  object dsCliente: TDataSource
+    AutoEdit = False
+    DataSet = Data_Sisgef.mtbClientesEmpresa
+    OnStateChange = dsAbrangenciaStateChange
+    Left = 544
+    Top = 8
   end
 end

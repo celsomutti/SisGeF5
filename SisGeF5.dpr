@@ -186,7 +186,7 @@ uses
   View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT},
   Model.CapaDIRECT in 'Model\Model.CapaDIRECT.pas',
   Control.CapaDIRECT in 'Control\Control.CapaDIRECT.pas',
-  Thread.ImportaCEPRoteiro in 'Thread\Thread.ImportaCEPRoteiro.pas',
+  Thread.ImportaAbrangencia in 'Thread\Thread.ImportaAbrangencia.pas',
   Model.EnderecosBases in 'Model\Model.EnderecosBases.pas',
   Control.EnderecosBases in 'Control\Control.EnderecosBases.pas',
   View.ListaRoteirosLivres in 'View\View.ListaRoteirosLivres.pas' {view_ListaRorteirosLivres},
@@ -197,7 +197,8 @@ uses
   Thread.CapaDIRECT in 'Thread\Thread.CapaDIRECT.pas',
   Model.AbrangenciaExpressas in 'Model\Model.AbrangenciaExpressas.pas',
   Control.AbrangenciaExpressas in 'Control\Control.AbrangenciaExpressas.pas',
-  View.CadastroAbrangenciaExpressas in 'View\View.CadastroAbrangenciaExpressas.pas' {view_CadastroAbrangenciaExpressas};
+  View.CadastroAbrangenciaExpressas in 'View\View.CadastroAbrangenciaExpressas.pas' {view_CadastroAbrangenciaExpressas},
+  Thread.ImportaCEPRoteiro in 'Thread\Thread.ImportaCEPRoteiro.pas';
 
 {$R *.res}
 

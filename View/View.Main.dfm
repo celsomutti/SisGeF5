@@ -689,6 +689,10 @@
         item
           Caption = 'Seguran'#231'a'
           ToolbarName = 'bmMainBar16'
+        end
+        item
+          Caption = 'Cadastros'
+          ToolbarName = 'bmMainBar20'
         end>
       Index = 6
     end
@@ -1223,7 +1227,7 @@
           ItemName = 'dxBarLargeButton46'
         end>
       OneOnRow = True
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1323,6 +1327,26 @@
           ItemName = 'dxBarLargeButton63'
         end>
       OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object bmMainBar20: TdxBar
+      Caption = 'Cadastro Sistema'
+      CaptionButtons = <>
+      DockedLeft = 194
+      DockedTop = 0
+      FloatLeft = 1394
+      FloatTop = 2
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton67'
+        end>
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1839,6 +1863,11 @@
       Category = 0
       LargeImageIndex = 68
     end
+    object dxBarLargeButton67: TdxBarLargeButton
+      Action = actCadastroAbrangenciaExpressas
+      Category = 0
+      LargeImageIndex = 69
+    end
   end
   object aclMain: TActionList
     Left = 984
@@ -2211,6 +2240,13 @@
       Caption = 'An'#225'lise de Roteiros'
       Hint = 'An'#225'lise de Roteiros de Expressas'
       OnExecute = actAnaliseRoteirosExpressasExecute
+    end
+    object actCadastroAbrangenciaExpressas: TAction
+      Tag = 702010
+      Category = 'Sistema'
+      Caption = 'Abrang'#234'ncias Expressas'
+      Hint = 'Cadastro de Abrang'#234'ncias de Expressas'
+      OnExecute = actCadastroAbrangenciaExpressasExecute
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager

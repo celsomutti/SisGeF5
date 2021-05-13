@@ -188,6 +188,9 @@ type
     dxBarLargeButton65: TdxBarLargeButton;
     dxBarLargeButton66: TdxBarLargeButton;
     actAnaliseRoteirosExpressas: TAction;
+    actCadastroAbrangenciaExpressas: TAction;
+    bmMainBar20: TdxBar;
+    dxBarLargeButton67: TdxBarLargeButton;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -217,6 +220,7 @@ type
     procedure actImportarExtratoExecute(Sender: TObject);
     procedure actCadastroEntregadoresExecute(Sender: TObject);
     procedure actAnaliseRoteirosExpressasExecute(Sender: TObject);
+    procedure actCadastroAbrangenciaExpressasExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;
@@ -244,7 +248,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.Calendario, View.VerbasExpressas, View.ExtraviosMultas, View.Acareacoes, View.ImportarPedidos, View.ImportarBaixasTFO,
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
-  View.CadastroEntregadores, View.AnaliseRoteirosExpressas;
+  View.CadastroEntregadores, View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas;
 
 procedure Tview_Main.Acessos;
 var
@@ -340,6 +344,15 @@ begin
     view_AnaliseRoteirosExpressas := Tview_AnaliseRoteirosExpressas.Create(Application);
   end;
   view_AnaliseRoteirosExpressas.Show;
+end;
+
+procedure Tview_Main.actCadastroAbrangenciaExpressasExecute(Sender: TObject);
+begin
+  if not Assigned(view_CadastroAbrangenciaExpressas) then
+  begin
+    view_CadastroAbrangenciaExpressas := Tview_CadastroAbrangenciaExpressas.Create(Application);
+  end;
+  view_CadastroAbrangenciaExpressas.Show;
 end;
 
 procedure Tview_Main.actCadastroEmpresasExecute(Sender: TObject);

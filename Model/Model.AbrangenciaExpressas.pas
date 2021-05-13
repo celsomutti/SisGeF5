@@ -29,12 +29,13 @@ type
     FQuery      : TFDQuery;
     FConexao    : TConexao;
 
-    constructor Create;
     function    Insert(): Boolean;
     function    Update(): Boolean;
     function    Delete(): Boolean;
 
   public
+    constructor Create;
+
     property    ID         : integer   read  FID         write FID;           //  id do registro chave primaria
     property    CEP        : string    read  FCEP        write FCEP;          //  CEP completo do logradouro
     property    Prazo      : string    read  FPrazo      write FPrazo;        //  Tipo de prazo de entrega ("D + 1 ou D + 0")
@@ -61,7 +62,7 @@ type
     SQLINSERT = 'insert into ' + TABLENAME + ' (id_registro, num_cep, des_prazo, dom_zona, cod_tipo, des_logradouro, ' +
                 'des_bairro, cod_cliente) ' +
                 'value ' +
-                '(:id_registro, :num_cep, :des_prazo, :dom_zona, cod_tipo, :des_logradouro, :des_bairro, cod_cliente)';
+                '(:id_registro, :num_cep, :des_prazo, :dom_zona, :cod_tipo, :des_logradouro, :des_bairro, :cod_cliente)';
     // script de alteração de dados na tabela
     SQLUPDATE = 'update ' + TABLENAME + ' set num_cep = :num_cep, des_prazo = :des_prazo, dom_zona = :dom_zona, ' +
                 'cod_tipo = :cod_tipo, des_logradouro = :des_logradouro, des_bairro = :des_bairro, cod_cliente = :cod_cliente ' +
@@ -137,7 +138,7 @@ begin
   try
     Result := False;
     FQueryInsert := FConexao.ReturnQuery;
-    FQueryInsert.ExecSQL(SQLINSERT, [FCEP,FPrazo, FZona, FTipo, FLogradouro, FBairro, FCliente]);
+    FQueryInsert.ExecSQL(SQLINSERT, [FID, FCEP, FPrazo, FZona, FTipo, FLogradouro, FBairro, FCliente]);
     if FQueryInsert.RowsAffected = 0 then
       Exit;
     Result := True;
@@ -182,7 +183,8 @@ begin
   end
   else if aParam[0] = 'FILTRO' then
   begin
-    FQuery.SQL.Add('where ' + VarToStr(aParam[1]));
+    if VarToStr(aParam[1]) <> '' then
+      FQuery.SQL.Add('where ' + VarToStr(aParam[1]));
   end
   else if aParam[0] = 'APOIO' then
   begin
@@ -194,6 +196,7 @@ begin
   begin
     FQuery.Active := False;
     FQuery.Connection.Connected := False;
+    Exit;
   end;
   Result := True;
 end;

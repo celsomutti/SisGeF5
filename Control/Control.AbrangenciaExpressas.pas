@@ -16,16 +16,21 @@ uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.AbrangenciaExpress
   type
   TAbrangenciaExpressasControl = class
   private
-    FAbrangerncia : TAbrangenciaExpressas;
 
+    FAbrangencia : TAbrangenciaExpressas;
+
+  public
     constructor Create;
     destructor  Destroy; override;
-  public
+
     function    Search(aParam : array of variant)  : boolean;  // realiza pesquisa em banco de dados
     function    Save()  : Boolean;  // salva, exclue dados no banco de dados
     function    GetField(sField : String; sKey : String; sKeyValue : String) : String; // localiza e retorna o valor de um campo de uma tabela
     procedure   SetupSelf(fdQuery : TFDQuery);  //  atribui os valores dos campos de uma query às propriedades da classe
     procedure   ClearSelf();  //  limpa as propriedades da dos campos da tabela da classe
+
+    property    Abrangencia: TAbrangenciaExpressas  read  FAbrangencia  write FAbrangencia;
+
   end;
 
 implementation
@@ -34,38 +39,38 @@ implementation
 
 procedure TAbrangenciaExpressasControl.ClearSelf;
 begin
-  FAbrangerncia.ClearSelf;
+  FAbrangencia.ClearSelf;
 end;
 
 constructor TAbrangenciaExpressasControl.Create;
 begin
-  FAbrangerncia := TAbrangenciaExpressas.Create;
+  FAbrangencia := TAbrangenciaExpressas.Create;
 end;
 
 destructor TAbrangenciaExpressasControl.Destroy;
 begin
-  FAbrangerncia.Free;
+  FAbrangencia.Free;
   inherited;
 end;
 
 function TAbrangenciaExpressasControl.GetField(sField, sKey, sKeyValue: String): String;
 begin
-  Result := FAbrangerncia.GetField(sField, sKey, sKeyValue);
+  Result := FAbrangencia.GetField(sField, sKey, sKeyValue);
 end;
 
 function TAbrangenciaExpressasControl.Save: Boolean;
 begin
-  Result := FAbrangerncia.Save();
+  Result := FAbrangencia.Save();
 end;
 
 function TAbrangenciaExpressasControl.Search(aParam: array of variant): boolean;
 begin
-  Result := FAbrangerncia.Search(aParam)
+  Result := FAbrangencia.Search(aParam)
 end;
 
 procedure TAbrangenciaExpressasControl.SetupSelf(fdQuery: TFDQuery);
 begin
-  FAbrangerncia.SetupSelf(fdQuery);
+  FAbrangencia.SetupSelf(fdQuery);
 end;
 
 end.
