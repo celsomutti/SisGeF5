@@ -20,6 +20,7 @@ type
     FMemTabEntregas: TFDMemTable;
     FMemTabResumo: TFDMemTable;
     FMensagemSistema: String;
+    FCliente: Integer;
     procedure UpdateEntregas(i: integer);
     procedure UpdateLOG(sMensagem: String);
     { Private declarations }
@@ -31,6 +32,7 @@ type
     property Log: String read FLog write FLog;
     property Progresso: Double read FProgresso write FProgresso;
     property TotalRegistros: Integer read FTotalRegistros write FTotalRegistros;
+    property Cliente: Integer read FCliente write FCliente;
     property Cancelar: Boolean read FCancelar write FCancelar;
     property MemTabResumo: TFDMemTable read FMemTabResumo write FMemTabResumo;
     property MemTabEntregas: TFDMemTable read FMemTabEntregas write FMemTabEntregas;
@@ -77,8 +79,8 @@ uses Common.ENum;
 procedure Thread_AnaliseRoteirosExpressas.Execute;
 var
   aParam : Array of variant;
-  iPos, i: Integer;
-  sMensagem, sCodigoRoteiro, sNomeRoteiro: String;
+  iPos, i, iTipo: Integer;
+  sMensagem, sCodigoRoteiro, sNomeRoteiro, sFiltro: String;
   FRoteiro : TRoteirosExpressasControl;
   fdQuery : TFDQuery;
 begin
@@ -95,8 +97,13 @@ begin
       FProgresso := 0;
       for i := 0 to Pred(FTotalRegistros) do
       begin
-        SetLength(aParam,3);
-        aParam := ['CEP', FPlanilha.Planilha.Planilha[i].CEP, FPlanilha.Planilha.Planilha[i].CEP];
+        sFiltro := 'num_cep_inicial = ' + QuotedStr(FPlanilha.Planilha.Planilha[i].CEP) + ' and cod_cliente = ' + FCliente.ToString;
+        if FPlanilha.Planilha.Planilha[i].PesoNominal > 30 then
+          sFiltro := sFiltro + ' and (cod_tipo = 2 or 3)'
+        else
+          sFiltro := sFiltro + ' and (cod_tipo = 1 or 3)';
+        SetLength(aParam,4);
+        aParam := ['FILTRO', sFiltro];
         fdQuery := FRoteiro.Localizar(aParam);
         if fdQuery.IsEmpty then
         begin

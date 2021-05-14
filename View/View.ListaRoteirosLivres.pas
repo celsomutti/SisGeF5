@@ -10,7 +10,7 @@ uses
   cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxCheckBox, cxImageComboBox,
   dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, DAO.Conexao, FireDAC.Comp.Client, FireDAC.Comp.DataSet,
-  cxFilterControl, cxDBFilterControl;
+  cxFilterControl, cxDBFilterControl, Control.AbrangenciaExpressas;
 
 type
   Tview_ListaRorteirosLivres = class(TForm)
@@ -245,32 +245,22 @@ end;
 
 procedure Tview_ListaRorteirosLivres.PesquisaCEP(sFiltro: String);
 var
-  fdPesquisa : TFDQuery;
-  sSQL : string;
+  Abrangencia : TAbrangenciaExpressasControl;
+  aParam : Array of variant;
 begin
   try
-    fdPesquisa := FConexao.ReturnQuery;
+    Abrangencia := TAbrangenciaExpressasControl.Create;
     Data_Sisgef.mtbRoteirosLivres.Active := False;
-
-    sSQL := 'select id_roteiro, cod_ccep5, des_roteiro, num_cep_inicial, num_cep_final, des_prazo, dom_zona, cod_tipo, ' +
-            'des_logradouro, des_bairro, cod_cliente, cod_leve, cod_pesado, dom_check from expressas_roteiros';
+    SetLength(aParam, 2);
     if sFiltro = 'NONE' then
-    begin
-      Exit;
-    end;
-    fdPesquisa.SQL.Add(sSQL);
-    if not sFiltro.IsEmpty then
-    begin
-      fdpesquisa.SQL.Add('where ' + sFiltro + ' and cod_ccep5 = "000"');
-    end
+      aParam := ['FILTRO','']
     else
+      aParam := ['FILTRO',sFiltro];
+
+    if Abrangencia.Search(aParam) then
     begin
-      fdpesquisa.SQL.Add('where cod_ccep5 = "000"');
-    end;
-    fdPesquisa.Open();
-    if not fdPesquisa.IsEmpty then
-    begin
-      Data_Sisgef.mtbRoteirosLivres.Data := fdPesquisa.Data;
+      Data_Sisgef.mtbRoteirosLivres.Active := True;
+      Data_Sisgef.mtbRoteirosLivres.CopyDataSet(Abrangencia.Abrangencia.Query);
       gridCEP.SetFocus;
     end
     else
@@ -278,14 +268,16 @@ begin
       Application.MessageBox('Nenhum registro encontrado!', 'Atenção', MB_OK + MB_ICONWARNING);
     end;
   finally
-    fdPesquisa.Active := False;
-    fdPesquisa.Free;
+    Abrangencia.Abrangencia.Query.Active := False;
+    Abrangencia.Abrangencia.Query.Connection.Connected := False;
+    Abrangencia.Free;
   end;
 end;
 
 procedure Tview_ListaRorteirosLivres.SaveSelection;
 var
   i, iId: Integer;
+  sCEP, sTipo, sCliente, sQuery: String;
 begin
   if Data_Sisgef.mtbRoteirosLivres.IsEmpty then
     Exit;
@@ -300,7 +292,20 @@ begin
     iId := StrToIntDef(gridCEPDBTableView1.Controller.SelectedRows[i].DisplayTexts[0], 0);
     if Data_Sisgef.mtbRoteirosLivres.Locate('id_roteiro',iID,[]) then
     begin
-      Data_Sisgef.mtbRoteirosExpressas.Insert;
+      sCEP := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_inicial').AsString;
+      sTipo := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_tipo').AsString;
+      sCliente := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_cliente').AsString;
+      sQuery := 'num_cep_inicial = ' + QuotedStr(sCEP) + ' and cod_tipo = ' + sTipo + ' and cod_cliente = ' + sCliente;
+      if Data_Sisgef.mtbRoteirosExpressas.LocateEx(sQuery,[]) then
+      begin
+        Data_Sisgef.mtbRoteirosExpressas.Insert;
+        Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 1;
+      end
+      else
+      begin
+        Data_Sisgef.mtbRoteirosExpressas.Edit;
+        Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 2;
+      end;
       Data_Sisgef.mtbRoteirosExpressasid_roteiro.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('id_roteiro').AsInteger;;
       Data_Sisgef.mtbRoteirosExpressascod_ccep5.AsString := FCodigoRoteiro;
       Data_Sisgef.mtbRoteirosExpressasdes_roteiro.AsString := FDescricaoRoteiro;
@@ -314,7 +319,6 @@ begin
       Data_Sisgef.mtbRoteirosExpressascod_cliente.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_cliente').AsInteger;
       Data_Sisgef.mtbRoteirosExpressascod_leve.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_leve').AsInteger;
       Data_Sisgef.mtbRoteirosExpressascod_pesado.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_pesado').AsInteger;
-      Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 0;
       Data_Sisgef.mtbRoteirosExpressas.Post;
     end;
   end;

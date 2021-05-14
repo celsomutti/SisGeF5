@@ -89,7 +89,7 @@ begin
       for i := 0 to Pred(FTotalRegistros) do
       begin
         SetLength(aParam,3);
-        aParam := ['CEP', FPlanilha.Planilha.Planilha[i].CEPInicial];
+        aParam := ['CEPCLIENTE', FPlanilha.Planilha.Planilha[i].CEPInicial, FCliente];
         if not FRoteiros.Search(aParam) then
         begin
           FRoteiros.Abrangencia.ID := 0;
@@ -97,8 +97,8 @@ begin
           FRoteiros.Abrangencia.Prazo := FPlanilha.Planilha.Planilha[i].Prazo;
           FRoteiros.Abrangencia.Zona := FPlanilha.Planilha.Planilha[i].Zona;
           FRoteiros.Abrangencia.Tipo := FPlanilha.Planilha.Planilha[i].Tipo;
-          FRoteiros.Abrangencia.Logradouro := FPlanilha.Planilha.Planilha[i].Logradouro;
-          FRoteiros.Abrangencia.Bairro := FPlanilha.Planilha.Planilha[i].Bairro;
+          FRoteiros.Abrangencia.Logradouro := Copy(FPlanilha.Planilha.Planilha[i].Logradouro,1, 70);
+          FRoteiros.Abrangencia.Bairro := Copy(FPlanilha.Planilha.Planilha[i].Bairro,1, 70);
           FRoteiros.Abrangencia.Cliente := FCliente;
           FRoteiros.Abrangencia.Acao := tacIncluir;
           if not FRoteiros.Save() then

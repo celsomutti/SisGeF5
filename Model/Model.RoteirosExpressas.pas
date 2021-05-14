@@ -223,6 +223,7 @@ begin
     FDQuery.SQL.Add('where num_cep_inicial = :num_cep and cod_cliente = :cod_cliente');
     FDQuery.ParamByName('num_cep').AsString := aParam[1];
     FDQuery.ParamByName('cod_cliente').AsInteger := aParam[2];
+    FDQuery.ParamByName('cod_tipo').AsInteger := aParam[3];
   end
   else if aParam[0] = 'LEVE' then
   begin

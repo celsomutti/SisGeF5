@@ -683,6 +683,7 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
           HeaderAlignmentHorz = taCenter
         end
         object gridCEPDBTableView1num_cep_inicial: TcxGridDBColumn
+          Caption = 'CEP'
           DataBinding.FieldName = 'num_cep_inicial'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.IgnoreMaskBlank = True
@@ -699,7 +700,10 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
           Properties.MaskKind = emkRegExpr
           Properties.EditMask = '\d\d\d\d\d\d\d\d'
           Properties.ReadOnly = True
+          Visible = False
           HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+          VisibleForEditForm = bFalse
           Width = 83
         end
         object gridCEPDBTableView1des_prazo: TcxGridDBColumn

@@ -13,7 +13,7 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, cxGridViewLayoutContainer, cxGridTableView, cxGridDBTableView, cxTextEdit, cxMaskEdit, cxButtonEdit,
   cxGridInplaceEditForm, Control.AbrangenciaExpressas, Thread.ImportaAbrangencia, Vcl.ExtCtrls, cxDropDownEdit, cxLookupEdit,
-  cxDBLookupEdit, cxDBLookupComboBox;
+  cxDBLookupEdit, cxDBLookupComboBox, cxImageComboBox;
 
 type
   Tview_CadastroAbrangenciaExpressas = class(TForm)
@@ -61,15 +61,15 @@ type
     gridAbrangencia: TcxGrid;
     dxLayoutItem8: TdxLayoutItem;
     dsAbrangencia: TDataSource;
-    memTableAgrangencia: TFDMemTable;
-    memTableAgrangenciaid_registro: TIntegerField;
-    memTableAgrangencianum_cep: TStringField;
-    memTableAgrangenciades_prazo: TStringField;
-    memTableAgrangenciadom_zona: TStringField;
-    memTableAgrangenciacod_tipo: TIntegerField;
-    memTableAgrangenciades_logradouro: TStringField;
-    memTableAgrangenciades_bairro: TStringField;
-    memTableAgrangenciacod_cliente: TIntegerField;
+    memTableAbrangencia: TFDMemTable;
+    memTableAbrangenciaid_registro: TIntegerField;
+    memTableAbrangencianum_cep: TStringField;
+    memTableAbrangenciades_prazo: TStringField;
+    memTableAbrangenciadom_zona: TStringField;
+    memTableAbrangenciacod_tipo: TIntegerField;
+    memTableAbrangenciades_logradouro: TStringField;
+    memTableAbrangenciades_bairro: TStringField;
+    memTableAbrangenciacod_cliente: TIntegerField;
     gridAbrangenciaDBTableView1: TcxGridDBTableView;
     gridAbrangenciaDBTableView1id_registro: TcxGridDBColumn;
     gridAbrangenciaDBTableView1num_cep: TcxGridDBColumn;
@@ -109,6 +109,8 @@ type
     dxLayoutItem16: TdxLayoutItem;
     actionExecutarImportacao: TAction;
     actionCancelarImportacao: TAction;
+    memTableAbrangenciadom_ckeck: TIntegerField;
+    gridAbrangenciaDBTableView1dom_ckeck: TcxGridDBColumn;
     procedure actionFecharExecute(Sender: TObject);
     procedure actionFiltroAvancadoExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -124,18 +126,34 @@ type
     procedure actionAbrirExecute(Sender: TObject);
     procedure actionExecutarImportacaoExecute(Sender: TObject);
     procedure actionCancelarImportacaoExecute(Sender: TObject);
+    procedure TimerTimer(Sender: TObject);
+    procedure gridAbrangenciaDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+    procedure actionExportarExecute(Sender: TObject);
+    procedure dsAbrangenciaUpdateData(Sender: TObject);
+    procedure memTableAbrangenciaAfterScroll(DataSet: TDataSet);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure actionLimparExecute(Sender: TObject);
+    procedure actionGravarExecute(Sender: TObject);
+    procedure memTableAbrangenciaBeforePost(DataSet: TDataSet);
+    procedure memTableAbrangenciaBeforeEdit(DataSet: TDataSet);
+    procedure memTableAbrangenciaBeforeInsert(DataSet: TDataSet);
+    procedure memTableAbrangenciaAfterInsert(DataSet: TDataSet);
   private
     { Private declarations }
+    function FormulaFiltro(sParametro: string): string; // função que retorna a expressão do filtro a partir do parâmetro informado
+    function Validateinsert(): boolean; // função que valida a inserção do regitro
     procedure StartForm; // rotina de incialização de alguns paâmetros do form
     procedure CloseForm; // rotina de finalização de form
     procedure ClearFilter; // rotina de limpeza e reset do filtro
-    function FormulaFiltro(sParametro: string): string; // função que retorna a expressão do filtro a partir do parâmetro informado
     procedure LocalizaCEP(sFiltro: string); // rotina que recebe o filtro formulado e realiza a pesquisa na tabela
     procedure ImportData(sFile: string; icliente: integer); // rotina de importação de dados de planilha
     procedure UpdateDashboard; // rotina de acompanhamento do processo e importação da planilha
     procedure AbrirArquivo; // rotina para excução do dialog box para abrir o arquivo de planilha para importação
     procedure ClearFileName; // rotina para limpar o nome do arquivo no campo
     procedure ProcessaClientes; // rotina que popula a tabela temporária de clientes da empresa
+    procedure ExcludeData; // marca registro para ser excluido;
+    procedure ExportData; // rotina que exporta os dados da grade
+    procedure SaveData; // salva os dados da grado no banco de dados
   public
     { Public declarations }
   end;
@@ -149,7 +167,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, Common.Utils, Common.ENum;
 
 { Tview_CadastroAbrangenciaExpressas }
 
@@ -171,22 +189,28 @@ end;
 procedure Tview_CadastroAbrangenciaExpressas.actionCancelarImportacaoExecute(Sender: TObject);
 begin
   arquivo.Clear;
+  clientes.ItemIndex := -1;
   dxLayoutGroup4.MakeVisible;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.actionEditarExecute(Sender: TObject);
 begin
-  memTableAgrangencia.Edit;
+  memTableAbrangencia.Edit;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.actionExcluirExecute(Sender: TObject);
 begin
-  memTableAgrangencia.Delete;
+  ExcludeData;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.actionExecutarImportacaoExecute(Sender: TObject);
 begin
   ImportData(arquivo.Text, clientes.EditValue);
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.actionExportarExecute(Sender: TObject);
+begin
+  ExportData;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.actionFecharExecute(Sender: TObject);
@@ -204,6 +228,11 @@ begin
   dxLayoutGroup3.MakeVisible;
 end;
 
+procedure Tview_CadastroAbrangenciaExpressas.actionGravarExecute(Sender: TObject);
+begin
+  SaveData;
+end;
+
 procedure Tview_CadastroAbrangenciaExpressas.actionimportarExecute(Sender: TObject);
 begin
   dxLayoutGroup8.MakeVisible;
@@ -211,7 +240,12 @@ end;
 
 procedure Tview_CadastroAbrangenciaExpressas.actionIncluirExecute(Sender: TObject);
 begin
-  memTableAgrangencia.Insert;
+  memTableAbrangencia.Insert;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.actionLimparExecute(Sender: TObject);
+begin
+  ClearFilter;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.actionLocalizarExecute(Sender: TObject);
@@ -231,14 +265,21 @@ end;
 
 procedure Tview_CadastroAbrangenciaExpressas.ClearFilter;
 begin
+
+  if actionGravar.Enabled then
+  begin
+    if Application.MessageBox('Existem dados pendentes de gravação! Deseja limpar os dados sem gravar?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+      Exit;
+  end;
   parametro.Clear;
   filterAbrangencia.Clear;
-  memTableAgrangencia.Active := False;
+  memTableAbrangencia.Active := False;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.CloseForm;
 begin
-  memTableAgrangencia.Active := False;
+  memTableAbrangencia.Active := False;
+  Data_Sisgef.mtbClientesEmpresa.Active := False;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.dsAbrangenciaStateChange(Sender: TObject);
@@ -293,11 +334,81 @@ if dsAbrangencia.State = dsInactive then
   end;
 end;
 
+procedure Tview_CadastroAbrangenciaExpressas.dsAbrangenciaUpdateData(Sender: TObject);
+begin
+  actionGravar.Enabled := True;
+  actionRestaurar.Enabled := True;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.ExcludeData;
+var
+  sMensagem: String;
+  i, iId : Integer;
+begin
+  for i := 0 to Pred(gridAbrangenciaDBTableView1.Controller.SelectedRecordCount) do
+  begin
+    iId := StrToIntDef(gridAbrangenciaDBTableView1.Controller.SelectedRows[i].DisplayTexts[1], 0);
+    if memTableAbrangencia.Locate('id_registro',iID,[]) then
+    begin
+      if memTableAbrangenciadom_ckeck.AsInteger = -1 then
+      begin
+        memTableAbrangencia.Tag := -1;
+        memTableAbrangencia.Edit;
+        memTableAbrangenciadom_ckeck.AsInteger := 0;
+        memTableAbrangencia.Post;
+        memTableAbrangencia.Tag := 0;
+      end
+      else
+      begin
+        memTableAbrangencia.Tag := -1;
+        memTableAbrangencia.Edit;
+        memTableAbrangenciadom_ckeck.AsInteger := -1;
+        memTableAbrangencia.Post;
+        memTableAbrangencia.Tag := 0;
+      end;
+    end;
+  end;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.ExportData;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if Data_Sisgef.mtbRoteirosExpressas.IsEmpty then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(gridAbrangencia,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
+  end;
+end;
+
 procedure Tview_CadastroAbrangenciaExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   CloseForm;
   Action := caFree;
   view_CadastroAbrangenciaExpressas := nil;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  if actionGravar.Enabled then
+  begin
+    CanClose := Application.MessageBox('Existem dados pendentes de gravação! Deseja sair sem gravar?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDYES;
+  end;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.FormShow(Sender: TObject);
@@ -309,26 +420,45 @@ function Tview_CadastroAbrangenciaExpressas.FormulaFiltro(sParametro: string): s
 var
   sMensagem: String;
   sFiltro: String;
+  fnUtil : Common.Utils.TUtils;
 begin
-  Result := '';
-  sFiltro := '';
-  if sParametro = '' then
-  begin
-    sMensagem := 'O campo de parâmetro a localizar não foi preenchido!. ' +
-    'Caso deseje visualizar todos os CEPs disponíveis clique OK, porém, esse processo pode ser lento.';
-    if Application.MessageBox(PChar(sMensagem), 'Atenção!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+    Result := '';
+    sFiltro := '';
+    if sParametro = '' then
     begin
-      sFiltro := 'NONE';
+      sMensagem := 'O campo de parâmetro a localizar não foi preenchido!. ' +
+      'Caso deseje visualizar todos os CEPs disponíveis clique OK, porém, esse processo pode ser lento.';
+      if Application.MessageBox(PChar(sMensagem), 'Atenção!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
+      begin
+        sFiltro := 'NONE';
+      end;
+    end
+    else
+    begin
+      sFiltro := 'num_cep like ' + '"%' + sParametro + '%"' +
+                 ' or des_logradouro like ' + '"%' +  sParametro + '%"' +
+                 ' or des_bairro like ' + '"%' + sParametro + '%"';
+      if fnUtil.ENumero(sParametro) then
+      begin
+        sFiltro := SFiltro + ' or id_registro like ' + sParametro;
+      end;
     end;
-  end
-  else
-  begin
-    sFiltro := 'id_registro like ' + sParametro +  ' and num_cep like ' + '"%' +  sParametro + '%"' +
-               '"%' + sParametro + '%"' + ' or des_logradouro like ' + '"%' +  sParametro + '%"' +
-               ' or des_bairro like ' + '"%' + sParametro + '%"';
-  end;
 
-  Result := sFiltro;
+    Result := sFiltro;
+  finally
+    fnUtil.Free;
+  end;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.gridAbrangenciaDBTableView1NavigatorButtonsButtonClick(Sender: TObject;
+  AButtonIndex: Integer; var ADone: Boolean);
+begin
+  case AButtonIndex of
+    16 : ExportData;
+    17 : ExcludeData;
+  end;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.ImportData(sFile: string; icliente: integer);
@@ -374,7 +504,7 @@ var
 begin
   try
     FAbrangencia := TAbrangenciaExpressasControl.Create;
-    memTableAgrangencia.Active := False;
+    memTableAbrangencia.Active := False;
     sSQLOld := '';
     SetLength(aParam,2);
     if sFiltro = 'NONE' then
@@ -388,18 +518,74 @@ begin
     if FAbrangencia.Search(aParam) then
     begin
       sSQLOld := sFiltro;
-      Data_Sisgef.mtbRoteirosLivres.Data := FAbrangencia.Abrangencia.Query;
+      memTableAbrangencia.Active := True;
+      memTableAbrangencia.Tag := -1;
+      memTableAbrangencia.CopyDataSet(FAbrangencia.Abrangencia.Query);
+      memTableAbrangencia.Tag := 0;
+      dxLayoutGroup4.MakeVisible;
       gridAbrangencia.SetFocus;
     end
     else
     begin
       Application.MessageBox('Nenhum registro encontrado!', 'Atenção', MB_OK + MB_ICONWARNING);
     end;
+    actionRestaurar.Enabled := False;
+    actionGravar.Enabled := False;
   finally
     Finalize(aParam);
     FAbrangencia.Abrangencia.Query.Active := False;
     FAbrangencia.Abrangencia.Query.Connection.Connected := False;
     FAbrangencia.Free;
+  end;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.memTableAbrangenciaAfterInsert(DataSet: TDataSet);
+begin
+  memTableAbrangenciaid_registro.AsInteger := 0;
+  memTableAbrangenciacod_tipo.AsInteger := -1;
+  memTableAbrangenciacod_cliente.AsInteger := -1;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.memTableAbrangenciaAfterScroll(DataSet: TDataSet);
+begin
+  if memTableAbrangenciadom_ckeck.AsInteger = -1 then
+  begin
+    actionExcluir.ImageIndex := 64;
+    actionExcluir.Caption := 'Restaurar';
+    gridAbrangenciaDBTableView1.Navigator.Buttons[17].ImageIndex := 64;
+  end
+  else
+  begin
+    actionExcluir.ImageIndex := 4;
+    actionExcluir.Caption := 'Excluir';
+    gridAbrangenciaDBTableView1.Navigator.Buttons[17].ImageIndex := 4;
+  end;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.memTableAbrangenciaBeforeEdit(DataSet: TDataSet);
+begin
+  gridAbrangenciaDBTableView1num_cep.Properties.ReadOnly := True;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.memTableAbrangenciaBeforeInsert(DataSet: TDataSet);
+begin
+  gridAbrangenciaDBTableView1num_cep.Properties.ReadOnly := False;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.memTableAbrangenciaBeforePost(DataSet: TDataSet);
+begin
+  if memTableAbrangencia.Tag = 0 then
+  begin
+    if not Validateinsert() then
+        Abort;
+  end;
+
+  if memTableAbrangenciadom_ckeck.AsInteger = 0 then
+  begin
+    if memTableAbrangenciaid_registro.AsInteger = 0 then
+      memTableAbrangenciadom_ckeck.AsInteger := 1
+    else
+      memTableAbrangenciadom_ckeck.AsInteger := 2;
   end;
 end;
 
@@ -414,10 +600,71 @@ begin
   Data_Sisgef.mtbClientesEmpresa.First;
 end;
 
+procedure Tview_CadastroAbrangenciaExpressas.SaveData;
+var
+  FAbrangencia : TAbrangenciaExpressasControl;
+  sMensagem: String;
+begin
+  try
+    FAbrangencia := TAbrangenciaExpressasControl.Create;
+
+    if Application.MessageBox('Confirma Gravar as alterações?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
+      Exit;
+    Screen.Cursor := crHourGlass;
+    if not memTableAbrangencia.IsEmpty then
+      memTableAbrangencia.First;
+    while not memTableAbrangencia.Eof do
+    begin
+      FAbrangencia.Abrangencia.ID := memTableAbrangenciaid_registro.AsInteger;
+      FAbrangencia.Abrangencia.CEP := memTableAbrangencianum_cep.AsString;
+      FAbrangencia.Abrangencia.Prazo := memTableAbrangenciades_prazo.AsString;
+      FAbrangencia.Abrangencia.Zona := memTableAbrangenciadom_zona.AsString;
+      FAbrangencia.Abrangencia.Tipo := memTableAbrangenciacod_tipo.AsInteger;
+      FAbrangencia.Abrangencia.Logradouro := memTableAbrangenciades_logradouro.AsString;
+      FAbrangencia.Abrangencia.Bairro := memTableAbrangenciades_bairro.AsString;
+      FAbrangencia.Abrangencia.Cliente := memTableAbrangenciacod_cliente.AsInteger;
+      if memTableAbrangenciadom_ckeck.AsInteger = -1 then
+        FAbrangencia.Abrangencia.Acao := tacExcluir
+      else if memTableAbrangenciadom_ckeck.AsInteger = 1 then
+        FAbrangencia.Abrangencia.Acao := tacIncluir
+      else if memTableAbrangenciadom_ckeck.AsInteger = 2 then
+        FAbrangencia.Abrangencia.Acao := tacAlterar
+      else
+        FAbrangencia.Abrangencia.Acao := tacIndefinido;
+      if FAbrangencia.Abrangencia.Acao <> tacIndefinido then
+      begin
+        if not FAbrangencia.Save then
+        begin
+          sMensagem := 'Erro ao gravar o Roteiro ' + FAbrangencia.Abrangencia.CEP + ' !';
+          Application.MessageBox(PChar(sMensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+        end;
+      end;
+      if FAbrangencia.Abrangencia.Acao = tacExcluir then
+      begin
+        memTableAbrangencia.Delete;
+      end;
+      if not memTableAbrangencia.Eof then
+        memTableAbrangencia.Next;
+    end;
+    Application.MessageBox('Registros gravados!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+    actionGravar.Enabled := False;
+    actionRestaurar.Enabled := False;
+  finally
+    Screen.Cursor := crDefault;
+    FAbrangencia.Free;
+  end;
+end;
+
 procedure Tview_CadastroAbrangenciaExpressas.StartForm;
 begin
   labelTitle.Caption := Self.Caption;
+  memTableAbrangencia.Active := True;
   ProcessaClientes;
+end;
+
+procedure Tview_CadastroAbrangenciaExpressas.TimerTimer(Sender: TObject);
+begin
+  UpdateDashboard;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.UpdateDashboard;
@@ -434,10 +681,88 @@ begin
     progresso.Position := 0;
     dxLayoutGroup5.Visible := False;
     planilha.Free;
+    arquivo.Clear;
+    clientes.ItemIndex := -1;
+    dxLayoutGroup4.MakeVisible;
   end
   else
   begin
     progresso.Position := planilha.Progresso;
+  end;
+end;
+
+function Tview_CadastroAbrangenciaExpressas.Validateinsert: boolean;
+var
+  FAbrangencia : TAbrangenciaExpressasControl;
+  aParam : Array of variant;
+  sFiltro, sMensagem: String;
+begin
+  try
+    Result := False;
+    sMensagem := '';
+    FAbrangencia := TAbrangenciaExpressasControl.Create;
+    if memTableAbrangencianum_cep.AsString.IsEmpty then
+    begin
+      Application.MessageBox('Informe um CEP!', 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+    if (memTableAbrangencianum_cep.AsString = '00000000') or (Length(memTableAbrangencianum_cep.AsString) < 8) then
+    begin
+      Application.MessageBox('Informe um CEP válido!', 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+    sFiltro := 'num_cep = ' + memTableAbrangencianum_cep.AsString + ' and cod_tipo = ' + memTableAbrangenciacod_tipo.AsString +
+               ' and cod_cliente = ' + memTableAbrangenciacod_cliente.AsString;
+    SetLength(aParam,2);
+    aParam := ['FILTRO',sFiltro];
+    if FAbrangencia.Search(aParam) then
+    begin
+      sMensagem := 'CEP ' + memTableAbrangencianum_cep.AsString + ' já cadastrado para esse tipo de peso e Cliente!';
+      Application.MessageBox(PChar(sMensagem), 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+    if memTableAbrangenciades_prazo.AsString.IsEmpty then
+    begin
+      Application.MessageBox('Informe o prazo de entrega deste CEP!', 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+    if memTableAbrangenciadom_zona.AsString.IsEmpty then
+    begin
+      Application.MessageBox('Informe a zona deste CEP!', 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+    if memTableAbrangenciacod_tipo.AsInteger = -1 then
+    begin
+      Application.MessageBox('Informe o tipo de peso para deste CEP!', 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+        if memTableAbrangenciades_logradouro.AsString.IsEmpty then
+    begin
+      Application.MessageBox('Informe o logradouro deste CEP!', 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+        if memTableAbrangenciades_bairro.AsString.IsEmpty then
+    begin
+      Application.MessageBox('Informe bairro deste CEP!', 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+    if memTableAbrangenciacod_cliente.AsInteger = -1 then
+    begin
+      Application.MessageBox('Informe cliente desta abrangência!', 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+    Result := True;
+  finally
+    FAbrangencia.Free;
   end;
 end;
 

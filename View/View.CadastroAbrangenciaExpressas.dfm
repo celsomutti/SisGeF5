@@ -566,6 +566,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
   ShowHint = True
   Visible = True
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
@@ -599,6 +600,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       Top = 10000
       Width = 1125
       Height = 274
+      DataSet = memTableAbrangencia
       Items = <>
       TabOrder = 1
       Visible = False
@@ -655,9 +657,14 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       LookAndFeel.Kind = lfFlat
       LookAndFeel.NativeStyle = False
       object gridAbrangenciaDBTableView1: TcxGridDBTableView
+        PopupMenu = PopupMenu
+        Navigator.Buttons.OnButtonClick = gridAbrangenciaDBTableView1NavigatorButtonsButtonClick
         Navigator.Buttons.CustomButtons = <
           item
             ImageIndex = 11
+          end
+          item
+            ImageIndex = 4
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.ImageIndex = 5
@@ -668,6 +675,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
         Navigator.Buttons.Last.ImageIndex = 6
         Navigator.Buttons.Insert.ImageIndex = 3
         Navigator.Buttons.Delete.ImageIndex = 4
+        Navigator.Buttons.Delete.Visible = False
         Navigator.Buttons.Edit.ImageIndex = 10
         Navigator.Buttons.Post.ImageIndex = 13
         Navigator.Buttons.Cancel.ImageIndex = 2
@@ -682,15 +690,49 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
         EditForm.UseDefaultLayout = False
+        OptionsBehavior.CopyCaptionsToClipboard = False
+        OptionsBehavior.FocusCellOnTab = True
+        OptionsBehavior.GoToNextCellOnEnter = True
+        OptionsBehavior.CopyPreviewToClipboard = False
+        OptionsBehavior.FocusCellOnCycle = True
+        OptionsSelection.MultiSelect = True
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
+        ConditionalFormatting = {
+          010000000A000000310000005400640078005300700072006500610064005300
+          680065006500740043006F006E0064006900740069006F006E0061006C004600
+          6F0072006D0061007400740069006E006700520075006C006500450078007000
+          720065007300730069006F006E009F0000000000000000000000FFFFFF7FFFFF
+          FF7F0001000000200B000000150000004D006900630072006F0073006F006600
+          740020004A00680065006E006700480065006900200055004900000800FFFF00
+          0000000020000000002000000000200000000020000000002000070000004700
+          45004E004500520041004C00000000000002000000000000000001070000003D
+          005B0023005D003D002D00310000000000}
+        object gridAbrangenciaDBTableView1dom_ckeck: TcxGridDBColumn
+          DataBinding.FieldName = 'dom_ckeck'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+          VisibleForEditForm = bFalse
+          Width = 24
+        end
         object gridAbrangenciaDBTableView1id_registro: TcxGridDBColumn
           DataBinding.FieldName = 'id_registro'
+          PropertiesClassName = 'TcxMaskEditProperties'
+          Properties.IgnoreMaskBlank = True
+          Properties.MaskKind = emkRegExpr
+          Properties.EditMask = '\d\d\d\d\d\d'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           LayoutItem = gridAbrangenciaDBTableView1LayoutItem1.Owner
+          Width = 74
         end
         object gridAbrangenciaDBTableView1num_cep: TcxGridDBColumn
           DataBinding.FieldName = 'num_cep'
+          PropertiesClassName = 'TcxMaskEditProperties'
+          Properties.IgnoreMaskBlank = True
+          Properties.MaskKind = emkRegExpr
+          Properties.EditMask = '\d\d\d\d\d\d\d\d'
           HeaderAlignmentHorz = taCenter
           LayoutItem = gridAbrangenciaDBTableView1LayoutItem2.Owner
           Width = 105
@@ -699,33 +741,87 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
           DataBinding.FieldName = 'des_prazo'
           HeaderAlignmentHorz = taCenter
           LayoutItem = gridAbrangenciaDBTableView1LayoutItem3.Owner
+          Width = 74
         end
         object gridAbrangenciaDBTableView1dom_zona: TcxGridDBColumn
           DataBinding.FieldName = 'dom_zona'
+          PropertiesClassName = 'TcxImageComboBoxProperties'
+          Properties.Images = Data_Sisgef.iml_16_16
+          Properties.Items = <
+            item
+              Description = 'Intermunicipal'
+              ImageIndex = 1
+              Value = 'I'
+            end
+            item
+              Description = 'Urbano'
+              ImageIndex = 1
+              Value = 'U'
+            end
+            item
+              Description = 'N'#227'o Faz'
+              ImageIndex = 1
+              Value = 'N'
+            end>
           HeaderAlignmentHorz = taCenter
           LayoutItem = gridAbrangenciaDBTableView1LayoutItem4.Owner
           Width = 128
         end
         object gridAbrangenciaDBTableView1cod_tipo: TcxGridDBColumn
           DataBinding.FieldName = 'cod_tipo'
+          PropertiesClassName = 'TcxImageComboBoxProperties'
+          Properties.Alignment.Horz = taLeftJustify
+          Properties.Images = Data_Sisgef.iml_16_16
+          Properties.Items = <
+            item
+              Description = 'N'#195'O FAZ'
+              ImageIndex = 9
+              Value = 0
+            end
+            item
+              Description = 'SOMENTE LEVE'
+              ImageIndex = 68
+              Value = 1
+            end
+            item
+              Description = 'SOMENTE PESADO'
+              ImageIndex = 69
+              Value = 2
+            end
+            item
+              Description = 'LEVE E PESADO'
+              ImageIndex = 70
+              Value = 3
+            end>
           HeaderAlignmentHorz = taCenter
           LayoutItem = gridAbrangenciaDBTableView1LayoutItem5.Owner
-          Width = 233
+          Width = 172
         end
         object gridAbrangenciaDBTableView1des_logradouro: TcxGridDBColumn
           DataBinding.FieldName = 'des_logradouro'
           HeaderAlignmentHorz = taCenter
           LayoutItem = gridAbrangenciaDBTableView1LayoutItem6.Owner
+          Width = 494
         end
         object gridAbrangenciaDBTableView1des_bairro: TcxGridDBColumn
           DataBinding.FieldName = 'des_bairro'
           HeaderAlignmentHorz = taCenter
           LayoutItem = gridAbrangenciaDBTableView1LayoutItem7.Owner
+          Width = 389
         end
         object gridAbrangenciaDBTableView1cod_cliente: TcxGridDBColumn
           DataBinding.FieldName = 'cod_cliente'
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.KeyFieldNames = 'cod_cliente'
+          Properties.ListColumns = <
+            item
+              FieldName = 'nom_cliente'
+            end>
+          Properties.ListOptions.ShowHeader = False
+          Properties.ListSource = dsCliente
           HeaderAlignmentHorz = taCenter
           LayoutItem = gridAbrangenciaDBTableView1LayoutItem8.Owner
+          Width = 193
         end
         object gridAbrangenciaDBTableView1RootGroup: TcxGridInplaceEditFormGroup
           AlignHorz = ahLeft
@@ -954,6 +1050,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       Index = 0
     end
     object dxLayoutGroup4: TdxLayoutGroup
@@ -962,6 +1059,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       Index = 1
     end
     object dxLayoutItem2: TdxLayoutItem
@@ -1245,11 +1343,13 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       Enabled = False
       Hint = 'Gravar dados'
       ImageIndex = 13
+      OnExecute = actionGravarExecute
     end
     object actionExportar: TAction
       Caption = 'Exportar'
       Hint = 'Exportar dados da grade'
       ImageIndex = 11
+      OnExecute = actionExportarExecute
     end
     object actionFiltrar: TAction
       Caption = '&Filtrar'
@@ -1267,17 +1367,21 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
       Caption = 'Limpar'
       Hint = 'Limpar tela'
       ImageIndex = 9
+      ShortCut = 8219
+      OnExecute = actionLimparExecute
     end
     object actionFiltroAvancado: TAction
       Caption = 'Filtro Avan'#231'ado'
       Hint = 'Filtro Avan'#231'ado'
       ImageIndex = 73
+      ShortCut = 16503
       OnExecute = actionFiltroAvancadoExecute
     end
     object actionLocalizar: TAction
       Caption = 'Localizar'
       Hint = 'Localizar dados'
       ImageIndex = 12
+      ShortCut = 119
       OnExecute = actionLocalizarExecute
     end
     object actionCancelarFiltro: TAction
@@ -1340,13 +1444,22 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
     end
   end
   object dsAbrangencia: TDataSource
-    AutoEdit = False
-    DataSet = memTableAgrangencia
+    DataSet = memTableAbrangencia
     OnStateChange = dsAbrangenciaStateChange
+    OnUpdateData = dsAbrangenciaUpdateData
     Left = 744
     Top = 8
   end
-  object memTableAgrangencia: TFDMemTable
+  object memTableAbrangencia: TFDMemTable
+    BeforeInsert = memTableAbrangenciaBeforeInsert
+    AfterInsert = memTableAbrangenciaAfterInsert
+    BeforeEdit = memTableAbrangenciaBeforeEdit
+    BeforePost = memTableAbrangenciaBeforePost
+    AfterScroll = memTableAbrangenciaAfterScroll
+    Indexes = <
+      item
+        Fields = 'id_registro'
+      end>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -1356,42 +1469,46 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
     UpdateOptions.AutoCommitUpdates = True
     Left = 824
     Top = 8
-    object memTableAgrangenciaid_registro: TIntegerField
+    object memTableAbrangenciaid_registro: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id_registro'
     end
-    object memTableAgrangencianum_cep: TStringField
+    object memTableAbrangencianum_cep: TStringField
       DisplayLabel = 'CEP'
       FieldName = 'num_cep'
       Size = 8
     end
-    object memTableAgrangenciades_prazo: TStringField
+    object memTableAbrangenciades_prazo: TStringField
       DisplayLabel = 'Prazo'
       FieldName = 'des_prazo'
       Size = 10
     end
-    object memTableAgrangenciadom_zona: TStringField
+    object memTableAbrangenciadom_zona: TStringField
       DisplayLabel = 'Zona'
       FieldName = 'dom_zona'
       Size = 1
     end
-    object memTableAgrangenciacod_tipo: TIntegerField
+    object memTableAbrangenciacod_tipo: TIntegerField
       DisplayLabel = 'Tipo'
       FieldName = 'cod_tipo'
     end
-    object memTableAgrangenciades_logradouro: TStringField
+    object memTableAbrangenciades_logradouro: TStringField
       DisplayLabel = 'Logradouro'
       FieldName = 'des_logradouro'
       Size = 70
     end
-    object memTableAgrangenciades_bairro: TStringField
+    object memTableAbrangenciades_bairro: TStringField
       DisplayLabel = 'Bairro'
       FieldName = 'des_bairro'
       Size = 70
     end
-    object memTableAgrangenciacod_cliente: TIntegerField
+    object memTableAbrangenciacod_cliente: TIntegerField
       DisplayLabel = 'Cliente'
       FieldName = 'cod_cliente'
+    end
+    object memTableAbrangenciadom_ckeck: TIntegerField
+      DisplayLabel = '#'
+      FieldName = 'dom_ckeck'
     end
   end
   object OpenDialog: TOpenDialog
@@ -1402,6 +1519,7 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
   end
   object Timer: TTimer
     Enabled = False
+    OnTimer = TimerTimer
     Left = 1064
     Top = 8
   end

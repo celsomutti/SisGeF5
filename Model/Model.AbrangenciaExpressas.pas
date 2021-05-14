@@ -176,6 +176,12 @@ begin
     FQuery.SQL.Add('where num_cep = :num_cep');
     FQuery.ParamByName('num_cep').AsString := aParam[1];
   end
+  else if aParam[0] = 'CEPCLIENTE' then
+  begin
+    FQuery.SQL.Add('where num_cep = :num_cep and cod_cliente = :cod_cliente');
+    FQuery.ParamByName('num_cep').AsString := aParam[1];
+    FQuery.ParamByName('cod_cliente').AsInteger := aParam[2];
+  end
   else if aParam[0] = 'BAIRRO' then
   begin
     FQuery.SQL.Add('where des_bairro = :des_bairro');

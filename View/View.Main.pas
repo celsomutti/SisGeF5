@@ -191,6 +191,7 @@ type
     actCadastroAbrangenciaExpressas: TAction;
     bmMainBar20: TdxBar;
     dxBarLargeButton67: TdxBarLargeButton;
+    dxBarButton6: TdxBarButton;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

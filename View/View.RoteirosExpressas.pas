@@ -316,10 +316,10 @@ var
   sMensagem, sRoteiro: String;
 begin
   try
-    Screen.Cursor := crHourGlass;
     Froteiro := TRoteirosExpressasControl.Create;
     if Application.MessageBox('Confirma Gravar as alterações?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
       Exit;
+    Screen.Cursor := crHourGlass;
     if not Data_Sisgef.mtbRoteirosExpressas.IsEmpty then
       Data_Sisgef.mtbRoteirosExpressas.First;
     sRoteiro := codigoRoteiro.Text;
@@ -339,7 +339,12 @@ begin
       FRoteiro.Roteiros.CodigoLeve := Data_Sisgef.mtbRoteirosExpressascod_leve.AsInteger;
       FRoteiro.Roteiros.CodigoPesado := Data_Sisgef.mtbRoteirosExpressascod_pesado.AsInteger;
       FRoteiro.Roteiros.Check := 0;
-      FRoteiro.Roteiros.Acao := tacAlterar;
+      if Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger = -1 then
+        FRoteiro.Roteiros.Acao := tacExcluir
+      else if Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger = 1 then
+        FRoteiro.Roteiros.Acao := tacIncluir
+      else
+        FRoteiro.Roteiros.Acao := tacAlterar;
       if FRoteiro.Roteiros.Acao <> tacIndefinido then
       begin
         if not FRoteiro.Gravar then
