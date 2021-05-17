@@ -127,6 +127,7 @@ type
     procedure GetDescricaoRiteiro(varValue: Variant);
     procedure RestoreItem(sRoteiro, sDescricao: String);
     procedure Modo;
+    function ValidateData(sRoteiro, sCEP: String): boolean;
   public
     { Public declarations }
   end;
@@ -219,7 +220,6 @@ var
   sMensagem: String;
   i, iId : Integer;
 begin
-
   if tvRoteiros.Controller.SelectedRowCount > 1 then
     sMensagem := 'Confirma excluir os registros selecionados ?'
   else
@@ -239,6 +239,7 @@ begin
       Data_Sisgef.mtbRoteirosExpressas.Post;
     end;
   end;
+  tvRoteiros.Controller.ClearSelection;
 end;
 
 procedure Tview_RoteirosExpressas.ExportData;
@@ -345,6 +346,14 @@ begin
         FRoteiro.Roteiros.Acao := tacIncluir
       else
         FRoteiro.Roteiros.Acao := tacAlterar;
+      if FRoteiro.Roteiros.Acao = tacIncluir then
+      begin
+        if not ValidateData(FRoteiro.Roteiros.CCEP5, FRoteiro.Roteiros.CEPInicial) then
+        begin
+          FRoteiro.Roteiros.Acao := tacIndefinido;
+        end;
+      end;
+
       if FRoteiro.Roteiros.Acao <> tacIndefinido then
       begin
         if not FRoteiro.Gravar then
@@ -633,22 +642,25 @@ begin
     if Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_check').asInteger = 1 then
     begin
       sRoteiro := formatfloat('000', codigoRoteiro.EditValue);
-      Data_Sisgef.mtbRoteirosExpressas.Insert;
-      Data_Sisgef.mtbRoteirosExpressasid_roteiro.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('id_roteiro').AsInteger;;
-      Data_Sisgef.mtbRoteirosExpressascod_ccep5.AsString := sRoteiro;
-      Data_Sisgef.mtbRoteirosExpressasdes_roteiro.AsString := descricaoRoteiro.Text;
-      Data_Sisgef.mtbRoteirosExpressasnum_cep_inicial.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_inicial').AsString;
-      Data_Sisgef.mtbRoteirosExpressasnum_cep_final.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_final').AsString;
-      Data_Sisgef.mtbRoteirosExpressasdes_prazo.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_prazo').AsString;
-      Data_Sisgef.mtbRoteirosExpressasdom_zona.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_zona').AsString;;
-      Data_Sisgef.mtbRoteirosExpressascod_tipo.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_tipo').AsInteger;
-      Data_Sisgef.mtbRoteirosExpressasdes_logradouro.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_logradouro').AsString;
-      Data_Sisgef.mtbRoteirosExpressasdes_bairro.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_bairro').AsString;
-      Data_Sisgef.mtbRoteirosExpressascod_cliente.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_cliente').AsInteger;
-      Data_Sisgef.mtbRoteirosExpressascod_leve.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_leve').AsInteger;
-      Data_Sisgef.mtbRoteirosExpressascod_pesado.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_pesado').AsInteger;
-      Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 0;
-      Data_Sisgef.mtbRoteirosExpressas.Post;
+      if ValidateData(sRoteiro, Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_inicial').AsString) then
+      begin
+        Data_Sisgef.mtbRoteirosExpressas.Insert;
+        Data_Sisgef.mtbRoteirosExpressasid_roteiro.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('id_roteiro').AsInteger;;
+        Data_Sisgef.mtbRoteirosExpressascod_ccep5.AsString := sRoteiro;
+        Data_Sisgef.mtbRoteirosExpressasdes_roteiro.AsString := descricaoRoteiro.Text;
+        Data_Sisgef.mtbRoteirosExpressasnum_cep_inicial.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_inicial').AsString;
+        Data_Sisgef.mtbRoteirosExpressasnum_cep_final.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_final').AsString;
+        Data_Sisgef.mtbRoteirosExpressasdes_prazo.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_prazo').AsString;
+        Data_Sisgef.mtbRoteirosExpressasdom_zona.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_zona').AsString;;
+        Data_Sisgef.mtbRoteirosExpressascod_tipo.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_tipo').AsInteger;
+        Data_Sisgef.mtbRoteirosExpressasdes_logradouro.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_logradouro').AsString;
+        Data_Sisgef.mtbRoteirosExpressasdes_bairro.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_bairro').AsString;
+        Data_Sisgef.mtbRoteirosExpressascod_cliente.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_cliente').AsInteger;
+        Data_Sisgef.mtbRoteirosExpressascod_leve.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_leve').AsInteger;
+        Data_Sisgef.mtbRoteirosExpressascod_pesado.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_pesado').AsInteger;
+        Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 0;
+        Data_Sisgef.mtbRoteirosExpressas.Post;
+      end;
     end;
     Data_Sisgef.mtbRoteirosLivres.Next;
   end;
@@ -732,6 +744,34 @@ begin
   else
   begin
     progressBar.Position := planilha.Progresso;
+  end;
+end;
+
+function Tview_RoteirosExpressas.ValidateData(sRoteiro, sCEP: String): boolean;
+var
+  FRoteiro : TRoteirosExpressasControl;
+  aParam: Array of variant;
+  sFiltro, sMensagem: String;
+begin
+  try
+    Result := False;
+    sMensagem := '';
+    sFiltro := '';
+    FRoteiro := TRoteirosExpressasControl.Create;
+    SetLength(aParam, 2);
+    sFiltro := 'cod_ccep5 = ' + sRoteiro + ' and num_cep_inicial = ' + QuotedStr(sCEP);
+    aParam := ['FILTRO', sFiltro];
+    if not FRoteiro.Localizar(aParam).IsEmpty then
+    begin
+      sMensagem := 'CEP ' + Data_Sisgef.mtbRoteirosExpressasnum_cep_inicial.AsString + ' já está cadastrado no roteiro ' +
+      codigoRoteiro.Text + ' !';
+      Application.MessageBox(PChar(sMensagem),'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    Result := True;
+  finally
+    Finalize(aParam);
+    FRoteiro.free;
   end;
 end;
 

@@ -368,6 +368,7 @@ begin
       end;
     end;
   end;
+  gridAbrangenciaDBTableView1.Controller.ClearSelection;
 end;
 
 procedure Tview_CadastroAbrangenciaExpressas.ExportData;

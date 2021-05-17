@@ -695,7 +695,10 @@ object view_CadastroAbrangenciaExpressas: Tview_CadastroAbrangenciaExpressas
         OptionsBehavior.GoToNextCellOnEnter = True
         OptionsBehavior.CopyPreviewToClipboard = False
         OptionsBehavior.FocusCellOnCycle = True
+        OptionsSelection.CellSelect = False
         OptionsSelection.MultiSelect = True
+        OptionsSelection.CheckBoxVisibility = [cbvDataRow]
+        OptionsSelection.MultiSelectMode = msmPersistent
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
         ConditionalFormatting = {

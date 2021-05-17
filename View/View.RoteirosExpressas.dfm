@@ -657,7 +657,10 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
         OptionsBehavior.FocusCellOnCycle = True
         OptionsCustomize.ColumnGrouping = False
         OptionsCustomize.ColumnsQuickCustomization = True
+        OptionsSelection.CellSelect = False
         OptionsSelection.MultiSelect = True
+        OptionsSelection.CheckBoxVisibility = [cbvDataRow]
+        OptionsSelection.MultiSelectMode = msmPersistent
         OptionsView.ColumnAutoWidth = True
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
@@ -667,8 +670,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           6F0072006D0061007400740069006E006700520075006C006500450078007000
           720065007300730069006F006E009F0000000000000000000000FFFFFF7FFFFF
           FF7F00010000002009000000150000004D006900630072006F0073006F006600
-          740020004A00680065006E006700480065006900200055004900000800000000
-          2000000020000000002000000000200000000020000000002000070000004700
+          740020004A00680065006E006700480065006900200055004900000800FFFF00
+          0000000020000000002000000000200000000020000000002000070000004700
           45004E004500520041004C00000000000002000000000000000001070000003D
           005B0023005D003D002D00310000000000}
         object tvRoteirosdom_check: TcxGridDBColumn
@@ -690,6 +693,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
             end>
           Properties.ReadOnly = True
           Properties.ShowDescriptions = False
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 25
         end
@@ -701,9 +705,8 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           Properties.MaskKind = emkRegExpr
           Properties.EditMask = '\d\d\d\d\d\d'
           Properties.ReadOnly = True
-          Visible = False
           HeaderAlignmentHorz = taCenter
-          Width = 64
+          Width = 72
         end
         object tvRoteiroscod_ccep5: TcxGridDBColumn
           Caption = 'C'#243'digo'
@@ -722,7 +725,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           Properties.MaskKind = emkRegExpr
           Properties.EditMask = '\d\d\d\d\d\d\d\d'
           HeaderAlignmentHorz = taCenter
-          Width = 105
+          Width = 100
         end
         object tvRoteirosnum_cep_final: TcxGridDBColumn
           Caption = 'CEP Final'
@@ -787,14 +790,14 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
           DataBinding.FieldName = 'des_logradouro'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 388
+          Width = 366
         end
         object tvRoteirosdes_bairro: TcxGridDBColumn
           Caption = 'Bairro'
           DataBinding.FieldName = 'des_bairro'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 198
+          Width = 187
         end
         object tvRoteirosdes_sigla: TcxGridDBColumn
           Caption = 'Tipo'
@@ -824,7 +827,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
               Value = 3
             end>
           HeaderAlignmentHorz = taCenter
-          Width = 154
+          Width = 145
         end
         object tvRoteiroscod_cliente: TcxGridDBColumn
           Caption = 'Cliente'
