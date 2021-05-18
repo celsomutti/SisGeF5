@@ -62,12 +62,6 @@ type
     actionListEntregadores: TActionList;
     actionLocalizar: TAction;
     actionFechar: TAction;
-    buttonNovo: TcxButton;
-    layoutItemButtonNovo: TdxLayoutItem;
-    buttonLocalizar: TcxButton;
-    layoutItemButtonLocalizar: TdxLayoutItem;
-    buttonCancelar: TcxButton;
-    layoutItemButtonCancelar: TdxLayoutItem;
     buttonGravar: TcxButton;
     layoutItemButtonGravar: TdxLayoutItem;
     checkBoxAtivo: TcxCheckBox;
@@ -85,8 +79,6 @@ type
     memTableEntregadorescod_cliente: TIntegerField;
     actionPesquisarTabelas: TAction;
     memTableEntregadoresdat_manutencao: TSQLTimeStampField;
-    buttonEditar: TcxButton;
-    layoutItemButtonEditar: TdxLayoutItem;
     layoutGroupHistorico: TdxLayoutGroup;
     memTableExtravios: TFDMemTable;
     memTableExtravioscod_extravio: TIntegerField;
@@ -251,6 +243,10 @@ type
     procedure ExportarExtravios;
     procedure ExportaLancamentos;
     procedure ExportaExpressas;
+    procedure IncludeData;
+    procedure EditData;
+    procedure CloseForm;
+    procedure StartForm;
     function RetornaNomeAgente(iCodigo: integer): String;
     function RetornaNomePessoa(iCodigo: integer): String;
     function RetornaDescricaoTabela(iCodigo: integer): string;
@@ -260,6 +256,7 @@ type
     procedure Modo;
   public
     { Public declarations }
+    iID: Integer;
   end;
 
 var
@@ -270,7 +267,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.PesquisarPessoas, View.PesquisaEntregadoresExpressas;
+uses Data.SisGeF, View.PesquisarPessoas;
 
 procedure Tview_CadastroEntregadores.actionCancelarExecute(Sender: TObject);
 begin
@@ -288,9 +285,7 @@ end;
 
 procedure Tview_CadastroEntregadores.actionFecharExecute(Sender: TObject);
 begin
-  FAcao := tacIndefinido;
-  if memTableEntregadores.Active then memTableEntregadores.Close;
-  Close;
+  CloseForm;
 end;
 
 procedure Tview_CadastroEntregadores.actionGravarExecute(Sender: TObject);
@@ -366,6 +361,21 @@ begin
   end;
 end;
 
+procedure Tview_CadastroEntregadores.CloseForm;
+begin
+  FAcao := tacIndefinido;
+  if memTableEntregadores.Active then memTableEntregadores.Close;
+  ModalResult := mrCancel;
+end;
+
+procedure Tview_CadastroEntregadores.EditData;
+begin
+  PesquisaEntregadores;
+  FAcao := tacAlterar;
+  Modo;
+  textEditNomeFantasia.SetFocus;
+end;
+
 procedure Tview_CadastroEntregadores.ExportaExpressas;
 begin
   SaveDialog.Filter := '';
@@ -431,12 +441,7 @@ end;
 
 procedure Tview_CadastroEntregadores.FormShow(Sender: TObject);
 begin
-  labelTitle.Caption := Self.Caption;
-  LimpaCampos;
-  Data_Sisgef.PopulaClientesEmpresa;
-  Data_Sisgef.PopulaBases;
-  FAcao := tacIndefinido;
-  Modo;
+  StartForm;
 end;
 
 procedure Tview_CadastroEntregadores.Gravar;
@@ -478,7 +483,7 @@ begin
       FAcao := tacIndefinido;
       LimpaCampos;
       Modo;
-      Exit;
+      ModalResult := mrOk;
     end;
   finally
     entregadores.Free;
@@ -507,6 +512,14 @@ begin
     case AButtonIndex of
     16: ExportaExpressas;
   end;
+end;
+
+procedure Tview_CadastroEntregadores.IncludeData;
+begin
+  LimpaCampos;
+  FAcao := tacIncluir;
+  Modo;
+  maskEditCodigo.SetFocus;
 end;
 
 procedure Tview_CadastroEntregadores.LimpaCampos;
@@ -676,14 +689,10 @@ var
   sQuery: String;
   entregadores : TEntregadoresExpressasControl;
 begin
-  if not Assigned(view_PesquisaEntregadoresExpressas) then
-  begin
-    view_PesquisaEntregadoresExpressas := Tview_PesquisaEntregadoresExpressas.Create(Application);
-  end;
-  if view_PesquisaEntregadoresExpressas.ShowModal = mrOK then
+  if iID  <> 0 then
   begin
     entregadores := TEntregadoresExpressasControl.Create;
-    sQuery := 'id_entregador = ' + view_PesquisaEntregadoresExpressas.iID.ToString;
+    sQuery := 'id_entregador = ' + iID.ToString;
     SetLength(aParam,2);
     aparam := ['FILTRO', sQuery];
     memTableEntregadores.CopyDataSet(entregadores.Localizar(aParam));
@@ -699,7 +708,6 @@ begin
     end;
     entregadores.Free;
   end;
-  FreeAndNil(view_PesquisaEntregadoresExpressas);
 end;
 
 procedure Tview_CadastroEntregadores.PesquisaFaixas;
@@ -985,6 +993,17 @@ begin
   finally
     verba.Free
   end;
+end;
+
+procedure Tview_CadastroEntregadores.StartForm;
+begin
+  labelTitle.Caption := Self.Caption;
+  Data_Sisgef.PopulaClientesEmpresa;
+  Data_Sisgef.PopulaBases;
+  if iID = 0 then
+    IncludeData
+  else
+    EditData;
 end;
 
 function Tview_CadastroEntregadores.ValidaDados: boolean;

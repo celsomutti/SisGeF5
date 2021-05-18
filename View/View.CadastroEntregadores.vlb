@@ -147,18 +147,12 @@ Coordinates=952,1981,185,33
 Coordinates=952,2036,113,33
 
 []
-Coordinates=308,2960,118,33
+Coordinates=458,2940,89,51
 ExplicitSubNodes=EditValue
 LayerNames=
 
 [layoutItemNomeFantasia]
 Coordinates=191,1902,136,33
-
-[buttonCancelar]
-Coordinates=458,2940,89,51
-
-[layoutItemButtonCancelar]
-Coordinates=191,1957,142,33
 
 [maskEditCodigo]
 Coordinates=460,3000,95,69
@@ -189,9 +183,6 @@ Coordinates=374,879,173,33
 [layoutItemCodigo]
 Coordinates=191,2342,101,33
 
-[layoutItemButtonNovo]
-Coordinates=191,2397,124,33
-
 [checkBoxAtivo]
 Coordinates=470,3130,88,51
 ExplicitSubNodes=EditValue
@@ -210,14 +201,8 @@ Coordinates=2121,2940,113,33
 Coordinates=320,3080,108,51
 ExplicitSubNodes=Text
 
-[buttonNovo]
-Coordinates=577,2940,72,51
-
 [actionListEntregadores]
 Coordinates=191,3057,129,33
-
-[buttonLocalizar]
-Coordinates=659,2940,91,51
 
 [layoutItemCheckBoxAtivo]
 Coordinates=191,3112,141,33
@@ -249,9 +234,6 @@ ExplicitSubNodes=Text
 
 [actionFechar]
 Coordinates=463,1319,78,33
-
-[layoutItemButtonLocalizar]
-Coordinates=463,1374,143,33
 
 [actionLocalizarAgentes]
 Coordinates=191,2517,129,33
@@ -359,9 +341,6 @@ Coordinates=855,967,193,33
 
 [memTableExtraviosdes_retorno_correspondencia]
 Coordinates=867,1211,259,33
-
-[buttonEditar]
-Coordinates=2860,2717,75,51
 
 [gridExtraviosDBTableViewExtravioscod_extravio]
 Coordinates=855,1706,255,33
@@ -582,9 +561,6 @@ Coordinates=988,1816,309,33
 [layoutItemREmessas]
 Coordinates=716,3680,117,33
 
-[layoutItemButtonEditar]
-Coordinates=567,3680,128,33
-
 [memTableExtravioscod_extravio]
 Coordinates=1274,1968,175,33
 
@@ -660,12 +636,6 @@ Coordinates=1388,2353,195,33
 [textEditID]
 Coordinates=320,2990,62,51
 ExplicitSubNodes=Text
-
-[view_PesquisaEntregadoresExpressas.fdPesquisa]
-Coordinates=522,2717,263,195
-
-[view_PesquisaEntregadoresExpressas.dsPesquisa]
-Coordinates=1388,2914,265,33
 
 [view_PesquisaEntregadoresExpressas.]
 Coordinates=199,2717,313,195
