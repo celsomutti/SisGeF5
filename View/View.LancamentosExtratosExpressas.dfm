@@ -7,8 +7,8 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
-  Font.Height = -13
-  Font.Name = 'Segoe UI'
+  Font.Height = -12
+  Font.Name = 'Microsoft JhengHei UI'
   Font.Style = []
   FormStyle = fsMDIChild
   KeyPreview = True
@@ -18,17 +18,19 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 17
+  TextHeight = 15
   object layoutControlPadrao: TdxLayoutControl
     Left = 0
     Top = 0
     Width = 802
     Height = 671
     Align = alClient
+    ParentBackground = True
     TabOrder = 0
+    Transparent = True
     object labelTitle: TcxLabel
-      Left = 13
-      Top = 13
+      Left = 12
+      Top = 12
       Caption = 'labelTitle'
       ParentFont = False
       Style.Font.Charset = ANSI_CHARSET
@@ -42,8 +44,8 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Transparent = True
     end
     object textEditDescricao: TcxTextEdit
-      Left = 28
-      Top = 96
+      Left = 26
+      Top = 90
       Hint = 'Descri'#231#227'o do lan'#231'amento'
       Properties.MaxLength = 256
       Properties.ReadOnly = True
@@ -51,11 +53,11 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 1
-      Width = 629
+      Width = 634
     end
     object dateEditData: TcxDateEdit
-      Left = 665
-      Top = 96
+      Left = 667
+      Top = 90
       Hint = 'Data refer'#234'ncia do lan'#231'amento'
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
@@ -67,8 +69,8 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Width = 109
     end
     object buttonEditCodigoEntregador: TcxButtonEdit
-      Left = 28
-      Top = 152
+      Left = 26
+      Top = 143
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
@@ -85,11 +87,11 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Style.ButtonStyle = bts3D
       TabOrder = 3
       Text = '0'
-      Width = 77
+      Width = 78
     end
     object textEditNomeEntregador: TcxTextEdit
-      Left = 113
-      Top = 152
+      Left = 111
+      Top = 143
       Hint = 'Nome do Entregador'
       TabStop = False
       Properties.ReadOnly = True
@@ -97,11 +99,11 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 4
-      Width = 269
+      Width = 273
     end
     object comboBoxTipo: TcxComboBox
-      Left = 390
-      Top = 152
+      Left = 391
+      Top = 143
       Hint = 'Tipo de Lan'#231'amento'
       ParentFont = False
       Properties.DropDownListStyle = lsFixedList
@@ -124,11 +126,11 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Style.IsFontAssigned = True
       TabOrder = 5
       Text = 'Selecione ...'
-      Width = 131
+      Width = 132
     end
     object calcEditValor: TcxCalcEdit
-      Left = 529
-      Top = 152
+      Left = 530
+      Top = 143
       Hint = 'Valor do lan'#231'amento'
       EditValue = 0.000000000000000000
       ParentFont = False
@@ -148,11 +150,11 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Style.PopupBorderStyle = epbsFrame3D
       Style.IsFontAssigned = True
       TabOrder = 6
-      Width = 116
+      Width = 118
     end
     object checkBoxProcessado: TcxCheckBox
-      Left = 28
-      Top = 535
+      Left = 26
+      Top = 544
       Hint = 'Indica se o lan'#231'amento j'#225' debitado ou creditado'
       TabStop = False
       Caption = 'Processado'
@@ -167,8 +169,8 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       TabOrder = 13
     end
     object maskEditDataProcessamento: TcxMaskEdit
-      Left = 133
-      Top = 547
+      Left = 132
+      Top = 555
       Hint = 'Data do processamento'
       TabStop = False
       Properties.IgnoreMaskBlank = True
@@ -179,11 +181,11 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Style.HotTrack = False
       TabOrder = 14
       Text = '  /  /    '
-      Width = 131
+      Width = 129
     end
     object textEditExtrato: TcxTextEdit
-      Left = 272
-      Top = 547
+      Left = 268
+      Top = 555
       Hint = 'N'#250'mero do extrato'
       TabStop = False
       Properties.ReadOnly = True
@@ -191,11 +193,11 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 15
-      Width = 127
+      Width = 130
     end
     object maskEditDataCadastro: TcxMaskEdit
-      Left = 407
-      Top = 547
+      Left = 405
+      Top = 555
       Hint = 'Data do cadastro do lan'#231'amento'
       TabStop = False
       Properties.IgnoreMaskBlank = True
@@ -206,11 +208,11 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Style.HotTrack = False
       TabOrder = 16
       Text = '  /  /    '
-      Width = 128
+      Width = 130
     end
     object buttonEditReferencia: TcxButtonEdit
-      Left = 543
-      Top = 547
+      Left = 542
+      Top = 555
       Hint = 'ID do lan'#231'amento de origem em caso de parcelamento'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
@@ -224,22 +226,22 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Style.ButtonStyle = bts3D
       TabOrder = 17
       Text = '0'
-      Width = 95
+      Width = 97
     end
     object TextEditUsuario: TcxTextEdit
       Left = 646
-      Top = 547
+      Top = 555
       TabStop = False
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 18
-      Width = 128
+      Width = 130
     end
     object spinEditIntervaloDias: TcxSpinEdit
-      Left = 28
-      Top = 246
+      Left = 26
+      Top = 231
       Hint = 'Intervalo de dias entre parcelas ou repeti'#231#245'es ou quantidade'
       Properties.Alignment.Horz = taRightJustify
       Properties.MaxValue = 36.000000000000000000
@@ -253,8 +255,8 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Width = 64
     end
     object dateEditDataInicial: TcxDateEdit
-      Left = 169
-      Top = 246
+      Left = 165
+      Top = 231
       Hint = 'Data inicial do percelamento ou repeti'#231#227'o'
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -265,8 +267,8 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Width = 96
     end
     object buttonProcessar: TcxButton
-      Left = 273
-      Top = 246
+      Left = 268
+      Top = 231
       Width = 96
       Height = 25
       Cursor = crHandPoint
@@ -274,8 +276,8 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       TabOrder = 11
     end
     object gridParcelamento: TcxGrid
-      Left = 28
-      Top = 302
+      Left = 26
+      Top = 284
       Width = 389
       Height = 157
       TabOrder = 12
@@ -311,8 +313,8 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       end
     end
     object comboBoxProcessamento: TcxComboBox
-      Left = 653
-      Top = 152
+      Left = 655
+      Top = 143
       Hint = 'Tipo de processo a ser aplicado'
       ParentFont = False
       Properties.DropDownListStyle = lsFixedList
@@ -338,24 +340,24 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Width = 121
     end
     object buttonNovo: TcxButton
-      Left = 28
-      Top = 618
+      Left = 26
+      Top = 620
       Width = 75
       Height = 25
       Action = actionNovo
       TabOrder = 19
     end
     object buttonEditar: TcxButton
-      Left = 111
-      Top = 618
+      Left = 108
+      Top = 620
       Width = 75
       Height = 25
       Action = actionEditar
       TabOrder = 20
     end
     object buttonCancelar: TcxButton
-      Left = 194
-      Top = 618
+      Left = 190
+      Top = 620
       Width = 79
       Height = 25
       Action = actionCancelar
@@ -363,40 +365,40 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       TabOrder = 21
     end
     object buttonExcluir: TcxButton
-      Left = 281
-      Top = 618
+      Left = 276
+      Top = 620
       Width = 75
       Height = 25
       Action = actionExcluir
       TabOrder = 22
     end
     object buttonLocalizar: TcxButton
-      Left = 364
-      Top = 618
+      Left = 358
+      Top = 620
       Width = 85
       Height = 25
       Action = actionLocalizar
       TabOrder = 23
     end
     object buttonGravar: TcxButton
-      Left = 457
-      Top = 618
+      Left = 450
+      Top = 620
       Width = 75
       Height = 25
       Action = actionGravar
       TabOrder = 24
     end
     object buttonFechar: TcxButton
-      Left = 699
-      Top = 618
+      Left = 701
+      Top = 620
       Width = 75
       Height = 25
       Action = actionFechar
       TabOrder = 25
     end
     object spinEditParcelas: TcxSpinEdit
-      Left = 100
-      Top = 246
+      Left = 97
+      Top = 231
       Properties.Alignment.Horz = taRightJustify
       Properties.MaxValue = 12.000000000000000000
       Properties.MinValue = 2.000000000000000000
@@ -443,7 +445,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Text = '&Descri'#231#227'o:'
       CaptionOptions.Layout = clTop
       Control = textEditDescricao
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
@@ -466,7 +468,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Text = '&Entregador:'
       CaptionOptions.Layout = clTop
       Control = buttonEditCodigoEntregador
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 80
       ControlOptions.ShowBorder = False
       Index = 0
@@ -485,7 +487,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Text = 'Nome do Entregador:'
       CaptionOptions.Layout = clTop
       Control = textEditNomeEntregador
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 280
       ControlOptions.ShowBorder = False
       Index = 1
@@ -539,7 +541,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Visible = False
       CaptionOptions.Layout = clTop
       Control = checkBoxProcessado
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 92
       ControlOptions.ShowBorder = False
       Index = 0
@@ -552,7 +554,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Text = 'Data Processamento:'
       CaptionOptions.Layout = clTop
       Control = maskEditDataProcessamento
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
@@ -564,7 +566,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Text = 'N'#186' Extrato:'
       CaptionOptions.Layout = clTop
       Control = textEditExtrato
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
@@ -576,7 +578,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Text = 'Data Cadastro:'
       CaptionOptions.Layout = clTop
       Control = maskEditDataCadastro
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 3
@@ -588,7 +590,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Text = 'Refer'#234'ncia:'
       CaptionOptions.Layout = clTop
       Control = buttonEditReferencia
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 91
       ControlOptions.ShowBorder = False
       Index = 4
@@ -600,7 +602,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Text = 'Usu'#225'rio:'
       CaptionOptions.Layout = clTop
       Control = TextEditUsuario
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 5
@@ -637,7 +639,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       CaptionOptions.Text = 'Data Inicia&l:'
       CaptionOptions.Layout = clTop
       Control = dateEditDataInicial
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 96
       ControlOptions.ShowBorder = False
       Index = 2

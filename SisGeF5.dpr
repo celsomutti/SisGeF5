@@ -161,7 +161,7 @@ uses
   Model.PlanilhaBaixasTFO in 'Model\Model.PlanilhaBaixasTFO.pas',
   Control.PlanilhaBaixasTFO in 'Control\Control.PlanilhaBaixasTFO.pas',
   View.CadastroEntregadores in 'View\View.CadastroEntregadores.pas' {view_CadastroEntregadores},
-  View.LancamentosExtratos in 'View\View.LancamentosExtratos.pas' {view_LancamentosExtratos},
+  View.LancamentosExtratosExpressas in 'View\View.LancamentosExtratosExpressas.pas' {view_LancamentosExtratosExpressas},
   Model.PlanilhaEntradaTFO in 'Model\Model.PlanilhaEntradaTFO.pas',
   Control.PlanilhaEntradaTFO in 'Control\Control.PlanilhaEntradaTFO.pas',
   Thread.ImportarPedidosDIRECT in 'Thread\Thread.ImportarPedidosDIRECT.pas',
@@ -176,7 +176,7 @@ uses
   View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
   Model.CadastroGeral in 'Model\Model.CadastroGeral.pas',
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
-  View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas},
+  View.EntregadoresExpressasPesquisa in 'View\View.EntregadoresExpressasPesquisa.pas' {view_EntregadoresExpressasPesquisa},
   View.PesquisaBasesExpressas in 'View\View.PesquisaBasesExpressas.pas' {view_PesquisaBasesExpressas},
   View.PesquisarPessoas in 'View\View.PesquisarPessoas.pas' {View_PesquisarPessoas},
   View.DetalheRemessasExtrato in 'View\View.DetalheRemessasExtrato.pas' {view_DetalheRemessasExtrato},
@@ -198,7 +198,9 @@ uses
   Model.AbrangenciaExpressas in 'Model\Model.AbrangenciaExpressas.pas',
   Control.AbrangenciaExpressas in 'Control\Control.AbrangenciaExpressas.pas',
   View.CadastroAbrangenciaExpressas in 'View\View.CadastroAbrangenciaExpressas.pas' {view_CadastroAbrangenciaExpressas},
-  Thread.ImportaCEPRoteiro in 'Thread\Thread.ImportaCEPRoteiro.pas';
+  Thread.ImportaCEPRoteiro in 'Thread\Thread.ImportaCEPRoteiro.pas',
+  View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas},
+  View.LancamentosExtratosExpressasPesquisa in 'View\View.LancamentosExtratosExpressasPesquisa.pas' {view_LancamentosExtratosExpressasPesquisa};
 
 {$R *.res}
 
@@ -206,7 +208,9 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Sistema Gerenciador de Faturamento';
-  Application.CreateForm(TData_Sisgef, Data_Sisgef);
-  Application.CreateForm(Tview_Main, view_Main);
-  Application.Run;
+  AApplication.CreateForm(TForm1, Form1);
+  AApplication.CreateForm(TData_Sisgef, Data_Sisgef);
+  AApplication.CreateForm(Tview_Main, view_Main);
+  Application.CreateForm(Tview_PesquisaEntregadoresExpressas, view_PesquisaEntregadoresExpressas);
+  lication.Run;
 end.
