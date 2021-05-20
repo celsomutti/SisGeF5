@@ -10,11 +10,9 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
   Font.Height = -12
   Font.Name = 'Microsoft JhengHei UI'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
   ShowHint = True
-  Visible = True
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96

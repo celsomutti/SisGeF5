@@ -125,6 +125,7 @@ type
     function RetornaNomeEntregador(iCodigo: integer): String;
   public
     { Public declarations }
+    iID: Integer;
   end;
 
 var
@@ -132,7 +133,7 @@ var
   lancamentos : TLancamentosControl;
   FAcao : TAcao;
   iCadastro: Integer;
-  iID: Integer;
+
 
 implementation
 
@@ -249,7 +250,7 @@ end;
 procedure Tview_LancamentosExtratosExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
-  view_LancamentosExtratos := nil;
+  view_LancamentosExtratosExpressas := nil;
 end;
 
 procedure Tview_LancamentosExtratosExpressas.FormShow(Sender: TObject);

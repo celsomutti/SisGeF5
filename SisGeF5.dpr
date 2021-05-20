@@ -200,7 +200,8 @@ uses
   View.CadastroAbrangenciaExpressas in 'View\View.CadastroAbrangenciaExpressas.pas' {view_CadastroAbrangenciaExpressas},
   Thread.ImportaCEPRoteiro in 'Thread\Thread.ImportaCEPRoteiro.pas',
   View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas},
-  View.LancamentosExtratosExpressasPesquisa in 'View\View.LancamentosExtratosExpressasPesquisa.pas' {view_LancamentosExtratosExpressasPesquisa};
+  View.LancamentosExtratosExpressasPesquisa in 'View\View.LancamentosExtratosExpressasPesquisa.pas' {view_LancamentosExtratosExpressasPesquisa},
+  View.FiltroGenerico in 'View\View.FiltroGenerico.pas' {view_FiltroGenerico};
 
 {$R *.res}
 
@@ -208,9 +209,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Sistema Gerenciador de Faturamento';
-  AApplication.CreateForm(TForm1, Form1);
-  AApplication.CreateForm(TData_Sisgef, Data_Sisgef);
-  AApplication.CreateForm(Tview_Main, view_Main);
-  Application.CreateForm(Tview_PesquisaEntregadoresExpressas, view_PesquisaEntregadoresExpressas);
-  lication.Run;
+  Application.CreateForm(TData_Sisgef, Data_Sisgef);
+  Application.CreateForm(Tview_Main, view_Main);
+  Application.Run;
 end.
