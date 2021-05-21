@@ -604,9 +604,38 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       LookAndFeel.NativeStyle = False
       object gridLancamentosDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
+        Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+        Navigator.Buttons.First.ImageIndex = 5
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.Prior.ImageIndex = 8
+        Navigator.Buttons.Next.ImageIndex = 7
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Last.ImageIndex = 6
+        Navigator.Buttons.Insert.Visible = False
+        Navigator.Buttons.Delete.Visible = False
+        Navigator.Buttons.Edit.Visible = False
+        Navigator.Buttons.Post.Visible = False
+        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.ImageIndex = 19
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
         DataController.DataSource = dsLancamnentos
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.DefaultGroupSummaryItems = <
+          item
+            Format = 'R$ ,0.00;- R$ ,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridLancamentosDBTableView1VAL_LANCAMENTO
+          end>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = 'R$ ,0.00;- R$ ,0.00'
+            Kind = skSum
+            Column = gridLancamentosDBTableView1VAL_LANCAMENTO
+          end>
         DataController.Summary.SummaryGroups = <>
         OptionsData.Deleting = False
         OptionsData.DeletingConfirmation = False
@@ -614,6 +643,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
         OptionsData.Inserting = False
         OptionsSelection.CellSelect = False
         OptionsView.CellAutoHeight = True
+        OptionsView.Footer = True
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
         ConditionalFormatting = {
@@ -637,7 +667,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
           5300220000000000310000005400640078005300700072006500610064005300
           680065006500740043006F006E0064006900740069006F006E0061006C004600
           6F0072006D0061007400740069006E006700520075006C006500450078007000
-          720065007300730069006F006E00B30000000000000000000000FFFFFF7FFFFF
+          720065007300730069006F006E00B3000000030000000000000003000000FFFF
           FF7F0001FF000000090000001600000040004D006900630072006F0073006F00
           6600740020004A00680065006E00670048006500690020005500490000000000
           0000200000002000000000200000000020000000002000000000200007000000
@@ -646,7 +676,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
           0000000000310000005400640078005300700072006500610064005300680065
           006500740043006F006E0064006900740069006F006E0061006C0046006F0072
           006D0061007400740069006E006700520075006C006500450078007000720065
-          007300730069006F006E00B50000000000000000000000FFFFFF7FFFFFFF7F00
+          007300730069006F006E00B5000000030000000000000003000000FFFFFF7F00
           0100800000090000001600000040004D006900630072006F0073006F00660074
           0020004A00680065006E00670048006500690020005500490000000000000020
           0000002000000000200000000020000000002000000000200007000000470045
@@ -662,6 +692,17 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
           DataBinding.FieldName = 'DES_LANCAMENTO'
           HeaderAlignmentHorz = taCenter
           Width = 386
+        end
+        object gridLancamentosDBTableView1DES_TIPO: TcxGridDBColumn
+          DataBinding.FieldName = 'DES_TIPO'
+          HeaderAlignmentHorz = taCenter
+          Width = 84
+        end
+        object gridLancamentosDBTableView1VAL_LANCAMENTO: TcxGridDBColumn
+          DataBinding.FieldName = 'VAL_LANCAMENTO'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          HeaderAlignmentHorz = taCenter
+          Width = 92
         end
         object gridLancamentosDBTableView1DAT_LANCAMENTO: TcxGridDBColumn
           DataBinding.FieldName = 'DAT_LANCAMENTO'
@@ -687,16 +728,6 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
           DataBinding.FieldName = 'NOM_ENTREGADOR'
           HeaderAlignmentHorz = taCenter
           Width = 308
-        end
-        object gridLancamentosDBTableView1DES_TIPO: TcxGridDBColumn
-          DataBinding.FieldName = 'DES_TIPO'
-          HeaderAlignmentHorz = taCenter
-          Width = 74
-        end
-        object gridLancamentosDBTableView1VAL_LANCAMENTO: TcxGridDBColumn
-          DataBinding.FieldName = 'VAL_LANCAMENTO'
-          HeaderAlignmentHorz = taCenter
-          Width = 74
         end
         object gridLancamentosDBTableView1DOM_DESCONTO: TcxGridDBColumn
           DataBinding.FieldName = 'DOM_DESCONTO'

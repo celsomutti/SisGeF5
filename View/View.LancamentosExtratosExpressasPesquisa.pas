@@ -123,7 +123,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.FiltroGenerico;
+uses Data.SisGeF, View.FiltroGenerico, View.LancamentosExtratosExpressas;
 
 procedure Tview_LancamentosExtratosExpressasPesquisa.AbreFiltroAvancado;
 begin
