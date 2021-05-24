@@ -603,7 +603,24 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       LookAndFeel.Kind = lfFlat
       LookAndFeel.NativeStyle = False
       object gridLancamentosDBTableView1: TcxGridDBTableView
-        Navigator.Buttons.CustomButtons = <>
+        OnDblClick = gridLancamentosDBTableView1DblClick
+        Navigator.Buttons.OnButtonClick = gridLancamentosDBTableView1NavigatorButtonsButtonClick
+        Navigator.Buttons.CustomButtons = <
+          item
+            ImageIndex = 11
+          end
+          item
+            ImageIndex = 62
+          end
+          item
+            ImageIndex = 63
+          end
+          item
+            ImageIndex = 65
+          end
+          item
+            ImageIndex = 64
+          end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.ImageIndex = 5
         Navigator.Buttons.PriorPage.Visible = False
@@ -659,30 +676,31 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
           0000000000310000005400640078005300700072006500610064005300680065
           006500740043006F006E0064006900740069006F006E0061006C0046006F0072
           006D0061007400740069006E006700520075006C006500450078007000720065
-          007300730069006F006E00990000000000000000000000FFFFFF7FFFFFFF7F00
-          01000000200B00000007000000430061006C006900620072006900000000FFFF
-          8000000000200000000020000000002000000000200000000020000700000047
-          0045004E004500520041004C0000000000000200000000000000000112000000
-          3D005B00500072006F006300650073007300610064006F005D003C003E002200
-          5300220000000000310000005400640078005300700072006500610064005300
-          680065006500740043006F006E0064006900740069006F006E0061006C004600
-          6F0072006D0061007400740069006E006700520075006C006500450078007000
-          720065007300730069006F006E00B3000000030000000000000003000000FFFF
-          FF7F0001FF000000090000001600000040004D006900630072006F0073006F00
-          6600740020004A00680065006E00670048006500690020005500490000000000
-          0000200000002000000000200000000020000000002000000000200007000000
-          470045004E004500520041004C00000000000002000000000000000001100000
-          003D005B005400690070006F005D003D002200440045004200490054004F0022
-          0000000000310000005400640078005300700072006500610064005300680065
-          006500740043006F006E0064006900740069006F006E0061006C0046006F0072
-          006D0061007400740069006E006700520075006C006500450078007000720065
-          007300730069006F006E00B5000000030000000000000003000000FFFFFF7F00
-          0100800000090000001600000040004D006900630072006F0073006F00660074
-          0020004A00680065006E00670048006500690020005500490000000000000020
+          007300730069006F006E00B70000000000000000000000FFFFFF7FFFFFFF7F00
+          0100808000090000001600000040004D006900630072006F0073006F00660074
+          0020004A00680065006E00670048006500690020005500490000010000000020
           0000002000000000200000000020000000002000000000200007000000470045
-          004E004500520041004C00000000000002000000000000000001110000003D00
-          5B005400690070006F005D003D0022004300520045004400490054004F002200
-          00000000}
+          004E004500520041004C00000000000002000000000000000001120000003D00
+          5B00500072006F006300650073007300610064006F005D003C003E0022005300
+          2200000000003100000054006400780053007000720065006100640053006800
+          65006500740043006F006E0064006900740069006F006E0061006C0046006F00
+          72006D0061007400740069006E006700520075006C0065004500780070007200
+          65007300730069006F006E00B3000000030000000000000003000000FFFFFF7F
+          0001FF000000090000001600000040004D006900630072006F0073006F006600
+          740020004A00680065006E006700480065006900200055004900000000000000
+          2000000020000000002000000000200000000020000000002000070000004700
+          45004E004500520041004C00000000000002000000000000000001100000003D
+          005B005400690070006F005D003D002200440045004200490054004F00220000
+          0000003100000054006400780053007000720065006100640053006800650065
+          00740043006F006E0064006900740069006F006E0061006C0046006F0072006D
+          0061007400740069006E006700520075006C0065004500780070007200650073
+          00730069006F006E00B5000000030000000000000003000000FFFFFF7F000100
+          008000090000001600000040004D006900630072006F0073006F006600740020
+          004A00680065006E006700480065006900200055004900000000000000200000
+          002000000000200000000020000000002000000000200007000000470045004E
+          004500520041004C00000000000002000000000000000001110000003D005B00
+          5400690070006F005D003D0022004300520045004400490054004F0022000000
+          0000}
         object gridLancamentosDBTableView1COD_LANCAMENTO: TcxGridDBColumn
           DataBinding.FieldName = 'COD_LANCAMENTO'
           HeaderAlignmentHorz = taCenter
@@ -701,6 +719,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
         object gridLancamentosDBTableView1VAL_LANCAMENTO: TcxGridDBColumn
           DataBinding.FieldName = 'VAL_LANCAMENTO'
           PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
           HeaderAlignmentHorz = taCenter
           Width = 92
         end
@@ -929,6 +948,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 81
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 2
     end
     object dxLayoutItem6: TdxLayoutItem
@@ -941,6 +961,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 81
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 3
     end
     object dxLayoutItem7: TdxLayoutItem
@@ -953,6 +974,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 4
     end
     object dxLayoutItem8: TdxLayoutItem
@@ -970,9 +992,10 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
   end
   object dsLancamnentos: TDataSource
     AutoEdit = False
-    DataSet = memTableLancamentos
-    Left = 272
-    Top = 16
+    DataSet = fdLancamentos
+    OnStateChange = dsLancamnentosStateChange
+    Left = 384
+    Top = 8
   end
   object actionListLancamentos: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -990,18 +1013,23 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       Hint = 'Novo lan'#231'amento'
       ImageIndex = 3
       ShortCut = 113
+      OnExecute = actionNovoLancamentoExecute
     end
     object actionEditarLancamento: TAction
       Caption = '&Editar'
+      Enabled = False
       Hint = 'Editar lan'#231'amento'
       ImageIndex = 10
       ShortCut = 114
+      OnExecute = actionEditarLancamentoExecute
     end
     object actionExluirLancamento: TAction
       Caption = 'E&xcluir'
+      Enabled = False
       Hint = 'Excluir lan'#231'amento'
       ImageIndex = 4
       ShortCut = 115
+      OnExecute = actionExluirLancamentoExecute
     end
     object actionExportarDados: TAction
       Caption = 'Exportar'
@@ -1036,177 +1064,10 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
     end
     object actionCancelarFiltro: TAction
       Caption = 'Cancelar Filtro'
+      Enabled = False
       Hint = 'Canelar filtro aplicado'
       ImageIndex = 67
-    end
-  end
-  object memTableLancamentos: TFDMemTable
-    FieldDefs = <
-      item
-        Name = 'COD_LANCAMENTO'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'DES_LANCAMENTO'
-        DataType = ftString
-        Size = 256
-      end
-      item
-        Name = 'DAT_LANCAMENTO'
-        DataType = ftDate
-      end
-      item
-        Name = 'COD_CADASTRO'
-        DataType = ftInteger
-      end
-      item
-        Name = 'NOM_CADASTRO'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'COD_ENTREGADOR'
-        DataType = ftInteger
-      end
-      item
-        Name = 'NOM_ENTREGADOR'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'DES_TIPO'
-        DataType = ftString
-        Size = 10
-      end
-      item
-        Name = 'VAL_LANCAMENTO'
-        Attributes = [faReadonly]
-        DataType = ftFloat
-        Precision = 23
-      end
-      item
-        Name = 'DOM_DESCONTO'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'DAT_DESCONTO'
-        DataType = ftDate
-      end
-      item
-        Name = 'NUM_EXTRATO'
-        DataType = ftString
-        Size = 15
-      end
-      item
-        Name = 'DOM_PERSISTIR'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'COD_REFERENCIA'
-        DataType = ftInteger
-      end
-      item
-        Name = 'DAT_CADASTRO'
-        DataType = ftDateTime
-      end
-      item
-        Name = 'NOM_USUARIO'
-        DataType = ftString
-        Size = 50
-      end>
-    IndexDefs = <>
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
-    FormatOptions.MaxBcdPrecision = 2147483647
-    FormatOptions.MaxBcdScale = 1073741823
-    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
-    ResourceOptions.Persistent = True
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
-    UpdateOptions.LockWait = True
-    UpdateOptions.FetchGeneratorsPoint = gpNone
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    StoreDefs = True
-    Left = 360
-    Top = 16
-    object memTableLancamentosCOD_LANCAMENTO: TIntegerField
-      DisplayLabel = 'ID'
-      FieldName = 'COD_LANCAMENTO'
-      Required = True
-    end
-    object memTableLancamentosDES_LANCAMENTO: TStringField
-      DisplayLabel = 'Descri'#231#227'o'
-      FieldName = 'DES_LANCAMENTO'
-      Size = 256
-    end
-    object memTableLancamentosDAT_LANCAMENTO: TDateField
-      DisplayLabel = 'Data'
-      FieldName = 'DAT_LANCAMENTO'
-    end
-    object memTableLancamentosCOD_CADASTRO: TIntegerField
-      DisplayLabel = 'C'#243'd. Pessoa'
-      FieldName = 'COD_CADASTRO'
-    end
-    object memTableLancamentosNOM_CADASTRO: TStringField
-      DisplayLabel = 'Nome Pessoa'
-      FieldName = 'NOM_CADASTRO'
-      Size = 70
-    end
-    object memTableLancamentosCOD_ENTREGADOR: TIntegerField
-      DisplayLabel = 'C'#243'd. Entregador'
-      FieldName = 'COD_ENTREGADOR'
-    end
-    object memTableLancamentosNOM_ENTREGADOR: TStringField
-      DisplayLabel = 'Nome Entregador'
-      FieldName = 'NOM_ENTREGADOR'
-      Size = 70
-    end
-    object memTableLancamentosDES_TIPO: TStringField
-      DisplayLabel = 'Tipo'
-      FieldName = 'DES_TIPO'
-      Size = 10
-    end
-    object memTableLancamentosVAL_LANCAMENTO: TFloatField
-      DisplayLabel = 'Valor'
-      FieldName = 'VAL_LANCAMENTO'
-      ReadOnly = True
-    end
-    object memTableLancamentosDOM_DESCONTO: TStringField
-      DisplayLabel = 'Processado'
-      FieldName = 'DOM_DESCONTO'
-      Size = 1
-    end
-    object memTableLancamentosDAT_DESCONTO: TDateField
-      DisplayLabel = 'Data Processo'
-      FieldName = 'DAT_DESCONTO'
-    end
-    object memTableLancamentosNUM_EXTRATO: TStringField
-      DisplayLabel = 'N'#186'. Extrato'
-      FieldName = 'NUM_EXTRATO'
-      Size = 15
-    end
-    object memTableLancamentosDOM_PERSISTIR: TStringField
-      DisplayLabel = 'Persistir'
-      FieldName = 'DOM_PERSISTIR'
-      Size = 1
-    end
-    object memTableLancamentosCOD_REFERENCIA: TIntegerField
-      DisplayLabel = 'Refer'#234'ncia'
-      FieldName = 'COD_REFERENCIA'
-    end
-    object memTableLancamentosDAT_CADASTRO: TDateTimeField
-      DisplayLabel = 'Data Cadastro'
-      FieldName = 'DAT_CADASTRO'
-    end
-    object memTableLancamentosNOM_USUARIO: TStringField
-      DisplayLabel = 'Usu'#225'rio'
-      FieldName = 'NOM_USUARIO'
-      Size = 50
+      OnExecute = actionCancelarFiltroExecute
     end
   end
   object fdLancamentos: TFDQuery

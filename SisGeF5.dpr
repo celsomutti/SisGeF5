@@ -181,7 +181,6 @@ uses
   View.PesquisarPessoas in 'View\View.PesquisarPessoas.pas' {View_PesquisarPessoas},
   View.DetalheRemessasExtrato in 'View\View.DetalheRemessasExtrato.pas' {view_DetalheRemessasExtrato},
   View.VisualizacaoPlanilha in 'View\View.VisualizacaoPlanilha.pas' {view_VisualizacaoPlanilhas},
-  View.CadastroEntregadoresExpressas in 'View\View.CadastroEntregadoresExpressas.pas' {view_CadastroEntregadoresExpressas},
   View.Main in 'View\View.Main.pas' {view_Main},
   View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT},
   Model.CapaDIRECT in 'Model\Model.CapaDIRECT.pas',

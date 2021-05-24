@@ -1,4 +1,4 @@
-unit View.PesquisaEntregadoresExpressas;
+﻿unit View.PesquisaEntregadoresExpressas;
 
 interface
 
@@ -24,13 +24,6 @@ type
     actionListPesquisa: TActionList;
     actionExpandirGrid: TAction;
     actionRetrairGrid: TAction;
-    buttonExpandir: TcxButton;
-    layoutItemExpandir: TdxLayoutItem;
-    buttonRetrair: TcxButton;
-    layoutItemRetrair: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
-    checkBoxBarraGrupos: TcxCheckBox;
-    layoutItemBarraGrupos: TdxLayoutItem;
     fdPesquisa: TFDQuery;
     fdPesquisaid_entregador: TFDAutoIncField;
     fdPesquisacod_agente: TIntegerField;
@@ -63,12 +56,14 @@ type
     actionOK: TAction;
     buttonLocalizar: TcxButton;
     layoutItemLocalizar: TdxLayoutItem;
-    buttonExportar: TcxButton;
-    layoutItemExportar: TdxLayoutItem;
+    popupMenu: TPopupMenu;
+    Exportar1: TMenuItem;
+    Expandir1: TMenuItem;
+    Retrair1: TMenuItem;
+    actionPainelGrupo: TAction;
+    Painel1: TMenuItem;
     procedure FormShow(Sender: TObject);
-    procedure actionExpandirGridExecute(Sender: TObject);
     procedure actionRetrairGridExecute(Sender: TObject);
-    procedure checkBoxBarraGruposPropertiesChange(Sender: TObject);
     procedure buttonEditTextoPesquisarPropertiesChange(Sender: TObject);
     procedure actionLimparExecute(Sender: TObject);
     procedure actionPesquisarExecute(Sender: TObject);
@@ -81,11 +76,15 @@ type
     procedure buttonEditTextoPesquisarEnter(Sender: TObject);
     procedure gridPesquisaDBTableView1CellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
       AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+    procedure gridPesquisaDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+    procedure actionExpandirGridExecute(Sender: TObject);
+    procedure actionPainelGrupoExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
     procedure SetGroup(bFlag: Boolean);
     procedure PesquisaEntregador(sFiltro: String);
+    procedure ExportData;
     function FormulaFilro(sTexto: String): String;
   public
     { Public declarations }
@@ -127,6 +126,11 @@ begin
   ModalResult := mrOk;
 end;
 
+procedure Tview_PesquisaEntregadoresExpressas.actionPainelGrupoExecute(Sender: TObject);
+begin
+  SetGroup(gridPesquisaDBTableView1.OptionsView.GroupByBox);
+end;
+
 procedure Tview_PesquisaEntregadoresExpressas.actionPesquisarExecute(Sender: TObject);
 begin
   PesquisaEntregador(FormulaFilro(buttonEditTextoPesquisar.Text));
@@ -156,14 +160,9 @@ begin
   end;
 end;
 
-procedure Tview_PesquisaEntregadoresExpressas.checkBoxBarraGruposPropertiesChange(Sender: TObject);
-begin
-  SetGroup(checkBoxBarraGrupos.Checked);
-end;
-
 procedure Tview_PesquisaEntregadoresExpressas.dsPesquisaStateChange(Sender: TObject);
 begin
-if TDataSource(Sender).DataSet.State = dsbrowse then //Se tiver em mode de edi��o ou iser��o
+if TDataSource(Sender).DataSet.State = dsbrowse then //Se tiver em mode de edicao ou isercao
   begin
     actionOK.Enabled := True;
     actionExportar.Enabled := True;
@@ -172,6 +171,32 @@ if TDataSource(Sender).DataSet.State = dsbrowse then //Se tiver em mode de edi�
     actionOK.Enabled := False;
     actionExportar.Enabled := False;
   begin
+  end;
+end;
+
+procedure Tview_PesquisaEntregadoresExpressas.ExportData;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if Data_Sisgef.mtbRoteirosExpressas.IsEmpty then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(gridPesquisa,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
   end;
 end;
 
@@ -196,8 +221,8 @@ begin
   fFuncoes := Common.Utils.TUtils.Create;
   if sTexto = '' then
   begin
-    sMensagem := 'O campo de texto a pesquisar n�o foi preenchido!. ' +
-    'Caso deseje visualizar todos os entregadores clique OK, por�m, esse processo pode ser lento.';
+    sMensagem := 'O campo de texto a pesquisar não foi preenchido!. ' +
+    'Caso deseje visualizar todos os entregadores clique OK, porém, esse processo pode ser lento.';
     if Application.MessageBox(PChar(sMensagem), 'Aten��o!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
     begin
       sFiltro := 'NONE';
@@ -230,6 +255,17 @@ end;
 procedure Tview_PesquisaEntregadoresExpressas.gridPesquisaDBTableView1DblClick(Sender: TObject);
 begin
    actionOKExecute(Sender);
+end;
+
+procedure Tview_PesquisaEntregadoresExpressas.gridPesquisaDBTableView1NavigatorButtonsButtonClick(Sender: TObject;
+  AButtonIndex: Integer; var ADone: Boolean);
+begin
+  case AButtonIndex of
+    16 : ExportData;
+    17 : gridPesquisaDBTableView1.ViewData.Expand(True);
+    18 : gridPesquisaDBTableView1.ViewData.Collapse(True);
+    19 : SetGroup(gridPesquisaDBTableView1.OptionsView.GroupByBox);
+  end;
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.gridPesquisaEnter(Sender: TObject);
@@ -268,14 +304,13 @@ end;
 
 procedure Tview_PesquisaEntregadoresExpressas.SetGroup(bFlag: Boolean);
 begin
-  gridPesquisaDBTableView1.OptionsView.GroupByBox := bFlag;
-  gridPesquisaDBTableView1.OptionsCustomize.ColumnGrouping := bFlag;
+  gridPesquisaDBTableView1.OptionsView.GroupByBox := (not bFlag);
+  gridPesquisaDBTableView1.OptionsCustomize.ColumnGrouping := (not bFlag);
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.StartForm;
 begin
   iID := 0;
-  SetGroup(checkBoxBarraGrupos.Checked);
 end;
 
 end.

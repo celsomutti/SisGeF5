@@ -643,6 +643,7 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
         OptionsData.Editing = False
         OptionsData.Inserting = False
         OptionsSelection.CellSelect = False
+        OptionsView.GroupByBox = False
         OptionsView.Indicator = True
         object gridPesquisaDBTableView1id_entregador: TcxGridDBColumn
           Caption = 'ID'

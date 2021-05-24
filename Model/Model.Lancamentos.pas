@@ -316,7 +316,8 @@ begin
   Self.Extrato := fdQuery.FieldByName('NUM_EXTRATO').AsString;
   Self.Persistir := fdQuery.FieldByName('DOM_PERSISTIR').AsString;
   Self.Referencia := fdQuery.FieldByName('COD_REFERENCIA').AsInteger;
-  Self.DataDesconto := fdQuery.FieldByName('DAT_CADASTRO').AsDateTime;
+  Self.DataDesconto := fdQuery.FieldByName('DAT_DESCONTO').AsDateTime;
+  Self.DataCadastro := fdQuery.FieldByName('DAT_CADASTRO').AsDateTime;
   Self.Usuario := fdQuery.FieldByName('NOM_USUARIO').AsString;
 end;
 

@@ -3,15 +3,24 @@ unit View.LancamentosExtratosExpressas;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore,
-  dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxLabel,
-  cxTextEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxMaskEdit, cxDropDownEdit, cxCalendar, cxButtonEdit, cxCalc, cxCheckBox,
-  cxSpinEdit, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, System.Actions, Vcl.ActnList, cxStyles, cxCustomData,
-  cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB,
-  cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf,
-  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Common.ENum, Control.EntregadoresExpressas, Control.Lancamentos;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, dxSkinsCore,
+  dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl,
+  cxContainer, cxEdit, dxLayoutcxEditAdapters, cxLabel,
+  cxTextEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxMaskEdit, cxDropDownEdit,
+  cxCalendar, cxButtonEdit, cxCalc, cxCheckBox,
+  cxSpinEdit, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
+  System.Actions, Vcl.ActnList, cxStyles, cxCustomData,
+  cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
+  cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB,
+  cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Common.ENum,
+  Control.EntregadoresExpressas, Control.Lancamentos;
 
 type
   Tview_LancamentosExtratosExpressas = class(TForm)
@@ -80,16 +89,6 @@ type
     layoutItemProcessamento: TdxLayoutItem;
     actionReferencia: TAction;
     layoutGroupOpcoes: TdxLayoutGroup;
-    buttonNovo: TcxButton;
-    layoutItemNovo: TdxLayoutItem;
-    buttonEditar: TcxButton;
-    layoutItemEditar: TdxLayoutItem;
-    buttonCancelar: TcxButton;
-    layoutItemCancelar: TdxLayoutItem;
-    buttonExcluir: TcxButton;
-    layoutItemExcluir: TdxLayoutItem;
-    buttonLocalizar: TcxButton;
-    layoutItemLocalizar: TdxLayoutItem;
     buttonGravar: TcxButton;
     layoutItemGravar: TdxLayoutItem;
     buttonFechar: TcxButton;
@@ -97,6 +96,8 @@ type
     actionPesquisaEntregadores: TAction;
     spinEditParcelas: TcxSpinEdit;
     layoutItemParcelas: TdxLayoutItem;
+    maskEditID: TcxMaskEdit;
+    dxLayoutItem1: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionEditarExecute(Sender: TObject);
@@ -104,9 +105,8 @@ type
     procedure actionNovoExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
-    procedure actionLocalizarExecute(Sender: TObject);
-    procedure buttonEditCodigoEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
-      var Error: Boolean);
+    procedure buttonEditCodigoEntregadorPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure comboBoxTipoPropertiesChange(Sender: TObject);
     procedure calcEditValorPropertiesChange(Sender: TObject);
     procedure comboBoxProcessamentoPropertiesChange(Sender: TObject);
@@ -117,7 +117,6 @@ type
     procedure Modo;
     procedure LimpaCampos;
     procedure PesquisaEntregadores;
-    procedure PesquisaLancamentos;
     procedure ProcessaParcelamento;
     procedure SetupForm(iID: integer);
     procedure SetupClass;
@@ -125,88 +124,94 @@ type
     function RetornaNomeEntregador(iCodigo: integer): String;
   public
     { Public declarations }
-    iID: Integer;
+    iID: integer;
+    FAcao: TAcao;
   end;
 
 var
   view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas;
-  lancamentos : TLancamentosControl;
-  FAcao : TAcao;
-  iCadastro: Integer;
-
+  Lancamentos: TLancamentosControl;
+  iCadastro: integer;
 
 implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.PesquisarPessoas;
+uses Data.SisGeF, View.PesquisaEntregadoresExpressas, Common.Utils, View.PesquisarPessoas;
 
-procedure Tview_LancamentosExtratosExpressas.actionCancelarExecute(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressas.actionCancelarExecute
+  (Sender: TObject);
 begin
-  Facao := tacIndefinido;
+  FAcao := tacIndefinido;
   LimpaCampos;
   Modo;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.actionEditarExecute(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressas.actionEditarExecute
+  (Sender: TObject);
 begin
+  SetupForm(iID);
   if not VerificaProcesso() then
   begin
-    Application.MessageBox('Lançamento já processado (Descontato ou creditado). A edição não é permitida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
-  end;
-  FAcao := tacAlterar;
+    Application.MessageBox
+      ('Lançamento já processado (Descontato ou creditado). A edição não é permitida!',
+      'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      FAcao := tacPesquisa;
+    end;
   Modo;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.actionExcluirExecute(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressas.actionExcluirExecute
+  (Sender: TObject);
 begin
   if not VerificaProcesso() then
   begin
-    Application.MessageBox('Lançamento já processado (Descontato ou creditado). A exclusão não é permitida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
+    Application.MessageBox
+      ('Lançamento já processado (Descontato ou creditado). A exclusão não é permitida!',
+      'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    FAcao := tacPesquisa;
   end;
+  Modo;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.actionFecharExecute(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressas.actionFecharExecute
+  (Sender: TObject);
 begin
   Close;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.actionLocalizarExecute(Sender: TObject);
-begin
-  PesquisaLancamentos;
-end;
-
 procedure Tview_LancamentosExtratosExpressas.actionNovoExecute(Sender: TObject);
 begin
-  FAcao := tacIncluir;
   LimpaCampos;
   Modo;
   textEditDescricao.SetFocus;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.actionPesquisaEntregadoresExecute(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressas.actionPesquisaEntregadoresExecute
+  (Sender: TObject);
 begin
   PesquisaEntregadores;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.actionProcessarExecute(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressas.actionProcessarExecute
+  (Sender: TObject);
 begin
   ProcessaParcelamento;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.buttonEditCodigoEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
-  var ErrorText: TCaption; var Error: Boolean);
+procedure Tview_LancamentosExtratosExpressas.buttonEditCodigoEntregadorPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
 begin
   if (FAcao <> tacIncluir) and (FAcao <> tacAlterar) then
   begin
     Exit
   end;
-  textEditNomeEntregador.Text := RetornaNomeEntregador(buttonEditCodigoEntregador.EditValue);
+  textEditNomeEntregador.Text := RetornaNomeEntregador
+    (buttonEditCodigoEntregador.EditValue);
 end;
 
-procedure Tview_LancamentosExtratosExpressas.calcEditValorPropertiesChange(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressas.calcEditValorPropertiesChange
+  (Sender: TObject);
 begin
   if comboBoxTipo.ItemIndex = 2 then
   begin
@@ -219,9 +224,10 @@ begin
   end;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.comboBoxProcessamentoPropertiesChange(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressas.
+  comboBoxProcessamentoPropertiesChange(Sender: TObject);
 begin
-  if  FAcao = tacIncluir then
+  if FAcao = tacIncluir then
   begin
     if comboBoxProcessamento.ItemIndex >= 2 then
     begin
@@ -235,7 +241,8 @@ begin
   end;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.comboBoxTipoPropertiesChange(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressas.comboBoxTipoPropertiesChange
+  (Sender: TObject);
 begin
   if comboBoxTipo.ItemIndex = 2 then
   begin
@@ -247,18 +254,20 @@ begin
   end;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure Tview_LancamentosExtratosExpressas.FormClose(Sender: TObject;
+  var Action: TCloseAction);
 begin
-  Action := caFree;
-  view_LancamentosExtratosExpressas := nil;
+  Close;
 end;
 
 procedure Tview_LancamentosExtratosExpressas.FormShow(Sender: TObject);
 begin
   labelTitle.Caption := Self.Caption;
-  FAcao := tacIndefinido;
-  LimpaCampos;
-  Modo;
+  if FAcao = tacIncluir then
+    actionNovoExecute(Sender)
+  else if FAcao = tacAlterar then
+    actionEditarExecute(Sender);
+  
 end;
 
 procedure Tview_LancamentosExtratosExpressas.LimpaCampos;
@@ -272,7 +281,8 @@ begin
   calcEditValor.Value := 0;
   spinEditIntervaloDias.Value := 15;
   dateEditDataInicial.Clear;
-  if memTableParcelamento.Active then memTableParcelamento.Close;
+  if memTableParcelamento.Active then
+    memTableParcelamento.Close;
   checkBoxProcessado.EditValue := 'N';
   maskEditDataProcessamento.Clear;
   textEditExtrato.Clear;
@@ -344,14 +354,14 @@ begin
     actionEditar.Enabled := True;
     actionLocalizar.Enabled := False;
     actionCancelar.Enabled := True;
-    actionGravar.Enabled := True;
-    actionReferencia.Enabled := True;
+    actionGravar.Enabled := False;
+    actionReferencia.Enabled := False;
     actionPesquisaEntregadores.Enabled := False;
-    textEditDescricao.Properties.ReadOnly := False;
-    dateEditData.Properties.ReadOnly := False;
-    buttonEditCodigoEntregador.Properties.ReadOnly := False;
-    comboBoxTipo.Properties.ReadOnly := False;
-    calcEditValor.Properties.ReadOnly := False;
+    textEditDescricao.Properties.ReadOnly := True;
+    dateEditData.Properties.ReadOnly := True;
+    buttonEditCodigoEntregador.Properties.ReadOnly := True;
+    comboBoxTipo.Properties.ReadOnly := True;
+    calcEditValor.Properties.ReadOnly := True;
     layoutItemProcessamento.Visible := False;
     layoutGroupParcelamento.Visible := False;
     layoutGroupHistorico.Visible := True;
@@ -360,134 +370,24 @@ begin
 end;
 
 procedure Tview_LancamentosExtratosExpressas.PesquisaEntregadores;
-var
-  sSQL: String;
-  sWhere: String;
-  aParam: array of variant;
-  sQuery: String;
-  entregadores : TEntregadoresExpressasControl;
+
 begin
-  try
-    sSQL := '';
-    sWhere := '';
-    entregadores := TEntregadoresExpressasControl.Create;
-    if not Assigned(View_PesquisarPessoas) then
-    begin
-      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
-    end;
-    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
-    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-
-
-    sSQL := 'select tbcodigosentregadores.cod_entregador as "Cód. Entregador", ' +
-            'tbcodigosentregadores.nom_fantasia as "Nome Entregador", tbcodigosentregadores.des_chave as "Cód. ERP", ' +
-            'tbcodigosentregadores.cod_cadastro as "Cód. Cadastro", tbentregadores.des_razao_social as "Nome Cadastro", ' +
-            'tbcodigosentregadores.cod_agente as "Cód. Agente" ' +
-            'from tbcodigosentregadores ' +
-            'inner join tbentregadores ' +
-            'on tbentregadores.cod_cadastro = tbcodigosentregadores.cod_cadastro ';
-
-    sWhere := 'where tbcodigosentregadores.cod_entregador like paraN or tbcodigosentregadores.nom_fantasia like "%param%" or ' +
-              'tbcodigosentregadores.des_chave like "%param%" or tbcodigosentregadores.cod_cadastro like paraN or ' +
-              'tbentregadores.des_razao_social like "%param%" or ' +
-              'tbcodigosentregadores.cod_agente like paraN;';
-    View_PesquisarPessoas.sSQL := sSQL;
-    View_PesquisarPessoas.sWhere := sWhere;
-    View_PesquisarPessoas.bOpen := False;
-    View_PesquisarPessoas.Caption := 'Localizar Entregadores';
-    if View_PesquisarPessoas.ShowModal = mrOK then
-    begin
-      buttonEditCodigoEntregador.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger;
-      textEditNomeEntregador.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
-    end;
-  finally
-    entregadores.Free;
-    View_PesquisarPessoas.qryPesquisa.Close;
-    View_PesquisarPessoas.tvPesquisa.ClearItems;
-    FreeAndNil(View_PesquisarPessoas);
+  if not Assigned(view_PesquisaEntregadoresExpressas)  then
+    view_PesquisaEntregadoresExpressas := Tview_PesquisaEntregadoresExpressas.Create(Application);
+  if view_PesquisaEntregadoresExpressas.ShowModal = mrOk then
+  begin
+    buttonEditCodigoEntregador.EditValue := view_PesquisaEntregadoresExpressas.fdPesquisacod_entregador.AsInteger;
+    iCadastro := view_PesquisaEntregadoresExpressas.fdPesquisacod_cadastro.AsInteger;
+    textEditNomeEntregador.Text := view_PesquisaEntregadoresExpressas.fdPesquisanom_entregador.AsString;
   end;
-end;
-
-procedure Tview_LancamentosExtratosExpressas.PesquisaLancamentos;
-var
-  sSQL: String;
-  sWhere: String;
-  aParam: array of variant;
-  sQuery: String;
-begin
-  try
-    sSQL := '';
-    sWhere := '';
-    lancamentos := TLancamentosControl.Create;
-    if not Assigned(View_PesquisarPessoas) then
-    begin
-      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
-    end;
-    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
-    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-
-    sSQL := 'select tblancamentos.cod_lancamento as ID,' +
-            'tblancamentos.cod_entregador as "Código", tbcodigosentregadores.nom_fantasia as Nome, ' +
-            'tblancamentos.des_lancamento as "Descrição", ' +
-            'format(if(tblancamentos.des_tipo = "CREDITO", tblancamentos.val_lancamento, 0), 2, "de_DE") as "Crédito", ' +
-            'format(if(tblancamentos.des_tipo = "DEBITO", 0 - tblancamentos.val_lancamento, 0), 2, "de_DE") as "Débito", ' +
-            'dom_desconto as Descontado ' +
-            'from tblancamentos ' +
-            'inner join tbcodigosentregadores ' +
-            'on tbcodigosentregadores.cod_entregador = tblancamentos.cod_entregador ';
-
-    sWhere := 'where tblancamentos.cod_lancamento like paraN or  ' +
-              'tblancamentos.cod_lancamento like paraN or  ' +
-              'tbcodigosentregadores.nom_fantasia like "%param%" ';
-    View_PesquisarPessoas.sSQL := sSQL;
-    View_PesquisarPessoas.sWhere := sWhere;
-    View_PesquisarPessoas.bOpen := False;
-    View_PesquisarPessoas.Caption := 'Localizar Lançamentos';
-    if View_PesquisarPessoas.ShowModal = mrOK then
-    begin
-      lancamentos := TLancamentosControl.Create;
-      SetLength(aParam,2);
-      aParam := ['CODIGO', View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger];
-      if not lancamentos.Localizar(aParam).IsEmpty then
-      begin
-        LimpaCampos;
-        iCadastro := lancamentos.Lancamentos.Codigo;
-        textEditDescricao.Text := lancamentos.Lancamentos.Descricao;
-        dateEditData.Date := lancamentos.Lancamentos.Data;
-        iCadastro := lancamentos.Lancamentos.Cadastro;
-        buttonEditCodigoEntregador.EditValue := lancamentos.Lancamentos.Entregador;
-        if lancamentos.Lancamentos.Tipo = 'CREDITO' then
-        begin
-          comboBoxTipo.ItemIndex := 1;
-        end
-        else
-        begin
-          comboBoxTipo.ItemIndex := 2;
-        end;
-        textEditNomeEntregador.Text := RetornaNomeEntregador(lancamentos.Lancamentos.Entregador);
-        calcEditValor.Value := lancamentos.Lancamentos.Valor;
-        checkBoxProcessado.EditValue := lancamentos.Lancamentos.Desconto;
-        maskEditDataProcessamento.EditText := FormatDateTime('dd/mm/yyyy hh:mm:ss', lancamentos.Lancamentos.DataDesconto);
-        textEditExtrato.text := lancamentos.Lancamentos.Extrato;
-        maskEditDataCadastro.EditText := FormatDateTime('dd/mm/yyyy hh:mm:ss', lancamentos.Lancamentos.DataCadastro);
-        buttonEditReferencia.EditValue := lancamentos.Lancamentos.Referencia;
-        TextEditUsuario.Text := lancamentos.Lancamentos.Usuario;
-        Facao := tacPesquisa;
-        Modo;
-      end;
-    end;
-  finally
-    View_PesquisarPessoas.qryPesquisa.Close;
-    View_PesquisarPessoas.tvPesquisa.ClearItems;
-    FreeAndNil(View_PesquisarPessoas);
-  end;
+  FreeAndNil(view_PesquisaEntregadoresExpressas);
 end;
 
 procedure Tview_LancamentosExtratosExpressas.ProcessaParcelamento;
 var
-  dtData : TDate;
-  i, iDias, iParcelas : integer;
-  dValor : Double;
+  dtData: TDate;
+  i, iDias, iParcelas: integer;
+  dValor: Double;
 begin
   if memTableParcelamento.Active then
   begin
@@ -514,16 +414,17 @@ end;
 
 function Tview_LancamentosExtratosExpressas.RetornaNomeEntregador(iCodigo: integer): String;
 var
-  entregador : TEntregadoresExpressasControl;
+  entregador: TEntregadoresExpressasControl;
   sRetorno: String;
 begin
   try
     Result := '';
     sRetorno := '';
     entregador := TEntregadoresExpressasControl.Create;
-    if icodigo <> 0 then
+    if iCodigo <> 0 then
     begin
-      sRetorno := entregador.GetField('NOM_FANTASIA', 'COD_ENTREGADOR', iCodigo.ToString)
+      sRetorno := entregador.GetField('NOM_FANTASIA', 'COD_ENTREGADOR',
+        iCodigo.ToString)
     end;
     if sRetorno.IsEmpty then
     begin
@@ -531,70 +432,73 @@ begin
     end;
     Result := sRetorno;
   finally
-    entregador.free;
+    entregador.Free;
   end;
 end;
 
 procedure Tview_LancamentosExtratosExpressas.SetupClass;
 begin
-  lancamentos := TLancamentosControl.Create;
-  lancamentos.Lancamentos.Descricao := textEditDescricao.Text;
-  lancamentos.Lancamentos.Data := dateEditData.Date;
-  lancamentos.Lancamentos.Cadastro := 0;
-  lancamentos.Lancamentos.Entregador := buttonEditCodigoEntregador.EditValue;
+  Lancamentos := TLancamentosControl.Create;
+  Lancamentos.Lancamentos.Descricao := textEditDescricao.Text;
+  Lancamentos.Lancamentos.Data := dateEditData.Date;
+  Lancamentos.Lancamentos.Cadastro := 0;
+  Lancamentos.Lancamentos.entregador := buttonEditCodigoEntregador.EditValue;
   if comboBoxTipo.ItemIndex = 1 then
   begin
-    lancamentos.Lancamentos.Tipo := 'CREDITO';
+    Lancamentos.Lancamentos.Tipo := 'CREDITO';
   end
   else
   begin
-    lancamentos.Lancamentos.Tipo := 'DEBITO';
+    Lancamentos.Lancamentos.Tipo := 'DEBITO';
   end;
-  lancamentos.Lancamentos.Valor := calcEditValor.Value;
+  Lancamentos.Lancamentos.Valor := calcEditValor.Value;
   if checkBoxProcessado.Checked then
   begin
-    lancamentos.Lancamentos.Desconto := 'S';
-    lancamentos.Lancamentos.DataDesconto := StrToDate(maskEditDataProcessamento.EditText);
-    lancamentos.Lancamentos.Extrato := textEditExtrato.Text;
-    lancamentos.Lancamentos.Referencia := buttonEditReferencia.EditValue;
+    Lancamentos.Lancamentos.Desconto := 'S';
+    Lancamentos.Lancamentos.DataDesconto :=
+      StrToDate(maskEditDataProcessamento.EditText);
+    Lancamentos.Lancamentos.Extrato := textEditExtrato.Text;
+    Lancamentos.Lancamentos.Referencia := buttonEditReferencia.EditValue;
   end
   else
   begin
-    lancamentos.Lancamentos.Desconto := 'N';
-    lancamentos.Lancamentos.DataDesconto := StrToDate('31/12/1899');
-    lancamentos.Lancamentos.Extrato := '';
+    Lancamentos.Lancamentos.Desconto := 'N';
+    Lancamentos.Lancamentos.DataDesconto := StrToDate('31/12/1899');
+    Lancamentos.Lancamentos.Extrato := '';
   end;
-  lancamentos.Lancamentos.Persistir := 'N';
-  lancamentos.Lancamentos.Referencia := 0;
+  Lancamentos.Lancamentos.Persistir := 'N';
+  Lancamentos.Lancamentos.Referencia := 0;
   if FAcao = tacIncluir then
   begin
-    lancamentos.Lancamentos.DataCadastro := Now;
+    Lancamentos.Lancamentos.DataCadastro := Now;
   end
   else
   begin
-    lancamentos.Lancamentos.DataCadastro := StrToDate(maskEditDataCadastro.EditText);
+    Lancamentos.Lancamentos.DataCadastro :=
+      StrToDate(maskEditDataCadastro.EditText);
   end;
-  //lancamentos.Lancamentos.Usuario
+  // lancamentos.Lancamentos.Usuario
 end;
 
 procedure Tview_LancamentosExtratosExpressas.SetupForm(iID: integer);
 var
-  aParam: array of variant;
+  aParam: array of Variant;
 begin
-  lancamentos := TLancamentosControl.Create;
-  SetLength(aParam,2);
+  Lancamentos := TLancamentosControl.Create;
+  SetLength(aParam, 2);
   aParam := ['CODIGO', iID];
-  if not lancamentos.Localizar(aParam).IsEmpty then
+  if not Lancamentos.Localizar(aParam).IsEmpty then
   begin
-    textEditDescricao.Text := lancamentos.Lancamentos.Descricao;
-    dateEditData.Date := lancamentos.Lancamentos.Data;
-    buttonEditCodigoEntregador.EditValue := lancamentos.Lancamentos.Entregador;
-    textEditNomeEntregador.Text := RetornaNomeEntregador(lancamentos.Lancamentos.Entregador);
-    if lancamentos.Lancamentos.Tipo = 'CREDITO' then
+    maskEditID.EditValue := Lancamentos.Lancamentos.Codigo;
+    textEditDescricao.Text := Lancamentos.Lancamentos.Descricao;
+    dateEditData.Date := Lancamentos.Lancamentos.Data;
+    buttonEditCodigoEntregador.EditValue := Lancamentos.Lancamentos.entregador;
+    textEditNomeEntregador.Text := RetornaNomeEntregador(Lancamentos.Lancamentos.entregador);
+    if Lancamentos.Lancamentos.Tipo = 'CREDITO' then
     begin
       comboBoxTipo.ItemIndex := 1;
     end
-    else if lancamentos.Lancamentos.Tipo = 'DEBITO' then
+    else if Lancamentos.Lancamentos.Tipo = 'DEBITO' then
     begin
       comboBoxTipo.ItemIndex := 2;
     end
@@ -602,8 +506,8 @@ begin
     begin
       comboBoxTipo.ItemIndex := 0;
     end;
-    calcEditValor.EditValue := lancamentos.Lancamentos.Valor;
-    if lancamentos.Lancamentos.Desconto = 'S' then
+    calcEditValor.EditValue := Lancamentos.Lancamentos.Valor;
+    if Lancamentos.Lancamentos.Desconto = 'S' then
     begin
       checkBoxProcessado.Checked := True;
     end
@@ -611,17 +515,17 @@ begin
     begin
       checkBoxProcessado.Checked := False;
     end;
-    maskEditDataProcessamento.Text := FormatDateTime('dd/mm/yyyy', lancamentos.Lancamentos.DataDesconto);
-    textEditExtrato.Text := lancamentos.Lancamentos.Extrato;
-    maskEditDataCadastro.Text := FormatDateTime('dd/mm/yyyy', lancamentos.Lancamentos.DataCadastro);
-    buttonEditReferencia.Text := lancamentos.Lancamentos.Codigo.ToString;
+    maskEditDataProcessamento.Text := FormatDateTime('dd/mm/yyyy', Lancamentos.Lancamentos.DataDesconto);
+    textEditExtrato.Text := Lancamentos.Lancamentos.Extrato;
+    maskEditDataCadastro.Text := FormatDateTime('dd/mm/yyyy', Lancamentos.Lancamentos.DataCadastro);
+    buttonEditReferencia.Text := Lancamentos.Lancamentos.Codigo.ToString;
   end;
 end;
 
 function Tview_LancamentosExtratosExpressas.VerificaProcesso: Boolean;
 begin
   Result := False;
-  if checkBoxProcessado.EditValue = 'S' then
+  if Lancamentos.Lancamentos.Desconto = 'S' then
   begin
     Exit;
   end;

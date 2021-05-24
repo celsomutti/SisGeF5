@@ -96,6 +96,7 @@ type
     procedure ClearFilter;
     procedure IncludeData;
     procedure EditData(iID: Integer);
+    procedure RestoreLayout;
     function FormulaFilro(sTexto: String): String;
   public
     { Public declarations }
@@ -322,7 +323,7 @@ begin
     17 : gridPesquisaDBTableView1.ViewData.Expand(True);
     18 : gridPesquisaDBTableView1.ViewData.Collapse(True);
     19 : SetGroup;
-    20 : gridPesquisaDBTableView1.RestoreFromIniFile(sFileLayout);
+    20 : RestoreLayout;
     else
     Exit;
   end;
@@ -379,6 +380,12 @@ begin
     gridPesquisaDBTableView1.ViewData.Expand(True);
     gridPesquisa.SetFocus;
   end;
+end;
+
+procedure Tview_EntregadoresExpressasPesquisa.RestoreLayout;
+begin
+  gridPesquisaDBTableView1.RestoreFromIniFile(sFileLayout);
+  SetGroup();
 end;
 
 procedure Tview_EntregadoresExpressasPesquisa.SetGroup();
