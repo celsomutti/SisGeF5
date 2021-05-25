@@ -565,6 +565,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
   Position = poMainFormCenter
   ShowHint = True
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
@@ -687,7 +688,6 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ',0.00'
       Properties.ReadOnly = True
-      Properties.OnChange = calcEditValorPropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.Font.Charset = ANSI_CHARSET
@@ -1312,6 +1312,7 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Caption = '&Gravar'
       Hint = 'Gravar lan'#231'amento'
       ImageIndex = 13
+      OnExecute = actionGravarExecute
     end
     object actionLocalizar: TAction
       Category = 'Lan'#231'amentos'

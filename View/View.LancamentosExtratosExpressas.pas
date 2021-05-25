@@ -98,7 +98,6 @@ type
     layoutItemParcelas: TdxLayoutItem;
     maskEditID: TcxMaskEdit;
     dxLayoutItem1: TdxLayoutItem;
-    procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionEditarExecute(Sender: TObject);
     procedure actionExcluirExecute(Sender: TObject);
@@ -108,10 +107,12 @@ type
     procedure buttonEditCodigoEntregadorPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure comboBoxTipoPropertiesChange(Sender: TObject);
-    procedure calcEditValorPropertiesChange(Sender: TObject);
     procedure comboBoxProcessamentoPropertiesChange(Sender: TObject);
     procedure actionProcessarExecute(Sender: TObject);
     procedure actionPesquisaEntregadoresExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure actionGravarExecute(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     procedure Modo;
@@ -120,8 +121,11 @@ type
     procedure ProcessaParcelamento;
     procedure SetupForm(iID: integer);
     procedure SetupClass;
+    procedure SaveData;
     function VerificaProcesso(): Boolean;
     function RetornaNomeEntregador(iCodigo: integer): String;
+    function ValidateData(): boolean;
+
   public
     { Public declarations }
     iID: integer;
@@ -137,7 +141,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.PesquisaEntregadoresExpressas, Common.Utils, View.PesquisarPessoas;
+uses Data.SisGeF, View.PesquisaEntregadoresExpressas, Common.Utils, View.PesquisarPessoas, Global.Parametros;
 
 procedure Tview_LancamentosExtratosExpressas.actionCancelarExecute
   (Sender: TObject);
@@ -180,6 +184,11 @@ begin
   Close;
 end;
 
+procedure Tview_LancamentosExtratosExpressas.actionGravarExecute(Sender: TObject);
+begin
+  SaveData;
+end;
+
 procedure Tview_LancamentosExtratosExpressas.actionNovoExecute(Sender: TObject);
 begin
   LimpaCampos;
@@ -210,20 +219,6 @@ begin
     (buttonEditCodigoEntregador.EditValue);
 end;
 
-procedure Tview_LancamentosExtratosExpressas.calcEditValorPropertiesChange
-  (Sender: TObject);
-begin
-  if comboBoxTipo.ItemIndex = 2 then
-  begin
-    calcEditValor.Value := 0 - calcEditValor.Value;
-    calcEditValor.Style.Font.Color := clRed;
-  end
-  else
-  begin
-    calcEditValor.Style.Font.Color := clNone;
-  end;
-end;
-
 procedure Tview_LancamentosExtratosExpressas.
   comboBoxProcessamentoPropertiesChange(Sender: TObject);
 begin
@@ -247,10 +242,12 @@ begin
   if comboBoxTipo.ItemIndex = 2 then
   begin
     comboBoxTipo.Style.Font.Color := clRed;
+    calcEditValor.Style.Font.Color := clRed;
   end
   else
   begin
     comboBoxTipo.Style.Font.Color := clNone;
+    calcEditValor.Style.Font.Color := clNone;
   end;
 end;
 
@@ -260,6 +257,17 @@ begin
   Close;
 end;
 
+procedure Tview_LancamentosExtratosExpressas.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if gridParcelamento.Focused then
+    Exit;
+  If Key = #13 then
+  begin
+    Key := #0;
+    Perform(Wm_NextDlgCtl, 0, 0);
+  end;
+end;
+
 procedure Tview_LancamentosExtratosExpressas.FormShow(Sender: TObject);
 begin
   labelTitle.Caption := Self.Caption;
@@ -267,7 +275,6 @@ begin
     actionNovoExecute(Sender)
   else if FAcao = tacAlterar then
     actionEditarExecute(Sender);
-  
 end;
 
 procedure Tview_LancamentosExtratosExpressas.LimpaCampos;
@@ -395,7 +402,10 @@ begin
   end;
   memTableParcelamento.Open;
   iParcelas := spinEditParcelas.Value;
-  dValor := calcEditValor.Value / iParcelas;
+  if comboBoxProcessamento.ItemIndex = 2 then
+    dValor := calcEditValor.Value / iParcelas
+  else
+    dValor := calcEditValor.Value;
   dtData := dateEditDataInicial.Date;
   iDias := spinEditIntervaloDias.Value;
   for i := 1 to iParcelas do
@@ -436,12 +446,83 @@ begin
   end;
 end;
 
+procedure Tview_LancamentosExtratosExpressas.SaveData;
+var
+  aParam : Array of variant;
+  sDescricao: String;
+begin
+  try
+    lancamentos := TLancamentosControl.Create;
+    if not ValidateData then
+      Exit;
+    if Application.MessageBox('Confirma gravar os dados ?', 'Gravar', MB_YESNO + MB_ICONQUESTION) =  IDNO then
+      Exit;
+    if FAcao = tacIncluir then
+    begin
+      SetupClass;
+      if not memTableParcelamento.IsEmpty then
+        memTableParcelamento.First;
+      if comboBoxProcessamento.ItemIndex > 1 then
+      begin
+        while not memTableParcelamento.Eof do
+        begin
+          sDescricao := Lancamentos.Lancamentos.Descricao;
+          Lancamentos.Lancamentos.Descricao := sDescricao + ' - ' + memTableParcelamentonum_parcela.AsString + '/' +
+                                               spinEditParcelas.Value;
+          Lancamentos.Lancamentos.Data := memTableParcelamentodat_parcela.AsDateTime;
+          Lancamentos.Lancamentos.Valor := memTableParcelamentoval_parcela.AsCurrency;
+          if not Lancamentos.Gravar then
+          begin
+            Application.MessageBox(PChar('Ocorreu um problema ao tentar salvar a parcela ' +
+                                   memTableParcelamentonum_parcela.AsString + '!'), 'Atenção', MB_OK + MB_ICONWARNING);
+          end;
+          memTableParcelamento.Next;
+        end;
+        if not memTableParcelamento.IsEmpty then
+          memTableParcelamento.First;
+      end
+      else
+      begin
+        if not Lancamentos.Gravar then
+        begin
+          Application.MessageBox('Ocorreu um problema ao tentar salvar o registro!', 'Atenção', MB_OK + MB_ICONWARNING);
+          Exit;
+        end;
+      end;
+    end
+    else if FAcao = tacAlterar then
+    begin
+      SetLength(aParam,2);
+      aParam := ['CODIGO', maskEditID.EditValue];
+      if Lancamentos.Localizar(aParam).IsEmpty then
+      begin
+        Application.MessageBox('Ocorreu um problema ao tentar localizar o registro para alterar!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end
+      else
+      begin
+        SetupClass;
+        if not Lancamentos.Gravar then
+        begin
+          Application.MessageBox('Ocorreu um problema ao tentar salvar o registro!', 'Atenção', MB_OK + MB_ICONWARNING);
+          Exit;
+        end;
+      end;
+    end;
+  finally
+    lancamentos.Free;
+  end;
+end;
+
 procedure Tview_LancamentosExtratosExpressas.SetupClass;
+var
+  iReferencia : Integer;
 begin
   Lancamentos := TLancamentosControl.Create;
+  iReferencia := Lancamentos.GetId;
   Lancamentos.Lancamentos.Descricao := textEditDescricao.Text;
   Lancamentos.Lancamentos.Data := dateEditData.Date;
-  Lancamentos.Lancamentos.Cadastro := 0;
+  Lancamentos.Lancamentos.Cadastro := iCadastro;
   Lancamentos.Lancamentos.entregador := buttonEditCodigoEntregador.EditValue;
   if comboBoxTipo.ItemIndex = 1 then
   begin
@@ -452,32 +533,17 @@ begin
     Lancamentos.Lancamentos.Tipo := 'DEBITO';
   end;
   Lancamentos.Lancamentos.Valor := calcEditValor.Value;
-  if checkBoxProcessado.Checked then
-  begin
-    Lancamentos.Lancamentos.Desconto := 'S';
-    Lancamentos.Lancamentos.DataDesconto :=
-      StrToDate(maskEditDataProcessamento.EditText);
-    Lancamentos.Lancamentos.Extrato := textEditExtrato.Text;
-    Lancamentos.Lancamentos.Referencia := buttonEditReferencia.EditValue;
-  end
-  else
+  if FAcao = tacIncluir then
   begin
     Lancamentos.Lancamentos.Desconto := 'N';
     Lancamentos.Lancamentos.DataDesconto := StrToDate('31/12/1899');
     Lancamentos.Lancamentos.Extrato := '';
+    Lancamentos.Lancamentos.Referencia := iReferencia;
+    Lancamentos.Lancamentos.DataCadastro := Now;
+    Lancamentos.Lancamentos.Usuario := Global.Parametros.pUser_Name;
   end;
   Lancamentos.Lancamentos.Persistir := 'N';
-  Lancamentos.Lancamentos.Referencia := 0;
-  if FAcao = tacIncluir then
-  begin
-    Lancamentos.Lancamentos.DataCadastro := Now;
-  end
-  else
-  begin
-    Lancamentos.Lancamentos.DataCadastro :=
-      StrToDate(maskEditDataCadastro.EditText);
-  end;
-  // lancamentos.Lancamentos.Usuario
+  Lancamentos.Lancamentos.Acao := FAcao;
 end;
 
 procedure Tview_LancamentosExtratosExpressas.SetupForm(iID: integer);
@@ -520,6 +586,79 @@ begin
     maskEditDataCadastro.Text := FormatDateTime('dd/mm/yyyy', Lancamentos.Lancamentos.DataCadastro);
     buttonEditReferencia.Text := Lancamentos.Lancamentos.Codigo.ToString;
   end;
+end;
+
+function Tview_LancamentosExtratosExpressas.ValidateData: boolean;
+begin
+  Result:= False;
+  if textEditDescricao.Text = '' then
+  begin
+    Application.MessageBox('Informe uma descrição para o lançamento!', 'Atenção', MB_OK + MB_ICONWARNING);
+    textEditDescricao.SetFocus;
+    Exit;
+  end;
+  if dateEditData.Text = '' then
+  begin
+    Application.MessageBox('Informe a data do lançamento!', 'Atenção', MB_OK + MB_ICONWARNING);
+    dateEditData.SetFocus;
+    Exit;
+  end;
+  if buttonEditCodigoEntregador.EditValue = 0 then
+  begin
+    Application.MessageBox('Informe o código do entregador!', 'Atenção', MB_OK + MB_ICONWARNING);
+    buttonEditCodigoEntregador.SetFocus;
+    Exit;
+  end;
+  if comboBoxTipo.ItemIndex = 0 then
+  begin
+    Application.MessageBox('Informe o tipo do lançamento!', 'Atenção', MB_OK + MB_ICONWARNING);
+    comboBoxTipo.SetFocus;
+    Exit;
+  end;
+  if calcEditValor.Value = 0 then
+  begin
+    Application.MessageBox('Informe o valor do lançamento!', 'Atenção', MB_OK + MB_ICONWARNING);
+    calcEditValor.SetFocus;
+    Exit;
+  end;
+  if FAcao = tacIncluir then
+  begin
+    if comboBoxProcessamento.ItemIndex = 0 then
+    begin
+      Application.MessageBox('Informe o tipo de processo do lançamento!', 'Atenção', MB_OK + MB_ICONWARNING);
+      comboBoxProcessamento.SetFocus;
+      Exit;
+    end;
+    if comboBoxProcessamento.ItemIndex > 1 then
+    begin
+      if spinEditIntervaloDias.Value = 0 then
+      begin
+        Application.MessageBox('Informe o intervalo de dias do parcelamento!', 'Atenção', MB_OK + MB_ICONWARNING);
+        spinEditIntervaloDias.SetFocus;
+        Exit;
+      end;
+      if spinEditParcelas.Value = 0 then
+      begin
+        Application.MessageBox('Informe a quantidade de parcelas!', 'Atenção', MB_OK + MB_ICONWARNING);
+        spinEditParcelas.SetFocus;
+        Exit;
+      end;
+      if dateEditDataInicial.Text = '' then
+      begin
+        Application.MessageBox('Informe a data inicial do parcelamento!', 'Atenção', MB_OK + MB_ICONWARNING);
+        dateEditDataInicial.SetFocus;
+        Exit;
+      end;
+      if dateEditDataInicial.Date < dateEditData.Date then
+      begin
+        Application.MessageBox('Data inicial do parcelamento menor que a data do lançamento!', 'Atenção', MB_OK + MB_ICONWARNING);
+        dateEditDataInicial.SetFocus;
+        Exit;
+      end;
+    end;
+  end;
+
+  Result := True;
 end;
 
 function Tview_LancamentosExtratosExpressas.VerificaProcesso: Boolean;

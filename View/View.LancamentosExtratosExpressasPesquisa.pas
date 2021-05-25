@@ -317,6 +317,7 @@ end;
 
 procedure Tview_LancamentosExtratosExpressasPesquisa.PopulaLancamentos;
 begin
+  fdLancamentos.Active := False;
   fdLancamentos.Filter := sFilter;
   fdLancamentos.Active := True;
 end;
