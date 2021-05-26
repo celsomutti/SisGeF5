@@ -20,7 +20,7 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Common.ENum,
-  Control.EntregadoresExpressas, Control.Lancamentos;
+  Control.EntregadoresExpressas, Control.Lancamentos, System.DateUtils;
 
 type
   Tview_LancamentosExtratosExpressas = class(TForm)
@@ -98,7 +98,6 @@ type
     layoutItemParcelas: TdxLayoutItem;
     maskEditID: TcxMaskEdit;
     dxLayoutItem1: TdxLayoutItem;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionEditarExecute(Sender: TObject);
     procedure actionExcluirExecute(Sender: TObject);
     procedure actionNovoExecute(Sender: TObject);
@@ -121,7 +120,7 @@ type
     procedure ProcessaParcelamento;
     procedure SetupForm(iID: integer);
     procedure SetupClass;
-    procedure SaveData;
+    function SaveData(): boolean;
     function VerificaProcesso(): Boolean;
     function RetornaNomeEntregador(iCodigo: integer): String;
     function ValidateData(): boolean;
@@ -181,12 +180,13 @@ end;
 procedure Tview_LancamentosExtratosExpressas.actionFecharExecute
   (Sender: TObject);
 begin
-  Close;
+  ModalResult := mrCancel;
 end;
 
 procedure Tview_LancamentosExtratosExpressas.actionGravarExecute(Sender: TObject);
 begin
-  SaveData;
+  if SaveData() then
+    ModalResult := mrOk;
 end;
 
 procedure Tview_LancamentosExtratosExpressas.actionNovoExecute(Sender: TObject);
@@ -215,8 +215,7 @@ begin
   begin
     Exit
   end;
-  textEditNomeEntregador.Text := RetornaNomeEntregador
-    (buttonEditCodigoEntregador.EditValue);
+  textEditNomeEntregador.Text := RetornaNomeEntregador(DisplayValue);
 end;
 
 procedure Tview_LancamentosExtratosExpressas.
@@ -249,12 +248,6 @@ begin
     comboBoxTipo.Style.Font.Color := clNone;
     calcEditValor.Style.Font.Color := clNone;
   end;
-end;
-
-procedure Tview_LancamentosExtratosExpressas.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  Close;
 end;
 
 procedure Tview_LancamentosExtratosExpressas.FormKeyPress(Sender: TObject; var Key: Char);
@@ -415,6 +408,7 @@ begin
     memTableParcelamentodat_parcela.AsDateTime := dtData;
     memTableParcelamentoval_parcela.AsFloat := dValor;
     memTableParcelamento.Post;
+    dtData := IncDay(dtData,iDias);
   end;
   if not memTableParcelamento.IsEmpty then
   begin
@@ -425,16 +419,19 @@ end;
 function Tview_LancamentosExtratosExpressas.RetornaNomeEntregador(iCodigo: integer): String;
 var
   entregador: TEntregadoresExpressasControl;
-  sRetorno: String;
+  sRetorno, sCadastro: String;
 begin
   try
     Result := '';
     sRetorno := '';
+    sCadastro := '';
+    iCadastro := 0;
     entregador := TEntregadoresExpressasControl.Create;
     if iCodigo <> 0 then
     begin
-      sRetorno := entregador.GetField('NOM_FANTASIA', 'COD_ENTREGADOR',
-        iCodigo.ToString)
+      sRetorno := entregador.GetField('NOM_FANTASIA', 'COD_ENTREGADOR', iCodigo.ToString);
+      sCadastro := entregador.GetField('COD_CADASTRO', 'COD_ENTREGADOR', iCodigo.ToString);
+      iCadastro := StrToIntDef(sCadastro,0);
     end;
     if sRetorno.IsEmpty then
     begin
@@ -446,13 +443,14 @@ begin
   end;
 end;
 
-procedure Tview_LancamentosExtratosExpressas.SaveData;
+function Tview_LancamentosExtratosExpressas.SaveData: boolean;
 var
   aParam : Array of variant;
-  sDescricao: String;
+  sDescricao, sParcelamento: String;
 begin
   try
     lancamentos := TLancamentosControl.Create;
+    Result := False;
     if not ValidateData then
       Exit;
     if Application.MessageBox('Confirma gravar os dados ?', 'Gravar', MB_YESNO + MB_ICONQUESTION) =  IDNO then
@@ -464,17 +462,21 @@ begin
         memTableParcelamento.First;
       if comboBoxProcessamento.ItemIndex > 1 then
       begin
+        sDescricao := Lancamentos.Lancamentos.Descricao;
+
         while not memTableParcelamento.Eof do
         begin
-          sDescricao := Lancamentos.Lancamentos.Descricao;
-          Lancamentos.Lancamentos.Descricao := sDescricao + ' - ' + memTableParcelamentonum_parcela.AsString + '/' +
-                                               spinEditParcelas.Value;
+          sParcelamento := '';
+          if comboBoxProcessamento.ItemIndex = 2 then
+            sParcelamento := ' - ' + memTableParcelamentonum_parcela.AsString + '/' + spinEditParcelas.Text;
+          Lancamentos.Lancamentos.Descricao := sDescricao + sParcelamento;
           Lancamentos.Lancamentos.Data := memTableParcelamentodat_parcela.AsDateTime;
           Lancamentos.Lancamentos.Valor := memTableParcelamentoval_parcela.AsCurrency;
           if not Lancamentos.Gravar then
           begin
             Application.MessageBox(PChar('Ocorreu um problema ao tentar salvar a parcela ' +
                                    memTableParcelamentonum_parcela.AsString + '!'), 'Atenção', MB_OK + MB_ICONWARNING);
+            Exit;
           end;
           memTableParcelamento.Next;
         end;
@@ -509,6 +511,7 @@ begin
         end;
       end;
     end;
+    Result := True;
   finally
     lancamentos.Free;
   end;
@@ -518,8 +521,9 @@ procedure Tview_LancamentosExtratosExpressas.SetupClass;
 var
   iReferencia : Integer;
 begin
-  Lancamentos := TLancamentosControl.Create;
-  iReferencia := Lancamentos.GetId;
+  if FAcao = tacIncluir then
+    iReferencia := Lancamentos.GetId;
+
   Lancamentos.Lancamentos.Descricao := textEditDescricao.Text;
   Lancamentos.Lancamentos.Data := dateEditData.Date;
   Lancamentos.Lancamentos.Cadastro := iCadastro;
@@ -536,7 +540,7 @@ begin
   if FAcao = tacIncluir then
   begin
     Lancamentos.Lancamentos.Desconto := 'N';
-    Lancamentos.Lancamentos.DataDesconto := StrToDate('31/12/1899');
+    Lancamentos.Lancamentos.DataDesconto := 0;
     Lancamentos.Lancamentos.Extrato := '';
     Lancamentos.Lancamentos.Referencia := iReferencia;
     Lancamentos.Lancamentos.DataCadastro := Now;
@@ -585,6 +589,8 @@ begin
     textEditExtrato.Text := Lancamentos.Lancamentos.Extrato;
     maskEditDataCadastro.Text := FormatDateTime('dd/mm/yyyy', Lancamentos.Lancamentos.DataCadastro);
     buttonEditReferencia.Text := Lancamentos.Lancamentos.Codigo.ToString;
+    textEditUsuario.Text := Lancamentos.Lancamentos.Usuario;
+    iCadastro := Lancamentos.Lancamentos.Cadastro;
   end;
 end;
 

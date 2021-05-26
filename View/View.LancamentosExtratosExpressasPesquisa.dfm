@@ -1,4 +1,4 @@
-object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpressasPesquisa
+﻿object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpressasPesquisa
   Left = 0
   Top = 0
   Caption = 'Lan'#231'amentos de D'#233'bitos e Cr'#233'ditos'
@@ -600,8 +600,10 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       Width = 835
       Height = 276
       TabOrder = 1
-      LookAndFeel.Kind = lfFlat
-      LookAndFeel.NativeStyle = False
+      LookAndFeel.Kind = lfUltraFlat
+      LookAndFeel.NativeStyle = True
+      LookAndFeel.ScrollbarMode = sbmClassic
+      LookAndFeel.SkinName = ''
       object gridLancamentosDBTableView1: TcxGridDBTableView
         OnDblClick = gridLancamentosDBTableView1DblClick
         Navigator.Buttons.OnButtonClick = gridLancamentosDBTableView1NavigatorButtonsButtonClick
@@ -620,6 +622,12 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
           end
           item
             ImageIndex = 64
+          end
+          item
+            ImageIndex = 71
+          end
+          item
+            ImageIndex = 72
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.ImageIndex = 5
@@ -659,9 +667,12 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
         OptionsData.Editing = False
         OptionsData.Inserting = False
         OptionsSelection.CellSelect = False
+        OptionsSelection.MultiSelect = True
+        OptionsSelection.CheckBoxVisibility = [cbvDataRow]
         OptionsView.CellAutoHeight = True
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
+        OptionsView.HeaderAutoHeight = True
         OptionsView.Indicator = True
         ConditionalFormatting = {
           040000000A000000310000005400640078005300700072006500610064005300
@@ -704,6 +715,8 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
         object gridLancamentosDBTableView1COD_LANCAMENTO: TcxGridDBColumn
           DataBinding.FieldName = 'COD_LANCAMENTO'
           HeaderAlignmentHorz = taCenter
+          SortIndex = 0
+          SortOrder = soDescending
           Width = 74
         end
         object gridLancamentosDBTableView1DES_LANCAMENTO: TcxGridDBColumn
@@ -728,16 +741,6 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
           HeaderAlignmentHorz = taCenter
           Width = 74
         end
-        object gridLancamentosDBTableView1COD_CADASTRO: TcxGridDBColumn
-          DataBinding.FieldName = 'COD_CADASTRO'
-          HeaderAlignmentHorz = taCenter
-          Width = 87
-        end
-        object gridLancamentosDBTableView1NOM_CADASTRO: TcxGridDBColumn
-          DataBinding.FieldName = 'NOM_CADASTRO'
-          HeaderAlignmentHorz = taCenter
-          Width = 272
-        end
         object gridLancamentosDBTableView1COD_ENTREGADOR: TcxGridDBColumn
           DataBinding.FieldName = 'COD_ENTREGADOR'
           HeaderAlignmentHorz = taCenter
@@ -747,6 +750,16 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
           DataBinding.FieldName = 'NOM_ENTREGADOR'
           HeaderAlignmentHorz = taCenter
           Width = 308
+        end
+        object gridLancamentosDBTableView1COD_CADASTRO: TcxGridDBColumn
+          DataBinding.FieldName = 'COD_CADASTRO'
+          HeaderAlignmentHorz = taCenter
+          Width = 87
+        end
+        object gridLancamentosDBTableView1NOM_CADASTRO: TcxGridDBColumn
+          DataBinding.FieldName = 'NOM_CADASTRO'
+          HeaderAlignmentHorz = taCenter
+          Width = 272
         end
         object gridLancamentosDBTableView1DOM_DESCONTO: TcxGridDBColumn
           DataBinding.FieldName = 'DOM_DESCONTO'
@@ -797,50 +810,41 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
         GridView = gridLancamentosDBTableView1
       end
     end
-    object cxButton1: TcxButton
-      Left = 12
-      Top = 334
-      Width = 79
-      Height = 25
-      Cursor = crHandPoint
-      Action = actionFiltroAvancado
-      TabOrder = 2
-    end
     object cxButton2: TcxButton
-      Left = 98
+      Left = 12
       Top = 334
       Width = 81
       Height = 25
       Cursor = crHandPoint
       Action = actionNovoLancamento
-      TabOrder = 3
+      TabOrder = 2
     end
     object cxButton3: TcxButton
-      Left = 186
+      Left = 100
       Top = 334
       Width = 81
       Height = 25
       Cursor = crHandPoint
       Action = actionEditarLancamento
-      TabOrder = 4
+      TabOrder = 3
     end
     object cxButton4: TcxButton
-      Left = 274
+      Left = 188
       Top = 334
       Width = 81
       Height = 25
       Cursor = crHandPoint
       Action = actionExluirLancamento
-      TabOrder = 5
+      TabOrder = 4
     end
     object cxButton5: TcxButton
-      Left = 362
+      Left = 276
       Top = 334
       Width = 121
       Height = 25
       Cursor = crHandPoint
       Action = actionCancelarFiltro
-      TabOrder = 6
+      TabOrder = 5
     end
     object cxButton6: TcxButton
       Left = 766
@@ -849,7 +853,9 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       Height = 25
       Cursor = crHandPoint
       Action = actionFecharTela
-      TabOrder = 7
+      LookAndFeel.NativeStyle = False
+      LookAndFeel.SkinName = ''
+      TabOrder = 6
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -914,18 +920,6 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       ShowBorder = False
       Index = 2
     end
-    object dxLayoutItem3: TdxLayoutItem
-      Parent = dxLayoutGroup3
-      AlignHorz = ahLeft
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxButton1'
-      CaptionOptions.Visible = False
-      Control = cxButton1
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 79
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
     object dxLayoutItem4: TdxLayoutItem
       Parent = dxLayoutGroup3
       AlignHorz = ahLeft
@@ -936,7 +930,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 81
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object dxLayoutItem5: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -949,7 +943,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       ControlOptions.OriginalWidth = 81
       ControlOptions.ShowBorder = False
       Enabled = False
-      Index = 2
+      Index = 1
     end
     object dxLayoutItem6: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -962,7 +956,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       ControlOptions.OriginalWidth = 81
       ControlOptions.ShowBorder = False
       Enabled = False
-      Index = 3
+      Index = 2
     end
     object dxLayoutItem7: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -975,7 +969,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Enabled = False
-      Index = 4
+      Index = 3
     end
     object dxLayoutItem8: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -987,7 +981,7 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 81
       ControlOptions.ShowBorder = False
-      Index = 5
+      Index = 4
     end
   end
   object dsLancamnentos: TDataSource
@@ -1001,13 +995,6 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
     Images = Data_Sisgef.iml_16_16
     Left = 568
     Top = 8
-    object actionFiltroAvancado: TAction
-      Caption = 'Filtro'
-      Hint = 'Op'#231#245'es de filtro avan'#231'ado'
-      ImageIndex = 73
-      ShortCut = 16503
-      OnExecute = actionFiltroAvancadoExecute
-    end
     object actionNovoLancamento: TAction
       Caption = '&Novo'
       Hint = 'Novo lan'#231'amento'
@@ -1068,6 +1055,18 @@ object view_LancamentosExtratosExpressasPesquisa: Tview_LancamentosExtratosExpre
       Hint = 'Canelar filtro aplicado'
       ImageIndex = 67
       OnExecute = actionCancelarFiltroExecute
+    end
+    object actionSelecionarTudo: TAction
+      Caption = 'Selecionar Tudo'
+      Hint = 'Selecionar todos os registros'
+      ImageIndex = 71
+      OnExecute = actionSelecionarTudoExecute
+    end
+    object actionLimparSeleção: TAction
+      Caption = 'Limpar Sele'#231#227'o'
+      Hint = 'Limpar a sele'#231#227'o'
+      ImageIndex = 72
+      OnExecute = actionLimparSeleçãoExecute
     end
   end
   object fdLancamentos: TFDQuery

@@ -673,7 +673,7 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
         OptionsSelection.MultiSelectMode = msmPersistent
         OptionsView.GroupByBox = False
         object gridCEPDBTableView1id_roteiro: TcxGridDBColumn
-          DataBinding.FieldName = 'id_roteiro'
+          DataBinding.FieldName = 'id_registro'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.Alignment.Horz = taRightJustify
           Properties.IgnoreMaskBlank = True
@@ -683,8 +683,7 @@ object view_ListaRorteirosLivres: Tview_ListaRorteirosLivres
           HeaderAlignmentHorz = taCenter
         end
         object gridCEPDBTableView1num_cep_inicial: TcxGridDBColumn
-          Caption = 'CEP'
-          DataBinding.FieldName = 'num_cep_inicial'
+          DataBinding.FieldName = 'num_cep'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.IgnoreMaskBlank = True
           Properties.MaskKind = emkRegExpr

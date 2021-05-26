@@ -286,12 +286,9 @@ begin
   begin
     Exit;
   end;
-  if fdPesquisa.Active then
-  begin
-    fdPesquisa.Close;
-  end;
   if not sFiltro.IsEmpty then
   begin
+    fdpesquisa.Filtered := False;
     fdpesquisa.Filter := sFiltro;
     fdpesquisa.Filtered := True;
   end;

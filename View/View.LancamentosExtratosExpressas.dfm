@@ -564,7 +564,6 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
   OldCreateOrder = False
   Position = poMainFormCenter
   ShowHint = True
-  OnClose = FormClose
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
@@ -764,12 +763,14 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
       Left = 547
       Top = 422
       Hint = 'ID do lan'#231'amento de origem em caso de parcelamento'
+      TabStop = False
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
           Default = True
           Kind = bkEllipsis
         end>
+      Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -848,6 +849,8 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
         object gridParcelamentoDBTableView1num_parcela: TcxGridDBColumn
           DataBinding.FieldName = 'num_parcela'
           HeaderAlignmentHorz = taCenter
+          SortIndex = 0
+          SortOrder = soAscending
         end
         object gridParcelamentoDBTableView1dat_parcela: TcxGridDBColumn
           DataBinding.FieldName = 'dat_parcela'
@@ -1349,6 +1352,9 @@ object view_LancamentosExtratosExpressas: Tview_LancamentosExtratosExpressas
     end
   end
   object memTableParcelamento: TFDMemTable
+    Indexes = <
+      item
+      end>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]

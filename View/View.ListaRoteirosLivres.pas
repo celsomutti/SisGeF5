@@ -240,6 +240,7 @@ begin
   case AButtonIndex of
     16 : ExportData;
     17 : CheckAll;
+    18 : UnCheckAll;
   end;
 end;
 
@@ -290,13 +291,13 @@ begin
   for i := 0 to Pred(gridCEPDBTableView1.Controller.SelectedRowCount) do
   begin
     iId := StrToIntDef(gridCEPDBTableView1.Controller.SelectedRows[i].DisplayTexts[0], 0);
-    if Data_Sisgef.mtbRoteirosLivres.Locate('id_roteiro',iID,[]) then
+    if Data_Sisgef.mtbRoteirosLivres.Locate('id_registro',iID,[]) then
     begin
-      sCEP := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_inicial').AsString;
+      sCEP := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep').AsString;
       sTipo := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_tipo').AsString;
       sCliente := Data_Sisgef.mtbRoteirosLivres.FieldByName('cod_cliente').AsString;
       sQuery := 'num_cep_inicial = ' + QuotedStr(sCEP) + ' and cod_tipo = ' + sTipo + ' and cod_cliente = ' + sCliente;
-      if Data_Sisgef.mtbRoteirosExpressas.LocateEx(sQuery,[]) then
+      if not Data_Sisgef.mtbRoteirosExpressas.LocateEx(sQuery,[]) then
       begin
         Data_Sisgef.mtbRoteirosExpressas.Insert;
         Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 1;
@@ -306,10 +307,10 @@ begin
         Data_Sisgef.mtbRoteirosExpressas.Edit;
         Data_Sisgef.mtbRoteirosExpressasdom_check.AsInteger := 2;
       end;
-      Data_Sisgef.mtbRoteirosExpressasid_roteiro.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('id_roteiro').AsInteger;;
+      Data_Sisgef.mtbRoteirosExpressasid_roteiro.AsInteger := Data_Sisgef.mtbRoteirosLivres.FieldByName('id_registro').AsInteger;;
       Data_Sisgef.mtbRoteirosExpressascod_ccep5.AsString := FCodigoRoteiro;
       Data_Sisgef.mtbRoteirosExpressasdes_roteiro.AsString := FDescricaoRoteiro;
-      Data_Sisgef.mtbRoteirosExpressasnum_cep_inicial.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_inicial').AsString;
+      Data_Sisgef.mtbRoteirosExpressasnum_cep_inicial.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep').AsString;
       Data_Sisgef.mtbRoteirosExpressasnum_cep_final.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('num_cep_final').AsString;
       Data_Sisgef.mtbRoteirosExpressasdes_prazo.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('des_prazo').AsString;
       Data_Sisgef.mtbRoteirosExpressasdom_zona.AsString := Data_Sisgef.mtbRoteirosLivres.FieldByName('dom_zona').AsString;;

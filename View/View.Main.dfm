@@ -714,7 +714,6 @@
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        PanelStyle.Alignment = taCenter
         PanelStyle.AutoHint = True
         PanelStyle.ImageIndex = 42
         Fixed = False
@@ -722,7 +721,6 @@
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        PanelStyle.Alignment = taCenter
         PanelStyle.ImageIndex = 32
         Width = 250
         OnDblClick = dxRibbonStatusBar1Panels2DblClick

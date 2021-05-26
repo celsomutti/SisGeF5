@@ -14616,7 +14616,7 @@ object Data_Sisgef: TData_Sisgef
     Top = 400
     object IntegerField1: TIntegerField
       DisplayLabel = 'ID'
-      FieldName = 'id_roteiro'
+      FieldName = 'id_registro'
     end
     object StringField1: TStringField
       DisplayLabel = 'C'#243'digo'
@@ -14629,8 +14629,8 @@ object Data_Sisgef: TData_Sisgef
       Size = 50
     end
     object StringField3: TStringField
-      DisplayLabel = 'CEP Inicial'
-      FieldName = 'num_cep_inicial'
+      DisplayLabel = 'CEP'
+      FieldName = 'num_cep'
       Size = 8
     end
     object StringField4: TStringField

@@ -28,7 +28,6 @@ type
     dxLayoutItem2: TdxLayoutItem;
     dxLayoutGroup3: TdxLayoutGroup;
     actionListLancamentos: TActionList;
-    actionFiltroAvancado: TAction;
     actionNovoLancamento: TAction;
     actionEditarLancamento: TAction;
     actionExluirLancamento: TAction;
@@ -39,8 +38,6 @@ type
     actionRestaurar: TAction;
     actionFecharTela: TAction;
     actionCancelarFiltro: TAction;
-    cxButton1: TcxButton;
-    dxLayoutItem3: TdxLayoutItem;
     cxButton2: TcxButton;
     dxLayoutItem4: TdxLayoutItem;
     cxButton3: TcxButton;
@@ -84,10 +81,10 @@ type
     gridLancamentosDBTableView1COD_REFERENCIA: TcxGridDBColumn;
     gridLancamentosDBTableView1DAT_CADASTRO: TcxGridDBColumn;
     gridLancamentosDBTableView1NOM_USUARIO: TcxGridDBColumn;
-    procedure actionFiltroAvancadoExecute(Sender: TObject);
+    actionSelecionarTudo: TAction;
+    actionLimparSeleção: TAction;
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure fdLancamentosAfterClose(DataSet: TDataSet);
     procedure actionNovoLancamentoExecute(Sender: TObject);
     procedure actionEditarLancamentoExecute(Sender: TObject);
@@ -96,9 +93,11 @@ type
     procedure dsLancamnentosStateChange(Sender: TObject);
     procedure gridLancamentosDBTableView1DblClick(Sender: TObject);
     procedure actionExluirLancamentoExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionSelecionarTudoExecute(Sender: TObject);
+    procedure actionLimparSeleçãoExecute(Sender: TObject);
   private
     { Private declarations }
-    procedure AbreFiltroAvancado;
     procedure StartForm;
     procedure PopulaLancamentos;
     procedure ExcludeData;
@@ -119,31 +118,12 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.FiltroGenerico, View.LancamentosExtratosExpressas, Common.ENum, Common.Utils, Global.Parametros;
-
-procedure Tview_LancamentosExtratosExpressasPesquisa.AbreFiltroAvancado;
-begin
-  if not Assigned(view_FiltroGenerico) then
-    view_FiltroGenerico := Tview_FiltroGenerico.Create(Application);
-
-  view_FiltroGenerico.filtro.DataSet := fdLancamentos;
-
-  if view_FiltroGenerico.ShowModal = mrOK then
-  begin
-    sFilter := view_FiltroGenerico.sFiltro;
-    if not sFilter.IsEmpty then
-    begin
-      PopulaLancamentos;
-      actionCancelarFiltro.Enabled := True;
-    end;
-  end;
-end;
+uses Data.SisGeF, View.LancamentosExtratosExpressas, Common.ENum, Common.Utils, Global.Parametros;
 
 procedure Tview_LancamentosExtratosExpressasPesquisa.actionCancelarFiltroExecute(Sender: TObject);
 begin
-  sFilter := '';
   actionCancelarFiltro.Enabled := False;
-  PopulaLancamentos;
+  gridLancamentosDBTableView1.Controller.ClearFindFilterText;
 end;
 
 procedure Tview_LancamentosExtratosExpressasPesquisa.actionEditarLancamentoExecute(Sender: TObject);
@@ -171,9 +151,9 @@ begin
   Close;
 end;
 
-procedure Tview_LancamentosExtratosExpressasPesquisa.actionFiltroAvancadoExecute(Sender: TObject);
+procedure Tview_LancamentosExtratosExpressasPesquisa.actionLimparSeleçãoExecute(Sender: TObject);
 begin
-  AbreFiltroAvancado;
+  gridLancamentosDBTableView1.Controller.ClearSelection;
 end;
 
 procedure Tview_LancamentosExtratosExpressasPesquisa.actionNovoLancamentoExecute(Sender: TObject);
@@ -191,14 +171,17 @@ begin
   FreeAndNil(view_LancamentosExtratosExpressas);
 end;
 
+procedure Tview_LancamentosExtratosExpressasPesquisa.actionSelecionarTudoExecute(Sender: TObject);
+begin
+  gridLancamentosDBTableView1.Controller.SelectAllRecords;
+end;
+
 procedure Tview_LancamentosExtratosExpressasPesquisa.CloseForm;
 begin
   if FileExists(sFileLayout) then
   begin
     DeleteFile(sFileLayout);
   end;
-  CloseForm;
-  FreeAndNil(view_FiltroGenerico);
   fdLancamentos.Active := False;
 end;
 
@@ -209,7 +192,6 @@ begin
     actionNovoLancamento.Enabled := True;
     actionEditarLancamento.Enabled := False;
     actionExportarDados.Enabled := False;
-    actionFiltroAvancado.Enabled := True;
     actionExluirLancamento.Enabled := True;
   end
   else if dsLancamnentos.State = dsBrowse then
@@ -217,7 +199,6 @@ begin
     actionNovoLancamento.Enabled := True;
     actionEditarLancamento.Enabled := True;
     actionExportarDados.Enabled := True;
-    actionFiltroAvancado.Enabled := True;
     actionExluirLancamento.Enabled := True;
   end;
 
@@ -226,32 +207,49 @@ end;
 procedure Tview_LancamentosExtratosExpressasPesquisa.ExcludeData;
 var
   sMensagem: String;
+    i, iId, iIndex, iIndex1 : Integer;
+    bFlag : Boolean;
 begin
-  if fdLancamentosDOM_DESCONTO.AsString = 'S' then
-  begin
-    sMensagem := 'Lancamento ID ' + fdLancamentosCOD_LANCAMENTO.AsString + ' já está processado!. Não pode ser excluído.' ;
-    Application.MessageBox(Pchar(sMensagem), 'Atenção!', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
-  sMensagem := 'Confirma excluir o lançamento ID ' + fdLancamentosCOD_LANCAMENTO.AsString + ' ?' ;
-  if Application.MessageBox(Pchar(sMensagem), 'Excluir', MB_YESNO + MB_ICONQUESTION) = ID_NO then
-  begin
-    Exit;
-  end;
-  Lancamentos := TLancamentosControl.Create;
-  Lancamentos.Lancamentos.Codigo := fdLancamentosCOD_LANCAMENTO.AsInteger;
-  Lancamentos.Lancamentos.Acao:= tacExcluir;
-  if Lancamentos.Gravar then
-  begin
-    PopulaLancamentos;
+  try
+    Lancamentos := TLancamentosControl.Create;
+    iIndex := gridLancamentosDBTableView1COD_LANCAMENTO.Index;
+    iIndex1 := gridLancamentosDBTableView1DOM_DESCONTO.Index;
+    bFlag := False;
+    if gridLancamentosDBTableView1.Controller.SelectedRowCount > 1 then
+      sMensagem := 'Confirma excluir os registros selecionados ?'
+    else
+      sMensagem := 'Confirma excluir o lançamento ID ' + gridLancamentosDBTableView1.Controller.SelectedRows[0].DisplayTexts[iIndex] + ' ?' ;
+    if Application.MessageBox(PChar(sMensagem), 'Excluir', MB_YESNO + MB_ICONQUESTION) = IDNO then
+      Exit;
+    for i := 0 to Pred(gridLancamentosDBTableView1.Controller.SelectedRecordCount) do
+    begin
+      if gridLancamentosDBTableView1.Controller.SelectedRows[i].DisplayTexts[iIndex1] = 'True' then
+      begin
+        sMensagem := 'Lancamento ID ' + gridLancamentosDBTableView1.Controller.SelectedRows[i].DisplayTexts[iIndex] +
+                    ' já está processado!. Não pode ser excluído.' ;
+        if Application.MessageBox(Pchar(sMensagem), 'Atenção!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
+          Exit;
+      end
+      else
+      begin
+        iId := StrToIntDef(gridLancamentosDBTableView1.Controller.SelectedRows[i].DisplayTexts[iIndex],0);
+        Lancamentos.Lancamentos.Codigo := iID;
+        Lancamentos.Lancamentos.Acao:= tacExcluir;
+        if not Lancamentos.Gravar then
+        begin
+          sMensagem := 'Erro ao tentar excluir o lancamento ID ' +
+                       gridLancamentosDBTableView1.Controller.SelectedRows[i].DisplayTexts[iIndex] + ' !' ;
+          Application.MessageBox(Pchar(sMensagem), 'Atenção!', MB_OK + MB_ICONWARNING);
+        end
+        else
+          bFlag := True;
+      end;
+    end;
+    if bFlag then
+      PopulaLancamentos;
+    gridLancamentosDBTableView1.Controller.ClearSelection;
+  finally
     Lancamentos.Free;
-  end
-  else
-  begin
-    sMensagem := 'Erro ao tentar excluir o lancamento ID ' + fdLancamentosCOD_LANCAMENTO.AsString + ' !' ;
-    Application.MessageBox(Pchar(sMensagem), 'Atenção!', MB_OK + MB_ICONWARNING);
-    Lancamentos.Free;
-    Exit;
   end;
 end;
 
@@ -312,6 +310,8 @@ begin
      18 : gridLancamentosDBTableView1.ViewData.Collapse(True);
      19 : SetGroup(gridLancamentosDBTableView1.OptionsView.GroupByBox);
      20 : RestoreLayout;
+     21 : gridLancamentosDBTableView1.Controller.SelectAllRecords;
+     22 : gridLancamentosDBTableView1.Controller.ClearSelection;
   end;
 end;
 
@@ -320,6 +320,11 @@ begin
   fdLancamentos.Active := False;
   fdLancamentos.Filter := sFilter;
   fdLancamentos.Active := True;
+  if not fdLancamentos.IsEmpty then
+  begin
+    fdLancamentos.Last;
+    gridLancamentos.SetFocus;
+  end;
 end;
 
 procedure Tview_LancamentosExtratosExpressasPesquisa.RestoreLayout;
