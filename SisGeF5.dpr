@@ -182,7 +182,6 @@ uses
   View.DetalheRemessasExtrato in 'View\View.DetalheRemessasExtrato.pas' {view_DetalheRemessasExtrato},
   View.VisualizacaoPlanilha in 'View\View.VisualizacaoPlanilha.pas' {view_VisualizacaoPlanilhas},
   View.Main in 'View\View.Main.pas' {view_Main},
-  View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT},
   Model.CapaDIRECT in 'Model\Model.CapaDIRECT.pas',
   Control.CapaDIRECT in 'Control\Control.CapaDIRECT.pas',
   Thread.ImportaAbrangencia in 'Thread\Thread.ImportaAbrangencia.pas',
@@ -200,7 +199,10 @@ uses
   Thread.ImportaCEPRoteiro in 'Thread\Thread.ImportaCEPRoteiro.pas',
   View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas},
   View.LancamentosExtratosExpressasPesquisa in 'View\View.LancamentosExtratosExpressasPesquisa.pas' {view_LancamentosExtratosExpressasPesquisa},
-  View.FiltroGenerico in 'View\View.FiltroGenerico.pas' {view_FiltroGenerico};
+  View.FiltroGenerico in 'View\View.FiltroGenerico.pas' {view_FiltroGenerico},
+  Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
+  View.ImportEDIClient in 'View\View.ImportEDIClient.pas' {view_ImporEDIClient},
+  View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT};
 
 {$R *.res}
 

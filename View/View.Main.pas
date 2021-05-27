@@ -251,7 +251,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
-  View.LancamentosExtratosExpressasPesquisa;
+  View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient;
 
 procedure Tview_Main.Acessos;
 var
@@ -447,11 +447,11 @@ end;
 
 procedure Tview_Main.actImportacaoPedidosExecute(Sender: TObject);
 begin
-  if not Assigned(view_ImportarPedidos) then
+  if not Assigned(view_ImporEDIClient) then
   begin
-    view_ImportarPedidos := Tview_ImportarPedidos.Create(Application);
+    view_ImporEDIClient := Tview_ImporEDIClient.Create(Application);
   end;
-  view_ImportarPedidos.Show;
+  view_ImporEDIClient.Show;
 end;
 
 procedure Tview_Main.actImportarBaixasTFOExecute(Sender: TObject);

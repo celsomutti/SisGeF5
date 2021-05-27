@@ -21,7 +21,7 @@ uses
   cxCurrencyEdit, cxTextEdit, cxCalendar, cxSpinEdit, cxCheckBox, cxMaskEdit, Control.FilterData, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet,
-  cxButtonEdit, cxFilterControl, cxDBFilterControl, FireDAC.Stan.Async, FireDAC.DApt;
+  cxButtonEdit, cxFilterControl, cxDBFilterControl, FireDAC.Stan.Async, FireDAC.DApt, cxMemo;
 
 type
   Tview_BIPedidos = class(TForm)
@@ -180,6 +180,11 @@ type
     mtbClientesEmpresanom_cliente: TStringField;
     cxButton4: TcxButton;
     dxLayoutItem8: TdxLayoutItem;
+    dxLayoutGroup5: TdxLayoutGroup;
+    dxLayoutGroup6: TdxLayoutGroup;
+    actionRetornar: TAction;
+    cxButton6: TcxButton;
+    dxLayoutItem10: TdxLayoutItem;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -189,6 +194,7 @@ type
     procedure actlimparDadosExecute(Sender: TObject);
     procedure actionSalvarFilroExecute(Sender: TObject);
     procedure actionCarregarFiltroExecute(Sender: TObject);
+    procedure actionRetornarExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -234,6 +240,11 @@ begin
 end;
 
 procedure Tview_BIPedidos.actionEditarFiltroExecute(Sender: TObject);
+begin
+  dxLayoutGroup2.MakeVisible;
+end;
+
+procedure Tview_BIPedidos.actionRetornarExecute(Sender: TObject);
 begin
   dxLayoutGroup2.MakeVisible;
 end;
@@ -301,10 +312,13 @@ begin
     Exit;
   end;
   sFiltro := filtroBI.FilterText;
+  fdQueryBI.Active := false;
   fdQueryBI.SQL.Text := sSQlOld + ' where ' + sFiltro;
   fdQueryBI.Active := true;
   parametrosLeitura.Text := filtroBI.FilterCaption;
   dxLayoutGroup1.MakeVisible;
+  if fdQueryBI.IsEmpty then
+    Application.MessageBox('Nenhum registro encontrado!', 'Atenção!', MB_OK + MB_ICONWARNING);
 end;
 
 procedure Tview_BIPedidos.FormClose(Sender: TObject; var Action: TCloseAction);

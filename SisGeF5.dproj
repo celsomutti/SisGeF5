@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>SisGeF5.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -466,10 +466,6 @@
             <Form>view_Main</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="View\View.ImportaCapaFinanceiroDIRECT.pas">
-            <Form>view_ImportaCapaFinanceiroDIRECT</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Model\Model.CapaDIRECT.pas"/>
         <DCCReference Include="Control\Control.CapaDIRECT.pas"/>
         <DCCReference Include="Thread\Thread.ImportaAbrangencia.pas"/>
@@ -504,6 +500,15 @@
         </DCCReference>
         <DCCReference Include="View\View.FiltroGenerico.pas">
             <Form>view_FiltroGenerico</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Thread\Thread.EDIClient.pas"/>
+        <DCCReference Include="View\View.ImportEDIClient.pas">
+            <Form>view_ImporEDIClient</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="View\View.ImportaCapaFinanceiroDIRECT.pas">
+            <Form>view_ImportaCapaFinanceiroDIRECT</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="SisGeF5.todo"/>

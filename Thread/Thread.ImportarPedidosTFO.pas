@@ -117,7 +117,8 @@ begin
             FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[i].NumeroNF;
             FEntregas.Entregas.Consumidor := FPlanilha.Planilha.Planilha[i].NomeConsumidor;
             FEntregas.Entregas.Endereco := FPlanilha.Planilha.Planilha[i].Logradouro;
-            FEntregas.Entregas.Complemento := Copy(FPlanilha.Planilha.Planilha[i].Complemento + ' - ' + FPlanilha.Planilha.Planilha[i].AosCuidados,1,70);
+            FEntregas.Entregas.Complemento := Copy(FPlanilha.Planilha.Planilha[i].Complemento + ' - ' +
+                                                   FPlanilha.Planilha.Planilha[i].AosCuidados,1,70);
             FEntregas.Entregas.Bairro := FPlanilha.Planilha.Planilha[i].Bairro;
             FEntregas.Entregas.Cidade := FPlanilha.Planilha.Planilha[i].Cidade;
             FEntregas.Entregas.Cep := FPlanilha.Planilha.Planilha[i].CEP;
@@ -136,7 +137,7 @@ begin
             FPlanilha.Planilha.Planilha[I].Peso := ReplaceStr(FPlanilha.Planilha.Planilha[I].Peso, ' KG', '');
             FPlanilha.Planilha.Planilha[I].Peso := ReplaceStr(FPlanilha.Planilha.Planilha[I].Peso, '.', ',');
             FEntregas.Entregas.PesoReal := StrToFloatDef(FPlanilha.Planilha.Planilha[I].Peso,0);
-            FEntregas.Entregas.TipoPeso := '';
+            FEntregas.Entregas.TipoPeso := 'Entrega';
             FEntregas.Entregas.PesoFranquia := 0;
             FEntregas.Entregas.Advalorem := 0;
             FEntregas.Entregas.PagoFranquia := 0;

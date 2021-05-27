@@ -579,20 +579,23 @@ object view_BIPedidos: Tview_BIPedidos
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitLeft = -64
+    ExplicitTop = -8
     object grdPesquisa: TcxGrid
       Left = 10000
       Top = 10000
       Width = 823
-      Height = 273
+      Height = 239
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
       Font.Name = 'Microsoft JhengHei UI'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 4
       Visible = False
       LookAndFeel.Kind = lfFlat
+      LookAndFeel.ScrollbarMode = sbmClassic
       object tvPesquisa: TcxGridDBTableView
         Navigator.Buttons.OnButtonClick = tvPesquisaNavigatorButtonsButtonClick
         Navigator.Buttons.CustomButtons = <
@@ -847,6 +850,7 @@ object view_BIPedidos: Tview_BIPedidos
         object tvPesquisaDES_RASTREIO: TcxGridDBColumn
           DataBinding.FieldName = 'DES_RASTREIO'
           PropertiesClassName = 'TcxBlobEditProperties'
+          Properties.BlobEditKind = bekMemo
           Width = 87
         end
         object tvPesquisaNUM_LOTE_REMESSA: TcxGridDBColumn
@@ -938,33 +942,34 @@ object view_BIPedidos: Tview_BIPedidos
       Style.TransparentBorder = True
       TabOrder = 7
       Visible = False
-      Width = 823
+      Width = 633
     end
     object filtroBI: TcxDBFilterControl
       Left = 24
       Top = 84
       Width = 823
-      Height = 271
+      Height = 239
       Cursor = crHandPoint
       Color = clWindow
       DataSet = fdQueryBI
       Items = <>
       FilterOptions.DateTimeFormat = 'yyyy-mm-dd hh:mm:ss'
+      FilterOptions.TranslateIn = True
       LookAndFeel.SkinName = ''
       TabOrder = 1
     end
     object cxButton1: TcxButton
-      Left = 214
-      Top = 362
+      Left = 120
+      Top = 330
       Width = 85
       Height = 25
       Cursor = crHandPoint
       Action = actFiltro
-      TabOrder = 4
+      TabOrder = 3
     end
     object cxButton2: TcxButton
       Left = 24
-      Top = 362
+      Top = 330
       Width = 89
       Height = 25
       Cursor = crHandPoint
@@ -972,13 +977,14 @@ object view_BIPedidos: Tview_BIPedidos
       TabOrder = 2
     end
     object cxButton3: TcxButton
-      Left = 120
-      Top = 362
+      Left = 10000
+      Top = 10000
       Width = 87
       Height = 25
       Cursor = crHandPoint
       Action = actionSalvarFilro
-      TabOrder = 3
+      TabOrder = 6
+      Visible = False
     end
     object labelTitle: TcxLabel
       Left = 49
@@ -995,13 +1001,23 @@ object view_BIPedidos: Tview_BIPedidos
       Transparent = True
     end
     object cxButton4: TcxButton
-      Left = 760
-      Top = 362
+      Left = 772
+      Top = 374
       Width = 87
       Height = 25
       Cursor = crHandPoint
       Action = actFechar
+      TabOrder = 8
+    end
+    object cxButton6: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 89
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionRetornar
       TabOrder = 5
+      Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -1025,22 +1041,22 @@ object view_BIPedidos: Tview_BIPedidos
       Index = 0
     end
     object dxLayoutItem6: TdxLayoutItem
-      Parent = dxLayoutGroup1
+      Parent = dxLayoutGroup6
       AlignHorz = ahClient
-      AlignVert = avBottom
+      AlignVert = avClient
       CaptionOptions.Text = 'Par'#226'metros'
       CaptionOptions.Visible = False
-      CaptionOptions.Layout = clTop
       Control = parametrosLeitura
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = dxLayoutGroup4
       CaptionOptions.Text = 'Resultado'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       ShowBorder = False
       Index = 1
     end
@@ -1065,10 +1081,9 @@ object view_BIPedidos: Tview_BIPedidos
     end
     object dxLayoutGroup3: TdxLayoutGroup
       Parent = dxLayoutGroup2
-      AlignHorz = ahClient
-      AlignVert = avBottom
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -1083,7 +1098,7 @@ object view_BIPedidos: Tview_BIPedidos
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 85
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 1
     end
     object dxLayoutItem4: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -1098,9 +1113,9 @@ object view_BIPedidos: Tview_BIPedidos
       Index = 0
     end
     object dxLayoutItem5: TdxLayoutItem
-      Parent = dxLayoutGroup3
+      Parent = dxLayoutGroup6
       AlignHorz = ahLeft
-      AlignVert = avCenter
+      AlignVert = avClient
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
@@ -1184,7 +1199,7 @@ object view_BIPedidos: Tview_BIPedidos
       Index = 1
     end
     object dxLayoutItem8: TdxLayoutItem
-      Parent = dxLayoutGroup3
+      Parent = dxLayoutGroup5
       AlignHorz = ahRight
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton4'
@@ -1193,7 +1208,37 @@ object view_BIPedidos: Tview_BIPedidos
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 87
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 0
+    end
+    object dxLayoutGroup5: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup6: TdxLayoutGroup
+      Parent = dxLayoutGroup1
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem10: TdxLayoutItem
+      Parent = dxLayoutGroup6
+      AlignHorz = ahLeft
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxButton6'
+      CaptionOptions.Visible = False
+      Control = cxButton6
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 89
+      ControlOptions.ShowBorder = False
+      Index = 0
     end
   end
   object aclBIPedidos: TActionList
@@ -1241,6 +1286,13 @@ object view_BIPedidos: Tview_BIPedidos
       Hint = 'Carregar Filtro'
       ImageIndex = 40
       OnExecute = actionCarregarFiltroExecute
+    end
+    object actionRetornar: TAction
+      Category = 'BI Pedidos'
+      Caption = 'Retornar'
+      Hint = 'Retornar '#224' tela de defini'#231#227'o do filtro'
+      ImageIndex = 18
+      OnExecute = actionRetornarExecute
     end
   end
   object ds: TDataSource

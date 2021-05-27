@@ -156,6 +156,7 @@ object view_ImportarPedidos: Tview_ImportarPedidos
       LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end

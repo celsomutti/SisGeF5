@@ -1378,7 +1378,7 @@
     object dxBarLargeButton6: TdxBarLargeButton
       Action = actImportacaoPedidos
       Category = 0
-      LargeImageIndex = 6
+      LargeImageIndex = 70
     end
     object dxBarLargeButton7: TdxBarLargeButton
       Action = actImportarBaixasTFO
@@ -1933,7 +1933,7 @@
     object actImportacaoPedidos: TAction
       Tag = 201010
       Category = 'Expressas'
-      Caption = '&Importa'#231#227'o de Pedidos'
+      Caption = '&Importa'#231#227'o EDI'
       Hint = 'Importa'#231#227'o de dados dos pedidos de entregas '
       OnExecute = actImportacaoPedidosExecute
     end
