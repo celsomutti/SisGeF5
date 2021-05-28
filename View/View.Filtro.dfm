@@ -31,7 +31,7 @@ object frmFiltro: TfrmFiltro
     TabOrder = 0
     DesignSize = (
       691
-      111)
+      118)
     Height = 118
     Width = 691
     object cxValorEm: TcxMemo
@@ -149,14 +149,14 @@ object frmFiltro: TfrmFiltro
     TabOrder = 1
     DesignSize = (
       691
-      136)
+      143)
     Height = 143
     Width = 691
     object cxTextoFiltro: TcxListBox
       AlignWithMargins = True
-      Left = 6
-      Top = 18
-      Width = 679
+      Left = 5
+      Top = 21
+      Width = 681
       Height = 63
       Align = alTop
       Anchors = [akLeft, akTop, akRight, akBottom]

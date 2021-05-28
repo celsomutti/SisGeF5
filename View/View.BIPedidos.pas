@@ -21,7 +21,7 @@ uses
   cxCurrencyEdit, cxTextEdit, cxCalendar, cxSpinEdit, cxCheckBox, cxMaskEdit, Control.FilterData, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet,
-  cxButtonEdit, cxFilterControl, cxDBFilterControl, FireDAC.Stan.Async, FireDAC.DApt, cxMemo;
+  cxButtonEdit, cxFilterControl, cxDBFilterControl, FireDAC.Stan.Async, FireDAC.DApt, cxMemo, cxDropDownEdit;
 
 type
   Tview_BIPedidos = class(TForm)
@@ -37,8 +37,6 @@ type
     dxLayoutItem3: TdxLayoutItem;
     ds: TDataSource;
     SaveDialog: TSaveDialog;
-    parametrosLeitura: TcxButtonEdit;
-    dxLayoutItem6: TdxLayoutItem;
     actionEditarFiltro: TAction;
     dxLayoutGroup1: TdxLayoutGroup;
     dxLayoutGroup2: TdxLayoutGroup;
@@ -46,13 +44,8 @@ type
     dxLayoutItem1: TdxLayoutItem;
     actionSalvarFilro: TAction;
     actionCarregarFiltro: TAction;
-    dxLayoutGroup3: TdxLayoutGroup;
     cxButton1: TcxButton;
     dxLayoutItem2: TdxLayoutItem;
-    cxButton2: TcxButton;
-    dxLayoutItem4: TdxLayoutItem;
-    cxButton3: TcxButton;
-    dxLayoutItem5: TdxLayoutItem;
     fdQueryBI: TFDQuery;
     fdQueryBINUM_NOSSONUMERO: TStringField;
     fdQueryBICOD_AGENTE: TIntegerField;
@@ -185,6 +178,19 @@ type
     actionRetornar: TAction;
     cxButton6: TcxButton;
     dxLayoutItem10: TdxLayoutItem;
+    dxLayoutGroup7: TdxLayoutGroup;
+    lote: TcxMemo;
+    dxLayoutItem9: TdxLayoutItem;
+    actionAdicionarFiltro: TAction;
+    dxLayoutGroup8: TdxLayoutGroup;
+    actionLimparLote: TAction;
+    cxButton7: TcxButton;
+    dxLayoutItem12: TdxLayoutItem;
+    dxLayoutGroup9: TdxLayoutGroup;
+    campos: TcxComboBox;
+    dxLayoutItem13: TdxLayoutItem;
+    dxLayoutGroup10: TdxLayoutGroup;
+    dxLayoutGroup11: TdxLayoutGroup;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -195,6 +201,7 @@ type
     procedure actionSalvarFilroExecute(Sender: TObject);
     procedure actionCarregarFiltroExecute(Sender: TObject);
     procedure actionRetornarExecute(Sender: TObject);
+    procedure actionLimparLoteExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -206,6 +213,8 @@ type
     procedure SaveFilter;
     procedure LoadFilter;
     procedure PainelGroup;
+    procedure PopulateFieldsCombo;
+    function AplicaFiltro(): string;
     function VerifyColumnsView(): boolean;
   public
     { Public declarations }
@@ -216,8 +225,9 @@ var
   entregadores : TEntregadoresExpressasControl;
   bases : TBasesControl;
   clientes : TClientesControl;
-  sFileLayout, sSQLOld: String;
-
+  sFileLayout, sSQLOld, sCriterioGeral: String;
+  alValores: array of TFieldType;
+  alFields: array of string;
 implementation
 
 {$R *.dfm}
@@ -244,6 +254,11 @@ begin
   dxLayoutGroup2.MakeVisible;
 end;
 
+procedure Tview_BIPedidos.actionLimparLoteExecute(Sender: TObject);
+begin
+  lote.Clear;
+end;
+
 procedure Tview_BIPedidos.actionRetornarExecute(Sender: TObject);
 begin
   dxLayoutGroup2.MakeVisible;
@@ -256,10 +271,61 @@ end;
 
 procedure Tview_BIPedidos.actlimparDadosExecute(Sender: TObject);
 begin
-  fdQueryBI.Close;
-  parametrosLeitura.Clear;
+  fdQueryBI.Active := False;
+  fdQueryBI.SQL.Text := sSQLOld;
+  campos.ItemIndex := -1;
   filtroBI.Clear;
+  lote.Clear;
   dxLayoutGroup2.MakeVisible;
+end;
+
+function Tview_BIPedidos.AplicaFiltro: String;
+var
+  sOperacao, sEm, sLinha, sItem: String;
+  i: integer;
+begin
+  Result := '';
+  if campos.ItemIndex = -1 then
+    Exit;
+  sOperacao := ' IN ';
+  sEm := '';
+  sLinha := '(' + alFields[campos.ItemIndex] + ' ';
+  sLinha := sLinha + sOperacao + ' (';
+  for i := 0 to Pred(lote.Lines.Count) do
+  begin
+    if (alValores[campos.ItemIndex] = ftString) or (alValores[campos.ItemIndex] = ftDateTime) then
+    begin
+      sItem := lote.Lines[i];
+      if not sItem.IsEmpty then
+      begin
+        if Common.Utils.TUtils.Empty(sEm) then
+        begin
+          sEm := QuotedStr(Trim(sItem));
+        end
+        else
+        begin
+          sEm := sEm + ',' + QuotedStr(Trim(sItem));
+        end;
+      end;
+    end
+    else
+    begin
+      sItem := lote.Lines[i];
+      if not sItem.IsEmpty then
+      begin
+        if Common.Utils.TUtils.Empty(sEm) then
+        begin
+          sEm := Trim(sItem);
+        end
+        else
+        begin
+          sEm := sEm + ',' + Trim(sItem);
+        end;
+      end;
+    end;
+  end;
+  sLinha := sLinha + sEm + ')';
+  Result := sLinha + ')';
 end;
 
 procedure Tview_BIPedidos.CloseForm;
@@ -296,14 +362,23 @@ end;
 
 procedure Tview_BIPedidos.Filtro;
 var
-  sFiltro, sMessage: String;
+  sFiltro, sLote, sMessage: String;
 begin
+  sLote := AplicaFiltro;
   if filtroBI.FilterText.IsEmpty then
   begin
-    sMessage := 'Devido a grande quantidade de registros da tabela de pedidos, esse filtro somente ' +
-                'pode ser realizado com critérios de consulta!';
-    MessageDlg(sMessage, mtWarning, [mbCancel], 0);
-    Exit;
+    if campos.ItemIndex = -1 then
+    begin
+      sMessage := 'Devido a grande quantidade de registros da tabela de pedidos, esse filtro somente ' +
+                  'pode ser realizado com critérios de consulta!';
+      MessageDlg(sMessage, mtWarning, [mbCancel], 0);
+      Exit;
+    end
+    else if sLote.IsEmpty then
+    begin
+      MessageDlg('Informe os valores a serem pesquisados!', mtWarning, [mbCancel], 0);
+      Exit;
+    end;
   end;
   dxLayoutGroup1.MakeVisible;
   if not VerifyColumnsView() then
@@ -312,10 +387,18 @@ begin
     Exit;
   end;
   sFiltro := filtroBI.FilterText;
+  if not sFiltro.IsEmpty then
+  begin
+    if not sLote.IsEmpty then
+      sFiltro := sFiltro + ' and ' + sLote;
+  end
+  else
+  begin
+    sFiltro := sLote;
+  end;
   fdQueryBI.Active := false;
   fdQueryBI.SQL.Text := sSQlOld + ' where ' + sFiltro;
   fdQueryBI.Active := true;
-  parametrosLeitura.Text := filtroBI.FilterCaption;
   dxLayoutGroup1.MakeVisible;
   if fdQueryBI.IsEmpty then
     Application.MessageBox('Nenhum registro encontrado!', 'Atenção!', MB_OK + MB_ICONWARNING);
@@ -354,6 +437,21 @@ begin
     tvPesquisa.OptionsView.GroupByBox := True;
 end;
 
+procedure Tview_BIPedidos.PopulateFieldsCombo;
+var
+  i, iTotal: integer;
+begin
+  iTotal := fdQueryBI.Fields.Count;
+  SetLength(alValores, iTotal);
+  SetLength(alFields, iTotal);
+  for i  := 0 to Pred(iTotal) do
+  begin
+    campos.Properties.Items.Add(fdQueryBI.Fields[i].DisplayLabel);
+    alValores[i] := fdQueryBI.Fields[i].DataType;
+    alFields[i] := fdQueryBI.Fields[i].FieldName;
+  end;
+end;
+
 procedure Tview_BIPedidos.RestoreLayout;
 begin
   tvPesquisa.RestoreFromIniFile(sFileLayout);
@@ -386,6 +484,7 @@ begin
   sFileLayout := ExtractFilePath(Application.ExeName) + '\layoutBIRemessas' + Global.Parametros.pUser_ID.ToString + '.ini';
   SaveLayout;
   sSQLOld := fdQueryBI.SQL.Text;
+  PopulateFieldsCombo;
 end;
 
 procedure Tview_BIPedidos.tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);

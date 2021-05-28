@@ -60,6 +60,10 @@ type
     cliente: TcxLookupComboBox;
     dxLayoutItem9: TdxLayoutItem;
     dsClientes: TDataSource;
+    tipo: TcxComboBox;
+    dxLayoutItem12: TdxLayoutItem;
+    lojas: TcxCheckBox;
+    dxLayoutItem13: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -68,14 +72,16 @@ type
     procedure actionImportarExecute(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
+    procedure clientePropertiesChange(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
     procedure Openfile;
     procedure StartImport(sFile: String);
-    procedure ProcessaCapa(sFile: String; iCliente: Integer);
+    procedure ProcessaCapa(sFile: String; iCliente, iTipo: Integer; bLojas: boolean);
     procedure UpdateDashboard;
     procedure TerminateProcess;
+    procedure RenameFiles(sFile: String);
   public
     { Public declarations }
   end;
@@ -111,12 +117,22 @@ end;
 
 procedure Tview_ImporEDIClient.actionLimparCampoExecute(Sender: TObject);
 begin
+  tipo.ItemIndex := 0;
   nomeArquivo.Clear;
+  cliente.ItemIndex := -1;
 end;
 
 procedure Tview_ImporEDIClient.actionSelecionarArquivoExecute(Sender: TObject);
 begin
   Openfile;
+end;
+
+procedure Tview_ImporEDIClient.clientePropertiesChange(Sender: TObject);
+begin
+  if tipo.ItemIndex = 2 then
+    dxLayoutItem13.Visible := (cliente.EditValue = 4)
+  else
+    lojas.Checked := False;
 end;
 
 procedure Tview_ImporEDIClient.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -139,12 +155,14 @@ begin
     nomeArquivo.Text := OpenDialog.FileName;
 end;
 
-procedure Tview_ImporEDIClient.ProcessaCapa(sFile: String; iCliente: Integer);
+procedure Tview_ImporEDIClient.ProcessaCapa(sFile: String; iCliente, iTipo: Integer; bLojas: boolean);
 begin
-  log.Clear;;
+  log.Clear;
   edi := Thread_ImportEDIClient.Create(True);
   edi.Arquivo := sFile;
   edi.Cliente := iCliente;
+  edi.TipoProcesso := iTipo;
+  edi.Loja := bLojas;
   edi.Priority := tpNormal;
   Timer.Enabled := True;
   actionSelecionarArquivo.Enabled := False;
@@ -155,10 +173,29 @@ begin
   edi.Start;
 end;
 
+procedure Tview_ImporEDIClient.RenameFiles(sFile: String);
+Var
+  sFileName: String;
+  sPath : String;
+  sFileFinal: String;
+begin
+  sPath := ExtractFilePath(sFile);
+  sFileName :=  ExtractFileName(sFile);
+  sFileFinal := sPath + '_' + sFileName;
+  RenameFile(sFile,sFileFinal);
+end;
+
 procedure Tview_ImporEDIClient.StartImport(sFile: String);
 var
-  iCliente: integer;
+  iCliente, iTipo: integer;
+  bLojas: boolean;
 begin
+  if tipo.ItemIndex < 1 then
+  begin
+    Application.MessageBox('Informe o tipo de processamento!', 'Atenção!', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
+
   if cliente.Text = '' then
   begin
     Application.MessageBox('Informe o Cliente!', 'Atenção!', MB_OK + MB_ICONEXCLAMATION);
@@ -180,7 +217,9 @@ begin
   if Application.MessageBox(PChar('Confirma a importação do arquivo ' + sFile + ' ?'), 'Importar', MB_YESNO + MB_ICONQUESTION) = IDYES then
   begin
     iCliente := cliente.EditValue;
-    ProcessaCapa(sFile, iCliente);
+    iTipo := tipo.ItemIndex;
+    bLojas := lojas.Checked;
+    ProcessaCapa(sFile, iCliente, iTipo, bLojas);
   end;
 end;
 
@@ -215,7 +254,10 @@ if not edi.Processo then
     if edi.Cancelar then
       Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION)
     else
-      Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+      begin
+        Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+        RenameFiles(nomeArquivo.Text);
+      end;
     nomeArquivo.Text := '';
     progressBar.Position := 0;
     log.Lines.Add('>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Término da importação!');

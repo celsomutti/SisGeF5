@@ -823,10 +823,6 @@
           ItemName = 'dxBarLargeButton6'
         end
         item
-          Visible = True
-          ItemName = 'dxBarLargeButton7'
-        end
-        item
           BeginGroup = True
           Visible = True
           ItemName = 'dxBarLargeButton8'
@@ -854,7 +850,7 @@
       Tag = 2020
       Caption = 'Opera'#231#227'o Expressas'
       CaptionButtons = <>
-      DockedLeft = 439
+      DockedLeft = 362
       DockedTop = 0
       FloatLeft = 1129
       FloatTop = 8
@@ -891,7 +887,7 @@
       Tag = 2030
       Caption = 'Demonstrativos Expressas'
       CaptionButtons = <>
-      DockedLeft = 799
+      DockedLeft = 722
       DockedTop = 0
       FloatLeft = 1129
       FloatTop = 8
@@ -916,7 +912,7 @@
       Tag = 2040
       Caption = 'Verbas Expressas'
       CaptionButtons = <>
-      DockedLeft = 971
+      DockedLeft = 894
       DockedTop = 0
       FloatLeft = 844
       FloatTop = 8

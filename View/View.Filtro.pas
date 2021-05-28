@@ -15,7 +15,7 @@ uses
   dxSkinXmas2008Blue, cxGroupBox, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLabel, cxListBox, cxCheckBox, System.Actions,
   Vcl.ActnList, Vcl.Menus, Vcl.StdCtrls, cxButtons, Vcl.ComCtrls, dxCore, cxDateUtils, cxSpinEdit, cxTimeEdit, cxCalendar, cxMemo,
   dxSkinOffice2016Colorful, dxSkinOffice2016Dark, dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
-  dxSkinVisualStudio2013Light, Data.DB;
+  dxSkinVisualStudio2013Light, Data.DB, cxCustomListBox;
 
 type
   TfrmFiltro = class(TForm)

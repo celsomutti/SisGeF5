@@ -592,10 +592,10 @@
       Action = actionFecharTela
       LookAndFeel.Kind = lfOffice11
       SpeedButtonOptions.Transparent = True
-      TabOrder = 10
+      TabOrder = 12
     end
     object nomeArquivo: TcxButtonEdit
-      Left = 258
+      Left = 415
       Top = 51
       Hint = 'Nome do arquivo da planilha'
       Properties.Buttons = <
@@ -611,9 +611,9 @@
         end>
       Properties.Images = Data_Sisgef.iml_16_16
       Style.HotTrack = False
-      TabOrder = 2
+      TabOrder = 4
       TextHint = 'Informe o nome do arquivo da planilha'
-      Width = 527
+      Width = 370
     end
     object totalRegistros: TcxMaskEdit
       Left = 12
@@ -625,7 +625,7 @@
       Properties.EditMask = '\d\d\d\d\d\d'
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 4
+      TabOrder = 6
       Text = '0'
       Width = 121
     end
@@ -639,7 +639,7 @@
       Properties.EditMask = '\d\d\d\d\d\d'
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 5
+      TabOrder = 7
       Text = '0'
       Width = 121
     end
@@ -650,14 +650,14 @@
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 6
+      TabOrder = 8
       Text = '0'
       Width = 121
     end
     object progressBar: TcxProgressBar
       Left = 12
       Top = 264
-      TabOrder = 7
+      TabOrder = 9
       Width = 121
     end
     object cxButton2: TcxButton
@@ -669,7 +669,7 @@
       Action = actionCancelar
       LookAndFeel.Kind = lfOffice11
       SpeedButtonOptions.Transparent = True
-      TabOrder = 8
+      TabOrder = 10
     end
     object cxButton3: TcxButton
       Left = 792
@@ -680,7 +680,7 @@
       Action = actionImportar
       LookAndFeel.Kind = lfOffice11
       SpeedButtonOptions.Transparent = True
-      TabOrder = 3
+      TabOrder = 5
     end
     object labelTitle: TcxLabel
       Left = 49
@@ -704,13 +704,14 @@
       Properties.ReadOnly = True
       Properties.ScrollBars = ssBoth
       Style.HotTrack = False
-      TabOrder = 9
+      TabOrder = 11
       Height = 293
       Width = 753
     end
     object cliente: TcxLookupComboBox
-      Left = 60
+      Left = 208
       Top = 51
+      Cursor = crHandPoint
       Hint = 'Selecione o cliente'
       Properties.KeyFieldNames = 'cod_cliente'
       Properties.ListColumns = <
@@ -719,9 +720,33 @@
         end>
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsClientes
+      Properties.OnChange = clientePropertiesChange
+      Style.HotTrack = False
+      TabOrder = 2
+      Width = 87
+    end
+    object tipo: TcxComboBox
+      Left = 47
+      Top = 51
+      Cursor = crHandPoint
+      Properties.DropDownListStyle = lsFixedList
+      Properties.Items.Strings = (
+        'Selecione ...'
+        'Entregas'
+        'Baixas')
       Style.HotTrack = False
       TabOrder = 1
-      Width = 138
+      Text = 'Selecione ...'
+      Width = 106
+    end
+    object lojas: TcxCheckBox
+      Left = 302
+      Top = 51
+      Hint = 'Processar verba para lojas'
+      Caption = 'Lojas'
+      Style.HotTrack = False
+      TabOrder = 3
+      Transparent = True
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -771,7 +796,7 @@
       ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 549
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 3
     end
     object dxLayoutGroup4: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -874,7 +899,7 @@
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 101
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 4
     end
     object dxLayoutItem1: TdxLayoutItem
       Parent = dxLayoutGroup1
@@ -910,12 +935,34 @@
       ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 145
       ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem12: TdxLayoutItem
+      Parent = dxLayoutGroup2
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Tipo:'
+      Control = tipo
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 106
+      ControlOptions.ShowBorder = False
       Index = 0
+    end
+    object dxLayoutItem13: TdxLayoutItem
+      Parent = dxLayoutGroup2
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Visible = False
+      Control = lojas
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 53
+      ControlOptions.ShowBorder = False
+      Index = 2
     end
   end
   object indicador: TdxActivityIndicator
     Left = 0
-    Top = 5
+    Top = 8
     Width = 897
     Height = 13
     Anchors = [akLeft, akTop, akRight]
