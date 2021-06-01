@@ -325,7 +325,7 @@ begin
         if FEntregas.LocalizarExata(aParam) then
         begin
           FEntregas.Entregas.Distribuidor := RetornaAgente(FPlanilha.Planilha.Planilha[i].CodigoEntregador);
-          if FPlanilha.Planilha.Planilha[i].CodigoEntregador = 0 then
+          if FPlanilha.Planilha.Planilha[i].CodigoEntregador <> 0 then
             FEntregas.Entregas.Entregador := FPlanilha.Planilha.Planilha[i].CodigoEntregador
           else
             FEntregas.Entregas.Entregador := 781;

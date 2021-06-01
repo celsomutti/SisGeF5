@@ -202,7 +202,10 @@ uses
   View.FiltroGenerico in 'View\View.FiltroGenerico.pas' {view_FiltroGenerico},
   Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
   View.ImportEDIClient in 'View\View.ImportEDIClient.pas' {view_ImporEDIClient},
-  View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT};
+  View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT},
+  Model.FinanceiroPrazosExtratos in 'Model\Model.FinanceiroPrazosExtratos.pas',
+  Control.FinanceiroPrazosExtratos in 'Control\Control.FinanceiroPrazosExtratos.pas',
+  View.ParametrosPrazosExtratos in 'View\View.ParametrosPrazosExtratos.pas' {view_ParametrosPrazosExtratos};
 
 {$R *.res}
 

@@ -192,6 +192,8 @@ type
     bmMainBar20: TdxBar;
     dxBarLargeButton67: TdxBarLargeButton;
     dxBarButton6: TdxBarButton;
+    actionParametrosPrazosExtratos: TAction;
+    dxBarButton7: TdxBarButton;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -223,6 +225,7 @@ type
     procedure actAnaliseRoteirosExpressasExecute(Sender: TObject);
     procedure actCadastroAbrangenciaExpressasExecute(Sender: TObject);
     procedure actDebitoCreditoExecute(Sender: TObject);
+    procedure actionParametrosPrazosExtratosExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;
@@ -251,7 +254,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
-  View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient;
+  View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos;
 
 procedure Tview_Main.Acessos;
 var
@@ -470,6 +473,15 @@ begin
     view_ImportaCapaFinanceiroDIRECT := Tview_ImportaCapaFinanceiroDIRECT.Create(Application);
   end;
   view_ImportaCapaFinanceiroDIRECT.Show;
+end;
+
+procedure Tview_Main.actionParametrosPrazosExtratosExecute(Sender: TObject);
+begin
+  if not Assigned(view_ParametrosPrazosExtratos) then
+  begin
+    view_ParametrosPrazosExtratos := Tview_ParametrosPrazosExtratos.Create(Application);
+  end;
+  view_ParametrosPrazosExtratos.Show;
 end;
 
 procedure Tview_Main.actRecepcaoPedidoExecute(Sender: TObject);
