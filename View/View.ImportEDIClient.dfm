@@ -734,6 +734,7 @@
         'Selecione ...'
         'Entregas'
         'Baixas')
+      Properties.OnChange = tipoPropertiesChange
       Style.HotTrack = False
       TabOrder = 1
       Text = 'Selecione ...'

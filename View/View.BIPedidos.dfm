@@ -590,7 +590,7 @@ object view_BIPedidos: Tview_BIPedidos
       Font.Name = 'Microsoft JhengHei UI'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 7
       Visible = False
       LookAndFeel.Kind = lfFlat
       LookAndFeel.ScrollbarMode = sbmClassic
@@ -921,9 +921,9 @@ object view_BIPedidos: Tview_BIPedidos
       end
     end
     object filtroBI: TcxDBFilterControl
-      Left = 216
+      Left = 244
       Top = 84
-      Width = 631
+      Width = 603
       Height = 239
       Cursor = crHandPoint
       Color = clWindow
@@ -932,7 +932,7 @@ object view_BIPedidos: Tview_BIPedidos
       FilterOptions.DateTimeFormat = 'yyyy-mm-dd hh:mm:ss'
       FilterOptions.SupportedIn = False
       LookAndFeel.SkinName = ''
-      TabOrder = 3
+      TabOrder = 4
     end
     object cxButton1: TcxButton
       Left = 742
@@ -941,7 +941,7 @@ object view_BIPedidos: Tview_BIPedidos
       Height = 25
       Cursor = crHandPoint
       Action = actFiltro
-      TabOrder = 4
+      TabOrder = 6
     end
     object labelTitle: TcxLabel
       Left = 49
@@ -964,7 +964,7 @@ object view_BIPedidos: Tview_BIPedidos
       Height = 25
       Cursor = crHandPoint
       Action = actFechar
-      TabOrder = 8
+      TabOrder = 11
     end
     object cxButton6: TcxButton
       Left = 10000
@@ -973,16 +973,16 @@ object view_BIPedidos: Tview_BIPedidos
       Height = 25
       Cursor = crHandPoint
       Action = actionRetornar
-      TabOrder = 6
+      TabOrder = 8
       Visible = False
     end
     object lote: TcxMemo
-      Left = 24
-      Top = 135
+      Left = 38
+      Top = 156
       Properties.ScrollBars = ssBoth
       Style.HotTrack = False
       TabOrder = 2
-      Height = 208
+      Height = 141
       Width = 185
     end
     object cxButton7: TcxButton
@@ -992,22 +992,59 @@ object view_BIPedidos: Tview_BIPedidos
       Height = 25
       Cursor = crHandPoint
       Action = actlimparDados
-      TabOrder = 7
+      TabOrder = 10
     end
     object campos: TcxComboBox
-      Left = 24
-      Top = 84
+      Left = 38
+      Top = 105
       Properties.DropDownListStyle = lsEditFixedList
       Style.HotTrack = False
       TabOrder = 1
       Width = 185
+    end
+    object cxButton2: TcxButton
+      Left = 38
+      Top = 316
+      Width = 185
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionAdicionarFiltro
+      TabOrder = 3
+    end
+    object cxButton3: TcxButton
+      Left = 244
+      Top = 330
+      Width = 101
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionAuxilioLote
+      TabOrder = 5
+    end
+    object cxButton5: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 95
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionSalvarFilro
+      TabOrder = 9
+      Visible = False
+    end
+    object cxButton8: TcxButton
+      Left = 115
+      Top = 374
+      Width = 97
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionCarregarFiltro
+      TabOrder = 12
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
+      ItemIndex = 2
       ShowBorder = False
       Index = -1
     end
@@ -1060,7 +1097,7 @@ object view_BIPedidos: Tview_BIPedidos
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 105
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object dxLayoutItem7: TdxLayoutItem
       Parent = dxLayoutControl1Group_Root
@@ -1152,6 +1189,7 @@ object view_BIPedidos: Tview_BIPedidos
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 2
@@ -1184,6 +1222,7 @@ object view_BIPedidos: Tview_BIPedidos
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -1204,9 +1243,10 @@ object view_BIPedidos: Tview_BIPedidos
       Parent = dxLayoutGroup7
       AlignHorz = ahLeft
       AlignVert = avClient
-      CaptionOptions.Text = 'New Group'
+      CaptionOptions.Text = 'Auxilio Filtro Lote:'
+      Visible = False
       ButtonOptions.Buttons = <>
-      ShowBorder = False
+      ItemIndex = 2
       Index = 0
     end
     object dxLayoutItem12: TdxLayoutItem
@@ -1225,11 +1265,13 @@ object view_BIPedidos: Tview_BIPedidos
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutItem13: TdxLayoutItem
       Parent = dxLayoutGroup8
-      CaptionOptions.Text = 'Filtro por lote:'
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'Campos:'
       CaptionOptions.Layout = clTop
       Control = campos
       ControlOptions.OriginalHeight = 23
@@ -1253,9 +1295,58 @@ object view_BIPedidos: Tview_BIPedidos
       AlignVert = avBottom
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
+    end
+    object dxLayoutItem4: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton2'
+      CaptionOptions.Visible = False
+      CaptionOptions.Layout = clTop
+      Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem5: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      AlignHorz = ahLeft
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton3'
+      CaptionOptions.Visible = False
+      Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 101
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem6: TdxLayoutItem
+      Parent = dxLayoutGroup6
+      AlignHorz = ahRight
+      AlignVert = avBottom
+      CaptionOptions.Text = 'cxButton5'
+      CaptionOptions.Visible = False
+      Control = cxButton5
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 95
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem11: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxButton8'
+      CaptionOptions.Visible = False
+      Control = cxButton8
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 97
+      ControlOptions.ShowBorder = False
+      Index = 2
     end
   end
   object aclBIPedidos: TActionList
@@ -1316,6 +1407,7 @@ object view_BIPedidos: Tview_BIPedidos
       Caption = 'Adicionar'
       Hint = 'Adicionar crit'#233'rio de filtro'
       ImageIndex = 75
+      OnExecute = actionAdicionarFiltroExecute
     end
     object actionLimparLote: TAction
       Category = 'BI Pedidos'
@@ -1323,6 +1415,13 @@ object view_BIPedidos: Tview_BIPedidos
       Hint = 'Limpar dados do lote'
       ImageIndex = 9
       OnExecute = actionLimparLoteExecute
+    end
+    object actionAuxilioLote: TAction
+      Category = 'BI Pedidos'
+      Caption = 'Auxilio Lote'
+      Hint = 'Auxilio de pesquisa em lote'
+      ImageIndex = 79
+      OnExecute = actionAuxilioLoteExecute
     end
   end
   object ds: TDataSource

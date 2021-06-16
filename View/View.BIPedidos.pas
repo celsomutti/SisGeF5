@@ -21,9 +21,10 @@ uses
   cxCurrencyEdit, cxTextEdit, cxCalendar, cxSpinEdit, cxCheckBox, cxMaskEdit, Control.FilterData, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet,
-  cxButtonEdit, cxFilterControl, cxDBFilterControl, FireDAC.Stan.Async, FireDAC.DApt, cxMemo, cxDropDownEdit;
+  cxButtonEdit, cxFilterControl, cxDBFilterControl, FireDAC.Stan.Async, FireDAC.DApt, cxMemo, cxDropDownEdit, Vcl.Clipbrd;
 
 type
+  TcxDBFilterControlAccess = class(TcxDBFilterControl);
   Tview_BIPedidos = class(TForm)
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
@@ -191,6 +192,15 @@ type
     dxLayoutItem13: TdxLayoutItem;
     dxLayoutGroup10: TdxLayoutGroup;
     dxLayoutGroup11: TdxLayoutGroup;
+    cxButton2: TcxButton;
+    dxLayoutItem4: TdxLayoutItem;
+    actionAuxilioLote: TAction;
+    cxButton3: TcxButton;
+    dxLayoutItem5: TdxLayoutItem;
+    cxButton5: TcxButton;
+    dxLayoutItem6: TdxLayoutItem;
+    cxButton8: TcxButton;
+    dxLayoutItem11: TdxLayoutItem;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -202,6 +212,8 @@ type
     procedure actionCarregarFiltroExecute(Sender: TObject);
     procedure actionRetornarExecute(Sender: TObject);
     procedure actionLimparLoteExecute(Sender: TObject);
+    procedure actionAdicionarFiltroExecute(Sender: TObject);
+    procedure actionAuxilioLoteExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -214,7 +226,7 @@ type
     procedure LoadFilter;
     procedure PainelGroup;
     procedure PopulateFieldsCombo;
-    function AplicaFiltro(): string;
+    function AplicaFiltro(): Boolean;
     function VerifyColumnsView(): boolean;
   public
     { Public declarations }
@@ -228,6 +240,7 @@ var
   sFileLayout, sSQLOld, sCriterioGeral: String;
   alValores: array of TFieldType;
   alFields: array of string;
+  lValores: TStringList;
 implementation
 
 {$R *.dfm}
@@ -242,6 +255,24 @@ end;
 procedure Tview_BIPedidos.actFiltroExecute(Sender: TObject);
 begin
   Filtro;
+end;
+
+procedure Tview_BIPedidos.actionAdicionarFiltroExecute(Sender: TObject);
+begin
+   if AplicaFiltro then
+   begin
+     lote.Clear;
+     campos.ItemIndex := -1;
+     dxLayoutGroup8.Visible := False;
+   end;
+end;
+
+procedure Tview_BIPedidos.actionAuxilioLoteExecute(Sender: TObject);
+begin
+  if not dxLayoutGroup8.Visible then
+    dxLayoutGroup8.Visible := True
+  else
+    dxLayoutGroup8.Visible := False;
 end;
 
 procedure Tview_BIPedidos.actionCarregarFiltroExecute(Sender: TObject);
@@ -279,18 +310,21 @@ begin
   dxLayoutGroup2.MakeVisible;
 end;
 
-function Tview_BIPedidos.AplicaFiltro: String;
+function Tview_BIPedidos.AplicaFiltro: boolean;
 var
   sOperacao, sEm, sLinha, sItem: String;
   i: integer;
+  aValores: Array of variant;
 begin
-  Result := '';
+  Result := False;
   if campos.ItemIndex = -1 then
     Exit;
-  sOperacao := ' IN ';
+  //sOperacao := ' IN ';
+  sOperacao := '';
   sEm := '';
-  sLinha := '(' + alFields[campos.ItemIndex] + ' ';
-  sLinha := sLinha + sOperacao + ' (';
+  //sLinha := '(' + alFields[campos.ItemIndex] + ' ';
+  //sLinha := sLinha + sOperacao + ' (';
+  SetLength(aValores,lote.Lines.Count);
   for i := 0 to Pred(lote.Lines.Count) do
   begin
     if (alValores[campos.ItemIndex] = ftString) or (alValores[campos.ItemIndex] = ftDateTime) then
@@ -307,6 +341,7 @@ begin
           sEm := sEm + ',' + QuotedStr(Trim(sItem));
         end;
       end;
+      aValores[i] := QuotedStr(Trim(sItem));
     end
     else
     begin
@@ -322,10 +357,17 @@ begin
           sEm := sEm + ',' + Trim(sItem);
         end;
       end;
+      aValores[i] := QuotedStr(Trim(sItem));
     end;
   end;
-  sLinha := sLinha + sEm + ')';
-  Result := sLinha + ')';
+  sLinha := sLinha + sEm;
+  with TcxDBFilterControlAccess(filtroBI) do
+  begin
+    Criteria.AddItem(nil, fdQueryBI.FieldByName(alFields[campos.ItemIndex]), foInList, aValores, sLinha);
+    BuildFromCriteria;
+  end;
+  finalize(aValores);
+  Result := True
 end;
 
 procedure Tview_BIPedidos.CloseForm;
@@ -364,7 +406,7 @@ procedure Tview_BIPedidos.Filtro;
 var
   sFiltro, sLote, sMessage: String;
 begin
-  sLote := AplicaFiltro;
+  sLote := '';
   if filtroBI.FilterText.IsEmpty then
   begin
     if campos.ItemIndex = -1 then

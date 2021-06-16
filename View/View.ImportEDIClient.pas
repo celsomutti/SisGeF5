@@ -73,6 +73,7 @@ type
     procedure TimerTimer(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
     procedure clientePropertiesChange(Sender: TObject);
+    procedure tipoPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -82,6 +83,7 @@ type
     procedure UpdateDashboard;
     procedure TerminateProcess;
     procedure RenameFiles(sFile: String);
+    procedure VerifyTypeEDI;
   public
     { Public declarations }
   end;
@@ -129,10 +131,7 @@ end;
 
 procedure Tview_ImporEDIClient.clientePropertiesChange(Sender: TObject);
 begin
-  if tipo.ItemIndex = 2 then
-    dxLayoutItem13.Visible := (cliente.EditValue = 4)
-  else
-    lojas.Checked := False;
+  VerifyTypeEDI
 end;
 
 procedure Tview_ImporEDIClient.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -181,7 +180,7 @@ Var
 begin
   sPath := ExtractFilePath(sFile);
   sFileName :=  ExtractFileName(sFile);
-  sFileFinal := sPath + '_' + sFileName;
+  sFileFinal := sPath + 'OK_' + sFileName;
   RenameFile(sFile,sFileFinal);
 end;
 
@@ -236,6 +235,11 @@ begin
   UpdateDashboard;
 end;
 
+procedure Tview_ImporEDIClient.tipoPropertiesChange(Sender: TObject);
+begin
+  VerifyTypeEDI
+end;
+
 procedure Tview_ImporEDIClient.UpdateDashboard;
 begin
 if not edi.Processo then
@@ -270,6 +274,17 @@ if not edi.Processo then
     totalRegistros.EditValue := edi.TotalRegistros;
     totalInconsistências.EditValue := edi.TotalInconsistencias;
     registrosProcessados.EditValue := edi.TotalGravados;
+  end;
+end;
+
+procedure Tview_ImporEDIClient.VerifyTypeEDI;
+begin
+  if tipo.ItemIndex = 2 then
+    dxLayoutItem13.Visible := (cliente.EditValue = 4)
+  else
+  begin
+    dxLayoutItem13.Visible := False;
+    lojas.Checked := False;
   end;
 end;
 
