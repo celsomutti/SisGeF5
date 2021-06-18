@@ -237,6 +237,7 @@ type
     procedure MostraCalendario;
     function Logar(): Boolean;
     function SenhaExpirada(iDias: Integer): Boolean;
+    procedure VerificaVersao;
   public
     { Public declarations }
   end;
@@ -254,7 +255,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
-  View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos;
+  View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema;
 
 procedure Tview_Main.Acessos;
 var
@@ -721,6 +722,7 @@ begin
     Acessos;
   end;
   FreeAndNil(view_Login);
+  VerificaVersao;
 end;
 
 function Tview_Main.Logar: Boolean;
@@ -844,6 +846,16 @@ begin
     Acessos;
   end;
   FreeAndNil(view_Login);
+end;
+
+procedure Tview_Main.VerificaVersao;
+begin
+  if not Assigned(view_AtualizacaoSistema) then
+  begin
+    view_AtualizacaoSistema := Tview_AtualizacaoSistema.Create(Application);
+  end;
+  view_AtualizacaoSistema.Showmodal;
+  FreeAndNil(view_AtualizacaoSistema);
 end;
 
 end.

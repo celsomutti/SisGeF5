@@ -205,7 +205,8 @@ uses
   View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT},
   Model.FinanceiroPrazosExtratos in 'Model\Model.FinanceiroPrazosExtratos.pas',
   Control.FinanceiroPrazosExtratos in 'Control\Control.FinanceiroPrazosExtratos.pas',
-  View.ParametrosPrazosExtratos in 'View\View.ParametrosPrazosExtratos.pas' {view_ParametrosPrazosExtratos};
+  View.ParametrosPrazosExtratos in 'View\View.ParametrosPrazosExtratos.pas' {view_ParametrosPrazosExtratos},
+  View.AtualizacaoSistema in 'View\View.AtualizacaoSistema.pas' {view_AtualizacaoSistema};
 
 {$R *.res}
 
