@@ -11,8 +11,10 @@ object view_AtualizacaoSistema: Tview_AtualizacaoSistema
   Font.Height = -12
   Font.Name = '@Microsoft JhengHei UI'
   Font.Style = []
+  FormStyle = fsStayOnTop
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnClose = FormClose
   OnShow = FormShow
   DesignSize = (
     477

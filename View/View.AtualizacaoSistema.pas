@@ -23,6 +23,7 @@ type
     procedure cxButton1Click(Sender: TObject);
     procedure cxButton2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     FnTamanhoTotal: integer;
@@ -122,14 +123,13 @@ begin
   DescompactarAtualizacao;
   AtualizarNumeroVersao;
   ShowMessage('O sistema foi atualizado com sucesso!');
-  ModalResult := mrOk;
   ShellExecute(Handle, nil, PChar(Application.ExeName), '', nil, SW_SHOWNORMAL);
   Application.Terminate;
 end;
 
 procedure Tview_AtualizacaoSistema.cxButton2Click(Sender: TObject);
 begin
-  ModalResult := mrCancel;
+  Close;
 end;
 
 procedure Tview_AtualizacaoSistema.DescompactarAtualizacao;
@@ -149,8 +149,14 @@ begin
   sNomeArquivoAtualizacao := ObterDiretorioDoExecutavel + 'Atualizacao.rar';
 
   // executa a linha de comando do 7-Zip para descompactar o arquivo baixado
-  ShellExecute(0, nil, '7z',  PWideChar(' e -aoa ' +
+  ShellExecute(0, nil, '7z',  PWideChar(' x -aoa ' +
     sNomeArquivoAtualizacao + ' -o' + ObterDiretorioDoExecutavel), '', SW_SHOW);
+end;
+
+procedure Tview_AtualizacaoSistema.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+  view_AtualizacaoSistema := nil;
 end;
 
 procedure Tview_AtualizacaoSistema.FormShow(Sender: TObject);
@@ -160,12 +166,12 @@ var
 begin
   if not VerificarExisteConexaoComInternet then
   begin
-    ModalResult := mrCancel;
+    Close;
     Exit;
   end;
   if not ConectarAoServidorFTP then
   begin
-    ModalResult := mrCancel;
+    Close;
     Exit;
   end;
 
@@ -174,7 +180,7 @@ begin
 
   if nNumeroVersaoLocal = nNumeroVersaoFTP then
   begin
-    ModalResult := mrCancel;
+    Close;
     Exit;
   end;
 

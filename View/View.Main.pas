@@ -854,8 +854,7 @@ begin
   begin
     view_AtualizacaoSistema := Tview_AtualizacaoSistema.Create(Application);
   end;
-  view_AtualizacaoSistema.Showmodal;
-  FreeAndNil(view_AtualizacaoSistema);
+  view_AtualizacaoSistema.Show;
 end;
 
 end.
