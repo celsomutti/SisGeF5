@@ -1271,10 +1271,6 @@
         item
           Visible = True
           ItemName = 'dxBarLargeButton60'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton62'
         end>
       OneOnRow = False
       Row = 0
@@ -1309,7 +1305,7 @@
     object bmMainBar19: TdxBar
       Caption = 'Transportes'
       CaptionButtons = <>
-      DockedLeft = 744
+      DockedLeft = 659
       DockedTop = 0
       FloatLeft = 802
       FloatTop = 8

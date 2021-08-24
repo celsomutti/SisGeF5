@@ -15045,7 +15045,6 @@ object Data_Sisgef: TData_Sisgef
     end
   end
   object skcmain: TdxSkinController
-    NativeStyle = False
     Left = 624
     Top = 56
   end

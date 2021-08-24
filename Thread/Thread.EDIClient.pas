@@ -994,15 +994,15 @@ begin
 
     if dVerba = 0 then
     begin
-      SetLength(FParam,2);
-      FParam := ['ENTREGADOR', aParam[1]];
-      if not Fentregadores.Localizar(FParam).IsEmpty then
-      begin
-        iTabela := FEntregadores.Entregadores.Tabela;
-        iFaixa := FEntregadores.Entregadores.Grupo;
-        dVerbaEntregador := FEntregadores.Entregadores.Verba;
-      end;
-      Finalize(FParam);
+    SetLength(FParam,2);
+    FParam := ['ENTREGADOR', aParam[1]];
+    if not Fentregadores.Localizar(FParam).IsEmpty then
+    begin
+      iTabela := FEntregadores.Entregadores.Tabela;
+      iFaixa := FEntregadores.Entregadores.Grupo;
+      dVerbaEntregador := FEntregadores.Entregadores.Verba;
+    end;
+    Finalize(FParam);
 
       // verifica se o entregador possui uma verba fixa, se estiver zerada, verifica com as informações
       // de tabela e faixa.

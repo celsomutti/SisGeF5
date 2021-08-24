@@ -532,7 +532,7 @@ begin
       FDQuery.ParamByName('pcod_tipo').AsInteger := Self.Tipo;
       FDQuery.ParamByName('pcod_cliente').AsInteger := Self.Cliente;
       FDQuery.ParamByName('pid_grupo').AsInteger := Self.Grupo;
-      FDQuery.ParamByName('pdat_vigencia').AsDate := Self.Vigencia;
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := Self.Vigencia;
       FDQuery.ParamByName('pnum_cep').AsString := Self.CEPInicial;
       FDQuery.ParamByName('pqtd_peso').AsFloat := Self.PesoInicial;
     end;
@@ -555,7 +555,7 @@ begin
       FDQuery.ParamByName('pcod_tipo').AsInteger := Self.Tipo;
       FDQuery.ParamByName('pcod_cliente').AsInteger := Self.Cliente;
       FDQuery.ParamByName('pid_grupo').AsInteger := Self.Grupo;
-      FDQuery.ParamByName('pdat_vigencia').AsDate := Self.Vigencia;
+      FDQuery.ParamByName('pdat_vigencia').AsDateTime := Self.Vigencia;
       FDQuery.ParamByName('pcod_roteiro').AsInteger := Self.Roteiro;
     end;
     FDQuery.Open();
