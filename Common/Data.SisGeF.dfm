@@ -15226,4 +15226,367 @@ object Data_Sisgef: TData_Sisgef
       FieldName = 'val_total_pgr'
     end
   end
+  object FDMemTable1: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 536
+    Top = 216
+    object IntegerField6: TIntegerField
+      DisplayLabel = 'ID'
+      FieldName = 'id_cadastro'
+    end
+    object IntegerField7: TIntegerField
+      DisplayLabel = 'Tipo'
+      FieldName = 'cod_tipo_cadastro'
+    end
+    object SmallintField1: TSmallintField
+      DisplayLabel = 'Pessoa'
+      FieldName = 'cod_pessoa'
+    end
+    object StringField9: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'nom_nome_razao'
+      Size = 70
+    end
+    object StringField10: TStringField
+      DisplayLabel = 'Alias'
+      FieldName = 'nom_fantasia'
+      Size = 70
+    end
+    object StringField11: TStringField
+      DisplayLabel = 'CNPJ/CPF'
+      FieldName = 'num_cpf_cnpj'
+    end
+    object StringField12: TStringField
+      DisplayLabel = 'Ins. Estadual / RG'
+      FieldName = 'num_rg_ie'
+    end
+    object StringField13: TStringField
+      DisplayLabel = 'Expedidor RG'
+      FieldName = 'des_expedidor'
+      Size = 70
+    end
+    object DateField1: TDateField
+      DisplayLabel = 'Data Emiss'#227'o RG'
+      FieldName = 'dat_emissao_rg'
+    end
+    object StringField14: TStringField
+      DisplayLabel = 'UF RG'
+      FieldName = 'uf_expedidor_rg'
+      Size = 2
+    end
+    object DateField2: TDateField
+      DisplayLabel = 'Nascimento'
+      FieldName = 'dat_nascimento'
+    end
+    object StringField15: TStringField
+      DisplayLabel = 'Nome do Pai'
+      FieldName = 'nom_pai'
+      Size = 70
+    end
+    object StringField16: TStringField
+      DisplayLabel = 'Nome da M'#227'e'
+      FieldName = 'nom_mae'
+      Size = 70
+    end
+    object StringField17: TStringField
+      DisplayLabel = 'Nacionalidade'
+      FieldName = 'des_nacionalidade'
+      Size = 50
+    end
+    object StringField18: TStringField
+      DisplayLabel = 'Naturalidade'
+      FieldName = 'des_naturalidade'
+      Size = 70
+    end
+    object StringField19: TStringField
+      DisplayLabel = 'UF'
+      FieldName = 'uf_naturalidade'
+      Size = 2
+    end
+    object StringField20: TStringField
+      DisplayLabel = 'SUFRAMA'
+      FieldName = 'num_suframa'
+    end
+    object StringField21: TStringField
+      DisplayLabel = 'CNAE'
+      FieldName = 'num_cnae'
+    end
+    object IntegerField8: TIntegerField
+      DisplayLabel = 'CRT'
+      FieldName = 'num_crt'
+    end
+    object StringField22: TStringField
+      DisplayLabel = 'C'#243'd. Seg. CNH'
+      FieldName = 'cod_seguranca_cnh'
+    end
+    object StringField23: TStringField
+      DisplayLabel = 'C'#243'd. CNH'
+      FieldName = 'cod_cnh'
+    end
+    object StringField24: TStringField
+      DisplayLabel = 'Registro CNH'
+      FieldName = 'num_registro_cnh'
+    end
+    object DateField3: TDateField
+      DisplayLabel = 'Validade CNH'
+      FieldName = 'dat_validade_cnh'
+    end
+    object StringField25: TStringField
+      DisplayLabel = 'Categoria CNH'
+      FieldName = 'des_categoria'
+      Size = 2
+    end
+    object DateField4: TDateField
+      DisplayLabel = 'Data Emiss'#227'o CNH'
+      FieldName = 'dat_emissao_cnh'
+    end
+    object DateField5: TDateField
+      DisplayLabel = 'Data Primeira CNH'
+      FieldName = 'dat_primeira_cnh'
+    end
+    object StringField26: TStringField
+      DisplayLabel = 'UF CNH'
+      FieldName = 'uf_cnh'
+      Size = 2
+    end
+    object SmallintField2: TSmallintField
+      DisplayLabel = 'Sexo'
+      FieldName = 'cod_sexo'
+    end
+    object StringField27: TStringField
+      DisplayLabel = 'Estado Civil'
+      FieldName = 'des_estado_civil'
+      Size = 30
+    end
+    object DateField6: TDateField
+      DisplayLabel = 'Data Cadastro'
+      FieldName = 'dat_cadastro'
+    end
+    object IntegerField9: TIntegerField
+      DisplayLabel = 'C'#243'd. Usu'#225'rio'
+      FieldName = 'cod_usuario'
+    end
+    object StringField28: TStringField
+      DisplayLabel = 'Foto'
+      FieldName = 'des_imagem'
+      Size = 100
+    end
+    object IntegerField10: TIntegerField
+      DisplayLabel = 'Status'
+      FieldName = 'id_status'
+    end
+    object MemoField1: TMemoField
+      DisplayLabel = 'Observa'#231#245'es'
+      FieldName = 'des_obs'
+      BlobType = ftMemo
+    end
+    object StringField29: TStringField
+      DisplayLabel = 'Ins. Municipal'
+      FieldName = 'num_im'
+    end
+    object StringField30: TStringField
+      DisplayLabel = 'Ins. Estadual ST'
+      FieldName = 'num_iest'
+    end
+  end
+  object FDMemTable2: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 616
+    Top = 216
+    object IntegerField11: TIntegerField
+      FieldName = 'id_cadastro'
+    end
+    object memTableEnderecoscod_tipo_cadastro: TIntegerField
+      FieldName = 'cod_tipo_cadastro'
+    end
+    object StringField31: TStringField
+      FieldName = 'des_tipo_endereco'
+      Size = 50
+    end
+    object StringField32: TStringField
+      FieldName = 'num_cep'
+      Size = 9
+    end
+    object StringField33: TStringField
+      FieldName = 'des_logradouro'
+      Size = 70
+    end
+    object StringField34: TStringField
+      FieldName = 'num_logradouro'
+      Size = 10
+    end
+    object StringField35: TStringField
+      FieldName = 'des_complemento'
+      Size = 50
+    end
+    object StringField36: TStringField
+      FieldName = 'nom_bairro'
+      Size = 70
+    end
+    object StringField37: TStringField
+      FieldName = 'nom_cidade'
+      Size = 70
+    end
+    object StringField38: TStringField
+      FieldName = 'uf_estado'
+      Size = 2
+    end
+  end
+  object FDMemTable3: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'id_cadastro'
+        DataType = ftInteger
+      end
+      item
+        Name = 'seq_contato'
+        DataType = ftInteger
+      end
+      item
+        Name = 'des_contato'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'num_telefone'
+        DataType = ftString
+        Size = 15
+      end
+      item
+        Name = 'des_email'
+        DataType = ftString
+        Size = 150
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 712
+    Top = 216
+    object IntegerField12: TIntegerField
+      DisplayLabel = 'ID'
+      FieldName = 'id_cadastro'
+    end
+    object memTableContatoscod_tipo_cadastro: TIntegerField
+      FieldKind = fkCalculated
+      FieldName = 'cod_tipo_cadastro'
+      Calculated = True
+    end
+    object IntegerField13: TIntegerField
+      DisplayLabel = 'Sequencia'
+      FieldName = 'seq_contato'
+    end
+    object StringField39: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'des_contato'
+      Size = 30
+    end
+    object StringField40: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'num_telefone'
+      Size = 15
+    end
+    object StringField41: TStringField
+      DisplayLabel = 'E-Mail'
+      FieldName = 'des_email'
+      Size = 150
+    end
+  end
+  object FDMemTable4: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 704
+    Top = 120
+    object IntegerField14: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'cod_empresa'
+    end
+    object StringField42: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'nom_razao_social'
+      Size = 70
+    end
+    object StringField43: TStringField
+      DisplayLabel = 'Alias'
+      FieldName = 'nom_fantasia'
+      Size = 70
+    end
+    object memTableCadastrodes_tipo_doc: TStringField
+      FieldName = 'des_tipo_doc'
+      Size = 4
+    end
+    object StringField44: TStringField
+      DisplayLabel = 'CNPJ'
+      FieldName = 'num_cnpj'
+    end
+    object StringField45: TStringField
+      DisplayLabel = 'CNAE'
+      FieldName = 'num_cnae'
+    end
+    object IntegerField15: TIntegerField
+      DisplayLabel = 'CRT'
+      FieldName = 'num_crt'
+    end
+    object IntegerField16: TIntegerField
+      DisplayLabel = 'Status'
+      FieldName = 'cod_status'
+    end
+    object MemoField2: TMemoField
+      DisplayLabel = 'Observa'#231#245'es'
+      FieldName = 'des_observacoes'
+      BlobType = ftMemo
+    end
+    object DateField7: TDateField
+      DisplayLabel = 'Data Cadastro'
+      FieldName = 'dat_cadastro'
+    end
+    object memTableCadastrodes_tipo_conta: TStringField
+      FieldName = 'des_tipo_conta'
+    end
+    object memTableCadastrocod_banco: TStringField
+      FieldName = 'cod_banco'
+      Size = 4
+    end
+    object memTableCadastrocod_agencia: TStringField
+      FieldName = 'cod_agencia'
+      Size = 10
+    end
+    object memTableCadastronum_conta: TStringField
+      FieldName = 'num_conta'
+    end
+    object memTableCadastronom_favorecido: TStringField
+      FieldName = 'nom_favorecido'
+      Size = 70
+    end
+    object memTableCadastronum_cpf_cnpj_favorecido: TStringField
+      FieldName = 'num_cpf_cnpj_favorecido'
+    end
+    object memTableCadastrodes_forma_pagamento: TStringField
+      FieldName = 'des_forma_pagamento'
+      Size = 30
+    end
+  end
 end

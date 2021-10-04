@@ -49,6 +49,7 @@ type
     class Procedure CancelaTocaErro;
     class function GenerateUniqueKey(pPrefix: String = ''): String;
     class Function DesmontaCPFCNPJ(sNum: String): String;
+    class procedure NoRotine;
   end;
 
 implementation
@@ -943,5 +944,11 @@ begin
   numero := ReplaceStr(numero, '/', '');
   Result := numero;
 end;
+
+class procedure TUtils.NoRotine;
+begin
+  ShowMessage('Rotina não implementada!');
+end;
+
 
 end.

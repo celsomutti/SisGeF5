@@ -280,34 +280,7 @@ end;
 
 procedure Tview_Verbas_Expressas.PopulaClientes;
 begin
-if Data_Sisgef.mtbClientesEmpresa.Active then Data_Sisgef.mtbClientesEmpresa.Close;
-  Data_Sisgef.mtbClientesEmpresa.Open;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 1;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'TRANSFOLHA';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 2;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'CARRIERS';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 3;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'SPLOG';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 4;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'DIRECT';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 5;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'RODOÊ';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.First;
+  Data_Sisgef.PopulaClientesEmpresa;
 end;
 
 procedure Tview_Verbas_Expressas.PopulaTipos;

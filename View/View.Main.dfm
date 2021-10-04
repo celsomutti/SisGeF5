@@ -1271,6 +1271,10 @@
         item
           Visible = True
           ItemName = 'dxBarLargeButton60'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton68'
         end>
       OneOnRow = False
       Row = 0
@@ -1305,7 +1309,7 @@
     object bmMainBar19: TdxBar
       Caption = 'Transportes'
       CaptionButtons = <>
-      DockedLeft = 659
+      DockedLeft = 744
       DockedTop = 0
       FloatLeft = 802
       FloatTop = 8
@@ -1916,6 +1920,11 @@
         BFAAAA56C5F9F2CF2713ABDE55AEFCF78DC32DBE73AEFC7B0DAF7343EC0A99F3
         400000000049454E44AE426082}
     end
+    object dxBarLargeButton68: TdxBarLargeButton
+      Action = actCadastroEntregadores
+      Category = 0
+      LargeImageIndex = 51
+    end
   end
   object aclMain: TActionList
     Left = 984
@@ -2308,8 +2317,7 @@
     Active = True
     FormCaptionMask = '[MainFormCaption]'
     TabProperties.CustomButtons.Buttons = <>
-    TabProperties.NavigatorPosition = npRightBottom
-    TabProperties.TabPosition = tpBottom
+    TabProperties.Style = 11
     Left = 984
     Top = 264
     PixelsPerInch = 96

@@ -128,7 +128,7 @@ begin
     Readln(ArquivoCSV, sLinha);
     sDetalhe.DelimitedText := sLinha + ';';
     lstRemessa := TStringList.Create;
-    if Pos('Nr Rota',sLinha) = 0 then
+    if Pos('NomeViagem',sLinha) = 0 then
     begin
       FMensagem := 'Arquivo informado não foi identificado como a Planilha de Entrada do SIM Express!';
       Exit;
@@ -142,15 +142,15 @@ begin
       begin
         Fplanilha.Add(TPlanilhaEntradaSIMExpress.Create);
         i := FPlanilha.Count - 1;
-        FPlanilha[i].NRRota := sDetalhe[0];
-        FPlanilha[i].Rota :=  sDetalhe[1];
-        FPlanilha[i].IdMotorista := sDetalhe[2];
-        FPlanilha[i].Motorista := sDetalhe[3];
-        FPlanilha[i].OrdemRota := sDetalhe[4];
-        FPlanilha[i].Transportadora := sDetalhe[5];
-        FPlanilha[i].Embarcador := sDetalhe[6];
-        FPlanilha[i].Destinatario := sDetalhe[7];
-        FPlanilha[i].PedidoID := sDetalhe[8];
+        FPlanilha[i].NRRota := '0';
+        FPlanilha[i].Rota := '';
+        FPlanilha[i].IdMotorista := sDetalhe[1];
+        FPlanilha[i].Motorista := sDetalhe[2];
+        FPlanilha[i].OrdemRota := sDetalhe[3];
+        FPlanilha[i].Transportadora := sDetalhe[4];
+        FPlanilha[i].Embarcador := sDetalhe[5];
+        FPlanilha[i].Destinatario := sDetalhe[6];
+        FPlanilha[i].PedidoID := sDetalhe[7];
         FPlanilha[i].NREntrega := sDetalhe[9];
         FPlanilha[i].NF := sDetalhe[10];
         FPlanilha[i].Pedido := sDetalhe[11];

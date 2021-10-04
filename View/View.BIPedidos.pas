@@ -363,7 +363,7 @@ begin
   sLinha := sLinha + sEm;
   with TcxDBFilterControlAccess(filtroBI) do
   begin
-    Criteria.AddItem(nil, fdQueryBI.FieldByName(alFields[campos.ItemIndex]).Value, foInList, aValores, sLinha);
+    //Criteria.AddItem(nil, fdQueryBI.FieldByName(alFields[campos.ItemIndex]).Value, foInList, aValores, sLinha);
     BuildFromCriteria;
   end;
   finalize(aValores);

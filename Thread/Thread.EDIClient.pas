@@ -405,6 +405,7 @@ begin
       2 : ProcessSIM;
       4 : ProcessDIRECT;
       5 : ProcessSIM;
+      6 : ProcessSIM;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
