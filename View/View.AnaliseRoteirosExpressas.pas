@@ -323,6 +323,7 @@ begin
   Data_Sisgef.mtbEntregas.Active := True;
   FRoteiros := Thread_AnaliseRoteirosExpressas.Create(True);
   FRoteiros.Arquivo := nomeArquivo.Text;
+  FRoteiros.Cliente := 4;
   FRoteiros.MemTabResumo := Data_Sisgef.memTableResumoRoteiros;
   FRoteiros.MemTabEntregas := Data_Sisgef.mtbEntregas;
   FRoteiros.Priority := tpNormal;

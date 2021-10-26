@@ -7,6 +7,7 @@ uses
   Control.RoteirosExpressas;
 
 type
+
   Thread_AnaliseRoteirosExpressas = class(TThread)
   private
     FPlanilha : TPlanilhaEntradaDIRECTControl;
@@ -97,87 +98,96 @@ begin
       FProgresso := 0;
       for i := 0 to Pred(FTotalRegistros) do
       begin
-        sFiltro := 'num_cep_inicial = ' + QuotedStr(FPlanilha.Planilha.Planilha[i].CEP) + ' and cod_cliente = ' + FCliente.ToString;
-        if FPlanilha.Planilha.Planilha[i].PesoNominal > 30 then
-          sFiltro := sFiltro + ' and (cod_tipo = 2 or 3)'
-        else
-          sFiltro := sFiltro + ' and (cod_tipo = 1 or 3)';
-        SetLength(aParam,4);
-        aParam := ['FILTRO', sFiltro];
-        fdQuery := FRoteiro.Localizar(aParam);
-        if fdQuery.IsEmpty then
+        if (FPlanilha.Planilha.Planilha[i].Tipo = 'ENTREGA') and (Copy(FPlanilha.Planilha.Planilha[i].Devolucao, 1,1) = 'N') then
         begin
-          UpdateEntregas(i);
-          fdQuery.Close;
-        end
-        else
-        begin
-         if FRoteiro.SetupModel(fdQuery) then
-         begin
-          fdQuery.Close;
-          sCodigoRoteiro := FRoteiro.Roteiros.CCEP5;
-          sNomeRoteiro := FRoteiro.Roteiros.Descricao;
-          if sCodigoRoteiro = '000' then
+          sFiltro := 'num_cep_inicial = ' + QuotedStr(Copy(FPlanilha.Planilha.Planilha[i].CEP,1,5)
+          ) + ' and cod_cliente = ' +
+          FCliente.ToString;
+          if FPlanilha.Planilha.Planilha[i].PesoNominal > 30 then
           begin
-            UpdateEntregas(i);
+            sFiltro := sFiltro + ' and (cod_tipo = 2 or 3)'
           end
           else
           begin
-            if MemTabResumo.Locate('cod_roteiro', sCodigoRoteiro,[]) then
+            sFiltro := sFiltro + ' and (cod_tipo = 1 or 3)';
+          end;
+          SetLength(aParam,4);
+          aParam := ['FILTRO', sFiltro];
+          fdQuery := FRoteiro.Localizar(aParam);
+          if fdQuery.IsEmpty then
+          begin
+            UpdateEntregas(i);
+            fdQuery.Close;
+          end
+          else
+          begin
+           if FRoteiro.SetupModel(fdQuery) then
+           begin
+            fdQuery.Close;
+            sCodigoRoteiro := FRoteiro.Roteiros.CCEP5;
+            sNomeRoteiro := FRoteiro.Roteiros.Descricao;
+            if sCodigoRoteiro = '000' then
             begin
-               MemTabResumo.Edit;
-               if FPlanilha.Planilha.Planilha[i].PesoNominal <= 30 then
-               begin
-                 MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger := MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger +
-                 FPlanilha.Planilha.Planilha[i].Volumes;
-                 MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger + 1;
-                 MemTabResumo.FieldByName('val_pgr_leves').AsFloat := MemTabResumo.FieldByName('val_pgr_leves').AsFloat +
-                 FPlanilha.Planilha.Planilha[i].Valor;
-               end
-               else
-               begin
-                 MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger := MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger +
-                 FPlanilha.Planilha.Planilha[i].Volumes;
-                 MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger + 1;
-                 MemTabResumo.FieldByName('val_pgr_pesado').AsFloat := MemTabResumo.FieldByName('val_pgr_pesado').AsFloat +
-                 FPlanilha.Planilha.Planilha[i].Valor;
-               end;
-               MemTabResumo.FieldByName('val_total_pgr').AsFloat := MemTabResumo.FieldByName('val_total_pgr').AsFloat +
-               FPlanilha.Planilha.Planilha[i].Valor;
-               MemTabResumo.Post;
+              UpdateEntregas(i);
             end
             else
             begin
-               MemTabResumo.Insert;
-               MemTabResumo.FieldByName('cod_roteiro').AsString := sCodigoRoteiro;
-               MemTabResumo.FieldByName('des_roteiro').AsString := sNomeRoteiro;
-               if FPlanilha.Planilha.Planilha[i].PesoNominal <= 30 then
-               begin
-                 MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger := MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger +
-                 FPlanilha.Planilha.Planilha[i].Volumes + 0;
-                 MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger + 1;
-                 MemTabResumo.FieldByName('val_pgr_leves').AsFloat := MemTabResumo.FieldByName('val_pgr_leves').AsFloat +
+              if MemTabResumo.Locate('cod_roteiro', sCodigoRoteiro,[]) then
+              begin
+                 MemTabResumo.Edit;
+                 if FPlanilha.Planilha.Planilha[i].PesoNominal <= 30 then
+                 begin
+                   MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger := MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger +
+                   FPlanilha.Planilha.Planilha[i].Volumes;
+                   MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger + 1;
+                   MemTabResumo.FieldByName('val_pgr_leves').AsFloat := MemTabResumo.FieldByName('val_pgr_leves').AsFloat +
+                   FPlanilha.Planilha.Planilha[i].Valor;
+                 end
+                 else
+                 begin
+                   MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger := MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger +
+                   FPlanilha.Planilha.Planilha[i].Volumes;
+                   MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger + 1;
+                   MemTabResumo.FieldByName('val_pgr_pesado').AsFloat := MemTabResumo.FieldByName('val_pgr_pesado').AsFloat +
+                   FPlanilha.Planilha.Planilha[i].Valor;
+                 end;
+                 MemTabResumo.FieldByName('val_total_pgr').AsFloat := MemTabResumo.FieldByName('val_total_pgr').AsFloat +
                  FPlanilha.Planilha.Planilha[i].Valor;
-               end
-               else
-               begin
-                 MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger := MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger +
-                 FPlanilha.Planilha.Planilha[i].Volumes + 0;
-                 MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger + 1;
-                 MemTabResumo.FieldByName('val_pgr_pesado').AsFloat := MemTabResumo.FieldByName('val_pgr_pesado').AsFloat +
+                 MemTabResumo.Post;
+              end
+              else
+              begin
+                 MemTabResumo.Insert;
+                 MemTabResumo.FieldByName('cod_roteiro').AsString := sCodigoRoteiro;
+                 MemTabResumo.FieldByName('des_roteiro').AsString := sNomeRoteiro;
+                 if FPlanilha.Planilha.Planilha[i].PesoNominal <= 30 then
+                 begin
+                   MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger := MemTabResumo.FieldByName('qtd_volumes_leves').AsInteger +
+                   FPlanilha.Planilha.Planilha[i].Volumes + 0;
+                   MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_leves').AsInteger + 1;
+                   MemTabResumo.FieldByName('val_pgr_leves').AsFloat := MemTabResumo.FieldByName('val_pgr_leves').AsFloat +
+                   FPlanilha.Planilha.Planilha[i].Valor;
+                 end
+                 else
+                 begin
+                   MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger := MemTabResumo.FieldByName('qtd_volumes_pesado').AsInteger +
+                   FPlanilha.Planilha.Planilha[i].Volumes + 0;
+                   MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger:= MemTabResumo.FieldByName('qtd_remessas_pesado').AsInteger + 1;
+                   MemTabResumo.FieldByName('val_pgr_pesado').AsFloat := MemTabResumo.FieldByName('val_pgr_pesado').AsFloat +
+                   FPlanilha.Planilha.Planilha[i].Valor;
+                 end;
+                 MemTabResumo.FieldByName('val_total_pgr').AsFloat := MemTabResumo.FieldByName('val_total_pgr').AsFloat +
                  FPlanilha.Planilha.Planilha[i].Valor;
-               end;
-               MemTabResumo.FieldByName('val_total_pgr').AsFloat := MemTabResumo.FieldByName('val_total_pgr').AsFloat +
-               FPlanilha.Planilha.Planilha[i].Valor;
-               MemTabResumo.Post;
+                 MemTabResumo.Post;
+              end;
             end;
+           end;
           end;
-         end;
+          Finalize(aParam);
+          iPos := i;
+          FProgresso := (iPos / FTotalRegistros) * 100;
+          if Self.Terminated then Abort;
         end;
-        Finalize(aParam);
-        iPos := i;
-        FProgresso := (iPos / FTotalRegistros) * 100;
-        if Self.Terminated then Abort;
       end;
       fdQuery.Free;
       FProcesso := False;
