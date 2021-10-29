@@ -212,7 +212,10 @@ uses
   Model.EnderecosBases in 'Model\Model.EnderecosBases.pas',
   Control.ContatosBases in 'Control\Control.ContatosBases.pas',
   Model.ContatosBases in 'Model\Model.ContatosBases.pas',
-  View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas};
+  View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas},
+  Vcl.Themes,
+  Vcl.Styles,
+  View.BiRemessas_201040 in 'View\View.BiRemessas_201040.pas' {view_BiRemessas};
 
 {$R *.res}
 

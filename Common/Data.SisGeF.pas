@@ -520,6 +520,7 @@ type
     memTableCadastronom_favorecido: TStringField;
     memTableCadastronum_cpf_cnpj_favorecido: TStringField;
     memTableCadastrodes_forma_pagamento: TStringField;
+    imageListOperation_32_32: TcxImageList;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

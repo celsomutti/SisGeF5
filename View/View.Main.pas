@@ -256,7 +256,8 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.BIPedidos, View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
-  View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema;
+  View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
+  View.BiRemessas_201040;
 
 procedure Tview_Main.Acessos;
 var
@@ -393,6 +394,11 @@ begin
     view_BIPedidos := Tview_BIPedidos.Create(Application);
   end;
   view_BIPedidos.Show;
+//  if not Assigned(view_BiRemessas) then
+//  begin
+//    view_BiRemessas := Tview_BiRemessas.Create(Application);
+//  end;
+//  view_BiRemessas.Show;
 end;
 
 procedure Tview_Main.actControleExpressasExecute(Sender: TObject);
@@ -723,7 +729,7 @@ begin
     Acessos;
   end;
   FreeAndNil(view_Login);
-  VerificaVersao;
+//  VerificaVersao;
 end;
 
 function Tview_Main.Logar: Boolean;

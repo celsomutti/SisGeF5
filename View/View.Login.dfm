@@ -2749,6 +2749,7 @@ object view_Login: Tview_Login
         D0D0D0B0ADD1125543434343C3B6464B540D0D0D0D0DDB1829FD7FC8C57A3FF2
         B86D2A0000000049454E44AE426082}
       Properties.ReadOnly = True
+      Style.BorderStyle = ebsNone
       Style.Edges = []
       Style.HotTrack = False
       Style.Shadow = False
