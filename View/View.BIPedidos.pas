@@ -514,6 +514,7 @@ end;
 
 procedure Tview_BIPedidos.SaveLayout;
 begin
+
   tvPesquisa.StoreToIniFile(sFileLayout);
 end;
 

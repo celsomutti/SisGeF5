@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>SisGeF5.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -528,8 +528,8 @@
             <Form>view_CadastroEmpresas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="View\View.BiRemessas_201040.pas">
-            <Form>view_BiRemessas</Form>
+        <DCCReference Include="View\View.PesquisaRemessas_201040.pas">
+            <Form>view_PesquisaRemessas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="SisGeF5.todo"/>

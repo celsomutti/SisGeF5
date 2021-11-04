@@ -215,7 +215,7 @@ uses
   View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas},
   Vcl.Themes,
   Vcl.Styles,
-  View.BiRemessas_201040 in 'View\View.BiRemessas_201040.pas' {view_BiRemessas};
+  View.PesquisaRemessas_201040 in 'View\View.PesquisaRemessas_201040.pas' {view_PesquisaRemessas};
 
 {$R *.res}
 
