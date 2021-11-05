@@ -89,7 +89,6 @@ uses
   Model.PlanilhaEntradaSIMExpress in 'Model\Model.PlanilhaEntradaSIMExpress.pas',
   Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas',
   Thread.ImportarPlanilhaEntradaCarriers in 'Thread\Thread.ImportarPlanilhaEntradaCarriers.pas',
-  View.BIPedidos in 'View\View.BIPedidos.pas' {view_BIPedidos},
   View.ControleEntregas in 'View\View.ControleEntregas.pas' {view_ControleEntregas},
   Model.AtribuicoesExpressas in 'Model\Model.AtribuicoesExpressas.pas',
   DAO.AtribuicoesExpressas in 'DAO\DAO.AtribuicoesExpressas.pas',
@@ -223,7 +222,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Sistema Gerenciador de Faturamento';
-  Application.CreateForm(TData_Sisgef, Data_Sisgef);
+  AApplication.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
-  Application.Run;
+  pplication.Run;
 end.

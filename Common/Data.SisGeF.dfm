@@ -15261,8 +15261,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 536
-    Top = 216
+    Left = 728
+    Top = 112
     object IntegerField6: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id_cadastro'
@@ -15430,8 +15430,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 616
-    Top = 216
+    Left = 728
+    Top = 160
     object IntegerField11: TIntegerField
       FieldName = 'id_cadastro'
     end
@@ -15506,7 +15506,7 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 712
+    Left = 728
     Top = 216
     object IntegerField12: TIntegerField
       DisplayLabel = 'ID'
@@ -15545,8 +15545,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 704
-    Top = 120
+    Left = 728
+    Top = 264
     object IntegerField14: TIntegerField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'cod_empresa'

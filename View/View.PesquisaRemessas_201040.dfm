@@ -599,7 +599,261 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
         Align = alClient
         Color = clWhite
         DataSet = fdQueryBI
-        Items = <>
+        Items = <
+          item
+            Caption = 'Remessa'
+            FieldName = 'NUM_NOSSONUMERO'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'N'#186' Pedido'
+            FieldName = 'NUM_PEDIDO'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'C'#243'd. Base'
+            FieldName = 'COD_AGENTE'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'Nome Base'
+            FieldName = 'NOM_AGENTE'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'C'#243'd. Entregador'
+            FieldName = 'COD_ENTREGADOR'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'Nome Entregador'
+            FieldName = 'NOM_ENTREGADOR'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'C'#243'd. Embarcador'
+            FieldName = 'COD_CLIENTE'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'Nome Embarcador'
+            FieldName = 'NOM_CLIENTE'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'N'#186' NF'
+            FieldName = 'NUM_NF'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Chave DANFE'
+            FieldName = 'DES_RETORNO'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = 
+              '\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d' +
+              '\d\d\d\d\d\d\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'Nome Consumidor'
+            FieldName = 'NOM_CONSUMIDOR'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Endere'#231'o'
+            FieldName = 'DES_ENDERECO'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Complemento'
+            FieldName = 'DES_COMPLEMENTO'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Bairro'
+            FieldName = 'DES_BAIRRO'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Cidade'
+            FieldName = 'NOM_CLIENTE'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'CEP'
+            FieldName = 'NUM_CEP'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.EditMask = '00000\-999;0; '
+          end
+          item
+            Caption = 'Telefone'
+            FieldName = 'NUM_TELEFONE'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Data Expedi'#231#227'o'
+            FieldName = 'DAT_EXPEDICAO'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+          end
+          item
+            Caption = 'Previs'#227'o Entrega'
+            FieldName = 'DAT_PREV_DISTRIBUICAO'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+          end
+          item
+            Caption = 'Data Baixa'
+            FieldName = 'DAT_BAIXA'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+          end
+          item
+            Caption = 'Data Pagamento'
+            FieldName = 'DAT_PAGAMENTO'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+          end
+          item
+            Caption = 'Data Entrega'
+            FieldName = 'DAT_ENTREGA'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+          end
+          item
+            Caption = 'Peso Baixado'
+            FieldName = 'QTD_PESO_REAL'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DecimalPlaces = 3
+            Properties.DisplayFormat = ' ,0.000;- ,0.000'
+          end
+          item
+            Caption = 'Peso Aferido'
+            FieldName = 'QTD_PESO_FRANQUIA'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DecimalPlaces = 3
+            Properties.DisplayFormat = ' ,0.000;- ,0.000'
+          end
+          item
+            Caption = 'Peso Final'
+            FieldName = 'QTD_PESO_COBRADO'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DecimalPlaces = 3
+            Properties.DisplayFormat = ' ,0.000;- ,0.000'
+          end
+          item
+            Caption = 'Valor Entrega'
+            FieldName = 'VAL_VERBA_FRANQUIA'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+          end
+          item
+            Caption = 'Valor AdValorem'
+            FieldName = 'VAL_ADVALOREM'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+          end
+          item
+            Caption = 'Verba Entregador'
+            FieldName = 'VAL_VERBA_ENTREGADOR'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+          end
+          item
+            Caption = 'N'#186' Extrato'
+            FieldName = 'NUM_EXTRATO'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Tipo'
+            FieldName = 'DES_TIPO_PESO'
+            PropertiesClassName = 'TcxComboBoxProperties'
+            Properties.Items.Strings = (
+              'ENTREGA'
+              'REVERSA'
+              'NOMINAL'
+              'CUBADO'
+              'LOJA')
+          end
+          item
+            Caption = 'Data Recebimento'
+            FieldName = 'DAT_RECEBIDO'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+          end
+          item
+            Caption = 'N'#186' CTRC'
+            FieldName = 'NUM_CTRC'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'N'#186' Manifesto'
+            FieldName = 'NUM_MANIFESTO'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'N'#186' Lote Remessa'
+            FieldName = 'NUM_LOTE_REMESSA'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'Data Cr'#233'dito'
+            FieldName = 'DAT_CREDITO'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+          end
+          item
+            Caption = 'N'#186' Container'
+            FieldName = 'NUM_CONTAINER'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Valor Produto'
+            FieldName = 'VAL_PRODUTO'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+          end
+          item
+            Caption = 'Cliente'
+            FieldName = 'COD_CLIENTE_EMPRESA'
+            PropertiesClassName = 'TcxLookupComboBoxProperties'
+            Properties.KeyFieldNames = 'cod_cliente'
+            Properties.ListColumns = <
+              item
+                FieldName = 'nom_cliente'
+              end>
+            Properties.ListOptions.ShowHeader = False
+            Properties.ListSource = dsEmpresas
+          end>
+        FilterOptions.DateTimeFormat = 'yyyy-mm-dd'
         TabOrder = 0
         ExplicitLeft = -3
       end
@@ -608,35 +862,80 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
       Caption = 'Pesquisa em Lote'
       ImageIndex = 1
       ExplicitLeft = 5
-      ExplicitTop = 27
       object campos: TcxComboBox
-        Left = 8
-        Top = 31
+        Left = 3
+        Top = 94
         Properties.DropDownListStyle = lsEditFixedList
         Style.HotTrack = False
-        TabOrder = 0
-        Width = 185
+        TabOrder = 1
+        Width = 334
       end
       object cxLabel1: TcxLabel
-        Left = 8
-        Top = 8
+        Left = 3
+        Top = 69
         Caption = 'Campos para Pesquisa:'
         Transparent = True
       end
       object cxLabel2: TcxLabel
-        Left = 8
-        Top = 58
+        Left = 3
+        Top = 123
         Caption = 'Par'#226'metros:'
         Transparent = True
       end
       object lote: TcxMemo
-        Left = 8
-        Top = 81
+        Left = 3
+        Top = 148
         Properties.ScrollBars = ssBoth
         Style.HotTrack = False
-        TabOrder = 3
-        Height = 141
-        Width = 185
+        TabOrder = 2
+        Height = 181
+        Width = 334
+      end
+      object codigoCliente: TcxButtonEdit
+        Left = 3
+        Top = 40
+        Hint = 'C'#243'digo do Cliente'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.Buttons = <
+          item
+            Action = actionPesquisaClientes
+            Default = True
+            ImageIndex = 14
+            Kind = bkGlyph
+          end>
+        Properties.IgnoreMaskBlank = True
+        Properties.Images = Data_Sisgef.iml_16_16
+        Properties.MaskKind = emkRegExpr
+        Properties.EditMask = '\d\d\d\d\d\d'
+        Properties.OnValidate = codigoClientePropertiesValidate
+        TabOrder = 0
+        Text = '0'
+        Width = 78
+      end
+      object cxLabel3: TcxLabel
+        Left = 3
+        Top = 15
+        Caption = 'Cliente:'
+        Transparent = True
+      end
+      object nomeCliente: TcxButtonEdit
+        Left = 87
+        Top = 40
+        Hint = 'Nome do Cliente'
+        TabStop = False
+        Properties.Alignment.Horz = taLeftJustify
+        Properties.Buttons = <
+          item
+            Action = actionLimparCliente
+            Default = True
+            ImageIndex = 9
+            Kind = bkGlyph
+          end>
+        Properties.IgnoreMaskBlank = True
+        Properties.Images = Data_Sisgef.iml_16_16
+        Properties.ReadOnly = True
+        TabOrder = 6
+        Width = 250
       end
     end
     object cxTabSheet3: TcxTabSheet
@@ -799,6 +1098,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Properties.NullStyle = nssUnchecked
             Properties.ValueChecked = 'S'
             Properties.ValueUnchecked = 'N'
+            Visible = False
             Width = 86
           end
           object tvPesquisaDAT_PAGAMENTO: TcxGridDBColumn
@@ -811,6 +1111,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Properties.NullStyle = nssUnchecked
             Properties.ValueChecked = 'S'
             Properties.ValueUnchecked = 'N'
+            Visible = False
             Width = 110
           end
           object tvPesquisaDOM_FECHADO: TcxGridDBColumn
@@ -819,10 +1120,12 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Properties.NullStyle = nssUnchecked
             Properties.ValueChecked = 'S'
             Properties.ValueUnchecked = 'N'
+            Visible = False
             Width = 102
           end
           object tvPesquisaCOD_STATUS: TcxGridDBColumn
             DataBinding.FieldName = 'COD_STATUS'
+            Visible = False
           end
           object tvPesquisaDAT_ENTREGA: TcxGridDBColumn
             DataBinding.FieldName = 'DAT_ENTREGA'
@@ -934,6 +1237,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Properties.NullStyle = nssUnchecked
             Properties.ValueChecked = 'S'
             Properties.ValueUnchecked = 'N'
+            Visible = False
             Width = 77
           end
           object tvPesquisaNUM_CONTAINER: TcxGridDBColumn
@@ -958,9 +1262,11 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
           end
           object tvPesquisaCOD_FEEDBACK: TcxGridDBColumn
             DataBinding.FieldName = 'COD_FEEDBACK'
+            Visible = False
           end
           object tvPesquisaDAT_FEEDBACK: TcxGridDBColumn
             DataBinding.FieldName = 'DAT_FEEDBACK'
+            Visible = False
           end
           object tvPesquisaDOM_CONFERIDO: TcxGridDBColumn
             DataBinding.FieldName = 'DOM_CONFERIDO'
@@ -969,6 +1275,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Properties.NullStyle = nssUnchecked
             Properties.ValueChecked = '1'
             Properties.ValueUnchecked = '0'
+            Visible = False
             Width = 89
           end
           object tvPesquisaCOD_CLIENTE_EMPRESA: TcxGridDBColumn
@@ -1037,6 +1344,18 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
       Hint = 'Fechar a tela'
       ImageIndex = 3
       OnExecute = actionFecharTelaExecute
+    end
+    object actionPesquisaClientes: TAction
+      Caption = 'Pesquisa Clientes'
+      Hint = 'Pesquisa de Clientes'
+      ShortCut = 120
+      OnExecute = actionPesquisaClientesExecute
+    end
+    object actionLimparCliente: TAction
+      Caption = 'Limpar'
+      Hint = 'Limpar cliente'
+      ShortCut = 16460
+      OnExecute = actionLimparClienteExecute
     end
   end
   object barManagerBIRemessas: TdxBarManager

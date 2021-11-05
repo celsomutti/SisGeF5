@@ -11,7 +11,7 @@ uses
   cxDBFilterControl, cxContainer, cxEdit, cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxMemo, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxCheckBox,
   cxCurrencyEdit, cxBlobEdit, cxDBLookupComboBox, cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGridCustomView, cxGrid;
+  cxGridCustomView, cxGrid, cxButtonEdit, cxCalendar;
 
 type
   Tview_PesquisaRemessas = class(TForm)
@@ -166,6 +166,11 @@ type
     dsEmpresas: TDataSource;
     SaveDialogLayout: TSaveDialog;
     OpenDialogLayout: TOpenDialog;
+    codigoCliente: TcxButtonEdit;
+    cxLabel3: TcxLabel;
+    actionPesquisaClientes: TAction;
+    nomeCliente: TcxButtonEdit;
+    actionLimparCliente: TAction;
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
@@ -176,6 +181,10 @@ type
     procedure cxPageControl1Change(Sender: TObject);
     procedure actionExportarDadosExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure actionLimparClienteExecute(Sender: TObject);
+    procedure actionPesquisaClientesExecute(Sender: TObject);
+    procedure codigoClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
   private
     { Private declarations }
     procedure StartForm;
@@ -191,6 +200,8 @@ type
     procedure FilterBath;
     procedure FilterDetailed;
     procedure DataExport;
+    procedure LocateClient(iCodigo: integer);
+    procedure SearchClient;
   public
     { Public declarations }
   end;
@@ -205,7 +216,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, Common.Utils;
+uses Data.SisGeF, Common.Utils, View.PesquisarGeral;
 
 procedure Tview_PesquisaRemessas.actionCarregarCenarioExecute(Sender: TObject);
 begin
@@ -227,9 +238,21 @@ begin
   Close;
 end;
 
+procedure Tview_PesquisaRemessas.actionLimparClienteExecute(Sender: TObject);
+begin
+  codigoCliente.EditValue := 0;
+  nomeCliente.Text := '';
+  codigoCliente.SetFocus;
+end;
+
 procedure Tview_PesquisaRemessas.actionNovoCenarioExecute(Sender: TObject);
 begin
   NewScenery;
+end;
+
+procedure Tview_PesquisaRemessas.actionPesquisaClientesExecute(Sender: TObject);
+begin
+   SearchClient;
 end;
 
 procedure Tview_PesquisaRemessas.actionSalvarCenarioExecute(Sender: TObject);
@@ -247,6 +270,14 @@ begin
   begin
     FilterBath;
   end;
+end;
+
+procedure Tview_PesquisaRemessas.codigoClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if (DisplayValue = 0) or (DisplayValue = '') then
+    Exit;
+  LocateClient(DisplayValue);
 end;
 
 procedure Tview_PesquisaRemessas.cxPageControl1Change(Sender: TObject);
@@ -308,7 +339,7 @@ end;
 
 procedure Tview_PesquisaRemessas.FilterBath;
 var
-  sOperacao, sEm, sLinha, sItem: String;
+  sOperacao, sEm, sLinha, sItem, sCliente: String;
   i: integer;
   aValores: Array of variant;
 begin
@@ -319,6 +350,14 @@ begin
   sLinha := alFields[campos.ItemIndex] + ' ';
   sLinha := sLinha + sOperacao + ' (';
   SetLength(aValores,lote.Lines.Count);
+  if codigoCliente.EditValue <> 0 then
+  begin
+    sCliente := ' and cod_cliente_empresa = ' + codigoCliente.Text;
+  end
+  else
+  begin
+    sCliente := '';
+  end;
   for i := 0 to Pred(lote.Lines.Count) do
   begin
     if (alValores[campos.ItemIndex] = ftString) or (alValores[campos.ItemIndex] = ftDateTime) then
@@ -357,7 +396,7 @@ begin
   sLinha := sLinha + sEm;
   finalize(aValores);
   fdQueryBI.Active := false;
-  fdQueryBI.SQL.Text := sSQlOld + ' where ' + sLinha + ')';
+  fdQueryBI.SQL.Text := sSQlOld + ' where ' + sLinha + ')' + sCliente;
   fdQueryBI.Active := true;
   if fdQueryBI.IsEmpty then
     MessageDlg('Nenhum registro encontrado!', mtInformation, [mbOK], 0)
@@ -388,6 +427,12 @@ end;
 
 procedure Tview_PesquisaRemessas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  if fdQueryBI.Active then
+  begin
+    fdQueryBI.Active := False;
+    Data_Sisgef.FDConnectionMySQL.Connected := False;
+  end;
+  Data_Sisgef.mtbClientesEmpresa.Close;
   Action := caFree;
   view_PesquisaRemessas := nil;
 end;
@@ -407,6 +452,18 @@ begin
         Exit;
     end;
     dbFilterControl.LoadFromFile(OpenDialog.FileName);
+  end;
+end;
+
+procedure Tview_PesquisaRemessas.LocateClient(iCodigo: integer);
+begin
+  if Data_Sisgef.mtbClientesEmpresa.Locate('cod_cliente', iCodigo, []) then
+  begin
+    nomeCliente.Text := Data_Sisgef.mtbClientesEmpresanom_cliente.AsString;
+  end
+  else
+  begin
+    nomeCliente.Text := '';
   end;
 end;
 
@@ -499,10 +556,30 @@ begin
   end;
 end;
 
+procedure Tview_PesquisaRemessas.SearchClient;
+begin
+  if not Assigned(View_PesquisarGeral) then
+  begin
+    View_PesquisarGeral := TView_PesquisarGeral.Create(Application);
+  end;
+  View_PesquisarGeral.Caption := 'Pesquisa de Clientes';
+  View_PesquisarGeral.qryPesquisa.CreateFieldsFromDataSet(Data_Sisgef.mtbClientesEmpresa);
+  View_PesquisarGeral.qryPesquisa.LoadFromDataSet(Data_Sisgef.mtbClientesEmpresa);
+  View_PesquisarGeral.tvPesquisa.ClearItems;
+  View_PesquisarGeral.tvPesquisa.DataController.CreateAllItems;
+  View_PesquisarGeral.tvPesquisa.Columns[1].Visible := False;
+  if View_PesquisarGeral.ShowModal = mrOk then
+  begin
+    codigoCliente.EditValue := View_PesquisarGeral.qryPesquisa.FieldByName('cod_cliente').AsInteger;
+    nomeCliente.EditValue := View_PesquisarGeral.qryPesquisa.FieldByName('nom_cliente').AsString;
+  end;
+  View_PesquisarGeral.qryPesquisa.Active := False;
+  FreeAndNil(View_PesquisarGeral);
+end;
+
 procedure Tview_PesquisaRemessas.StartForm;
 begin
   Data_Sisgef.PopulaClientesEmpresa;
-  Data_Sisgef.mtbClientesEmpresa.Close;
   sLayoutDefaut := ExtractFilePath(Application.ExeName) + '\layoutPesquisaRemessasDefault.ini';
   SaveLayout(sLayoutDefaut);
   sSQLOld := fdQueryBI.SQL.Text;
