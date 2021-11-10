@@ -8,36 +8,18 @@ uses
   dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxLabel,
   cxTextEdit, cxDBEdit, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxMaskEdit, cxDropDownEdit, cxCalendar,
-  cxImageComboBox, cxCheckBox;
+  cxImageComboBox, cxCheckBox, FireDAC.Stan.StorageBin, FireDAC.Stan.Async, FireDAC.DApt, dxBar, System.Actions, Vcl.ActnList,
+  dxBarDBNav, cxButtonEdit;
 
 type
   Tview_CadastroEmpresas = class(TForm)
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
     dxLayoutGroup1: TdxLayoutGroup;
-    labelTitle: TcxLabel;
-    dxLayoutItem1: TdxLayoutItem;
     dxLayoutGroup2: TdxLayoutGroup;
     codigoEmpresa: TcxDBTextEdit;
     dxLayoutItem2: TdxLayoutItem;
     memTableCadastro: TFDMemTable;
-    IntegerField14: TIntegerField;
-    StringField42: TStringField;
-    StringField43: TStringField;
-    memTableCadastrodes_tipo_doc: TStringField;
-    StringField44: TStringField;
-    StringField45: TStringField;
-    IntegerField15: TIntegerField;
-    IntegerField16: TIntegerField;
-    MemoField2: TMemoField;
-    DateField7: TDateField;
-    memTableCadastrodes_tipo_conta: TStringField;
-    memTableCadastrocod_banco: TStringField;
-    memTableCadastrocod_agencia: TStringField;
-    memTableCadastronum_conta: TStringField;
-    memTableCadastronom_favorecido: TStringField;
-    memTableCadastronum_cpf_cnpj_favorecido: TStringField;
-    memTableCadastrodes_forma_pagamento: TStringField;
     dsCadastro: TDataSource;
     tipoDoc: TcxDBComboBox;
     dxLayoutItem3: TdxLayoutItem;
@@ -45,8 +27,6 @@ type
     dxLayoutItem4: TdxLayoutItem;
     nomeFantasia: TcxDBTextEdit;
     dxLayoutItem5: TdxLayoutItem;
-    cnpjEmpresa: TcxDBMaskEdit;
-    dxLayoutItem6: TdxLayoutItem;
     dxLayoutGroup3: TdxLayoutGroup;
     cnae: TcxDBTextEdit;
     dxLayoutItem7: TdxLayoutItem;
@@ -61,18 +41,72 @@ type
     dxLayoutGroup6: TdxLayoutGroup;
     dxLayoutGroup7: TdxLayoutGroup;
     memTableEnderecos: TFDMemTable;
-    IntegerField11: TIntegerField;
-    memTableEnderecoscod_tipo_cadastro: TIntegerField;
-    StringField31: TStringField;
-    StringField32: TStringField;
-    StringField33: TStringField;
-    StringField34: TStringField;
-    StringField35: TStringField;
-    StringField36: TStringField;
-    StringField37: TStringField;
-    StringField38: TStringField;
+    memTableCadastrocod_empresa: TIntegerField;
+    memTableCadastrodes_razao_social: TStringField;
+    memTableCadastronom_fantasia: TStringField;
+    memTableCadastrodes_tipo_doc: TStringField;
+    memTableCadastronum_cnpj: TStringField;
+    memTableCadastrocod_cnae: TStringField;
+    memTableCadastrocod_crt: TIntegerField;
+    memTableCadastrocod_status: TIntegerField;
+    memTableCadastrodes_observacao: TMemoField;
+    memTableCadastrodat_cadastro: TDateField;
+    memTableEnderecosseq_endereco: TFDAutoIncField;
+    memTableEnderecoscod_empresa: TIntegerField;
+    memTableEnderecosdes_tipo: TStringField;
+    memTableEnderecosdes_logradouro: TStringField;
+    memTableEnderecosnum_logradouro: TStringField;
+    memTableEnderecosdes_complemento: TStringField;
+    memTableEnderecosdes_bairro: TStringField;
+    memTableEnderecosnom_cidade: TStringField;
+    memTableEnderecosuf_estado: TStringField;
+    memTableEnderecosnum_cep: TStringField;
+    memTableEnderecosnum_cnpj: TStringField;
+    memTableEnderecosnum_ie: TStringField;
+    memTableEnderecosnum_im: TStringField;
+    memTableEnderecosdes_referencia: TStringField;
+    memTableContatos: TFDMemTable;
+    memTableContatosseq_contato: TFDAutoIncField;
+    memTableContatoscod_empresa: TIntegerField;
+    memTableContatosdes_contato: TStringField;
+    memTableContatosnum_telefone: TStringField;
+    memTableContatosdes_email: TStringField;
+    memTableFinanceiro: TFDMemTable;
+    memTableFinanceiroid_financeiro: TFDAutoIncField;
+    memTableFinanceirocod_empresa: TIntegerField;
+    memTableFinanceirocod_banco: TStringField;
+    memTableFinanceirocod_agencia: TStringField;
+    memTableFinanceironum_conta: TStringField;
+    memTableCNAE: TFDMemTable;
+    memTableCNAEid_cnae: TFDAutoIncField;
+    memTableCNAEcod_empresa: TIntegerField;
+    memTableCNAEcod_tipo: TIntegerField;
+    memTableCNAEcod_cnae: TStringField;
+    memTableCNAEdes_cnae: TStringField;
+    barManager: TdxBarManager;
+    dxBarManager1Bar1: TdxBar;
+    actionListMenu: TActionList;
+    actionLocalizar: TAction;
+    actionFechar: TAction;
+    dxBarLargeButton1: TdxBarLargeButton;
+    actionNovo: TAction;
+    actionEditar: TAction;
+    actionExcluir: TAction;
+    actionCancelar: TAction;
+    actionGravar: TAction;
+    dxBarLargeButton2: TdxBarLargeButton;
+    dxBarLargeButton3: TdxBarLargeButton;
+    dxBarLargeButton4: TdxBarLargeButton;
+    dsEnderecos: TDataSource;
+    dxBarLargeButton5: TdxBarLargeButton;
+    dxBarLargeButton6: TdxBarLargeButton;
+    dxBarLargeButton7: TdxBarLargeButton;
+    cnpjEmpresa: TcxDBButtonEdit;
+    dxLayoutItem1: TdxLayoutItem;
+    actionConsultaCNPJ: TAction;
     procedure FormShow(Sender: TObject);
     procedure statusPropertiesChange(Sender: TObject);
+    procedure dsCadastroStateChange(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -92,6 +126,53 @@ uses Data.SisGeF;
 
 { Tview_CadastroEmpresas }
 
+procedure Tview_CadastroEmpresas.dsCadastroStateChange(Sender: TObject);
+begin
+  if dsCadastro.State = dsInactive then
+  begin
+    actionNovo.Enabled := True;
+    actionLocalizar.Enabled := True;
+    actionEditar.Enabled := False;
+    actionExcluir.Enabled := False;
+    actionCancelar.Enabled := False;
+    actionGravar.Enabled := False;
+    actionFechar.Enabled := True;
+  end
+  else if dsCadastro.State = dsBrowse then
+  begin
+    actionNovo.Enabled := True;
+    actionLocalizar.Enabled := True;
+    actionEditar.Enabled := True;
+    actionExcluir.Enabled := True;
+    actionCancelar.Enabled := False;
+    actionGravar.Enabled := False;
+    actionFechar.Enabled := True;
+  end
+  else if dsCadastro.State = dsEdit then
+  begin
+    actionNovo.Enabled := False;
+    actionLocalizar.Enabled := False;
+    actionEditar.Enabled := False;
+    actionExcluir.Enabled := False;
+    actionCancelar.Enabled := True;
+    actionGravar.Enabled := True;
+    actionFechar.Enabled := True;
+  end
+  else if dsCadastro.State = dsInsert then
+  begin
+    actionNovo.Enabled := False;
+    actionLocalizar.Enabled := False;
+    actionEditar.Enabled := False;
+    actionExcluir.Enabled := False;
+    actionCancelar.Enabled := True;
+    actionGravar.Enabled := True;
+    actionFechar.Enabled := True;
+  end;
+
+
+
+end;
+
 procedure Tview_CadastroEmpresas.EndingForm;
 begin
   Self.Free;
@@ -105,7 +186,7 @@ end;
 
 procedure Tview_CadastroEmpresas.StartForm;
 begin
-  labelTitle.Caption := Self.Caption;
+  // teste
 end;
 
 procedure Tview_CadastroEmpresas.statusPropertiesChange(Sender: TObject);

@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>SisGeF5.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -425,10 +425,6 @@
         <DCCReference Include="Thread\Thread.ExtratoExpressas.pas"/>
         <DCCReference Include="View\View.ExtratoExpressasDetalhado.pas">
             <Form>view_ExtratoExpressasDetalhado</Form>
-        </DCCReference>
-        <DCCReference Include="View\View.CadastroGeral.pas">
-            <Form>view_CadastroGeral</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Model\Model.CadastroGeral.pas"/>
         <DCCReference Include="View\View.PesquisaPessoasCRM.pas">

@@ -1,14 +1,15 @@
 object view_CadastroEmpresas: Tview_CadastroEmpresas
   Left = 0
   Top = 0
+  Hint = 'Excluir registro'
   Caption = 'Cadastro de Empresas'
   ClientHeight = 445
-  ClientWidth = 813
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+  ClientWidth = 873
+  Color = clWhite
+  Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
   FormStyle = fsMDIChild
   Icon.Data = {
@@ -567,49 +568,32 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
   Visible = True
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
-    Top = 0
-    Width = 813
-    Height = 445
+    Top = 58
+    Width = 873
+    Height = 387
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitLeft = 24
-    ExplicitTop = 32
-    ExplicitWidth = 300
-    ExplicitHeight = 250
-    object labelTitle: TcxLabel
-      Left = 52
-      Top = 16
-      Caption = 'labelTitle'
-      ParentFont = False
-      Style.Font.Charset = DEFAULT_CHARSET
-      Style.Font.Color = clWindowText
-      Style.Font.Height = -13
-      Style.Font.Name = 'Tahoma'
-      Style.Font.Style = [fsBold]
-      Style.HotTrack = False
-      Style.IsFontAssigned = True
-      Transparent = True
-    end
+    LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object codigoEmpresa: TcxDBTextEdit
-      Left = 52
-      Top = 48
+      Left = 60
+      Top = 12
       Hint = 'C'#243'digo da empresa'
       TabStop = False
       DataBinding.DataField = 'cod_empresa'
       DataBinding.DataSource = dsCadastro
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 1
+      TabOrder = 0
       Width = 73
     end
     object tipoDoc: TcxDBComboBox
-      Left = 160
-      Top = 48
+      Left = 172
+      Top = 12
       TabStop = False
       DataBinding.DataField = 'des_tipo_doc'
       DataBinding.DataSource = dsCadastro
@@ -619,54 +603,44 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
         'CNPJ')
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 2
+      TabOrder = 1
       Width = 61
     end
     object nomeRazao: TcxDBTextEdit
-      Left = 457
-      Top = 48
+      Left = 479
+      Top = 12
       Hint = 'Nome ou Raz'#227'o Social'
       DataBinding.DataField = 'nom_razao_social'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
-      TabOrder = 4
-      Width = 130
+      TabOrder = 3
+      Width = 382
     end
     object nomeFantasia: TcxDBTextEdit
-      Left = 673
-      Top = 48
+      Left = 100
+      Top = 42
       Hint = 'Nome fantasia ou alias'
       DataBinding.DataField = 'nom_fantasia'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
-      TabOrder = 5
-      Width = 130
-    end
-    object cnpjEmpresa: TcxDBMaskEdit
-      Left = 261
-      Top = 48
-      Hint = 'CNPJ da empresa'
-      DataBinding.DataField = 'num_cnpj'
-      DataBinding.DataSource = dsCadastro
-      Properties.IgnoreMaskBlank = True
-      Properties.EditMask = '99\.999\.999\/9999\-99;1; '
-      Style.HotTrack = False
-      TabOrder = 3
-      Width = 121
+      TabOrder = 4
+      Width = 160
     end
     object cnae: TcxDBTextEdit
-      Left = 52
-      Top = 75
+      Left = 307
+      Top = 42
       Hint = 'C'#243'digo Nacional de Atividade Econ'#244'mica'
-      DataBinding.DataField = 'num_cnae'
+      DataBinding.DataField = 'cod_cnae'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
-      TabOrder = 6
-      Width = 121
+      TabOrder = 5
+      Width = 131
     end
     object crt: TcxDBImageComboBox
-      Left = 208
-      Top = 75
+      Left = 475
+      Top = 42
+      DataBinding.DataField = 'cod_crt'
+      DataBinding.DataSource = dsCadastro
       Properties.Items = <
         item
           Description = '1 - Simples Nacional'
@@ -682,12 +656,12 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
           Value = 3
         end>
       Style.HotTrack = False
-      TabOrder = 7
-      Width = 147
+      TabOrder = 6
+      Width = 121
     end
     object dataCadastro: TcxDBDateEdit
-      Left = 440
-      Top = 75
+      Left = 686
+      Top = 42
       Hint = 'Data do cadastro'
       TabStop = False
       DataBinding.DataField = 'dat_cadastro'
@@ -696,20 +670,42 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 8
-      Width = 121
+      TabOrder = 7
+      Width = 100
     end
     object status: TcxDBCheckBox
-      Left = 737
-      Top = 75
+      Left = 793
+      Top = 42
       Cursor = crHandPoint
       Caption = 'INATIVO'
       DataBinding.DataField = 'cod_status'
       DataBinding.DataSource = dsCadastro
+      Properties.Alignment = taRightJustify
+      Properties.ValueChecked = '1'
+      Properties.ValueUnchecked = '0'
       Properties.OnChange = statusPropertiesChange
       Style.HotTrack = False
-      TabOrder = 9
+      TabOrder = 8
       Transparent = True
+    end
+    object cnpjEmpresa: TcxDBButtonEdit
+      Left = 277
+      Top = 12
+      DataBinding.DataField = 'num_cnpj'
+      DataBinding.DataSource = dsCadastro
+      Properties.Buttons = <
+        item
+          Action = actionConsultaCNPJ
+          Default = True
+          ImageIndex = 81
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.EditMask = '99\.999\.999\/9999\-99;1; '
+      Style.HotTrack = False
+      TabOrder = 2
+      Width = 121
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -724,84 +720,26 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 3
+      ItemIndex = 1
       ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem1: TdxLayoutItem
-      Parent = dxLayoutGroup1
-      CaptionOptions.Glyph.SourceDPI = 96
-      CaptionOptions.Glyph.Data = {
-        89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
-        F40000001974455874536F6674776172650041646F626520496D616765526561
-        647971C9653C000005914944415478DA9C575B6C145518FECECCEC65A6A56091
-        22B577901A09242AE28BC448080285B4460C89CACD26244DF0121E9A7889D184
-        F0C0838F8286081AA3C65B2AD590A889467D928AC0022DDB2DBD6D211421B06D
-        F73E33FEFF999DB1D496CE769393997F76CE37DFF9FECBF98FB06D1B42084CFA
-        69878E7DD72114A5C9B26CD8F480FFB527BDE0D7E6ABA208D896F543FB9EE616
-        32F398F2D3F0FF9F4EDF6DDABF630BF26601B080E882C2876D1718692AF0DEF1
-        134D8C4B63CC0F81B0695A5009E474DF28544541E4D225AC6C6C84AB965FDBB4
-        2C3CD65801C6635CBF048445137324563293A515A82013E95C0EFC5C21427EEC
-        5436470A9A12879FBBE2F821402BB19C3F358D0828D00854D39888227DEAD746
-        21B65C3CDF042C92D2A2B9D1DE9824C0AB8AF6F67912F34766B763A48085D58D
-        F749BCA208D814851605604D759524303432825ABA773F30188FCF6AF35C26C0
-        388C57A4029694AD4437A07234D27C43D7399D40E9E9DB364D5BE258C5BAC02E
-        E4BF426E6402EC4A99CF144742F167F33C1B0ECE1C14E0A416E8BED42B5DC0A9
-        D81DED75929BD07DD934975DB0A266D11C62806523EEF5B5D5126C60388EFA9A
-        6ACFC7FD43C3B3DA7564731D609CA2B3800B0797613706787E09F9947DA908C5
-        9F6D3831C0388542E49F404106E95767383E66B728C2BF2D95BF8BFC77518072
-        875612E98E4A05B80EF0BDED84998C743F362BD0B0E47107AFB818B065E42EAB
-        AB21020A2E0F0C6129DDBB3EF6632FABAB95D2CB8CB2E790051C3CA525BA0C42
-        B64A0D5D3E6789FDDA6E10CEA112722172A4E7C1EEE0AB707B079FB61302B21F
-        285E01063A7BBE878A9193D7672F74BB69EECB3E43B6453150F9E49A39EE05C4
-        7FF9D25AB992DEFE012C6FA8F3248EFAB5DD3A60155D884C99D3A586514827AA
-        09140F9CD37E6D1913BC10B9AF98C5A621B9806380B762C18955F0B1B065A151
-        84EA342AA2502BC85669E310C292AE73DF27108973972C9CA91011007DE034C5
-        801353027F452E4A706E52427A189168BF97766C9FED89229FCF3B2947DFEEA2
-        F7F9F6E9B56B4852B5581784684502AB1A579184DC6A65A58C2A7539873FF90A
-        5A781E110C14CA0EF70ED47EA5C7D0B6F33949C2696435C208820BA465193312
-        10D3B4E5152F1F6AB9A6EA5D12EC819A666C7DE208ED6C29A9C4959B498CBEBB
-        102238296B32C0E2776E604939F99DF45604B772617CFF471B62F14E04030692
-        E366C7FBED97B7B187EFD47A8AF63BDE6CD8B9A4328557F77C8EFDAD5FE0C6AD
-        08CEC7BE452848458940ABABCA21A8C1AE7E6413AA1EDD2CAF0A2DF0FECA7209
-        17D00C19F9A72E7E24E7BEF6D267D8B7F318AA2A1F6CD9F3F6B2E7A77ED35540
-        DD7B70C5D15038B03B47DDED86A79EC595EC29D9D92C0E3C8C933F7F4AAEC862
-        F5CA5634AD3F8073ED06162D5DEBB960B4EF373C74300535079CFCFD75745D38
-        4E2A84B069FD0BB896FB5BF6C395C135F8F197AF110868C8A4F31F7FF8C68556
-        56C38D019DCAF6EE75EB36D27940C3F5C4655C1DED730E0915E568DEF222B2F9
-        24BEFCE6085A361E805E720F91338938B75F16C2FA02F237081CF8F5CF0FB07D
-        DB2E044989EB63831E8E5EB1109B373E03D3CEA3B3F3C42E7AB48FC6B8F6DF61
-        84369DE12EA4D2E3C8E49244DA71F2E0700457037D280919308C0508D3E3B2D2
-        328ADEAC2CB94C60FEBC32F93CC80940FE191C398374364538290F6760F81CE1
-        C450AA972118D2DD838A474031F30289DBD761CAF398F05CC55B6C263B8E5C7A
-        0213E3268E1CFD0913E6769AAA7A67329BB2207CAC834805E40713891BB20C4F
-        C5494B9C2412B76C2FFE5C027672C28AC77A942A29EB9D89220797D54C4AF4BF
-        B57743DB74874C37ADB7BE527F38D663D7CB42340D0E774B99B41D77CFB36E10
-        CEA7FB3A1AE5D36486976D341234FEA1919AE11DD6F65E1A65B3E0DC64AFD0B8
-        ED12A0F001578BE04C67B80263723C92347233BC5334CEBF020C00DA567875CE
-        E0815E0000000049454E44AE426082}
-      Control = labelTitle
-      ControlOptions.AlignVert = avCenter
-      ControlOptions.OriginalHeight = 20
-      ControlOptions.OriginalWidth = 46
-      ControlOptions.ShowBorder = False
       Index = 0
     end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = dxLayoutGroup1
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
       ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object dxLayoutItem2: TdxLayoutItem
       Parent = dxLayoutGroup2
       AlignVert = avCenter
       CaptionOptions.Text = 'C'#243'digo:'
       Control = codigoEmpresa
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 73
       ControlOptions.ShowBorder = False
       Index = 0
@@ -811,7 +749,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       AlignVert = avCenter
       CaptionOptions.Text = 'Tipo:'
       Control = tipoDoc
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 61
       ControlOptions.ShowBorder = False
       Index = 1
@@ -822,72 +760,63 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       AlignVert = avCenter
       CaptionOptions.Text = 'Raz'#227'o Social:'
       Control = nomeRazao
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 153
       ControlOptions.ShowBorder = False
       Index = 3
     end
     object dxLayoutItem5: TdxLayoutItem
-      Parent = dxLayoutGroup2
+      Parent = dxLayoutGroup3
       AlignHorz = ahClient
-      AlignVert = avCenter
+      AlignVert = avTop
       CaptionOptions.Text = 'Nome Fantasia:'
       Control = nomeFantasia
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 154
       ControlOptions.ShowBorder = False
-      Index = 4
-    end
-    object dxLayoutItem6: TdxLayoutItem
-      Parent = dxLayoutGroup2
-      AlignVert = avCenter
-      CaptionOptions.Text = 'CNPJ:'
-      Control = cnpjEmpresa
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 0
     end
     object dxLayoutGroup3: TdxLayoutGroup
       Parent = dxLayoutGroup1
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 2
+      Index = 1
     end
     object dxLayoutItem7: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahLeft
-      AlignVert = avCenter
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'CNAE:'
       Control = cnae
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem8: TdxLayoutItem
-      Parent = dxLayoutGroup3
-      AlignHorz = ahLeft
-      AlignVert = avCenter
-      CaptionOptions.Text = 'CRT:'
-      Control = crt
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 147
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 127
       ControlOptions.ShowBorder = False
       Index = 1
     end
-    object dxLayoutItem9: TdxLayoutItem
+    object dxLayoutItem8: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahLeft
-      AlignVert = avCenter
-      CaptionOptions.Text = 'Data Cadastro:'
-      Control = dataCadastro
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'CRT:'
+      Control = crt
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 117
       ControlOptions.ShowBorder = False
       Index = 2
+    end
+    object dxLayoutItem9: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'Data Cadastro:'
+      Control = dataCadastro
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 96
+      ControlOptions.ShowBorder = False
+      Index = 3
     end
     object dxLayoutItem10: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -896,10 +825,10 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       CaptionOptions.Text = 'cxDBCheckBox1'
       CaptionOptions.Visible = False
       Control = status
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 66
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 68
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object dxLayoutGroup4: TdxLayoutGroup
       Parent = dxLayoutGroup1
@@ -907,7 +836,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       ButtonOptions.Buttons = <>
       LayoutDirection = ldTabbed
       ShowBorder = False
-      Index = 3
+      Index = 2
     end
     object dxLayoutGroup5: TdxLayoutGroup
       Parent = dxLayoutGroup4
@@ -928,139 +857,518 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       LayoutDirection = ldHorizontal
       Index = 0
     end
+    object dxLayoutItem1: TdxLayoutItem
+      Parent = dxLayoutGroup2
+      AlignHorz = ahLeft
+      AlignVert = avBottom
+      CaptionOptions.Text = 'CNPJ:'
+      Control = cnpjEmpresa
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
   end
   object memTableCadastro: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
     ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 152
-    Top = 8
-    object IntegerField14: TIntegerField
+    StoreDefs = True
+    Left = 448
+    object memTableCadastrocod_empresa: TIntegerField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'cod_empresa'
+      Required = True
     end
-    object StringField42: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'nom_razao_social'
+    object memTableCadastrodes_razao_social: TStringField
+      DisplayLabel = 'Raz'#227'o Social'
+      FieldName = 'des_razao_social'
       Size = 70
     end
-    object StringField43: TStringField
-      DisplayLabel = 'Alias'
+    object memTableCadastronom_fantasia: TStringField
+      DisplayLabel = 'Nome Fantasia'
       FieldName = 'nom_fantasia'
-      Size = 70
+      Size = 80
     end
     object memTableCadastrodes_tipo_doc: TStringField
+      DisplayLabel = 'Tipo DOC'
       FieldName = 'des_tipo_doc'
       Size = 4
     end
-    object StringField44: TStringField
+    object memTableCadastronum_cnpj: TStringField
       DisplayLabel = 'CNPJ'
       FieldName = 'num_cnpj'
     end
-    object StringField45: TStringField
+    object memTableCadastrocod_cnae: TStringField
       DisplayLabel = 'CNAE'
-      FieldName = 'num_cnae'
+      FieldName = 'cod_cnae'
+      Size = 10
     end
-    object IntegerField15: TIntegerField
+    object memTableCadastrocod_crt: TIntegerField
       DisplayLabel = 'CRT'
-      FieldName = 'num_crt'
+      FieldName = 'cod_crt'
     end
-    object IntegerField16: TIntegerField
+    object memTableCadastrocod_status: TIntegerField
       DisplayLabel = 'Status'
       FieldName = 'cod_status'
     end
-    object MemoField2: TMemoField
+    object memTableCadastrodes_observacao: TMemoField
       DisplayLabel = 'Observa'#231#245'es'
-      FieldName = 'des_observacoes'
+      FieldName = 'des_observacao'
       BlobType = ftMemo
     end
-    object DateField7: TDateField
+    object memTableCadastrodat_cadastro: TDateField
       DisplayLabel = 'Data Cadastro'
       FieldName = 'dat_cadastro'
-    end
-    object memTableCadastrodes_tipo_conta: TStringField
-      FieldName = 'des_tipo_conta'
-    end
-    object memTableCadastrocod_banco: TStringField
-      FieldName = 'cod_banco'
-      Size = 4
-    end
-    object memTableCadastrocod_agencia: TStringField
-      FieldName = 'cod_agencia'
-      Size = 10
-    end
-    object memTableCadastronum_conta: TStringField
-      FieldName = 'num_conta'
-    end
-    object memTableCadastronom_favorecido: TStringField
-      FieldName = 'nom_favorecido'
-      Size = 70
-    end
-    object memTableCadastronum_cpf_cnpj_favorecido: TStringField
-      FieldName = 'num_cpf_cnpj_favorecido'
-    end
-    object memTableCadastrodes_forma_pagamento: TStringField
-      FieldName = 'des_forma_pagamento'
-      Size = 30
     end
   end
   object dsCadastro: TDataSource
     AutoEdit = False
     DataSet = memTableCadastro
-    Left = 192
-    Top = 8
+    OnStateChange = dsCadastroStateChange
+    Left = 410
   end
   object memTableEnderecos: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
     ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 240
-    Top = 8
-    object IntegerField11: TIntegerField
-      FieldName = 'id_cadastro'
+    StoreDefs = True
+    Left = 544
+    object memTableEnderecosseq_endereco: TFDAutoIncField
+      FieldName = 'seq_endereco'
+      ReadOnly = True
     end
-    object memTableEnderecoscod_tipo_cadastro: TIntegerField
-      FieldName = 'cod_tipo_cadastro'
+    object memTableEnderecoscod_empresa: TIntegerField
+      FieldName = 'cod_empresa'
+      Required = True
     end
-    object StringField31: TStringField
-      FieldName = 'des_tipo_endereco'
-      Size = 50
+    object memTableEnderecosdes_tipo: TStringField
+      FieldName = 'des_tipo'
     end
-    object StringField32: TStringField
-      FieldName = 'num_cep'
-      Size = 9
-    end
-    object StringField33: TStringField
+    object memTableEnderecosdes_logradouro: TStringField
       FieldName = 'des_logradouro'
       Size = 70
     end
-    object StringField34: TStringField
+    object memTableEnderecosnum_logradouro: TStringField
       FieldName = 'num_logradouro'
       Size = 10
     end
-    object StringField35: TStringField
+    object memTableEnderecosdes_complemento: TStringField
       FieldName = 'des_complemento'
       Size = 50
     end
-    object StringField36: TStringField
-      FieldName = 'nom_bairro'
+    object memTableEnderecosdes_bairro: TStringField
+      FieldName = 'des_bairro'
       Size = 70
     end
-    object StringField37: TStringField
+    object memTableEnderecosnom_cidade: TStringField
       FieldName = 'nom_cidade'
       Size = 70
     end
-    object StringField38: TStringField
+    object memTableEnderecosuf_estado: TStringField
       FieldName = 'uf_estado'
       Size = 2
     end
+    object memTableEnderecosnum_cep: TStringField
+      FieldName = 'num_cep'
+      Size = 9
+    end
+    object memTableEnderecosnum_cnpj: TStringField
+      FieldName = 'num_cnpj'
+    end
+    object memTableEnderecosnum_ie: TStringField
+      FieldName = 'num_ie'
+    end
+    object memTableEnderecosnum_im: TStringField
+      FieldName = 'num_im'
+    end
+    object memTableEnderecosdes_referencia: TStringField
+      FieldName = 'des_referencia'
+      Size = 132
+    end
+  end
+  object memTableContatos: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 640
+    object memTableContatosseq_contato: TFDAutoIncField
+      FieldName = 'seq_contato'
+      ReadOnly = True
+    end
+    object memTableContatoscod_empresa: TIntegerField
+      FieldName = 'cod_empresa'
+      Required = True
+    end
+    object memTableContatosdes_contato: TStringField
+      FieldName = 'des_contato'
+      Size = 30
+    end
+    object memTableContatosnum_telefone: TStringField
+      FieldName = 'num_telefone'
+      Size = 15
+    end
+    object memTableContatosdes_email: TStringField
+      FieldName = 'des_email'
+      Size = 128
+    end
+  end
+  object memTableFinanceiro: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 704
+    object memTableFinanceiroid_financeiro: TFDAutoIncField
+      FieldName = 'id_financeiro'
+      ReadOnly = True
+    end
+    object memTableFinanceirocod_empresa: TIntegerField
+      FieldName = 'cod_empresa'
+      Required = True
+    end
+    object memTableFinanceirocod_banco: TStringField
+      FieldName = 'cod_banco'
+      Required = True
+      Size = 4
+    end
+    object memTableFinanceirocod_agencia: TStringField
+      FieldName = 'cod_agencia'
+      Required = True
+      Size = 10
+    end
+    object memTableFinanceironum_conta: TStringField
+      FieldName = 'num_conta'
+      Required = True
+    end
+  end
+  object memTableCNAE: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'id_cnae'
+        Attributes = [faReadonly]
+        DataType = ftAutoInc
+      end
+      item
+        Name = 'cod_empresa'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'cod_tipo'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'cod_cnae'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'des_cnae'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 125
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 776
+    Content = {
+      414442530F00FC1170020000FF00010001FF02FF030400180000006D0065006D
+      005400610062006C00650043004E004100450005000A0000005400610062006C
+      006500060000000000070000080032000000090000FF0AFF0B04000E00000069
+      0064005F0063006E006100650005000E000000690064005F0063006E00610065
+      000C00010000000E000D000F00011000011100011200011300FFFFFFFF1400FF
+      FFFFFF15000116000117000118000119000E000000690064005F0063006E0061
+      006500FEFF0B04001600000063006F0064005F0065006D007000720065007300
+      610005001600000063006F0064005F0065006D00700072006500730061000C00
+      020000000E000D000F00011200011A000117000119001600000063006F006400
+      5F0065006D0070007200650073006100FEFF0B04001000000063006F0064005F
+      007400690070006F0005001000000063006F0064005F007400690070006F000C
+      00030000000E000D000F00011200011A000117000119001000000063006F0064
+      005F007400690070006F00FEFF0B04001000000063006F0064005F0063006E00
+      6100650005001000000063006F0064005F0063006E00610065000C0004000000
+      0E001B001C00140000000F00011200011A000117000119001000000063006F00
+      64005F0063006E00610065001D0014000000FEFF0B0400100000006400650073
+      005F0063006E00610065000500100000006400650073005F0063006E00610065
+      000C00050000000E001B001C007D0000000F00011200011A0001170001190010
+      0000006400650073005F0063006E00610065001D007D000000FEFEFF1EFEFF1F
+      FEFF20FEFEFEFF21FEFF22FF23FEFEFE0E004D0061006E006100670065007200
+      1E00550070006400610074006500730052006500670069007300740072007900
+      12005400610062006C0065004C006900730074000A005400610062006C006500
+      08004E0061006D006500140053006F0075007200630065004E0061006D006500
+      0A0054006100620049004400240045006E0066006F0072006300650043006F00
+      6E00730074007200610069006E00740073001E004D0069006E0069006D007500
+      6D0043006100700061006300690074007900180043006800650063006B004E00
+      6F0074004E0075006C006C00140043006F006C0075006D006E004C0069007300
+      74000C0043006F006C0075006D006E00100053006F0075007200630065004900
+      44000E006400740049006E007400330032001000440061007400610054007900
+      700065001400530065006100720063006800610062006C006500120041006C00
+      6C006F0077004E0075006C006C000E004100750074006F0049006E0063000800
+      420061007300650022004100750074006F0049006E006300720065006D006500
+      6E007400530065006500640022004100750074006F0049006E00630072006500
+      6D0065006E007400530074006500700014004F0041006C006C006F0077004E00
+      75006C006C0012004F0052006500610064004F006E006C00790010004F004900
+      6E005700680065007200650020004F004100660074006500720049006E007300
+      4300680061006E006700650064001A004F0072006900670069006E0043006F00
+      6C004E0061006D00650012004F0049006E005500700064006100740065001800
+      6400740041006E007300690053007400720069006E0067000800530069007A00
+      6500140053006F007500720063006500530069007A0065001C0043006F006E00
+      730074007200610069006E0074004C0069007300740010005600690065007700
+      4C006900730074000E0052006F0077004C006900730074001800520065006C00
+      6100740069006F006E004C006900730074001C00550070006400610074006500
+      73004A006F00750072006E0061006C000E004300680061006E00670065007300}
+    object memTableCNAEid_cnae: TFDAutoIncField
+      FieldName = 'id_cnae'
+      ReadOnly = True
+    end
+    object memTableCNAEcod_empresa: TIntegerField
+      FieldName = 'cod_empresa'
+      Required = True
+    end
+    object memTableCNAEcod_tipo: TIntegerField
+      FieldName = 'cod_tipo'
+      Required = True
+    end
+    object memTableCNAEcod_cnae: TStringField
+      FieldName = 'cod_cnae'
+      Required = True
+    end
+    object memTableCNAEdes_cnae: TStringField
+      FieldName = 'des_cnae'
+      Required = True
+      Size = 125
+    end
+  end
+  object barManager: TdxBarManager
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Categories.Strings = (
+      'Default')
+    Categories.ItemsVisibles = (
+      2)
+    Categories.Visibles = (
+      True)
+    ImageOptions.LargeImages = Data_Sisgef.imageListOperation_32_32
+    PopupMenuLinks = <>
+    UseSystemFont = True
+    Left = 664
+    Top = 264
+    PixelsPerInch = 96
+    DockControlHeights = (
+      0
+      0
+      58
+      0)
+    object dxBarManager1Bar1: TdxBar
+      AllowClose = False
+      AllowCustomizing = False
+      AllowQuickCustomizing = False
+      AllowReset = False
+      Caption = 'Main'
+      CaptionButtons = <>
+      DockedDockingStyle = dsTop
+      DockedLeft = 0
+      DockedTop = 0
+      DockingStyle = dsTop
+      FloatLeft = 901
+      FloatTop = 2
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      Images = Data_Sisgef.imageListOperation_32_32
+      IsMainMenu = True
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton1'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton2'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton3'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton4'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'dxBarLargeButton5'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'dxBarLargeButton6'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton7'
+        end>
+      MultiLine = True
+      OneOnRow = True
+      Row = 0
+      ShowMark = False
+      UseOwnFont = False
+      UseRestSpace = True
+      Visible = True
+      WholeRow = True
+    end
+    object dxBarLargeButton1: TdxBarLargeButton
+      Action = actionNovo
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton2: TdxBarLargeButton
+      Action = actionLocalizar
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton3: TdxBarLargeButton
+      Action = actionEditar
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton4: TdxBarLargeButton
+      Action = actionExcluir
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton5: TdxBarLargeButton
+      Action = actionCancelar
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton6: TdxBarLargeButton
+      Action = actionGravar
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton7: TdxBarLargeButton
+      Action = actionFechar
+      Align = iaRight
+      Category = 0
+      AutoGrayScale = False
+    end
+  end
+  object actionListMenu: TActionList
+    Images = Data_Sisgef.imageListOperation_32_32
+    Left = 744
+    Top = 260
+    object actionNovo: TAction
+      Caption = '&Novo'
+      Hint = 'Novo registro'
+      ImageIndex = 0
+    end
+    object actionLocalizar: TAction
+      Caption = '&Localizar'
+      Hint = 'Localizar registro'
+      ImageIndex = 12
+    end
+    object actionEditar: TAction
+      Caption = '&Editar'
+      Hint = 'Editar registro'
+      ImageIndex = 9
+    end
+    object actionExcluir: TAction
+      Caption = 'E&xcluir'
+      Hint = 'Excluir registro'
+      ImageIndex = 4
+    end
+    object actionCancelar: TAction
+      Caption = '&Cancelar'
+      Hint = 'Cancelar opera'#231#227'o'
+      ImageIndex = 2
+    end
+    object actionGravar: TAction
+      Caption = '&Gravar'
+      Hint = 'Gravar registro'
+      ImageIndex = 13
+    end
+    object actionFechar: TAction
+      Caption = '&Fechar'
+      Hint = 'Fechar a tela'
+      ImageIndex = 3
+    end
+    object actionConsultaCNPJ: TAction
+      Caption = 'Consulta CNPJ'
+      Hint = 'Consulta CNPJ'
+    end
+  end
+  object dsEnderecos: TDataSource
+    AutoEdit = False
+    DataSet = memTableEnderecos
+    Left = 504
+    Top = 65535
   end
 end

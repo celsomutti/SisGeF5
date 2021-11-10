@@ -171,7 +171,6 @@ uses
   Control.PlanilhaEntradaCarriers in 'Control\Control.PlanilhaEntradaCarriers.pas',
   Thread.ExtratoExpressas in 'Thread\Thread.ExtratoExpressas.pas',
   View.ExtratoExpressasDetalhado in 'View\View.ExtratoExpressasDetalhado.pas' {view_ExtratoExpressasDetalhado},
-  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
   Model.CadastroGeral in 'Model\Model.CadastroGeral.pas',
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
   View.EntregadoresExpressasPesquisa in 'View\View.EntregadoresExpressasPesquisa.pas' {view_EntregadoresExpressasPesquisa},
@@ -222,7 +221,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Sistema Gerenciador de Faturamento';
-  AApplication.CreateForm(TData_Sisgef, Data_Sisgef);
+  Application.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
-  pplication.Run;
+  Application.Run;
 end.
