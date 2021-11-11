@@ -9,7 +9,9 @@ uses
   cxTextEdit, cxDBEdit, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxMaskEdit, cxDropDownEdit, cxCalendar,
   cxImageComboBox, cxCheckBox, FireDAC.Stan.StorageBin, FireDAC.Stan.Async, FireDAC.DApt, dxBar, System.Actions, Vcl.ActnList,
-  dxBarDBNav, cxButtonEdit;
+  dxBarDBNav, cxButtonEdit, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
+  cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, cxDBNavigator;
 
 type
   Tview_CadastroEmpresas = class(TForm)
@@ -28,8 +30,6 @@ type
     nomeFantasia: TcxDBTextEdit;
     dxLayoutItem5: TdxLayoutItem;
     dxLayoutGroup3: TdxLayoutGroup;
-    cnae: TcxDBTextEdit;
-    dxLayoutItem7: TdxLayoutItem;
     crt: TcxDBImageComboBox;
     dxLayoutItem8: TdxLayoutItem;
     dataCadastro: TcxDBDateEdit;
@@ -104,6 +104,73 @@ type
     cnpjEmpresa: TcxDBButtonEdit;
     dxLayoutItem1: TdxLayoutItem;
     actionConsultaCNPJ: TAction;
+    dxLayoutGroup8: TdxLayoutGroup;
+    gridContatosDBTableView1: TcxGridDBTableView;
+    gridContatosLevel1: TcxGridLevel;
+    gridContatos: TcxGrid;
+    dxLayoutItem7: TdxLayoutItem;
+    dxLayoutGroup9: TdxLayoutGroup;
+    tipoEndereco: TcxDBTextEdit;
+    dxLayoutItem6: TdxLayoutItem;
+    cepEndereco: TcxDBButtonEdit;
+    dxLayoutItem11: TdxLayoutItem;
+    dxLayoutGroup10: TdxLayoutGroup;
+    logradouroEndereco: TcxDBTextEdit;
+    dxLayoutItem12: TdxLayoutItem;
+    numeroEndereco: TcxDBTextEdit;
+    dxLayoutItem13: TdxLayoutItem;
+    dxLayoutGroup11: TdxLayoutGroup;
+    complementoEndereco: TcxDBTextEdit;
+    dxLayoutItem14: TdxLayoutItem;
+    bairroEndereco: TcxDBTextEdit;
+    dxLayoutItem15: TdxLayoutItem;
+    dxLayoutGroup12: TdxLayoutGroup;
+    cidadeEndereco: TcxDBTextEdit;
+    dxLayoutItem16: TdxLayoutItem;
+    ufEndereco: TcxDBComboBox;
+    dxLayoutItem17: TdxLayoutItem;
+    dxLayoutGroup13: TdxLayoutGroup;
+    cnpjEndereco: TcxDBMaskEdit;
+    dxLayoutItem18: TdxLayoutItem;
+    ieEndereco: TcxDBTextEdit;
+    dxLayoutItem19: TdxLayoutItem;
+    imEndereco: TcxDBTextEdit;
+    dxLayoutItem20: TdxLayoutItem;
+    dsContatos: TDataSource;
+    gridContatosDBTableView1seq_contato: TcxGridDBColumn;
+    gridContatosDBTableView1cod_empresa: TcxGridDBColumn;
+    gridContatosDBTableView1des_contato: TcxGridDBColumn;
+    gridContatosDBTableView1num_telefone: TcxGridDBColumn;
+    gridContatosDBTableView1des_email: TcxGridDBColumn;
+    actionPesquisarCEP: TAction;
+    dxLayoutGroup14: TdxLayoutGroup;
+    cxDBNavigator1: TcxDBNavigator;
+    dxLayoutItem21: TdxLayoutItem;
+    dxLayoutGroup15: TdxLayoutGroup;
+    dxLayoutGroup16: TdxLayoutGroup;
+    gridCNAEDBTableView1: TcxGridDBTableView;
+    gridCNAELevel1: TcxGridLevel;
+    gridCNAE: TcxGrid;
+    dxLayoutItem22: TdxLayoutItem;
+    gridFinanceiroDBTableView1: TcxGridDBTableView;
+    gridFinanceiroLevel1: TcxGridLevel;
+    gridFinanceiro: TcxGrid;
+    dxLayoutItem23: TdxLayoutItem;
+    dsCNAE: TDataSource;
+    gridCNAEDBTableView1id_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1cod_empresa: TcxGridDBColumn;
+    gridCNAEDBTableView1cod_tipo: TcxGridDBColumn;
+    gridCNAEDBTableView1cod_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1des_cnae: TcxGridDBColumn;
+    dsFinanceiro: TDataSource;
+    gridFinanceiroDBTableView1id_financeiro: TcxGridDBColumn;
+    gridFinanceiroDBTableView1cod_empresa: TcxGridDBColumn;
+    gridFinanceiroDBTableView1cod_banco: TcxGridDBColumn;
+    gridFinanceiroDBTableView1cod_agencia: TcxGridDBColumn;
+    gridFinanceiroDBTableView1num_conta: TcxGridDBColumn;
+    memTableFinanceironom_banco: TStringField;
+    gridFinanceiroDBTableView1nom_banco: TcxGridDBColumn;
+    actionPesquisarBancos: TAction;
     procedure FormShow(Sender: TObject);
     procedure statusPropertiesChange(Sender: TObject);
     procedure dsCadastroStateChange(Sender: TObject);
