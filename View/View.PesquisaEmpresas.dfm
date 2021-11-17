@@ -1,9 +1,9 @@
-object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
+object view_PesquisaEmpresas: Tview_PesquisaEmpresas
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Pesquisa Pessoas'
+  Caption = 'Pesquisa Empresas'
   ClientHeight = 499
   ClientWidth = 770
   Color = clBtnFace
@@ -59,10 +59,10 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
     Transparent = True
     object gridPesquisa: TcxGrid
       Left = 12
-      Top = 95
+      Top = 96
       Width = 746
-      Height = 360
-      TabOrder = 5
+      Height = 359
+      TabOrder = 4
       OnEnter = gridPesquisaEnter
       object gridPesquisaDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
@@ -94,7 +94,11 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
         OptionsView.Indicator = True
         object gridPesquisaDBTableView1cod_cadastro: TcxGridDBColumn
           Caption = 'C'#243'digo'
-          DataBinding.FieldName = 'cod_cadastro'
+          DataBinding.FieldName = 'cod_empresa'
+        end
+        object gridPesquisaDBTableView1num_cnpj: TcxGridDBColumn
+          Caption = 'CPF / CNPJ'
+          DataBinding.FieldName = 'num_cnpj'
         end
         object gridPesquisaDBTableView1des_razao_social: TcxGridDBColumn
           Caption = 'Nome / Raz'#227'o Social'
@@ -104,26 +108,6 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
           Caption = 'Apelido / Nome Fantasia'
           DataBinding.FieldName = 'nom_fantasia'
         end
-        object gridPesquisaDBTableView1num_cnpj: TcxGridDBColumn
-          Caption = 'CPF / CNPJ'
-          DataBinding.FieldName = 'num_cnpj'
-        end
-        object gridPesquisaDBTableView1num_ie: TcxGridDBColumn
-          Caption = 'RG / Ins. Estadual'
-          DataBinding.FieldName = 'num_ie'
-        end
-        object gridPesquisaDBTableView1num_im: TcxGridDBColumn
-          Caption = 'Ins. Municipal'
-          DataBinding.FieldName = 'num_im'
-        end
-        object gridPesquisaDBTableView1num_telefone: TcxGridDBColumn
-          Caption = 'Telefone'
-          DataBinding.FieldName = 'num_telefone'
-        end
-        object gridPesquisaDBTableView1des_email: TcxGridDBColumn
-          Caption = 'E-Mail'
-          DataBinding.FieldName = 'des_email'
-        end
       end
       object gridPesquisaLevel1: TcxGridLevel
         GridView = gridPesquisaDBTableView1
@@ -131,7 +115,7 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
     end
     object buttonExpandir: TcxButton
       Left = 12
-      Top = 63
+      Top = 64
       Width = 84
       Height = 25
       Cursor = crHandPoint
@@ -141,12 +125,12 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
-      TabOrder = 3
+      TabOrder = 2
       TabStop = False
     end
     object buttonRetrair: TcxButton
       Left = 103
-      Top = 63
+      Top = 64
       Width = 88
       Height = 25
       Cursor = crHandPoint
@@ -154,19 +138,19 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
-      TabOrder = 4
+      TabOrder = 3
       TabStop = False
     end
     object checkBoxBarraGrupos: TcxCheckBox
       Left = 645
-      Top = 65
+      Top = 66
       TabStop = False
       Caption = 'Painel de Grupos'
       Properties.OnChange = checkBoxBarraGruposPropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 2
+      TabOrder = 1
       Transparent = True
     end
     object buttonEditTextoPesquisar: TcxButtonEdit
@@ -178,6 +162,7 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
           Action = actionLimpar
           Kind = bkGlyph
         end>
+      Properties.Images = Data_Sisgef.iml_16_16
       Properties.OnChange = buttonEditTextoPesquisarPropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -185,7 +170,7 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       Style.ButtonStyle = bts3D
       TabOrder = 0
       OnEnter = buttonEditTextoPesquisarEnter
-      Width = 571
+      Width = 746
     end
     object buttonFechar: TcxButton
       Left = 673
@@ -194,7 +179,7 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       Height = 25
       Cursor = crHandPoint
       Action = actionFechar
-      TabOrder = 9
+      TabOrder = 8
     end
     object buttonOK: TcxButton
       Left = 577
@@ -203,7 +188,7 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       Height = 25
       Cursor = crHandPoint
       Action = actionOK
-      TabOrder = 8
+      TabOrder = 7
     end
     object buttonLocalizar: TcxButton
       Left = 473
@@ -213,7 +198,7 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       Cursor = crHandPoint
       Action = actionPesquisar
       Default = True
-      TabOrder = 7
+      TabOrder = 6
     end
     object buttonExportar: TcxButton
       Left = 12
@@ -222,28 +207,7 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       Height = 25
       Cursor = crHandPoint
       Action = actionExportar
-      TabOrder = 6
-    end
-    object comboBoxOutrosCampos: TcxComboBox
-      Left = 590
-      Top = 33
-      Hint = 'Outros campos para pesquisa'
-      Properties.DropDownListStyle = lsEditFixedList
-      Properties.Items.Strings = (
-        'Pesquisa Instant'#226'nea'
-        'RG ou Ins. Estadual'
-        'Ins. Municipal'
-        'Telefone'
-        'E-Mail'
-        'Registro CNH')
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 1
-      Text = 'Pesquisa Instant'#226'nea'
-      Width = 168
+      TabOrder = 5
     end
     object layoutControlGridGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -294,19 +258,19 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       CaptionOptions.Text = 'cxCheckBox1'
       CaptionOptions.Visible = False
       Control = checkBoxBarraGrupos
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 113
       ControlOptions.ShowBorder = False
       Index = 0
     end
     object layoutItemtextoPesquisa: TdxLayoutItem
-      Parent = dxLayoutAutoCreatedGroup1
+      Parent = layoutControlGridGroup_Root
       AlignHorz = ahClient
       AlignVert = avTop
       CaptionOptions.Text = 'Texto a Pesquisar:'
       CaptionOptions.Layout = clTop
       Control = buttonEditTextoPesquisar
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 412
       ControlOptions.ShowBorder = False
       Index = 0
@@ -372,41 +336,23 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       Index = 1
       AutoCreated = True
     end
-    object layoutItemTipoPesquisa: TdxLayoutItem
-      Parent = dxLayoutAutoCreatedGroup1
-      AlignHorz = ahClient
-      AlignVert = avTop
-      CaptionOptions.Text = 'Outros Campos:'
-      CaptionOptions.Layout = clTop
-      Control = comboBoxOutrosCampos
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
-      Parent = layoutControlGridGroup_Root
-      AlignVert = avTop
-      LayoutDirection = ldHorizontal
-      Index = 0
-      AutoCreated = True
-    end
   end
   object actionListPesquisa: TActionList
+    Images = Data_Sisgef.iml_16_16
     Left = 360
     Top = 65528
     object actionExpandirGrid: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Expandir'
       Hint = 'Expandir os detalhes do Grid'
-      ImageIndex = 3
+      ImageIndex = 38
       OnExecute = actionExpandirGridExecute
     end
     object actionRetrairGrid: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Retrair'
       Hint = 'Retrair detalhes do Grid'
-      ImageIndex = 3
+      ImageIndex = 37
       OnExecute = actionRetrairGridExecute
     end
     object actionPesquisar: TAction
@@ -414,7 +360,7 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       AutoCheck = True
       Caption = 'Localizar'
       Hint = 'Realizar pesquisa'
-      ImageIndex = 7
+      ImageIndex = 12
       OnExecute = actionPesquisarExecute
     end
     object actionLimpar: TAction
@@ -422,43 +368,49 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       Caption = 'Limpar'
       Enabled = False
       Hint = 'Limpar o campo de texto a pesquisar'
-      ImageIndex = 4
+      ImageIndex = 9
       OnExecute = actionLimparExecute
     end
     object actionExportar: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Exportar'
       Hint = 'Exportar dados do grid'
-      ImageIndex = 8
+      ImageIndex = 11
       ShortCut = 49240
     end
     object actionFechar: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Fechar'
       Hint = 'Fechar a tela'
-      ImageIndex = 6
+      ImageIndex = 17
       OnExecute = actionFecharExecute
     end
     object actionOK: TAction
       Category = 'Op'#231#245'es'
       Caption = 'OK'
       Hint = 'Selecionar o registro'
-      ImageIndex = 5
+      ImageIndex = 1
       OnExecute = actionOKExecute
     end
   end
   object fdPesquisa: TFDQuery
     FilterOptions = [foCaseInsensitive]
+    Connection = Data_Sisgef.FDConnectionMySQL
     FetchOptions.AssignedValues = [evMode, evRowsetSize]
     FetchOptions.Mode = fmAll
     SQL.Strings = (
-      'select * from view_PesquisaPessoasCRM')
+      'select * from crm_empresas')
     Left = 272
     Top = 65528
     object fdPesquisacod_cadastro: TIntegerField
-      FieldName = 'cod_cadastro'
+      FieldName = 'cod_empresa'
       Origin = 'cod_cadastro'
       Required = True
+    end
+    object fdPesquisanum_cnpj: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_cnpj'
+      Origin = 'num_cnpj'
     end
     object fdPesquisades_razao_social: TStringField
       AutoGenerateValue = arDefault
@@ -471,33 +423,6 @@ object view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM
       FieldName = 'nom_fantasia'
       Origin = 'nom_fantasia'
       Size = 80
-    end
-    object fdPesquisanum_cnpj: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'num_cnpj'
-      Origin = 'num_cnpj'
-    end
-    object fdPesquisanum_ie: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'num_ie'
-      Origin = 'num_ie'
-    end
-    object fdPesquisanum_im: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'num_im'
-      Origin = 'num_im'
-    end
-    object fdPesquisanum_telefone: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'num_telefone'
-      Origin = 'num_telefone'
-      Size = 15
-    end
-    object fdPesquisades_email: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'des_email'
-      Origin = 'des_email'
-      Size = 150
     end
   end
   object dsPesquisa: TDataSource

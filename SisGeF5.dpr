@@ -213,7 +213,27 @@ uses
   View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas},
   Vcl.Themes,
   Vcl.Styles,
-  View.PesquisaRemessas_201040 in 'View\View.PesquisaRemessas_201040.pas' {view_PesquisaRemessas};
+  View.PesquisaRemessas_201040 in 'View\View.PesquisaRemessas_201040.pas' {view_PesquisaRemessas},
+  Model.CRMContatosEmpresa in 'Model\Model.CRMContatosEmpresa.pas',
+  Model.CRMEmpresas in 'Model\Model.CRMEmpresas.pas',
+  Model.CRMEnderecosEmpresas in 'Model\Model.CRMEnderecosEmpresas.pas',
+  Model.CRMContatos in 'Model\Model.CRMContatos.pas',
+  Model.CRMEnderecos in 'Model\Model.CRMEnderecos.pas',
+  Model.CRMPessoa in 'Model\Model.CRMPessoa.pas',
+  Controller.CRMContatosEmpresas in 'Control\Controller.CRMContatosEmpresas.pas',
+  Controller.CRMEmpresas in 'Control\Controller.CRMEmpresas.pas',
+  Controller.CRMEnderecosEmpresas in 'Control\Controller.CRMEnderecosEmpresas.pas',
+  View.PesquisaEmpresas in 'View\View.PesquisaEmpresas.pas' {view_PesquisaEmpresas},
+  Model.APICNPJ in 'Model\Model.APICNPJ.pas',
+  Model.APICEP in 'Model\Model.APICEP.pas',
+  Model.CRMCNAEEmpresas in 'Model\Model.CRMCNAEEmpresas.pas',
+  Controller.CRMCNAEEmpresas in 'Control\Controller.CRMCNAEEmpresas.pas',
+  Model.CRMFinanceiroEmpresas in 'Model\Model.CRMFinanceiroEmpresas.pas',
+  Controller.CRMFinanceiroEmpresas in 'Control\Controller.CRMFinanceiroEmpresas.pas',
+  Controller.APICEP in 'Control\Controller.APICEP.pas',
+  Controller.APICNPJ in 'Control\Controller.APICNPJ.pas',
+  View.ListaCEPs in 'View\View.ListaCEPs.pas' {view_ListaCEPs},
+  View.ResultadoConsultaCNPJ in 'View\View.ResultadoConsultaCNPJ.pas' {view_ResultadoConsultaCNPJ};
 
 {$R *.res}
 

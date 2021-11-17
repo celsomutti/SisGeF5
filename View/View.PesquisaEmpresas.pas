@@ -1,4 +1,4 @@
-unit View.PesquisaPessoasCRM;
+unit View.PesquisaEmpresas;
 
 interface
 
@@ -11,10 +11,10 @@ uses
   cxGridTableView, cxGridDBTableView, cxGrid, dxLayoutControlAdapters, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.StdCtrls,
   cxButtons, Vcl.Buttons, cxCheckBox, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxTextEdit,
-  cxMaskEdit, cxButtonEdit, dxBar, cxDropDownEdit;
+  cxMaskEdit, cxButtonEdit, dxBar, cxDropDownEdit, DAO.Conexao;
 
 type
-  Tview_PesquisaPessoasCRM = class(TForm)
+  Tview_PesquisaEmpresas = class(TForm)
     layoutControlGridGroup_Root: TdxLayoutGroup;
     layoutControlGrid: TdxLayoutControl;
     gridPesquisaDBTableView1: TcxGridDBTableView;
@@ -49,25 +49,14 @@ type
     buttonExportar: TcxButton;
     layoutItemExportar: TdxLayoutItem;
     dxLayoutAutoCreatedGroup3: TdxLayoutAutoCreatedGroup;
-    comboBoxOutrosCampos: TcxComboBox;
-    layoutItemTipoPesquisa: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     fdPesquisacod_cadastro: TIntegerField;
     fdPesquisades_razao_social: TStringField;
     fdPesquisanom_fantasia: TStringField;
     fdPesquisanum_cnpj: TStringField;
-    fdPesquisanum_ie: TStringField;
-    fdPesquisanum_im: TStringField;
-    fdPesquisanum_telefone: TStringField;
-    fdPesquisades_email: TStringField;
     gridPesquisaDBTableView1cod_cadastro: TcxGridDBColumn;
     gridPesquisaDBTableView1des_razao_social: TcxGridDBColumn;
     gridPesquisaDBTableView1nom_fantasia: TcxGridDBColumn;
     gridPesquisaDBTableView1num_cnpj: TcxGridDBColumn;
-    gridPesquisaDBTableView1num_ie: TcxGridDBColumn;
-    gridPesquisaDBTableView1num_im: TcxGridDBColumn;
-    gridPesquisaDBTableView1num_telefone: TcxGridDBColumn;
-    gridPesquisaDBTableView1des_email: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure actionExpandirGridExecute(Sender: TObject);
     procedure actionRetrairGridExecute(Sender: TObject);
@@ -96,8 +85,8 @@ type
   end;
 
 var
-  view_PesquisaPessoasCRM: Tview_PesquisaPessoasCRM;
-
+  view_PesquisaEmpresas: Tview_PesquisaEmpresas;
+  FConexao: TConexao;
 implementation
 
 {$R *.dfm}
@@ -106,12 +95,12 @@ uses Common.Utils, Data.SisGeF;
 
 { Tview_PesquisaEntregadoresExpressas }
 
-procedure Tview_PesquisaPessoasCRM.actionExpandirGridExecute(Sender: TObject);
+procedure Tview_PesquisaEmpresas.actionExpandirGridExecute(Sender: TObject);
 begin
   gridPesquisaDBTableView1.ViewData.Expand(True);
 end;
 
-procedure Tview_PesquisaPessoasCRM.actionFecharExecute(Sender: TObject);
+procedure Tview_PesquisaEmpresas.actionFecharExecute(Sender: TObject);
 begin
   iID := 0;
   sNome := '';
@@ -119,12 +108,12 @@ begin
   ModalResult := mrCancel;
 end;
 
-procedure Tview_PesquisaPessoasCRM.actionLimparExecute(Sender: TObject);
+procedure Tview_PesquisaEmpresas.actionLimparExecute(Sender: TObject);
 begin
   buttonEditTextoPesquisar.Clear;
 end;
 
-procedure Tview_PesquisaPessoasCRM.actionOKExecute(Sender: TObject);
+procedure Tview_PesquisaEmpresas.actionOKExecute(Sender: TObject);
 begin
   iId := fdPesquisacod_cadastro.AsInteger;
   sNome := fdPesquisades_razao_social.AsString;
@@ -132,22 +121,22 @@ begin
   ModalResult := mrOk;
 end;
 
-procedure Tview_PesquisaPessoasCRM.actionPesquisarExecute(Sender: TObject);
+procedure Tview_PesquisaEmpresas.actionPesquisarExecute(Sender: TObject);
 begin
   PesquisaEntregador(FormulaFilro(buttonEditTextoPesquisar.Text));
 end;
 
-procedure Tview_PesquisaPessoasCRM.actionRetrairGridExecute(Sender: TObject);
+procedure Tview_PesquisaEmpresas.actionRetrairGridExecute(Sender: TObject);
 begin
   gridPesquisaDBTableView1.ViewData.Collapse(True);
 end;
 
-procedure Tview_PesquisaPessoasCRM.buttonEditTextoPesquisarEnter(Sender: TObject);
+procedure Tview_PesquisaEmpresas.buttonEditTextoPesquisarEnter(Sender: TObject);
 begin
   buttonOK.Default := False;
 end;
 
-procedure Tview_PesquisaPessoasCRM.buttonEditTextoPesquisarPropertiesChange(Sender: TObject);
+procedure Tview_PesquisaEmpresas.buttonEditTextoPesquisarPropertiesChange(Sender: TObject);
 begin
   if buttonEditTextoPesquisar.Text = '' then
   begin
@@ -161,12 +150,12 @@ begin
   end;
 end;
 
-procedure Tview_PesquisaPessoasCRM.checkBoxBarraGruposPropertiesChange(Sender: TObject);
+procedure Tview_PesquisaEmpresas.checkBoxBarraGruposPropertiesChange(Sender: TObject);
 begin
   SetGroup(checkBoxBarraGrupos.Checked);
 end;
 
-procedure Tview_PesquisaPessoasCRM.dsPesquisaStateChange(Sender: TObject);
+procedure Tview_PesquisaEmpresas.dsPesquisaStateChange(Sender: TObject);
 begin
 if TDataSource(Sender).DataSet.State = dsbrowse then //Se tiver em mode de edição ou iserção
   begin
@@ -180,12 +169,12 @@ if TDataSource(Sender).DataSet.State = dsbrowse then //Se tiver em mode de ediçã
   end;
 end;
 
-procedure Tview_PesquisaPessoasCRM.FormShow(Sender: TObject);
+procedure Tview_PesquisaEmpresas.FormShow(Sender: TObject);
 begin
   StartForm;
 end;
 
-function Tview_PesquisaPessoasCRM.FormulaFilro(sTexto: String): String;
+function Tview_PesquisaEmpresas.FormulaFilro(sTexto: String): String;
 var
   sMensagem: String;
   sFiltro: String;
@@ -205,56 +194,33 @@ begin
   end
   else
   begin
-    if comboBoxOutrosCampos.ItemIndex = 0 then
+    sFiltro := 'des_razao_social like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_fantasia like ' +
+               QuotedStr('%' + sTexto + '%') + ' or num_cnpj like ' + QuotedStr('%' +  sTexto + '%');
+    if fFuncoes.ENumero(sTexto) then
     begin
-      sFiltro := 'des_razao_social like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_fantasia like ' +
-                 QuotedStr('%' + sTexto + '%') + ' or num_cnpj like ' + QuotedStr('%' +  sTexto + '%');
-      if fFuncoes.ENumero(sTexto) then
+      if sFiltro <> '' then
       begin
-        if sFiltro <> '' then
-        begin
-          sFiltro := sFiltro + ' or ';
-        end;
-        sFiltro := sFiltro + 'cod_agente like ' + sTexto
+        sFiltro := sFiltro + ' or ';
       end;
-    end
-    else
-    begin
-      if comboBoxOutrosCampos.ItemIndex = 1 then
-      begin
-        sFiltro := 'num_ie like ' + QuotedStr('%' +  sTexto + '%');
-      end
-      else if comboBoxOutrosCampos.ItemIndex = 2 then
-      begin
-        sFiltro := 'num_im like ' + QuotedStr('%' +  sTexto + '%');
-      end else if comboBoxOutrosCampos.ItemIndex = 3 then
-      begin
-        sFiltro := 'num_telefone like ' + QuotedStr('%' +  sTexto + '%');
-      end else if comboBoxOutrosCampos.ItemIndex = 4 then
-      begin
-        sFiltro := 'des_email like ' + QuotedStr('%' +  sTexto + '%');
-      end else if comboBoxOutrosCampos.ItemIndex = 5 then
-      begin
-        sFiltro := 'num_registro_cnh like ' + QuotedStr('%' +  sTexto + '%');
-      end;
+      sFiltro := sFiltro + 'cod_agente like ' + sTexto
     end;
   end;
   fFuncoes.Free;
   Result := sFiltro;
 end;
 
-procedure Tview_PesquisaPessoasCRM.gridPesquisaDBTableView1CellDblClick(Sender: TcxCustomGridTableView;
+procedure Tview_PesquisaEmpresas.gridPesquisaDBTableView1CellDblClick(Sender: TcxCustomGridTableView;
   ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
 begin
   actionOKExecute(Sender);
 end;
 
-procedure Tview_PesquisaPessoasCRM.gridPesquisaDBTableView1DblClick(Sender: TObject);
+procedure Tview_PesquisaEmpresas.gridPesquisaDBTableView1DblClick(Sender: TObject);
 begin
    actionOKExecute(Sender);
 end;
 
-procedure Tview_PesquisaPessoasCRM.gridPesquisaEnter(Sender: TObject);
+procedure Tview_PesquisaEmpresas.gridPesquisaEnter(Sender: TObject);
 begin
  if fdPesquisa.IsEmpty then
   begin
@@ -266,7 +232,8 @@ begin
   end;
 end;
 
-procedure Tview_PesquisaPessoasCRM.PesquisaEntregador(sFiltro: String);
+
+procedure Tview_PesquisaEmpresas.PesquisaEntregador(sFiltro: String);
 begin
   if sFiltro = 'NONE' then
   begin
@@ -276,6 +243,7 @@ begin
   begin
     fdPesquisa.Close;
   end;
+  fdPesquisa.Connection := FConexao.GetConn;
   if not sFiltro.IsEmpty then
   begin
     fdpesquisa.Filter := sFiltro;
@@ -285,18 +253,23 @@ begin
   if not fdPesquisa.IsEmpty then
   begin
     gridPesquisa.SetFocus;
+  end
+  else
+  begin
+    Application.MessageBox('Nenhum registro localizado!', 'Atenção', MB_OK + MB_ICONWARNING);
   end;
 end;
 
-procedure Tview_PesquisaPessoasCRM.SetGroup(bFlag: Boolean);
+procedure Tview_PesquisaEmpresas.SetGroup(bFlag: Boolean);
 begin
   gridPesquisaDBTableView1.OptionsView.GroupByBox := bFlag;
   gridPesquisaDBTableView1.OptionsCustomize.ColumnGrouping := bFlag;
 end;
 
-procedure Tview_PesquisaPessoasCRM.StartForm;
+procedure Tview_PesquisaEmpresas.StartForm;
 begin
   iID := 0;
+  FConexao := TConexao.Create;
   SetGroup(checkBoxBarraGrupos.Checked);
 end;
 

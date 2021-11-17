@@ -566,6 +566,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
   OldCreateOrder = False
   ShowHint = True
   Visible = True
+  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
@@ -579,7 +580,6 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitLeft = -8
     object codigoEmpresa: TcxDBTextEdit
       Left = 60
       Top = 12
@@ -619,7 +619,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
     object nomeFantasia: TcxDBTextEdit
       Left = 100
-      Top = 42
+      Top = 43
       Hint = 'Nome fantasia ou alias'
       DataBinding.DataField = 'nom_fantasia'
       DataBinding.DataSource = dsCadastro
@@ -629,7 +629,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
     object crt: TcxDBImageComboBox
       Left = 373
-      Top = 42
+      Top = 43
       DataBinding.DataField = 'cod_crt'
       DataBinding.DataSource = dsCadastro
       Properties.Items = <
@@ -652,7 +652,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
     object dataCadastro: TcxDBDateEdit
       Left = 629
-      Top = 42
+      Top = 43
       Hint = 'Data do cadastro'
       TabStop = False
       DataBinding.DataField = 'dat_cadastro'
@@ -666,7 +666,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
     object status: TcxDBCheckBox
       Left = 793
-      Top = 42
+      Top = 43
       Cursor = crHandPoint
       Caption = 'INATIVO'
       DataBinding.DataField = 'cod_status'
@@ -699,10 +699,10 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Width = 121
     end
     object gridContatos: TcxGrid
-      Left = 522
-      Top = 131
-      Width = 327
-      Height = 232
+      Left = 521
+      Top = 132
+      Width = 324
+      Height = 227
       TabOrder = 20
       object gridContatosDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
@@ -758,18 +758,18 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       end
     end
     object tipoEndereco: TcxDBTextEdit
-      Left = 56
-      Top = 110
+      Left = 60
+      Top = 111
       Hint = 'Tipo de endere'#231'o'
       DataBinding.DataField = 'des_tipo'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
       TabOrder = 8
-      Width = 298
+      Width = 293
     end
     object cepEndereco: TcxDBButtonEdit
-      Left = 391
-      Top = 110
+      Left = 390
+      Top = 111
       Hint = 'CEP do endere'#231'o'
       DataBinding.DataField = 'num_cep'
       DataBinding.DataSource = dsEnderecos
@@ -788,17 +788,17 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Width = 124
     end
     object logradouroEndereco: TcxDBTextEdit
-      Left = 95
-      Top = 140
+      Left = 99
+      Top = 142
       DataBinding.DataField = 'des_logradouro'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
       TabOrder = 10
-      Width = 319
+      Width = 314
     end
     object numeroEndereco: TcxDBTextEdit
-      Left = 444
-      Top = 140
+      Left = 443
+      Top = 142
       DataBinding.DataField = 'num_logradouro'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
@@ -806,44 +806,44 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Width = 71
     end
     object complementoEndereco: TcxDBTextEdit
-      Left = 110
-      Top = 170
+      Left = 114
+      Top = 172
       Hint = 'Complemento do endere'#231'o'
       DataBinding.DataField = 'des_complemento'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
       TabOrder = 12
-      Width = 186
+      Width = 183
     end
     object bairroEndereco: TcxDBTextEdit
-      Left = 343
-      Top = 170
+      Left = 344
+      Top = 172
       Hint = 'Bairro do endere'#231'o'
       DataBinding.DataField = 'des_bairro'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
       TabOrder = 13
-      Width = 172
+      Width = 170
     end
     object cidadeEndereco: TcxDBTextEdit
-      Left = 70
-      Top = 200
+      Left = 74
+      Top = 202
       DataBinding.DataField = 'nom_cidade'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
       TabOrder = 14
-      Width = 359
+      Width = 354
     end
     object ufEndereco: TcxDBComboBox
-      Left = 459
-      Top = 200
+      Left = 458
+      Top = 202
       Style.HotTrack = False
       TabOrder = 15
       Width = 56
     end
     object cnpjEndereco: TcxDBMaskEdit
-      Left = 24
-      Top = 251
+      Left = 28
+      Top = 253
       Hint = 'CN PJ do endere'#231'o'
       DataBinding.DataField = 'num_cnpj'
       DataBinding.DataSource = dsEnderecos
@@ -851,32 +851,32 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Properties.EditMask = '99\.999\.999\/9999\-99;1; '
       Style.HotTrack = False
       TabOrder = 16
-      Width = 178
+      Width = 176
     end
     object ieEndereco: TcxDBTextEdit
-      Left = 209
-      Top = 251
+      Left = 211
+      Top = 253
       Hint = 'Inscri'#231#227'o Estadual do endere'#231'o'
       DataBinding.DataField = 'num_ie'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
       TabOrder = 17
-      Width = 162
+      Width = 161
     end
     object imEndereco: TcxDBTextEdit
-      Left = 378
-      Top = 251
+      Left = 379
+      Top = 253
       Hint = 'Inscri'#231#227'o Municipal do endere'#231'o'
       DataBinding.DataField = 'num_im'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
       TabOrder = 18
-      Width = 137
+      Width = 135
     end
     object cxDBNavigator1: TcxDBNavigator
-      Left = 279
-      Top = 337
-      Width = 236
+      Left = 28
+      Top = 333
+      Width = 239
       Height = 26
       Buttons.CustomButtons = <>
       Buttons.Images = Data_Sisgef.iml_16_16
@@ -890,6 +890,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Buttons.Delete.ImageIndex = 4
       Buttons.Edit.ImageIndex = 10
       Buttons.Post.ImageIndex = 13
+      Buttons.Cancel.ImageIndex = 2
       Buttons.Refresh.Visible = False
       Buttons.SaveBookmark.Visible = False
       Buttons.GotoBookmark.Visible = False
@@ -901,7 +902,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     object gridCNAE: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 409
+      Width = 802
       Height = 200
       TabOrder = 21
       Visible = False
@@ -956,11 +957,12 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
               Description = 'SEGUND'#193'RIA'
               Value = 2
             end>
-          Width = 97
+          Width = 80
         end
         object gridCNAEDBTableView1cod_cnae: TcxGridDBColumn
           Caption = 'C'#243'digo'
           DataBinding.FieldName = 'cod_cnae'
+          Width = 111
         end
         object gridCNAEDBTableView1des_cnae: TcxGridDBColumn
           DataBinding.FieldName = 'des_cnae'
@@ -973,7 +975,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     object gridFinanceiro: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 409
+      Width = 825
       Height = 200
       TabOrder = 22
       Visible = False
@@ -1031,14 +1033,15 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
           DataBinding.FieldName = 'nom_banco'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
-          Width = 132
+          Width = 181
         end
         object gridFinanceiroDBTableView1cod_agencia: TcxGridDBColumn
           DataBinding.FieldName = 'cod_agencia'
+          Width = 81
         end
         object gridFinanceiroDBTableView1num_conta: TcxGridDBColumn
           DataBinding.FieldName = 'num_conta'
-          Width = 146
+          Width = 187
         end
       end
       object gridFinanceiroLevel1: TcxGridLevel
@@ -1165,6 +1168,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
       LayoutDirection = ldTabbed
       ShowBorder = False
       Index = 2
@@ -1203,7 +1207,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       AlignVert = avBottom
       CaptionOptions.Text = 'CNPJ:'
       Control = cnpjEmpresa
-      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
@@ -1256,7 +1260,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       AlignVert = avCenter
       CaptionOptions.Text = 'CEP:'
       Control = cepEndereco
-      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 124
       ControlOptions.ShowBorder = False
       Index = 1
@@ -1414,13 +1418,13 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
     object dxLayoutItem21: TdxLayoutItem
       Parent = dxLayoutGroup14
-      AlignHorz = ahRight
-      AlignVert = avCenter
+      AlignHorz = ahLeft
+      AlignVert = avBottom
       CaptionOptions.Text = 'cxDBNavigator1'
       CaptionOptions.Visible = False
       Control = cxDBNavigator1
       ControlOptions.OriginalHeight = 26
-      ControlOptions.OriginalWidth = 236
+      ControlOptions.OriginalWidth = 239
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -1453,7 +1457,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Index = 0
     end
     object dxLayoutItem23: TdxLayoutItem
-      Parent = dxLayoutGroup16
+      Parent = dxLayoutGroup17
       CaptionOptions.Text = 'Dados Banc'#225'rios:'
       CaptionOptions.Layout = clTop
       Control = gridFinanceiro
@@ -1461,6 +1465,12 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
       Index = 0
+    end
+    object dxLayoutGroup17: TdxLayoutGroup
+      Parent = dxLayoutGroup4
+      CaptionOptions.Text = 'Financeiro'
+      ButtonOptions.Buttons = <>
+      Index = 2
     end
   end
   object memTableCadastro: TFDMemTable
@@ -1869,36 +1879,43 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Caption = '&Novo'
       Hint = 'Novo registro'
       ImageIndex = 59
+      OnExecute = actionNovoExecute
     end
     object actionLocalizar: TAction
       Caption = '&Localizar'
       Hint = 'Localizar registro'
       ImageIndex = 66
+      OnExecute = actionLocalizarExecute
     end
     object actionEditar: TAction
       Caption = '&Editar'
       Hint = 'Editar registro'
       ImageIndex = 61
+      OnExecute = actionEditarExecute
     end
     object actionExcluir: TAction
       Caption = 'E&xcluir'
       Hint = 'Excluir registro'
       ImageIndex = 60
+      OnExecute = actionExcluirExecute
     end
     object actionCancelar: TAction
       Caption = '&Cancelar'
       Hint = 'Cancelar opera'#231#227'o'
       ImageIndex = 67
+      OnExecute = actionCancelarExecute
     end
     object actionGravar: TAction
       Caption = '&Gravar'
       Hint = 'Gravar registro'
       ImageIndex = 63
+      OnExecute = actionGravarExecute
     end
     object actionFechar: TAction
       Caption = '&Fechar'
       Hint = 'Fechar a tela'
       ImageIndex = 64
+      OnExecute = actionFecharExecute
     end
     object actionConsultaCNPJ: TAction
       Caption = 'Consulta CNPJ'
@@ -1916,6 +1933,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
   object dsEnderecos: TDataSource
     AutoEdit = False
     DataSet = memTableEnderecos
+    OnStateChange = dsEnderecosStateChange
     Left = 504
     Top = 65535
   end

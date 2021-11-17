@@ -21,7 +21,8 @@ uses
   dxAlertWindow, Xml.xmldom, Datasnap.Provider, Datasnap.Xmlxform, Datasnap.DBClient, Xml.XMLIntf, Xml.Win.msxmldom, Xml.XMLDoc,
   IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, ScBridge, ScSSHClient,
   ScSFTPClient, Dialogs, ScSSHUtils, ScUtils, ScSFTPUtils, FireDAC.DApt, frxRich, System.DateUtils,
-  frxExportBaseDialog, cxImageList, Control.Bases, Control.Sistema;
+  frxExportBaseDialog, cxImageList, Control.Bases, Control.Sistema, REST.Types, REST.Client, REST.Response.Adapter,
+  Data.Bind.Components, Data.Bind.ObjectScope;
 
 type
   TData_Sisgef = class(TDataModule)
@@ -521,6 +522,52 @@ type
     memTableCadastronum_cpf_cnpj_favorecido: TStringField;
     memTableCadastrodes_forma_pagamento: TStringField;
     imageListOperation_32_32: TcxImageList;
+    memTableCNPJ: TFDMemTable;
+    memTableCNPJatividade_principal: TMemoField;
+    memTableCNPJdata_situacao: TStringField;
+    memTableCNPJtipo: TStringField;
+    memTableCNPJnome: TStringField;
+    memTableCNPJuf: TStringField;
+    memTableCNPJtelefone: TStringField;
+    memTableCNPJemail: TStringField;
+    memTableCNPJatividades_secundarias: TMemoField;
+    memTableCNPJqsa: TMemoField;
+    memTableCNPJsituacao: TStringField;
+    memTableCNPJbairro: TStringField;
+    memTableCNPJlogradouro: TStringField;
+    memTableCNPJnumero: TStringField;
+    memTableCNPJcep: TStringField;
+    memTableCNPJmunicipio: TStringField;
+    memTableCNPJporte: TStringField;
+    memTableCNPJabertura: TStringField;
+    memTableCNPJnatureza_juridica: TStringField;
+    memTableCNPJfantasia: TStringField;
+    memTableCNPJcnpj: TStringField;
+    memTableCNPJultima_atualizacao: TStringField;
+    memTableCNPJstatus: TStringField;
+    memTableCNPJcomplemento: TStringField;
+    memTableCNPJefr: TStringField;
+    memTableCNPJmotivo_situacao: TStringField;
+    memTableCNPJsituacao_especial: TStringField;
+    memTableCNPJdata_situacao_especial: TStringField;
+    memTableCNPJcapital_social: TStringField;
+    memTableCNPJextra: TMemoField;
+    memTableCNPJbilling: TMemoField;
+    memTableCEP: TFDMemTable;
+    memTableCEPcep: TStringField;
+    memTableCEPlogradouro: TStringField;
+    memTableCEPcomplemento: TStringField;
+    memTableCEPbairro: TStringField;
+    memTableCEPlocalidade: TStringField;
+    memTableCEPuf: TStringField;
+    memTableCEPibge: TStringField;
+    memTableCEPgia: TStringField;
+    memTableCEPddd: TStringField;
+    memTableCEPsiafi: TStringField;
+    RESTClient: TRESTClient;
+    RESTResponseDataSetAdapter: TRESTResponseDataSetAdapter;
+    RESTResponse: TRESTResponse;
+    RESTRequest: TRESTRequest;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

@@ -11797,7 +11797,7 @@ object Data_Sisgef: TData_Sisgef
     Left = 568
     Top = 8
     object LayoutCxLookAndFeel: TdxLayoutCxLookAndFeel
-      LookAndFeel.NativeStyle = False
+      LookAndFeel.NativeStyle = True
       LookAndFeel.SkinName = ''
       PixelsPerInch = 96
     end
@@ -15148,6 +15148,8 @@ object Data_Sisgef: TData_Sisgef
     end
   end
   object skcmain: TdxSkinController
+    Kind = lfOffice11
+    SkinName = 'UserSkin'
     Left = 624
     Top = 56
   end
@@ -15925,5 +15927,225 @@ object Data_Sisgef: TData_Sisgef
           F958FA938C2F97C30BC8CBE502E5CB7901BEBCA8005F5E5E60E4CBCB0FC1C897
           979F8423292F2EF0FF3B7E001CAD53905914FD6E0000000049454E44AE426082}
       end>
+  end
+  object memTableCNPJ: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 728
+    Top = 64
+    object memTableCNPJatividade_principal: TMemoField
+      FieldName = 'atividade_principal'
+      BlobType = ftMemo
+    end
+    object memTableCNPJdata_situacao: TStringField
+      FieldName = 'data_situacao'
+      Size = 10
+    end
+    object memTableCNPJtipo: TStringField
+      FieldName = 'tipo'
+      Size = 8
+    end
+    object memTableCNPJnome: TStringField
+      FieldName = 'nome'
+      Size = 70
+    end
+    object memTableCNPJuf: TStringField
+      FieldName = 'uf'
+      Size = 2
+    end
+    object memTableCNPJtelefone: TStringField
+      FieldName = 'telefone'
+      Size = 15
+    end
+    object memTableCNPJemail: TStringField
+      FieldName = 'email'
+      Size = 132
+    end
+    object memTableCNPJatividades_secundarias: TMemoField
+      FieldName = 'atividades_secundarias'
+      BlobType = ftMemo
+    end
+    object memTableCNPJqsa: TMemoField
+      FieldName = 'qsa'
+      BlobType = ftMemo
+    end
+    object memTableCNPJsituacao: TStringField
+      FieldName = 'situacao'
+      Size = 10
+    end
+    object memTableCNPJbairro: TStringField
+      FieldName = 'bairro'
+      Size = 70
+    end
+    object memTableCNPJlogradouro: TStringField
+      FieldName = 'logradouro'
+      Size = 70
+    end
+    object memTableCNPJnumero: TStringField
+      FieldName = 'numero'
+      Size = 10
+    end
+    object memTableCNPJcep: TStringField
+      FieldName = 'cep'
+      Size = 10
+    end
+    object memTableCNPJmunicipio: TStringField
+      FieldName = 'municipio'
+      Size = 70
+    end
+    object memTableCNPJporte: TStringField
+      FieldName = 'porte'
+      Size = 50
+    end
+    object memTableCNPJabertura: TStringField
+      FieldName = 'abertura'
+      Size = 10
+    end
+    object memTableCNPJnatureza_juridica: TStringField
+      FieldName = 'natureza_juridica'
+      Size = 50
+    end
+    object memTableCNPJfantasia: TStringField
+      FieldName = 'fantasia'
+      Size = 70
+    end
+    object memTableCNPJcnpj: TStringField
+      FieldName = 'cnpj'
+    end
+    object memTableCNPJultima_atualizacao: TStringField
+      FieldName = 'ultima_atualizacao'
+      Size = 25
+    end
+    object memTableCNPJstatus: TStringField
+      FieldName = 'status'
+      Size = 10
+    end
+    object memTableCNPJcomplemento: TStringField
+      FieldName = 'complemento'
+      Size = 70
+    end
+    object memTableCNPJefr: TStringField
+      FieldName = 'efr'
+      Size = 132
+    end
+    object memTableCNPJmotivo_situacao: TStringField
+      FieldName = 'motivo_situacao'
+      Size = 132
+    end
+    object memTableCNPJsituacao_especial: TStringField
+      FieldName = 'situacao_especial'
+      Size = 132
+    end
+    object memTableCNPJdata_situacao_especial: TStringField
+      FieldName = 'data_situacao_especial'
+      Size = 25
+    end
+    object memTableCNPJcapital_social: TStringField
+      FieldName = 'capital_social'
+      Size = 15
+    end
+    object memTableCNPJextra: TMemoField
+      FieldName = 'extra'
+      BlobType = ftMemo
+    end
+    object memTableCNPJbilling: TMemoField
+      FieldName = 'billing'
+      BlobType = ftMemo
+    end
+  end
+  object memTableCEP: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 728
+    Top = 8
+    object memTableCEPcep: TStringField
+      FieldName = 'cep'
+      Size = 8
+    end
+    object memTableCEPlogradouro: TStringField
+      FieldName = 'logradouro'
+      Size = 70
+    end
+    object memTableCEPcomplemento: TStringField
+      FieldName = 'complemento'
+      Size = 70
+    end
+    object memTableCEPbairro: TStringField
+      FieldName = 'bairro'
+      Size = 70
+    end
+    object memTableCEPlocalidade: TStringField
+      FieldName = 'localidade'
+      Size = 70
+    end
+    object memTableCEPuf: TStringField
+      FieldName = 'uf'
+      Size = 2
+    end
+    object memTableCEPibge: TStringField
+      FieldName = 'ibge'
+      Size = 8
+    end
+    object memTableCEPgia: TStringField
+      FieldName = 'gia'
+      Size = 5
+    end
+    object memTableCEPddd: TStringField
+      FieldName = 'ddd'
+      Size = 2
+    end
+    object memTableCEPsiafi: TStringField
+      FieldName = 'siafi'
+      Size = 5
+    end
+  end
+  object RESTClient: TRESTClient
+    Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
+    AcceptCharset = 'utf-8, *;q=0.8'
+    BaseURL = 'http://viacep.com.br/ws'
+    Params = <
+      item
+        Name = 'entregador'
+        Value = '36'
+      end
+      item
+        Name = 'data'
+        Value = '2020-06-25'
+      end>
+    RaiseExceptionOn500 = False
+    Left = 136
+    Top = 8
+  end
+  object RESTResponseDataSetAdapter: TRESTResponseDataSetAdapter
+    FieldDefs = <>
+    Response = RESTResponse
+    Left = 136
+    Top = 192
+  end
+  object RESTResponse: TRESTResponse
+    Left = 136
+    Top = 128
+  end
+  object RESTRequest: TRESTRequest
+    Client = RESTClient
+    Params = <
+      item
+        Name = 'entregador'
+        Value = '10046'
+      end>
+    Response = RESTResponse
+    SynchronizedEvents = False
+    Left = 136
+    Top = 64
   end
 end
