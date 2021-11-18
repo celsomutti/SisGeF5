@@ -16127,6 +16127,7 @@ object Data_Sisgef: TData_Sisgef
     Top = 8
   end
   object RESTResponseDataSetAdapter: TRESTResponseDataSetAdapter
+    Dataset = memTableCNPJ
     FieldDefs = <>
     Response = RESTResponse
     Left = 136

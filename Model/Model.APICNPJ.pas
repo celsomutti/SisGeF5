@@ -165,7 +165,7 @@ begin
   Pessoas.TipoDoc := '';
   Pessoas.Nome := Data_Sisgef.memTableCNPJnome.AsString;
   Pessoas.Fantasia := Data_Sisgef.memTableCNPJfantasia.AsString;
-  Pessoas.CPFCNPJ := '';
+  Pessoas.CPFCNPJ := Data_Sisgef.memTableCNPJcnpj.AsString;
   Pessoas.RG := '';
   Pessoas.Nascimento := 0;
   Pessoas.UFRG := '';
@@ -187,7 +187,7 @@ begin
   Pessoas.CodigoCNH := '';
   Pessoas.Status := 0;
   Pessoas.Obs := '';
-  Pessoas.DataCadastro := 0;
+  Pessoas.DataCadastro := StrToDateDef(Data_Sisgef.memTableCNPJabertura.AsString,Now);
   Pessoas.TipoConta := '';
   Pessoas.Banco := '';
   Pessoas.AgenciaConta := '';
@@ -208,7 +208,7 @@ begin
   sCEP :=  ReplaceStr(Data_Sisgef.memTableCNPJcep.AsString,'.','');
   Enderecos.Cadastro := 0;
   Enderecos.Sequencia := 0;
-  Enderecos.Tipo := '';
+  Enderecos.Tipo := Data_Sisgef.memTableCNPJtipo.AsString;
   Enderecos.CEP := sCEP;
   Enderecos.Logradouro := Data_Sisgef.memTableCNPJlogradouro.AsString;
   Enderecos.Numero := Data_Sisgef.memTableCNPJnumero.AsString;

@@ -179,9 +179,9 @@ begin
   memTable.First;
   while not memTable.Eof do
   begin
-    FCadastro := memTable.FieldByName('cod_empresa').AsInteger;
-    FDescricao := memTable.FieldByName('des_contato').AsString;
-    FCNAE := memTable.FieldByName('num_telefone').AsString;
+    //FCadastro := memTable.FieldByName('cod_empresa').AsInteger;
+    FDescricao := memTable.FieldByName('des_cnae').AsString;
+    FCNAE := memTable.FieldByName('cod_cnae').AsString;
     FTipo := memTable.FieldByName('cod_tipo').AsInteger;
     Self.Acao := tacIncluir;
     if not Self.Gravar then
@@ -196,8 +196,8 @@ end;
 function TCRMCNAEEmpresas.SetupClass(FDQuery: TFDQuery): Boolean;
 begin
   FCadastro := FDQuery.FieldByName('cod_empresa').AsInteger;
-  FDescricao := FDQuery.FieldByName('des_contato').AsString;
-  FCNAE := FDQuery.FieldByName('num_telefone').AsString;
+  FDescricao := FDQuery.FieldByName('des_cnae').AsString;
+  FCNAE := FDQuery.FieldByName('cod_cnae').AsString;
   FTipo := FDQuery.FieldByName('cod_tipo').AsInteger;
   FId := FDQuery.FieldByName('id_cnae').AsInteger;
 end;

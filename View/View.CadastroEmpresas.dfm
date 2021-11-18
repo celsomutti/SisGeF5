@@ -608,14 +608,14 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Width = 61
     end
     object nomeRazao: TcxDBTextEdit
-      Left = 479
+      Left = 494
       Top = 12
       Hint = 'Nome ou Raz'#227'o Social'
-      DataBinding.DataField = 'nom_razao_social'
+      DataBinding.DataField = 'des_razao_social'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
       TabOrder = 3
-      Width = 382
+      Width = 367
     end
     object nomeFantasia: TcxDBTextEdit
       Left = 100
@@ -632,6 +632,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Top = 43
       DataBinding.DataField = 'cod_crt'
       DataBinding.DataSource = dsCadastro
+      Properties.Alignment.Horz = taRightJustify
       Properties.Items = <
         item
           Description = '1 - Simples Nacional'
@@ -696,7 +697,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Properties.EditMask = '99\.999\.999\/9999\-99;1; '
       Style.HotTrack = False
       TabOrder = 2
-      Width = 121
+      Width = 136
     end
     object gridContatos: TcxGrid
       Left = 521
@@ -837,6 +838,8 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     object ufEndereco: TcxDBComboBox
       Left = 458
       Top = 202
+      DataBinding.DataField = 'uf_estado'
+      DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
       TabOrder = 15
       Width = 56
@@ -902,7 +905,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     object gridCNAE: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 802
+      Width = 794
       Height = 200
       TabOrder = 21
       Visible = False
@@ -975,7 +978,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     object gridFinanceiro: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 825
+      Width = 817
       Height = 200
       TabOrder = 22
       Visible = False
@@ -1208,7 +1211,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       CaptionOptions.Text = 'CNPJ:'
       Control = cnpjEmpresa
       ControlOptions.OriginalHeight = 24
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 136
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -1448,7 +1451,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
     object dxLayoutItem22: TdxLayoutItem
       Parent = dxLayoutGroup15
-      CaptionOptions.Text = 'CNAE:'
+      CaptionOptions.Text = 'C'#243'digo Nacional de Atividade Econ'#244'mica'
       CaptionOptions.Layout = clTop
       Control = gridCNAE
       ControlOptions.OriginalHeight = 200
@@ -1474,6 +1477,13 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
   end
   object memTableCadastro: TFDMemTable
+    AfterInsert = memTableCadastroAfterInsert
+    AfterEdit = memTableCadastroAfterEdit
+    BeforePost = memTableCadastroBeforePost
+    AfterPost = memTableCadastroAfterPost
+    AfterCancel = memTableCadastroAfterCancel
+    BeforeDelete = memTableCadastroBeforeDelete
+    AfterDelete = memTableCadastroAfterDelete
     FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -1545,6 +1555,9 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     Left = 410
   end
   object memTableEnderecos: TFDMemTable
+    BeforeInsert = memTableEnderecosBeforeInsert
+    BeforeEdit = memTableEnderecosBeforeEdit
+    BeforeDelete = memTableEnderecosBeforeDelete
     FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -1616,6 +1629,9 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
   end
   object memTableContatos: TFDMemTable
+    BeforeInsert = memTableContatosBeforeInsert
+    BeforeEdit = memTableContatosBeforeEdit
+    BeforeDelete = memTableContatosBeforeDelete
     FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -1659,6 +1675,9 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
   end
   object memTableFinanceiro: TFDMemTable
+    BeforeInsert = memTableFinanceiroBeforeInsert
+    BeforeEdit = memTableFinanceiroBeforeEdit
+    BeforeDelete = memTableFinanceiroBeforeDelete
     FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -1710,6 +1729,9 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     end
   end
   object memTableCNAE: TFDMemTable
+    BeforeInsert = memTableCNAEBeforeInsert
+    BeforeEdit = memTableCNAEBeforeEdit
+    BeforeDelete = memTableCNAEBeforeDelete
     FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -1797,29 +1819,29 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxBarLargeButton1'
+          ItemName = 'dxBarLargeButton8'
         end
         item
           Visible = True
-          ItemName = 'dxBarLargeButton2'
+          ItemName = 'dxBarLargeButton9'
         end
         item
           Visible = True
-          ItemName = 'dxBarLargeButton3'
+          ItemName = 'dxBarLargeButton10'
         end
         item
           Visible = True
-          ItemName = 'dxBarLargeButton4'
-        end
-        item
-          BeginGroup = True
-          Visible = True
-          ItemName = 'dxBarLargeButton5'
+          ItemName = 'dxBarLargeButton11'
         end
         item
           BeginGroup = True
           Visible = True
-          ItemName = 'dxBarLargeButton6'
+          ItemName = 'dxBarLargeButton12'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'dxBarLargeButton13'
         end
         item
           Visible = True
@@ -1835,9 +1857,12 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       WholeRow = True
     end
     object dxBarLargeButton1: TdxBarLargeButton
-      Action = actionNovo
+      Caption = '&Novo'
       Category = 0
+      Hint = 'Novo registro'
+      Visible = ivAlways
       AutoGrayScale = False
+      LargeImageIndex = 59
     end
     object dxBarLargeButton2: TdxBarLargeButton
       Action = actionLocalizar
@@ -1845,24 +1870,37 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       AutoGrayScale = False
     end
     object dxBarLargeButton3: TdxBarLargeButton
-      Action = actionEditar
+      Caption = '&Editar'
       Category = 0
+      Hint = 'Editar registro'
+      Visible = ivAlways
       AutoGrayScale = False
+      LargeImageIndex = 61
     end
     object dxBarLargeButton4: TdxBarLargeButton
-      Action = actionExcluir
+      Caption = 'E&xcluir'
       Category = 0
+      Hint = 'Excluir registro'
+      Visible = ivAlways
       AutoGrayScale = False
+      LargeImageIndex = 60
     end
     object dxBarLargeButton5: TdxBarLargeButton
-      Action = actionCancelar
+      Caption = '&Cancelar'
       Category = 0
+      Hint = 'Cancelar opera'#231#227'o'
+      Visible = ivAlways
       AutoGrayScale = False
+      LargeImageIndex = 67
     end
     object dxBarLargeButton6: TdxBarLargeButton
-      Action = actionGravar
+      Caption = '&Gravar'
       Category = 0
+      Enabled = False
+      Hint = 'Gravar registro'
+      Visible = ivAlways
       AutoGrayScale = False
+      LargeImageIndex = 63
     end
     object dxBarLargeButton7: TdxBarLargeButton
       Action = actionFechar
@@ -1870,46 +1908,51 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Category = 0
       AutoGrayScale = False
     end
+    object dxBarLargeButton8: TdxBarLargeButton
+      Action = DatasetInsert1
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 59
+    end
+    object dxBarLargeButton9: TdxBarLargeButton
+      Action = actionLocalizar
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton10: TdxBarLargeButton
+      Action = DatasetEdit1
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 61
+    end
+    object dxBarLargeButton11: TdxBarLargeButton
+      Action = DatasetDelete1
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 60
+    end
+    object dxBarLargeButton12: TdxBarLargeButton
+      Action = DatasetCancel1
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 67
+    end
+    object dxBarLargeButton13: TdxBarLargeButton
+      Action = DatasetPost1
+      Category = 0
+      AutoGrayScale = False
+      LargeImageIndex = 63
+    end
   end
   object actionListMenu: TActionList
     Images = Data_Sisgef.lmi_32_32
     Left = 744
     Top = 260
-    object actionNovo: TAction
-      Caption = '&Novo'
-      Hint = 'Novo registro'
-      ImageIndex = 59
-      OnExecute = actionNovoExecute
-    end
     object actionLocalizar: TAction
       Caption = '&Localizar'
       Hint = 'Localizar registro'
       ImageIndex = 66
       OnExecute = actionLocalizarExecute
-    end
-    object actionEditar: TAction
-      Caption = '&Editar'
-      Hint = 'Editar registro'
-      ImageIndex = 61
-      OnExecute = actionEditarExecute
-    end
-    object actionExcluir: TAction
-      Caption = 'E&xcluir'
-      Hint = 'Excluir registro'
-      ImageIndex = 60
-      OnExecute = actionExcluirExecute
-    end
-    object actionCancelar: TAction
-      Caption = '&Cancelar'
-      Hint = 'Cancelar opera'#231#227'o'
-      ImageIndex = 67
-      OnExecute = actionCancelarExecute
-    end
-    object actionGravar: TAction
-      Caption = '&Gravar'
-      Hint = 'Gravar registro'
-      ImageIndex = 63
-      OnExecute = actionGravarExecute
     end
     object actionFechar: TAction
       Caption = '&Fechar'
@@ -1920,14 +1963,52 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
     object actionConsultaCNPJ: TAction
       Caption = 'Consulta CNPJ'
       Hint = 'Consulta CNPJ'
+      OnExecute = actionConsultaCNPJExecute
     end
     object actionPesquisarCEP: TAction
       Caption = 'Pesquisa CEP'
       Hint = 'Pesquisar CEP'
+      OnExecute = actionPesquisarCEPExecute
     end
     object actionPesquisarBancos: TAction
       Caption = 'Pesquisar Bancos'
       Hint = 'Pesquisar Bancos'
+      OnExecute = actionPesquisarBancosExecute
+    end
+    object DatasetInsert1: TDataSetInsert
+      Category = 'Dataset'
+      Caption = '&Novo'
+      Hint = 'Novo registro'
+      ImageIndex = 73
+      DataSource = dsCadastro
+    end
+    object DatasetEdit1: TDataSetEdit
+      Category = 'Dataset'
+      Caption = '&Editar'
+      Hint = 'Editar registro'
+      ImageIndex = 74
+      DataSource = dsCadastro
+    end
+    object DatasetDelete1: TDataSetDelete
+      Category = 'Dataset'
+      Caption = 'E&xcluir'
+      Hint = 'Excluir registro'
+      ImageIndex = 75
+      DataSource = dsCadastro
+    end
+    object DatasetCancel1: TDataSetCancel
+      Category = 'Dataset'
+      Caption = '&Cancelar'
+      Hint = 'Cancelar opera'#231#227'o atual'
+      ImageIndex = 76
+      DataSource = dsCadastro
+    end
+    object DatasetPost1: TDataSetPost
+      Category = 'Dataset'
+      Caption = '&Gravar'
+      Hint = 'Gravar o registro'
+      ImageIndex = 77
+      DataSource = dsCadastro
     end
   end
   object dsEnderecos: TDataSource

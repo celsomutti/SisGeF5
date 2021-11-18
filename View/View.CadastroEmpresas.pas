@@ -13,7 +13,7 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, cxDBNavigator, Controller.CRMContatosEmpresas, Controller.CRMEmpresas,
   Controller.CRMEnderecosEmpresas, Controller.CRMCNAEEmpresas, Controller.CRMFinanceiroEmpresas, Control.Estados, Common.ENum,
-  Common.Utils, Controller.APICEP, Controller.APICNPJ, System.StrUtils;
+  Common.Utils, Controller.APICEP, Controller.APICNPJ, System.StrUtils, Control.Bancos, Vcl.DBActns;
 
 type
   Tview_CadastroEmpresas = class(TForm)
@@ -91,11 +91,6 @@ type
     actionLocalizar: TAction;
     actionFechar: TAction;
     dxBarLargeButton1: TdxBarLargeButton;
-    actionNovo: TAction;
-    actionEditar: TAction;
-    actionExcluir: TAction;
-    actionCancelar: TAction;
-    actionGravar: TAction;
     dxBarLargeButton2: TdxBarLargeButton;
     dxBarLargeButton3: TdxBarLargeButton;
     dxBarLargeButton4: TdxBarLargeButton;
@@ -174,31 +169,58 @@ type
     gridFinanceiroDBTableView1nom_banco: TcxGridDBColumn;
     actionPesquisarBancos: TAction;
     dxLayoutGroup17: TdxLayoutGroup;
+    dxBarLargeButton8: TdxBarLargeButton;
+    DatasetInsert1: TDataSetInsert;
+    dxBarLargeButton9: TdxBarLargeButton;
+    dxBarLargeButton10: TdxBarLargeButton;
+    DatasetEdit1: TDataSetEdit;
+    dxBarLargeButton11: TdxBarLargeButton;
+    DatasetDelete1: TDataSetDelete;
+    dxBarLargeButton12: TdxBarLargeButton;
+    DatasetCancel1: TDataSetCancel;
+    dxBarLargeButton13: TdxBarLargeButton;
+    DatasetPost1: TDataSetPost;
     procedure FormShow(Sender: TObject);
     procedure statusPropertiesChange(Sender: TObject);
     procedure dsCadastroStateChange(Sender: TObject);
     procedure dsEnderecosStateChange(Sender: TObject);
-    procedure actionNovoExecute(Sender: TObject);
-    procedure actionEditarExecute(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
-    procedure actionExcluirExecute(Sender: TObject);
-    procedure actionCancelarExecute(Sender: TObject);
-    procedure actionGravarExecute(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionConsultaCNPJExecute(Sender: TObject);
+    procedure actionPesquisarCEPExecute(Sender: TObject);
+    procedure memTableEnderecosBeforeInsert(DataSet: TDataSet);
+    procedure memTableEnderecosBeforeEdit(DataSet: TDataSet);
+    procedure memTableEnderecosBeforeDelete(DataSet: TDataSet);
+    procedure memTableContatosBeforeDelete(DataSet: TDataSet);
+    procedure memTableContatosBeforeEdit(DataSet: TDataSet);
+    procedure memTableContatosBeforeInsert(DataSet: TDataSet);
+    procedure memTableFinanceiroBeforeInsert(DataSet: TDataSet);
+    procedure memTableFinanceiroBeforeEdit(DataSet: TDataSet);
+    procedure memTableFinanceiroBeforeDelete(DataSet: TDataSet);
+    procedure memTableCNAEBeforeDelete(DataSet: TDataSet);
+    procedure memTableCNAEBeforeEdit(DataSet: TDataSet);
+    procedure memTableCNAEBeforeInsert(DataSet: TDataSet);
+    procedure memTableCadastroAfterInsert(DataSet: TDataSet);
+    procedure memTableCadastroAfterEdit(DataSet: TDataSet);
+    procedure memTableCadastroBeforeDelete(DataSet: TDataSet);
+    procedure memTableCadastroAfterDelete(DataSet: TDataSet);
+    procedure memTableCadastroBeforePost(DataSet: TDataSet);
+    procedure memTableCadastroAfterPost(DataSet: TDataSet);
+    procedure memTableCadastroAfterCancel(DataSet: TDataSet);
+    procedure actionPesquisarBancosExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
     procedure EndingForm;
     procedure SearchEmpresa;
     procedure PopulateUF;
-    procedure Insert;
-    procedure Edit;
-    procedure Delete;
     procedure Cancel;
-    procedure Save;
     procedure SearchCEP(sCEP: String);
     procedure SearchCNPJ(sCNPJ: string);
+    procedure SearchBanco;
+    function Save(): boolean;
+    function Delete(): boolean;
     function ValidadeSave(): boolean;
     function LocateEmpresa(iID: integer): boolean;
     function CPFCNPJExiste(sCnpj: string): boolean;
@@ -209,27 +231,18 @@ type
 var
   view_CadastroEmpresas: Tview_CadastroEmpresas;
   facao : TAcao;
+  iCodigo: integer;
 implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.PesquisaEmpresas, View.ListaCEPs, View.ResultadoConsultaCNPJ;
+uses Data.SisGeF, View.PesquisaEmpresas, View.ListaCEPs, View.ResultadoConsultaCNPJ, View.PesquisarGeral;
 
 { Tview_CadastroEmpresas }
 
-procedure Tview_CadastroEmpresas.actionCancelarExecute(Sender: TObject);
+procedure Tview_CadastroEmpresas.actionConsultaCNPJExecute(Sender: TObject);
 begin
-  Cancel;
-end;
-
-procedure Tview_CadastroEmpresas.actionEditarExecute(Sender: TObject);
-begin
-  Edit;
-end;
-
-procedure Tview_CadastroEmpresas.actionExcluirExecute(Sender: TObject);
-begin
-  Delete;
+  SearchCNPJ(cnpjEmpresa.Text);
 end;
 
 procedure Tview_CadastroEmpresas.actionFecharExecute(Sender: TObject);
@@ -237,35 +250,29 @@ begin
   Close;
 end;
 
-procedure Tview_CadastroEmpresas.actionGravarExecute(Sender: TObject);
-begin
-  if not ValidadeSave then
-    Exit;
-  Save;
-end;
-
 procedure Tview_CadastroEmpresas.actionLocalizarExecute(Sender: TObject);
 begin
   SearchEmpresa;
 end;
 
-procedure Tview_CadastroEmpresas.actionNovoExecute(Sender: TObject);
+procedure Tview_CadastroEmpresas.actionPesquisarBancosExecute(Sender: TObject);
 begin
-  Insert;
+  SearchBanco;
+end;
+
+procedure Tview_CadastroEmpresas.actionPesquisarCEPExecute(Sender: TObject);
+begin
+  SearchCEP(cepEndereco.Text);
 end;
 
 procedure Tview_CadastroEmpresas.Cancel;
 begin
-    if Application.MessageBox('Confirma cancelar a operação atuial ?', 'Cancelar', MB_YESNO + MB_ICONQUESTION) = IDNO then
-      Exit;
     if dsCadastro.State = dsInsert then
     begin
-      memTableCadastro.Active := False;
       memTableEnderecos.Active := False;
       memTableContatos.Active := False;
       memTableFinanceiro.Active := False;
       memTableCNAE.Active := False;
-      memTableCadastro.Active := True;
       memTableEnderecos.Active := True;
       memTableContatos.Active := True;
       memTableFinanceiro.Active := True;
@@ -273,7 +280,6 @@ begin
     end
     else
     begin
-      memTableCadastro.Cancel;
       memTableEnderecos.Cancel;
       memTableContatos.Cancel;
       memTableFinanceiro.Cancel;
@@ -300,16 +306,15 @@ begin
   end;
 end;
 
-procedure Tview_CadastroEmpresas.Delete;
+function Tview_CadastroEmpresas.Delete: boolean;
 var
-  fcadastro : TCRMEmpresasController;
   fenderecos : TCRMEnderecosEmpresasController;
   fcontatos : TCRMContatosEmpresasController;
   ffinanceiro : TCRMFinanceiroEmpresasController;
   fcnae : TCRMCNAEEmpressasController;
 begin
   try
-    fcadastro := TCRMEmpresasController.Create;
+    Result := False;
     fenderecos := TCRMEnderecosEmpresasController.Create;
     fcontatos := TCRMContatosEmpresasController.Create;
     ffinanceiro := TCRMFinanceiroEmpresasController.Create;
@@ -344,16 +349,8 @@ begin
       Application.MessageBox('Ocorreu um problema ao tentar excluir os dados adicionais!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    fCadastro.Empresas.Codigo := memTableCadastrocod_empresa.AsInteger;
-    fCadastro.Empresas.Acao := tacExcluir;
-    if not fcadastro.Gravar then
-    begin
-      Application.MessageBox('Ocorreu um problema ao tentar excluir o registro!', 'Atenção', MB_OK + MB_ICONWARNING);
-      Exit;
-    end;
-    Application.MessageBox('Registro excluirdo com sucesso', 'Atenção', MB_OK + MB_ICONINFORMATION);
+    Result := True;
   finally
-    fcadastro.Free;
     fenderecos.Free;
     fcontatos.Free;
     ffinanceiro.Free;
@@ -365,36 +362,20 @@ procedure Tview_CadastroEmpresas.dsCadastroStateChange(Sender: TObject);
 begin
   if dsCadastro.State = dsInactive then
   begin
-    actionNovo.Enabled := True;
     actionLocalizar.Enabled := True;
-    actionEditar.Enabled := False;
-    actionExcluir.Enabled := False;
-    actionCancelar.Enabled := False;
-    actionGravar.Enabled := False;
     actionFechar.Enabled := True;
     actionConsultaCNPJ.Enabled := False;
     facao := tacIndefinido;
   end
   else if dsCadastro.State = dsBrowse then
   begin
-    actionNovo.Enabled := True;
     actionLocalizar.Enabled := True;
-    actionEditar.Enabled := True;
-    actionExcluir.Enabled := True;
-    actionCancelar.Enabled := False;
-    actionGravar.Enabled := False;
     actionFechar.Enabled := True;
     actionConsultaCNPJ.Enabled := False;
-    facao := tacPesquisa;
   end
   else if dsCadastro.State = dsEdit then
   begin
-    actionNovo.Enabled := False;
     actionLocalizar.Enabled := False;
-    actionEditar.Enabled := False;
-    actionExcluir.Enabled := False;
-    actionCancelar.Enabled := True;
-    actionGravar.Enabled := True;
     actionFechar.Enabled := True;
     actionConsultaCNPJ.Enabled := False;
     cnpjEmpresa.Properties.ReadOnly := True;
@@ -402,12 +383,7 @@ begin
   end
   else if dsCadastro.State = dsInsert then
   begin
-    actionNovo.Enabled := False;
     actionLocalizar.Enabled := False;
-    actionEditar.Enabled := False;
-    actionExcluir.Enabled := False;
-    actionCancelar.Enabled := True;
-    actionGravar.Enabled := True;
     actionFechar.Enabled := True;
     actionConsultaCNPJ.Enabled := True;
     cnpjEmpresa.Properties.ReadOnly := False;
@@ -435,12 +411,6 @@ begin
   end;
 end;
 
-procedure Tview_CadastroEmpresas.Edit;
-begin
-  memTableCadastro.EditKey;
-  nomeRazao.SetFocus;
-end;
-
 procedure Tview_CadastroEmpresas.EndingForm;
 begin
   memTableCadastro.Active := False;
@@ -460,13 +430,6 @@ end;
 procedure Tview_CadastroEmpresas.FormShow(Sender: TObject);
 begin
   StartForm;
-end;
-
-procedure Tview_CadastroEmpresas.Insert;
-begin
-  memTableCadastro.Insert;
-  tipoDoc.ItemIndex := 2;
-  cnpjEmpresa.SetFocus;
 end;
 
 function Tview_CadastroEmpresas.LocateEmpresa(iID: integer): boolean;
@@ -491,44 +454,46 @@ begin
     memTableContatos.Active := False;
     memTableFinanceiro.Active := False;
     memTableCNAE.Active := False;
+    memTableCadastro.Tag := -1;
     if fcadastro.Localizar(aparam) then
     begin
       memTableCadastro.Active := True;
-      memTableCadastro.CopyDataSet(fcadastro.Empresas.Query, [coRestart]);
+      memTableCadastro.CopyDataSet(fcadastro.Empresas.Query, [coRestart, coAppend]);
       fcadastro.Empresas.Query.Active := False;
       fcadastro.Empresas.Query.Connection.Connected := False;
 
       if fenderecos.Localizar(aParam) then
       begin
-        memTableEnderecos.Active := True;
-        memTableEnderecos.CopyDataSet(fenderecos.Enderecos.Query, [coRestart]);
+        memTableEnderecos.Data := fenderecos.Enderecos.Query.Data;
         fenderecos.Enderecos.Query.Active := False;
         fenderecos.Enderecos.Query.Connection.Connected := False;
       end;
-      memTableContatos.Active := True;
+      if not memTableEnderecos.Active then memTableEnderecos.Active := True;
       if fcontatos.Localizar(aParam) then
       begin
-        memTableContatos.CopyDataSet(fcontatos.Contatos.Query, [coRestart]);
+        memTableContatos.Data := fcontatos.Contatos.Query.Data;
         fcontatos.Contatos.Query.Active := False;
         fcontatos.Contatos.Query.Connection.Connected := False;
       end;
+      if not memTableContatos.Active then memTableContatos.Active := True;
       aParam[0] := 'EMPRESA';
-      memTableFinanceiro.Active := True;
       if ffinanceiro.Localizar(aParam) then
       begin
-        memTableFinanceiro.CopyDataSet(ffinanceiro.financeiro.Query, [coRestart]);
+        memTableFinanceiro.Data:= ffinanceiro.financeiro.Query.Data;
         ffinanceiro.financeiro.Query.Active := False;
         ffinanceiro.financeiro.Query.Connection.Connected := False;
       end;
-      memTableCNAE.Active := True;
+      if not memTableFinanceiro.Active then memTableFinanceiro.Active := True;
       if fcnae.Localizar(aParam) then
       begin
-        memTableCNAE.CopyDataSet(fcnae.CNAE.Query, [coRestart]);
+        memTableCNAE.Data := fcnae.CNAE.Query.Data;
         fcnae.CNAE.Query.Active := False;
         fcnae.CNAE.Query.Connection.Connected := False;
       end;
+      if not memTableCNAE.Active then memTableCNAE.Active := True;
     end;
   finally
+    memTableCadastro.Tag := 0;
     Finalize(aParam);
     fcadastro.Free;
     fenderecos.Free;
@@ -536,6 +501,130 @@ begin
     ffinanceiro.Free;
     fcnae.Free;
   end;
+end;
+
+procedure Tview_CadastroEmpresas.memTableCadastroAfterCancel(DataSet: TDataSet);
+begin
+  Cancel;
+end;
+
+procedure Tview_CadastroEmpresas.memTableCadastroAfterDelete(DataSet: TDataSet);
+begin
+  Application.MessageBox('Registro excluido com sucesso', 'Atenção', MB_OK + MB_ICONINFORMATION);
+end;
+
+procedure Tview_CadastroEmpresas.memTableCadastroAfterEdit(DataSet: TDataSet);
+begin
+  nomeRazao.SetFocus;
+end;
+
+procedure Tview_CadastroEmpresas.memTableCadastroAfterInsert(DataSet: TDataSet);
+begin
+  memTableCadastrodes_tipo_doc.AsString := 'CNPJ';
+  cnpjEmpresa.SetFocus;
+  memTableEnderecos.Active := False;
+  memTableContatos.Active := False;
+  memTableFinanceiro.Active := False;
+  memTableCNAE.Active := False;
+  memTableEnderecos.Active := True;
+  memTableContatos.Active := True;
+  memTableFinanceiro.Active := True;
+  memTableCNAE.Active := True;
+end;
+
+procedure Tview_CadastroEmpresas.memTableCadastroAfterPost(DataSet: TDataSet);
+begin
+  if memTableCadastro.Tag = -1 then Exit;
+
+  if Save() then
+  Application.MessageBox('Registro gravado com sucesso.', 'Atenção', MB_OK + MB_ICONINFORMATION);
+end;
+
+procedure Tview_CadastroEmpresas.memTableCadastroBeforeDelete(DataSet: TDataSet);
+begin
+  if not Delete then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableCadastroBeforePost(DataSet: TDataSet);
+begin
+  if memTableCadastro.Tag = -1 then Exit;
+  if not ValidadeSave then
+    Abort;
+  if Application.MessageBox('Confirma gravar este registro ?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableCNAEBeforeDelete(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableCNAEBeforeEdit(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableCNAEBeforeInsert(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableContatosBeforeDelete(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableContatosBeforeEdit(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableContatosBeforeInsert(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableEnderecosBeforeDelete(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableEnderecosBeforeEdit(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableEnderecosBeforeInsert(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableFinanceiroBeforeDelete(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableFinanceiroBeforeEdit(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableFinanceiroBeforeInsert(DataSet: TDataSet);
+begin
+  if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
+    Abort;
 end;
 
 procedure Tview_CadastroEmpresas.PopulateUF;
@@ -565,7 +654,7 @@ begin
   end;
 end;
 
-procedure Tview_CadastroEmpresas.Save;
+function Tview_CadastroEmpresas.Save: boolean;
 var
   fcadastro : TCRMEmpresasController;
   fenderecos : TCRMEnderecosEmpresasController;
@@ -574,13 +663,12 @@ var
   fcnae : TCRMCNAEEmpressasController;
 begin
   try
+    Result := False;
     fcadastro := TCRMEmpresasController.Create;
     fenderecos := TCRMEnderecosEmpresasController.Create;
     fcontatos := TCRMContatosEmpresasController.Create;
     ffinanceiro := TCRMFinanceiroEmpresasController.Create;
     fcnae := TCRMCNAEEmpressasController.Create;
-    if Application.MessageBox('Confirma gravar este registro ?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
-      Exit;
     fcadastro.Empresas.Codigo := memTableCadastrocod_empresa.AsInteger;
     fcadastro.Empresas.TipoDoc := memTableCadastrodes_tipo_doc.AsString;
     fcadastro.Empresas.Nome := memTableCadastrodes_razao_social.AsString;
@@ -588,7 +676,7 @@ begin
     fcadastro.Empresas.CPF := memTableCadastronum_cnpj.AsString;
     fcadastro.Empresas.CNAE := '';
     fcadastro.Empresas.CRT := memTableCadastrocod_crt.AsInteger;
-    fcadastro.Empresas.DataCadastro := Now;
+    fcadastro.Empresas.DataCadastro := memTableCadastrodat_cadastro.AsDateTime;
     fcadastro.Empresas.Status := memTableCadastrocod_status.AsInteger;
     fcadastro.Empresas.Obs := memTableCadastrodes_observacao.Text;
     fcadastro.Empresas.Acao := facao;
@@ -597,27 +685,38 @@ begin
       Application.MessageBox('Ocorreu um problema ao tentar gravar o registro!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
+    iCodigo := fcadastro.Empresas.Codigo;
+    memTableCadastro.Tag := -1;
+    memTableCadastro.Edit;
+    memTableCadastrocod_empresa.AsInteger := iCodigo;
+    memTableCadastro.Tag := 0;
+    memTableCadastro.Post;
+    fenderecos.Enderecos.Campos.Cadastro := iCodigo;
     if not fenderecos.SaveBatch(memTableEnderecos) then
     begin
       Application.MessageBox('Ocorreu um problema ao tentar gravar o(s) endereço(s)!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
+    fcontatos.Contatos.Campos.Cadastro := iCodigo;
     if not fcontatos.SaveBatch(memTableContatos) then
     begin
       Application.MessageBox('Ocorreu um problema ao tentar gravar o(s) contato(s)!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
+    ffinanceiro.financeiro.Cadastro := iCodigo;
     if not ffinanceiro.SaveBatch(memTableFinanceiro) then
     begin
       Application.MessageBox('Ocorreu um problema ao tentar gravar os dados bancários!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
+    fcnae.CNAE.Cadastro := iCodigo;
     if not fcnae.SaveBatch(memTableCNAE) then
     begin
       Application.MessageBox('Ocorreu um problema ao tentar gravar os dados adicionais!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    Application.MessageBox('Registro gravado com sucesso.', 'Atenção', MB_OK + MB_ICONINFORMATION);
+    Result := True;
+
   finally
     fcadastro.Free;
     fenderecos.Free;
@@ -625,6 +724,36 @@ begin
     ffinanceiro.Free;
     fcnae.Free;
   end;
+end;
+
+procedure Tview_CadastroEmpresas.SearchBanco;
+var
+  banco : TBancosControl;
+  aParam : array of variant;
+  fdQuery: TFDQuery;
+begin
+  banco := TBancosControl.Create;
+  SetLength(aParam, 3);
+  aParam := ['APOIO', '*', ''];
+  fdQuery := banco.Localizar(aParam);
+  if not Assigned(View_PesquisarGeral) then
+  begin
+    View_PesquisarGeral := TView_PesquisarGeral.Create(Application);
+  end;
+  View_PesquisarGeral.Caption := 'Pesquisa de Bancos';
+  View_PesquisarGeral.qryPesquisa.CreateFieldsFromDataSet(fdQuery);
+  View_PesquisarGeral.qryPesquisa.LoadFromDataSet(fdQuery);
+  View_PesquisarGeral.tvPesquisa.ClearItems;
+  View_PesquisarGeral.tvPesquisa.DataController.CreateAllItems;
+  View_PesquisarGeral.tvPesquisa.Columns[1].Visible := False;
+  if View_PesquisarGeral.ShowModal = mrOk then
+  begin
+    memTableFinanceirocod_banco.Text := View_PesquisarGeral.qryPesquisa.FieldByName('cod_banco').AsString;
+    memTableFinanceironom_banco.Text := View_PesquisarGeral.qryPesquisa.FieldByName('nom_cliente').AsString;
+  end;
+  View_PesquisarGeral.qryPesquisa.Active := False;
+  FreeAndNil(View_PesquisarGeral);
+
 end;
 
 procedure Tview_CadastroEmpresas.SearchCEP(sCEP: String);
@@ -703,10 +832,21 @@ begin
     end;
     if not view_ResultadoConsultaCNPJ.memTableAP.IsEmpty then
     begin
+      view_ResultadoConsultaCNPJ.memTableAP.First;
+      memTableCNAE.Active := False;
+      memTableCNAE.Active := True;
       while not view_ResultadoConsultaCNPJ.memTableAP.Eof do
       begin
-
-        memTableCNAE
+        memTableCNAE.Insert;
+        if view_ResultadoConsultaCNPJ.memTableAPdes_tipo.AsString = 'PRINCIPAL' then
+          memTableCNAEcod_tipo.AsInteger := 1
+        else
+          memTableCNAEcod_tipo.AsInteger := 2;
+        memTableCNAEcod_empresa.AsInteger := 0;
+        memTableCNAEcod_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPcod_cnae.AsString;
+        memTableCNAEdes_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPdes_cnae.AsString;
+        memTableCNAE.Post;
+        view_ResultadoConsultaCNPJ.memTableAP.Next;
       end;
     end;
 
@@ -715,8 +855,11 @@ begin
     memTableCadastrodes_razao_social.AsString := APICNPJ.APICNPJ.Pessoas.Nome;
     memTableCadastronom_fantasia.AsString := APICNPJ.APICNPJ.Pessoas.Fantasia;
     memTableCadastrocod_cnae.AsString := '';
+    memTableCadastrocod_status.AsInteger := 1;
+    memTableCadastrodat_cadastro.AsDateTime := APICNPJ.APICNPJ.Pessoas.DataCadastro;
 
     memTableEnderecos.Insert;
+    memTableEnderecosdes_tipo.AsString := APICNPJ.APICNPJ.Enderecos.Tipo;
     memTableEnderecosnum_cep.AsString := APICNPJ.APICNPJ.Enderecos.CEP;
     memTableEnderecosdes_logradouro.AsString := APICNPJ.APICNPJ.Enderecos.Logradouro;
     memTableEnderecosnum_logradouro.AsString := APICNPJ.APICNPJ.Enderecos.Numero;
@@ -724,6 +867,7 @@ begin
     memTableEnderecosdes_bairro.AsString := APICNPJ.APICNPJ.Enderecos.Bairro;
     memTableEnderecosnom_cidade.AsString := APICNPJ.APICNPJ.Enderecos.Cidade;
     memTableEnderecosuf_estado.AsString := APICNPJ.APICNPJ.Enderecos.UF;
+    memTableEnderecosnum_cnpj.AsString := APICNPJ.APICNPJ.Pessoas.CPFCNPJ;
     memTableEnderecos.Post;
 
     if APICNPJ.APICNPJ.Contatos.Descricao <> '' then
@@ -750,11 +894,12 @@ begin
   end;
   if view_PesquisaEmpresas.ShowModal = mrOk then
   begin
-    if not LocateEmpresa(view_PesquisaEmpresas.fdPesquisacod_cadastro.AsInteger) then
+    if LocateEmpresa(view_PesquisaEmpresas.fdPesquisacod_cadastro.AsInteger) then
     begin
-      Exit;
+      facao := tacPesquisa;
     end;
   end;
+  FreeAndNil(view_PesquisaEmpresas);
 end;
 
 procedure Tview_CadastroEmpresas.StartForm;
@@ -764,6 +909,7 @@ begin
   memTableContatos.Active := True;
   memTableFinanceiro.Active := True;
   PopulateUF;
+  iCodigo := 0;
 end;
 
 procedure Tview_CadastroEmpresas.statusPropertiesChange(Sender: TObject);

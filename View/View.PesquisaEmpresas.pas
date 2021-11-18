@@ -202,7 +202,7 @@ begin
       begin
         sFiltro := sFiltro + ' or ';
       end;
-      sFiltro := sFiltro + 'cod_agente like ' + sTexto
+      sFiltro := sFiltro + 'cod_empresa like ' + sTexto
     end;
   end;
   fFuncoes.Free;

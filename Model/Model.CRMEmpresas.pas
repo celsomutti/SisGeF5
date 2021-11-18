@@ -20,13 +20,6 @@ type
     FStatus: Integer;
     FTipoDoc: String;
     FQuery: TFDQuery;
-    FBanco: string;
-    FCPFCNPJFavorecido: string;
-    FFormaPagamento: string;
-    FTipoConta: string;
-    FFavorecido: string;
-    FConta: string;
-    FAgencia: string;
 
     function Inserir(): Boolean;
     function Alterar(): Boolean;
@@ -44,13 +37,6 @@ type
     property DataCadastro: TDateTime read FDataCadastro write FDataCadastro;
     property Status: Integer read FStatus write FStatus;
     property Obs: String read FObs write FObs;
-    property TipoConta: string read FTipoConta write FTipoConta;
-    property Banco: string read FBanco write FBanco;
-    property Agencia: string read FAgencia write FAgencia;
-    property Conta: string read FConta write FConta;
-    property Favorecido: string read FFavorecido write FFavorecido;
-    property CPFCNPJFavorecido: string read FCPFCNPJFavorecido write FCPFCNPJFavorecido;
-    property FormaPagamento: string read FFormaPagamento write FFormaPagamento;
     property Query: TFDQuery read FQuery write FQuery;
     property Acao: TAcao read FAcao write FAcao;
 
@@ -66,27 +52,21 @@ type
 
     SQLINSERT = 'insert into ' + TABLENAME +
                 '(cod_empresa, des_razao_social, nom_fantasia, des_tipo_doc, num_cnpj, cod_cnae, cod_crt, cod_status, ' +
-                'des_observacao, dat_cadastro, des_tipo_conta, cod_banco, cod_agencia, num_conta, nom_favorecido, ' +
-                'num_cpf_cnpj_favorecido, des_forma_pagamento) ' +
+                'des_observacao, dat_cadastro) ' +
                 'values ' +
                 '(:cod_empresa, :des_razao_social, :nom_fantasia, :des_tipo_doc, :num_cnpj, :cod_cnae, :cod_crt, :cod_status, ' +
-                ':des_observacao, :dat_cadastro, :des_tipo_conta, :cod_banco, :cod_agencia, :num_conta, :nom_favorecido, ' +
-                ':num_cpf_cnpj_favorecido, :des_forma_pagamento);';
+                ':des_observacao, :dat_cadastro);';
 
     SQLUPDATE = 'update ' + TABLENAME + ' set ' +
-                'des_razao_social = :des_razao_social, nom_fantasia = :nom_fantasia, des_tipo_doc = :des_tipo_doc, ' +
+                '(des_razao_social = :des_razao_social, nom_fantasia = :nom_fantasia, des_tipo_doc = :des_tipo_doc, ' +
                 'num_cnpj = :num_cnpj, cod_cnae = :cod_cnae, cod_crt = :cod_crt, cod_status = :cod_status, ' +
-                'des_observacao = :des_observacao, dat_cadastro = :dat_cadastro, des_tipo_conta = :des_tipo_conta, ' +
-                'cod_banco = :cod_banco, cod_agencia = :cod_agencia, num_conta = :num_conta, ' +
-                'nom_favorecido = :nom_favorecido, num_cpf_cnpj_favorecido = :num_cpf_cnpj_favorecido, ' +
-                'des_forma_pagamento = :des_forma_pagamento ' +
+                'des_observacao = :des_observacao, dat_cadastro = :dat_cadastro) ' +
                 'where ' +
                 'cod_empresa = :cod_empresa';
 
     SQLQUERY =  'select ' +
                 'cod_empresa, des_razao_social, nom_fantasia, des_tipo_doc, num_cnpj, cod_cnae, cod_crt, cod_status, ' +
-                'des_observacao, dat_cadastro, des_tipo_conta, cod_banco, cod_agencia, num_conta, nom_favorecido, ' +
-                'num_cpf_cnpj_favorecido, des_forma_pagamento ' +
+                'des_observacao, dat_cadastro ' +
                 'from ' + TABLENAME + ' ';
 
 implementation
@@ -101,8 +81,7 @@ begin
     Result := False;
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLUPDATE,
-                   [FNome, FAlias, FTipoDoc, FCPF, FCNAE, FCRT, FStatus, FObs, FDataCadastro, FtipoConta, FBanco, FAgencia, FConta,
-                   FFavorecido, FCPFCNPJFavorecido, FFormaPagamento, FCodigo]);
+                   [FNome, FAlias, FTipoDoc, FCPF, FCNAE, FCRT, FStatus, FObs, FDataCadastro, FCodigo]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -168,8 +147,7 @@ begin
     FDQuery := FConexao.ReturnQuery();
     FCodigo := GetId();
     FDQuery.ExecSQL(SQLINSERT,
-                    [FCodigo, FNome, FAlias, FTipoDoc, FCPF, FCNAE, FCRT, FStatus, FObs, FDataCadastro, FtipoConta, FBanco,
-                    FAgencia, FConta, FFavorecido, FCPFCNPJFavorecido, FFormaPagamento]);
+                    [FCodigo, FNome, FAlias, FTipoDoc, FCPF, FCNAE, FCRT, FStatus, FObs, FDataCadastro]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -181,7 +159,7 @@ function TCRMEmpresas.Localizar(aParam: array of variant): Boolean;
 var
   sfields: String;
 begin
-  REsult := False;
+  Result := False;
   FQuery := FConexao.ReturnQuery();
   if Length(aParam) < 2 then Exit;
   FQuery.SQL.Clear;
@@ -220,9 +198,8 @@ begin
   begin
     if aParam[1] = '*' then
     begin
-      sFields :=  'cod_empresa, des_razao_social, nom_fantasia, des_tipo_doc, num_cnpj, cod_cnae, cod_crt, cod_status, ' +
-                  'des_observacao, dat_cadastro, des_tipo_conta, cod_banco, cod_agencia, num_conta, nom_favorecido, ' +
-                  'num_cpf_cnpj_favorecido, des_forma_pagamento';
+      sFields :=  'cod_empresa, des_razao_social, nom_fantasia, des_tipo_doc, num_cnpj, cod_cnae, cod_crt, ' +
+                  'cod_status, des_observacao, dat_cadastro';
     end
     else
     begin
@@ -254,13 +231,6 @@ begin
   FStatus := FDquery.FieldByName('cod_status').AsInteger;
   FCodigo := FDquery.FieldByName('cod_empresa').AsInteger;
   FTipoDoc := FDquery.FieldByName('des_tipo_doc').AsString;
-  FBanco := FDquery.FieldByName('cod_banco').Asstring;
-  FCPFCNPJFavorecido := FDquery.FieldByName('num_cpf_cnpj_favorecido').Asstring;
-  FFormaPagamento := FDquery.FieldByName('des_forma_pagamento').Asstring;
-  FTipoConta := FDquery.FieldByName('des_tipo_conta').Asstring;
-  FFavorecido := FDquery.FieldByName('nom_favorecido').Asstring;
-  FConta := FDquery.FieldByName('num_conta').Asstring;
-  FAgencia := FDquery.FieldByName('cod_agencia').Asstring;
 end;
 
 
@@ -276,13 +246,6 @@ begin
   FStatus := memTable.FieldByName('cod_status').AsInteger;
   FCodigo := memTable.FieldByName('cod_empresa').AsInteger;
   FTipoDoc := memTable.FieldByName('des_tipo_doc').AsString;
-  FBanco := memTable.FieldByName('cod_banco').Asstring;
-  FCPFCNPJFavorecido := memTable.FieldByName('num_cpf_cnpj_favorecido').Asstring;
-  FFormaPagamento := memTable.FieldByName('des_forma_pagamento').Asstring;
-  FTipoConta := memTable.FieldByName('des_tipo_conta').Asstring;
-  FFavorecido := memTable.FieldByName('nom_favorecido').Asstring;
-  FConta := memTable.FieldByName('num_conta').Asstring;
-  FAgencia := memTable.FieldByName('cod_agencia').Asstring;
 end;
 
 End.

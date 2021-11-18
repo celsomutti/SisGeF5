@@ -1760,7 +1760,8 @@ object view_ResultadoConsultaCNPJ: Tview_ResultadoConsultaCNPJ
   end
   object dsCNPJ: TDataSource
     AutoEdit = False
-    Left = 304
+    DataSet = Data_Sisgef.memTableCNPJ
+    Left = 368
   end
   object memTableAP: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -1770,7 +1771,7 @@ object view_ResultadoConsultaCNPJ: Tview_ResultadoConsultaCNPJ
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 448
+    Left = 424
     object memTableAPdes_tipo: TStringField
       DisplayLabel = 'Tipo'
       FieldName = 'des_tipo'
