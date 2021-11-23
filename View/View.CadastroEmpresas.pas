@@ -222,6 +222,7 @@ type
     function Save(): boolean;
     function Delete(): boolean;
     function ValidadeSave(): boolean;
+    function ValidadeBanco(sCodigo: string): String;
     function LocateEmpresa(iID: integer): boolean;
     function CPFCNPJExiste(sCnpj: string): boolean;
   public
@@ -462,6 +463,7 @@ begin
       fcadastro.Empresas.Query.Active := False;
       fcadastro.Empresas.Query.Connection.Connected := False;
 
+      memTableEnderecos.Active := False;
       if fenderecos.Localizar(aParam) then
       begin
         memTableEnderecos.Data := fenderecos.Enderecos.Query.Data;
@@ -469,6 +471,7 @@ begin
         fenderecos.Enderecos.Query.Connection.Connected := False;
       end;
       if not memTableEnderecos.Active then memTableEnderecos.Active := True;
+      memTableContatos.Active := False;
       if fcontatos.Localizar(aParam) then
       begin
         memTableContatos.Data := fcontatos.Contatos.Query.Data;
@@ -477,13 +480,29 @@ begin
       end;
       if not memTableContatos.Active then memTableContatos.Active := True;
       aParam[0] := 'EMPRESA';
+      memTableFinanceiro.Active := False;
+      memTableFinanceiro.Active := True;
+      memTableFinanceiro.Tag := -1;
       if ffinanceiro.Localizar(aParam) then
       begin
-        memTableFinanceiro.Data:= ffinanceiro.financeiro.Query.Data;
+        ffinanceiro.financeiro.Query.First;
+        while not ffinanceiro.financeiro.Query.Eof do
+        begin
+          memTableFinanceiro.Insert;
+          memTableFinanceirocod_empresa.AsInteger := ffinanceiro.financeiro.Query.FieldByName('cod_empresa').AsInteger;
+          memTableFinanceirocod_banco.AsString := ffinanceiro.financeiro.Query.FieldByName('cod_banco').AsString;
+          memTableFinanceironom_banco.AsString := ValidadeBanco(ffinanceiro.financeiro.Query.FieldByName('cod_banco').AsString);
+          memTableFinanceirocod_agencia.AsString := ffinanceiro.financeiro.Query.FieldByName('cod_agencia').AsString;
+          memTableFinanceironum_conta.AsString := ffinanceiro.financeiro.Query.FieldByName('num_conta').AsString;
+          memTableFinanceiro.Post;
+          ffinanceiro.financeiro.Query.Next;
+        end;
         ffinanceiro.financeiro.Query.Active := False;
         ffinanceiro.financeiro.Query.Connection.Connected := False;
       end;
       if not memTableFinanceiro.Active then memTableFinanceiro.Active := True;
+      memTableFinanceiro.Tag := 0;
+      memTableCNAE.Active := False;
       if fcnae.Localizar(aParam) then
       begin
         memTableCNAE.Data := fcnae.CNAE.Query.Data;
@@ -611,18 +630,24 @@ end;
 
 procedure Tview_CadastroEmpresas.memTableFinanceiroBeforeDelete(DataSet: TDataSet);
 begin
+  if memTableFinanceiro.Tag = -1 then
+    Exit;
   if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
     Abort;
 end;
 
 procedure Tview_CadastroEmpresas.memTableFinanceiroBeforeEdit(DataSet: TDataSet);
 begin
+  if memTableFinanceiro.Tag = -1 then
+    Exit;
   if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
     Abort;
 end;
 
 procedure Tview_CadastroEmpresas.memTableFinanceiroBeforeInsert(DataSet: TDataSet);
 begin
+  if memTableFinanceiro.Tag = -1 then
+    Exit;
   if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
     Abort;
 end;
@@ -686,30 +711,58 @@ begin
       Exit;
     end;
     iCodigo := fcadastro.Empresas.Codigo;
-    memTableCadastro.Tag := -1;
-    memTableCadastro.Edit;
-    memTableCadastrocod_empresa.AsInteger := iCodigo;
-    memTableCadastro.Tag := 0;
-    memTableCadastro.Post;
+    if facao = tacIncluir then
+    begin
+      memTableCadastro.Tag := -1;
+      memTableCadastro.Edit;
+      memTableCadastrocod_empresa.AsInteger := iCodigo;
+      memTableCadastro.Post;
+      memTableCadastro.Tag := 0;
+    end;
     fenderecos.Enderecos.Campos.Cadastro := iCodigo;
+    fenderecos.Enderecos.Acao := tacExcluir;
+    if not fenderecos.Gravar then
+    begin
+      Application.MessageBox('Ocorreu um problema ao preparar a gravação dos endereços!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
     if not fenderecos.SaveBatch(memTableEnderecos) then
     begin
       Application.MessageBox('Ocorreu um problema ao tentar gravar o(s) endereço(s)!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
     fcontatos.Contatos.Campos.Cadastro := iCodigo;
+    fcontatos.Contatos.Campos.Sequencia := -1;
+    fcontatos.Contatos.Acao := tacExcluir;
+    if not fcontatos.Gravar then
+    begin
+      Application.MessageBox('Ocorreu um problema ao preparar a gravação dos contatos!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
     if not fcontatos.SaveBatch(memTableContatos) then
     begin
       Application.MessageBox('Ocorreu um problema ao tentar gravar o(s) contato(s)!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
     ffinanceiro.financeiro.Cadastro := iCodigo;
+    ffinanceiro.financeiro.Acao := tacExcluir;
+    if not ffinanceiro.Gravar then
+    begin
+      Application.MessageBox('Ocorreu um problema ao preparar a gravação dos dados bancários!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
     if not ffinanceiro.SaveBatch(memTableFinanceiro) then
     begin
       Application.MessageBox('Ocorreu um problema ao tentar gravar os dados bancários!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
     fcnae.CNAE.Cadastro := iCodigo;
+    fcnae.CNAE.Acao := tacExcluir;
+    if not fcnae.Gravar then
+    begin
+      Application.MessageBox('Ocorreu um problema ao preparar a gravação do CNAE!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
     if not fcnae.SaveBatch(memTableCNAE) then
     begin
       Application.MessageBox('Ocorreu um problema ao tentar gravar os dados adicionais!', 'Atenção', MB_OK + MB_ICONWARNING);
@@ -749,7 +802,7 @@ begin
   if View_PesquisarGeral.ShowModal = mrOk then
   begin
     memTableFinanceirocod_banco.Text := View_PesquisarGeral.qryPesquisa.FieldByName('cod_banco').AsString;
-    memTableFinanceironom_banco.Text := View_PesquisarGeral.qryPesquisa.FieldByName('nom_cliente').AsString;
+    memTableFinanceironom_banco.Text := View_PesquisarGeral.qryPesquisa.FieldByName('nom_banco').AsString;
   end;
   View_PesquisarGeral.qryPesquisa.Active := False;
   FreeAndNil(View_PesquisarGeral);
@@ -918,6 +971,29 @@ begin
     status.Caption := 'ATIVO'
   else
     status.Caption := 'INATIVO';
+end;
+
+function Tview_CadastroEmpresas.ValidadeBanco(sCodigo: string): String;
+var
+  banco : TBancosControl;
+  aParam : array of variant;
+  fdQuery: TFDQuery;
+begin
+  try
+    Result := 'BANCO NÃO CADASTRADO';
+    banco := TBancosControl.Create;
+    SetLength(aParam, 2);
+    aParam := ['CODIGO', sCodigo];
+    fdQuery := banco.Localizar(aParam);
+    if not fdQuery.IsEmpty then
+    begin
+      Result := fdQuery.FieldByName('nom_banco').AsString;
+    end;
+  finally
+    fdQuery.Active := False;
+    fdQuery.Connection.Connected := false;
+    banco.Free;
+  end;
 end;
 
 function Tview_CadastroEmpresas.ValidadeSave: boolean;

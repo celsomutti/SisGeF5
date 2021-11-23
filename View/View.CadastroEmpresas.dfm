@@ -632,7 +632,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
       Top = 43
       DataBinding.DataField = 'cod_crt'
       DataBinding.DataSource = dsCadastro
-      Properties.Alignment.Horz = taRightJustify
+      Properties.Alignment.Horz = taLeftJustify
       Properties.Items = <
         item
           Description = '1 - Simples Nacional'
@@ -1030,6 +1030,7 @@ object view_CadastroEmpresas: Tview_CadastroEmpresas
               Kind = bkGlyph
             end>
           Properties.Images = Data_Sisgef.iml_16_16
+          Properties.ReadOnly = True
           Width = 66
         end
         object gridFinanceiroDBTableView1nom_banco: TcxGridDBColumn

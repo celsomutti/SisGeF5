@@ -133,8 +133,8 @@ begin
   for i := 0 to (ja.Count - 1) do
   begin
     jsonObj := (ja.Get(i) as TJSONObject);
-    jvCNAECodigo := jsonObj.Get(0).JsonValue;
-    jvCNAEDescricao := jsonObj.Get(1).JsonValue;
+    jvCNAECodigo := jsonObj.Get(1).JsonValue;
+    jvCNAEDescricao := jsonObj.Get(0).JsonValue;
     memTableAP.Insert;
     memTableAPdes_tipo.AsString := 'PRINCIPAL';
     memTableAPcod_cnae.AsString := jvCNAECodigo.Value;
@@ -146,8 +146,8 @@ begin
   for i := 0 to (ja.Count - 1) do
   begin
     jsonObj := (ja.Get(i) as TJSONObject);
-    jvCNAECodigo := jsonObj.Get(0).JsonValue;
-    jvCNAEDescricao := jsonObj.Get(1).JsonValue;
+    jvCNAECodigo := jsonObj.Get(1).JsonValue;
+    jvCNAEDescricao := jsonObj.Get(0).JsonValue;
     memTableAP.Insert;
     memTableAPdes_tipo.AsString := 'SECUNDÁRIA';
     memTableAPcod_cnae.AsString := jvCNAECodigo.Value;

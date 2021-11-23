@@ -170,7 +170,8 @@ begin
   memTable.First;
   while not memTable.Eof do
   begin
-    FCadastro := memTable.FieldByName('cod_empresa').AsInteger;
+    FId := 0;
+    //FCadastro := FCadastro;
     FBanco := memTable.FieldByName('cod_banco').AsString;
     FAgencia := memTable.FieldByName('cod_agencia').AsString;
     FConta := memTable.FieldByName('num_conta').AsString;

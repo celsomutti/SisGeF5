@@ -58,9 +58,9 @@ type
                 ':des_observacao, :dat_cadastro);';
 
     SQLUPDATE = 'update ' + TABLENAME + ' set ' +
-                '(des_razao_social = :des_razao_social, nom_fantasia = :nom_fantasia, des_tipo_doc = :des_tipo_doc, ' +
+                'des_razao_social = :des_razao_social, nom_fantasia = :nom_fantasia, des_tipo_doc = :des_tipo_doc, ' +
                 'num_cnpj = :num_cnpj, cod_cnae = :cod_cnae, cod_crt = :cod_crt, cod_status = :cod_status, ' +
-                'des_observacao = :des_observacao, dat_cadastro = :dat_cadastro) ' +
+                'des_observacao = :des_observacao, dat_cadastro = :dat_cadastro ' +
                 'where ' +
                 'cod_empresa = :cod_empresa';
 

@@ -177,6 +177,7 @@ begin
     Exit;
   end;
   memTable.First;
+  Self.Acao := tacIncluir;
   while not memTable.Eof do
   begin
     //FCadastro := memTable.FieldByName('cod_empresa').AsInteger;
