@@ -86,7 +86,7 @@ uses
   Control.ControleBaixasTFO in 'Control\Control.ControleBaixasTFO.pas',
   Thread.ImportarPlanilhaEntradaEntregas in 'Thread\Thread.ImportarPlanilhaEntradaEntregas.pas',
   DAO.PlanilhaEntradaEntregas in 'DAO\DAO.PlanilhaEntradaEntregas.pas',
-  Model.PlanilhaEntradaSIMExpress in 'Model\Model.PlanilhaEntradaSIMExpress.pas',
+  Model.PlanilhaEntradaRedeForte in 'Model\Model.PlanilhaEntradaRedeForte.pas',
   Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas',
   Thread.ImportarPlanilhaEntradaCarriers in 'Thread\Thread.ImportarPlanilhaEntradaCarriers.pas',
   View.ControleEntregas in 'View\View.ControleEntregas.pas' {view_ControleEntregas},
@@ -233,7 +233,8 @@ uses
   Controller.APICEP in 'Control\Controller.APICEP.pas',
   Controller.APICNPJ in 'Control\Controller.APICNPJ.pas',
   View.ListaCEPs in 'View\View.ListaCEPs.pas' {view_ListaCEPs},
-  View.ResultadoConsultaCNPJ in 'View\View.ResultadoConsultaCNPJ.pas' {view_ResultadoConsultaCNPJ};
+  View.ResultadoConsultaCNPJ in 'View\View.ResultadoConsultaCNPJ.pas' {view_ResultadoConsultaCNPJ},
+  Model.PlanilhaEntradaSIMExpress in 'Model\Model.PlanilhaEntradaSIMExpress.pas';
 
 {$R *.res}
 
@@ -241,7 +242,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Sistema Gerenciador de Faturamento';
-  Application.CreateForm(TData_Sisgef, Data_Sisgef);
-  Application.CreateForm(Tview_Main, view_Main);
-  Application.Run;
+  AApplication.CreateForm(TData_Sisgef, Data_Sisgef);
+  AApplication.CreateForm(Tview_Main, view_Main);
+  plication.Run;
 end.
