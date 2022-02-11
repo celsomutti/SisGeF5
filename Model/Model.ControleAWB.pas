@@ -17,6 +17,7 @@ type
     FOperacao: String;
     FPeso: Double;
     FTipo: Integer;
+    FDescricao: string;
 
     function Inserir(): Boolean;
     function Alterar(): Boolean;
@@ -31,6 +32,7 @@ type
     property Operacao: String read FOperacao write FOperacao;
     property Tipo: Integer read FTipo write FTipo;
     property Peso: Double read FPeso write FPeso;
+    property Descricao: string read FDescricao write FDescricao;
     property Acao: Tacao read FAcao write FAcao;
 
     constructor Create;
@@ -43,12 +45,13 @@ type
   end;
   const
     TABLENAME = 'expressas_controle_awb';
-    SQLINSERT = 'insert into ' + TABLENAME + ' (id_awb, num_remessa, cod_awb1, cod_awb2, num_cep, cod_operacao,cod_tipo,qtd_peso)' +
+    SQLINSERT = 'insert into ' + TABLENAME + ' (id_awb, num_remessa, cod_awb1, cod_awb2, num_cep, cod_operacao,cod_tipo,qtd_peso, ' +
+                'des_produto)' +
                 'values ' +
-                '(:id_awb, :num_remessa, :cod_awb1, :cod_awb2, :num_cep, :cod_operacao, :cod_tipo, :qtd_peso);';
+                '(:id_awb, :num_remessa, :cod_awb1, :cod_awb2, :num_cep, :cod_operacao, :cod_tipo, :qtd_peso, :des_produto);';
     SQLUPDATE = 'update ' + TABLENAME + ' set num_remessa = :num_remessa, cod_awb1 = :cod_awb1, ' +
                 'cod_awb2 = cod_awb2, num_cep= :num_cep, cod_operacao = :cod_operacao, ' +
-                'cod_tipo = :cod_tipo, qtd_peso = :qtd_peso where id_awb = :id_awb;';
+                'cod_tipo = :cod_tipo, qtd_peso = :qtd_peso, des_produto = :des_produto where id_awb = :id_awb;';
 
 implementation
 
@@ -63,7 +66,8 @@ begin
   try
     Result := False;
     fdQuery := FConexao.ReturnQuery();
-    fdQuery.ExecSQL(SQLUPDATE, [Self.Remessa, Self.AWB1, Self.AWB2, Self.CEP, Self.Operacao, Self.Tipo, SelF.Peso, Self.ID]);
+    fdQuery.ExecSQL(SQLUPDATE, [Self.Remessa, Self.AWB1, Self.AWB2, Self.CEP, Self.Operacao, Self.Tipo, SelF.Peso, Self.Descricao,
+                    Self.ID]);
     Result := True;
   finally
     fdQuery.Connection.Close;
@@ -81,6 +85,7 @@ begin
   Self.Operacao := '';
   Self.Tipo := 0;
   Self.Peso := 0;
+  Self.Descricao := '';
 end;
 
 constructor TControleAWB.Create;
@@ -139,7 +144,8 @@ begin
     Result := False;
     fdQuery := FConexao.ReturnQuery();
     Self.ID := Self.GetID();
-    fdQuery.ExecSQL(SQLINSERT, [Self.ID, Self.Remessa, Self.AWB1, Self.AWB2, Self.CEP, Self.Operacao, Self.Tipo, SelF.Peso]);
+    fdQuery.ExecSQL(SQLINSERT, [Self.ID, Self.Remessa, Self.AWB1, Self.AWB2, Self.CEP, Self.Operacao, Self.Tipo, SelF.Peso,
+                    Self.Descricao]);
     Result := True;
   finally
     fdQuery.Connection.Close;

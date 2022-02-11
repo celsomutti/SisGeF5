@@ -738,6 +738,11 @@ begin
   Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 6;
   Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'COMPLOG';
   Data_Sisgef.mtbClientesEmpresa.Post;
+  Data_Sisgef.mtbClientesEmpresa.Insert;
+  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 7;
+  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'REDE FORTE';
+  Data_Sisgef.mtbClientesEmpresa.Post;
   Data_Sisgef.mtbClientesEmpresa.First;
 end;
 

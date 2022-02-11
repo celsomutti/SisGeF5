@@ -227,6 +227,7 @@ type
     procedure actCadastroAbrangenciaExpressasExecute(Sender: TObject);
     procedure actDebitoCreditoExecute(Sender: TObject);
     procedure actionParametrosPrazosExtratosExecute(Sender: TObject);
+    procedure actCadastroDistribuidoresExecute(Sender: TObject);
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;

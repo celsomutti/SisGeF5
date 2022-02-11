@@ -5,7 +5,8 @@ interface
 uses
   System.Classes, Control.Entregas, Control.PlanilhaEntradaTFO, System.SysUtils, System.DateUtils, Control.VerbasExpressas,
   Control.Bases, Control.EntregadoresExpressas, Generics.Collections, System.StrUtils, Control.PlanilhaEntradaDIRECT,
-  Control.PlanilhaEntradaSimExpress, Control.ControleAWB, Control.PlanilhaBaixasTFO, Control.PlanilhaBaixasDIRECT;
+  Control.PlanilhaEntradaSimExpress, Control.ControleAWB, Control.PlanilhaBaixasTFO, Control.PlanilhaBaixasDIRECT,
+  Control.PlanilhaEntradaRedeForte, Control.PlanilhaEntradaENGLOBA;
 
 type
   Thread_ImportEDIClient = class(TThread)
@@ -35,7 +36,9 @@ type
     procedure UpdateLOG(sMensagem: String);
     procedure ProcessTFO;
     procedure ProcessSIM;
+    procedure ProcessENGLOBA;
     procedure ProcessDIRECT;
+    procedure ProcessRF;
     procedure BaixaTFO;
     procedure BaixaDIRECT;
     function RetornaVerba(aParam: array of variant): double;
@@ -60,7 +63,7 @@ type
 
 implementation
 
-{ 
+{
   Important: Methods and properties of objects in visual components can only be
   used in a method called using Synchronize, for example,
 
@@ -405,7 +408,8 @@ begin
       2 : ProcessSIM;
       4 : ProcessDIRECT;
       5 : ProcessSIM;
-      6 : ProcessSIM;
+      6 : ProcessENGLOBA;
+      7 : ProcessRF;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
@@ -573,6 +577,7 @@ begin
           FControleAWB.ControleAWB.Operacao := sOperacao;
           FControleAWB.ControleAWB.Tipo := iTipo;
           FControleAWB.ControleAWB.Peso := dPeso;
+          FControleAWB.ControleAWB.Descricao := Copy(FPlanilha.Planilha.Planilha[iPos].Produto,1,256);
           FControleAWB.ControleAWB.Acao := tacIncluir;
           if not FControleAWB.Gravar() then
           begin
@@ -599,6 +604,312 @@ begin
     FPlanilha.Free;
     FEntregas.Free;
     FControleAWB.Free;
+  end;
+end;
+
+procedure Thread_ImportEDIClient.ProcessENGLOBA;
+var
+  FPlanilha : TPlanilhaEntradaENGLOBAControl;
+  i: integer;
+begin
+  try
+    try
+      FProcesso := True;
+      FCancelar := False;
+      FPlanilha := TPlanilhaEntradaSimExpressControl.Create;
+      FEntregadores := TEntregadoresExpressasControl.Create;
+      FEntregas := TEntregasControl.Create;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
+      UpdateLog(sMensagem);
+      if not FPLanilha.GetPlanilha(FArquivo) then
+      begin
+        UpdateLOG(FPlanilha.Planilha.Mensagem);
+        FCancelar := True;
+        Exit;
+      end;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Iniciando a importação do arquivo ' + FArquivo +
+                '. Aguarde...';
+      UpdateLog(sMensagem);
+      iPos := 0;
+      FTotalRegistros := FPlanilha.Planilha.Planilha.Count;
+      FTotalGravados := 0;
+      FTotalInconsistencias := 0;
+      FProgresso := 0;
+      for i := 0 to Pred(FTotalRegistros) do
+      begin
+        SetLength(aParam,3);
+        aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Codigo, FCliente];
+        if not FEntregas.LocalizarExata(aParam) then
+        begin
+          FEntregas.Entregas.Acao := tacIncluir;
+        end
+        else
+        begin
+          FEntregas.Entregas.Acao := tacAlterar;
+        end;
+        Finalize(aParam);
+        SetLength(aParam,3);
+        aParam := ['CHAVECLIENTE', FPlanilha.Planilha.Planilha[i].UltimoMotorista, FCliente];
+        if not FEntregadores.LocalizarExato(aParam) then
+        begin
+          sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Entregador não encontrado ' +
+                       FPlanilha.Planilha.Planilha[i].UltimaOcorrencia;
+          UpdateLog(sMensagem);
+          Inc(FTotalInconsistencias,1);
+          FEntregas.Entregas.Distribuidor := 1;
+          FEntregas.Entregas.Entregador := 781;
+        end
+        else
+        begin
+          FEntregas.Entregas.Distribuidor := FEntregadores.Entregadores.Agente;
+          FEntregas.Entregas.Entregador := Fentregadores.Entregadores.Entregador;
+        end;
+        Finalize(aParam);
+
+        FEntregas.Entregas.Cliente := 0;
+        FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].Codigo;
+        FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[I].NF;
+        FEntregas.Entregas.Consumidor := LeftStr(FPlanilha.Planilha.Planilha[I].Destinatario,70);
+        FEntregas.Entregas.Retorno := FPlanilha.Planilha.Planilha[i].NumeroCliente;
+        FEntregas.Entregas.Endereco := LeftStr(FPlanilha.Planilha.Planilha[I].EnderecoDestinatario,60) + ', ' +
+          LeftStr(FPlanilha.Planilha.Planilha[I].NumeroEnderecoDestinatario,8);
+        FEntregas.Entregas.Complemento := LeftStr(FPlanilha.Planilha.Planilha[I].ComplementoEnderecoDestinatario,50);
+        FEntregas.Entregas.Bairro := LeftStr(FPlanilha.Planilha.Planilha[I].BairroEnderecoDestinatario, 70);
+        FEntregas.Entregas.Cidade := LeftStr(FPlanilha.Planilha.Planilha[I].CidadeEnderecoDestinatario,70);
+        FEntregas.Entregas.Cep := FPlanilha.Planilha.Planilha[I].CEPEnderecoDestinatario;
+        FEntregas.Entregas.Telefone := LeftStr(FPlanilha.Planilha.Planilha[I].Telefone1,20);;
+        FEntregas.Entregas.Expedicao := FPlanilha.Planilha.Planilha[I].DataExpedicao;
+        FEntregas.Entregas.Previsao := FPlanilha.Planilha.Planilha[I].DataPrevista;
+        FEntregas.Entregas.Status := 0;
+        FEntregas.Entregas.VerbaFranquia := 0;
+        FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[I].PesoReal;
+        FEntregas.Entregas.PesoCobrado := FPlanilha.Planilha.Planilha[I].PesoTaxado;
+        FEntregas.Entregas.Volumes := FPlanilha.Planilha.Planilha[I].Volumes;
+        FEntregas.Entregas.VolumesExtra := 0;
+        FEntregas.Entregas.ValorVolumes := 0;
+        FEntregas.Entregas.Container := '0';
+        FEntregas.Entregas.ValorProduto := FPlanilha.Planilha.Planilha[I].ValorPedido;
+        FEntregas.Entregas.Atribuicao := FPlanilha.Planilha.Planilha[I].DataUltimaRota;
+        FEntregas.Entregas.Altura := 0;
+        FEntregas.Entregas.Largura := 0;
+        FEntregas.Entregas.Comprimento := 0;
+        FEntregas.Entregas.Rastreio := '';
+        FEntregas.Entregas.Pedido := FPlanilha.Planilha.Planilha[I].Pedido;
+        FEntregas.Entregas.CodCliente := FCliente;
+        if Pos(FPlanilha.Planilha.Planilha[i].UltimaOcorrencia, 'Entregue') > 0 then
+        begin
+          FEntregas.Entregas.Baixa := FPlanilha.Planilha.Planilha[i].DataUltimaOcorrencia;
+          FEntregas.Entregas.Entrega := FPlanilha.Planilha.Planilha[i].DataUltimaOcorrencia;
+          FEntregas.Entregas.Baixado := 'S';
+          if FEntregas.Entregas.Previsao < FEntregas.Entregas.Entrega then
+          begin
+            FEntregas.Entregas.Atraso := DaysBetween(FEntregas.Entregas.Previsao,FEntregas.Entregas.Entrega);
+          end
+          else
+          begin
+            FEntregas.Entregas.Atraso := 0;
+          end;
+          SetLength(aParam,7);
+          aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
+                     FEntregas.Entregas.PesoCobrado, FEntregas.Entregas.Baixa, 0, 0];
+          FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
+          Finalize(aParam);
+          if FEntregas.Entregas.VerbaEntregador = 0 then
+          begin
+            sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
+                         FPlanilha.Planilha.Planilha[i].UltimoMotorista + ' não encontrada !';
+            UpdateLog(sMensagem);
+            if FEntregas.Entregas.Entregador <> 781 then
+              Inc(FTotalInconsistencias,1);
+          end;
+        end
+        else
+        begin
+          FEntregas.Entregas.Baixado := 'N';
+        end;
+        if not FEntregas.Gravar() then
+        begin
+          sMensagem := '>> ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', Now) + ' - Erro ao gravar o NN ' + FEntregas.Entregas.NN + ' !';
+          UpdateLog(sMensagem);
+          Inc(FTotalInconsistencias,1);
+        end
+        else
+        begin
+          Inc(FTotalGravados,1);
+        end;
+        Finalize(aParam);
+        iPos := i;
+        FProgresso := (iPos / FTotalRegistros) * 100;
+        if Self.Terminated then Abort;
+      end;
+      FProcesso := False;
+    Except on E: Exception do
+      begin
+        sMensagem := '>> ** ERROR SIM EXPRESS **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
+        UpdateLog(sMensagem);
+        FProcesso := False;
+        FCancelar := True;
+      end;
+    end;
+  finally
+    FPlanilha.Free;
+    FEntregas.Free;
+    FEntregadores.Free;
+  end;
+end;
+
+procedure Thread_ImportEDIClient.ProcessRF;
+var
+  FPlanilha : TPlanilhaEntradaRedeForteControl;
+  i: integer;
+begin
+  try
+    try
+      FProcesso := True;
+      FCancelar := False;
+      FPlanilha := TPlanilhaEntradaRedeForteControl.Create;
+      FEntregadores := TEntregadoresExpressasControl.Create;
+      FEntregas := TEntregasControl.Create;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
+      UpdateLog(sMensagem);
+      if not FPLanilha.GetPlanilha(FArquivo) then
+      begin
+        UpdateLOG(FPlanilha.Planilha.Mensagem);
+        FCancelar := True;
+        Exit;
+      end;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Iniciando a importação do arquivo ' + FArquivo +
+                '. Aguarde...';
+      UpdateLog(sMensagem);
+      iPos := 0;
+      FTotalRegistros := FPlanilha.Planilha.Planilha.Count;
+      FTotalGravados := 0;
+      FTotalInconsistencias := 0;
+      FProgresso := 0;
+      for i := 0 to Pred(FTotalRegistros) do
+      begin
+        SetLength(aParam,3);
+        aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Entrega, FCliente];
+        if not FEntregas.LocalizarExata(aParam) then
+        begin
+          FEntregas.Entregas.Acao := tacIncluir;
+        end
+        else
+        begin
+          FEntregas.Entregas.Acao := tacAlterar;
+        end;
+        Finalize(aParam);
+        SetLength(aParam,3);
+        aParam := ['CHAVECLIENTE', FPlanilha.Planilha.Planilha[i].Motorista, FCliente];
+        if not FEntregadores.LocalizarExato(aParam) then
+        begin
+          sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Entregador não encontrado ' +
+                       FPlanilha.Planilha.Planilha[i].Motorista;
+          UpdateLog(sMensagem);
+          Inc(FTotalInconsistencias,1);
+          FEntregas.Entregas.Distribuidor := 1;
+          FEntregas.Entregas.Entregador := 781;
+        end
+        else
+        begin
+          FEntregas.Entregas.Distribuidor := FEntregadores.Entregadores.Agente;
+          FEntregas.Entregas.Entregador := Fentregadores.Entregadores.Entregador;
+        end;
+        Finalize(aParam);
+
+        FEntregas.Entregas.Cliente := 0;
+        FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].Entrega;
+        FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[I].NF;
+        FEntregas.Entregas.Consumidor := LeftStr(FPlanilha.Planilha.Planilha[I].Destinatario,70);
+        FEntregas.Entregas.Retorno := FPlanilha.Planilha.Planilha[i].DANFE;
+        FEntregas.Entregas.Retorno := ReplaceStr(FEntregas.Entregas.Retorno, '=','');
+        FEntregas.Entregas.Retorno := ReplaceStr(FEntregas.Entregas.Retorno, '"','');
+        FEntregas.Entregas.Endereco := LeftStr(FPlanilha.Planilha.Planilha[I].Logradouro,70);
+        FEntregas.Entregas.Complemento := LeftStr(FPlanilha.Planilha.Planilha[I].Complemento,50);;
+        FEntregas.Entregas.Bairro := LeftStr(FPlanilha.Planilha.Planilha[I].Bairro, 70);
+        FEntregas.Entregas.Cidade := LeftStr(FPlanilha.Planilha.Planilha[I].CidadeUnidadeAtual,70);
+        FEntregas.Entregas.Cep := FPlanilha.Planilha.Planilha[I].CEP;
+        FEntregas.Entregas.Telefone := '';
+        FEntregas.Entregas.Expedicao := StrToDate(FPlanilha.Planilha.Planilha[I].DataRecUNEntrega);
+        FEntregas.Entregas.Previsao := StrToDate(FPlanilha.Planilha.Planilha[I].DataPrimeiroAtual);
+        FEntregas.Entregas.Status := 0;
+        FEntregas.Entregas.PesoReal := StrToFloatDef(FPlanilha.Planilha.Planilha[I].PesoInformado,0);
+        FEntregas.Entregas.PesoCobrado := StrToFloatDef(FPlanilha.Planilha.Planilha[I].PesoTaxado,0);
+        FEntregas.Entregas.Volumes := Trunc(StrToFloat(FPlanilha.Planilha.Planilha[I].Volumes));
+        if FPlanilha.Planilha.Planilha[i].Situacao = 'ENTREGUE' then
+        begin
+          FEntregas.Entregas.Baixa := StrToDate(FPlanilha.Planilha.Planilha[i].DataEntrega);
+          FEntregas.Entregas.Entrega := StrToDate(FPlanilha.Planilha.Planilha[i].DataEntrega);
+          FEntregas.Entregas.Baixado := 'S';
+          if FEntregas.Entregas.Previsao < FEntregas.Entregas.Entrega then
+          begin
+            FEntregas.Entregas.Atraso := DaysBetween(FEntregas.Entregas.Previsao,FEntregas.Entregas.Entrega);
+          end
+          else
+          begin
+            FEntregas.Entregas.Atraso := 0;
+          end;
+          SetLength(aParam,7);
+          aParam := [FEntregas.Entregas.Distribuidor, FEntregas.Entregas.Entregador, FEntregas.Entregas.CEP,
+                     FEntregas.Entregas.PesoReal, FEntregas.Entregas.Baixa, 0, 0];
+          FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
+          Finalize(aParam);
+          if FEntregas.Entregas.VerbaEntregador = 0 then
+          begin
+            sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + 'Verba do NN ' + FEntregas.Entregas.NN + ' do entregador ' +
+                         FPlanilha.Planilha.Planilha[i].Motorista + ' não encontrada !';
+            UpdateLog(sMensagem);
+            if FEntregas.Entregas.Entregador <> 781 then
+              Inc(FTotalInconsistencias,1);
+          end;
+        end
+        else
+        begin
+          FEntregas.Entregas.Baixado := 'N';
+        end;
+        FEntregas.Entregas.VerbaFranquia := 0;
+        FEntregas.Entregas.VolumesExtra := 0;
+        FEntregas.Entregas.ValorVolumes := 0;
+        FEntregas.Entregas.Container := '0';
+        FEntregas.Entregas.ValorProduto := StrToFloatDef(FPlanilha.Planilha.Planilha[I].Valor,0);
+        FEntregas.Entregas.Atribuicao := StrToDate(FPlanilha.Planilha.Planilha[I].DataRecUNEntrega);
+        FEntregas.Entregas.Altura := 0;
+        FEntregas.Entregas.Largura := 0;
+        FEntregas.Entregas.Comprimento := 0;
+        FEntregas.Entregas.Rastreio := '';
+        FEntregas.Entregas.Pedido := FPlanilha.Planilha.Planilha[I].Pedido;
+        FEntregas.Entregas.Pedido := ReplaceStr(FEntregas.Entregas.Pedido,'=','');
+        FEntregas.Entregas.Pedido := ReplaceStr(FEntregas.Entregas.Pedido,'"','');
+        FEntregas.Entregas.CodCliente := FCliente;
+
+        if not FEntregas.Gravar() then
+        begin
+          sMensagem := '>> ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', Now) + ' - Erro ao gravar o NN ' + FEntregas.Entregas.NN + ' !';
+          UpdateLog(sMensagem);
+          Inc(FTotalInconsistencias,1);
+        end
+        else
+        begin
+          Inc(FTotalGravados,1);
+        end;
+        Finalize(aParam);
+        iPos := i;
+        FProgresso := (iPos / FTotalRegistros) * 100;
+        if Self.Terminated then Abort;
+      end;
+      FProcesso := False;
+    Except on E: Exception do
+      begin
+        sMensagem := '>> ** ERROR REDE FORTE **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
+        UpdateLog(sMensagem);
+        FProcesso := False;
+        FCancelar := True;
+      end;
+    end;
+  finally
+    FPlanilha.Free;
+    FEntregas.Free;
+    FEntregadores.Free;
   end;
 end;
 

@@ -87,7 +87,7 @@ uses
   Thread.ImportarPlanilhaEntradaEntregas in 'Thread\Thread.ImportarPlanilhaEntradaEntregas.pas',
   DAO.PlanilhaEntradaEntregas in 'DAO\DAO.PlanilhaEntradaEntregas.pas',
   Model.PlanilhaEntradaRedeForte in 'Model\Model.PlanilhaEntradaRedeForte.pas',
-  Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas',
+  Control.PlanilhaEntradaRedeForte in 'Control\Control.PlanilhaEntradaRedeForte.pas',
   Thread.ImportarPlanilhaEntradaCarriers in 'Thread\Thread.ImportarPlanilhaEntradaCarriers.pas',
   View.ControleEntregas in 'View\View.ControleEntregas.pas' {view_ControleEntregas},
   Model.AtribuicoesExpressas in 'Model\Model.AtribuicoesExpressas.pas',
@@ -164,7 +164,7 @@ uses
   Control.PlanilhaEntradaTFO in 'Control\Control.PlanilhaEntradaTFO.pas',
   Thread.ImportarPedidosDIRECT in 'Thread\Thread.ImportarPedidosDIRECT.pas',
   Model.PlanilhaEntradaCarriers in 'Model\Model.PlanilhaEntradaCarriers.pas',
-  Thread.ImportarPedidosSIMExpress in 'Thread\Thread.ImportarPedidosSIMExpress.pas',
+  Thread.ImportarPedidosRedeForte in 'Thread\Thread.ImportarPedidosRedeForte.pas',
   Thread.ImportarBaixasDIRECT in 'Thread\Thread.ImportarBaixasDIRECT.pas',
   Thread.ImportarBaixasTFO in 'Thread\Thread.ImportarBaixasTFO.pas',
   Thread.ImportarPedidosTFO in 'Thread\Thread.ImportarPedidosTFO.pas',
@@ -234,7 +234,12 @@ uses
   Controller.APICNPJ in 'Control\Controller.APICNPJ.pas',
   View.ListaCEPs in 'View\View.ListaCEPs.pas' {view_ListaCEPs},
   View.ResultadoConsultaCNPJ in 'View\View.ResultadoConsultaCNPJ.pas' {view_ResultadoConsultaCNPJ},
-  Model.PlanilhaEntradaSIMExpress in 'Model\Model.PlanilhaEntradaSIMExpress.pas';
+  Model.PlanilhaEntradaENGLOBA in 'Model\Model.PlanilhaEntradaENGLOBA.pas',
+  Control.PlanilhaEntradaENGLOBA in 'Control\Control.PlanilhaEntradaENGLOBA.pas',
+  Thread.ImportarPedidosENGLOBA in 'Thread\Thread.ImportarPedidosENGLOBA.pas',
+  Model.PlanilhaEntradaSIMExpress in 'Model\Model.PlanilhaEntradaSIMExpress.pas',
+  Thread.ImportarPedidosSIMExpress in 'Thread\Thread.ImportarPedidosSIMExpress.pas',
+  Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas';
 
 {$R *.res}
 
@@ -242,7 +247,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Sistema Gerenciador de Faturamento';
-  AApplication.CreateForm(TData_Sisgef, Data_Sisgef);
-  AApplication.CreateForm(Tview_Main, view_Main);
-  plication.Run;
+  Application.CreateForm(TData_Sisgef, Data_Sisgef);
+  Application.CreateForm(Tview_Main, view_Main);
+  Application.Run;
 end.

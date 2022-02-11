@@ -1946,6 +1946,7 @@
       Category = 'Cadastro'
       Caption = '&Distribuidores'
       Hint = 'Cadastro de distribuidores'
+      OnExecute = actCadastroDistribuidoresExecute
     end
     object actCadastroCandidatos: TAction
       Tag = 101030
