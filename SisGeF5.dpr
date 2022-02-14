@@ -239,7 +239,8 @@ uses
   Thread.ImportarPedidosENGLOBA in 'Thread\Thread.ImportarPedidosENGLOBA.pas',
   Model.PlanilhaEntradaSIMExpress in 'Model\Model.PlanilhaEntradaSIMExpress.pas',
   Thread.ImportarPedidosSIMExpress in 'Thread\Thread.ImportarPedidosSIMExpress.pas',
-  Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas';
+  Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas',
+  View.ExtraviosSinistrosMultas in 'View\View.ExtraviosSinistrosMultas.pas' {view_ExtraviosSinistrosMultas};
 
 {$R *.res}
 
