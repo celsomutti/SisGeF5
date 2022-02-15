@@ -227,7 +227,7 @@ type
     procedure actCadastroAbrangenciaExpressasExecute(Sender: TObject);
     procedure actDebitoCreditoExecute(Sender: TObject);
     procedure actionParametrosPrazosExtratosExecute(Sender: TObject);
-    procedure actCadastroDistribuidoresExecute(Sender: TObject);
+
   private
     { Private declarations }
     function Login(sLogin: String; sSenha: String): Boolean;
@@ -258,7 +258,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
   View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
-  View.PesquisaRemessas_201040;
+  View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas;
 
 procedure Tview_Main.Acessos;
 var
@@ -450,11 +450,11 @@ end;
 
 procedure Tview_Main.actExtraviosExpressasExecute(Sender: TObject);
 begin
-  if not Assigned(view_ExtraviosMultas) then
+  if not Assigned(view_ExtraviosSinistrosMultas) then
   begin
-    view_ExtraviosMultas := Tview_ExtraviosMultas.Create(Application);
+    view_ExtraviosSinistrosMultas := Tview_ExtraviosSinistrosMultas.Create(Application);
   end;
-  view_ExtraviosMultas.Show;
+  view_ExtraviosSinistrosMultas.Show;
 end;
 
 procedure Tview_Main.actImportacaoPedidosExecute(Sender: TObject);

@@ -26,6 +26,7 @@ type
     function ExtraviosExtratoEntregadores(): Boolean;
     function EncerraExtravio(aParam: Array of variant): Boolean;
     function ExtravioExiste(): Integer;
+    function PesquisaExtraviosMultas(iIndex: integer; sTexto: String): boolean;
 
     property Extravios: TExtraviosMultas read FExtravios write FExtravios;
 
@@ -104,6 +105,11 @@ end;
 function TExtraviosMultasControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FExtravios.Localizar(aParam);
+end;
+
+function TExtraviosMultasControl.PesquisaExtraviosMultas(iIndex: integer; sTexto: String): boolean;
+begin
+  Result := FExtravios.PesquisaExtraviosMultas(iIndex, sTexto);
 end;
 
 function TExtraviosMultasControl.RetornaTotaisExtravios(aParam: array of variant): TFDQuery;

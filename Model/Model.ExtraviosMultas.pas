@@ -2,7 +2,7 @@ unit Model.ExtraviosMultas;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, System.Classes, DAO.Conexao, System.SysUtils, Control.Sistema;
+uses Common.ENum, FireDAC.Comp.Client, System.Classes, DAO.Conexao, System.SysUtils, Control.Sistema, Common.Utils;
 
 type
   TExtraviosMultas = class
@@ -80,6 +80,7 @@ type
     function ExtraviosExtrato(): TFDquery;
     function ExtraviosExtratoEntregadores(): Boolean;
     function GetID(): Integer;
+    function PesquisaExtraviosMultas(iIndex: integer; sTexto: String): boolean;
   end;
 
 const
@@ -375,6 +376,67 @@ begin
   end;
   FDQuery.Open();
   Result := FDQuery;
+end;
+
+function TExtraviosMultas.PesquisaExtraviosMultas(iIndex: integer; sTexto: String): boolean;
+var
+  sFiltro: String;
+  fFuncoes : Common.Utils.TUtils;
+begin
+  Result := False;
+  sFiltro := '';
+  fFuncoes := Common.Utils.TUtils.Create;
+  if sTexto <> '' then
+  begin
+    if iIndex = 0 then
+    begin
+      sFiltro := 'nom_agente like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_entregador like ' +
+                 QuotedStr('%' + sTexto + '%') + ' or num_cnpj like ' + QuotedStr('%' +  sTexto + '%') +
+                 ' or des_razao_social like ' + QuotedStr('%' + sTexto + '%') + ' or cod_awb like ' +
+                 QuotedStr('%' + sTexto + '%') + ' or des_produto like ' + QuotedStr('%' + sTexto + '%') +
+                 ' or num_nossonumero like ' + QuotedStr('%' + sTexto + '%');
+      if fFuncoes.ENumero(sTexto) then
+      begin
+        if sFiltro <> '' then
+        begin
+          sFiltro := sFiltro + ' or ';
+        end;
+        sFiltro := sFiltro + 'cod_agente like ' + sTexto + ' or cod_extravio like ' + sTexto +
+        ' or cod_entregador like ' + sTexto + ' or cod_cadastro like ' + sTexto;
+      end;
+    end
+    else
+    begin
+      case iIndex of
+        1 : sFiltro := 'cod_extravio like ' + sTexto;
+        2 : sFiltro := 'cod_agente like ' + sTexto;
+        3 : sFiltro := 'nom_agente like ' + QuotedStr('%' +  sTexto + '%');
+        4 : sFiltro := 'cod_entregador like ' + sTexto;
+        5 : sFiltro := 'nom_entregador like ' + QuotedStr('%' +  sTexto + '%');
+        6 : sFiltro := 'num_cnpj like ' + QuotedStr('%' +  sTexto + '%');
+        7 : sFiltro := 'cod_cadastro like ' + sTexto;
+        8 : sFiltro := 'des_razao_social like ' + QuotedStr('%' +  sTexto + '%');
+        9 : sFiltro := 'num_nossonumero like ' + QuotedStr('%' +  sTexto + '%');
+        10: sFiltro := 'cod_awb like ' + QuotedStr('%' +  sTexto + '%');
+        11: sFiltro := 'des_produto like ' + QuotedStr('%' +  sTexto + '%');
+      end;
+    end;
+  end;
+  fFuncoes.Free;
+  FQuery := FConexao.ReturnQuery;
+  FQuery.SQL.Add('select * from view_pesquisaextravios');
+  if sFiltro <> '' then
+  begin
+    FQuery.SQL.Add('where ' + sFiltro);
+  end;
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    FQuery.Connection.Connected := False;
+    FQuery.Free;
+    Exit;
+  end;
+  Result := True;
 end;
 
 function TExtraviosMultas.RetornaTotaisExtravios(aParam: array of variant): TFDQuery;

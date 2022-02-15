@@ -616,7 +616,7 @@ begin
     try
       FProcesso := True;
       FCancelar := False;
-      FPlanilha := TPlanilhaEntradaSimExpressControl.Create;
+      FPlanilha := TPlanilhaEntradaENGLOBAControl.Create;
       FEntregadores := TEntregadoresExpressasControl.Create;
       FEntregas := TEntregasControl.Create;
       sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';

@@ -10,7 +10,8 @@ uses
   cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Stan.StorageBin;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Stan.StorageBin, Common.Utils, Control.ExtraviosMultas, cxCalendar,
+  cxCurrencyEdit, cxBlobEdit;
 
 type
   Tview_ExtraviosSinistrosMultas = class(TForm)
@@ -49,36 +50,14 @@ type
     actionPesquisar: TAction;
     cxButton1: TcxButton;
     cxLabel2: TcxLabel;
-    cxComboBox1: TcxComboBox;
+    comboBoxCampos: TcxComboBox;
     checkBoxGrupo: TcxCheckBox;
     gridExtraviosDBTableView1: TcxGridDBTableView;
     gridExtraviosLevel1: TcxGridLevel;
     gridExtravios: TcxGrid;
     memTableExtravios: TFDMemTable;
-    memTableExtraviosCOD_EXTRAVIO: TIntegerField;
-    memTableExtraviosCOD_AGENTE: TIntegerField;
-    memTableExtraviosNOM_AGENTE: TStringField;
-    memTableExtraviosCOD_ENTREGADOR: TIntegerField;
-    memTableExtraviosCOD_CADASTRO: TIntegerField;
-    memTableExtraviosNOM_ENTREGADOR: TStringField;
-    memTableExtraviosNUM_CNPJ: TStringField;
-    memTableExtraviosDES_RAZAO_SOCIAL: TStringField;
-    memTableExtraviosDAT_EXTRAVIO: TDateField;
-    memTableExtraviosDES_EXTRAVIO: TStringField;
-    memTableExtraviosNUM_NOSSONUMERO: TStringField;
-    memTableExtraviosVAL_PRODUTO: TFloatField;
-    memTableExtraviosVAL_MULTA: TFloatField;
-    memTableExtraviosVAL_VERBA: TFloatField;
-    memTableExtraviosVAL_TOTAL: TFloatField;
-    memTableExtraviosDOM_RESTRICAO: TStringField;
-    memTableExtraviosCOD_TIPO: TStringField;
-    memTableExtraviosDES_OBSERVACOES: TMemoField;
-    memTableExtraviosVAL_PERCENTUAL_PAGO: TStringField;
-    memTableExtraviosSEQ_ACAREACAO: TIntegerField;
-    memTableExtraviosNUM_EXTRATO: TStringField;
-    memTableExtravioscod_awb: TStringField;
-    memTableExtraviosdes_produto: TStringField;
     dsExtravios: TDataSource;
+    actionPainelGrupos: TAction;
     gridExtraviosDBTableView1COD_EXTRAVIO: TcxGridDBColumn;
     gridExtraviosDBTableView1COD_AGENTE: TcxGridDBColumn;
     gridExtraviosDBTableView1NOM_AGENTE: TcxGridDBColumn;
@@ -102,13 +81,37 @@ type
     gridExtraviosDBTableView1NUM_EXTRATO: TcxGridDBColumn;
     gridExtraviosDBTableView1cod_awb: TcxGridDBColumn;
     gridExtraviosDBTableView1des_produto: TcxGridDBColumn;
-    actionPainelGrupos: TAction;
+    memTableExtraviosCOD_EXTRAVIO: TIntegerField;
+    memTableExtraviosCOD_AGENTE: TIntegerField;
+    memTableExtraviosNOM_AGENTE: TStringField;
+    memTableExtraviosCOD_ENTREGADOR: TIntegerField;
+    memTableExtraviosCOD_CADASTRO: TIntegerField;
+    memTableExtraviosNOM_ENTREGADOR: TStringField;
+    memTableExtraviosNUM_CNPJ: TStringField;
+    memTableExtraviosDES_RAZAO_SOCIAL: TStringField;
+    memTableExtraviosDAT_EXTRAVIO: TDateField;
+    memTableExtraviosDES_EXTRAVIO: TStringField;
+    memTableExtraviosNUM_NOSSONUMERO: TStringField;
+    memTableExtraviosVAL_PRODUTO: TFloatField;
+    memTableExtraviosVAL_MULTA: TFloatField;
+    memTableExtraviosVAL_VERBA: TFloatField;
+    memTableExtraviosVAL_TOTAL: TFloatField;
+    memTableExtraviosDOM_RESTRICAO: TStringField;
+    memTableExtraviosCOD_TIPO: TStringField;
+    memTableExtraviosDES_OBSERVACOES: TMemoField;
+    memTableExtraviosVAL_PERCENTUAL_PAGO: TStringField;
+    memTableExtraviosSEQ_ACAREACAO: TIntegerField;
+    memTableExtraviosNUM_EXTRATO: TStringField;
+    memTableExtravioscod_awb: TStringField;
+    memTableExtraviosdes_produto: TStringField;
     procedure actionFecharExecute(Sender: TObject);
     procedure actionPainelGruposExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure gridExtraviosDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+    procedure actionPesquisarExecute(Sender: TObject);
   private
     { Private declarations }
+    function Formulafilro(iIndex: integer; sTexto: string): boolean;
   public
     { Public declarations }
   end;
@@ -132,10 +135,47 @@ begin
   gridExtraviosDBTableView1.OptionsView.GroupByBox := checkBoxGrupo.Checked;
 end;
 
+procedure Tview_ExtraviosSinistrosMultas.actionPesquisarExecute(Sender: TObject);
+begin
+  if not Formulafilro(comboBoxCampos.ItemIndex, pesquisar.Text) then
+  begin
+    Application.MessageBox('Nenhum registro encontrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+  end;
+end;
+
 procedure Tview_ExtraviosSinistrosMultas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action:= caFree;
-  view_ExtraviosSinistrosMultas := null;
+  view_ExtraviosSinistrosMultas := nil;
+end;
+
+function Tview_ExtraviosSinistrosMultas.Formulafilro(iIndex: integer; sTexto: string): boolean;
+var
+  sMensagem: String;
+  FExtravios: TExtraviosMultasControl;
+begin
+  try
+  Result := False;
+  memTableExtravios.Active := False;
+  FExtravios := TExtraviosMultasControl.Create;
+  if sTexto = '' then
+  begin
+    sMensagem := 'O campo de texto a pesquisar não foi preenchido!. ' +
+    'Caso deseje visualizar todos as pessoas clique OK, porém, esse processo pode ser lento.';
+    if Application.MessageBox(PChar(sMensagem), 'Atenção!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
+    begin
+      Exit;
+    end;
+  end;
+  if FExtravios.PesquisaExtraviosMultas(iIndex, sTexto) then
+  begin
+    memTableExtravios.Data := FExtravios.Extravios.Query.Data;
+    FExtravios.Extravios.Query.Connection.Connected := False;
+  end;
+  Result := True;
+  finally
+    FExtravios.Free;
+  end;
 end;
 
 procedure Tview_ExtraviosSinistrosMultas.gridExtraviosDBTableView1NavigatorButtonsButtonClick(Sender: TObject;
