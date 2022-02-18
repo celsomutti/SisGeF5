@@ -241,10 +241,6 @@
         <DCCReference Include="DAO\DAO.TiposVerbasExpressas.pas"/>
         <DCCReference Include="Control\Control.TiposVerbasExpressas.pas"/>
         <DCCReference Include="Control\Control.ExtraviosMultas.pas"/>
-        <DCCReference Include="View\View.ExtraviosMultas.pas">
-            <Form>view_ExtraviosMultas</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="View\View.ImportacaoPlanilhaExtravios.pas">
             <Form>view_ImportacaoPlanilhaExtravios</Form>
             <FormType>dfm</FormType>

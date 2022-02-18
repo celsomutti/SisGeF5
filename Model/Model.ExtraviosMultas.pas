@@ -35,6 +35,9 @@ type
     FData: TDateTime;
     FConexao : TConexao;
     FQuery: TFDQuery;
+    FProduto: String;
+    FCliente: Integer;
+    FAWB: string;
 
     function Insert(): Boolean;
     function Update(): Boolean;
@@ -65,6 +68,9 @@ type
     property Executor: String read FExecutor write FExecutor;
     property Manutencao: TDateTime read FManutencao write FManutencao;
     property Sequencia: Integer read FSequencia write FSequencia;
+    property Cliente: Integer read FCliente write FCliente;
+    property Produto: String read FProduto write FProduto;
+    property AWB: string read FAWB write FAWB;
     property NumeroExtrato: String read FNumeroExtrato write FNumeroExtrato;
     property Query: TFDQuery read FQuery write FQuery;
 
@@ -80,7 +86,9 @@ type
     function ExtraviosExtrato(): TFDquery;
     function ExtraviosExtratoEntregadores(): Boolean;
     function GetID(): Integer;
-    function PesquisaExtraviosMultas(iIndex: integer; sTexto: String): boolean;
+    function PesquisaExtraviosMultas(iIndex: integer; sTexto, sFilter: String): boolean;
+    function SetupClass(): boolean;
+    function ClearClass(): boolean;
   end;
 
 const
@@ -89,13 +97,13 @@ const
                'VAL_MULTA, VAL_VERBA, VAL_TOTAL, DOM_RESTRICAO, COD_ENTREGADOR, COD_TIPO, VAL_VERBA_FRANQUIA, ' +
                'VAL_EXTRATO_FRANQUIA, DOM_EXTRATO_FRANQUIA, DAT_EXTRAVIO_FRANQUIA, DES_ENVIO_CORRESPONDENCIA, ' +
                'DES_RETORNO_CORRESPONDENCIA, DES_OBSERVACOES, VAL_PERCENTUAL_PAGO, ID_EXTRATO, SEQ_ACAREACAO, ' +
-               'NOM_EXECUTOR, DAT_MANUTENCAO, NUM_EXTRATO) ' +
+               'NOM_EXECUTOR, DAT_MANUTENCAO, NUM_EXTRATO, cod_cliente, des_produto, cod_awb ) ' +
                'VALUES ' +
                '(:COD_EXTRAVIO, :DES_EXTRAVIO, :NUM_NOSSONUMERO, :COD_AGENTE, :VAL_PRODUTO, :DAT_EXTRAVIO, :VAL_MULTA, ' +
                ':VAL_VERBA, :VAL_TOTAL, :DOM_RESTRICAO, :COD_ENTREGADOR, :COD_TIPO, :VAL_VERBA_FRANQUIA, :VAL_EXTRATO_FRANQUIA, ' +
                ':DOM_EXTRATO_FRANQUIA, :DAT_EXTRAVIO_FRANQUIA, :DES_ENVIO_CORRESPONDENCIA, :DES_RETORNO_CORRESPONDENCIA, ' +
                ':DES_OBSERVACOES, :VAL_PERCENTUAL_PAGO, :ID_EXTRATO, :SEQ_ACAREACAO, :NOM_EXECUTOR, :DAT_MANUTENCAO, ' +
-               ':NUM_EXTRATO) ';
+               ':NUM_EXTRATO, :cod_cliente, :des_produto, cod_awb) ';
   SQLUPDATE = 'UPDATE ' + TABLENAME + ' SET ' +
               'DES_EXTRAVIO = :DES_EXTRAVIO, NUM_NOSSONUMERO = :NUM_NOSSONUMERO, COD_AGENTE = :COD_AGENTE, ' +
               'VAL_PRODUTO = :VAL_PRODUTO, DAT_EXTRAVIO = :DAT_EXTRAVIO, VAL_MULTA = :VAL_MULTA, VAL_VERBA = :VAL_VERBA, ' +
@@ -105,12 +113,14 @@ const
               'DES_ENVIO_CORRESPONDENCIA = :DES_ENVIO_CORRESPONDENCIA, ' +
               'DES_RETORNO_CORRESPONDENCIA = :DES_RETORNO_CORRESPONDENCIA, DES_OBSERVACOES = :DES_OBSERVACOES, ' +
               'VAL_PERCENTUAL_PAGO = :VAL_PERCENTUAL_PAGO, ID_EXTRATO = :ID_EXTRATO, SEQ_ACAREACAO = :SEQ_ACAREACAO, ' +
-              'NOM_EXECUTOR = :NOM_EXECUTOR, DAT_MANUTENCAO = :DAT_MANUTENCAO, NUM_EXTRATO = :NUM_EXTRATO ' +
+              'NOM_EXECUTOR = :NOM_EXECUTOR, DAT_MANUTENCAO = :DAT_MANUTENCAO, NUM_EXTRATO = :NUM_EXTRATO, ' +
+              'cod_cliente = :cod_cliente, des_produto = :des_produto, cod_awb = :cod_awb ' +
               'WHERE COD_EXTRAVIO = :COD_EXTRAVIO;';
   SQLQUERY =  'SELECT COD_EXTRAVIO, DES_EXTRAVIO, NUM_NOSSONUMERO, COD_AGENTE, VAL_PRODUTO, DAT_EXTRAVIO, VAL_MULTA, VAL_VERBA, ' +
               'VAL_TOTAL, DOM_RESTRICAO, COD_ENTREGADOR, COD_TIPO, VAL_VERBA_FRANQUIA, VAL_EXTRATO_FRANQUIA, ' +
               'DOM_EXTRATO_FRANQUIA, DAT_EXTRAVIO_FRANQUIA, DES_ENVIO_CORRESPONDENCIA, DES_RETORNO_CORRESPONDENCIA, ' +
-              'DES_OBSERVACOES, VAL_PERCENTUAL_PAGO, ID_EXTRATO, SEQ_ACAREACAO, NOM_EXECUTOR, DAT_MANUTENCAO, NUM_EXTRATO ' +
+              'DES_OBSERVACOES, VAL_PERCENTUAL_PAGO, ID_EXTRATO, SEQ_ACAREACAO, NOM_EXECUTOR, DAT_MANUTENCAO, NUM_EXTRATO, ' +
+              'cod_cliente, des_produto, cod_awb ' +
               'FROM ' + TABLENAME;
 
 implementation
@@ -130,6 +140,40 @@ begin
     FDQuery.Connection.Close;
     FDQuery.Free;
   end;
+end;
+
+function TExtraviosMultas.ClearClass: boolean;
+begin
+  Result := False;
+  FPercentual := 0;
+  FSequencia := 0;
+  FObs := '';
+  FEnvioCorrespondencia := '';
+  FVerbaFranquia := 0;
+  FValorProduto := 0;
+  FNN := '';
+  FRestricao := 'N';
+  FDescricao := '';
+  FExecutor := '';
+  FIDExtrato := 0;
+  FTotal := 0;
+  FNumeroExtrato := '';
+  FID := 0;
+  FMulta := 0;
+  FDataFranquia := 0;
+  FEntregador := 0;
+  FVerba := 0;
+  FAgente := 0;
+  FManutencao := 0;
+  FRetornoCorrespondencia := '';
+  FValorFranquia := 0;
+  FTipo := -1;
+  FExtrato := 'N';
+  FData := 0;
+  FProduto := '';
+  FCliente := 0;
+  FAWB := '';
+  Result := True;
 end;
 
 constructor TExtraviosMultas.Create;
@@ -280,7 +324,7 @@ begin
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLINSERT, [ID, Descricao, NN, Agente, ValorProduto, Data, Multa, Verba, Total, Restricao, Entregador, Tipo,
                                 VerbaFranquia, ValorFranquia, Extrato, DataFranquia, EnvioCorrespondencia, RetornoCorrespondencia,
-                                Obs, Percentual, IDExtrato, Sequencia, Executor, Manutencao, NumeroExtrato]);
+                                Obs, Percentual, IDExtrato, Sequencia, Executor, Manutencao, NumeroExtrato, Cliente, Produto, AWB]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -325,6 +369,11 @@ begin
   begin
     FDQuery.SQL.Add('WHERE SEQ_ACAREACAO = :SEQUENCIA');
     FDQuery.ParamByName('SEQUENCIA').AsInteger := aParam[1];
+  end;
+  if aParam[0] = 'AWB' then
+  begin
+    FDQuery.SQL.Add('WHERE cod_awb = :cod_awb');
+    FDQuery.ParamByName('cod_awb').AsString := aParam[1];
   end;
   if aParam[0] = 'EXTRATO' then
   begin
@@ -378,7 +427,7 @@ begin
   Result := FDQuery;
 end;
 
-function TExtraviosMultas.PesquisaExtraviosMultas(iIndex: integer; sTexto: String): boolean;
+function TExtraviosMultas.PesquisaExtraviosMultas(iIndex: integer; sTexto, sFilter: String): boolean;
 var
   sFiltro: String;
   fFuncoes : Common.Utils.TUtils;
@@ -386,23 +435,30 @@ begin
   Result := False;
   sFiltro := '';
   fFuncoes := Common.Utils.TUtils.Create;
-  if sTexto <> '' then
+  if sFilter <> '' then
   begin
-    if iIndex = 0 then
+    sFiltro := sfilter;
+  end
+  else
+  begin
+    if sTexto <> '' then
     begin
-      sFiltro := 'nom_agente like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_entregador like ' +
-                 QuotedStr('%' + sTexto + '%') + ' or num_cnpj like ' + QuotedStr('%' +  sTexto + '%') +
-                 ' or des_razao_social like ' + QuotedStr('%' + sTexto + '%') + ' or cod_awb like ' +
-                 QuotedStr('%' + sTexto + '%') + ' or des_produto like ' + QuotedStr('%' + sTexto + '%') +
-                 ' or num_nossonumero like ' + QuotedStr('%' + sTexto + '%');
-      if fFuncoes.ENumero(sTexto) then
+      if iIndex = 0 then
       begin
-        if sFiltro <> '' then
+        sFiltro := 'nom_agente like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_entregador like ' +
+                   QuotedStr('%' + sTexto + '%') + ' or num_cnpj like ' + QuotedStr('%' +  sTexto + '%') +
+                   ' or des_razao_social like ' + QuotedStr('%' + sTexto + '%') + ' or cod_awb like ' +
+                   QuotedStr('%' + sTexto + '%') + ' or des_produto like ' + QuotedStr('%' + sTexto + '%') +
+                   ' or num_nossonumero like ' + QuotedStr('%' + sTexto + '%');
+        if fFuncoes.ENumero(sTexto) then
         begin
-          sFiltro := sFiltro + ' or ';
+          if sFiltro <> '' then
+          begin
+            sFiltro := sFiltro + ' or ';
+          end;
+          sFiltro := sFiltro + 'cod_agente like ' + sTexto + ' or cod_extravio like ' + sTexto +
+          ' or cod_entregador like ' + sTexto + ' or cod_cadastro like ' + sTexto;
         end;
-        sFiltro := sFiltro + 'cod_agente like ' + sTexto + ' or cod_extravio like ' + sTexto +
-        ' or cod_entregador like ' + sTexto + ' or cod_cadastro like ' + sTexto;
       end;
     end
     else
@@ -451,6 +507,40 @@ begin
   Result := FDQuery;
 end;
 
+function TExtraviosMultas.SetupClass: boolean;
+begin
+  Result := False;
+  FPercentual := FQuery.FieldByName('val_percentual_pago').AsFloat;
+  FSequencia := FQuery.FieldByName('seq_acareacao').asInteger;
+  FObs := FQuery.FieldByName('des_observacoes').asString;
+  FEnvioCorrespondencia := FQuery.FieldByName('des_envio_correspondencia').asString;
+  FVerbaFranquia := FQuery.FieldByName('val_verba_franquia').asFloat;
+  FValorProduto := FQuery.FieldByName('val_produto').asFloat;
+  FNN := FQuery.FieldByName('num_nossonumero').asString;
+  FRestricao := FQuery.FieldByName('dom_restricao').asString;
+  FDescricao := FQuery.FieldByName('des_extravio').asString;
+  FExecutor := FQuery.FieldByName('nom_executor').asString;
+  FIDExtrato := FQuery.FieldByName('id_extrato').asInteger;
+  FTotal := FQuery.FieldByName('val_total').asFloat;
+  FNumeroExtrato := FQuery.FieldByName('num_extrato').asString;
+  FID := FQuery.FieldByName('cod_extravio').asInteger;
+  FMulta := FQuery.FieldByName('val_multa').asFloat;
+  FDataFranquia := FQuery.FieldByName('dat_extravio_franquia').AsDateTime;
+  FEntregador := FQuery.FieldByName('cod_entregador').asInteger;
+  FVerba := FQuery.FieldByName('val_verba').asFloat;
+  FAgente := FQuery.FieldByName('cod_agente').asInteger;
+  FManutencao := FQuery.FieldByName('dat_manutencao').asDateTime;
+  FRetornoCorrespondencia := FQuery.FieldByName('des_retorno_correspondencia').asString;
+  FValorFranquia := FQuery.FieldByName('val_extravio_franquia').asFloat;
+  FTipo := FQuery.FieldByName('cod_tipo').asInteger;
+  FExtrato := FQuery.FieldByName('dom_extrato_franquia').asString;
+  FData := FQuery.FieldByName('dat_extravio').asDateTime;
+  FProduto := FQuery.FieldByName('des_produto').asString;
+  FCliente := FQuery.FieldByName('cod_cliente').asInteger;
+  FAWB := FQuery.FieldByName('cod_awb').asString;
+  Result := True;
+end;
+
 function TExtraviosMultas.Update: Boolean;
 var
   FDQuery: TFDQuery;
@@ -460,7 +550,8 @@ begin
     FDQuery := FConexao.ReturnQuery;
     FDQuery.ExecSQL(SQLUPDATE, [Descricao, NN, Agente, ValorProduto, Data, Multa, Verba, Total, Restricao, Entregador, Tipo,
                                 VerbaFranquia, ValorFranquia, Extrato, DataFranquia, EnvioCorrespondencia, RetornoCorrespondencia,
-                                Obs, Percentual, IDExtrato, Sequencia, Executor, Manutencao, NumeroExtrato,ID]);
+                                Obs, Percentual, IDExtrato, Sequencia, Executor, Manutencao, NumeroExtrato, Cliente, Produto, AWB,
+                                ID]);
     Result := True;
   finally
     FDQuery.Connection.Close;

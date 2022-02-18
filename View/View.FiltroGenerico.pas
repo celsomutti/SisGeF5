@@ -67,7 +67,7 @@ begin
   sFiltro := filtro.FilterText;
 end;
 
-procedure Tview_FiltroGenerico.FormShow(Sender: TObject);
+Procedure Tview_FiltroGenerico.FormShow(Sender: TObject);
 begin
  sFiltro := '';
 end;

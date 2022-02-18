@@ -48,7 +48,6 @@ uses
   DAO.TiposVerbasExpressas in 'DAO\DAO.TiposVerbasExpressas.pas',
   Control.TiposVerbasExpressas in 'Control\Control.TiposVerbasExpressas.pas',
   Control.ExtraviosMultas in 'Control\Control.ExtraviosMultas.pas',
-  View.ExtraviosMultas in 'View\View.ExtraviosMultas.pas' {view_ExtraviosMultas},
   View.ImportacaoPlanilhaExtravios in 'View\View.ImportacaoPlanilhaExtravios.pas' {view_ImportacaoPlanilhaExtravios},
   DAO.Lancamentos in 'DAO\DAO.Lancamentos.pas',
   DAO.Cadastro in 'DAO\DAO.Cadastro.pas',

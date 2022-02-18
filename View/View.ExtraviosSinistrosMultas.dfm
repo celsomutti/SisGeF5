@@ -16,8 +16,529 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
   ShowHint = True
   Visible = True
   OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object pageControlPesquisa: TcxPageControl
+    AlignWithMargins = True
+    Left = 3
+    Top = 90
+    Width = 829
+    Height = 365
+    Align = alClient
+    TabOrder = 2
+    Properties.ActivePage = tabResultado
+    Properties.CustomButtons.Buttons = <>
+    Properties.HideTabs = True
+    ClientRectBottom = 361
+    ClientRectLeft = 4
+    ClientRectRight = 825
+    ClientRectTop = 4
+    object tabResultado: TcxTabSheet
+      Caption = 'Resultado'
+      ImageIndex = 0
+      object gridExtravios: TcxGrid
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 815
+        Height = 351
+        Align = alClient
+        TabOrder = 0
+        object gridExtraviosDBTableView1: TcxGridDBTableView
+          Navigator.Buttons.OnButtonClick = gridExtraviosDBTableView1NavigatorButtonsButtonClick
+          Navigator.Buttons.CustomButtons = <
+            item
+              ImageIndex = 62
+            end
+            item
+              ImageIndex = 63
+            end>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 5
+          Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 8
+          Navigator.Buttons.Next.ImageIndex = 7
+          Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 6
+          Navigator.Buttons.Insert.Visible = False
+          Navigator.Buttons.Delete.Visible = False
+          Navigator.Buttons.Edit.Visible = False
+          Navigator.Buttons.Post.Visible = False
+          Navigator.Buttons.Cancel.Visible = False
+          Navigator.Buttons.Refresh.Visible = False
+          Navigator.Buttons.SaveBookmark.Visible = False
+          Navigator.Buttons.GotoBookmark.Visible = False
+          Navigator.Buttons.Filter.ImageIndex = 19
+          Navigator.InfoPanel.Visible = True
+          Navigator.Visible = True
+          DataController.DataSource = dsExtravios
+          DataController.Summary.DefaultGroupSummaryItems = <
+            item
+              Format = ',0.00;- ,0.00'
+              Kind = skSum
+              Column = gridExtraviosDBTableView1VAL_MULTA
+            end
+            item
+              Format = ',0.00;- ,0.00'
+              Kind = skSum
+              Column = gridExtraviosDBTableView1VAL_PRODUTO
+            end
+            item
+              Format = ',0.00;- ,0.00'
+              Kind = skSum
+              Column = gridExtraviosDBTableView1VAL_TOTAL
+            end
+            item
+              Format = ',0.00;- ,0.00'
+              Kind = skSum
+              Column = gridExtraviosDBTableView1VAL_VERBA
+            end>
+          DataController.Summary.FooterSummaryItems = <
+            item
+              Format = ',0.00;- ,0.00'
+              Kind = skSum
+              Column = gridExtraviosDBTableView1VAL_MULTA
+            end
+            item
+              Format = ',0.00;- ,0.00'
+              Kind = skSum
+              Column = gridExtraviosDBTableView1VAL_PRODUTO
+            end
+            item
+              Format = ',0.00;- ,0.00'
+              Kind = skSum
+              Column = gridExtraviosDBTableView1VAL_TOTAL
+            end
+            item
+              Kind = skSum
+              Column = gridExtraviosDBTableView1VAL_VERBA
+              Sorted = True
+            end>
+          DataController.Summary.SummaryGroups = <>
+          OptionsBehavior.CopyCaptionsToClipboard = False
+          OptionsCustomize.ColumnsQuickCustomization = True
+          OptionsCustomize.ColumnsQuickCustomizationShowCommands = False
+          OptionsData.Deleting = False
+          OptionsData.DeletingConfirmation = False
+          OptionsData.Editing = False
+          OptionsData.Inserting = False
+          OptionsSelection.CellSelect = False
+          OptionsSelection.MultiSelect = True
+          OptionsSelection.CheckBoxPosition = cbpIndicator
+          OptionsSelection.CheckBoxVisibility = [cbvDataRow, cbvColumnHeader]
+          OptionsSelection.ClearPersistentSelectionOnOutsideClick = True
+          OptionsView.Footer = True
+          OptionsView.GroupByBox = False
+          object gridExtraviosDBTableView1COD_EXTRAVIO: TcxGridDBColumn
+            DataBinding.FieldName = 'COD_EXTRAVIO'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridExtraviosDBTableView1COD_TIPO: TcxGridDBColumn
+            DataBinding.FieldName = 'COD_TIPO'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridExtraviosDBTableView1DES_EXTRAVIO: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_EXTRAVIO'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 288
+          end
+          object gridExtraviosDBTableView1DAT_EXTRAVIO: TcxGridDBColumn
+            DataBinding.FieldName = 'DAT_EXTRAVIO'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridExtraviosDBTableView1NUM_NOSSONUMERO: TcxGridDBColumn
+            Caption = 'N'#186' Remessa'
+            DataBinding.FieldName = 'NUM_NOSSONUMERO'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridExtraviosDBTableView1DOM_RESTRICAO: TcxGridDBColumn
+            DataBinding.FieldName = 'DOM_RESTRICAO'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridExtraviosDBTableView1VAL_PERCENTUAL_PAGO: TcxGridDBColumn
+            DataBinding.FieldName = 'VAL_PERCENTUAL_PAGO'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridExtraviosDBTableView1VAL_PRODUTO: TcxGridDBColumn
+            DataBinding.FieldName = 'VAL_PRODUTO'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+            Visible = False
+          end
+          object gridExtraviosDBTableView1VAL_MULTA: TcxGridDBColumn
+            DataBinding.FieldName = 'VAL_MULTA'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+            Visible = False
+          end
+          object gridExtraviosDBTableView1VAL_VERBA: TcxGridDBColumn
+            DataBinding.FieldName = 'VAL_VERBA'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+            Visible = False
+          end
+          object gridExtraviosDBTableView1cod_awb: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_awb'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 138
+          end
+          object gridExtraviosDBTableView1VAL_TOTAL: TcxGridDBColumn
+            Caption = 'Valor'
+            DataBinding.FieldName = 'VAL_TOTAL'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+            HeaderAlignmentHorz = taCenter
+            Width = 77
+          end
+          object gridExtraviosDBTableView1des_produto: TcxGridDBColumn
+            DataBinding.FieldName = 'des_produto'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 294
+          end
+          object gridExtraviosDBTableView1SEQ_ACAREACAO: TcxGridDBColumn
+            Caption = 'Acarea'#231#227'o N'#176'.'
+            DataBinding.FieldName = 'SEQ_ACAREACAO'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 85
+          end
+          object gridExtraviosDBTableView1NUM_EXTRATO: TcxGridDBColumn
+            Caption = 'Extrato N'#186'.'
+            DataBinding.FieldName = 'NUM_EXTRATO'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 133
+          end
+          object gridExtraviosDBTableView1COD_AGENTE: TcxGridDBColumn
+            DataBinding.FieldName = 'COD_AGENTE'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 79
+          end
+          object gridExtraviosDBTableView1NOM_AGENTE: TcxGridDBColumn
+            Caption = 'Nome do Agente'
+            DataBinding.FieldName = 'NOM_AGENTE'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 395
+          end
+          object gridExtraviosDBTableView1COD_ENTREGADOR: TcxGridDBColumn
+            DataBinding.FieldName = 'COD_ENTREGADOR'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 99
+          end
+          object gridExtraviosDBTableView1NOM_ENTREGADOR: TcxGridDBColumn
+            Caption = 'Nome do Entregador'
+            DataBinding.FieldName = 'NOM_ENTREGADOR'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridExtraviosDBTableView1COD_CADASTRO: TcxGridDBColumn
+            DataBinding.FieldName = 'COD_CADASTRO'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 89
+          end
+          object gridExtraviosDBTableView1NUM_CNPJ: TcxGridDBColumn
+            DataBinding.FieldName = 'NUM_CNPJ'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridExtraviosDBTableView1DES_RAZAO_SOCIAL: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_RAZAO_SOCIAL'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridExtraviosDBTableView1DES_OBSERVACOES: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_OBSERVACOES'
+            PropertiesClassName = 'TcxBlobEditProperties'
+            Properties.BlobEditKind = bekMemo
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            Width = 81
+          end
+          object gridExtraviosDBTableView1cod_cliente: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_cliente'
+            PropertiesClassName = 'TcxLookupComboBoxProperties'
+            Properties.KeyFieldNames = 'cod_cliente'
+            Properties.ListColumns = <
+              item
+                FieldName = 'nom_cliente'
+              end>
+            Properties.ListOptions.ShowHeader = False
+            Properties.ListSource = dsClientes
+            HeaderAlignmentHorz = taCenter
+            Width = 158
+          end
+        end
+        object gridExtraviosLevel1: TcxGridLevel
+          GridView = gridExtraviosDBTableView1
+        end
+      end
+    end
+    object tabFiltro: TcxTabSheet
+      Caption = 'Filtro'
+      ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+      object panelFooterFiltro: TPanel
+        AlignWithMargins = True
+        Left = 3
+        Top = 316
+        Width = 815
+        Height = 38
+        Align = alBottom
+        BevelOuter = bvNone
+        Caption = 'panelFooterFiltro'
+        ShowCaption = False
+        TabOrder = 0
+        DesignSize = (
+          815
+          38)
+        object cxButton2: TcxButton
+          Left = 643
+          Top = 8
+          Width = 82
+          Height = 25
+          Cursor = crHandPoint
+          Action = actionFiltrar
+          Anchors = [akRight, akBottom]
+          OptionsImage.Glyph.SourceDPI = 96
+          OptionsImage.Glyph.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            610000001974455874536F6674776172650041646F626520496D616765526561
+            647971C9653C00000021744558745469746C65004170706C793B4F4B3B436865
+            636B3B426172733B526962626F6E3B6463C8680000009449444154785EC59341
+            0A83400C4547BAEAB6E0097A912E2DB8D2BBB8F1201EC19BD82B74E3294AC159
+            C52F2464182498B6D0C5239B798F309040445FF1FB40370E4728787E14A8C004
+            2EBE80CA0B20F0008523A032CF3B08B97CF2C81BA97C054F703B220B229FC1CC
+            8FDE1AB1E57C8316C424D2677295CB7B7FD0680498B206AC4894B53D0189BC40
+            0D823720943C4DFE7F8D2B585260AAC36B7FD80000000049454E44AE426082}
+          TabOrder = 0
+        end
+        object cxButton3: TcxButton
+          Left = 728
+          Top = 8
+          Width = 83
+          Height = 25
+          Cursor = crHandPoint
+          Action = actionCancelarFiltro
+          Anchors = [akRight, akBottom]
+          OptionsImage.Glyph.SourceDPI = 96
+          OptionsImage.Glyph.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            610000001974455874536F6674776172650041646F626520496D616765526561
+            647971C9653C00000023744558745469746C650043616E63656C3B53746F703B
+            457869743B426172733B526962626F6E3B4C9696B20000009449444154785E95
+            93410A834010047D5C2027F3093F104C6461C5CD37F312C5D3641AD27810BAF1
+            5030CC587510B68B88EE3BDCFAA46236F0FB190E66CA7B12C9125EFE24F1771E
+            584C9009234626230FE514F1F21B2E8E22A2650654A42999011951320322A265
+            E0FFF6411301219B88935F49511129F3A622567611C8B3905DA462794FD693EC
+            231B5C2C19795E78CE131CCC3FD2409CCC2C3656140000000049454E44AE4260
+            82}
+          TabOrder = 1
+        end
+        object cxButton4: TcxButton
+          Left = 1
+          Top = 8
+          Width = 82
+          Height = 25
+          Cursor = crHandPoint
+          Action = actionLimparFiltro
+          Anchors = [akLeft, akBottom]
+          OptionsImage.Glyph.SourceDPI = 96
+          OptionsImage.Glyph.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            610000001974455874536F6674776172650041646F626520496D616765526561
+            647971C9653C00000025744558745469746C6500436C6561723B45726173653B
+            52656D6F76653B426172733B526962626F6E3B87808373000000704944415478
+            5EA5D3C10980301044517BB205AF5B859D5895A5D8CD9880F07370962C397C72
+            9A07096493B4D42FF09CC758B4F415AD0AC0D82019C0D8231E60EC0B80D29800
+            ECB80EA850AC003C625CF7DE523FBB3A3B1E0111483AF600C8C4982BE4086307
+            5824FF48001699FD8D4BBDA8B182C018E296BC0000000049454E44AE426082}
+          TabOrder = 2
+        end
+      end
+      object filtroExtravios: TcxDBFilterControl
+        Left = 0
+        Top = 0
+        Width = 821
+        Height = 313
+        Align = alClient
+        DataSet = memTableExtravios
+        Items = <
+          item
+            Caption = 'N'#186'. Extravio'
+            FieldName = 'COD_EXTRAVIO'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'C'#243'd. Agente'
+            FieldName = 'COD_AGENTE'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'AWB'
+            FieldName = 'cod_awb'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'C'#243'd. Cadastro'
+            FieldName = 'COD_CADASTRO'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'Tipo'
+            FieldName = 'COD_TIPO'
+            PropertiesClassName = 'TcxComboBoxProperties'
+            Properties.DropDownListStyle = lsEditFixedList
+            Properties.Items.Strings = (
+              'EXTRAVIO'
+              'SINISTRO'
+              'MULTA')
+            Properties.OEMConvert = True
+          end
+          item
+            Caption = 'Data'
+            FieldName = 'DAT_EXTRAVIO'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+          end
+          item
+            Caption = 'Descri'#231#227'o'
+            FieldName = 'DES_EXTRAVIO'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Produto'
+            FieldName = 'des_produto'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Nome Cadastro'
+            FieldName = 'DES_RAZAO_SOCIAL'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Status'
+            FieldName = 'DOM_RESTRICAO'
+            PropertiesClassName = 'TcxComboBoxProperties'
+            Properties.Items.Strings = (
+              'FECHADO'
+              'PENDENTE'
+              'ESTORNADO')
+          end
+          item
+            Caption = 'Nome Agente'
+            FieldName = 'NOM_AGENTE'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Nome Entregador'
+            FieldName = 'NOM_ENTREGADOR'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'CPF / CNPJ'
+            FieldName = 'NUM_CNPJ'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Extrato N'#186'.'
+            FieldName = 'NUM_EXTRATO'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Remessa N'#186'.'
+            FieldName = 'NUM_NOSSONUMERO'
+            PropertiesClassName = 'TcxTextEditProperties'
+          end
+          item
+            Caption = 'Acarea'#231#227'o N'#186'.'
+            FieldName = 'SEQ_ACAREACAO'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'Multa'
+            FieldName = 'VAL_MULTA'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+          end
+          item
+            Caption = 'Situa'#231#227'o'
+            FieldName = 'VAL_PERCENTUAL_PAGO'
+            PropertiesClassName = 'TcxComboBoxProperties'
+            Properties.Items.Strings = (
+              'QUITADO')
+          end
+          item
+            Caption = 'Valor Produto'
+            FieldName = 'VAL_PRODUTO'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+          end
+          item
+            Caption = 'Total Extravio'
+            FieldName = 'VAL_TOTAL'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+          end
+          item
+            Caption = 'Verba Entregador'
+            FieldName = 'VAL_VERBA'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ' ,0.00;- ,0.00'
+          end
+          item
+            Caption = 'C'#243'd. Entregador'
+            FieldName = 'COD_ENTREGADOR'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d'
+          end
+          item
+            Caption = 'Cliente'
+            FieldName = 'cod_cliente'
+            PropertiesClassName = 'TcxLookupComboBoxProperties'
+            Properties.KeyFieldNames = 'cod_cliente'
+            Properties.ListColumns = <
+              item
+                FieldName = 'nom_cliente'
+              end>
+            Properties.ListOptions.ShowHeader = False
+            Properties.ListSource = dsClientes
+          end>
+        TabOrder = 1
+      end
+    end
+  end
   object panelPesquisa: TPanel
     AlignWithMargins = True
     Left = 3
@@ -28,21 +549,25 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     BevelOuter = bvNone
     Caption = 'panelPesquisa'
     ShowCaption = False
-    TabOrder = 1
+    TabOrder = 5
+    DesignSize = (
+      829
+      27)
     object cxLabel1: TcxLabel
       Left = 8
       Top = 4
       Caption = 'Pesquisar: '
+      Transparent = True
     end
     object pesquisar: TcxTextEdit
       Left = 65
       Top = 3
       Hint = 'Par'#226'metro a pesquisasr'
       TabOrder = 1
-      Width = 365
+      Width = 349
     end
     object cxButton1: TcxButton
-      Left = 436
+      Left = 420
       Top = 1
       Width = 81
       Height = 25
@@ -61,12 +586,13 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       TabOrder = 2
     end
     object cxLabel2: TcxLabel
-      Left = 523
+      Left = 507
       Top = 4
       Caption = 'Campos:'
+      Transparent = True
     end
     object comboBoxCampos: TcxComboBox
-      Left = 575
+      Left = 559
       Top = 3
       Properties.Items.Strings = (
         'Todos'
@@ -86,255 +612,11 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Width = 151
     end
     object checkBoxGrupo: TcxCheckBox
-      Left = 725
+      Left = 716
       Top = 3
       Action = actionPainelGrupos
+      Anchors = [akTop, akRight]
       TabOrder = 5
-    end
-  end
-  object gridExtravios: TcxGrid
-    AlignWithMargins = True
-    Left = 3
-    Top = 90
-    Width = 829
-    Height = 365
-    Align = alClient
-    TabOrder = 5
-    object gridExtraviosDBTableView1: TcxGridDBTableView
-      Navigator.Buttons.OnButtonClick = gridExtraviosDBTableView1NavigatorButtonsButtonClick
-      Navigator.Buttons.CustomButtons = <
-        item
-          ImageIndex = 62
-        end
-        item
-          ImageIndex = 63
-        end>
-      Navigator.Buttons.Images = Data_Sisgef.iml_16_16
-      Navigator.Buttons.First.ImageIndex = 5
-      Navigator.Buttons.PriorPage.Visible = False
-      Navigator.Buttons.Prior.ImageIndex = 8
-      Navigator.Buttons.Next.ImageIndex = 7
-      Navigator.Buttons.NextPage.Visible = False
-      Navigator.Buttons.Last.ImageIndex = 6
-      Navigator.Buttons.Insert.Visible = False
-      Navigator.Buttons.Delete.Visible = False
-      Navigator.Buttons.Edit.Visible = False
-      Navigator.Buttons.Post.Visible = False
-      Navigator.Buttons.Cancel.Visible = False
-      Navigator.Buttons.Refresh.Visible = False
-      Navigator.Buttons.SaveBookmark.Visible = False
-      Navigator.Buttons.GotoBookmark.Visible = False
-      Navigator.Buttons.Filter.ImageIndex = 19
-      Navigator.InfoPanel.Visible = True
-      Navigator.Visible = True
-      DataController.DataSource = dsExtravios
-      DataController.Summary.DefaultGroupSummaryItems = <
-        item
-          Format = ',0.00;- ,0.00'
-          Kind = skSum
-        end
-        item
-          Format = ',0.00;- ,0.00'
-          Kind = skSum
-        end
-        item
-          Format = ',0.00;- ,0.00'
-          Kind = skSum
-        end
-        item
-          Format = ',0.00;- ,0.00'
-          Kind = skSum
-        end
-        item
-        end>
-      DataController.Summary.FooterSummaryItems = <
-        item
-          Format = ',0.00;- ,0.00'
-          Kind = skSum
-        end
-        item
-          Format = ',0.00;- ,0.00'
-          Kind = skSum
-        end
-        item
-          Format = ',0.00;- ,0.00'
-          Kind = skSum
-        end
-        item
-          Kind = skSum
-          Sorted = True
-        end>
-      DataController.Summary.SummaryGroups = <>
-      OptionsBehavior.CopyCaptionsToClipboard = False
-      OptionsCustomize.ColumnsQuickCustomization = True
-      OptionsCustomize.ColumnsQuickCustomizationShowCommands = False
-      OptionsData.Deleting = False
-      OptionsData.DeletingConfirmation = False
-      OptionsData.Editing = False
-      OptionsData.Inserting = False
-      OptionsSelection.CellSelect = False
-      OptionsSelection.MultiSelect = True
-      OptionsSelection.CheckBoxPosition = cbpIndicator
-      OptionsSelection.CheckBoxVisibility = [cbvDataRow, cbvColumnHeader]
-      OptionsSelection.ClearPersistentSelectionOnOutsideClick = True
-      OptionsView.Footer = True
-      OptionsView.GroupByBox = False
-      object gridExtraviosDBTableView1COD_EXTRAVIO: TcxGridDBColumn
-        Caption = 'N'#186'.'
-        DataBinding.FieldName = 'COD_EXTRAVIO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-      end
-      object gridExtraviosDBTableView1COD_TIPO: TcxGridDBColumn
-        Caption = 'Tipo'
-        DataBinding.FieldName = 'COD_TIPO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-      end
-      object gridExtraviosDBTableView1DES_EXTRAVIO: TcxGridDBColumn
-        Caption = 'Descri'#231#227'o'
-        DataBinding.FieldName = 'DES_EXTRAVIO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 288
-      end
-      object gridExtraviosDBTableView1DAT_EXTRAVIO: TcxGridDBColumn
-        Caption = 'Data'
-        DataBinding.FieldName = 'DAT_EXTRAVIO'
-        PropertiesClassName = 'TcxDateEditProperties'
-        Properties.SaveTime = False
-        Properties.ShowTime = False
-        HeaderAlignmentHorz = taCenter
-      end
-      object gridExtraviosDBTableView1NUM_NOSSONUMERO: TcxGridDBColumn
-        Caption = 'N'#186' Remessa'
-        DataBinding.FieldName = 'NUM_NOSSONUMERO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-      end
-      object gridExtraviosDBTableView1DOM_RESTRICAO: TcxGridDBColumn
-        Caption = 'Status'
-        DataBinding.FieldName = 'DOM_RESTRICAO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-      end
-      object gridExtraviosDBTableView1VAL_PERCENTUAL_PAGO: TcxGridDBColumn
-        Caption = 'Situa'#231#227'o'
-        DataBinding.FieldName = 'VAL_PERCENTUAL_PAGO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-      end
-      object gridExtraviosDBTableView1VAL_PRODUTO: TcxGridDBColumn
-        DataBinding.FieldName = 'VAL_PRODUTO'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.DisplayFormat = ' ,0.00;- ,0.00'
-        Visible = False
-      end
-      object gridExtraviosDBTableView1VAL_MULTA: TcxGridDBColumn
-        DataBinding.FieldName = 'VAL_MULTA'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.DisplayFormat = ' ,0.00;- ,0.00'
-        Visible = False
-      end
-      object gridExtraviosDBTableView1VAL_VERBA: TcxGridDBColumn
-        DataBinding.FieldName = 'VAL_VERBA'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.DisplayFormat = ' ,0.00;- ,0.00'
-        Visible = False
-      end
-      object gridExtraviosDBTableView1VAL_TOTAL: TcxGridDBColumn
-        Caption = 'Valor'
-        DataBinding.FieldName = 'VAL_TOTAL'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.DisplayFormat = ' ,0.00;- ,0.00'
-        HeaderAlignmentHorz = taCenter
-        Width = 77
-      end
-      object gridExtraviosDBTableView1cod_awb: TcxGridDBColumn
-        Caption = 'AWB'
-        DataBinding.FieldName = 'cod_awb'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 138
-      end
-      object gridExtraviosDBTableView1des_produto: TcxGridDBColumn
-        Caption = 'Produto'
-        DataBinding.FieldName = 'des_produto'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 294
-      end
-      object gridExtraviosDBTableView1SEQ_ACAREACAO: TcxGridDBColumn
-        Caption = 'Acarea'#231#227'o N'#176'.'
-        DataBinding.FieldName = 'SEQ_ACAREACAO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 85
-      end
-      object gridExtraviosDBTableView1NUM_EXTRATO: TcxGridDBColumn
-        Caption = 'Extrato N'#186'.'
-        DataBinding.FieldName = 'NUM_EXTRATO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 133
-      end
-      object gridExtraviosDBTableView1COD_AGENTE: TcxGridDBColumn
-        Caption = 'C'#243'd. Agente'
-        DataBinding.FieldName = 'COD_AGENTE'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 79
-      end
-      object gridExtraviosDBTableView1NOM_AGENTE: TcxGridDBColumn
-        Caption = 'Nome do Agente'
-        DataBinding.FieldName = 'NOM_AGENTE'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 395
-      end
-      object gridExtraviosDBTableView1COD_ENTREGADOR: TcxGridDBColumn
-        Caption = 'C'#243'd. Entregador'
-        DataBinding.FieldName = 'COD_ENTREGADOR'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 99
-      end
-      object gridExtraviosDBTableView1NOM_ENTREGADOR: TcxGridDBColumn
-        Caption = 'Nome do Entregador'
-        DataBinding.FieldName = 'NOM_ENTREGADOR'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-      end
-      object gridExtraviosDBTableView1COD_CADASTRO: TcxGridDBColumn
-        Caption = 'C'#243'd. Cadastro'
-        DataBinding.FieldName = 'COD_CADASTRO'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 89
-      end
-      object gridExtraviosDBTableView1NUM_CNPJ: TcxGridDBColumn
-        Caption = 'CPF / CNPJ'
-        DataBinding.FieldName = 'NUM_CNPJ'
-        HeaderAlignmentHorz = taCenter
-      end
-      object gridExtraviosDBTableView1DES_RAZAO_SOCIAL: TcxGridDBColumn
-        Caption = 'Nome Cadastro'
-        DataBinding.FieldName = 'DES_RAZAO_SOCIAL'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-      end
-      object gridExtraviosDBTableView1DES_OBSERVACOES: TcxGridDBColumn
-        Caption = 'Observa'#231#245'es'
-        DataBinding.FieldName = 'DES_OBSERVACOES'
-        PropertiesClassName = 'TcxBlobEditProperties'
-        Properties.BlobEditKind = bekMemo
-        Visible = False
-        HeaderAlignmentHorz = taCenter
-        Width = 81
-      end
-    end
-    object gridExtraviosLevel1: TcxGridLevel
-      GridView = gridExtraviosDBTableView1
     end
   end
   object actionListExtravios: TActionList
@@ -366,12 +648,14 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Enabled = False
       Hint = 'Cancelar pesquisa'
       ImageIndex = 2
+      OnExecute = actionCancelarExecute
     end
     object actionFiltro: TAction
       Category = 'Extravios'
       Caption = 'Fi&ltro'
       Hint = 'Filtrar registros'
       ImageIndex = 11
+      OnExecute = actionFiltroExecute
     end
     object actionFinalizar: TAction
       Category = 'Extravios'
@@ -422,6 +706,24 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Caption = 'Painel de Grupo'
       Hint = 'Exibir ou ocultar o painel de grupos'
       OnExecute = actionPainelGruposExecute
+    end
+    object actionFiltrar: TAction
+      Category = 'Filtro'
+      Caption = 'Filtrar'
+      Hint = 'Aplicar filtro'
+      OnExecute = actionFiltrarExecute
+    end
+    object actionCancelarFiltro: TAction
+      Category = 'Filtro'
+      Caption = 'Cancelar'
+      Hint = 'Cancelar filtro'
+      OnExecute = actionCancelarFiltroExecute
+    end
+    object actionLimparFiltro: TAction
+      Category = 'Filtro'
+      Caption = 'Limpar'
+      Hint = 'Limpar filtro'
+      OnExecute = actionLimparFiltroExecute
     end
   end
   object barManager: TdxBarManager
@@ -607,120 +909,8 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     end
   end
   object memTableExtravios: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'COD_EXTRAVIO'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'COD_AGENTE'
-        DataType = ftInteger
-      end
-      item
-        Name = 'NOM_AGENTE'
-        DataType = ftString
-        Size = 80
-      end
-      item
-        Name = 'COD_ENTREGADOR'
-        DataType = ftInteger
-      end
-      item
-        Name = 'COD_CADASTRO'
-        DataType = ftInteger
-      end
-      item
-        Name = 'NOM_ENTREGADOR'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'NUM_CNPJ'
-        DataType = ftString
-        Size = 20
-      end
-      item
-        Name = 'DES_RAZAO_SOCIAL'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'DAT_EXTRAVIO'
-        DataType = ftDate
-      end
-      item
-        Name = 'DES_EXTRAVIO'
-        DataType = ftString
-        Size = 150
-      end
-      item
-        Name = 'NUM_NOSSONUMERO'
-        DataType = ftString
-        Size = 20
-      end
-      item
-        Name = 'VAL_PRODUTO'
-        DataType = ftFloat
-        Precision = 22
-      end
-      item
-        Name = 'VAL_MULTA'
-        DataType = ftFloat
-        Precision = 22
-      end
-      item
-        Name = 'VAL_VERBA'
-        DataType = ftFloat
-        Precision = 22
-      end
-      item
-        Name = 'VAL_TOTAL'
-        DataType = ftFloat
-        Precision = 22
-      end
-      item
-        Name = 'DOM_RESTRICAO'
-        Attributes = [faReadonly]
-        DataType = ftString
-        Size = 9
-      end
-      item
-        Name = 'COD_TIPO'
-        Attributes = [faReadonly]
-        DataType = ftString
-        Size = 8
-      end
-      item
-        Name = 'DES_OBSERVACOES'
-        DataType = ftMemo
-      end
-      item
-        Name = 'VAL_PERCENTUAL_PAGO'
-        Attributes = [faReadonly]
-        DataType = ftString
-        Size = 12
-      end
-      item
-        Name = 'SEQ_ACAREACAO'
-        DataType = ftInteger
-      end
-      item
-        Name = 'NUM_EXTRATO'
-        DataType = ftString
-        Size = 30
-      end
-      item
-        Name = 'cod_awb'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'des_produto'
-        DataType = ftString
-        Size = 256
-      end>
+    AfterClose = memTableExtraviosAfterClose
+    FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -737,217 +927,128 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
     Left = 632
-    Content = {
-      414442530F006C33070C0000FF00010001FF02FF030400220000006D0065006D
-      005400610062006C00650045007800740072006100760069006F00730005000A
-      0000005400610062006C006500060000000000070000080032000000090000FF
-      0AFF0B04001800000043004F0044005F0045005800540052004100560049004F
-      0005001800000043004F0044005F0045005800540052004100560049004F000C
-      00010000000E000D000F000110000111000112000113001800000043004F0044
-      005F0045005800540052004100560049004F00FEFF0B04001400000043004F00
-      44005F004100470045004E005400450005001400000043004F0044005F004100
-      470045004E00540045000C00020000000E000D000F0001140001100001150001
-      11000112000113001400000043004F0044005F004100470045004E0054004500
-      FEFF0B0400140000004E004F004D005F004100470045004E0054004500050014
-      0000004E004F004D005F004100470045004E00540045000C00030000000E0016
-      001700500000000F00011400011000011500011100011200011300140000004E
-      004F004D005F004100470045004E0054004500180050000000FEFF0B04001C00
-      000043004F0044005F0045004E005400520045004700410044004F0052000500
-      1C00000043004F0044005F0045004E005400520045004700410044004F005200
-      0C00040000000E000D000F000114000110000115000111000112000113001C00
-      000043004F0044005F0045004E005400520045004700410044004F005200FEFF
-      0B04001800000043004F0044005F0043004100440041005300540052004F0005
-      001800000043004F0044005F0043004100440041005300540052004F000C0005
-      0000000E000D000F000114000110000115000111000112000113001800000043
-      004F0044005F0043004100440041005300540052004F00FEFF0B04001C000000
-      4E004F004D005F0045004E005400520045004700410044004F00520005001C00
-      00004E004F004D005F0045004E005400520045004700410044004F0052000C00
-      060000000E0016001700460000000F0001140001100001150001110001120001
-      13001C0000004E004F004D005F0045004E005400520045004700410044004F00
-      5200180046000000FEFF0B0400100000004E0055004D005F0043004E0050004A
-      000500100000004E0055004D005F0043004E0050004A000C00070000000E0016
-      001700140000000F00011400011000011500011100011200011300100000004E
-      0055004D005F0043004E0050004A00180014000000FEFF0B0400200000004400
-      450053005F00520041005A0041004F005F0053004F004300490041004C000500
-      200000004400450053005F00520041005A0041004F005F0053004F0043004900
-      41004C000C00080000000E0016001700460000000F0001140001100001150001
-      1100011200011300200000004400450053005F00520041005A0041004F005F00
-      53004F004300490041004C00180046000000FEFF0B0400180000004400410054
-      005F0045005800540052004100560049004F000500180000004400410054005F
-      0045005800540052004100560049004F000C00090000000E0019000F00011400
-      011000011500011100011200011300180000004400410054005F004500580054
-      0052004100560049004F00FEFF0B0400180000004400450053005F0045005800
-      540052004100560049004F000500180000004400450053005F00450058005400
-      52004100560049004F000C000A0000000E0016001700960000000F0001140001
-      1000011500011100011200011300180000004400450053005F00450058005400
-      52004100560049004F00180096000000FEFF0B04001E0000004E0055004D005F
-      004E004F00530053004F004E0055004D00450052004F0005001E0000004E0055
-      004D005F004E004F00530053004F004E0055004D00450052004F000C000B0000
-      000E0016001700140000000F000114000110000115000111000112000113001E
-      0000004E0055004D005F004E004F00530053004F004E0055004D00450052004F
-      00180014000000FEFF0B040016000000560041004C005F00500052004F004400
-      550054004F00050016000000560041004C005F00500052004F00440055005400
-      4F000C000C0000000E001A001B00160000000F00011400011000011500011100
-      01120001130016000000560041004C005F00500052004F004400550054004F00
-      1C0016000000FEFF0B040012000000560041004C005F004D0055004C00540041
-      00050012000000560041004C005F004D0055004C00540041000C000D0000000E
-      001A001B00160000000F00011400011000011500011100011200011300120000
-      00560041004C005F004D0055004C00540041001C0016000000FEFF0B04001200
-      0000560041004C005F0056004500520042004100050012000000560041004C00
-      5F00560045005200420041000C000E0000000E001A001B00160000000F000114
-      0001100001150001110001120001130012000000560041004C005F0056004500
-      5200420041001C0016000000FEFF0B040012000000560041004C005F0054004F
-      00540041004C00050012000000560041004C005F0054004F00540041004C000C
-      000F0000000E001A001B00160000000F00011400011000011500011100011200
-      01130012000000560041004C005F0054004F00540041004C001C0016000000FE
-      FF0B04001A00000044004F004D005F0052004500530054005200490043004100
-      4F0005001A00000044004F004D005F0052004500530054005200490043004100
-      4F000C00100000000E0016001700090000000F00011400011D00011000011500
-      011E000111000112000113001A00000044004F004D005F005200450053005400
-      52004900430041004F00180009000000FEFF0B04001000000043004F0044005F
-      005400490050004F0005001000000043004F0044005F005400490050004F000C
-      00110000000E0016001700080000000F00011400011D00011000011500011E00
-      0111000112000113001000000043004F0044005F005400490050004F00180008
-      000000FEFF0B04001E0000004400450053005F004F0042005300450052005600
-      410043004F004500530005001E0000004400450053005F004F00420053004500
-      52005600410043004F00450053000C00120000000E001F000F00011400012000
-      0110000115000111000112000113001E0000004400450053005F004F00420053
-      00450052005600410043004F0045005300FEFF0B040026000000560041004C00
-      5F00500045005200430045004E005400550041004C005F005000410047004F00
-      050026000000560041004C005F00500045005200430045004E00540055004100
-      4C005F005000410047004F000C00130000000E00160017000C0000000F000114
-      00011D00011000011500011E0001110001120001130026000000560041004C00
-      5F00500045005200430045004E005400550041004C005F005000410047004F00
-      18000C000000FEFF0B04001A0000005300450051005F00410043004100520045
-      004100430041004F0005001A0000005300450051005F00410043004100520045
-      004100430041004F000C00140000000E000D000F000114000110000115000111
-      000112000113001A0000005300450051005F0041004300410052004500410043
-      0041004F00FEFF0B0400160000004E0055004D005F0045005800540052004100
-      54004F000500160000004E0055004D005F004500580054005200410054004F00
-      0C00150000000E00160017001E0000000F000114000110000115000111000112
-      00011300160000004E0055004D005F004500580054005200410054004F001800
-      1E000000FEFF0B04000E00000063006F0064005F0061007700620005000E0000
-      0063006F0064005F006100770062000C00160000000E0016001700460000000F
-      000114000110000115000111000112000113000E00000063006F0064005F0061
-      0077006200180046000000FEFF0B0400160000006400650073005F0070007200
-      6F006400750074006F000500160000006400650073005F00700072006F006400
-      750074006F000C00170000000E0016001700000100000F000114000110000115
-      00011100011200011300160000006400650073005F00700072006F0064007500
-      74006F00180000010000FEFEFF21FEFF22FEFF23FEFEFEFF24FEFF2526005E21
-      0000FF27FEFEFE0E004D0061006E0061006700650072001E0055007000640061
-      007400650073005200650067006900730074007200790012005400610062006C
-      0065004C006900730074000A005400610062006C00650008004E0061006D0065
-      00140053006F0075007200630065004E0061006D0065000A0054006100620049
-      004400240045006E0066006F0072006300650043006F006E0073007400720061
-      0069006E00740073001E004D0069006E0069006D0075006D0043006100700061
-      006300690074007900180043006800650063006B004E006F0074004E0075006C
-      006C00140043006F006C0075006D006E004C006900730074000C0043006F006C
-      0075006D006E00100053006F007500720063006500490044000E006400740049
-      006E007400330032001000440061007400610054007900700065001400530065
-      006100720063006800610062006C0065000800420061007300650012004F0049
-      006E0055007000640061007400650010004F0049006E00570068006500720065
-      001A004F0072006900670069006E0043006F006C004E0061006D006500120041
-      006C006C006F0077004E0075006C006C0014004F0041006C006C006F0077004E
-      0075006C006C0018006400740041006E007300690053007400720069006E0067
-      000800530069007A006500140053006F007500720063006500530069007A0065
-      000C0064007400440061007400650010006400740044006F00750062006C0065
-      00120050007200650063006900730069006F006E001E0053006F007500720063
-      00650050007200650063006900730069006F006E00100052006500610064004F
-      006E006C00790012004F0052006500610064004F006E006C0079000C00640074
-      004D0065006D006F00100042006C006F00620044006100740061001C0043006F
-      006E00730074007200610069006E0074004C0069007300740010005600690065
-      0077004C006900730074000E0052006F0077004C006900730074001800520065
-      006C006100740069006F006E004C006900730074001C00550070006400610074
-      00650073004A006F00750072006E0061006C001200530061007600650050006F
-      0069006E0074000E004300680061006E00670065007300}
     object memTableExtraviosCOD_EXTRAVIO: TIntegerField
+      DisplayLabel = 'N'#186'.'
       FieldName = 'COD_EXTRAVIO'
       Required = True
     end
     object memTableExtraviosCOD_AGENTE: TIntegerField
+      DisplayLabel = 'C'#243'd. Agente'
       FieldName = 'COD_AGENTE'
     end
     object memTableExtraviosNOM_AGENTE: TStringField
+      DisplayLabel = 'Nome Agente'
       FieldName = 'NOM_AGENTE'
       Size = 80
     end
     object memTableExtraviosCOD_ENTREGADOR: TIntegerField
+      DisplayLabel = 'C'#243'd. Entregador'
       FieldName = 'COD_ENTREGADOR'
     end
     object memTableExtraviosCOD_CADASTRO: TIntegerField
+      DisplayLabel = 'C'#243'd. Cadastro'
       FieldName = 'COD_CADASTRO'
     end
     object memTableExtraviosNOM_ENTREGADOR: TStringField
+      DisplayLabel = 'Nome Entregador'
       FieldName = 'NOM_ENTREGADOR'
       Size = 70
     end
     object memTableExtraviosNUM_CNPJ: TStringField
+      DisplayLabel = 'CPF / CNPJ'
       FieldName = 'NUM_CNPJ'
     end
     object memTableExtraviosDES_RAZAO_SOCIAL: TStringField
+      DisplayLabel = 'Nome Cadastro'
       FieldName = 'DES_RAZAO_SOCIAL'
       Size = 70
     end
     object memTableExtraviosDAT_EXTRAVIO: TDateField
+      DisplayLabel = 'Data'
       FieldName = 'DAT_EXTRAVIO'
     end
     object memTableExtraviosDES_EXTRAVIO: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
       FieldName = 'DES_EXTRAVIO'
       Size = 150
     end
     object memTableExtraviosNUM_NOSSONUMERO: TStringField
+      DisplayLabel = 'N'#186'. Remessa'
       FieldName = 'NUM_NOSSONUMERO'
     end
     object memTableExtraviosVAL_PRODUTO: TFloatField
+      DisplayLabel = 'Valor Produto'
       FieldName = 'VAL_PRODUTO'
     end
     object memTableExtraviosVAL_MULTA: TFloatField
+      DisplayLabel = 'Valor Multa'
       FieldName = 'VAL_MULTA'
     end
     object memTableExtraviosVAL_VERBA: TFloatField
+      DisplayLabel = 'Verba Entregador'
       FieldName = 'VAL_VERBA'
     end
     object memTableExtraviosVAL_TOTAL: TFloatField
+      DisplayLabel = 'Valor Extravio'
       FieldName = 'VAL_TOTAL'
     end
     object memTableExtraviosDOM_RESTRICAO: TStringField
+      DisplayLabel = 'Status'
       FieldName = 'DOM_RESTRICAO'
       ReadOnly = True
       Size = 9
     end
     object memTableExtraviosCOD_TIPO: TStringField
+      DisplayLabel = 'Tipo'
       FieldName = 'COD_TIPO'
       ReadOnly = True
       Size = 8
     end
     object memTableExtraviosDES_OBSERVACOES: TMemoField
+      DisplayLabel = 'Observa'#231#245'es'
       FieldName = 'DES_OBSERVACOES'
       BlobType = ftMemo
     end
     object memTableExtraviosVAL_PERCENTUAL_PAGO: TStringField
+      DisplayLabel = 'Situa'#231#227'o'
       FieldName = 'VAL_PERCENTUAL_PAGO'
       ReadOnly = True
       Size = 12
     end
     object memTableExtraviosSEQ_ACAREACAO: TIntegerField
+      DisplayLabel = 'N'#186'. Acarea'#231#227'o'
       FieldName = 'SEQ_ACAREACAO'
     end
     object memTableExtraviosNUM_EXTRATO: TStringField
+      DisplayLabel = 'N'#186'. Extrato'
       FieldName = 'NUM_EXTRATO'
       Size = 30
     end
     object memTableExtravioscod_awb: TStringField
+      DisplayLabel = 'AWB'
       FieldName = 'cod_awb'
       Size = 70
     end
     object memTableExtraviosdes_produto: TStringField
+      DisplayLabel = 'Produto'
       FieldName = 'des_produto'
       Size = 256
+    end
+    object memTableExtravioscod_cliente: TIntegerField
+      DisplayLabel = 'Cliente'
+      FieldName = 'cod_cliente'
     end
   end
   object dsExtravios: TDataSource
     AutoEdit = False
     DataSet = memTableExtravios
+    OnStateChange = dsExtraviosStateChange
     Left = 688
+  end
+  object dsClientes: TDataSource
+    AutoEdit = False
+    DataSet = Data_Sisgef.mtbClientesEmpresa
+    OnStateChange = dsExtraviosStateChange
+    Left = 736
   end
 end

@@ -583,6 +583,7 @@ object view_FiltroGenerico: Tview_FiltroGenerico
       Top = 12
       Width = 573
       Height = 239
+      Cursor = crHandPoint
       Items = <>
       LookAndFeel.Kind = lfFlat
       TabOrder = 0

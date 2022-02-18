@@ -26,7 +26,9 @@ type
     function ExtraviosExtratoEntregadores(): Boolean;
     function EncerraExtravio(aParam: Array of variant): Boolean;
     function ExtravioExiste(): Integer;
-    function PesquisaExtraviosMultas(iIndex: integer; sTexto: String): boolean;
+    function PesquisaExtraviosMultas(iIndex: integer; sTexto, sFilter: String): boolean;
+    function SetupClass(): boolean;
+    function ClearClass(): boolean;
 
     property Extravios: TExtraviosMultas read FExtravios write FExtravios;
 
@@ -37,6 +39,11 @@ implementation
 { TExtraviosMultasControl }
 
 uses Global.Parametros;
+
+function TExtraviosMultasControl.ClearClass: boolean;
+begin
+  Result := FExtravios.ClearClass();
+end;
 
 constructor TExtraviosMultasControl.Create;
 begin
@@ -107,14 +114,19 @@ begin
   Result := FExtravios.Localizar(aParam);
 end;
 
-function TExtraviosMultasControl.PesquisaExtraviosMultas(iIndex: integer; sTexto: String): boolean;
+function TExtraviosMultasControl.PesquisaExtraviosMultas(iIndex: integer; sTexto, sFilter: String): boolean;
 begin
-  Result := FExtravios.PesquisaExtraviosMultas(iIndex, sTexto);
+  Result := FExtravios.PesquisaExtraviosMultas(iIndex, sTexto, sFilter);
 end;
 
 function TExtraviosMultasControl.RetornaTotaisExtravios(aParam: array of variant): TFDQuery;
 begin
   Result := FExtravios.RetornaTotaisExtravios(aParam);
+end;
+
+function TExtraviosMultasControl.SetupClass: boolean;
+begin
+  Result := FExtravios.SetupClass();
 end;
 
 function TExtraviosMultasControl.ValidaCampos: Boolean;
