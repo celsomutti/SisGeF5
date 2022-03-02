@@ -8,7 +8,8 @@ uses
   cxContainer, cxEdit, dxSkinsCore, dxSkinsDefaultPainters, cxTextEdit, cxLabel, cxGroupBox, cxMaskEdit, cxDropDownEdit,
   Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxButtonEdit, cxCurrencyEdit, Vcl.StdCtrls, cxClasses, dxGaugeCustomScale,
   dxGaugeQuantitativeScale, dxGaugeCircularScale, dxGaugeControl, Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons,
-  cxProgressBar, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Data.DB, Data.SisGeF, Common.ENum, Control.EntregadoresExpressas;
+  cxProgressBar, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Data.DB, Data.SisGeF, Common.ENum, Control.EntregadoresExpressas,
+  Control.ControleAWB, Control.Entregas;
 
 
 type
@@ -48,10 +49,8 @@ type
     cxLabel16: TcxLabel;
     panelFooter: TPanel;
     actionListExtravios: TActionList;
-    actionFinalizar: TAction;
     actionGravar: TAction;
     actionCancelar: TAction;
-    cxButton1: TcxButton;
     cxButton2: TcxButton;
     cxButton3: TcxButton;
     cxLabel14: TcxLabel;
@@ -69,7 +68,21 @@ type
     AWB: TcxButtonEdit;
     actionRemessa: TAction;
     actionAWB: TAction;
+    operacao: TcxLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionFinalizarExecute(Sender: TObject);
+    procedure actionGravarExecute(Sender: TObject);
+    procedure actionCancelarExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure EntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure actionRemessaExecute(Sender: TObject);
+    procedure actionAWBExecute(Sender: TObject);
+    procedure SomaTotal;
+    procedure ValorProdutoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure actionPesquisarExecute(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure ClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     { Private declarations }
     procedure StartForm;
@@ -78,10 +91,18 @@ type
     procedure ClearForm;
     procedure BlockAllFields(bFlag: boolean);
     procedure PopulateFields;
+    procedure SetupClass;
+    procedure SaveData;
+    procedure CancelData;
+    procedure LocateEntregador(iCodigo: integer);
+    procedure SearchEntrega(iCampo, iCliente: Integer; sValor: string);
+    procedure PesquisaEntregadores;
   public
     { Public declarations }
     Facao: TAcao;
-    iNumero: Integer;
+    iNumero, iBase: Integer;
+    sStatus: String;
+
   end;
 
 var
@@ -92,7 +113,41 @@ implementation
 
 {$R *.dfm}
 
+uses View.PesquisaEntregadoresExpressas;
+
 { Tview_CadastroExtravios }
+
+procedure Tview_CadastroExtravios.actionAWBExecute(Sender: TObject);
+begin
+  if AWB.Text = '' then Exit;
+  SearchEntrega(2,Cliente.EditValue, AWB.Text);
+end;
+
+procedure Tview_CadastroExtravios.actionCancelarExecute(Sender: TObject);
+begin
+  CancelData;
+end;
+
+procedure Tview_CadastroExtravios.actionFinalizarExecute(Sender: TObject);
+begin
+  ModalResult := mrOk;
+end;
+
+procedure Tview_CadastroExtravios.actionGravarExecute(Sender: TObject);
+begin
+  SaveData;
+end;
+
+procedure Tview_CadastroExtravios.actionPesquisarExecute(Sender: TObject);
+begin
+  PesquisaEntregadores;
+end;
+
+procedure Tview_CadastroExtravios.actionRemessaExecute(Sender: TObject);
+begin
+  if NN.Text = '' then Exit;
+  SearchEntrega(1,Cliente.EditValue, NN.Text);
+end;
 
 procedure Tview_CadastroExtravios.BlockAllFields(bFlag: boolean);
 begin
@@ -117,10 +172,15 @@ begin
   NumeroExtrato.Properties.ReadOnly := bFlag;
 end;
 
+procedure Tview_CadastroExtravios.CancelData;
+begin
+  ModalResult := mrCancel;
+end;
+
 procedure Tview_CadastroExtravios.ClearForm;
 begin
   Id.Text := '0';
-  Tipo.ItemIndex = -1;
+  Tipo.ItemIndex := -1;
   Data.Clear;
   NN.Clear;
   AWB.Clear;
@@ -129,7 +189,7 @@ begin
   Entregador.Text := '0';
   Entregador.Tag := 0;
   NomeEntregador.Clear;
-  Cliente.EditingValue := 0;
+  Cliente.EditValue := 0;
   ValorProduto.Value := 0;
   Multa.Value := 0;
   Verba.Value := 0;
@@ -138,17 +198,80 @@ begin
   RetornoCorrespondencia.ItemIndex := -1;
   Obs.Clear;
   Produto.Clear;
-  Sequencia.Clear;
+  Sequencia.EditValue := 0;
   NumeroExtrato.Clear;
   Situacao.Caption := '';
   Status.Caption := '';
   val_percentual_pago.Position := 0;
+  operacao.Clear;
+end;
+
+procedure Tview_CadastroExtravios.ClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+begin
+  if Cliente.EditValue = 4 then
+  begin
+    awb.Enabled := True;
+  end
+  else
+  begin
+    awb.Clear;
+    awb.Enabled := False;
+  end;
+end;
+
+procedure Tview_CadastroExtravios.EntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+begin
+  if Entregador.Tag = -1 then
+    Exit;
+  LocateEntregador(DisplayValue);
 end;
 
 procedure Tview_CadastroExtravios.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  FExtravio.Free;
   Action := caFree;
   view_CadastroExtravios := nil;
+end;
+
+procedure Tview_CadastroExtravios.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+if obs.Focused then
+    Exit;
+  If Key = #13 then
+  begin
+    Key := #0;
+    Perform(Wm_NextDlgCtl, 0, 0);
+  end;
+end;
+
+procedure Tview_CadastroExtravios.FormShow(Sender: TObject);
+begin
+  StartForm;
+end;
+
+procedure Tview_CadastroExtravios.LocateEntregador(iCodigo: integer);
+var
+  FEntregadores : TEntregadoresExpressasControl;
+  aParam: array of variant;
+begin
+  try
+    FEntregadores := TEntregadoresExpressasControl.Create;
+    SetLength(aParam, 2);
+    aParam := ['ENTREGADOR', iCodigo];
+    if FEntregadores.Localizar(aParam).IsEmpty then
+    begin
+      NomeEntregador.Text := '';
+    end
+    else
+    begin
+      NomeEntregador.Text := Fentregadores.Localizar(aParam).FieldByName('nom_fantasia').AsString;
+      iBase := Fentregadores.Localizar(aParam).FieldByName('cod_agente').AsInteger;
+    end;
+  finally
+    FEntregadores.Free;
+  end;
 end;
 
 procedure Tview_CadastroExtravios.Modo;
@@ -158,7 +281,6 @@ begin
     actionGravar.Enabled := False;
     actionPesquisar.Enabled := False;
     actionCancelar.Enabled := True;
-    actionFinalizar.Enabled := False;
     NN.Properties.ReadOnly := False;
     AWB.Properties.ReadOnly := False;
     Entregador.Properties.ReadOnly := False;
@@ -168,7 +290,6 @@ begin
     actionGravar.Enabled := True;
     actionPesquisar.Enabled := True;
     actionCancelar.Enabled := True;
-    actionFinalizar.Enabled := False;
     NN.Properties.ReadOnly := False;
     AWB.Properties.ReadOnly := False;
     BlockAllFields(False);
@@ -179,14 +300,16 @@ begin
     actionGravar.Enabled := True;
     if  FExtravio.Extravios.Restricao = 'N' then
     begin
+      BlockAllFields(False);
       actionPesquisar.Enabled := True;
-      actionFinalizar.Enabled := True;
       NN.Properties.ReadOnly := False;
     end
     else
     begin
       actionPesquisar.Enabled := False;
-      actionFinalizar.Enabled := False;
+      actionRemessa.Enabled := False;
+      actionAWB.Enabled := False;
+      actionGravar.Enabled := False;
       BlockAllFields(True);
     end;
     actionCancelar.Enabled := True;
@@ -197,7 +320,7 @@ end;
 
 procedure Tview_CadastroExtravios.MostraStatus;
 begin
-  if FExtravio.Extravios.Percentual < 100 then
+  if FExtravio.Extravios.Percentual >= 100 then
     Situacao.Caption := 'QUITADO'
   else
     Situacao.Caption := 'PENDENTE';
@@ -207,6 +330,19 @@ begin
     Status.Caption := 'ESTORNADO'
   else
     Status.Caption := 'FINALIZADO';
+end;
+
+procedure Tview_CadastroExtravios.PesquisaEntregadores;
+begin
+  if not Assigned(view_PesquisaEntregadoresExpressas)  then
+    view_PesquisaEntregadoresExpressas := Tview_PesquisaEntregadoresExpressas.Create(Application);
+  if view_PesquisaEntregadoresExpressas.ShowModal = mrOk then
+  begin
+    entregador.EditValue := view_PesquisaEntregadoresExpressas.fdPesquisacod_entregador.AsInteger;
+    NomeEntregador.Text := view_PesquisaEntregadoresExpressas.fdPesquisanom_entregador.AsString;
+    iBase := view_PesquisaEntregadoresExpressas.fdPesquisacod_agente.AsInteger;
+  end;
+  FreeAndNil(view_PesquisaEntregadoresExpressas);
 end;
 
 procedure Tview_CadastroExtravios.PopulateFields;
@@ -230,17 +366,19 @@ begin
       Application.MessageBox('Extravio não encontrado!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
       Exit;
     end;
-    Id.Text := FExtravio.Extravios.ID;
-    Tipo.ItemIndex = FExtravio.Extravios.Tipo;
+    Id.EditValue := FExtravio.Extravios.ID;
+    Tipo.ItemIndex := FExtravio.Extravios.Tipo;
     Data.Date := FExtravio.Extravios.Data;
     NN.Text := FExtravio.Extravios.NN;
     AWB.Text := FExtravio.Extravios.AWB;
+    iBase := FExtravio.Extravios.Agente;
     Descricao.Text := FExtravio.Extravios.Descricao;
     Entregador.Tag := -1;
-    Entregador.EditingValue := FExtravio.Extravios.Entregador;
+    Entregador.EditValue := FExtravio.Extravios.Entregador;
     Entregador.Tag := 0;
     NomeEntregador.Clear;
-    Cliente.EditingValue := FExtravio.Extravios.Cliente;
+    LocateEntregador(FExtravio.Extravios.Entregador);
+    Cliente.EditValue := FExtravio.Extravios.Cliente;
     ValorProduto.Value := FExtravio.Extravios.ValorProduto;
     Multa.Value := FExtravio.Extravios.Multa;
     Verba.Value := FExtravio.Extravios.Verba;
@@ -252,22 +390,155 @@ begin
     Sequencia.Text := FExtravio.Extravios.Sequencia.ToString;
     NumeroExtrato.Text := FExtravio.Extravios.NumeroExtrato;
     val_percentual_pago.Position := FExtravio.Extravios.Percentual;
+    sStatus := FExtravio.Extravios.Restricao;
     MostraStatus;
   finally
     FExtravio.Extravios.Query.Connection.Connected := False;
   end;
 end;
 
+procedure Tview_CadastroExtravios.SaveData;
+begin
+  if Application.MessageBox('Confirma os dados?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
+  begin
+    Exit;
+  end;
+  SetupClass;
+  if not FExtravio.Gravar then
+  begin
+    Application.MessageBox('Erro ao gravar dados?', 'Erro', MB_OK + MB_ICONERROR);
+    Exit;
+  end;
+  ModalResult := mrOk;
+end;
+
+procedure Tview_CadastroExtravios.SearchEntrega(iCampo, iCliente: Integer; sValor: string);
+var
+  FAWB : TControleAWBControl;
+  FEntrega : TEntregasControl;
+  aParam: array of variant;
+  sRemessa: String;
+  sAWB, sProduto: String;
+begin
+  try
+    FAWB := TControleAWBControl.Create;
+    FEntrega := TEntregasControl.Create;
+    if iCliente <= 0 then
+    begin
+      Application.MessageBox('Informe o cliente!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if iCampo = 2 then
+    begin
+      SetLength(aParam,2);
+      aParam := ['AWB1', sValor];
+      if FAWB.LocalizarExato(aParam) then
+        sRemessa := FAWB.ControleAWB.Remessa
+      else
+        sRemessa := '';
+      Finalize(aParam);
+    end
+    else
+    begin
+      sRemessa := sValor;
+    end;
+    SetLength(aParam,2);
+    aParam := ['REMESSA', sRemessa];
+    if FAWB.LocalizarExato(aParam) then
+    begin
+      sAWB := FAWB.ControleAWB.AWB1;
+      sProduto := FAWB.ControleAWB.Descricao;
+    end
+    else
+      sAWB := '';
+    Finalize(aParam);
+    SetLength(aParam,3);
+    aParam := ['NNCLIENTE', sRemessa, iCliente];
+    if not Fentrega.LocalizarExata(aParam) then
+    begin
+      Application.MessageBox('Remessa não localizada!', 'Atenção', MB_OK + MB_ICONASTERISK);
+      Exit;
+    end
+    else
+    begin
+      NN.Text := FEntrega.Entregas.NN;
+      AWB.Text := sAWB;
+      LocateEntregador(Fentrega.Entregas.Entregador);
+      Cliente.EditValue := Fentrega.Entregas.CodCliente;
+      ValorProduto.Value := Fentrega.Entregas.ValorProduto;
+      Multa.Value := 0;
+      Verba.Value := FEntrega.Entregas.VerbaEntregador;
+      Total.Value := FEntrega.Entregas.VerbaEntregador + Fentrega.Entregas.ValorProduto;
+      Produto.Text := sProduto;
+      Sequencia.Clear;
+      NumeroExtrato.Clear;
+      Situacao.Caption := 'PENDENTE';
+      Status.Caption := 'PENDENTE';
+      val_percentual_pago.Position := 0;
+      Finalize(aParam);
+    end;
+  finally
+    FAWB.Free;
+    FEntrega.Free;
+  end;
+end;
+
+procedure Tview_CadastroExtravios.SetupClass;
+begin
+  FExtravio.Extravios.ID :=  Id.EditValue;
+  FExtravio.Extravios.Tipo := Tipo.ItemIndex;
+  FExtravio.Extravios.Data := Data.Date;
+  FExtravio.Extravios.NN := NN.EditValue;
+  FExtravio.Extravios.AWB := AWB.Text;
+  FExtravio.Extravios.Descricao := Descricao.Text;
+  FExtravio.Extravios.Agente := iBase;
+  FExtravio.Extravios.Entregador := Entregador.EditValue;
+  FExtravio.Extravios.Cliente := Cliente.EditValue;
+  FExtravio.Extravios.ValorProduto := ValorProduto.Value;
+  FExtravio.Extravios.Multa := Multa.Value;
+  FExtravio.Extravios.Verba := Verba.Value;
+  FExtravio.Extravios.Total := Total.Value;
+  FExtravio.Extravios.EnvioCorrespondencia := EnvioCorrespondencia.Text;
+  FExtravio.Extravios.RetornoCorrespondencia := RetornoCorrespondencia.Text;
+  FExtravio.Extravios.Obs := Obs.Text;
+  FExtravio.Extravios.Produto := Produto.Text;
+  FExtravio.Extravios.Sequencia := StrToIntDef(Sequencia.Text,0);
+  FExtravio.Extravios.NumeroExtrato := NumeroExtrato.Text;
+  FExtravio.Extravios.Percentual := val_percentual_pago.Position;
+  FExtravio.Extravios.Acao := Facao;
+end;
+
+procedure Tview_CadastroExtravios.SomaTotal;
+begin
+   Total.Value := ValorProduto.Value +
+                  Multa.Value +
+                  Verba.Value;
+end;
+
 procedure Tview_CadastroExtravios.StartForm;
 begin
   FExtravio := TExtraviosMultasControl.Create;
   if (FAcao = tacAlterar) or (FAcao = tacPesquisa) then
-    MostraStatus;
+  begin
+    operacao.Caption := 'Editar';
+    Modo;
+    PopulateFields;
+  end;
   if Facao = tacIncluir then
   begin
     ClearForm;
+    sStatus := 'N';
+    operacao.Caption := 'Incluir';
+    data.Date := Now;
     Modo;
   end;
+end;
+
+procedure Tview_CadastroExtravios.ValorProdutoPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if (Facao = tacIncluir) or (FAcao = tacAlterar) then
+    SomaTotal;
 end;
 
 end.

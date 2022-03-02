@@ -2,7 +2,8 @@ unit Model.ExtraviosMultas;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, System.Classes, DAO.Conexao, System.SysUtils, Control.Sistema, Common.Utils;
+uses Common.ENum, FireDAC.Comp.Client, System.Classes, DAO.Conexao, System.SysUtils, Control.Sistema, Common.Utils, Control.Entregas,
+  Global.Parametros;
 
 type
   TExtraviosMultas = class
@@ -89,6 +90,7 @@ type
     function PesquisaExtraviosMultas(iIndex: integer; sTexto, sFilter: String): boolean;
     function SetupClass(): boolean;
     function ClearClass(): boolean;
+    function FinalizarExtravios(): boolean;
   end;
 
 const
@@ -103,7 +105,7 @@ const
                ':VAL_VERBA, :VAL_TOTAL, :DOM_RESTRICAO, :COD_ENTREGADOR, :COD_TIPO, :VAL_VERBA_FRANQUIA, :VAL_EXTRATO_FRANQUIA, ' +
                ':DOM_EXTRATO_FRANQUIA, :DAT_EXTRAVIO_FRANQUIA, :DES_ENVIO_CORRESPONDENCIA, :DES_RETORNO_CORRESPONDENCIA, ' +
                ':DES_OBSERVACOES, :VAL_PERCENTUAL_PAGO, :ID_EXTRATO, :SEQ_ACAREACAO, :NOM_EXECUTOR, :DAT_MANUTENCAO, ' +
-               ':NUM_EXTRATO, :cod_cliente, :des_produto, cod_awb) ';
+               ':NUM_EXTRATO, :cod_cliente, :des_produto, :cod_awb) ';
   SQLUPDATE = 'UPDATE ' + TABLENAME + ' SET ' +
               'DES_EXTRAVIO = :DES_EXTRAVIO, NUM_NOSSONUMERO = :NUM_NOSSONUMERO, COD_AGENTE = :COD_AGENTE, ' +
               'VAL_PRODUTO = :VAL_PRODUTO, DAT_EXTRAVIO = :DAT_EXTRAVIO, VAL_MULTA = :VAL_MULTA, VAL_VERBA = :VAL_VERBA, ' +
@@ -283,6 +285,55 @@ begin
     FDQuery.Close;
     fdQuery.Connection.Close;
     fdQuery.Free;
+  end;
+end;
+
+function TExtraviosMultas.FinalizarExtravios(): boolean;
+var
+  lLog : TStringList;
+  FEntregas: TEntregasControl;
+  dVerba: Double;
+  aParam: array of variant;
+begin
+  try
+    // I-2021-01-26 CM **********
+    // Verificando se houve o pagamento da verba após o registro do extravio e antes da
+    // finalização.
+    if FTipo = 0 then
+    begin
+      FEntregas := TEntregasControl.Create;
+      SetLength(aParam,2);
+      aParam := ['NN', FNN];
+      if FEntregas.LocalizarExata(aParam) then
+      begin
+        dVerba := FEntregas.Entregas.VerbaEntregador;
+      end;
+      Finalize(aParam);
+      FEntregas.Free;
+      if FVerba <> dVerba then
+      begin
+        FVerba := dVerba;
+      end;
+    end;
+    // I-2021-01-26 CM **********
+
+    lLog := TStringList.Create;
+    lLog.Text := fObs;
+    lLog.Add('Extravio finalizado em ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' por ' + Global.Parametros.pNameUser);
+    FRestricao := 'S';
+    FPercentual := 0;
+    FExecutor := Global.Parametros.pUser_Name;
+    FManutencao := Now();
+    FObs := lLog.Text;
+    FAcao := tacAlterar;
+    if not Gravar() then
+    begin
+      Exit;
+    end;
+
+    FAcao := tacIndefinido;
+  finally
+    lLog.Free;
   end;
 end;
 
@@ -531,7 +582,7 @@ begin
   FAgente := FQuery.FieldByName('cod_agente').asInteger;
   FManutencao := FQuery.FieldByName('dat_manutencao').asDateTime;
   FRetornoCorrespondencia := FQuery.FieldByName('des_retorno_correspondencia').asString;
-  FValorFranquia := FQuery.FieldByName('val_extravio_franquia').asFloat;
+  FValorFranquia := FQuery.FieldByName('val_extrato_franquia').asFloat;
   FTipo := FQuery.FieldByName('cod_tipo').asInteger;
   FExtrato := FQuery.FieldByName('dom_extrato_franquia').asString;
   FData := FQuery.FieldByName('dat_extravio').asDateTime;

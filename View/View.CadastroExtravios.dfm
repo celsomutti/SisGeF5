@@ -15,6 +15,8 @@ object view_CadastroExtravios: Tview_CadastroExtravios
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
   DesignSize = (
     842
     451)
@@ -31,7 +33,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     Height = 83
     Width = 836
     object cxLabel1: TcxLabel
-      Left = 3
+      Left = 6
       Top = 22
       Caption = 'N'#186'.:'
       Transparent = True
@@ -55,7 +57,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     end
     object Tipo: TcxComboBox
       Left = 164
-      Top = 21
+      Top = 24
       Hint = 'Tipo de registro'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -66,31 +68,47 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Width = 88
     end
     object cxLabel3: TcxLabel
-      Left = 3
-      Top = 49
+      Left = 183
+      Top = 52
       Caption = 'Motivo:'
       Transparent = True
     end
     object Descricao: TcxComboBox
-      Left = 49
-      Top = 48
-      Properties.DropDownListStyle = lsEditFixedList
+      Left = 229
+      Top = 52
       Properties.Items.Strings = (
-        'FURTO'
-        'PRODUTO COLETADO FORA DOS PADR'#213'ES'#9
-        'FALTA NO CONTAINER OU ROMANEIO  S/ ANOTA'#199#195'O NO ROMANEIO'
-        'MULTA POR ENTREGA EM LOCAL INDEVIDO'
-        'MULTA POR PROTOCOLO RASURADO/INCORRETO'
-        'EXTRAVIO NA IDA'
-        'DEVOLU'#199#195'O DE PRODUTO ENTREGUE'
-        'MULTA BAIXA INDEVIDA'
-        'MULTA INFORMATIVO FALSO'
-        'EXTRAVIO DEVOLU'#199#195'O - ERRO PROCESSO'
-        'ROUBO'
-        'ASSALTO NA ENTREGA (COM R.O.)'
-        '')
-      TabOrder = 10
-      Width = 184
+        '01-ENTREGA LOCAL INDEVIDO'
+        '02-CORREIO INTERNO'
+        '03-EMBALGEM VIOLADA'
+        '04-EMBALAGEM LACRADA'
+        '05-ENTREGA RESOLVIDA'
+        '06-AVARIA EM PODER DO ENTREGADOR/AGENTE'
+        '07-PRODUTO N'#195'O ENTREGUE'
+        '08-PRODUTO INCOMPLETO'
+        '09-DEVOLU'#199#195'O DA DECLARA'#199#195'O'
+        '10-EXTRAVIO - FALTA DE RETORNO'
+        '11-PERDEU O PRAZO PARA DEFESA'
+        '12-EXTRAVIO-ENTREGA N'#195'O COMPROVADA'
+        '13-AVARIA DO PRODUTO NA TRANSFER'#202'NCIA'#9
+        '14-AVARIA NA DEVOLU'#199#195'O'#9
+        '15-EXTRAVIO PARCIAL'#9
+        '16-FALHA DO CONTROLE '#9
+        '17-FOR'#199'ADO POR ATRASO'#9
+        '18-FOR'#199'ADO POR PERDA DO PRODUTO'#9
+        '19-FURTO INTERNO NA FRANQUIA'#9
+        '20-LR - PRODUTO COLETADO FORA DOS PADR'#213'ES'#9
+        '21-FALTA NO CONTAINER OU ROMANEIO  S/ ANOTA'#199#195'O NO ROMANEIO'
+        '22-MULTA POR ENTREGA EM LOCAL INDEVIDO'
+        '23-MULTA POR PROTOCOLO RASURADO/INCORRETO'
+        '24-EXTRAVIO NA IDA - TFO'
+        '25-DEVOLU'#199#195'O DE PRODUTO ENTREGUE'
+        '26-MULTA BAIXA INDEVIDA'
+        '27-MULTA INFORMATIVO FALSO'
+        '28-EXTRAVIO DEVOLU'#199#195'O-ERRO PROCESSO FRANQUIA'
+        '99-ROUBO'
+        '98-ASSALTO NA ENTREGA (COM B.O.)')
+      TabOrder = 11
+      Width = 268
     end
     object cxLabel4: TcxLabel
       Left = 258
@@ -108,14 +126,14 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Width = 83
     end
     object cxLabel5: TcxLabel
-      Left = 239
-      Top = 50
+      Left = 503
+      Top = 51
       Caption = 'Entregador:'
       Transparent = True
     end
     object Entregador: TcxButtonEdit
-      Left = 307
-      Top = 49
+      Left = 571
+      Top = 50
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
@@ -124,39 +142,40 @@ object view_CadastroExtravios: Tview_CadastroExtravios
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
+      Properties.OnValidate = EntregadorPropertiesValidate
       TabOrder = 12
       Text = '0'
       Width = 71
     end
     object NomeEntregador: TcxTextEdit
-      Left = 384
-      Top = 49
+      Left = 648
+      Top = 51
       TabStop = False
       Properties.ReadOnly = True
-      TabOrder = 14
-      Width = 233
+      TabOrder = 15
+      Width = 185
     end
     object cxLabel17: TcxLabel
-      Left = 388
+      Left = 601
       Top = 22
       Caption = 'N'#186'. Remessa:'
       Transparent = True
     end
     object cxLabel18: TcxLabel
-      Left = 623
-      Top = 22
+      Left = 6
+      Top = 52
       Caption = 'AWB:'
       Transparent = True
     end
     object cxLabel13: TcxLabel
-      Left = 623
-      Top = 49
+      Left = 384
+      Top = 21
       Caption = 'Cliente:'
       Transparent = True
     end
     object Cliente: TcxLookupComboBox
-      Left = 670
-      Top = 49
+      Left = 431
+      Top = 21
       Hint = 'Cliente'
       Properties.KeyFieldNames = 'cod_cliente'
       Properties.ListColumns = <
@@ -165,11 +184,12 @@ object view_CadastroExtravios: Tview_CadastroExtravios
         end>
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsClientes
-      TabOrder = 16
+      Properties.OnValidate = ClientePropertiesValidate
+      TabOrder = 6
       Width = 163
     end
     object NN: TcxButtonEdit
-      Left = 464
+      Left = 677
       Top = 21
       Hint = 'N'#250'mero da remessa'
       Properties.Buttons = <
@@ -179,13 +199,14 @@ object view_CadastroExtravios: Tview_CadastroExtravios
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
-      TabOrder = 6
+      TabOrder = 8
       Width = 153
     end
     object AWB: TcxButtonEdit
-      Left = 670
-      Top = 21
+      Left = 43
+      Top = 51
       Hint = 'C'#243'digo AWB'
+      Enabled = False
       Properties.Buttons = <
         item
           Action = actionAWB
@@ -193,8 +214,8 @@ object view_CadastroExtravios: Tview_CadastroExtravios
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
-      TabOrder = 8
-      Width = 163
+      TabOrder = 9
+      Width = 134
     end
   end
   object cxGroupBox2: TcxGroupBox
@@ -219,6 +240,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ' ,0.00;- ,0.00'
+      Properties.OnValidate = ValorProdutoPropertiesValidate
       TabOrder = 1
       Width = 101
     end
@@ -235,6 +257,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ' ,0.00;- ,0.00'
+      Properties.OnValidate = ValorProdutoPropertiesValidate
       TabOrder = 3
       Width = 101
     end
@@ -251,6 +274,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ' ,0.00;- ,0.00'
+      Properties.OnValidate = ValorProdutoPropertiesValidate
       TabOrder = 5
       Width = 101
     end
@@ -267,6 +291,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ' ,0.00;- ,0.00'
+      Properties.OnValidate = ValorProdutoPropertiesValidate
       TabOrder = 7
       Width = 101
     end
@@ -290,7 +315,6 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Left = 98
       Top = 21
       Hint = 'Envio da correspond'#234'ncia'
-      Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
         'N'#195'O SE APLICA'
         'ENVIADA'
@@ -308,7 +332,6 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Left = 381
       Top = 21
       Hint = 'Retorno do Envio da correspond'#234'ncia'
-      Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
         'N'#195'O SE APLICA'
         'N'#195'O FOI DEVOLVIDA'
@@ -321,31 +344,31 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     end
     object Obs: TMemo
       Left = 98
-      Top = 48
+      Top = 75
       Width = 508
-      Height = 47
+      Height = 54
       Hint = 'Observa'#231#245'es'
-      TabOrder = 4
+      TabOrder = 7
     end
     object cxLabel12: TcxLabel
       Left = 3
-      Top = 49
+      Top = 76
       Caption = 'Observa'#231#245'es:'
       Transparent = True
     end
     object cxLabel14: TcxLabel
       Left = 3
-      Top = 102
+      Top = 49
       Caption = 'Produto:'
       Transparent = True
     end
     object Produto: TcxTextEdit
       Left = 98
-      Top = 101
+      Top = 48
       Hint = 'Descri'#231#227'o do produto'
       TabStop = False
       Properties.ReadOnly = True
-      TabOrder = 7
+      TabOrder = 4
       Width = 508
     end
   end
@@ -389,7 +412,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     end
     object val_percentual_pago: TcxProgressBar
       Left = 3
-      Top = 17
+      Top = 14
       TabStop = False
       Style.BorderStyle = ebsOffice11
       TabOrder = 4
@@ -401,6 +424,13 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Top = 17
       AutoSize = False
       Caption = 'SITUA'#199#195'O'
+      ParentFont = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -11
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
       Properties.Alignment.Horz = taCenter
       Properties.Alignment.Vert = taVCenter
       Transparent = True
@@ -414,6 +444,13 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Top = 17
       AutoSize = False
       Caption = 'STATUS'
+      ParentFont = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -11
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
       Properties.Alignment.Horz = taCenter
       Properties.Alignment.Vert = taVCenter
       Transparent = True
@@ -434,17 +471,6 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     Caption = 'panelFooter'
     ShowCaption = False
     TabOrder = 4
-    ExplicitTop = 362
-    ExplicitWidth = 748
-    object cxButton1: TcxButton
-      Left = 528
-      Top = 8
-      Width = 89
-      Height = 25
-      Cursor = crHandPoint
-      Action = actionFinalizar
-      TabOrder = 0
-    end
     object cxButton2: TcxButton
       Left = 637
       Top = 8
@@ -452,7 +478,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Height = 25
       Cursor = crHandPoint
       Action = actionGravar
-      TabOrder = 1
+      TabOrder = 0
     end
     object cxButton3: TcxButton
       Left = 742
@@ -461,49 +487,59 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Height = 25
       Cursor = crHandPoint
       Action = actionCancelar
-      TabOrder = 2
+      TabOrder = 1
+    end
+    object operacao: TcxLabel
+      Left = 6
+      Top = 4
+      Caption = 'Opera'#231#227'o'
+      ParentFont = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clGray
+      Style.Font.Height = -19
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
     end
   end
   object actionListExtravios: TActionList
     Images = Data_Sisgef.iml_16_16
     Left = 656
     Top = 304
-    object actionFinalizar: TAction
-      Category = 'Extravios'
-      Caption = '&Finalizar'
-      Enabled = False
-      Hint = 'Finalizar extravio'
-      ImageIndex = 83
-    end
     object actionGravar: TAction
       Category = 'Extravios'
       Caption = '&Gravar'
       Hint = 'Gravar dados'
       ImageIndex = 85
+      OnExecute = actionGravarExecute
     end
     object actionCancelar: TAction
       Category = 'Extravios'
       Caption = '&Cancelar'
       Hint = 'Cancelar'
       ImageIndex = 84
+      OnExecute = actionCancelarExecute
     end
     object actionPesquisar: TAction
       Category = 'Extravios'
       Caption = 'Pesquisar'
       Hint = 'Pesquisar Entregadores'
       ImageIndex = 86
+      OnExecute = actionPesquisarExecute
     end
     object actionRemessa: TAction
       Category = 'Extravios'
       Caption = 'Remessa'
       Hint = 'Localizar remessa'
       ImageIndex = 86
+      OnExecute = actionRemessaExecute
     end
     object actionAWB: TAction
       Category = 'Extravios'
       Caption = 'AWB'
       Hint = 'Localizar remessa pelo AWB'
       ImageIndex = 86
+      OnExecute = actionAWBExecute
     end
   end
   object dsClientes: TDataSource

@@ -29,6 +29,7 @@ type
     function PesquisaExtraviosMultas(iIndex: integer; sTexto, sFilter: String): boolean;
     function SetupClass(): boolean;
     function ClearClass(): boolean;
+    function FinalizarExtravios(): boolean;
 
     property Extravios: TExtraviosMultas read FExtravios write FExtravios;
 
@@ -77,17 +78,13 @@ begin
 end;
 
 function TExtraviosMultasControl.Finalizar: Boolean;
-var
-  lLog: TStringList;
 begin
-  Result := False;
-  lLog := TStringList.Create;
-  lLog.Text := FExtravios.Obs;
-  FExtravios.Total := FExtravios.ValorProduto + FExtravios.Multa + FExtravios.Multa;
-  FExtravios.Percentual := 0;
-  lLog.Add('Finalizado em ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now()) + ' por ' + Global.Parametros.pUser_Name);
-  FExtravios.Obs := lLog.Text;
-  Result := FExtravios.Gravar();
+  Result := FExtravios.FinalizarExtravios();
+end;
+
+function TExtraviosMultasControl.FinalizarExtravios: boolean;
+begin
+  Result := FExtravios.FinalizarExtravios;
 end;
 
 function TExtraviosMultasControl.GetId: Integer;

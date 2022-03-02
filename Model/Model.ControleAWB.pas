@@ -302,6 +302,7 @@ begin
   Self.Operacao := fdQuery.FieldByName('cod_operacao').AsString;
   Self.Tipo := fdQuery.FieldByName('cod_tipo').AsInteger;
   Self.Peso := fdQuery.FieldByName('qtd_peso').AsFloat;
+  Self.Descricao := fdQuery.FieldByName('des_produto').AsString;;
 end;
 
 end.

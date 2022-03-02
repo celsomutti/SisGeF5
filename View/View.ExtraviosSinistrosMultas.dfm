@@ -26,7 +26,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     Width = 829
     Height = 365
     Align = alClient
-    TabOrder = 2
+    TabOrder = 0
     Properties.ActivePage = tabResultado
     Properties.CustomButtons.Buttons = <>
     Properties.HideTabs = True
@@ -72,6 +72,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           Navigator.Buttons.Filter.ImageIndex = 19
           Navigator.InfoPanel.Visible = True
           Navigator.Visible = True
+          OnCellDblClick = gridExtraviosDBTableView1CellDblClick
           DataController.DataSource = dsExtravios
           DataController.Summary.DefaultGroupSummaryItems = <
             item
@@ -291,10 +292,6 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     object tabFiltro: TcxTabSheet
       Caption = 'Filtro'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object panelFooterFiltro: TPanel
         AlignWithMargins = True
         Left = 3
@@ -627,6 +624,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Caption = '&Novo'
       Hint = 'Novo registro'
       ImageIndex = 0
+      OnExecute = actionNovoExecute
     end
     object actionEditar: TAction
       Category = 'Extravios'
@@ -634,6 +632,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Enabled = False
       Hint = 'Editar registro'
       ImageIndex = 9
+      OnExecute = actionEditarExecute
     end
     object actionEstornar: TAction
       Category = 'Extravios'
@@ -641,6 +640,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Enabled = False
       Hint = 'Estornar registro'
       ImageIndex = 4
+      OnExecute = actionEstornarExecute
     end
     object actionCancelar: TAction
       Category = 'Extravios'
@@ -663,6 +663,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Enabled = False
       Hint = 'Finalizar registro selecionado'
       ImageIndex = 1
+      OnExecute = actionFinalizarExecute
     end
     object actionExportar: TAction
       Category = 'Extravios'
@@ -670,6 +671,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Enabled = False
       Hint = 'Exportar dados da grade'
       ImageIndex = 10
+      OnExecute = actionExportarExecute
     end
     object actionFechar: TAction
       Category = 'Extravios'
@@ -694,6 +696,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Enabled = False
       Hint = 'Imprimir documentos'
       ImageIndex = 15
+      OnExecute = actionImprimirExecute
     end
     object actionPesquisar: TAction
       Category = 'Pesquisar'
@@ -909,7 +912,9 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     end
   end
   object memTableExtravios: TFDMemTable
+    AfterOpen = memTableExtraviosAfterOpen
     AfterClose = memTableExtraviosAfterClose
+    AfterScroll = memTableExtraviosAfterScroll
     FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -1050,5 +1055,291 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     DataSet = Data_Sisgef.mtbClientesEmpresa
     OnStateChange = dsExtraviosStateChange
     Left = 736
+  end
+  object frxDeclaracao: TfrxReport
+    Version = '6.6.11'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 43152.700742719900000000
+    ReportOptions.LastChange = 44622.719092719900000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 767
+    Top = 112
+    Datasets = <>
+    Variables = <
+      item
+        Name = ' Declara'#231#227'o'
+        Value = Null
+      end
+      item
+        Name = 'vAgente'
+        Value = Null
+      end
+      item
+        Name = 'vEntregador'
+        Value = Null
+      end
+      item
+        Name = 'vNN'
+        Value = Null
+      end
+      item
+        Name = 'vValor'
+        Value = Null
+      end
+      item
+        Name = 'vMulta'
+        Value = Null
+      end
+      item
+        Name = 'vVerba'
+        Value = Null
+      end
+      item
+        Name = 'vData'
+        Value = Null
+      end
+      item
+        Name = 'vImpressao'
+        Value = Null
+      end
+      item
+        Name = 'vCPF'
+        Value = Null
+      end
+      item
+        Name = 'vFantasia'
+        Value = Null
+      end>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      PaperWidth = 210.000000000000000000
+      PaperHeight = 297.000000000000000000
+      PaperSize = 9
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      BackPictureStretched = False
+      Frame.Typ = []
+      MirrorMode = []
+      object PageHeader1: TfrxPageHeader
+        FillType = ftBrush
+        Frame.Typ = []
+        Height = 102.047310000000000000
+        Top = 18.897650000000000000
+        Width = 718.110700000000000000
+      end
+      object Memo1: TfrxMemoView
+        AllowVectorExport = True
+        Top = 166.299320000000000000
+        Width = 718.110700000000000000
+        Height = 18.897650000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        Frame.Typ = []
+        HAlign = haCenter
+        Memo.UTF8W = (
+          'Declara'#231#227'o de Multa e/ou Extravio de Produto')
+        ParentFont = False
+      end
+      object Memo2: TfrxMemoView
+        AllowVectorExport = True
+        Left = 75.590600000000000000
+        Top = 219.212740000000000000
+        Width = 151.181200000000000000
+        Height = 170.078850000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        Frame.Typ = []
+        Memo.UTF8W = (
+          'Agente: '
+          'Entregador: '
+          ''
+          'Remessa N'#186'.: '
+          ''
+          'Valor do Produto: '
+          'Valor da Multa: '
+          'Valor da Verba:  ')
+        ParentFont = False
+      end
+      object Memo4: TfrxMemoView
+        AllowVectorExport = True
+        Left = 75.590600000000000000
+        Top = 442.205010000000000000
+        Width = 559.370440000000000000
+        Height = 294.803340000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = []
+        Frame.Typ = []
+        HAlign = haBlock
+        LineSpacing = 40.000000000000000000
+        Memo.UTF8W = (
+          
+            '                              Declaro para os devidos fins que a' +
+            ' REMESSA acima com seu(s) respectivo(s) valor(es) '#233' de minha int' +
+            'eira responsabilidade ficando a Empresa desde j'#225' autorizada a de' +
+            'scontar da minha Presta'#231#227'o de Contas a que tempo lhe convir. ')
+        ParentFont = False
+      end
+      object Memo5: TfrxMemoView
+        AllowVectorExport = True
+        Left = 75.590600000000000000
+        Top = 680.315400000000000000
+        Width = 559.370440000000000000
+        Height = 249.448980000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = []
+        Frame.Typ = []
+        HAlign = haBlock
+        Memo.UTF8W = (
+          '[vData]'
+          ''
+          ''
+          ''
+          ''
+          ''
+          '____________________________________________'
+          '[vEntregador]'
+          '[vCPF]')
+        ParentFont = False
+      end
+      object Memo6: TfrxMemoView
+        AllowVectorExport = True
+        Left = 3.779530000000000000
+        Top = 1028.032160000000000000
+        Width = 714.331170000000000000
+        Height = 18.897650000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial Narrow'
+        Font.Style = []
+        Frame.Typ = []
+        Memo.UTF8W = (
+          '[vImpressao]')
+        ParentFont = False
+      end
+      object vAgente: TfrxMemoView
+        AllowVectorExport = True
+        Left = 249.448980000000000000
+        Top = 215.433210000000000000
+        Width = 400.630180000000000000
+        Height = 22.677180000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = []
+        Frame.Typ = []
+        Memo.UTF8W = (
+          '[vAgente]')
+        ParentFont = False
+      end
+      object vEntregador: TfrxMemoView
+        AllowVectorExport = True
+        Left = 249.448980000000000000
+        Top = 238.110390000000000000
+        Width = 400.630180000000000000
+        Height = 41.574830000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = []
+        Frame.Typ = []
+        Memo.UTF8W = (
+          '[vCPF] - [vEntregador]')
+        ParentFont = False
+      end
+      object vNN: TfrxMemoView
+        AllowVectorExport = True
+        Left = 249.448980000000000000
+        Top = 283.464750000000000000
+        Width = 400.630180000000000000
+        Height = 22.677180000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = []
+        Frame.Typ = []
+        Memo.UTF8W = (
+          '[vNN]')
+        ParentFont = False
+      end
+      object vValor: TfrxMemoView
+        AllowVectorExport = True
+        Left = 249.448980000000000000
+        Top = 317.480520000000000000
+        Width = 400.630180000000000000
+        Height = 22.677180000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = []
+        Frame.Typ = []
+        Memo.UTF8W = (
+          '[vValor]')
+        ParentFont = False
+      end
+      object vMulta: TfrxMemoView
+        AllowVectorExport = True
+        Left = 249.448980000000000000
+        Top = 343.937230000000000000
+        Width = 400.630180000000000000
+        Height = 18.897650000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = []
+        Frame.Typ = []
+        Memo.UTF8W = (
+          '[vMulta]')
+        ParentFont = False
+      end
+      object vVerba: TfrxMemoView
+        AllowVectorExport = True
+        Left = 249.448980000000000000
+        Top = 366.614410000000000000
+        Width = 400.630180000000000000
+        Height = 22.677180000000000000
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -19
+        Font.Name = 'Calibri'
+        Font.Style = []
+        Frame.Typ = []
+        Memo.UTF8W = (
+          '[vVerba]')
+        ParentFont = False
+      end
+    end
   end
 end
