@@ -57,7 +57,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     end
     object Tipo: TcxComboBox
       Left = 164
-      Top = 24
+      Top = 21
       Hint = 'Tipo de registro'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -199,7 +199,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
-      TabOrder = 8
+      TabOrder = 7
       Width = 153
     end
     object AWB: TcxButtonEdit
@@ -214,7 +214,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
-      TabOrder = 9
+      TabOrder = 8
       Width = 134
     end
   end

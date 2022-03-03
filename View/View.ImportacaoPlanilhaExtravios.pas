@@ -18,7 +18,8 @@ uses
   cxDateUtils, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxButtonEdit, Control.EntregadoresExpressas,
   FireDAC.Comp.Client, Control.Sistema, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxCurrencyEdit, cxProgressBar,
-  Control.ExtraviosMultas, Control.Entregas, Common.ENum, cxMemo;
+  Control.ExtraviosMultas, Control.Entregas, Common.ENum, cxMemo, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxGroupBox,
+  cxRadioGroup, Thread.SisGeFImportMisplacement, Vcl.ExtCtrls;
 
 type
   Tview_ImportacaoPlanilhaExtravios = class(TForm)
@@ -26,7 +27,6 @@ type
     dxLayoutControl1: TdxLayoutControl;
     dxLayoutGroup1: TdxLayoutGroup;
     dxLayoutGroup2: TdxLayoutGroup;
-    dxLayoutGroup3: TdxLayoutGroup;
     cxButton1: TcxButton;
     dxLayoutItem1: TdxLayoutItem;
     cxLabel1: TcxLabel;
@@ -49,13 +49,18 @@ type
     edtArquivo: TcxButtonEdit;
     dxLayoutItem8: TdxLayoutItem;
     dxLayoutAutoCreatedGroup2: TdxLayoutAutoCreatedGroup;
-    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     OpenDialog: TOpenDialog;
     pbImportacao: TcxProgressBar;
     dxLayoutItem9: TdxLayoutItem;
     actAbrirArquivo: TAction;
     memObs: TcxMemo;
     dxLayoutItem10: TdxLayoutItem;
+    cliente: TcxLookupComboBox;
+    dxLayoutItem11: TdxLayoutItem;
+    dsClientes: TDataSource;
+    tipo: TcxRadioGroup;
+    dxLayoutItem12: TdxLayoutItem;
+    Timer: TTimer;
     procedure edtCodigoEntregadorPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure edtCodigoEntregadorPropertiesChange(Sender: TObject);
     procedure edtCodigoEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
@@ -72,6 +77,7 @@ type
     function NomeEntregador(iCodigo: Integer): String;
     procedure Modo(iTipo: Integer);
     procedure Importar;
+    procedure UpdateDashboard;
     procedure AbrirArquivo;
     function ValidaImportacao(): Boolean;
   public
@@ -84,6 +90,7 @@ var
   iBase: Integer;
   FExtravios : TExtraviosMultasControl;
   FEntregas : TEntregasControl;
+  capa : Thread_ImportMisplacement;
 implementation
 
 {$R *.dfm}
@@ -142,7 +149,6 @@ end;
 
 procedure Tview_ImportacaoPlanilhaExtravios.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if Data_Sisgef.mtbImportacaoExtravios.Active then Data_Sisgef.mtbImportacaoExtravios.Close;
   Action := caFree;
   view_ImportacaoPlanilhaExtravios := nil;
 end;
@@ -153,126 +159,20 @@ begin
 end;
 
 procedure Tview_ImportacaoPlanilhaExtravios.Importar;
-var
-  iTotal : Integer;
-  dPos : Double;
-  iPos : Integer;
-  sValor: String;
-  FDQuery : TFDQuery;
-  aParam : array of variant;
-  sObs: String;
-  i: Integer;
 begin
-  try
-    FExtravios := TExtraviosMultasControl.Create();
-    FEntregas :=  TEntregasControl.Create();
-    Data_Sisgef.mtbImportacaoExtravios.Open;
-    Data_Sisgef.mtbImportacaoExtravios.Edit;
-    Data_Sisgef.FDBTextReaderExtravios.FileName := edtArquivo.Text;
-    Data_SisGeF.FDBmExtravios.GuessFormat;
-    Data_SisGeF.FDBmExtravios.Mappings.AddAll;
-    Data_Sisgef.FDBmExtravios.Execute;
-    if Data_Sisgef.mtbImportacaoExtravios.Active then
-    begin
-      if not Data_Sisgef.mtbImportacaoExtravios.IsEmpty then
-      begin
-        iTotal := Data_Sisgef.mtbImportacaoExtravios.RecordCount;
-        Data_Sisgef.mtbImportacaoExtravios.First;
-        iPos := 0;
-        dPos := 0;
-        sObs := '';
-        while not Data_Sisgef.mtbImportacaoExtravios.Eof do
-        begin
-          if Common.Utils.TUtils.ENumero(Data_Sisgef.mtbImportacaoExtravios.Fields[3].AsString) then
-          begin
-            FExtravios.Extravios.ID := 0;
-            FExtravios.Extravios.Descricao := cboDescricaoExtravio.Text;
-            FExtravios.Extravios.NN := Trim(Data_Sisgef.mtbImportacaoExtravios.Fields[3].AsString);
-            FExtravios.Extravios.Agente := iBase;
-            sValor := Common.Utils.TUtils.ReplaceStr(Data_Sisgef.mtbImportacaoExtravios.Fields[16].AsString,'R$ ', '');
-            sValor := Common.Utils.TUtils.ReplaceStr(sValor, '.', '');
-            sValor := Common.Utils.TUtils.ReplaceStr(sValor, 'R$', '');
-            FExtravios.Extravios.ValorProduto := StrToFloatDef(sValor,0);
-            FExtravios.Extravios.Data := datEvento.Date;
-            FExtravios.Extravios.Multa := 0;
-            SetLength(aParam,2);
-            aParam[0] := 'NN';
-            aParam[1] := FExtravios.Extravios.NN;
-            FDQuery := FEntregas.Localizar(aParam);
-            Finalize(aParam);
-            if not FDQuery.IsEmpty then
-            begin
-             FExtravios.Extravios.Verba := FDQuery.FieldByName('VAL_VERBA_ENTREGADOR').AsFloat;
-             FExtravios.Extravios.VerbaFranquia := FDQuery.FieldByName('VAL_VERBA_FRANQUIA').AsFloat;
-            end
-            else
-            begin
-             FExtravios.Extravios.Verba := 0;
-             FExtravios.Extravios.VerbaFranquia := 0;
-            end;
-            FExtravios.Extravios.Total := FExtravios.Extravios.Multa + FExtravios.Extravios.ValorProduto;
-            FExtravios.Extravios.Entregador := edtCodigoEntregador.EditValue;
-            FExtravios.Extravios.Tipo := 1;
-            FExtravios.Extravios.ValorFranquia := 0;
-            FExtravios.Extravios.Extrato := '0';
-            FExtravios.Extravios.DataFranquia := 0;
-            FExtravios.Extravios.EnvioCorrespondencia := 'NÃO SE APLICA';
-            FExtravios.Extravios.RetornoCorrespondencia := 'NÃO SE APLICA';
-            if Copy(FExtravios.Extravios.Descricao,1,2) = '98' then
-            begin
-              FExtravios.Extravios.Restricao := 'S';
-              FExtravios.Extravios.Percentual := 100;
-            end
-            else
-            begin
-              FExtravios.Extravios.Restricao := 'N';
-              FExtravios.Extravios.Percentual := 0;
-            end;
-            FExtravios.Extravios.IDExtrato := 0;
-            FExtravios.Extravios.Executor := Global.Parametros.pUser_Name;
-            FExtravios.Extravios.Manutencao := Now();
-            FExtravios.Extravios.Sequencia := 0;
-            SetLength(aParam,3);
-            aParam[0] := 'TIPO';
-            aParam[1] := FExtravios.Extravios.NN;
-            aParam[2] := FExtravios.Extravios.Tipo;
-            if FDQuery.Active then FDQuery.Close;
-            FDQuery := FExtravios.Localizar(aParam);
-            if not FDQuery.IsEmpty then
-            begin
-              FExtravios.Extravios.ID := FDQuery.FieldByName('COD_EXTRAVIO').AsInteger;
-              sObs := FDQuery.FieldByName('DES_OBSERVACOES').Text;
-              sObs := sObs + #13 + memObs.Text;
-              FExtravios.Extravios.Acao := Common.ENum.tacAlterar;
-            end
-            else
-            begin
-              FExtravios.Extravios.Acao := Common.ENum.tacIncluir;
-              sObs := memObs.Text;
-            end;
-            FExtravios.Extravios.Obs := sObs;
-            if not FExtravios.Gravar then
-            begin
-              Application.MessageBox(PChar('Erro ao tentar gravar o extravio do NN ' + FExtravios.Extravios.NN + '!'),
-                                     'Erro', MB_OK + MB_ICONERROR);
-            end;
-          end;
-          Data_Sisgef.mtbImportacaoExtravios.Next;
-          Inc(iPos,1);
-          dPos := (iPos / iTotal) * 100;
-          pbImportacao.Position := dPos;
-          pbImportacao.Refresh;
-        end;
-        Application.MessageBox('Importação Concluída!', 'Atenção', MB_OK + MB_ICONINFORMATION);
-      end;
-    end;
-  finally
-    FDQuery.Free;
-    FEntregas.Free;
-    FExtravios.Free;
-    LimpaCampos;
-    Modo(0);
-  end;
+  capa := Thread_ImportMisplacement.Create(True);
+  capa.Arquivo := edtArquivo.Text;
+  capa.Cliente := cliente.EditValue;
+  capa.Data := datEvento.Date;
+  capa.Descricao := cboDescricaoExtravio.Text;
+  capa.Agente := iBase;
+  capa.Entregador := edtCodigoEntregador.EditValue;
+  capa.Obs := memObs.Text;
+  actImportar.Enabled := False;
+  actAbrirArquivo.Enabled := False;
+  capa.Priority := tpNormal;
+  Timer.Enabled := True;
+  capa.Start;
 end;
 
 procedure Tview_ImportacaoPlanilhaExtravios.LimpaCampos;
@@ -361,6 +261,16 @@ begin
     Application.MessageBox('Informe a descrição ou motivo do extravio!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     Exit;
   end;
+  if tipo.ItemIndex = -1 then
+  begin
+    Application.MessageBox('Selecione o tipo de extravio!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
+  if cliente.EditValue = 0 then
+  begin
+    Application.MessageBox('Informe o cliente!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
   if StrToIntDef(edtCodigoEntregador.Text,0) = 0 then
   begin
     Application.MessageBox('Informe o código do entregador!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
@@ -392,6 +302,27 @@ begin
     FEntregadores.Free;
   finally
     FDQuery.Free;
+  end;
+end;
+
+procedure Tview_ImportacaoPlanilhaExtravios.UpdateDashboard;
+begin
+if not capa.Processo then
+  begin
+    Timer.Enabled := False;
+    actAbrirArquivo.Enabled := True;
+    actImportar.Enabled := False;
+    pbImportacao.Position := capa.Progresso;
+    if Capa.Cancelar then
+      Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION)
+    else
+      Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+    edtArquivo.Text := '';
+    pbImportacao.Position := 0;
+  end
+  else
+  begin
+    pbImportacao.Position := capa.Progresso;
   end;
 end;
 

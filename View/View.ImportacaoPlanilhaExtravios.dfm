@@ -1,9 +1,9 @@
 object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
   Left = 0
   Top = 0
-  BorderStyle = bsToolWindow
+  BorderStyle = bsDialog
   Caption = 'Importa'#231#227'o de Planilha de Produtos Extraviados'
-  ClientHeight = 460
+  ClientHeight = 509
   ClientWidth = 812
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,18 +23,18 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
     Left = 0
     Top = 0
     Width = 812
-    Height = 460
+    Height = 509
     Align = alClient
     TabOrder = 0
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object cxButton1: TcxButton
       Left = 727
-      Top = 425
+      Top = 474
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actFechar
-      TabOrder = 9
+      TabOrder = 11
     end
     object cxLabel1: TcxLabel
       Left = 10
@@ -51,8 +51,8 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Transparent = True
     end
     object datEvento: TcxDateEdit
-      Left = 22
-      Top = 140
+      Left = 24
+      Top = 233
       Hint = 'Data do evento'
       ParentFont = False
       Properties.SaveTime = False
@@ -64,21 +64,21 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 3
+      TabOrder = 5
       Width = 99
     end
     object cxButton2: TcxButton
-      Left = 22
-      Top = 382
+      Left = 24
+      Top = 429
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actImportar
-      TabOrder = 7
+      TabOrder = 9
     end
     object txtNomeEntregador: TcxTextEdit
-      Left = 108
-      Top = 185
+      Left = 110
+      Top = 278
       ParentFont = False
       Properties.ReadOnly = True
       Style.Font.Charset = DEFAULT_CHARSET
@@ -88,12 +88,12 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 6
-      Width = 373
+      TabOrder = 8
+      Width = 678
     end
     object edtCodigoEntregador: TcxButtonEdit
-      Left = 22
-      Top = 185
+      Left = 24
+      Top = 278
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
@@ -113,13 +113,13 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 5
+      TabOrder = 7
       Text = '0'
       Width = 80
     end
     object edtArquivo: TcxButtonEdit
-      Left = 22
-      Top = 95
+      Left = 24
+      Top = 91
       Hint = 'Arquivo da planilha'
       ParentFont = False
       Properties.Buttons = <
@@ -136,12 +136,12 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 2
-      Width = 443
+      TabOrder = 1
+      Width = 764
     end
     object cboDescricaoExtravio: TcxComboBox
-      Left = 127
-      Top = 140
+      Left = 129
+      Top = 233
       Hint = 'Descri'#231#227'o do extravio'
       ParentFont = False
       Properties.Items.Strings = (
@@ -164,18 +164,18 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 4
-      Width = 354
+      TabOrder = 6
+      Width = 659
     end
     object pbImportacao: TcxProgressBar
-      Left = 22
-      Top = 357
-      TabOrder = 1
-      Width = 121
+      Left = 24
+      Top = 402
+      TabOrder = 4
+      Width = 764
     end
     object memObs: TcxMemo
-      Left = 22
-      Top = 230
+      Left = 24
+      Top = 323
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -184,15 +184,57 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 8
-      Height = 89
-      Width = 185
+      TabOrder = 10
+      Height = 73
+      Width = 764
+    end
+    object cliente: TcxLookupComboBox
+      Left = 24
+      Top = 139
+      Hint = 'Cliente'
+      Properties.KeyFieldNames = 'cod_cliente'
+      Properties.ListColumns = <
+        item
+          FieldName = 'nom_cliente'
+        end>
+      Properties.ListOptions.ShowHeader = False
+      Properties.ListSource = dsClientes
+      Style.HotTrack = False
+      TabOrder = 2
+      Width = 764
+    end
+    object tipo: TcxRadioGroup
+      Left = 24
+      Top = 166
+      Cursor = crHandPoint
+      Hint = 'Selecione o tipo de extravio'
+      Caption = ' Tipo de Extravio '
+      Properties.Columns = 3
+      Properties.Items = <
+        item
+          Caption = 'EXTRAVIO'
+          Value = 0
+        end
+        item
+          Caption = 'SINISTRO'
+          Value = 1
+        end
+        item
+          Caption = 'MULTA'
+          Value = 2
+        end>
+      ItemIndex = 0
+      TabOrder = 3
+      Transparent = True
+      Height = 43
+      Width = 764
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end
@@ -211,13 +253,8 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Parent = dxLayoutGroup1
       CaptionOptions.Text = 'Planilha Local'
       ButtonOptions.Buttons = <>
+      ItemIndex = 4
       Index = 0
-    end
-    object dxLayoutGroup3: TdxLayoutGroup
-      Parent = dxLayoutGroup1
-      CaptionOptions.Text = 'Planilha TFO'
-      ButtonOptions.Buttons = <>
-      Index = 1
     end
     object dxLayoutItem1: TdxLayoutItem
       Parent = dxLayoutControl1Group_Root
@@ -226,6 +263,8 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -234,16 +273,20 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
     object dxLayoutItem3: TdxLayoutItem
-      Parent = dxLayoutAutoCreatedGroup1
+      Parent = dxLayoutAutoCreatedGroup2
       AlignHorz = ahLeft
       AlignVert = avTop
       CaptionOptions.Text = 'Data do Evento'
       CaptionOptions.Layout = clTop
       Control = datEvento
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 99
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -255,24 +298,29 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       CaptionOptions.Visible = False
       CaptionOptions.Layout = clTop
       Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 6
     end
     object dxLayoutItem6: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup4
-      AlignHorz = ahLeft
+      AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'Nome do Entregador'
       CaptionOptions.Layout = clTop
       Control = txtNomeEntregador
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 373
       ControlOptions.ShowBorder = False
       Index = 1
     end
     object dxLayoutAutoCreatedGroup4: TdxLayoutAutoCreatedGroup
       Parent = dxLayoutGroup2
+      AlignHorz = ahClient
       AlignVert = avTop
       LayoutDirection = ldHorizontal
-      Index = 2
+      Index = 5
       AutoCreated = True
     end
     object dxLayoutItem5: TdxLayoutItem
@@ -281,40 +329,42 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       CaptionOptions.Text = 'Entregador'
       CaptionOptions.Layout = clTop
       Control = edtCodigoEntregador
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 80
       ControlOptions.ShowBorder = False
       Index = 0
     end
     object dxLayoutAutoCreatedGroup2: TdxLayoutAutoCreatedGroup
       Parent = dxLayoutGroup2
-      AlignHorz = ahLeft
+      AlignHorz = ahClient
       AlignVert = avTop
-      Index = 1
+      LayoutDirection = ldHorizontal
+      Index = 4
       AutoCreated = True
     end
     object dxLayoutItem8: TdxLayoutItem
-      Parent = dxLayoutAutoCreatedGroup2
+      Parent = dxLayoutGroup2
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'Planilha'
       CaptionOptions.Layout = clTop
       Control = edtArquivo
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 459
       ControlOptions.ShowBorder = False
       Index = 0
     end
     object dxLayoutItem4: TdxLayoutItem
-      Parent = dxLayoutAutoCreatedGroup1
-      AlignHorz = ahLeft
+      Parent = dxLayoutAutoCreatedGroup2
+      AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'Descri'#231#227'o '
       CaptionOptions.Layout = clTop
       Control = cboDescricaoExtravio
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 354
       ControlOptions.ShowBorder = False
       Index = 1
-    end
-    object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
-      Parent = dxLayoutAutoCreatedGroup2
-      AlignVert = avTop
-      LayoutDirection = ldHorizontal
-      Index = 1
-      AutoCreated = True
     end
     object dxLayoutItem9: TdxLayoutItem
       Parent = dxLayoutGroup2
@@ -325,8 +375,10 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       CaptionOptions.Layout = clTop
       Visible = False
       Control = pbImportacao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 3
     end
     object dxLayoutItem10: TdxLayoutItem
       Parent = dxLayoutGroup2
@@ -335,8 +387,34 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       CaptionOptions.Text = 'Observa'#231#245'es'
       CaptionOptions.Layout = clTop
       Control = memObs
+      ControlOptions.OriginalHeight = 89
+      ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
-      Index = 4
+      Index = 7
+    end
+    object dxLayoutItem11: TdxLayoutItem
+      Parent = dxLayoutGroup2
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'Cliente'
+      CaptionOptions.Layout = clTop
+      Control = cliente
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem12: TdxLayoutItem
+      Parent = dxLayoutGroup2
+      CaptionOptions.Text = 'cxRadioGroup1'
+      CaptionOptions.Visible = False
+      CaptionOptions.Layout = clTop
+      Control = tipo
+      ControlOptions.AutoColor = True
+      ControlOptions.OriginalHeight = 43
+      ControlOptions.OriginalWidth = 185
+      ControlOptions.ShowBorder = False
+      Index = 2
     end
   end
   object aclImportarExtravio: TActionList
@@ -372,5 +450,15 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
   object OpenDialog: TOpenDialog
     Filter = 'CSV (separado por virgulas)|*.csv'
     Left = 464
+  end
+  object dsClientes: TDataSource
+    AutoEdit = False
+    DataSet = Data_Sisgef.mtbClientesEmpresa
+    Left = 592
+  end
+  object Timer: TTimer
+    Enabled = False
+    Left = 728
+    Top = 8
   end
 end

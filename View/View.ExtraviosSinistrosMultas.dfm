@@ -728,6 +728,13 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Hint = 'Limpar filtro'
       OnExecute = actionLimparFiltroExecute
     end
+    object actionImportar: TAction
+      Category = 'Extravios'
+      Caption = 'Importar'
+      Hint = 'Importar Planilha'
+      ImageIndex = 16
+      OnExecute = actionImportarExecute
+    end
   end
   object barManager: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
@@ -804,6 +811,10 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           BeginGroup = True
           Visible = True
           ItemName = 'dxBarLargeButton10'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton12'
         end
         item
           Visible = True
@@ -907,6 +918,11 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     object dxBarLargeButton11: TdxBarLargeButton
       Action = actionFechar
       Align = iaRight
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton12: TdxBarLargeButton
+      Action = actionImportar
       Category = 0
       AutoGrayScale = False
     end

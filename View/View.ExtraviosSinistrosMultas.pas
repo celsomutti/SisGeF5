@@ -120,6 +120,8 @@ type
     gridExtraviosDBTableView1cod_cliente: TcxGridDBColumn;
     dsClientes: TDataSource;
     frxDeclaracao: TfrxReport;
+    actionImportar: TAction;
+    dxBarLargeButton12: TdxBarLargeButton;
     procedure actionFecharExecute(Sender: TObject);
     procedure actionPainelGruposExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -143,6 +145,7 @@ type
     procedure memTableExtraviosAfterScroll(DataSet: TDataSet);
     procedure memTableExtraviosAfterOpen(DataSet: TDataSet);
     procedure actionImprimirExecute(Sender: TObject);
+    procedure actionImportarExecute(Sender: TObject);
   private
     { Private declarations }
     function Formulafilro(iIndex: integer; sTexto: string): boolean;
@@ -160,6 +163,8 @@ type
     procedure ModoButtons;
     procedure Imprimir(iCliente: integer);
     procedure DeclaracaoDirect;
+    procedure ImportarDados;
+    function ConfirmPassword(): boolean;
   public
     { Public declarations }
   end;
@@ -171,7 +176,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.Impressao;
+uses Data.SisGeF, View.Impressao, View.SisGeFConfirmPassword, View.ImportacaoPlanilhaExtravios;
 
 procedure Tview_ExtraviosSinistrosMultas.actionCancelarExecute(Sender: TObject);
 begin
@@ -218,6 +223,11 @@ begin
   FinalizeData;
 end;
 
+procedure Tview_ExtraviosSinistrosMultas.actionImportarExecute(Sender: TObject);
+begin
+  ImportarDados;
+end;
+
 procedure Tview_ExtraviosSinistrosMultas.actionImprimirExecute(Sender: TObject);
 begin
   Imprimir(memTableExtravioscod_cliente.AsInteger);
@@ -261,6 +271,15 @@ begin
   actionEstornar.Enabled := False;
   actionFinalizar.Enabled := False;
   filtroExtravios.Clear;
+end;
+
+function Tview_ExtraviosSinistrosMultas.ConfirmPassword: boolean;
+begin
+  Result := False;
+  if not Assigned(view_SisGeFConfirmPassword) then
+    view_SisGeFConfirmPassword := Tview_SisGeFConfirmPassword.Create(Application);
+  Result := (view_SisGeFConfirmPassword.ShowModal = mrOk);
+  FreeAndNil(view_SisGeFConfirmPassword);
 end;
 
 procedure Tview_ExtraviosSinistrosMultas.DeclaracaoDirect;
@@ -338,12 +357,26 @@ var
   iCadastro : Integer;
   FEntregadores: TEntregadoresExpressasControl;
   FLancamento : TLancamentosControl;
+  aParam: array of variant;
 begin
+  if not ConfirmPassword() then
+    Exit;
   bFlagReembolso := False;
   dValor := 0;
   sObs := '';
   iCadastro := 0;
   if Application.MessageBox('Estornar este Extravio/Multa?', 'Estornor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit;
+  SetLength(aParam,2);
+  aParam := ['CODIGO', memTableExtravioscod_extravio.AsInteger];
+  FExtravio.Extravios.Query := FExtravio.Localizar(aParam);
+  if FExtravio.Extravios.Query.IsEmpty then
+  begin
+    Application.MessageBox('Extravio não encontrado. Estorno cancelado!', 'Atenação', MB_OK + MB_ICONERROR);
+    Exit;
+  end;
+  Finalize(aParam);
+  FExtravio.SetupClass;
+  FExtravio.Extravios.Query.Connection.Connected := False;
   FExtravio.Extravios.Acao := Common.ENum.tacExcluir;
   if not FExtravio.ValidaEstorno() then Exit;
   if FExtravio.Extravios.Percentual > 0 then
@@ -466,19 +499,24 @@ begin
       if memTableExtravios.Locate('COD_EXTRAVIO',iId, []) then
       begin
         SetLength(aParam,2);
-        aParam := ['ID', memTableExtraviosNUM_NOSSONUMERO.AsString];
-        if not FExtravio.Localizar(aParam).IsEmpty then
+        aParam := ['CODIGO', memTableExtravioscod_extravio.AsInteger];
+        FExtravios.Extravios.Query := FExtravios.Localizar(aParam);
+        if FExtravios.Extravios.Query.IsEmpty then
         begin
           Application.MessageBox('Extravio não encontrado. Finalização cancelada!', 'Atenação', MB_OK + MB_ICONERROR);
           Exit;
         end;
         Finalize(aParam);
         FExtravios.SetupClass;
+        FExtravios.Extravios.Query.Connection.Connected := False;
         if not FExtravios.Finalizar then
         begin
           Application.MessageBox('Finalização não realizada!', 'Atenação', MB_OK + MB_ICONERROR);
           Exit;
         end;
+        memTableExtravios.Edit;
+        memTableExtraviosDOM_RESTRICAO.AsString := 'FINALIZAD';
+        memTableExtravios.Post;
       end;
     end;
     Application.MessageBox('Finalização concluída!', 'Finalizar', MB_OK + MB_ICONINFORMATION);
@@ -543,6 +581,13 @@ begin
     16: gridExtraviosDBTableView1.ViewData.Expand(True);
     17: gridExtraviosDBTableView1.ViewData.Collapse(True);
   end;
+end;
+
+procedure Tview_ExtraviosSinistrosMultas.ImportarDados;
+begin
+  if not Assigned(view_ImportacaoPlanilhaExtravios) then
+    view_ImportacaoPlanilhaExtravios := Tview_ImportacaoPlanilhaExtravios.Create(Application);
+  view_ImportacaoPlanilhaExtravios.Show;
 end;
 
 procedure Tview_ExtraviosSinistrosMultas.Imprimir(iCliente: integer);

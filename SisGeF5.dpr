@@ -196,7 +196,7 @@ uses
   View.PesquisaEntregadoresExpressas in 'View\View.PesquisaEntregadoresExpressas.pas' {view_PesquisaEntregadoresExpressas},
   View.LancamentosExtratosExpressasPesquisa in 'View\View.LancamentosExtratosExpressasPesquisa.pas' {view_LancamentosExtratosExpressasPesquisa},
   View.FiltroGenerico in 'View\View.FiltroGenerico.pas' {view_FiltroGenerico},
-  Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
+  Thread.SisGeFImportMisplacement in 'Thread\Thread.SisGeFImportMisplacement.pas',
   View.ImportEDIClient in 'View\View.ImportEDIClient.pas' {view_ImporEDIClient},
   View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT},
   Model.FinanceiroPrazosExtratos in 'Model\Model.FinanceiroPrazosExtratos.pas',
@@ -240,7 +240,9 @@ uses
   Thread.ImportarPedidosSIMExpress in 'Thread\Thread.ImportarPedidosSIMExpress.pas',
   Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas',
   View.ExtraviosSinistrosMultas in 'View\View.ExtraviosSinistrosMultas.pas' {view_ExtraviosSinistrosMultas},
-  View.CadastroExtravios in 'View\View.CadastroExtravios.pas' {view_CadastroExtravios};
+  View.CadastroExtravios in 'View\View.CadastroExtravios.pas' {view_CadastroExtravios},
+  View.SisGeFConfirmPassword in 'View\View.SisGeFConfirmPassword.pas' {view_SisGeFConfirmPassword},
+  Thread.EDIClient in 'Thread\Thread.EDIClient.pas';
 
 {$R *.res}
 

@@ -296,6 +296,7 @@ var
   aParam: array of variant;
 begin
   try
+    Result := False;
     // I-2021-01-26 CM **********
     // Verificando se houve o pagamento da verba após o registro do extravio e antes da
     // finalização.
@@ -332,6 +333,7 @@ begin
     end;
 
     FAcao := tacIndefinido;
+    Result := True;
   finally
     lLog.Free;
   end;
@@ -410,6 +412,12 @@ begin
   begin
     FDQuery.SQL.Add('WHERE NUM_NOSSONUMERO = :NN');
     FDQuery.ParamByName('NN').AsString := aParam[1];
+  end;
+  if aParam[0] = 'NNCLIENTE' then
+  begin
+    FDQuery.SQL.Add('WHERE COD_CLIENTE_EMPRESA = :CLIENTE AND NUM_NOSSONUMERO = :NN');
+    FDQuery.ParamByName('CLIENTE').AsString := aParam[1];
+    FDQuery.ParamByName('NN').AsString := aParam[2];
   end;
   if aParam[0] = 'AGENTE' then
   begin
