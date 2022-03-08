@@ -311,6 +311,49 @@ begin
           FExtravios.Extravios.Acao := tacIncluir;
           if FExtravios.Extravios.Gravar then
             Inc(FTotalGravados,1);
+        end
+        else
+        begin
+          if FExtravios.Extravios.Restricao <> 'S' then
+          begin
+            FExtravios.Extravios.Descricao := FDescricao;
+            FExtravios.Extravios.Agente := FAgente;
+            FExtravios.Extravios.ValorProduto := FPlanilha.Planilha.Planilha[iPos].Valor;
+            FExtravios.Extravios.Data := FData;
+            FExtravios.Extravios.Multa := 0;
+            FExtravios.Extravios.Verba := 0;
+            FExtravios.Extravios.Total := FPlanilha.Planilha.Planilha[iPos].Valor;
+            if FTipo = 1 then
+            begin
+              FExtravios.Extravios.Restricao := 'S';
+              FExtravios.Extravios.Percentual := 100;
+            end
+            else
+            begin
+              FExtravios.Extravios.Restricao := 'N';
+              FExtravios.Extravios.Percentual := 0;
+            end;
+            FExtravios.Extravios.Entregador := FEntregador;
+            FExtravios.Extravios.Tipo := FTipo;
+            FExtravios.Extravios.VerbaFranquia := 0;
+            FExtravios.Extravios.ValorFranquia := 0;
+            FExtravios.Extravios.Extrato := 'N';
+            FExtravios.Extravios.DataFranquia := 0;
+            FExtravios.Extravios.EnvioCorrespondencia := '';
+            FExtravios.Extravios.RetornoCorrespondencia := '';
+            FExtravios.Extravios.Obs := FObs;
+            FExtravios.Extravios.IDExtrato := 0;
+            FExtravios.Extravios.Executor := Global.Parametros.pUser_Name;
+            FExtravios.Extravios.Manutencao := Now;
+            FExtravios.Extravios.Sequencia := 0;
+            FExtravios.Extravios.Cliente := FCliente;
+            FExtravios.Extravios.Produto := FPlanilha.Planilha.Planilha[iPos].Produto;
+            FExtravios.Extravios.AWB := FPlanilha.Planilha.Planilha[iPos].AWB1;
+            FExtravios.Extravios.NumeroExtrato := '';
+            FExtravios.Extravios.Acao := tacAlterar;
+            if FExtravios.Extravios.Gravar then
+              Inc(FTotalGravados,1);
+          end;
         end;
         iPos := i;
         FProgresso := (iPos / FTotalRegistros) * 100;

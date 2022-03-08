@@ -415,8 +415,8 @@ begin
   end;
   if aParam[0] = 'NNCLIENTE' then
   begin
-    FDQuery.SQL.Add('WHERE COD_CLIENTE_EMPRESA = :CLIENTE AND NUM_NOSSONUMERO = :NN');
-    FDQuery.ParamByName('CLIENTE').AsString := aParam[1];
+    FDQuery.SQL.Add('WHERE COD_CLIENTE = :CLIENTE AND NUM_NOSSONUMERO = :NN');
+    FDQuery.ParamByName('CLIENTE').AsInteger := aParam[1];
     FDQuery.ParamByName('NN').AsString := aParam[2];
   end;
   if aParam[0] = 'AGENTE' then

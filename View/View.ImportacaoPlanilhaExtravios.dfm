@@ -192,6 +192,7 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Left = 24
       Top = 139
       Hint = 'Cliente'
+      ParentFont = False
       Properties.KeyFieldNames = 'cod_cliente'
       Properties.ListColumns = <
         item
@@ -199,7 +200,13 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
         end>
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsClientes
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -11
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
       Style.HotTrack = False
+      Style.IsFontAssigned = True
       TabOrder = 2
       Width = 764
     end
@@ -458,6 +465,7 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
   end
   object Timer: TTimer
     Enabled = False
+    OnTimer = TimerTimer
     Left = 728
     Top = 8
   end

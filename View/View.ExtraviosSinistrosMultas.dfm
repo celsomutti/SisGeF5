@@ -22,15 +22,15 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
   object pageControlPesquisa: TcxPageControl
     AlignWithMargins = True
     Left = 3
-    Top = 90
+    Top = 57
     Width = 829
-    Height = 365
+    Height = 398
     Align = alClient
     TabOrder = 0
     Properties.ActivePage = tabResultado
     Properties.CustomButtons.Buttons = <>
     Properties.HideTabs = True
-    ClientRectBottom = 361
+    ClientRectBottom = 394
     ClientRectLeft = 4
     ClientRectRight = 825
     ClientRectTop = 4
@@ -40,7 +40,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       object gridExtravios: TcxGrid
         AlignWithMargins = True
         Left = 3
-        Top = 3
+        Top = 36
         Width = 815
         Height = 351
         Align = alClient
@@ -138,8 +138,23 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           end
           object gridExtraviosDBTableView1COD_TIPO: TcxGridDBColumn
             DataBinding.FieldName = 'COD_TIPO'
-            PropertiesClassName = 'TcxTextEditProperties'
+            PropertiesClassName = 'TcxImageComboBoxProperties'
+            Properties.Items = <
+              item
+                Description = 'EXTRAVIO'
+                ImageIndex = 0
+                Value = 0
+              end
+              item
+                Description = 'SINISTRO'
+                Value = 1
+              end
+              item
+                Description = 'MULTA'
+                Value = 2
+              end>
             HeaderAlignmentHorz = taCenter
+            Width = 83
           end
           object gridExtraviosDBTableView1DES_EXTRAVIO: TcxGridDBColumn
             DataBinding.FieldName = 'DES_EXTRAVIO'
@@ -162,12 +177,27 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           end
           object gridExtraviosDBTableView1DOM_RESTRICAO: TcxGridDBColumn
             DataBinding.FieldName = 'DOM_RESTRICAO'
-            PropertiesClassName = 'TcxTextEditProperties'
+            PropertiesClassName = 'TcxImageComboBoxProperties'
+            Properties.Items = <
+              item
+                Description = 'FINALIZADO'
+                ImageIndex = 0
+                Value = 'S'
+              end
+              item
+                Description = 'PENDENTE'
+                Value = 'N'
+              end
+              item
+                Description = 'ESTORNADO'
+                Value = 'E'
+              end>
             HeaderAlignmentHorz = taCenter
+            Width = 75
           end
           object gridExtraviosDBTableView1VAL_PERCENTUAL_PAGO: TcxGridDBColumn
-            DataBinding.FieldName = 'VAL_PERCENTUAL_PAGO'
-            PropertiesClassName = 'TcxTextEditProperties'
+            DataBinding.FieldName = 'VAL_PERCENTUAL'
+            PropertiesClassName = 'TcxProgressBarProperties'
             HeaderAlignmentHorz = taCenter
           end
           object gridExtraviosDBTableView1VAL_PRODUTO: TcxGridDBColumn
@@ -288,6 +318,86 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           GridView = gridExtraviosDBTableView1
         end
       end
+      object panelPesquisa: TPanel
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 815
+        Height = 27
+        Align = alTop
+        BevelOuter = bvNone
+        Caption = 'panelPesquisa'
+        ShowCaption = False
+        TabOrder = 1
+        DesignSize = (
+          815
+          27)
+        object cxLabel1: TcxLabel
+          Left = 2
+          Top = 4
+          Caption = 'Pesquisar: '
+          Transparent = True
+        end
+        object pesquisar: TcxTextEdit
+          Left = 65
+          Top = 3
+          Hint = 'Par'#226'metro a pesquisasr'
+          TabOrder = 1
+          Width = 349
+        end
+        object cxButton1: TcxButton
+          Left = 420
+          Top = 1
+          Width = 81
+          Height = 25
+          Cursor = crHandPoint
+          Action = actionPesquisar
+          OptionsImage.Glyph.SourceDPI = 96
+          OptionsImage.Glyph.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            610000001974455874536F6674776172650041646F626520496D616765526561
+            647971C9653C00000026744558745469746C650046696E643B426172733B5269
+            62626F6E3B5374616E646172643B536561726368BB659C080000005B49444154
+            785EB592C10900310804AFC16B630B4955E9CEE0C129C124FB303EC6C72A2388
+            8F88186FEBF24372232F8843CE2E3F094004A81168B882F594B89D834940868F
+            7D1384ED1C140BFC801FF50283BEB2734FA025415E3000FE3DA38A41B3014A00
+            00000049454E44AE426082}
+          TabOrder = 2
+        end
+        object cxLabel2: TcxLabel
+          Left = 507
+          Top = 4
+          Caption = 'Campos:'
+          Transparent = True
+        end
+        object comboBoxCampos: TcxComboBox
+          Left = 559
+          Top = 3
+          Properties.Items.Strings = (
+            'Todos'
+            'N'#250'mero'
+            'C'#243'digo do Agente'
+            'Nome do Agente'
+            'C'#243'digo do Entregador'
+            'Nome do Entregador'
+            'CPF / CNPJ'
+            'C'#243'digo do Cadastro'
+            'Nome do Cadastro'
+            'N'#250'mero Remessa'
+            'AWB'
+            'Produto')
+          TabOrder = 4
+          Text = 'Todos'
+          Width = 151
+        end
+        object checkBoxGrupo: TcxCheckBox
+          Left = 716
+          Top = 3
+          Action = actionPainelGrupos
+          Anchors = [akTop, akRight]
+          TabOrder = 5
+        end
+      end
     end
     object tabFiltro: TcxTabSheet
       Caption = 'Filtro'
@@ -295,7 +405,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       object panelFooterFiltro: TPanel
         AlignWithMargins = True
         Left = 3
-        Top = 316
+        Top = 349
         Width = 815
         Height = 38
         Align = alBottom
@@ -374,7 +484,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
         Left = 0
         Top = 0
         Width = 821
-        Height = 313
+        Height = 346
         Align = alClient
         DataSet = memTableExtravios
         Items = <
@@ -409,13 +519,21 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           item
             Caption = 'Tipo'
             FieldName = 'COD_TIPO'
-            PropertiesClassName = 'TcxComboBoxProperties'
-            Properties.DropDownListStyle = lsEditFixedList
-            Properties.Items.Strings = (
-              'EXTRAVIO'
-              'SINISTRO'
-              'MULTA')
-            Properties.OEMConvert = True
+            PropertiesClassName = 'TcxImageComboBoxProperties'
+            Properties.Items = <
+              item
+                Description = 'EXTRAVIO'
+                ImageIndex = 0
+                Value = 0
+              end
+              item
+                Description = 'SINISTRO'
+                Value = 1
+              end
+              item
+                Description = 'MULTA'
+                Value = 2
+              end>
           end
           item
             Caption = 'Data'
@@ -442,11 +560,21 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           item
             Caption = 'Status'
             FieldName = 'DOM_RESTRICAO'
-            PropertiesClassName = 'TcxComboBoxProperties'
-            Properties.Items.Strings = (
-              'FECHADO'
-              'PENDENTE'
-              'ESTORNADO')
+            PropertiesClassName = 'TcxImageComboBoxProperties'
+            Properties.Items = <
+              item
+                Description = 'FECHADO'
+                ImageIndex = 0
+                Value = 'S'
+              end
+              item
+                Description = 'PENDENTE'
+                Value = 'N'
+              end
+              item
+                Description = 'ESTORNADO'
+                Value = 'E'
+              end>
           end
           item
             Caption = 'Nome Agente'
@@ -534,86 +662,6 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           end>
         TabOrder = 1
       end
-    end
-  end
-  object panelPesquisa: TPanel
-    AlignWithMargins = True
-    Left = 3
-    Top = 57
-    Width = 829
-    Height = 27
-    Align = alTop
-    BevelOuter = bvNone
-    Caption = 'panelPesquisa'
-    ShowCaption = False
-    TabOrder = 5
-    DesignSize = (
-      829
-      27)
-    object cxLabel1: TcxLabel
-      Left = 8
-      Top = 4
-      Caption = 'Pesquisar: '
-      Transparent = True
-    end
-    object pesquisar: TcxTextEdit
-      Left = 65
-      Top = 3
-      Hint = 'Par'#226'metro a pesquisasr'
-      TabOrder = 1
-      Width = 349
-    end
-    object cxButton1: TcxButton
-      Left = 420
-      Top = 1
-      Width = 81
-      Height = 25
-      Cursor = crHandPoint
-      Action = actionPesquisar
-      OptionsImage.Glyph.SourceDPI = 96
-      OptionsImage.Glyph.Data = {
-        89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
-        610000001974455874536F6674776172650041646F626520496D616765526561
-        647971C9653C00000026744558745469746C650046696E643B426172733B5269
-        62626F6E3B5374616E646172643B536561726368BB659C080000005B49444154
-        785EB592C10900310804AFC16B630B4955E9CEE0C129C124FB303EC6C72A2388
-        8F88186FEBF24372232F8843CE2E3F094004A81168B882F594B89D834940868F
-        7D1384ED1C140BFC801FF50283BEB2734FA025415E3000FE3DA38A41B3014A00
-        00000049454E44AE426082}
-      TabOrder = 2
-    end
-    object cxLabel2: TcxLabel
-      Left = 507
-      Top = 4
-      Caption = 'Campos:'
-      Transparent = True
-    end
-    object comboBoxCampos: TcxComboBox
-      Left = 559
-      Top = 3
-      Properties.Items.Strings = (
-        'Todos'
-        'N'#250'mero'
-        'C'#243'digo do Agente'
-        'Nome do Agente'
-        'C'#243'digo do Entregador'
-        'Nome do Entregador'
-        'CPF / CNPJ'
-        'C'#243'digo do Cadastro'
-        'Nome do Cadastro'
-        'N'#250'mero Remessa'
-        'AWB'
-        'Produto')
-      TabOrder = 4
-      Text = 'Todos'
-      Width = 151
-    end
-    object checkBoxGrupo: TcxCheckBox
-      Left = 716
-      Top = 3
-      Action = actionPainelGrupos
-      Anchors = [akTop, akRight]
-      TabOrder = 5
     end
   end
   object actionListExtravios: TActionList
@@ -1019,22 +1067,10 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       ReadOnly = True
       Size = 9
     end
-    object memTableExtraviosCOD_TIPO: TStringField
-      DisplayLabel = 'Tipo'
-      FieldName = 'COD_TIPO'
-      ReadOnly = True
-      Size = 8
-    end
     object memTableExtraviosDES_OBSERVACOES: TMemoField
       DisplayLabel = 'Observa'#231#245'es'
       FieldName = 'DES_OBSERVACOES'
       BlobType = ftMemo
-    end
-    object memTableExtraviosVAL_PERCENTUAL_PAGO: TStringField
-      DisplayLabel = 'Situa'#231#227'o'
-      FieldName = 'VAL_PERCENTUAL_PAGO'
-      ReadOnly = True
-      Size = 12
     end
     object memTableExtraviosSEQ_ACAREACAO: TIntegerField
       DisplayLabel = 'N'#186'. Acarea'#231#227'o'
@@ -1058,6 +1094,14 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     object memTableExtravioscod_cliente: TIntegerField
       DisplayLabel = 'Cliente'
       FieldName = 'cod_cliente'
+    end
+    object memTableExtraviosCOD_TIPO: TIntegerField
+      DisplayLabel = 'Tipo'
+      FieldName = 'COD_TIPO'
+    end
+    object memTableExtraviosVAL_PERCENTUAL: TSingleField
+      DisplayLabel = 'Situa'#231#227'o'
+      FieldName = 'VAL_PERCENTUAL'
     end
   end
   object dsExtravios: TDataSource

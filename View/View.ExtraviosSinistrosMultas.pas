@@ -12,7 +12,8 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Stan.StorageBin, Common.Utils, Control.ExtraviosMultas, cxCalendar,
   cxCurrencyEdit, cxBlobEdit, dxBarBuiltInMenu, cxPC, cxFilterControl, cxDBFilterControl, cxDBLookupComboBox, Common.ENum,
-  View.CadastroExtravios, Control.EntregadoresExpressas, Global.Parametros, Control.Lancamentos, frxClass;
+  View.CadastroExtravios, Control.EntregadoresExpressas, Global.Parametros, Control.Lancamentos, frxClass, cxImageComboBox,
+  cxProgressBar;
 
 type
   Tview_ExtraviosSinistrosMultas = class(TForm)
@@ -65,9 +66,7 @@ type
     memTableExtraviosVAL_VERBA: TFloatField;
     memTableExtraviosVAL_TOTAL: TFloatField;
     memTableExtraviosDOM_RESTRICAO: TStringField;
-    memTableExtraviosCOD_TIPO: TStringField;
     memTableExtraviosDES_OBSERVACOES: TMemoField;
-    memTableExtraviosVAL_PERCENTUAL_PAGO: TStringField;
     memTableExtraviosSEQ_ACAREACAO: TIntegerField;
     memTableExtraviosNUM_EXTRATO: TStringField;
     memTableExtravioscod_awb: TStringField;
@@ -100,13 +99,6 @@ type
     gridExtraviosDBTableView1DES_RAZAO_SOCIAL: TcxGridDBColumn;
     gridExtraviosDBTableView1DES_OBSERVACOES: TcxGridDBColumn;
     gridExtraviosLevel1: TcxGridLevel;
-    panelPesquisa: TPanel;
-    cxLabel1: TcxLabel;
-    pesquisar: TcxTextEdit;
-    cxButton1: TcxButton;
-    cxLabel2: TcxLabel;
-    comboBoxCampos: TcxComboBox;
-    checkBoxGrupo: TcxCheckBox;
     tabFiltro: TcxTabSheet;
     actionFiltrar: TAction;
     actionCancelarFiltro: TAction;
@@ -122,6 +114,15 @@ type
     frxDeclaracao: TfrxReport;
     actionImportar: TAction;
     dxBarLargeButton12: TdxBarLargeButton;
+    panelPesquisa: TPanel;
+    cxLabel1: TcxLabel;
+    pesquisar: TcxTextEdit;
+    cxButton1: TcxButton;
+    cxLabel2: TcxLabel;
+    comboBoxCampos: TcxComboBox;
+    checkBoxGrupo: TcxCheckBox;
+    memTableExtraviosCOD_TIPO: TIntegerField;
+    memTableExtraviosVAL_PERCENTUAL: TSingleField;
     procedure actionFecharExecute(Sender: TObject);
     procedure actionPainelGruposExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -515,7 +516,7 @@ begin
           Exit;
         end;
         memTableExtravios.Edit;
-        memTableExtraviosDOM_RESTRICAO.AsString := 'FINALIZAD';
+        memTableExtraviosDOM_RESTRICAO.AsString := 'S';
         memTableExtravios.Post;
       end;
     end;
@@ -623,20 +624,24 @@ end;
 procedure Tview_ExtraviosSinistrosMultas.ModoButtons;
 begin
   if memTableExtravios.Tag = -1 then Exit;
-
-
   if not memTableExtravios.IsEmpty then
     actionImprimir.Enabled := True
   else
     actionImprimir.Enabled := False;
-  if memTableExtraviosDOM_RESTRICAO.AsString = 'FINALIZAD' then
+  if memTableExtraviosDOM_RESTRICAO.AsString = 'S' then
   begin
     actionFinalizar.Enabled := False;
-    actionEstornar.Enabled := True;
+    if memTableExtraviosCOD_TIPO.AsInteger <> 1 then
+      actionEstornar.Enabled := True
+    else
+      actionEstornar.Enabled := False;
   end
   else
   begin
-    actionFinalizar.Enabled := True;
+    if memTableExtraviosCOD_TIPO.AsInteger <> 1 then
+      actionFinalizar.Enabled := True
+    else
+      actionFinalizar.Enabled := False;
     actionEstornar.Enabled := False;
   end;
 end;

@@ -70,6 +70,7 @@ type
     procedure actFecharExecute(Sender: TObject);
     procedure actAbrirArquivoExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure TimerTimer(Sender: TObject);
   private
     { Private declarations }
     procedure LocalizaEntregadores;
@@ -168,6 +169,7 @@ begin
   capa.Agente := iBase;
   capa.Entregador := edtCodigoEntregador.EditValue;
   capa.Obs := memObs.Text;
+  capa.Tipo := tipo.EditValue;
   actImportar.Enabled := False;
   actAbrirArquivo.Enabled := False;
   capa.Priority := tpNormal;
@@ -303,6 +305,11 @@ begin
   finally
     FDQuery.Free;
   end;
+end;
+
+procedure Tview_ImportacaoPlanilhaExtravios.TimerTimer(Sender: TObject);
+begin
+  UpdateDashboard;
 end;
 
 procedure Tview_ImportacaoPlanilhaExtravios.UpdateDashboard;

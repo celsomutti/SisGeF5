@@ -100,17 +100,19 @@ begin
       begin
         if (FPlanilha.Planilha.Planilha[i].Tipo = 'ENTREGA') and (Copy(FPlanilha.Planilha.Planilha[i].Devolucao, 1,1) = 'N') then
         begin
+          sFiltro := 'num_cep_inicial = ' + QuotedStr(Copy(FPlanilha.Planilha.Planilha[i].CEP,1,5)) +
+          ' and cod_cliente = ' + FCliente.ToString;
           if FPlanilha.Planilha.Planilha[i].PesoNominal > 30 then
           begin
-            sFiltro := 'num_cep_inicial <= ' + QuotedStr(FPlanilha.Planilha.Planilha[i].CEP) +
-            ' and num_cep_final >= ' + QuotedStr(FPlanilha.Planilha.Planilha[i].CEP) +
-            ' and cod_cliente = ' + FCliente.ToString;
+//            sFiltro := 'num_cep_inicial <= ' + QuotedStr(FPlanilha.Planilha.Planilha[i].CEP) +
+//            ' and num_cep_final >= ' + QuotedStr(FPlanilha.Planilha.Planilha[i].CEP) +
+//            ' and cod_cliente = ' + FCliente.ToString;
             sFiltro := sFiltro + ' and (cod_tipo = 2 or 3)'
           end
           else
           begin
-            sFiltro := 'num_cep_inicial = ' + QuotedStr(Copy(FPlanilha.Planilha.Planilha[i].CEP,1,5)) +
-            ' and cod_cliente = ' + FCliente.ToString;
+//            sFiltro := 'num_cep_inicial = ' + QuotedStr(Copy(FPlanilha.Planilha.Planilha[i].CEP,1,5)) +
+//            ' and cod_cliente = ' + FCliente.ToString;
             sFiltro := sFiltro + ' and (cod_tipo = 1 or 3)';
           end;
           SetLength(aParam,4);
