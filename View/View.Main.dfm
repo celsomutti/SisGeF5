@@ -1,7 +1,7 @@
 ﻿object view_Main: Tview_Main
   Left = 0
   Top = 0
-  Caption = 'Main'
+  Caption = 'IST'
   ClientHeight = 674
   ClientWidth = 1366
   Color = clBtnFace

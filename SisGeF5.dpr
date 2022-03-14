@@ -242,7 +242,8 @@ uses
   View.ExtraviosSinistrosMultas in 'View\View.ExtraviosSinistrosMultas.pas' {view_ExtraviosSinistrosMultas},
   View.CadastroExtravios in 'View\View.CadastroExtravios.pas' {view_CadastroExtravios},
   View.SisGeFConfirmPassword in 'View\View.SisGeFConfirmPassword.pas' {view_SisGeFConfirmPassword},
-  Thread.EDIClient in 'Thread\Thread.EDIClient.pas';
+  Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
+  View.SisGeFEmployeeRegistration in 'View\View.SisGeFEmployeeRegistration.pas' {ViewSisGeFEmployeeRegistration};
 
 {$R *.res}
 

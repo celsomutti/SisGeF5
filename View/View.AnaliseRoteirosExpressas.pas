@@ -355,7 +355,7 @@ if not FRoteiros.Processo then
     if FRoteiros.Cancelar then
       Application.MessageBox(PChar('Importação Cancelada.' + FRoteiros.MensagemSistema + ' !'), 'Atenção', MB_OK + MB_ICONEXCLAMATION)
     else
-      Application.MessageBox('Imoportação concluída.', 'Atenção', MB_OK + MB_ICONINFORMATION);
+      Application.MessageBox('Importação concluída.', 'Atenção', MB_OK + MB_ICONINFORMATION);
     nomeArquivo.Text := '';
     progresso.Position := 0;
     dxLayoutGroup6.Visible := False;
