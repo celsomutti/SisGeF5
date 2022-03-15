@@ -171,7 +171,7 @@ uses
   Thread.ExtratoExpressas in 'Thread\Thread.ExtratoExpressas.pas',
   View.ExtratoExpressasDetalhado in 'View\View.ExtratoExpressasDetalhado.pas' {view_ExtratoExpressasDetalhado},
   Model.CadastroGeral in 'Model\Model.CadastroGeral.pas',
-  View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
+  View.SisGeFPesquisaPessoasV1 in 'View\View.SisGeFPesquisaPessoasV1.pas' {view_SisGeFPesquisaPessoas},
   View.EntregadoresExpressasPesquisa in 'View\View.EntregadoresExpressasPesquisa.pas' {view_EntregadoresExpressasPesquisa},
   View.PesquisaBasesExpressas in 'View\View.PesquisaBasesExpressas.pas' {view_PesquisaBasesExpressas},
   View.PesquisarPessoas in 'View\View.PesquisarPessoas.pas' {View_PesquisarPessoas},
@@ -243,7 +243,10 @@ uses
   View.CadastroExtravios in 'View\View.CadastroExtravios.pas' {view_CadastroExtravios},
   View.SisGeFConfirmPassword in 'View\View.SisGeFConfirmPassword.pas' {view_SisGeFConfirmPassword},
   Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
-  View.SisGeFEmployeeRegistration in 'View\View.SisGeFEmployeeRegistration.pas' {ViewSisGeFEmployeeRegistration};
+  View.SisGeFEmployeeRegistration in 'View\View.SisGeFEmployeeRegistration.pas' {ViewSisGeFEmployeeRegistration},
+  Model.SisgeFRHFuncoes in 'Model\Model.SisgeFRHFuncoes.pas',
+  Control.SisGeFRHFuncoes in 'Control\Control.SisGeFRHFuncoes.pas',
+  View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM};
 
 {$R *.res}
 

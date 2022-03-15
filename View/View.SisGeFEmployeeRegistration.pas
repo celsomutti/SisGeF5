@@ -11,7 +11,8 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxMemo, Common.ENum, Global.Parametros,
-  Control.Cadastro, Control.CadastroEnderecos, Control.CadastroContatos, Control.Bancos, Control.Estados, dxStatusBar;
+  Control.Cadastro, Control.CadastroEnderecos, Control.CadastroContatos, Control.Bancos, Control.Estados, dxStatusBar,
+  Control.SisGeFRHFuncoes, cxCheckBox;
 
 type
   TViewSisGeFEmployeeRegistration = class(TForm)
@@ -138,19 +139,35 @@ type
     memTableBancosnom_banco: TStringField;
     dsBancos: TDataSource;
     statusBar: TdxStatusBar;
+    memTableFuncoes: TFDMemTable;
+    memTableFuncoesid_funcao: TIntegerField;
+    memTableFuncoesdes_funcao: TStringField;
+    dsFuncoes: TDataSource;
+    status: TcxCheckBox;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionNewExecute(Sender: TObject);
+    procedure actionEditExecute(Sender: TObject);
+    procedure actionCancelExecute(Sender: TObject);
+    procedure actionCloseFormExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
+    procedure Endingform;
     procedure Mode;
     procedure ClearFieldsForm;
     procedure PopulateBanks;
     procedure PopulateCountry;
     procedure PopulateContacts(iID: integer);
+    procedure PopulateFunctionsEmployees;
+    procedure InstanceClassRegisters;
+    procedure ReleasingClassRegisters;
     procedure BlockUnblockFieldsForm(bValue: boolean);
     procedure SetupFieldsForm;
     procedure SetupClass;
     procedure Insert;
     Procedure Edit;
+    procedure CancelOperation;
   public
     { Public declarations }
   end;
@@ -163,6 +180,7 @@ var
   FContatos : TCadastroContatosControl;
   FBancos : TBancosControl;
   FEstados: TEstadosControl;
+  FFuncoes: TRHFuncoesControl;
 
 implementation
 
@@ -171,6 +189,26 @@ implementation
 uses Data.SisGeF;
 
 { TViewSisGeFEmployeeRegistration }
+
+procedure TViewSisGeFEmployeeRegistration.actionCancelExecute(Sender: TObject);
+begin
+  CancelOperation;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.actionCloseFormExecute(Sender: TObject);
+begin
+  Endingform;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.actionEditExecute(Sender: TObject);
+begin
+  Edit;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.actionNewExecute(Sender: TObject);
+begin
+  Insert;
+end;
 
 procedure TViewSisGeFEmployeeRegistration.BlockUnblockFieldsForm(bValue: boolean);
 begin
@@ -213,6 +251,13 @@ begin
   nomeFavorecido.Properties.ReadOnly := bValue;
   cpfFavorecido.Properties.ReadOnly := bValue;
   observacoes.Properties.ReadOnly := bValue;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.CancelOperation;
+begin
+  FAcao := tacIndefinido;
+  Mode;
+  ClearFieldsForm;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.ClearFieldsForm;
@@ -266,12 +311,41 @@ begin
   nomeCompleto.SetFocus;
 end;
 
+procedure TViewSisGeFEmployeeRegistration.Endingform;
+begin
+  memTableBancos.Active := False;
+  memTableContatos.Active := False;
+  memTableFuncoes.Active := False;
+  ReleasingClassRegisters;
+  Close;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+  ViewSisGeFEmployeeRegistration := nil;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.FormShow(Sender: TObject);
+begin
+  StartForm;
+end;
+
 procedure TViewSisGeFEmployeeRegistration.Insert;
 begin
   FAcao := tacIncluir;
   Mode;
   ClearFieldsForm;
+  memTableContatos.Active := False;
+  memTableContatos.Active := True;
   cpf.SetFocus;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.InstanceClassRegisters;
+begin
+  FCadastro := TCadastroControl.Create;
+  FEnderecos := TCadastroEnderecosControl.Create;
+  FContatos := TCadastroContatosControl.Create;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.Mode;
@@ -293,7 +367,7 @@ begin
     actionNew.Enabled := False;
     actionLocate.Enabled := False;
     actionEdit.Enabled := False;
-    actionAttach.Enabled := True;
+    actionAttach.Enabled := False;
     actionCancel.Enabled := True;
     actionSave.Enabled := True;
     actionCloseForm.Enabled := False;
@@ -387,6 +461,29 @@ begin
   Finalize(aParam);
   FEstados.Estados.Query.Connection.Connected := False;
   FEstados.Free;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.PopulateFunctionsEmployees;
+var
+  aParam : array of variant;
+begin
+  SetLength(aParam, 1);
+  FFuncoes := TRHFuncoesControl.Create;
+  aParam := ['ALL'];
+  memTableFuncoes.Active := False;
+  if FFuncoes.Search(aParam) then
+  begin
+    memTableFuncoes.Data := FFuncoes.Funcoes.Query.Data;
+  end;
+  FFuncoes.Funcoes.Query.Connection.Connected := False;
+  FFuncoes.Free;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.ReleasingClassRegisters;
+begin
+  FContatos.Free;
+  FEnderecos.Free;
+  FCadastro.Free;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.SetupClass;
@@ -483,6 +580,8 @@ begin
   Mode;
   PopulateBanks;
   PopulateCountry;
+  PopulateFunctionsEmployees;
+  InstanceClassRegisters;
 end;
 
 end.

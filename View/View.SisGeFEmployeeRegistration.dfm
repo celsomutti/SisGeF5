@@ -2,7 +2,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
   Left = 0
   Top = 0
   Caption = 'Cadastro de Funcion'#225'rios'
-  ClientHeight = 475
+  ClientHeight = 507
   ClientWidth = 817
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,6 +15,8 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
   OldCreateOrder = False
   ShowHint = True
   Visible = True
+  OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object cxGroupBox1: TcxGroupBox
@@ -23,7 +25,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     Top = 57
     Align = alTop
     Caption = ' Identifica'#231#227'o '
-    TabOrder = 2
+    TabOrder = 0
     Transparent = True
     Height = 64
     Width = 811
@@ -96,9 +98,9 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     Top = 127
     Align = alTop
     Caption = ' Documentos/Filia'#231#227'o '
-    TabOrder = 4
+    TabOrder = 3
     Transparent = True
-    Height = 146
+    Height = 166
     Width = 811
     object cxLabel5: TcxLabel
       Left = 3
@@ -377,8 +379,13 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Left = 651
       Top = 112
       Hint = 'Fun'#231#227'o ou cargo'
-      Properties.ListColumns = <>
+      Properties.KeyFieldNames = 'id_funcao'
+      Properties.ListColumns = <
+        item
+          FieldName = 'des_funcao'
+        end>
       Properties.ListOptions.ShowHeader = False
+      Properties.ListSource = dsFuncoes
       TabOrder = 36
       Width = 157
     end
@@ -388,25 +395,34 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Caption = 'Fun'#231#227'o:'
       Transparent = True
     end
+    object status: TcxCheckBox
+      Left = 3
+      Top = 139
+      Hint = 'Status do cadastro'
+      Caption = 'INATIVO'
+      Properties.DisplayChecked = '1'
+      Properties.DisplayUnchecked = '2'
+      TabOrder = 38
+    end
   end
   object cxPageControl1: TcxPageControl
     Left = 0
-    Top = 276
+    Top = 296
     Width = 817
-    Height = 179
+    Height = 191
     Align = alClient
     TabOrder = 6
     Properties.ActivePage = cxTabSheet1
     Properties.CustomButtons.Buttons = <>
-    ExplicitHeight = 199
-    ClientRectBottom = 175
+    ExplicitHeight = 208
+    ClientRectBottom = 187
     ClientRectLeft = 4
     ClientRectRight = 813
     ClientRectTop = 24
     object cxTabSheet1: TcxTabSheet
       Caption = 'Endere'#231'o'
       ImageIndex = 0
-      ExplicitHeight = 171
+      ExplicitHeight = 169
       object cxLabel24: TcxLabel
         Left = 2
         Top = 2
@@ -533,15 +549,15 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     object cxTabSheet2: TcxTabSheet
       Caption = 'Contato'
       ImageIndex = 1
-      ExplicitHeight = 171
+      ExplicitHeight = 151
       object gridContatos: TcxGrid
         Left = 0
         Top = 0
         Width = 809
-        Height = 151
+        Height = 163
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 171
+        ExplicitHeight = 151
         object gridContatosDBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -607,9 +623,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     object cxTabSheet3: TcxTabSheet
       Caption = 'Dados Banc'#225'rios'
       ImageIndex = 2
-      ExplicitLeft = 5
-      ExplicitTop = 25
-      ExplicitHeight = 171
+      ExplicitHeight = 151
       object formaPagamento: TcxComboBox
         Left = 3
         Top = 19
@@ -739,7 +753,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     object cxTabSheet4: TcxTabSheet
       Caption = 'Observa'#231#245'es'
       ImageIndex = 3
-      ExplicitHeight = 171
+      ExplicitHeight = 151
       object observacoes: TcxMemo
         Left = 0
         Top = 0
@@ -747,18 +761,15 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Align = alClient
         Properties.ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitLeft = 200
-        ExplicitTop = 48
-        ExplicitWidth = 185
-        ExplicitHeight = 89
-        Height = 151
+        ExplicitHeight = 151
+        Height = 163
         Width = 809
       end
     end
   end
   object statusBar: TdxStatusBar
     Left = 0
-    Top = 455
+    Top = 487
     Width = 817
     Height = 20
     Panels = <
@@ -796,9 +807,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitLeft = 664
-    ExplicitTop = 56
-    ExplicitWidth = 0
+    ExplicitTop = 455
   end
   object actionListRegister: TActionList
     Images = Data_Sisgef.imageListOperation_32_32
@@ -807,6 +816,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Caption = '&Novo'
       Hint = 'Novo registro'
       ImageIndex = 0
+      OnExecute = actionNewExecute
     end
     object actionLocate: TAction
       Caption = '&Localizar'
@@ -817,6 +827,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Caption = '&Editar'
       Hint = 'Editar registro'
       ImageIndex = 9
+      OnExecute = actionEditExecute
     end
     object actionDelete: TAction
       Caption = 'E&xcluir'
@@ -832,6 +843,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Caption = '&Cancelar'
       Hint = 'Cancelar opera'#231#227'o'
       ImageIndex = 2
+      OnExecute = actionCancelExecute
     end
     object actionAttach: TAction
       Caption = 'A&nexos'
@@ -842,6 +854,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Caption = '&Fechar'
       Hint = 'Fechar tela'
       ImageIndex = 3
+      OnExecute = actionCloseFormExecute
     end
     object actionSearchCEP: TAction
       Caption = 'Pesquisa CEP'
@@ -1029,6 +1042,31 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     AutoEdit = False
     DataSet = memTableBancos
     Left = 451
+    Top = 1
+  end
+  object memTableFuncoes: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 336
+    object memTableFuncoesid_funcao: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'id_funcao'
+    end
+    object memTableFuncoesdes_funcao: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'des_funcao'
+      Size = 132
+    end
+  end
+  object dsFuncoes: TDataSource
+    AutoEdit = False
+    DataSet = memTableFuncoes
+    Left = 379
     Top = 1
   end
 end
