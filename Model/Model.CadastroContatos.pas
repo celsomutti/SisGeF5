@@ -193,7 +193,6 @@ begin
   memTable.First;
   while not memTable.Eof do
   begin
-    Self.ID := memTable.FieldByName('cod_entregador').AsInteger;
     Self.Sequencia := GetID(Self.ID);
     Self.Descricao := memTable.FieldByName('des_contato').AsString;
     Self.Telefone := memTable.FieldByName('num_telefone').AsString;

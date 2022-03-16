@@ -284,6 +284,7 @@ begin
   try
     Result := False;
     FDQuery := FConexao.ReturnQuery();
+    Fcadastro := GetID();
     FDQuery.ExecSQL('INSERT INTO ' + TABLENAME + '(cod_cadastro, dom_funcionario, cod_entregador, des_tipo_doc, ' +
                     'des_razao_social, nom_fantasia, num_cnpj, num_ie, dat_nascimento, dat_emissao_RG, nom_emissor_RG, ' +
                     'uf_nascimento, nom_cidade_nascimento, nom_pai, nom_mae, num_iest, num_im, cod_cnae, cod_crt, num_cnh, ' +

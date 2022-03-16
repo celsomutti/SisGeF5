@@ -266,6 +266,7 @@ begin
     end
     else
     begin
+      Entregador.EditValue := Fentregadores.Localizar(aParam).FieldByName('cod_entregador').AsInteger;
       NomeEntregador.Text := Fentregadores.Localizar(aParam).FieldByName('nom_fantasia').AsString;
       iBase := Fentregadores.Localizar(aParam).FieldByName('cod_agente').AsInteger;
     end;
@@ -301,8 +302,11 @@ begin
     if  FExtravio.Extravios.Restricao = 'N' then
     begin
       BlockAllFields(False);
+      actionGravar.Enabled := True;
+      actionCancelar.Enabled := True;
       actionPesquisar.Enabled := True;
       NN.Properties.ReadOnly := False;
+      AWB.Properties.ReadOnly := False;
     end
     else
     begin
@@ -310,6 +314,7 @@ begin
       actionRemessa.Enabled := False;
       actionAWB.Enabled := False;
       actionGravar.Enabled := False;
+      actionCancelar.Enabled := True;
       BlockAllFields(True);
     end;
     actionCancelar.Enabled := True;

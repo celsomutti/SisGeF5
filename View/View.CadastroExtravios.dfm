@@ -206,7 +206,6 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Left = 43
       Top = 51
       Hint = 'C'#243'digo AWB'
-      Enabled = False
       Properties.Buttons = <
         item
           Action = actionAWB

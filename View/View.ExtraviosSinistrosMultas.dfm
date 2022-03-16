@@ -30,6 +30,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     Properties.ActivePage = tabResultado
     Properties.CustomButtons.Buttons = <>
     Properties.HideTabs = True
+    OnChange = pageControlPesquisaChange
     ClientRectBottom = 394
     ClientRectLeft = 4
     ClientRectRight = 825
@@ -342,6 +343,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           Left = 65
           Top = 3
           Hint = 'Par'#226'metro a pesquisasr'
+          Anchors = [akLeft, akTop, akRight]
           TabOrder = 1
           Width = 349
         end
@@ -352,6 +354,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           Height = 25
           Cursor = crHandPoint
           Action = actionPesquisar
+          Anchors = [akTop, akRight]
           OptionsImage.Glyph.SourceDPI = 96
           OptionsImage.Glyph.Data = {
             89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
@@ -367,12 +370,14 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
         object cxLabel2: TcxLabel
           Left = 507
           Top = 4
+          Anchors = [akTop, akRight]
           Caption = 'Campos:'
           Transparent = True
         end
         object comboBoxCampos: TcxComboBox
           Left = 559
           Top = 3
+          Anchors = [akTop, akRight]
           Properties.Items.Strings = (
             'Todos'
             'N'#250'mero'
@@ -413,72 +418,6 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
         Caption = 'panelFooterFiltro'
         ShowCaption = False
         TabOrder = 0
-        DesignSize = (
-          815
-          38)
-        object cxButton2: TcxButton
-          Left = 643
-          Top = 8
-          Width = 82
-          Height = 25
-          Cursor = crHandPoint
-          Action = actionFiltrar
-          Anchors = [akRight, akBottom]
-          OptionsImage.Glyph.SourceDPI = 96
-          OptionsImage.Glyph.Data = {
-            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
-            610000001974455874536F6674776172650041646F626520496D616765526561
-            647971C9653C00000021744558745469746C65004170706C793B4F4B3B436865
-            636B3B426172733B526962626F6E3B6463C8680000009449444154785EC59341
-            0A83400C4547BAEAB6E0097A912E2DB8D2BBB8F1201EC19BD82B74E3294AC159
-            C52F2464182498B6D0C5239B798F309040445FF1FB40370E4728787E14A8C004
-            2EBE80CA0B20F0008523A032CF3B08B97CF2C81BA97C054F703B220B229FC1CC
-            8FDE1AB1E57C8316C424D2677295CB7B7FD0680498B206AC4894B53D0189BC40
-            0D823720943C4DFE7F8D2B585260AAC36B7FD80000000049454E44AE426082}
-          TabOrder = 0
-        end
-        object cxButton3: TcxButton
-          Left = 728
-          Top = 8
-          Width = 83
-          Height = 25
-          Cursor = crHandPoint
-          Action = actionCancelarFiltro
-          Anchors = [akRight, akBottom]
-          OptionsImage.Glyph.SourceDPI = 96
-          OptionsImage.Glyph.Data = {
-            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
-            610000001974455874536F6674776172650041646F626520496D616765526561
-            647971C9653C00000023744558745469746C650043616E63656C3B53746F703B
-            457869743B426172733B526962626F6E3B4C9696B20000009449444154785E95
-            93410A834010047D5C2027F3093F104C6461C5CD37F312C5D3641AD27810BAF1
-            5030CC587510B68B88EE3BDCFAA46236F0FB190E66CA7B12C9125EFE24F1771E
-            584C9009234626230FE514F1F21B2E8E22A2650654A42999011951320322A265
-            E0FFF6411301219B88935F49511129F3A622567611C8B3905DA462794FD693EC
-            231B5C2C19795E78CE131CCC3FD2409CCC2C3656140000000049454E44AE4260
-            82}
-          TabOrder = 1
-        end
-        object cxButton4: TcxButton
-          Left = 1
-          Top = 8
-          Width = 82
-          Height = 25
-          Cursor = crHandPoint
-          Action = actionLimparFiltro
-          Anchors = [akLeft, akBottom]
-          OptionsImage.Glyph.SourceDPI = 96
-          OptionsImage.Glyph.Data = {
-            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
-            610000001974455874536F6674776172650041646F626520496D616765526561
-            647971C9653C00000025744558745469746C6500436C6561723B45726173653B
-            52656D6F76653B426172733B526962626F6E3B87808373000000704944415478
-            5EA5D3C10980301044517BB205AF5B859D5895A5D8CD9880F07370962C397C72
-            9A07096493B4D42FF09CC758B4F415AD0AC0D82019C0D8231E60EC0B80D29800
-            ECB80EA850AC003C625CF7DE523FBB3A3B1E0111483AF600C8C4982BE4086307
-            5824FF48001699FD8D4BBDA8B182C018E296BC0000000049454E44AE426082}
-          TabOrder = 2
-        end
       end
       object filtroExtravios: TcxDBFilterControl
         Left = 0
@@ -563,7 +502,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
             PropertiesClassName = 'TcxImageComboBoxProperties'
             Properties.Items = <
               item
-                Description = 'FECHADO'
+                Description = 'FINALIZADO'
                 ImageIndex = 0
                 Value = 'S'
               end
@@ -710,7 +649,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Caption = 'Finali&zar'
       Enabled = False
       Hint = 'Finalizar registro selecionado'
-      ImageIndex = 1
+      ImageIndex = 18
       OnExecute = actionFinalizarExecute
     end
     object actionExportar: TAction
@@ -748,8 +687,8 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     end
     object actionPesquisar: TAction
       Category = 'Pesquisar'
-      Caption = '&Pesquisar'
-      Hint = 'Pesquisar registros'
+      Caption = '&Localizar'
+      Hint = 'Localizar registros'
       OnExecute = actionPesquisarExecute
     end
     object actionPainelGrupos: TAction
@@ -760,20 +699,26 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     end
     object actionFiltrar: TAction
       Category = 'Filtro'
-      Caption = 'Filtrar'
+      Caption = 'Aplicar'
+      Enabled = False
       Hint = 'Aplicar filtro'
+      ImageIndex = 1
       OnExecute = actionFiltrarExecute
     end
     object actionCancelarFiltro: TAction
       Category = 'Filtro'
       Caption = 'Cancelar'
+      Enabled = False
       Hint = 'Cancelar filtro'
+      ImageIndex = 19
       OnExecute = actionCancelarFiltroExecute
     end
     object actionLimparFiltro: TAction
       Category = 'Filtro'
       Caption = 'Limpar'
+      Enabled = False
       Hint = 'Limpar filtro'
+      ImageIndex = 20
       OnExecute = actionLimparFiltroExecute
     end
     object actionImportar: TAction
@@ -849,6 +794,18 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           BeginGroup = True
           Visible = True
           ItemName = 'dxBarLargeButton8'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton13'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton15'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton14'
         end
         item
           BeginGroup = True
@@ -974,6 +931,21 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       Category = 0
       AutoGrayScale = False
     end
+    object dxBarLargeButton13: TdxBarLargeButton
+      Action = actionFiltrar
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton14: TdxBarLargeButton
+      Action = actionCancelarFiltro
+      Category = 0
+      AutoGrayScale = False
+    end
+    object dxBarLargeButton15: TdxBarLargeButton
+      Action = actionLimparFiltro
+      Category = 0
+      AutoGrayScale = False
+    end
   end
   object memTableExtravios: TFDMemTable
     AfterOpen = memTableExtraviosAfterOpen
@@ -990,7 +962,6 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     ResourceOptions.Persistent = True
     ResourceOptions.SilentMode = True
     UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
-    UpdateOptions.LockWait = True
     UpdateOptions.FetchGeneratorsPoint = gpNone
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
@@ -1064,7 +1035,6 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     object memTableExtraviosDOM_RESTRICAO: TStringField
       DisplayLabel = 'Status'
       FieldName = 'DOM_RESTRICAO'
-      ReadOnly = True
       Size = 9
     end
     object memTableExtraviosDES_OBSERVACOES: TMemoField

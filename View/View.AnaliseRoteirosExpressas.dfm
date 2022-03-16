@@ -728,6 +728,8 @@ object view_AnaliseRoteirosExpressas: Tview_AnaliseRoteirosExpressas
         object gridResumoDBBandedTableView1cod_roteiro: TcxGridDBBandedColumn
           DataBinding.FieldName = 'cod_roteiro'
           HeaderAlignmentHorz = taCenter
+          SortIndex = 0
+          SortOrder = soAscending
           Width = 80
           Position.BandIndex = 0
           Position.ColIndex = 0

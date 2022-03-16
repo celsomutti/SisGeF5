@@ -98,7 +98,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     Top = 127
     Align = alTop
     Caption = ' Documentos/Filia'#231#227'o '
-    TabOrder = 3
+    TabOrder = 2
     Transparent = True
     Height = 166
     Width = 811
@@ -414,7 +414,6 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     TabOrder = 6
     Properties.ActivePage = cxTabSheet1
     Properties.CustomButtons.Buttons = <>
-    ExplicitHeight = 208
     ClientRectBottom = 187
     ClientRectLeft = 4
     ClientRectRight = 813
@@ -422,7 +421,6 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     object cxTabSheet1: TcxTabSheet
       Caption = 'Endere'#231'o'
       ImageIndex = 0
-      ExplicitHeight = 169
       object cxLabel24: TcxLabel
         Left = 2
         Top = 2
@@ -549,7 +547,6 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     object cxTabSheet2: TcxTabSheet
       Caption = 'Contato'
       ImageIndex = 1
-      ExplicitHeight = 151
       object gridContatos: TcxGrid
         Left = 0
         Top = 0
@@ -557,7 +554,6 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Height = 163
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 151
         object gridContatosDBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -623,7 +619,6 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     object cxTabSheet3: TcxTabSheet
       Caption = 'Dados Banc'#225'rios'
       ImageIndex = 2
-      ExplicitHeight = 151
       object formaPagamento: TcxComboBox
         Left = 3
         Top = 19
@@ -753,7 +748,6 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     object cxTabSheet4: TcxTabSheet
       Caption = 'Observa'#231#245'es'
       ImageIndex = 3
-      ExplicitHeight = 151
       object observacoes: TcxMemo
         Left = 0
         Top = 0
@@ -761,7 +755,6 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Align = alClient
         Properties.ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitHeight = 151
         Height = 163
         Width = 809
       end
@@ -807,7 +800,6 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 455
   end
   object actionListRegister: TActionList
     Images = Data_Sisgef.imageListOperation_32_32

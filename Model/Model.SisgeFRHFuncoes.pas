@@ -8,7 +8,7 @@ type
   TRHFuncoes = class
   private
     FAcao: TAcao;
-    FDescricao: integer;
+    FDescricao: string;
     FCodigo: integer;
     FQuery: TFDQuery;
     FConexao : TConexao;
@@ -20,7 +20,7 @@ type
   public
     constructor Create();
     property Codigo: integer read FCodigo write FCodigo;
-    property Descricao: integer read FDescricao write FDescricao;
+    property Descricao: string read FDescricao write FDescricao;
     property Query: TFDQuery read FQuery write FQuery;
     property Acao: TAcao read FAcao write FAcao;
 

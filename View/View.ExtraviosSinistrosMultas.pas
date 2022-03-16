@@ -105,9 +105,6 @@ type
     panelFooterFiltro: TPanel;
     filtroExtravios: TcxDBFilterControl;
     actionLimparFiltro: TAction;
-    cxButton2: TcxButton;
-    cxButton3: TcxButton;
-    cxButton4: TcxButton;
     memTableExtravioscod_cliente: TIntegerField;
     gridExtraviosDBTableView1cod_cliente: TcxGridDBColumn;
     dsClientes: TDataSource;
@@ -123,6 +120,9 @@ type
     checkBoxGrupo: TcxCheckBox;
     memTableExtraviosCOD_TIPO: TIntegerField;
     memTableExtraviosVAL_PERCENTUAL: TSingleField;
+    dxBarLargeButton13: TdxBarLargeButton;
+    dxBarLargeButton14: TdxBarLargeButton;
+    dxBarLargeButton15: TdxBarLargeButton;
     procedure actionFecharExecute(Sender: TObject);
     procedure actionPainelGruposExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -147,6 +147,7 @@ type
     procedure memTableExtraviosAfterOpen(DataSet: TDataSet);
     procedure actionImprimirExecute(Sender: TObject);
     procedure actionImportarExecute(Sender: TObject);
+    procedure pageControlPesquisaChange(Sender: TObject);
   private
     { Private declarations }
     function Formulafilro(iIndex: integer; sTexto: string): boolean;
@@ -261,7 +262,6 @@ procedure Tview_ExtraviosSinistrosMultas.CancelaFiltro;
 begin
   filtroExtravios.Clear;
   pageControlPesquisa.ActivePageIndex := 0;
-  actionFiltro.Enabled := True;
 end;
 
 procedure Tview_ExtraviosSinistrosMultas.CancelarPesquisa;
@@ -639,7 +639,12 @@ begin
   else
   begin
     if memTableExtraviosCOD_TIPO.AsInteger <> 1 then
-      actionFinalizar.Enabled := True
+    begin
+      if memTableExtraviosDOM_RESTRICAO.AsString = 'N' then
+        actionFinalizar.Enabled := True
+      else
+        actionFinalizar.Enabled := False;
+    end
     else
       actionFinalizar.Enabled := False;
     actionEstornar.Enabled := False;
@@ -662,7 +667,28 @@ end;
 procedure Tview_ExtraviosSinistrosMultas.MostraFiltro;
 begin
   pageControlPesquisa.ActivePageIndex := 1;
-  actionFiltro.Enabled := False;
+end;
+
+procedure Tview_ExtraviosSinistrosMultas.pageControlPesquisaChange(Sender: TObject);
+begin
+  if pageControlPesquisa.ActivePageIndex = 1 then
+  begin
+    actionFiltro.Enabled := False;
+    actionFiltrar.Enabled := True;
+    actionLimparFiltro.Enabled := True;
+    actionCancelarFiltro.Enabled := True;
+    actionCancelar.Enabled := False;
+    actionNovo.Enabled := False;
+  end
+  else
+  begin
+    actionFiltro.Enabled := True;
+    actionFiltrar.Enabled := False;
+    actionLimparFiltro.Enabled := False;
+    actionCancelarFiltro.Enabled := False;
+    actionCancelar.Enabled := True;
+    actionNovo.Enabled := True;
+  end;
 end;
 
 procedure Tview_ExtraviosSinistrosMultas.StartForm;

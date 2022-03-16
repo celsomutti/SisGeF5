@@ -159,6 +159,7 @@ type
     procedure PopulateBanks;
     procedure PopulateCountry;
     procedure PopulateContacts(iID: integer);
+    procedure PopulateAdress(iID: integer);
     procedure PopulateFunctionsEmployees;
     procedure InstanceClassRegisters;
     procedure ReleasingClassRegisters;
@@ -168,6 +169,7 @@ type
     procedure Insert;
     Procedure Edit;
     procedure CancelOperation;
+    procedure SaveData;
   public
     { Public declarations }
   end;
@@ -403,6 +405,30 @@ begin
 
 end;
 
+procedure TViewSisGeFEmployeeRegistration.PopulateAdress(iID: integer);
+var
+  aParam : array of variant;
+begin
+  SetLength(aParam, 2);
+  aParam := ['ID', iID];
+  memTableContatos.Active := False;
+  if FEnderecos.Localizar(aParam) then
+  begin
+    FEnderecos.Enderecos.Query.First;
+    cepEndereco.EditValue := FEnderecos.Enderecos.CEP;
+    logradouroEndereco.Text := FEnderecos.Enderecos.Logradouro;
+    numeroLogradouro.Text := FEnderecos.Enderecos.Numero;
+    complementoLogradouro.Text := FEnderecos.Enderecos.Complemento;
+    bairroLogradouro.Text := FEnderecos.Enderecos.Bairro;
+    cidadeLogradouro.Text := FEnderecos.Enderecos.Cidade;
+    ufLogradouro.Text := FEnderecos.Enderecos.UF;
+    referenciaLogradouro.Text := FEnderecos.Enderecos.Referencia;
+  end;
+  Finalize(aParam);
+  FEnderecos.Enderecos.Query.Connection.Connected := False;
+  FEnderecos.Free;
+end;
+
 procedure TViewSisGeFEmployeeRegistration.PopulateBanks;
 var
   aParam : array of variant;
@@ -486,6 +512,16 @@ begin
   FCadastro.Free;
 end;
 
+procedure TViewSisGeFEmployeeRegistration.SaveData;
+begin
+  if Application.MessageBox('Confirma gravar os dados ?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
+    Exit;
+  SetupClass;
+  if not FCadastro.Gravar  then
+    Exit;
+
+end;
+
 procedure TViewSisGeFEmployeeRegistration.SetupClass;
 begin
   FCadastro.Cadastro.Cadastro := codigo.EditValue;
@@ -519,6 +555,8 @@ begin
   FEnderecos.Enderecos.Bairro := bairroLogradouro.Text;
   FEnderecos.Enderecos.Cidade := cidadeLogradouro.Text;
   FEnderecos.Enderecos.UF := ufLogradouro.Text;
+  FEnderecos.Enderecos.Tipo := 'RESIDENCIAL';
+  FEnderecos.Enderecos.Correspondencia := 0;
   FEnderecos.Enderecos.Referencia := referenciaLogradouro.Text;
   FCadastro.Cadastro.FormaPagamento := formaPagamento.Text;
   FCadastro.Cadastro.TipoConta := tipoConta.Text;
@@ -528,6 +566,39 @@ begin
   FCadastro.Cadastro.NomeFavorecido := nomeFavorecido.Text;
   FCadastro.Cadastro.CPFCNPJFavorecido := cpfFavorecido.EditValue;
   FCadastro.Cadastro.Obs := observacoes.Text;
+  FCadastro.Cadastro.Funcionario := 'F';
+  FCadastro.Cadastro.Entregador := 0;
+  FCadastro.Cadastro.Doc := 'CPF';
+  FCadastro.Cadastro.CNAE := '';
+  FCadastro.Cadastro.IM := '';
+  FCadastro.Cadastro.URL := '';
+  FCadastro.Cadastro.Agente := 0;
+  FCadastro.Cadastro.Status := status.EditValue;
+  if FAcao = tacIncluir then
+  begin
+    FCadastro.Cadastro.DataCadastro := Now;
+    Fcadastro.Cadastro.Usuario := Global.Parametros.pUser_ID;
+    FCadastro.Cadastro.MEI := '';
+    FCadastro.Cadastro.RazaoMEI := '';
+    FCadastro.Cadastro.FantasiaMEI := '';
+    FCadastro.Cadastro.CNPJMEI := '';
+    FCadastro.Cadastro.Verba := 0;
+    FCadastro.Cadastro.Combustivel := 0;
+    FCadastro.Cadastro.CentroCusto := 0;
+    FCadastro.Cadastro.Roubo := 'N';
+    FCadastro.Cadastro.QuantosRoubos := 0;
+    FCadastro.Cadastro.Acidentes := 'N';
+    FCadastro.Cadastro.QuantosAcidentes := 0;
+    FCadastro.Cadastro.TransporteEmpresa := 'N';
+    FCadastro.Cadastro.QuantosTransporteEmptresa := 0;
+    FCadastro.Cadastro.GV := 'N';
+    FCadastro.Cadastro.DataGV := 0;
+    FCadastro.Cadastro.Chave := '';
+    FCadastro.Cadastro.Grupo := 0;
+    FCadastro.Cadastro.Roteiro := '';
+  end;
+  FCadastro.Cadastro.Executante := Global.Parametros.pUser_Name;
+  FCadastro.Cadastro.DataAlteracao := Now;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.SetupFieldsForm;

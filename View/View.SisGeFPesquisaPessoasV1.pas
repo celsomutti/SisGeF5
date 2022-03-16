@@ -211,7 +211,7 @@ begin
     begin
       sFiltro := 'des_razao_social like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_fantasia like ' +
                  QuotedStr('%' + sTexto + '%') + ' or num_cnpj like ' + QuotedStr('%' +  sTexto + '%') +
-                 ' or num_ie like ' + QuotedStr('%' +  sTexto + '%') + sFiltro := ' or num_iest like ' +
+                 ' or num_ie like ' + QuotedStr('%' +  sTexto + '%') + ' or num_iest like ' +
                  QuotedStr('%' +  sTexto + '%') + ' or num_cnh like ' + QuotedStr('%' +  sTexto + '%') +
                  ' or num_registro_cnh like ' + QuotedStr('%' +  sTexto + '%');
       if fFuncoes.ENumero(sTexto) then

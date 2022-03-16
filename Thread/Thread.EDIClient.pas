@@ -408,7 +408,7 @@ begin
       2 : ProcessSIM;
       4 : ProcessDIRECT;
       5 : ProcessSIM;
-      6 : ProcessENGLOBA;
+      6 : ProcessSIM;
       7 : ProcessRF;
       else
         begin
