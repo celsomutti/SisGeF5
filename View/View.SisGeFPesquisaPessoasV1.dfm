@@ -91,6 +91,8 @@ object view_SisGeFPesquisaPessoas: Tview_SisGeFPesquisaPessoas
         OptionsData.DeletingConfirmation = False
         OptionsData.Editing = False
         OptionsData.Inserting = False
+        OptionsSelection.CheckBoxPosition = cbpIndicator
+        OptionsSelection.CheckBoxVisibility = [cbvGroupRow]
         OptionsView.Indicator = True
         object gridPesquisaDBTableView1COD_CADASTRO: TcxGridDBColumn
           Caption = 'C'#243'digo'

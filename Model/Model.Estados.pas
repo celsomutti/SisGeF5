@@ -154,36 +154,33 @@ function TEstados.PesquisarExt(aParam: array of variant): Boolean;
 var
   FDQuery : TFDQuery;
 begin
-  try
-    Result := False;
-    FDQuery := FConexao.ReturnQuery;
-    FDQuery.SQL.Add('select * from ' + TABLENAME);
-    if aParam[0] = 'UF' then
-    begin
-      FDQuery.SQL.Add('where uf_estado = :puf_estado');
-      FDQuery.ParamByName('puf_estado').AsString := aParam[1];
-    end
-    else if aParam[0] = 'NOME' then
-    begin
-      FDQuery.SQL.Add('where nom_estado = :pnom_estado');
-      FDQuery.ParamByName('pnom_estado').AsString := aParam[1];
-    end
-    else if aParam[0] = 'APOIO' then
-    begin
-      FDQuery.SQL.Clear;
-      FDQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
-    end;
-    FDQuery.Open;
-    if FDQuery.IsEmpty then
-    begin
-      Exit;
-    end;
-    FQuery := FDQuery;
-    Result := True;
-  finally
+  Result := False;
+  FDQuery := FConexao.ReturnQuery;
+  FDQuery.SQL.Add('select * from ' + TABLENAME);
+  if aParam[0] = 'UF' then
+  begin
+    FDQuery.SQL.Add('where uf_estado = :puf_estado');
+    FDQuery.ParamByName('puf_estado').AsString := aParam[1];
+  end
+  else if aParam[0] = 'NOME' then
+  begin
+    FDQuery.SQL.Add('where nom_estado = :pnom_estado');
+    FDQuery.ParamByName('pnom_estado').AsString := aParam[1];
+  end
+  else if aParam[0] = 'APOIO' then
+  begin
+    FDQuery.SQL.Clear;
+    FDQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
+  end;
+  FDQuery.Open;
+  if FDQuery.IsEmpty then
+  begin
     FDQuery.Connection.Close;
     FDQuery.Free;
+    Exit;
   end;
+  FQuery := FDQuery;
+  Result := True;
 end;
 
 end.

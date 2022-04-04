@@ -227,6 +227,7 @@ type
     procedure actCadastroAbrangenciaExpressasExecute(Sender: TObject);
     procedure actDebitoCreditoExecute(Sender: TObject);
     procedure actionParametrosPrazosExtratosExecute(Sender: TObject);
+    procedure actCadastroFuncionariosExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -258,7 +259,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
   View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
-  View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas;
+  View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration;
 
 procedure Tview_Main.Acessos;
 var
@@ -383,6 +384,13 @@ begin
   view_EntregadoresExpressasPesquisa.Show;
 end;
 
+procedure Tview_Main.actCadastroFuncionariosExecute(Sender: TObject);
+begin
+  if not Assigned(ViewSisGeFEmployeeRegistration) then
+    ViewSisGeFEmployeeRegistration := TViewSisGeFEmployeeRegistration.Create(Application);
+  ViewSisGeFEmployeeRegistration.Show;
+end;
+
 procedure Tview_Main.actCalendarioExecute(Sender: TObject);
 begin
   MostraCalendario;
@@ -390,11 +398,6 @@ end;
 
 procedure Tview_Main.actConsultaPedidosExecute(Sender: TObject);
 begin
-//  if not Assigned(view_BIPedidos) then
-//  begin
-//    view_BIPedidos := Tview_BIPedidos.Create(Application);
-//  end;
-//  view_BIPedidos.Show;
   if not Assigned(view_PesquisaRemessas) then
   begin
     view_PesquisaRemessas := Tview_PesquisaRemessas.Create(Application);

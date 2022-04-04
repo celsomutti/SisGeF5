@@ -10,9 +10,9 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
   Visible = True
   OnClose = FormClose
@@ -98,7 +98,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     Top = 127
     Align = alTop
     Caption = ' Documentos/Filia'#231#227'o '
-    TabOrder = 2
+    TabOrder = 1
     Transparent = True
     Height = 166
     Width = 811
@@ -814,6 +814,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Caption = '&Localizar'
       Hint = 'Localizar registro'
       ImageIndex = 12
+      OnExecute = actionLocateExecute
     end
     object actionEdit: TAction
       Caption = '&Editar'
@@ -830,6 +831,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Caption = '&Gravar'
       Hint = 'Gravar registro'
       ImageIndex = 13
+      OnExecute = actionSaveExecute
     end
     object actionCancel: TAction
       Caption = '&Cancelar'

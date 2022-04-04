@@ -98,6 +98,7 @@ type
     iID: Integer;
     sNome: String;
     FView: String;
+    FFilterMaster: String;
   end;
 
 var
@@ -131,6 +132,7 @@ end;
 
 procedure Tview_SisGeFPesquisaPessoas.actionOKExecute(Sender: TObject);
 begin
+  iId := StrToIntDef(gridPesquisaDBTableView1.Controller.SelectedRows[0].DisplayTexts[0], 0);
   ModalResult := mrOk;
 end;
 
@@ -202,14 +204,15 @@ begin
     'Caso deseje visualizar todos os registros clique OK, porém, esse processo pode ser lento.';
     if Application.MessageBox(PChar(sMensagem), 'Atenção!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
     begin
-      sFiltro := 'NONE';
+      if not FFilterMaster.IsEmpty then
+        sFiltro := ' where ' + FFilterMaster;
     end;
   end
   else
   begin
     if comboBoxOutrosCampos.ItemIndex = 0 then
     begin
-      sFiltro := 'des_razao_social like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_fantasia like ' +
+      sFiltro := '(des_razao_social like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_fantasia like ' +
                  QuotedStr('%' + sTexto + '%') + ' or num_cnpj like ' + QuotedStr('%' +  sTexto + '%') +
                  ' or num_ie like ' + QuotedStr('%' +  sTexto + '%') + ' or num_iest like ' +
                  QuotedStr('%' +  sTexto + '%') + ' or num_cnh like ' + QuotedStr('%' +  sTexto + '%') +
@@ -222,6 +225,7 @@ begin
         end;
         sFiltro := sFiltro + 'cod_cadastro like ' + sTexto
       end;
+      sFiltro := sFiltro + ')';
     end
     else
     begin
@@ -240,6 +244,12 @@ begin
         sFiltro := 'num_registro_cnh like ' + QuotedStr('%' +  sTexto + '%');
       end;
     end;
+    if not sFiltro.IsEmpty then
+      if not FFilterMaster.IsEmpty then
+        sFiltro := sFiltro + ' and ' + FFilterMaster
+    else
+      if not FFilterMaster.IsEmpty then
+        sFiltro := ' where ' + FFilterMaster;
   end;
   fFuncoes.Free;
   Result := sFiltro;
@@ -281,7 +291,7 @@ begin
   begin
     fdPesquisa.Close;
   end;
-  fdPesquisa.Connection := FConexao.GetConn;
+  fdPesquisa.Connection.ConnectionString := FConexao.GetConn.ConnectionString;
   FConexao.Free;
   fdPesquisa.SQL.Clear;
   fdPesquisa.SQL.Text := 'select * from ' + FView;

@@ -156,7 +156,7 @@ begin
       FTotalGravados := 0;
       FTotalInconsistencias := 0;
       FProgresso := 0;
-      for i := 0 to Pred(FTotalRegistros) do
+      for i := 0 to FTotalRegistros do
       begin
         SetLength(aParam,3);
         aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Remessa, FCliente];

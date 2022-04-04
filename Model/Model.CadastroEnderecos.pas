@@ -160,13 +160,13 @@ begin
                  'dom_correspondencia, des_bairro, nom_cidade, uf_estado, num_cep, des_referencia from ' + TABLENAME);
   if aParam[0] = 'ID' then
   begin
-    FQuery.SQL.Add('where cod_cadastro = :cod_cadastro);');
-    FQuery.ParamByName('cod_cadastro').AsInteger := aParam[1];
+    FQuery.SQL.Add('where cod_entregador = :cod_entregador');
+    FQuery.ParamByName('cod_entregador').AsInteger := aParam[1];
   end;
   if aParam[0] = 'TIPO' then
   begin
-    FQuery.SQL.Add('where cod_cadastro = :cod_cadastro and  des_tipo = :des_tipo');
-    FQuery.ParamByName('cod_cadastro').AsInteger := aParam[1];
+    FQuery.SQL.Add('where cod_entregador = :cod_entregador and  des_tipo = :des_tipo');
+    FQuery.ParamByName('cod_entregador').AsInteger := aParam[1];
     FQuery.ParamByName('des_tipo').AsString := aParam[2];
   end;
   if aParam[0] = 'CEP' then
@@ -214,11 +214,11 @@ function TCadastroEnderecos.SaveBatch(memTable: TFDMemTable): Boolean;
     Self.Numero := memTable.FieldByName('num_logradouro').AsString;
     Self.Complemento := memTable.FieldByName('des_complemento').AsString;
     Self.Correspondencia := memTable.FieldByName('dom_correspondencia').AsInteger;
-    Self.Bairro := memTable.FieldByName('nom_bairro').AsString;
+    Self.Bairro := memTable.FieldByName('des_bairro').AsString;
     Self.Cidade := memTable.FieldByName('nom_cidade').AsString;
     Self.UF := memTable.FieldByName('uf_estado').AsString;
     Self.CEP := memTable.FieldByName('num_cep').AsString;
-    Self.Referencia := memTable.FieldByName('res_referencia').AsString;
+    Self.Referencia := memTable.FieldByName('des_referencia').AsString;
     Self.Acao := tacIncluir;
     if not Self.Gravar then
     begin
@@ -239,11 +239,11 @@ begin
   Self.Numero := FDQuery.FieldByName('num_logradouro').AsString;
   Self.Complemento := FDQuery.FieldByName('des_complemento').AsString;
   Self.Correspondencia := FDQuery.FieldByName('dom_correspondencia').AsInteger;
-  Self.Bairro := FDQuery.FieldByName('nom_bairro').AsString;
+  Self.Bairro := FDQuery.FieldByName('des_bairro').AsString;
   Self.Cidade := FDQuery.FieldByName('nom_cidade').AsString;
   Self.UF := FDQuery.FieldByName('uf_estado').AsString;
   Self.CEP := FDQuery.FieldByName('num_cep').AsString;
-  Self.Referencia := FDQuery.FieldByName('res_referencia').AsString;
+  Self.Referencia := FDQuery.FieldByName('des_referencia').AsString;
   Result := True;
 end;
 

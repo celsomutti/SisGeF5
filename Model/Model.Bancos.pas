@@ -151,43 +151,40 @@ function TBancos.LocalizarExt(aParam: array of variant): Boolean;
 var
   FDQuery: TFDQuery;
 begin
-  try
-    Result := False;
-    FDQuery := FConexao.ReturnQuery();
-    if Length(aParam) < 2 then Exit;
-    FDQuery.SQL.Clear;
+  Result := False;
+  FDQuery := FConexao.ReturnQuery();
+  if Length(aParam) < 2 then Exit;
+  FDQuery.SQL.Clear;
 
-    FDQuery.SQL.Add('select * from ' + TABLENAME);
-    if aParam[0] = 'CODIGO' then
-    begin
-      FDQuery.SQL.Add('where cod_banco = :pcod_banco');
-      FDQuery.ParamByName('pcod_banco').AsString := aParam[1];
-    end;
-    if aParam[0] = 'NOME' then
-    begin
-      FDQuery.SQL.Add('where nom_banco = :pnom_banco');
-      FDQuery.ParamByName('pnom_banco').AsString := aParam[1];
-    end;
-    if aParam[0] = 'FILTRO' then
-    begin
-      FDQuery.SQL.Add('where ' + aParam[1]);
-    end;
-    if aParam[0] = 'APOIO' then
-    begin
-      FDQuery.SQL.Clear;
-      FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
-    end;
-    FDQuery.Open();
-    if FDQuery.IsEmpty then
-    begin
-      Exit;
-    end;
-    FQuery := FDQuery;
-    Result := True;
-  finally
+  FDQuery.SQL.Add('select * from ' + TABLENAME);
+  if aParam[0] = 'CODIGO' then
+  begin
+    FDQuery.SQL.Add('where cod_banco = :pcod_banco');
+    FDQuery.ParamByName('pcod_banco').AsString := aParam[1];
+  end;
+  if aParam[0] = 'NOME' then
+  begin
+    FDQuery.SQL.Add('where nom_banco = :pnom_banco');
+    FDQuery.ParamByName('pnom_banco').AsString := aParam[1];
+  end;
+  if aParam[0] = 'FILTRO' then
+  begin
+    FDQuery.SQL.Add('where ' + aParam[1]);
+  end;
+  if aParam[0] = 'APOIO' then
+  begin
+    FDQuery.SQL.Clear;
+    FDQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
+  end;
+  FDQuery.Open();
+  if FDQuery.IsEmpty then
+  begin
     FDQuery.Connection.Close;
     FDQuery.Free;
+    Exit;
   end;
+  FQuery := FDQuery;
+  Result := True;
 end;
 
 function TBancos.SetupModel(FDBanco: TFDQuery): Boolean;

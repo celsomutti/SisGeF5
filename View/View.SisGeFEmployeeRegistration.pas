@@ -12,7 +12,7 @@ uses
   cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxMemo, Common.ENum, Global.Parametros,
   Control.Cadastro, Control.CadastroEnderecos, Control.CadastroContatos, Control.Bancos, Control.Estados, dxStatusBar,
-  Control.SisGeFRHFuncoes, cxCheckBox;
+  Control.SisGeFRHFuncoes, cxCheckBox, View.SisGeFPesquisaPessoasV1;
 
 type
   TViewSisGeFEmployeeRegistration = class(TForm)
@@ -150,6 +150,8 @@ type
     procedure actionEditExecute(Sender: TObject);
     procedure actionCancelExecute(Sender: TObject);
     procedure actionCloseFormExecute(Sender: TObject);
+    procedure actionLocateExecute(Sender: TObject);
+    procedure actionSaveExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -161,6 +163,7 @@ type
     procedure PopulateContacts(iID: integer);
     procedure PopulateAdress(iID: integer);
     procedure PopulateFunctionsEmployees;
+    procedure PopulateEmployees(iID: integer);
     procedure InstanceClassRegisters;
     procedure ReleasingClassRegisters;
     procedure BlockUnblockFieldsForm(bValue: boolean);
@@ -170,6 +173,7 @@ type
     Procedure Edit;
     procedure CancelOperation;
     procedure SaveData;
+    procedure SearchRegister;
   public
     { Public declarations }
   end;
@@ -179,6 +183,7 @@ var
   FAcao : TAcao;
   FCadastro: TCadastroControl;
   FEnderecos : TCadastroEnderecosControl;
+  FIdSeqAdress : integer;
   FContatos : TCadastroContatosControl;
   FBancos : TBancosControl;
   FEstados: TEstadosControl;
@@ -199,7 +204,7 @@ end;
 
 procedure TViewSisGeFEmployeeRegistration.actionCloseFormExecute(Sender: TObject);
 begin
-  Endingform;
+  Close;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.actionEditExecute(Sender: TObject);
@@ -207,9 +212,19 @@ begin
   Edit;
 end;
 
+procedure TViewSisGeFEmployeeRegistration.actionLocateExecute(Sender: TObject);
+begin
+  SearchRegister;
+end;
+
 procedure TViewSisGeFEmployeeRegistration.actionNewExecute(Sender: TObject);
 begin
   Insert;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.actionSaveExecute(Sender: TObject);
+begin
+  SaveData;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.BlockUnblockFieldsForm(bValue: boolean);
@@ -319,11 +334,11 @@ begin
   memTableContatos.Active := False;
   memTableFuncoes.Active := False;
   ReleasingClassRegisters;
-  Close;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  Endingform;
   Action := caFree;
   ViewSisGeFEmployeeRegistration := nil;
 end;
@@ -414,7 +429,9 @@ begin
   memTableContatos.Active := False;
   if FEnderecos.Localizar(aParam) then
   begin
+    FEnderecos.SetupClass(FEnderecos.Enderecos.Query);
     FEnderecos.Enderecos.Query.First;
+    FIdSeqAdress := FEnderecos.Enderecos.Sequencia;
     cepEndereco.EditValue := FEnderecos.Enderecos.CEP;
     logradouroEndereco.Text := FEnderecos.Enderecos.Logradouro;
     numeroLogradouro.Text := FEnderecos.Enderecos.Numero;
@@ -426,7 +443,6 @@ begin
   end;
   Finalize(aParam);
   FEnderecos.Enderecos.Query.Connection.Connected := False;
-  FEnderecos.Free;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.PopulateBanks;
@@ -458,7 +474,6 @@ begin
   end;
   Finalize(aParam);
   FContatos.Contatos.Query.Connection.Connected := False;
-  FContatos.Free;
   if not memTableContatos.Active then
     memTableContatos.Active := True;
 end;
@@ -489,6 +504,36 @@ begin
   FEstados.Free;
 end;
 
+procedure TViewSisGeFEmployeeRegistration.PopulateEmployees(iID: integer);
+var
+  aParam: array of variant;
+begin
+  try
+    SetLength(aParam, 2);
+    aParam := ['CADASTRO', iID];
+    if FCadastro.Localizar(aParam) then
+    begin
+      if not FCadastro.SetupModel(FCadastro.Cadastro.Query) then
+      begin
+        Application.MessageBox('Ocorreu algum problema ao localizar o cadastro!', 'Atenção', MB_OK + MB_ICONERROR);
+        Exit;
+      end;
+      SetupFieldsForm;
+      PopulateAdress(iID);
+      PopulateContacts(iID);
+      FAcao := tacPesquisa;
+      Mode;
+    end
+    else
+    begin
+      Application.MessageBox('Cadastro não encontrado!', 'Atenção', MB_OK + MB_ICONERROR);
+      Exit;
+    end;
+  finally
+    Finalize(aParam);
+  end;
+end;
+
 procedure TViewSisGeFEmployeeRegistration.PopulateFunctionsEmployees;
 var
   aParam : array of variant;
@@ -517,10 +562,40 @@ begin
   if Application.MessageBox('Confirma gravar os dados ?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
     Exit;
   SetupClass;
+
   if not FCadastro.Gravar  then
+  begin
+    Application.MessageBox('Erro ao gravar os dados!', 'Erro', MB_OK + MB_ICONERROR);
     Exit;
+  end;
+
+  if not FEnderecos.Gravar  then
+  begin
+    Application.MessageBox('Erro ao gravar o endereço!', 'Erro', MB_OK + MB_ICONERROR);
+    Exit;
+  end;
+
+  if not FContatos.SaveBatch(memTableContatos)  then
+  begin
+    Application.MessageBox('Erro ao gravar os contatos!', 'Erro', MB_OK + MB_ICONERROR);
+    Exit;
+  end;
 
 end;
+
+procedure TViewSisGeFEmployeeRegistration.SearchRegister;
+begin
+  if not Assigned(view_SisGeFPesquisaPessoas) then
+    view_SisGeFPesquisaPessoas := Tview_SisGeFPesquisaPessoas.Create(Application);
+  view_SisGeFPesquisaPessoas.FView := 'view_pesquisafuncionariosv1';
+  view_SisGeFPesquisaPessoas.FFilterMaster := '';
+  if view_SisGeFPesquisaPessoas.ShowModal = mrOk then
+  begin
+    PopulateEmployees(view_SisGeFPesquisaPessoas.iID);
+  end;
+  FreeAndNil(view_SisGeFPesquisaPessoas);
+end;
+
 
 procedure TViewSisGeFEmployeeRegistration.SetupClass;
 begin
@@ -547,15 +622,6 @@ begin
   FCadastro.Cadastro.ValidadeCNH := validadeCNH.Date;
   FCadastro.Cadastro.CodigoCNH := codigoCNH.EditValue;
   FCadastro.Cadastro.CRT := funcao.EditValue;
-  FEnderecos.Enderecos.ID := FCadastro.Cadastro.Cadastro;
-  FEnderecos.Enderecos.CEP := cepEndereco.EditValue;
-  FEnderecos.Enderecos.Logradouro := logradouroEndereco.Text;
-  FEnderecos.Enderecos.Numero := numeroLogradouro.Text;
-  FEnderecos.Enderecos.Complemento := complementoLogradouro.Text;
-  FEnderecos.Enderecos.Bairro := bairroLogradouro.Text;
-  FEnderecos.Enderecos.Cidade := cidadeLogradouro.Text;
-  FEnderecos.Enderecos.UF := ufLogradouro.Text;
-  FEnderecos.Enderecos.Tipo := 'RESIDENCIAL';
   FEnderecos.Enderecos.Correspondencia := 0;
   FEnderecos.Enderecos.Referencia := referenciaLogradouro.Text;
   FCadastro.Cadastro.FormaPagamento := formaPagamento.Text;
@@ -574,6 +640,8 @@ begin
   FCadastro.Cadastro.URL := '';
   FCadastro.Cadastro.Agente := 0;
   FCadastro.Cadastro.Status := status.EditValue;
+  FEnderecos.Enderecos.Acao := FAcao;
+
   if FAcao = tacIncluir then
   begin
     FCadastro.Cadastro.DataCadastro := Now;
@@ -596,6 +664,30 @@ begin
     FCadastro.Cadastro.Chave := '';
     FCadastro.Cadastro.Grupo := 0;
     FCadastro.Cadastro.Roteiro := '';
+
+    FEnderecos.Enderecos.ID := FCadastro.Cadastro.Cadastro;
+    FEnderecos.Enderecos.Sequencia := 0;
+    FEnderecos.Enderecos.CEP := cepEndereco.EditValue;
+    FEnderecos.Enderecos.Logradouro := logradouroEndereco.Text;
+    FEnderecos.Enderecos.Numero := numeroLogradouro.Text;
+    FEnderecos.Enderecos.Complemento := complementoLogradouro.Text;
+    FEnderecos.Enderecos.Bairro := bairroLogradouro.Text;
+    FEnderecos.Enderecos.Cidade := cidadeLogradouro.Text;
+    FEnderecos.Enderecos.UF := ufLogradouro.Text;
+    FEnderecos.Enderecos.Tipo := 'RESIDENCIAL';
+  end
+  else if FAcao = tacAlterar then
+  begin
+    FEnderecos.Enderecos.ID := FCadastro.Cadastro.Cadastro;
+    FEnderecos.Enderecos.Sequencia := FIdSeqAdress;
+    FEnderecos.Enderecos.CEP := cepEndereco.EditValue;
+    FEnderecos.Enderecos.Logradouro := logradouroEndereco.Text;
+    FEnderecos.Enderecos.Numero := numeroLogradouro.Text;
+    FEnderecos.Enderecos.Complemento := complementoLogradouro.Text;
+    FEnderecos.Enderecos.Bairro := bairroLogradouro.Text;
+    FEnderecos.Enderecos.Cidade := cidadeLogradouro.Text;
+    FEnderecos.Enderecos.UF := ufLogradouro.Text;
+    FEnderecos.Enderecos.Tipo := 'RESIDENCIAL';
   end;
   FCadastro.Cadastro.Executante := Global.Parametros.pUser_Name;
   FCadastro.Cadastro.DataAlteracao := Now;
@@ -626,15 +718,15 @@ begin
   validadeCNH.Date := FCadastro.Cadastro.ValidadeCNH;
   codigoCNH.EditValue := FCadastro.Cadastro.CodigoCNH;
   funcao.EditValue := FCadastro.Cadastro.CRT;
-  cepEndereco.EditValue := FEnderecos.Enderecos.CEP;
-  logradouroEndereco.Text := FEnderecos.Enderecos.Logradouro;
-  numeroLogradouro.Text := FEnderecos.Enderecos.Numero;
-  complementoLogradouro.Text := FEnderecos.Enderecos.Complemento;
-  bairroLogradouro.Text := FEnderecos.Enderecos.Bairro;
-  cidadeLogradouro.Text := FEnderecos.Enderecos.Cidade;
-  ufLogradouro.Text := FEnderecos.Enderecos.UF;
-  referenciaLogradouro.Text := FEnderecos.Enderecos.Referencia;
-  PopulateContacts(FCadastro.Cadastro.Cadastro);
+//  cepEndereco.EditValue := FEnderecos.Enderecos.CEP;
+//  logradouroEndereco.Text := FEnderecos.Enderecos.Logradouro;
+//  numeroLogradouro.Text := FEnderecos.Enderecos.Numero;
+//  complementoLogradouro.Text := FEnderecos.Enderecos.Complemento;
+//  bairroLogradouro.Text := FEnderecos.Enderecos.Bairro;
+//  cidadeLogradouro.Text := FEnderecos.Enderecos.Cidade;
+//  ufLogradouro.Text := FEnderecos.Enderecos.UF;
+//  referenciaLogradouro.Text := FEnderecos.Enderecos.Referencia;
+//  PopulateContacts(FCadastro.Cadastro.Cadastro);
   formaPagamento.Text := FCadastro.Cadastro.FormaPagamento;
   tipoConta.Text := FCadastro.Cadastro.TipoConta;
   banco.EditValue := FCadastro.Cadastro.Banco;

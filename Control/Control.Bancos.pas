@@ -51,7 +51,7 @@ end;
 
 function TBancosControl.LocalizarExt(aParam: array of variant): Boolean;
 begin
-  Result := LocalizarExt(aParam);
+  Result := FBancos.LocalizarExt(aParam);
 end;
 
 function TBancosControl.SetupModal(FDQuery: TFDQuery): Boolean;

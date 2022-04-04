@@ -53,7 +53,7 @@ uses
       FRoubo: String;
       FQuantosRoubos: Integer;
       FAcidentes: String;
-      FQuantosAcidentes: String;
+      FQuantosAcidentes: Integer;
       FTransporteEmpresa: String;
       FQuantosTransporteEmptresa: Integer;
       FGV: String;
@@ -125,7 +125,7 @@ uses
       property Roubo: String                        read FRoubo                       write FRoubo;
       property QuantosRoubos: Integer               read FQuantosRoubos               write FQuantosRoubos;
       property Acidentes: String                    read FAcidentes                   write FAcidentes;
-      property QuantosAcidentes: String             read FQuantosAcidentes            write FQuantosAcidentes;
+      property QuantosAcidentes: Integer            read FQuantosAcidentes            write FQuantosAcidentes;
       property TransporteEmpresa: String            read FTransporteEmpresa           write FTransporteEmpresa;
       property QuantosTransporteEmptresa: Integer   read FQuantosTransporteEmptresa   write FQuantosTransporteEmptresa;
       property GV: String                           read FGV                          write FGV;
@@ -321,70 +321,64 @@ begin
 end;
 
 function TCadastro.Localizar(aParam: array of variant): Boolean;
-var
-  FDQuery: TFDQuery;
 begin
-  try
-    Result := False;
-    FDQuery := FConexao.ReturnQuery();
-    if Length(aParam) < 2 then Exit;
-    FDQuery.SQL.Clear;
-    FDQuery.SQL.Add('select * from ' + TABLENAME);
-    if aParam[0] = 'CADASTRO' then
-    begin
-      FDQuery.SQL.Add('WHERE COD_CADASTRO = :COD_CADASTRO');
-      FDQuery.ParamByName('COD_CADASTRO').AsInteger := aParam[1];
-    end;
-    if aParam[0] = 'CPF' then
-    begin
-      FDQuery.SQL.Add('WHERE NUM_CNPJ = :NUM_CNPJ');
-      FDQuery.ParamByName('NUM_CNPJ').AsString := aParam[1];
-    end;
-    if aParam[0] = 'RG' then
-    begin
-      FDQuery.SQL.Add('WHERE NUM_IE = :NUM_IE');
-      FDQuery.ParamByName('NUM_IE').AsString := aParam[1];
-    end;
-    if aParam[0] = 'CNPJIMEI' then
-    begin
-      FDQuery.SQL.Add('WHERE NUM_CNPJ_MEI = :NUM_CNPJ_MEI');
-      FDQuery.ParamByName('NUM_CNPJ_MEI').AsString := aParam[1];
-    end;
-    if aParam[0] = 'IMEI' then
-    begin
-      FDQuery.SQL.Add('WHERE COD_MEI = :COD_MEI');
-      FDQuery.ParamByName('COD_MEI').AsString := aParam[1];
-    end;
-    if aParam[0] = 'NOME' then
-    begin
-      FDQuery.SQL.Add('WHERE DES_RAZAO_SOCIAL = :DES_RAZAO_SOCIAL');
-      FDQuery.ParamByName('DES_RAZAO_SOCIAL').AsString := aParam[1];
-    end;
-    if aParam[0] = 'FANTASIA' then
-    begin
-      FDQuery.SQL.Add('WHERE NOM_FANTASIA = :NOM_FANTASIA');
-      FDQuery.ParamByName('NOM_FANTASIA').AsString := aParam[1];
-    end;
-    if aParam[0] = 'FILTRO' then
-    begin
-      FDQuery.SQL.Add('WHERE ' + aParam[1]);
-    end;
-    if aParam[0] = 'APOIO' then
-    begin
-      FDQuery.SQL.Clear;
-      FDQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
-    end;
-    FDQuery.Open;
-    if FDQuery.IsEmpty then
-    begin
-      Exit;
-    end;
-    Self.Query := FDQuery;
-    Result := True;
-  finally
-    FDquery.Connection.Close;
-    FDQuery.Free;
+  Result := False;
+  FQuery := FConexao.ReturnQuery();
+  if Length(aParam) < 2 then Exit;
+  FQuery.SQL.Clear;
+  FQuery.SQL.Add('select * from ' + TABLENAME);
+  if aParam[0] = 'CADASTRO' then
+  begin
+    FQuery.SQL.Add('WHERE COD_CADASTRO = :COD_CADASTRO');
+    FQuery.ParamByName('COD_CADASTRO').AsInteger := aParam[1];
   end;
+  if aParam[0] = 'CPF' then
+  begin
+    FQuery.SQL.Add('WHERE NUM_CNPJ = :NUM_CNPJ');
+    FQuery.ParamByName('NUM_CNPJ').AsString := aParam[1];
+  end;
+  if aParam[0] = 'RG' then
+  begin
+    FQuery.SQL.Add('WHERE NUM_IE = :NUM_IE');
+    FQuery.ParamByName('NUM_IE').AsString := aParam[1];
+  end;
+  if aParam[0] = 'CNPJIMEI' then
+  begin
+    FQuery.SQL.Add('WHERE NUM_CNPJ_MEI = :NUM_CNPJ_MEI');
+    FQuery.ParamByName('NUM_CNPJ_MEI').AsString := aParam[1];
+  end;
+  if aParam[0] = 'IMEI' then
+  begin
+    FQuery.SQL.Add('WHERE COD_MEI = :COD_MEI');
+    FQuery.ParamByName('COD_MEI').AsString := aParam[1];
+  end;
+  if aParam[0] = 'NOME' then
+  begin
+    FQuery.SQL.Add('WHERE DES_RAZAO_SOCIAL = :DES_RAZAO_SOCIAL');
+    FQuery.ParamByName('DES_RAZAO_SOCIAL').AsString := aParam[1];
+  end;
+  if aParam[0] = 'FANTASIA' then
+  begin
+    FQuery.SQL.Add('WHERE NOM_FANTASIA = :NOM_FANTASIA');
+    FQuery.ParamByName('NOM_FANTASIA').AsString := aParam[1];
+  end;
+  if aParam[0] = 'FILTRO' then
+  begin
+    FQuery.SQL.Add('WHERE ' + aParam[1]);
+  end;
+  if aParam[0] = 'APOIO' then
+  begin
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add('SELECT  ' + aParam[1] + ' FROM ' + TABLENAME + ' ' + aParam[2]);
+  end;
+  FQuery.Open;
+  if FQuery.IsEmpty then
+  begin
+    FQuery.Connection.Close;
+    FQuery.Free;
+    Exit;
+  end;
+  Result := True;
 end;
 
 function TCadastro.SetupModel(FDCadastro: TFDQuery): Boolean;
@@ -435,7 +429,7 @@ begin
     Roubo := FDCadastro.FieldByName('dom_vitima_roubo').AsString;
     QuantosRoubos := FDCadastro.FieldByName('qtd_vitima_roubo').AsInteger;
     Acidentes := FDCadastro.FieldByName('dom_acidentes').AsString;
-    QuantosAcidentes := FDCadastro.FieldByName('qtd_acidentes').AsString;
+    QuantosAcidentes := FDCadastro.FieldByName('qtd_acidentes').AsInteger;
     TransporteEmpresa := FDCadastro.FieldByName('dom_transporte_empresa').AsString;
     QuantosTransporteEmptresa := FDCadastro.FieldByName('qtd_transporte').AsInteger;
     GV := FDCadastro.FieldByName('dom_gv').AsString;

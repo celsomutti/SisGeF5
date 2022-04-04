@@ -509,7 +509,16 @@ begin
   FExtravio.Extravios.Produto := Produto.Text;
   FExtravio.Extravios.Sequencia := StrToIntDef(Sequencia.Text,0);
   FExtravio.Extravios.NumeroExtrato := NumeroExtrato.Text;
-  FExtravio.Extravios.Percentual := val_percentual_pago.Position;
+  if FExtravio.Extravios.Tipo = 1 then
+  begin
+    FExtravio.Extravios.Percentual := 100;
+    FExtravio.Extravios.Restricao :='S';
+  end
+  else
+  begin
+    FExtravio.Extravios.Percentual := val_percentual_pago.Position;
+    FExtravio.Extravios.Restricao :='N';
+  end;
   FExtravio.Extravios.Acao := Facao;
 end;
 

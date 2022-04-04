@@ -2286,6 +2286,7 @@
       Category = 'Cadastro'
       Caption = 'F&uncion'#225'rios'
       Hint = 'Cadastro de Funcion'#225'rios'
+      OnExecute = actCadastroFuncionariosExecute
     end
     object actCadastroEntregadores: TAction
       Category = 'Cadastro'

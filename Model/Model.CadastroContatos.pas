@@ -71,13 +71,13 @@ begin
     if Self.Sequencia = -1 then
     begin
       sSQL := 'delete drom ' + TABLENAME + ' ' +
-              'where cod_cadastro = :pcod_cadastro;';
+              'where cod_entregador = :pcod_entregadoro;';
       FDQuery.ExecSQL(sSQL,[Self.ID]);
     end
     else
     begin
       sSQL := 'delete from ' + TABLENAME + ' ' +
-              'where cod_cadastro = :pcod_cadastro and seq_contato = :seq_contato;';
+              'where cod_entregador = :pcod_entregador and seq_contato = :seq_contato;';
       FDQuery.ExecSQL(sSQL,[Self.ID, Self.Sequencia]);
     end;
     Result := True;
@@ -141,7 +141,7 @@ begin
   FQuery.SQL.Add('select * from ' + TABLENAME);
   if aParam[0] = 'ID' then
   begin
-    FQuery.SQL.Add('whew cod_entregador = :cod_entregador');
+    FQuery.SQL.Add('where cod_entregador = :cod_entregador');
     FQuery.ParamByName('cod_entregador').AsInteger := aParam[1];
   end;
   if aParam[0] = 'SEQUENCIA' then
@@ -210,7 +210,7 @@ end;
 function TCadastroContatos.SetupClass(FDQuery: TFDQuery): Boolean;
 begin
   Result := False;
-  FID := FDQuery.FieldByName('cod_cadastro').AsInteger;
+  FID := FDQuery.FieldByName('cod_entregador').AsInteger;
   FSequencia := FDQuery.FieldByName('seq_contato').AsInteger;
   FDescricao := FDQuery.FieldByName('des_contato').AsString;
   FTelefone := FDQuery.FieldByName('des_telefone').AsString;
@@ -228,7 +228,7 @@ begin
     FDQuery := FConexao.ReturnQuery;
     sSQL := 'update ' + TABLENAME + ' set ' +
             'des_contato = :pdes_contato,num_telefone = :pnum_telefone, des_email = :pdes_email ' +
-            'where cod_cadastro = :pcod_cadastro and seq_contato = :pseq_contato;';
+            'where cod_entregador = :pcod_entregador and seq_contato = :pseq_contato;';
     FDQuery.ExecSQL(sSQL,[Self.Descricao, Self.Telefone, Self.EMail, Self.ID,Self.Sequencia]);
     Result := True;
   finally
