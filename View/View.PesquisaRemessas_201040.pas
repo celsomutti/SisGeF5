@@ -171,6 +171,10 @@ type
     actionPesquisaClientes: TAction;
     nomeCliente: TcxButtonEdit;
     actionLimparCliente: TAction;
+    fdQueryBIcod_awb: TStringField;
+    fdQueryBIdes_produto: TStringField;
+    tvPesquisacod_awb: TcxGridDBColumn;
+    tvPesquisades_produto: TcxGridDBColumn;
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);

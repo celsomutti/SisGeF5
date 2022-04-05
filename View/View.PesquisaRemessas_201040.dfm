@@ -852,16 +852,26 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
               end>
             Properties.ListOptions.ShowHeader = False
             Properties.ListSource = dsEmpresas
+          end
+          item
+            Caption = 'AWB'
+            FieldName = 'cod_awb'
+            PropertiesClassName = 'TcxTextEditProperties'
+            Properties.MaxLength = 70
+          end
+          item
+            Caption = 'Produto'
+            FieldName = 'des_produto'
+            PropertiesClassName = 'TcxTextEditProperties'
+            Properties.MaxLength = 256
           end>
         FilterOptions.DateTimeFormat = 'yyyy-mm-dd'
         TabOrder = 0
-        ExplicitLeft = -3
       end
     end
     object cxTabSheet2: TcxTabSheet
       Caption = 'Pesquisa em Lote'
       ImageIndex = 1
-      ExplicitLeft = 5
       object campos: TcxComboBox
         Left = 3
         Top = 94
@@ -1289,6 +1299,14 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Properties.ListOptions.ShowHeader = False
             Properties.ListSource = dsEmpresas
             Width = 138
+          end
+          object tvPesquisacod_awb: TcxGridDBColumn
+            DataBinding.FieldName = 'cod_awb'
+            Width = 260
+          end
+          object tvPesquisades_produto: TcxGridDBColumn
+            DataBinding.FieldName = 'des_produto'
+            Width = 504
           end
         end
         object lvPesquisa: TcxGridLevel
@@ -1855,6 +1873,16 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
       DisplayLabel = 'Cliente'
       FieldName = 'COD_CLIENTE_EMPRESA'
       Origin = 'COD_CLIENTE_EMPRESA'
+    end
+    object fdQueryBIcod_awb: TStringField
+      DisplayLabel = 'AWB'
+      FieldName = 'cod_awb'
+      Size = 70
+    end
+    object fdQueryBIdes_produto: TStringField
+      DisplayLabel = 'Produto'
+      FieldName = 'des_produto'
+      Size = 256
     end
   end
   object OpenDialog: TOpenDialog
