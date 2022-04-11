@@ -16,6 +16,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
   ShowHint = True
   Visible = True
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -67,6 +68,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Left = 199
       Top = 32
       Hint = 'Nome completo'
+      Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       TabOrder = 4
       Width = 321
@@ -87,6 +89,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Left = 526
       Top = 32
       Hint = 'Alias'
+      Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       TabOrder = 7
       Width = 282
@@ -140,6 +143,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Left = 158
       Top = 32
       Hint = 'Nome do org'#227'o emissor do RG'
+      Properties.CharCase = ecUpperCase
       Properties.MaxLength = 50
       TabOrder = 5
       Width = 115
@@ -169,6 +173,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Left = 367
       Top = 32
       Hint = 'Naturalidade'
+      Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       TabOrder = 9
       Width = 386
@@ -198,6 +203,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Left = 3
       Top = 72
       Hint = 'Nome do pai'
+      Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       TabOrder = 13
       Width = 298
@@ -212,6 +218,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Left = 307
       Top = 72
       Hint = 'Nome da m'#227'e'
+      Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       TabOrder = 15
       Width = 313
@@ -402,6 +409,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Caption = 'INATIVO'
       Properties.DisplayChecked = '1'
       Properties.DisplayUnchecked = '2'
+      Properties.OnChange = statusPropertiesChange
       TabOrder = 38
     end
   end
@@ -442,21 +450,22 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Properties.EditMask = '99999\-999;1; '
         TabOrder = 1
         Text = '     -   '
-        Width = 78
+        Width = 94
       end
       object cxLabel25: TcxLabel
-        Left = 87
+        Left = 102
         Top = 2
         Caption = 'Logradouro:'
         Transparent = True
       end
       object logradouroEndereco: TcxTextEdit
-        Left = 86
+        Left = 102
         Top = 21
         Hint = 'Logradouro endere'#231'o'
+        Properties.CharCase = ecUpperCase
         Properties.MaxLength = 70
         TabOrder = 3
-        Width = 298
+        Width = 282
       end
       object cxLabel26: TcxLabel
         Left = 390
@@ -468,6 +477,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Left = 390
         Top = 21
         Hint = 'N'#250'mero do Logradouro'
+        Properties.CharCase = ecUpperCase
         Properties.MaxLength = 10
         TabOrder = 5
         Width = 79
@@ -482,6 +492,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Left = 475
         Top = 21
         Hint = 'Logradouro endere'#231'o'
+        Properties.CharCase = ecUpperCase
         Properties.MaxLength = 50
         TabOrder = 7
         Width = 331
@@ -496,6 +507,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Left = 2
         Top = 61
         Hint = 'Bairro logradouro'
+        Properties.CharCase = ecUpperCase
         Properties.MaxLength = 70
         TabOrder = 9
         Width = 298
@@ -510,6 +522,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Left = 306
         Top = 61
         Hint = 'Cidade logradouro'
+        Properties.CharCase = ecUpperCase
         Properties.MaxLength = 70
         TabOrder = 11
         Width = 298
@@ -539,6 +552,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Left = 2
         Top = 101
         Hint = 'Refer'#234'ncia do logradouro'
+        Properties.CharCase = ecUpperCase
         Properties.MaxLength = 256
         TabOrder = 15
         Width = 804
@@ -608,6 +622,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
           object gridContatosDBTableView1des_email: TcxGridDBColumn
             DataBinding.FieldName = 'des_email'
             PropertiesClassName = 'TcxTextEditProperties'
+            Properties.CharCase = ecLowerCase
             Width = 486
           end
         end
@@ -683,6 +698,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
             MinWidth = 50
             FieldName = 'nom_banco'
           end>
+        Properties.ListFieldIndex = 1
         Properties.ListSource = dsBancos
         TabOrder = 5
         Width = 209
@@ -725,6 +741,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Left = 217
         Top = 19
         Hint = 'Nome do favorecido'
+        Properties.CharCase = ecUpperCase
         Properties.MaxLength = 70
         TabOrder = 11
         Width = 321
@@ -853,6 +870,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     object actionSearchCEP: TAction
       Caption = 'Pesquisa CEP'
       Hint = 'Pesquisar CEP'
+      OnExecute = actionSearchCEPExecute
     end
   end
   object barManager: TdxBarManager

@@ -195,7 +195,7 @@ begin
                     'dom_gr = :dom_gr, dat_gv = :dat_gv, nom_executante = nom_executante, dat_alteracao = :dat_alteracao, ' +
                     'des_chave = :des_chave, cod_grupo = :cod_grupo, cod_roteiro = :cod_roteiro, cod_mei = :cod_mei, ' +
                     'nom_razao_mei = :nom_razao_mei, nom_fantasia_mei = :nom_fantasia_mei, num_cnpj_mei = :num_cnpj_mei, ' +
-                    'cod_cnh = :cod_cnh, des_empresa_gr = :des_empresa_gr, num_consulta = :num_consulta ' +
+                    'cod_cnh = :cod_cnh ' +
                     'WHERE ' +
                     'cod_cadastro = :cod_cadastro;',
                     [FFuncionario, FEntregador, FDoc, FNome, FFantasia, FCPFCNPJ, FIERG, FNascimento, FEMissaoRG,FUFRG,
@@ -204,7 +204,7 @@ begin
                     FUsuario, FVerba, FCombustivel, FTipoConta, FBanco, FAgenciaConta, FNumeroConta, FNomeFavorecido,
                     FCPFCNPJFavorecido, FFormaPagamento, FCentroCusto, FRoubo, FQuantosRoubos, FAcidentes, FQuantosAcidentes,
                     FTransporteEmpresa, FQuantosTransporteEmptresa, FGV, FDataGV, FExecutante, FDataAlteracao, FChave, FGrupo,
-                    FRoteiro, FMEI, FRazaoMEI, FFantasiaMEI, FCNPJMEI, FCodigoCNH, FEmpresaGR, FNumeroConsultaGR, FCadastro]);
+                    FRoteiro, FMEI, FRazaoMEI, FFantasiaMEI, FCNPJMEI, FCodigoCNH, FCadastro]);
   Result := True;
   finally
     FDQuery.Connection.Close;
@@ -285,34 +285,34 @@ begin
     Result := False;
     FDQuery := FConexao.ReturnQuery();
     Fcadastro := GetID();
-    FDQuery.ExecSQL('INSERT INTO ' + TABLENAME + '(cod_cadastro, dom_funcionario, cod_entregador, des_tipo_doc, ' +
-                    'des_razao_social, nom_fantasia, num_cnpj, num_ie, dat_nascimento, dat_emissao_RG, nom_emissor_RG, ' +
-                    'uf_nascimento, nom_cidade_nascimento, nom_pai, nom_mae, num_iest, num_im, cod_cnae, cod_crt, num_cnh, ' +
-                    'num_registro_cnh, des_categoria_cnh, dat_validade_cnh, dat_emissao_cnh, uf_cnh, dat_1_habilitacao, ' +
-                    'des_pagina, cod_agente, cod_status, des_observacao, dat_cadastro, cod_usuario, val_verba, ' +
-                    'val_verba_combustivel, des_tipo_conta, cod_banco, cod_agencia, num_conta, nom_favorecido, ' +
-                    'num_cpf_cnpj_favorecido, des_forma_pagamento, cod_centro_custo, dom_vitima_roubo, qtd_vitima_roubo, ' +
-                    'dom_acidentes, qtd_acidentes, dom_transporte_empresa, qtd_transporte_empresa, dom_gr, dat_gv, ' +
-                    'nom_executante, dat_alteracao, des_chave, cod_grupo, cod_roteiro, cod_mei, nom_razao_mei, ' +
-                    'nom_fantasia_mei, num_cnpj_mei, cod_cnh, des_empresa_gr, num_consulta) ' +
+    FDQuery.ExecSQL('INSERT INTO ' + TABLENAME + '(COD_CADASTRO, DOM_FUNCIONARIO, COD_ENTREGADOR, DES_TIPO_DOC, ' +
+                    'DES_RAZAO_SOCIAL, NOM_FANTASIA, NUM_CNPJ, NUM_IE, DAT_NASCIMENTO, UF_RG, DAT_EMISSAO_RG, NOM_EMISSOR_RG, ' +
+                    'UF_NASCIMENTO, NOM_CIDADE_NASCIMENTO, NOM_PAI, NOM_MAE, NUM_IEST, NUM_IM, COD_CNAE, COD_CRT, NUM_CNH, ' +
+                    'NUM_REGISTRO_CNH, DES_CATEGORIA_CNH, DAT_VALIDADE_CNH, DAT_EMISSAO_CNH, UF_CNH, ' +
+                    'DAT_1_HABILITACAO, DES_PAGINA, COD_AGENTE, COD_STATUS, DES_OBSERVACAO, DAT_CADASTRO, COD_USUARIO, ' +
+                    'VAL_VERBA, VAL_VERBA_COMBUSTIVEL, DES_TIPO_CONTA, COD_BANCO, COD_AGENCIA, NUM_CONTA, ' +
+                    'NOM_FAVORECIDO, NUM_CPF_CNPJ_FAVORECIDO, DES_FORMA_PAGAMENTO, COD_CENTRO_CUSTO, DOM_VITIMA_ROUBO, ' +
+                    'QTD_VITIMA_ROUBO, DOM_ACIDENTES, QTD_ACIDENTES, DOM_TRANSPORTE_EMPRESA, QTD_TRANSPORTE, ' +
+                    'DOM_GV, DAT_GV, NOM_EXECUTANTE, DAT_ALTERACAO, DES_CHAVE, COD_GRUPO, COD_ROTEIRO, COD_MEI, ' +
+                    'NOM_RAZAO_MEI, NOM_FANTASIA_MEI, NUM_CNPJ_MEI, COD_CNH) ' +
                     'VALUES ' +
-                    '(:cod_cadastro, :dom_funcionario, :cod_entregador, :des_tipo_doc, ' +
-                    ':des_razao_social, :nom_fantasia, :num_cnpj, num_ie, :dat_nascimento, :dat_emissao_RG, :nom_emissor_RG, ' +
-                    ':uf_nascimento, :nom_cidade_nascimento, :nom_pai, :nom_mae, :num_iest, :num_im, :cod_cnae, :cod_crt, :num_cnh, ' +
-                    ':num_registro_cnh, :des_categoria_cnh, :dat_validade_cnh, :dat_emissao_cnh, :uf_cnh, :dat_1_habilitacao, ' +
-                    ':des_pagina, :cod_agente, :cod_status, :des_observacao, :dat_cadastro, :cod_usuario, :val_verba, ' +
-                    ':val_verba_combustivel, :des_tipo_conta, :cod_banco, :cod_agencia, :num_conta, :nom_favorecido, ' +
-                    ':num_cpf_cnpj_favorecido, :des_forma_pagamento, :cod_centro_custo, :dom_vitima_roubo, :qtd_vitima_roubo, ' +
-                    ':dom_acidentes, :qtd_acidentes, :dom_transporte_empresa, :qtd_transporte_empresa, :dom_gr, :dat_gv, ' +
-                    ':nom_executante, :dat_alteracao, :des_chave, :cod_grupo, :cod_roteiro, :cod_mei, :nom_razao_mei, ' +
-                    ':nom_fantasia_mei, :num_cnpj_mei, :cod_cnh, :des_empresa_gr, :num_consulta);',
-                    [FCadastro, FFuncionario, FEntregador, FDoc, FNome, FFantasia, FCPFCNPJ, FIERG, FNascimento, FEMissaoRG,FUFRG,
+                    '(:COD_CADASTRO, :DOM_FUNCIONARIO, :COD_ENTREGADOR, :DES_TIPO_DOC, ' +
+                    ':DES_RAZAO_SOCIAL, :NOM_FANTASIA, :NUM_CNPJ, :NUM_IE, :DAT_NASCIMENTO, :UF_RG, :DAT_EMISSAO_RG, ' +
+                    ':NOM_EMISSOR_RG, :UF_NASCIMENTO, :NOM_CIDADE_NASCIMENTO, :NOM_PAI, :NOM_MAE, :NUM_IEST, :NUM_IM, :COD_CNAE, ' +
+                    ':COD_CRT, NUM_CNH, :NUM_REGISTRO_CNH, :DES_CATEGORIA_CNH, :DAT_VALIDADE_CNH, :DAT_EMISSAO_CNH, :UF_CNH, ' +
+                    ':DAT_1_HABILITACAO, :DES_PAGINA, :COD_AGENTE, :COD_STATUS, :DES_OBSERVACAO, :DAT_CADASTRO, :COD_USUARIO, ' +
+                    ':VAL_VERBA, :VAL_VERBA_COMBUSTIVEL, :DES_TIPO_CONTA, :COD_BANCO, :COD_AGENCIA, :NUM_CONTA, ' +
+                    ':NOM_FAVORECIDO, :NUM_CPF_CNPJ_FAVORECIDO, :DES_FORMA_PAGAMENTO, :COD_CENTRO_CUSTO, :DOM_VITIMA_ROUBO, ' +
+                    ':QTD_VITIMA_ROUBO, :DOM_ACIDENTES, :QTD_ACIDENTES, :DOM_TRANSPORTE_EMPRESA, :QTD_TRANSPORTE, ' +
+                    ':DOM_GV, :DAT_GV, :NOM_EXECUTANTE, :DAT_ALTERACAO, :DES_CHAVE, :COD_GRUPO, :COD_ROTEIRO, :COD_MEI, ' +
+                    ':NOM_RAZAO_MEI, :NOM_FANTASIA_MEI, :NUM_CNPJ_MEI, :COD_CNH);',
+                    [FCadastro, FFuncionario, FEntregador, FDoc, FNome, FFantasia, FCPFCNPJ, FIERG, FNascimento, FUFRG, FEmissaoRG,
                     FEmissorRG, FUFNascimento, FCidadeNascimento, FPai, FMae, FIEST, FIM, FCNAE, FCRT, FNumeroCNH, FRegistroCNH,
-                    FCategoriaCNH, FValidadeCNH, FEmissaoCNH, FUFCNH, FDataPrimeiraCNH, FURL, FAgente, FStatus, FObs, FDataCadastro,
-                    FUsuario, FVerba, FCombustivel, FTipoConta, FBanco, FAgenciaConta, FNumeroConta, FNomeFavorecido,
-                    FCPFCNPJFavorecido, FFormaPagamento, FCentroCusto, FRoubo, FQuantosRoubos, FAcidentes, FQuantosAcidentes,
-                    FTransporteEmpresa, FQuantosTransporteEmptresa, FGV, FDataGV, FExecutante, FDataAlteracao, FChave, FGrupo,
-                    FRoteiro, FMEI, FRazaoMEI, FFantasiaMEI, FCNPJMEI, FCodigoCNH, FEmpresaGR, FNumeroConsultaGR]);
+                    FCategoriaCNH, FValidadeCNH, FEmissaoCNH, FUFCNH, FDataPrimeiraCNH, FURL, FAgente, FStatus, FObs,
+                    FDataCadastro, FUsuario, FVerba, FCombustivel, FTipoConta, FBanco, FAgenciaConta, FNumeroConta,
+                    FNomeFavorecido, FCPFCNPJFavorecido, FFormaPagamento, FCentroCusto, FRoubo, FQuantosRoubos, FAcidentes,
+                    FQuantosAcidentes, FTransporteEmpresa, FQuantosTransporteEmptresa, FGV, FDataGV, FExecutante,
+                    FDataAlteracao, FChave, FGrupo, FRoteiro, FMEI, FRazaoMEI, FFantasiaMEI, FCNPJMEI, FCodigoCNH]);
   Result := True;
   finally
     FDQuery.Connection.Close;

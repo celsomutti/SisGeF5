@@ -452,6 +452,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
             Caption = 'C'#243'd. Cadastro'
             FieldName = 'COD_CADASTRO'
             PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
             Properties.MaskKind = emkRegExpr
             Properties.EditMask = '\d\d\d\d\d\d'
           end

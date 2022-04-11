@@ -12,7 +12,7 @@ uses
   cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxMemo, Common.ENum, Global.Parametros,
   Control.Cadastro, Control.CadastroEnderecos, Control.CadastroContatos, Control.Bancos, Control.Estados, dxStatusBar,
-  Control.SisGeFRHFuncoes, cxCheckBox, View.SisGeFPesquisaPessoasV1;
+  Control.SisGeFRHFuncoes, cxCheckBox, View.SisGeFPesquisaPessoasV1, Controller.APICEP, system.StrUtils;
 
 type
   TViewSisGeFEmployeeRegistration = class(TForm)
@@ -152,6 +152,9 @@ type
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionLocateExecute(Sender: TObject);
     procedure actionSaveExecute(Sender: TObject);
+    procedure statusPropertiesChange(Sender: TObject);
+    procedure actionSearchCEPExecute(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     procedure StartForm;
@@ -174,6 +177,7 @@ type
     procedure CancelOperation;
     procedure SaveData;
     procedure SearchRegister;
+    procedure SearchCEP(sCEP: string);
   public
     { Public declarations }
   end;
@@ -193,7 +197,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, View.ListaCEPs;
 
 { TViewSisGeFEmployeeRegistration }
 
@@ -225,6 +229,11 @@ end;
 procedure TViewSisGeFEmployeeRegistration.actionSaveExecute(Sender: TObject);
 begin
   SaveData;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.actionSearchCEPExecute(Sender: TObject);
+begin
+  SearchCEP(cepEndereco.Text);
 end;
 
 procedure TViewSisGeFEmployeeRegistration.BlockUnblockFieldsForm(bValue: boolean);
@@ -343,6 +352,16 @@ begin
   ViewSisGeFEmployeeRegistration := nil;
 end;
 
+procedure TViewSisGeFEmployeeRegistration.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if gridContatos.IsFocused then Exit;
+  If Key = #13 then
+  begin
+    Key := #0;
+    Perform(Wm_NextDlgCtl, 0, 0);
+  end;
+end;
+
 procedure TViewSisGeFEmployeeRegistration.FormShow(Sender: TObject);
 begin
   StartForm;
@@ -355,6 +374,7 @@ begin
   ClearFieldsForm;
   memTableContatos.Active := False;
   memTableContatos.Active := True;
+  status.Checked := True;
   cpf.SetFocus;
 end;
 
@@ -583,6 +603,54 @@ begin
 
 end;
 
+procedure TViewSisGeFEmployeeRegistration.SearchCEP(sCEP: string);
+var
+  APICEP : TAPICEPController;
+begin
+  try
+    APICEP := TAPICEPController.Create;
+    sCEP := ReplaceStr(sCEP,'-','');
+    sCEP := ReplaceStr(sCEP,' ','');
+    if not APICEP.GetAdressByCEP(sCEP) then
+    begin
+      Application.MessageBox(PChar(APICEP.APICEP.Mensagem), 'Atenção!', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    if Data_Sisgef.memTableCEP.Active then
+    begin
+      if not Data_Sisgef.memTableCEP.IsEmpty then
+      begin
+        if not Assigned(view_ListaCEPs) then
+        begin
+          view_ListaCEPs := Tview_ListaCEPs.Create(Application);
+        end;
+        if view_ListaCEPs.ShowModal = mrOK then
+        begin
+          logradouroEndereco.Text := Data_Sisgef.memTableCEPlogradouro.AsString;
+          complementoLogradouro.Text := Data_Sisgef.memTableCEPcomplemento.AsString;
+          bairroLogradouro.Text := Data_Sisgef.memTableCEPbairro.AsString;
+          cidadeLogradouro.Text := Data_Sisgef.memTableCEPlocalidade.AsString;
+          ufLogradouro.Text := Data_Sisgef.memTableCEPuf.AsString;
+//          cepEndereco.Text := Data_Sisgef.memTableCEPcep.AsString;
+        end;
+        Data_Sisgef.memTableCEP.Active := False;
+        FreeAndNil(view_ListaCEPs);
+      end;
+    end
+    else
+    begin
+      logradouroEndereco.Text := APICEP.APICEP.Enderecos.Logradouro;
+      complementoLogradouro.Text := APICEP.APICEP.Enderecos.Complemento;
+      bairroLogradouro.Text := APICEP.APICEP.Enderecos.Bairro;
+      cidadeLogradouro.Text := APICEP.APICEP.Enderecos.Cidade;
+      ufLogradouro.Text := APICEP.APICEP.Enderecos.UF;
+//      cepEndereco.Text := Data_Sisgef.memTableCEPcep.AsString;
+    end;
+  finally
+    APICEP.Free;
+  end;
+end;
+
 procedure TViewSisGeFEmployeeRegistration.SearchRegister;
 begin
   if not Assigned(view_SisGeFPesquisaPessoas) then
@@ -599,6 +667,7 @@ end;
 
 procedure TViewSisGeFEmployeeRegistration.SetupClass;
 begin
+  FCadastro.Cadastro.Acao := FAcao;
   FCadastro.Cadastro.Cadastro := codigo.EditValue;
   FCadastro.Cadastro.CPFCNPJ := cpf.EditValue;
   FCadastro.Cadastro.Nome := nomeCompleto.Text;
@@ -745,6 +814,14 @@ begin
   PopulateCountry;
   PopulateFunctionsEmployees;
   InstanceClassRegisters;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.statusPropertiesChange(Sender: TObject);
+begin
+  if status.Checked then
+    status.Caption := 'ATIVO'
+  else
+    status.Caption := 'INATIVO';
 end;
 
 end.
