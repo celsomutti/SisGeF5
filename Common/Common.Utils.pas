@@ -19,6 +19,8 @@ type
   private
   protected
   public
+    class function ValidaPIS(sPIS: string; MostraMsg: boolean): boolean;
+    class function ValidaTituloEleitor(sTitulo: string; MostraMsg: boolean): boolean;
     class procedure Atualiza_Versao_Aplicacao;
     class function Empty(texto: String): Boolean;
     class function NotEmpty(texto: String): Boolean;
@@ -948,6 +950,85 @@ end;
 class procedure TUtils.NoRotine;
 begin
   ShowMessage('Rotina não implementada!');
+end;
+
+
+class function TUtils.ValidaPIS(sPIS: string; MostraMsg: boolean): boolean;
+var
+     iSoma: integer;
+     i, iDigito, iDigVer, iMult: shortint;
+begin
+     Result := Length(Trim(sPIS)) = 11;
+
+     if Result then
+     begin
+         iDigVer := strtoint(sPIS[11]);
+         iSoma := 0;
+         iMult := 2;
+
+         for i := 10 downto 1 do
+         begin
+             iSoma := iSoma + (iMult * strtoint(sPIS[I]));
+             if iMult < 9
+             then Inc(iMult)
+             else iMult := 2;
+         end;
+         iDigito := 11 - (iSoma mod 11);
+
+         if iDigito > 9 then iDigito := 0;
+         Result := (iDigVer = iDigito);
+     end;
+
+     if not Result and MostraMsg then
+           Application.MessageBox('Número do PIS inválido!','Atenção',mb_TaskModal + mb_IconWarning);
+end;
+
+class function TUtils.ValidaTituloEleitor(sTitulo: string; MostraMsg: boolean): boolean;
+const
+     Multiplicadores: array[1..11] of shortint = (10,9,8,7,6,5,4,3,2,4,3);
+var
+     iCont, iAux, DigCalculado, DigInformado: shortint;
+     iDigito: integer;
+begin
+     result := false;
+     if Length(stitulo) = 0 then
+         exit;
+
+     stitulo := StringOfChar('0',13-Length(stitulo))+stitulo; // 13 posições
+     iAux := StrToInt(Copy(stitulo,10,2)); // valor para auxiliar o cálculo do dígito
+
+     // dígito verificador
+     DigInformado := StrToInt(Copy(stitulo,12,2));;
+     DigCalculado := 0;
+
+     iDigito := 0;
+     for iCont := 1 to 11 do
+     begin
+         iDigito := iDigito + (StrToInt(stitulo[iCont]) * Multiplicadores[iCont]);
+         if iCont in [9,11] then
+         begin
+             iDigito := iDigito mod 11;
+             if iDigito > 1 then
+                 iDigito := 11 - iDigito
+             else
+             begin
+                 if iAux <= 2 then
+                     iDigito := 1 - iDigito
+                 else
+                     iDigito := 0;
+             end;
+             if iCont = 9
+             then Digcalculado := iDigito * 10
+             else Digcalculado := Digcalculado + iDigito;
+             iDigito := iDigito * 2;
+         end;
+     end;
+
+     // verifica se o digito é verdadeiro
+     Result := DigCalculado = DigInformado;
+
+     if not Result and MostraMsg then
+           Application.MessageBox('Número do título de eleitor inválido!','Atenção',mb_TaskModal + mb_IconWarning);
 end;
 
 

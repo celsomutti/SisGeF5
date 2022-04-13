@@ -16,7 +16,7 @@ type
     function Localizar(aParam: array of variant): Boolean;
     function GetId(): Integer;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
-//    function ValidaCampos(): Boolean;
+    function ValidateData(): boolean;
     function SetupModel(FDCadastro: TFDQuery): Boolean;
 
     property Cadastro: TCadastro read FCadastro write FCadastro;
@@ -53,7 +53,7 @@ end;
 function TCadastroControl.Gravar: Boolean;
 begin
   Result := False;
-//  if not ValidaCampos() then Exit;
+  if not ValidateData() then Exit;
   Result := Fcadastro.Gravar;
 end;
 
@@ -65,6 +65,11 @@ end;
 function TCadastroControl.SetupModel(FDCadastro: TFDQuery): Boolean;
 begin
   Result := FCadastro.SetupModel(FDCadastro);
+end;
+
+function TCadastroControl.ValidateData: boolean;
+begin
+  Result := FCadastro.ValidateData();
 end;
 
 end.

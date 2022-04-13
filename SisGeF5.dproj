@@ -578,6 +578,10 @@
             <Form>view_PesquisaPessoasCRM</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="View\View.SisaGeFAttachDocuments.pas">
+            <Form>view_SisgeFAttachDocuments</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

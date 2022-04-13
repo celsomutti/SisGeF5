@@ -246,7 +246,8 @@ uses
   View.SisGeFEmployeeRegistration in 'View\View.SisGeFEmployeeRegistration.pas' {ViewSisGeFEmployeeRegistration},
   Model.SisgeFRHFuncoes in 'Model\Model.SisgeFRHFuncoes.pas',
   Control.SisGeFRHFuncoes in 'Control\Control.SisGeFRHFuncoes.pas',
-  View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM};
+  View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
+  View.SisaGeFAttachDocuments in 'View\View.SisaGeFAttachDocuments.pas' {view_SisgeFAttachDocuments};
 
 {$R *.res}
 

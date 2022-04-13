@@ -196,7 +196,7 @@ begin
     Self.Sequencia := GetID(Self.ID);
     Self.Descricao := memTable.FieldByName('des_contato').AsString;
     Self.Telefone := memTable.FieldByName('num_telefone').AsString;
-    Self.EMail := memTable.FieldByName('des_logradouro').AsString;
+    Self.EMail := memTable.FieldByName('des_email').AsString;
     Self.Acao := tacIncluir;
     if not Self.Gravar then
     begin

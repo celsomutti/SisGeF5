@@ -593,6 +593,10 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
           DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
           Images = Data_Sisgef.iml_16_16
+          OptionsBehavior.CopyCaptionsToClipboard = False
+          OptionsBehavior.FocusFirstCellOnNewRecord = True
+          OptionsBehavior.GoToNextCellOnEnter = True
+          OptionsBehavior.FocusCellOnCycle = True
           OptionsCustomize.ColumnGrouping = False
           OptionsView.ColumnAutoWidth = True
           OptionsView.GroupByBox = False
@@ -727,7 +731,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
         Left = 87
         Top = 136
         Hint = 'N'#250'mero da conta'
-        Properties.MaxLength = 10
+        Properties.MaxLength = 20
         TabOrder = 9
         Width = 124
       end
@@ -860,6 +864,7 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
       Caption = 'A&nexos'
       Hint = 'Anexar documento'
       ImageIndex = 17
+      OnExecute = actionAttachExecute
     end
     object actionCloseForm: TAction
       Caption = '&Fechar'

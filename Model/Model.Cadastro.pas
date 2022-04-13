@@ -3,7 +3,7 @@ unit Model.Cadastro;
 interface
 
 uses
-    Common.ENum, FireDAC.Comp.Client, DAO.Conexao;
+    Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Common.Utils;
 
     type
     TCadastro = class
@@ -17,9 +17,9 @@ uses
       FFantasia: String;
       FCPFCNPJ: String;
       FIERG: String;
-      FNascimento: TDate;
+      FNascimento: TDateTime;
       FUFRG: String;
-      FEMissaoRG: TDate;
+      FEMissaoRG: TDateTime;
       FUFNascimento: String;
       FCidadeNascimento: String;
       FPai: String;
@@ -31,14 +31,14 @@ uses
       FNumeroCNH: String;
       FRegistroCNH: String;
       FCategoriaCNH: String;
-      FValidadeCNH: TDate;
+      FValidadeCNH: TDateTime;
       FUFCNH: String;
-      FDataPrimeiraCNH: TDate;
+      FDataPrimeiraCNH: TDateTime;
       FURL: String;
       FAgente: Integer;
       FStatus: Integer;
       FObs: String;
-      FDataCadastro: TDate;
+      FDataCadastro: TDateTime;
       FUsuario: Integer;
       FVerba: Double;
       FCombustivel: Double;
@@ -57,7 +57,7 @@ uses
       FTransporteEmpresa: String;
       FQuantosTransporteEmptresa: Integer;
       FGV: String;
-      FDataGV: TDate;
+      FDataGV: TDateTime;
       FExecutante: String;
       FDataAlteracao: TDateTime;
       FChave: String;
@@ -71,7 +71,7 @@ uses
 
       FAcao: TAcao;
       FEmissorRG: String;
-      FEmissaoCNH: TDate;
+      FEmissaoCNH: TDateTime;
       FCodigoCNH: String;
       FNumeroConsultaGR: String;
       FEmpresaGR: String;
@@ -88,9 +88,9 @@ uses
       property Fantasia: String                     read FFantasia                    write FFantasia;
       property CPFCNPJ: String                      read FCPFCNPJ                     write FCPFCNPJ;
       property IERG: String                         read FIERG                        write FIERG;
-      property Nascimento: TDate                    read FNascimento                  write FNascimento;
+      property Nascimento: TDateTime                read FNascimento                  write FNascimento;
       property UFRG: String                         read FUFRG                        write FUFRG;
-      property EMissaoRG: TDate                     read FEMissaoRG                   write FEMissaoRG;
+      property EMissaoRG: TDateTime                 read FEMissaoRG                   write FEMissaoRG;
       property UFNascimento: String                 read FUFNascimento                write FUFNascimento;
       property CidadeNascimento: String             read FCidadeNascimento            write FCidadeNascimento;
       property Pai: String                          read FPai                         write FPai;
@@ -102,15 +102,15 @@ uses
       property NumeroCNH: String                    read FNumeroCNH                   write FNumeroCNH;
       property RegistroCNH: String                  read FRegistroCNH                 write FRegistroCNH;
       property CategoriaCNH: String                 read FCategoriaCNH                write FCategoriaCNH;
-      property ValidadeCNH: TDate                   read FValidadeCNH                 write FValidadeCNH;
-      property EmissaoCNH: TDate                    read FEmissaoCNH                  write FEmissaoCNH;
+      property ValidadeCNH: TDateTime               read FValidadeCNH                 write FValidadeCNH;
+      property EmissaoCNH: TDateTime                read FEmissaoCNH                  write FEmissaoCNH;
       property UFCNH: String                        read FUFCNH                       write FUFCNH;
-      property DataPrimeiraCNH: TDate               read FDataPrimeiraCNH             write FDataPrimeiraCNH;
+      property DataPrimeiraCNH: TDateTime           read FDataPrimeiraCNH             write FDataPrimeiraCNH;
       property URL: String                          read FURL                         write FURL;
       property Agente: Integer                      read FAgente                      write FAgente;
       property Status: Integer                      read FStatus                      write FStatus;
       property Obs: String                          read FObs                         write FObs;
-      property DataCadastro: TDate                  read FDataCadastro                write FDataCadastro;
+      property DataCadastro: TDateTime              read FDataCadastro                write FDataCadastro;
       property Usuario: Integer                     read FUsuario                     write FUsuario;
       property Verba: Double                        read FVerba                       write FVerba;
       property Combustivel: Double                  read FCombustivel                 write FCombustivel;
@@ -129,7 +129,7 @@ uses
       property TransporteEmpresa: String            read FTransporteEmpresa           write FTransporteEmpresa;
       property QuantosTransporteEmptresa: Integer   read FQuantosTransporteEmptresa   write FQuantosTransporteEmptresa;
       property GV: String                           read FGV                          write FGV;
-      property DataGV: TDate                        read FDataGV                      write FDataGV;
+      property DataGV: TDateTime                    read FDataGV                      write FDataGV;
       property Executante: String                   read FExecutante                  write FExecutante;
       property DataAlteracao: TDateTime             read FDataAlteracao               write FDataAlteracao;
       property Chave: String                        read FChave                       write FChave;
@@ -157,6 +157,7 @@ uses
 
       function GetField(sField: String; sKey: String; sKeyValue: String): String;
       function SetupModel(FDCadastro: TFDQuery): Boolean;
+      function ValidateData(): boolean;
 
     end;
     const
@@ -299,7 +300,7 @@ begin
                     '(:COD_CADASTRO, :DOM_FUNCIONARIO, :COD_ENTREGADOR, :DES_TIPO_DOC, ' +
                     ':DES_RAZAO_SOCIAL, :NOM_FANTASIA, :NUM_CNPJ, :NUM_IE, :DAT_NASCIMENTO, :UF_RG, :DAT_EMISSAO_RG, ' +
                     ':NOM_EMISSOR_RG, :UF_NASCIMENTO, :NOM_CIDADE_NASCIMENTO, :NOM_PAI, :NOM_MAE, :NUM_IEST, :NUM_IM, :COD_CNAE, ' +
-                    ':COD_CRT, NUM_CNH, :NUM_REGISTRO_CNH, :DES_CATEGORIA_CNH, :DAT_VALIDADE_CNH, :DAT_EMISSAO_CNH, :UF_CNH, ' +
+                    ':COD_CRT, :NUM_CNH, :NUM_REGISTRO_CNH, :DES_CATEGORIA_CNH, :DAT_VALIDADE_CNH, :DAT_EMISSAO_CNH, :UF_CNH, ' +
                     ':DAT_1_HABILITACAO, :DES_PAGINA, :COD_AGENTE, :COD_STATUS, :DES_OBSERVACAO, :DAT_CADASTRO, :COD_USUARIO, ' +
                     ':VAL_VERBA, :VAL_VERBA_COMBUSTIVEL, :DES_TIPO_CONTA, :COD_BANCO, :COD_AGENCIA, :NUM_CONTA, ' +
                     ':NOM_FAVORECIDO, :NUM_CPF_CNPJ_FAVORECIDO, :DES_FORMA_PAGAMENTO, :COD_CENTRO_CUSTO, :DOM_VITIMA_ROUBO, ' +
@@ -445,6 +446,70 @@ begin
     CNPJMEI := FDCadastro.FieldByName('num_cnpj_mei').AsString;
   finally
     Result  := True;
+  end;
+end;
+
+function TCadastro.ValidateData: boolean;
+var
+  FFunctions : TUtils;
+  aParam: array of variant;
+begin
+  try
+    Result := False;
+    FFunctions := TUtils.Create;
+    if FNome = '' then
+    begin
+      raise Exception.Create('Informe o nome ou razão social!');
+      Exit;
+    end;
+    if FFantasia = '' then
+    begin
+      raise Exception.Create('Informe o alias ou nome fantasia!');
+      Exit;
+    end;
+    if True then
+    SetLength(aParam, 2);
+
+    aParam :=['CPF',FCPFCNPJ];
+    if FDOC = 'CPF' then
+    begin
+      if not FFunctions.CPF(FCPFCNPJ) then
+        raise Exception.Create('CPf do cadastro incorreto!');
+        Exit;
+    end
+    else if FDOC = 'CNPJ' then
+    begin
+      if not FFunctions.CNPJ(FCPFCNPJ) then
+        raise Exception.Create('CNPJ do cadastro incorreto!');
+        Exit;
+    end;
+    if FDoc = 'CPF' then
+    begin
+      if FFuncionario = 'F' then
+      begin
+        if Length(FIEST) > 0 then
+        begin
+          if not FFunctions.ValidaPIS(FIEST,False) then
+          begin
+            raise Exception.Create('PIS incorreto!');
+            Exit;
+          end;
+        end;
+        if FNascimento = 0 then
+        begin
+          raise Exception.Create('Informe a data de nascimento!');
+          Exit;
+        end;
+        if FCRT = 0 then
+        begin
+          raise Exception.Create('Informe a função do funcionário!');
+          Exit;
+        end;
+      end;
+    end;
+    Result := True;
+  finally
+    FFunctions.Free;
   end;
 end;
 

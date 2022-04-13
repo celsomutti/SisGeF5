@@ -155,6 +155,7 @@ type
     procedure statusPropertiesChange(Sender: TObject);
     procedure actionSearchCEPExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure actionAttachExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -178,6 +179,7 @@ type
     procedure SaveData;
     procedure SearchRegister;
     procedure SearchCEP(sCEP: string);
+    procedure AttachDocument;
   public
     { Public declarations }
   end;
@@ -197,9 +199,14 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.ListaCEPs;
+uses Data.SisGeF, View.ListaCEPs, View.SisaGeFAttachDocuments, Common.Utils;
 
 { TViewSisGeFEmployeeRegistration }
+
+procedure TViewSisGeFEmployeeRegistration.actionAttachExecute(Sender: TObject);
+begin
+  AttachDocument;
+end;
 
 procedure TViewSisGeFEmployeeRegistration.actionCancelExecute(Sender: TObject);
 begin
@@ -234,6 +241,21 @@ end;
 procedure TViewSisGeFEmployeeRegistration.actionSearchCEPExecute(Sender: TObject);
 begin
   SearchCEP(cepEndereco.Text);
+end;
+
+procedure TViewSisGeFEmployeeRegistration.AttachDocument;
+var
+  sPast : string;
+  FFunctions: TUtils;
+begin
+  FFunctions := TUtils.Create;
+  Global.Parametros.pPasta := FFunctions.LeIni(ExtractFilePath(Application.ExeName) + 'database.ini', 'Database', 'Folder');
+  sPast := Global.Parametros.pPasta + '\' + FCadastro.Cadastro.Cadastro.ToString;
+  if not Assigned(view_SisgeFAttachDocuments) then
+    view_SisgeFAttachDocuments := Tview_SisgeFAttachDocuments.Create(Application);
+  view_SisgeFAttachDocuments.FPasta := sPast;
+  view_SisgeFAttachDocuments.Show;
+  FFunctions.Free;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.BlockUnblockFieldsForm(bValue: boolean);
@@ -589,18 +611,23 @@ begin
     Exit;
   end;
 
+  FEnderecos.Enderecos.ID := FCadastro.Cadastro.Cadastro;
+
   if not FEnderecos.Gravar  then
   begin
     Application.MessageBox('Erro ao gravar o endereço!', 'Erro', MB_OK + MB_ICONERROR);
     Exit;
   end;
 
+  FContatos.Contatos.ID := FCadastro.Cadastro.Cadastro;
+
   if not FContatos.SaveBatch(memTableContatos)  then
   begin
     Application.MessageBox('Erro ao gravar os contatos!', 'Erro', MB_OK + MB_ICONERROR);
     Exit;
   end;
-
+  Application.MessageBox('Dados gravados com sucesso!', 'Gravar', MB_OK + MB_ICONINFORMATION);
+  cxPageControl1.ActivePageIndex := 0;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.SearchCEP(sCEP: string);
@@ -675,20 +702,37 @@ begin
   FCadastro.Cadastro.IERG := numeroRG.Text;
   FCadastro.Cadastro.UFRG := ufRG.Text;
   FCadastro.Cadastro.EmissorRG := emissorRG.Text;
-  FCadastro.Cadastro.EMissaoRG := dataRG.Date;
+  if dataRG.Date <> 0 then
+    FCadastro.Cadastro.EMissaoRG := dataRG.Date
+  else
+    FCadastro.Cadastro.EMissaoRG := StrToDate('30/12/1899');
   FCadastro.Cadastro.CidadeNascimento := naturalidade.Text;
   FCadastro.Cadastro.UFNascimento := ufNaturalidade.Text;
   FCadastro.Cadastro.Pai := nomePai.Text;
   FCadastro.Cadastro.Mae := nomeMae.Text;
   FCadastro.Cadastro.IEST := numeroPIS.Text;
-  FCadastro.Cadastro.Nascimento := nascimento.Date;
+  if nascimento.Date <> 0 then
+    FCadastro.Cadastro.Nascimento := nascimento.Date
+  else
+    FCadastro.Cadastro.Nascimento := StrToDate('30/12/1899');
   FCadastro.Cadastro.NumeroCNH := numeroCNH.EditValue;
   FCadastro.Cadastro.RegistroCNH := registroCNH.EditValue;
   FCadastro.Cadastro.UFCNH := ufCNH.Text;
   FCadastro.Cadastro.CategoriaCNH := categoriaCNH.Text;
-  FCadastro.Cadastro.DataPrimeiraCNH := primeiraCNH.Date;
-  FCadastro.Cadastro.EmissaoCNH := emissaoCNH.Date;
-  FCadastro.Cadastro.ValidadeCNH := validadeCNH.Date;
+  if primeiraCNH.Date <> 0 then
+    FCadastro.Cadastro.DataPrimeiraCNH := primeiraCNH.Date
+  else
+    FCadastro.Cadastro.DataPrimeiraCNH := StrToDate('30/12/1899');
+  if emissaoCNH.Date <> 0 then
+    FCadastro.Cadastro.EmissaoCNH := emissaoCNH.Date
+  else
+    FCadastro.Cadastro.EmissaoCNH := StrToDate('30/12/1899');
+
+  if validadeCNH.Date <> 0 then
+    FCadastro.Cadastro.ValidadeCNH := validadeCNH.Date
+  else
+    FCadastro.Cadastro.ValidadeCNH := StrToDate('30/12/1899');
+
   FCadastro.Cadastro.CodigoCNH := codigoCNH.EditValue;
   FCadastro.Cadastro.CRT := funcao.EditValue;
   FEnderecos.Enderecos.Correspondencia := 0;
@@ -700,7 +744,8 @@ begin
   FCadastro.Cadastro.NumeroConta := numeroConta.Text;
   FCadastro.Cadastro.NomeFavorecido := nomeFavorecido.Text;
   FCadastro.Cadastro.CPFCNPJFavorecido := cpfFavorecido.EditValue;
-  FCadastro.Cadastro.Obs := observacoes.Text;
+  if observacoes.Lines.Count > 0 then
+    FCadastro.Cadastro.Obs := observacoes.Text;
   FCadastro.Cadastro.Funcionario := 'F';
   FCadastro.Cadastro.Entregador := 0;
   FCadastro.Cadastro.Doc := 'CPF';
@@ -708,7 +753,10 @@ begin
   FCadastro.Cadastro.IM := '';
   FCadastro.Cadastro.URL := '';
   FCadastro.Cadastro.Agente := 0;
-  FCadastro.Cadastro.Status := status.EditValue;
+  if status.Checked then
+    FCadastro.Cadastro.Status := 1
+  else
+    FCadastro.Cadastro.Status := 2;
   FEnderecos.Enderecos.Acao := FAcao;
 
   if FAcao = tacIncluir then
@@ -734,7 +782,6 @@ begin
     FCadastro.Cadastro.Grupo := 0;
     FCadastro.Cadastro.Roteiro := '';
 
-    FEnderecos.Enderecos.ID := FCadastro.Cadastro.Cadastro;
     FEnderecos.Enderecos.Sequencia := 0;
     FEnderecos.Enderecos.CEP := cepEndereco.EditValue;
     FEnderecos.Enderecos.Logradouro := logradouroEndereco.Text;
@@ -747,7 +794,6 @@ begin
   end
   else if FAcao = tacAlterar then
   begin
-    FEnderecos.Enderecos.ID := FCadastro.Cadastro.Cadastro;
     FEnderecos.Enderecos.Sequencia := FIdSeqAdress;
     FEnderecos.Enderecos.CEP := cepEndereco.EditValue;
     FEnderecos.Enderecos.Logradouro := logradouroEndereco.Text;
@@ -771,20 +817,25 @@ begin
   numeroRG.Text := FCadastro.Cadastro.IERG;
   ufRG.Text := FCadastro.Cadastro.UFRG;
   emissorRG.Text := FCadastro.Cadastro.EmissorRG;
-  dataRG.Date := FCadastro.Cadastro.EMissaoRG;
+  if FCadastro.Cadastro.EMissaoRG > 0 then
+    dataRG.Date := FCadastro.Cadastro.EMissaoRG;
   naturalidade.Text := FCadastro.Cadastro.CidadeNascimento;
   ufNaturalidade.Text := FCadastro.Cadastro.UFNascimento;
   nomePai.Text := FCadastro.Cadastro.Pai;
   nomeMae.Text := FCadastro.Cadastro.Mae;
   numeroPIS.Text := FCadastro.Cadastro.IEST;
-  nascimento.Date := FCadastro.Cadastro.Nascimento;
+  if FCadastro.Cadastro.Nascimento > 0 then
+    nascimento.Date := FCadastro.Cadastro.Nascimento;
   numeroCNH.EditValue :=FCadastro.Cadastro.NumeroCNH;
   registroCNH.EditValue := FCadastro.Cadastro.RegistroCNH;
   ufCNH.Text := FCadastro.Cadastro.UFCNH;
   categoriaCNH.Text := FCadastro.Cadastro.CategoriaCNH;
-  primeiraCNH.Date := FCadastro.Cadastro.DataPrimeiraCNH;
-  emissaoCNH.Date := FCadastro.Cadastro.EmissaoCNH;
-  validadeCNH.Date := FCadastro.Cadastro.ValidadeCNH;
+  if FCadastro.Cadastro.DataPrimeiraCNH > 0 then
+    primeiraCNH.Date := FCadastro.Cadastro.DataPrimeiraCNH;
+  if FCadastro.Cadastro.EmissaoCNH > 0 then
+    emissaoCNH.Date := FCadastro.Cadastro.EmissaoCNH;
+  if FCadastro.Cadastro.ValidadeCNH > 0 then
+    validadeCNH.Date := FCadastro.Cadastro.ValidadeCNH;
   codigoCNH.EditValue := FCadastro.Cadastro.CodigoCNH;
   funcao.EditValue := FCadastro.Cadastro.CRT;
 //  cepEndereco.EditValue := FEnderecos.Enderecos.CEP;
