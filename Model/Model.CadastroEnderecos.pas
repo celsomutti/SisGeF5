@@ -259,7 +259,7 @@ begin
     'des_tipo = :des_tipo, des_logradouro = :des_logradouro, num_logradouro = :num_logradouro, des_complemento = :des_complemento, ' +
     'dom_correspondencia = :dom_correspondencia, des_bairro = :des_bairro, nom_cidade = :nom_cidade, uf_estado = :uf_estado, ' +
     'num_cep = :num_cep, des_referencia = :des_referencia ' +
-    'where cod_entregador = :cod_entregador and seq_endereco := seq_endereco';
+    'where cod_entregador = :cod_entregador and seq_endereco = :seq_endereco';
     FDQuery.ExecSQL(sSQL,[Self.Tipo, Self.Logradouro, Self.Numero, Self.Complemento, Self.Correspondencia, Self.Bairro,
                           Self.Cidade, Self.UF, Self.CEP, Self.Referencia, Self.ID, Self.Sequencia]);
     Result := True;

@@ -561,6 +561,10 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     object cxTabSheet2: TcxTabSheet
       Caption = 'Contato'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gridContatos: TcxGrid
         Left = 0
         Top = 0

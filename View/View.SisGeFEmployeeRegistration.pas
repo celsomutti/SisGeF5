@@ -702,36 +702,26 @@ begin
   FCadastro.Cadastro.IERG := numeroRG.Text;
   FCadastro.Cadastro.UFRG := ufRG.Text;
   FCadastro.Cadastro.EmissorRG := emissorRG.Text;
-  if dataRG.Date <> 0 then
-    FCadastro.Cadastro.EMissaoRG := dataRG.Date
-  else
-    FCadastro.Cadastro.EMissaoRG := StrToDate('30/12/1899');
+  if dataRG.Text <> '' then
+    FCadastro.Cadastro.EMissaoRG := dataRG.Date;
   FCadastro.Cadastro.CidadeNascimento := naturalidade.Text;
   FCadastro.Cadastro.UFNascimento := ufNaturalidade.Text;
   FCadastro.Cadastro.Pai := nomePai.Text;
   FCadastro.Cadastro.Mae := nomeMae.Text;
   FCadastro.Cadastro.IEST := numeroPIS.Text;
-  if nascimento.Date <> 0 then
-    FCadastro.Cadastro.Nascimento := nascimento.Date
-  else
-    FCadastro.Cadastro.Nascimento := StrToDate('30/12/1899');
+  if nascimento.Text <> '' then
+    FCadastro.Cadastro.Nascimento := nascimento.Date;
   FCadastro.Cadastro.NumeroCNH := numeroCNH.EditValue;
   FCadastro.Cadastro.RegistroCNH := registroCNH.EditValue;
   FCadastro.Cadastro.UFCNH := ufCNH.Text;
   FCadastro.Cadastro.CategoriaCNH := categoriaCNH.Text;
-  if primeiraCNH.Date <> 0 then
-    FCadastro.Cadastro.DataPrimeiraCNH := primeiraCNH.Date
-  else
-    FCadastro.Cadastro.DataPrimeiraCNH := StrToDate('30/12/1899');
-  if emissaoCNH.Date <> 0 then
-    FCadastro.Cadastro.EmissaoCNH := emissaoCNH.Date
-  else
-    FCadastro.Cadastro.EmissaoCNH := StrToDate('30/12/1899');
+  if primeiraCNH.Text <> '' then
+    FCadastro.Cadastro.DataPrimeiraCNH := primeiraCNH.Date;
+  if emissaoCNH.Text <> '' then
+    FCadastro.Cadastro.EmissaoCNH := emissaoCNH.Date;
 
-  if validadeCNH.Date <> 0 then
-    FCadastro.Cadastro.ValidadeCNH := validadeCNH.Date
-  else
-    FCadastro.Cadastro.ValidadeCNH := StrToDate('30/12/1899');
+  if validadeCNH.text <> '' then
+    FCadastro.Cadastro.ValidadeCNH := validadeCNH.Date;
 
   FCadastro.Cadastro.CodigoCNH := codigoCNH.EditValue;
   FCadastro.Cadastro.CRT := funcao.EditValue;

@@ -176,36 +176,36 @@ begin
   try
     Result := False;
     FDQuery := FConexao.ReturnQuery();
-    FDQuery.ExecSQL('UPDATE ' + TABLENAME + ' SET dom_funcionario = :dom_funcionario, cod_entregador = :cod_entregador, ' +
-                    'des_tipo_doc = :des_tipo_doc, des_razao_social = :des_razao_social, nom_fantasia = :nom_fantasia, ' +
-                    'num_cnpj = :num_cnpj, num_ie = :num_ie, dat_nascimento = :dat_nascimento, dat_emissao_RG = :dat_emissao_RG,' +
-                    'nom_emissor_RG = :nom_emissor_RG, uf_nascimento = :uf_nascimento, ' +
-                    'nom_cidade_nascimento = :nom_cidade_nascimento, nom_pai = :nom_pai, nom_mae = :nom_mae, num_iest = :num_iest,' +
-                    'num_im, cod_cnae = :num_im, cod_cnae, cod_crt = :cod_crt, num_cnh = :num_cnh, ' +
-                    'num_registro_cnh = :num_registro_cnh, des_categoria_cnh = :des_categoria_cnh, ' +
-                    'dat_validade_cnh = :dat_validade_cnh, dat_emissao_cnh = :dat_emissao_cnh, uf_cnh = :uf_cnh, ' +
-                    'dat_1_habilitacao = :dat_1_habilitacao, des_pagina = :des_pagina, cod_agente = :cod_agente, ' +
-                    'cod_status = :cod_status, des_observacao = :des_observacao, dat_cadastro = :dat_cadastro, ' +
-                    'cod_usuario = :cod_usuario, val_verba = :val_verba, val_verba_combustivel = :val_verba_combustivel, ' +
-                    'des_tipo_conta = :des_tipo_conta, cod_banco = :cod_banco, cod_agencia = :cod_agencia, ' +
-                    'num_conta = :num_conta, nom_favorecido = :nom_favorecido, ' +
-                    'num_cpf_cnpj_favorecido = :num_cpf_cnpj_favorecido, des_forma_pagamento = :des_forma_pagamento, ' +
-                    'cod_centro_custo = :cod_centro_custo, dom_vitima_roubo = :dom_vitima_roubo, ' +
-                    'qtd_vitima_roubo = :qtd_vitima_roubo, dom_acidentes = :dom_acidentes, qtd_acidentes = :qtd_acidentes, ' +
-                    'dom_transporte_empresa = :dom_transporte_empresa, qtd_transporte_empresa = :qtd_transporte_empresa, ' +
-                    'dom_gr = :dom_gr, dat_gv = :dat_gv, nom_executante = nom_executante, dat_alteracao = :dat_alteracao, ' +
-                    'des_chave = :des_chave, cod_grupo = :cod_grupo, cod_roteiro = :cod_roteiro, cod_mei = :cod_mei, ' +
-                    'nom_razao_mei = :nom_razao_mei, nom_fantasia_mei = :nom_fantasia_mei, num_cnpj_mei = :num_cnpj_mei, ' +
-                    'cod_cnh = :cod_cnh ' +
+    FDQuery.ExecSQL('UPDATE ' + TABLENAME + ' SET DOM_FUNCIONARIO = :DOM_FUNCIONARIO, COD_ENTREGADOR = :COD_ENTREGADOR, ' +
+                    'DES_TIPO_DOC = :DES_TIPO_DOC, DES_RAZAO_SOCIAL = :DES_RAZAO_SOCIAL, NOM_FANTASIA = :NOM_FANTASIA, ' +
+                    'NUM_CNPJ = :NUM_CNPJ, NUM_IE = :NUM_IE, DAT_NASCIMENTO = :DAT_NASCIMENTO, UF_RG = :UF_RG, ' +
+                    'DAT_EMISSAO_RG = :DAT_EMISSAO_RG, NOM_EMISSOR_RG = :NOM_EMISSOR_RG, UF_NASCIMENTO = :UF_NASCIMENTO, ' +
+                    'NOM_CIDADE_NASCIMENTO = :NOM_CIDADE_NASCIMENTO, NOM_PAI = :NOM_PAI, NOM_MAE = :NOM_MAE, ' +
+                    'NUM_IEST = :NUM_IEST, NUM_IM = :NUM_IM, COD_CNAE = :COD_CNAE, COD_CRT = :COD_CRT, NUM_CNH = :NUM_CNH, ' +
+                    'NUM_REGISTRO_CNH = :NUM_REGISTRO_CNH, DES_CATEGORIA_CNH = :DES_CATEGORIA_CNH, ' +
+                    'DAT_VALIDADE_CNH = :DAT_VALIDADE_CNH, DAT_EMISSAO_CNH = :DAT_EMISSAO_CNH, UF_CNH = :UF_CNH, ' +
+                    'DAT_1_HABILITACAO = :DAT_1_HABILITACAO, DES_PAGINA = :DES_PAGINA, COD_AGENTE = :COD_AGENTE, ' +
+                    'COD_STATUS = :COD_STATUS, DES_OBSERVACAO = :DES_OBSERVACAO, DAT_CADASTRO = :DAT_CADASTRO, ' +
+                    'COD_USUARIO = :COD_USUARIO, VAL_VERBA = :VAL_VERBA, VAL_VERBA_COMBUSTIVEL = :VAL_VERBA_COMBUSTIVEL, ' +
+                    'DES_TIPO_CONTA = :DES_TIPO_CONTA, COD_BANCO = :COD_BANCO, COD_AGENCIA = :COD_AGENCIA, ' +
+                    'NUM_CONTA = :NUM_CONTA, NOM_FAVORECIDO = :NOM_FAVORECIDO, ' +
+                    'NUM_CPF_CNPJ_FAVORECIDO = :NUM_CPF_CNPJ_FAVORECIDO, DES_FORMA_PAGAMENTO = :DES_FORMA_PAGAMENTO, ' +
+                    'COD_CENTRO_CUSTO = :COD_CENTRO_CUSTO, DOM_VITIMA_ROUBO = :DOM_VITIMA_ROUBO, ' +
+                    'QTD_VITIMA_ROUBO = :QTD_VITIMA_ROUBO, DOM_ACIDENTES = :DOM_ACIDENTES, QTD_ACIDENTES = :QTD_ACIDENTES, ' +
+                    'DOM_TRANSPORTE_EMPRESA = :DOM_TRANSPORTE_EMPRESA, QTD_TRANSPORTE = :QTD_TRANSPORTE, ' +
+                    'DOM_GV = :DOM_GV, DAT_GV = :DAT_GV, NOM_EXECUTANTE = :NOM_EXECUTANTE, DAT_ALTERACAO = :DAT_ALTERACAO, ' +
+                    'DES_CHAVE = :DES_CHAVE, COD_GRUPO = :COD_GRUPO, COD_ROTEIRO = :COD_ROTEIRO, COD_MEI = :COD_MEI, ' +
+                    'NOM_RAZAO_MEI = :NOM_RAZAO_MEI, NOM_FANTASIA_MEI = :NOM_FANTASIA_MEI, NUM_CNPJ_MEI = :NUM_CNPJ_MEI, ' +
+                    'COD_CNH = :COD_CNH ' +
                     'WHERE ' +
-                    'cod_cadastro = :cod_cadastro;',
-                    [FFuncionario, FEntregador, FDoc, FNome, FFantasia, FCPFCNPJ, FIERG, FNascimento, FEMissaoRG,FUFRG,
+                    'COD_CADASTRO = :COD_CADASTRO;',
+                    [FFuncionario, FEntregador, FDoc, FNome, FFantasia, FCPFCNPJ, FIERG, FNascimento, FUFRG, FEmissaoRG,
                     FEmissorRG, FUFNascimento, FCidadeNascimento, FPai, FMae, FIEST, FIM, FCNAE, FCRT, FNumeroCNH, FRegistroCNH,
-                    FCategoriaCNH, FValidadeCNH, FEmissaoCNH, FUFCNH, FDataPrimeiraCNH, FURL, FAgente, FStatus, FObs, FDataCadastro,
-                    FUsuario, FVerba, FCombustivel, FTipoConta, FBanco, FAgenciaConta, FNumeroConta, FNomeFavorecido,
-                    FCPFCNPJFavorecido, FFormaPagamento, FCentroCusto, FRoubo, FQuantosRoubos, FAcidentes, FQuantosAcidentes,
-                    FTransporteEmpresa, FQuantosTransporteEmptresa, FGV, FDataGV, FExecutante, FDataAlteracao, FChave, FGrupo,
-                    FRoteiro, FMEI, FRazaoMEI, FFantasiaMEI, FCNPJMEI, FCodigoCNH, FCadastro]);
+                    FCategoriaCNH, FValidadeCNH, FEmissaoCNH, FUFCNH, FDataPrimeiraCNH, FURL, FAgente, FStatus, FObs,
+                    FDataCadastro, FUsuario, FVerba, FCombustivel, FTipoConta, FBanco, FAgenciaConta, FNumeroConta,
+                    FNomeFavorecido, FCPFCNPJFavorecido, FFormaPagamento, FCentroCusto, FRoubo, FQuantosRoubos, FAcidentes,
+                    FQuantosAcidentes, FTransporteEmpresa, FQuantosTransporteEmptresa, FGV, FDataGV, FExecutante,
+                    FDataAlteracao, FChave, FGrupo, FRoteiro, FMEI, FRazaoMEI, FFantasiaMEI, FCNPJMEI, FCodigoCNH, FCadastro]);
   Result := True;
   finally
     FDQuery.Connection.Close;
@@ -467,22 +467,25 @@ begin
       raise Exception.Create('Informe o alias ou nome fantasia!');
       Exit;
     end;
-    if True then
     SetLength(aParam, 2);
-
-    aParam :=['CPF',FCPFCNPJ];
-    if FDOC = 'CPF' then
+    if FDoc = 'CPF' then
     begin
+      aParam :=['CPF',FCPFCNPJ];
       if not FFunctions.CPF(FCPFCNPJ) then
+      begin
         raise Exception.Create('CPf do cadastro incorreto!');
         Exit;
+      end;
     end
     else if FDOC = 'CNPJ' then
     begin
       if not FFunctions.CNPJ(FCPFCNPJ) then
+      begin
         raise Exception.Create('CNPJ do cadastro incorreto!');
         Exit;
+      end;
     end;
+
     if FDoc = 'CPF' then
     begin
       if FFuncionario = 'F' then
