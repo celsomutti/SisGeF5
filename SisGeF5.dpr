@@ -247,7 +247,9 @@ uses
   Model.SisgeFRHFuncoes in 'Model\Model.SisgeFRHFuncoes.pas',
   Control.SisGeFRHFuncoes in 'Control\Control.SisGeFRHFuncoes.pas',
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
-  View.SisaGeFAttachDocuments in 'View\View.SisaGeFAttachDocuments.pas' {view_SisgeFAttachDocuments};
+  View.SisaGeFAttachDocuments in 'View\View.SisaGeFAttachDocuments.pas' {view_SisgeFAttachDocuments},
+  Model.SisgeFVehiclesRegistration in 'Model\Model.SisgeFVehiclesRegistration.pas',
+  View.SisGeFVehiclesRegistration in 'View\View.SisGeFVehiclesRegistration.pas' {view_SisGeFVehiclesRegistration};
 
 {$R *.res}
 

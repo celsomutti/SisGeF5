@@ -112,39 +112,35 @@ begin
                          ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
                          FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
                          FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
-
-            UpdateLOG(sMensagem);
+                  UpdateLOG(sMensagem);
             Inc(FTotalInconsistencias,1);
             dVerba := 0;
+          end;
+          if FEntregas.Entregas.Fechado <> 'S' then
+          begin
+            SetLength(aParam,8);
+            aParam := [FEntregas.Entregas.Distribuidor,
+                       FEntregas.Entregas.Entregador,
+                       FEntregas.Entregas.CEP,
+                       FPlanilha.Planilha.Planilha[i].KGM3,
+                       FEntregas.Entregas.Baixa,
+                       0,
+                       0,
+                       FEntregas.Entregas.TipoPeso];
+            dVerba := RetornaVerba(aParam);
+            if dVerba = 0 then
+            begin
+              sMensagem := 'Verba do entregador não foi localizada;' + FPlanilha.Planilha.Planilha[i].Remessa +
+                           ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
+                           FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
+                           FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
+              UpdateLOG(sMensagem);
+              Inc(FTotalInconsistencias,1);
+            end;
           end
           else
           begin
-            if FEntregas.Entregas.Fechado <> 'S' then
-            begin
-              SetLength(aParam,8);
-              aParam := [FEntregas.Entregas.Distribuidor,
-                         FEntregas.Entregas.Entregador,
-                         FEntregas.Entregas.CEP,
-                         FPlanilha.Planilha.Planilha[i].KGM3,
-                         FEntregas.Entregas.Baixa,
-                         0,
-                         0,
-                         FEntregas.Entregas.TipoPeso];
-              dVerba := RetornaVerba(aParam);
-              if dVerba = 0 then
-              begin
-                sMensagem := 'Verba do entregador não foi localizada;' + FPlanilha.Planilha.Planilha[i].Remessa +
-                             ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
-                             FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
-                             FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
-                UpdateLOG(sMensagem);
-                Inc(FTotalInconsistencias,1);
-              end
-            end
-            else
-            begin
-              dVerba := FEntregas.Entregas.VerbaEntregador;
-            end;
+            dVerba := FEntregas.Entregas.VerbaEntregador;
           end;
           if FPlanilha.Planilha.Planilha[i].KGM3 <> FEntregas.Entregas.PesoReal then
           begin

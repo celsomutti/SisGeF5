@@ -582,6 +582,11 @@
             <Form>view_SisgeFAttachDocuments</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Model\Model.SisgeFVehiclesRegistration.pas"/>
+        <DCCReference Include="View\View.SisGeFVehiclesRegistration.pas">
+            <Form>view_SisGeFVehiclesRegistration</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
