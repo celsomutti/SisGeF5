@@ -1279,13 +1279,13 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Visible = False
           end
           object tvPesquisaDOM_CONFERIDO: TcxGridDBColumn
+            Caption = 'Conferido'
             DataBinding.FieldName = 'DOM_CONFERIDO'
             PropertiesClassName = 'TcxCheckBoxProperties'
             Properties.Alignment = taRightJustify
             Properties.NullStyle = nssUnchecked
             Properties.ValueChecked = '1'
             Properties.ValueUnchecked = '0'
-            Visible = False
             Width = 89
           end
           object tvPesquisaCOD_CLIENTE_EMPRESA: TcxGridDBColumn

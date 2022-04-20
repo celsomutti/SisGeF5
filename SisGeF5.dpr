@@ -249,7 +249,8 @@ uses
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
   View.SisaGeFAttachDocuments in 'View\View.SisaGeFAttachDocuments.pas' {view_SisgeFAttachDocuments},
   Model.SisgeFVehiclesRegistration in 'Model\Model.SisgeFVehiclesRegistration.pas',
-  View.SisGeFVehiclesRegistration in 'View\View.SisGeFVehiclesRegistration.pas' {view_SisGeFVehiclesRegistration};
+  View.SisGeFVehiclesRegistration in 'View\View.SisGeFVehiclesRegistration.pas' {view_SisGeFVehiclesRegistration},
+  Controller.SisGeFVehiclesRegistration in 'Control\Controller.SisGeFVehiclesRegistration.pas';
 
 {$R *.res}
 

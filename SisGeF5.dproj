@@ -587,6 +587,7 @@
             <Form>view_SisGeFVehiclesRegistration</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Control\Controller.SisGeFVehiclesRegistration.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
