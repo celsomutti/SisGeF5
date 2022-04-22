@@ -290,7 +290,7 @@ begin
   FNomeUsuario := FQuery.FieldByName('NOM_EXECUTOR').AsString;
   FTipoVeiculo := FQuery.FieldByName('DES_TIPO').AsString;
   FTelefone1 := FQuery.FieldByName('NUM_TELEFONE_1').AsString;
-  FCadastro := FQuery.FieldByName('COD_ENTREGADOR').AsString;
+  FCadastro := FQuery.FieldByName('COD_ENTREGADOR').AsInteger;
   FCidadeEndereco := FQuery.FieldByName('NOM_CIDADE').AsString;
   FCorVeiculo := FQuery.FieldByName('DES_COR').AsString;
   FUFPlacaVeiculo := FQuery.FieldByName('NOM_CIDADE_PLACA').AsString;

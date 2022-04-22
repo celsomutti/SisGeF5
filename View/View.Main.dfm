@@ -1964,6 +1964,7 @@
       Category = 'Cadastro'
       Caption = '&Ve'#237'culos'
       Hint = 'Cadastro de ve'#237'culos'
+      OnExecute = actCadastroVeículosExecute
     end
     object actImportacaoPedidos: TAction
       Tag = 201010

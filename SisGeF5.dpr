@@ -250,7 +250,8 @@ uses
   View.SisaGeFAttachDocuments in 'View\View.SisaGeFAttachDocuments.pas' {view_SisgeFAttachDocuments},
   Model.SisgeFVehiclesRegistration in 'Model\Model.SisgeFVehiclesRegistration.pas',
   View.SisGeFVehiclesRegistration in 'View\View.SisGeFVehiclesRegistration.pas' {view_SisGeFVehiclesRegistration},
-  Controller.SisGeFVehiclesRegistration in 'Control\Controller.SisGeFVehiclesRegistration.pas';
+  Controller.SisGeFVehiclesRegistration in 'Control\Controller.SisGeFVehiclesRegistration.pas',
+  View.SisGeFVehicleRegistrationDetail in 'View\View.SisGeFVehicleRegistrationDetail.pas' {view_SisGeFVehiclesRegistrationDetail};
 
 {$R *.res}
 
