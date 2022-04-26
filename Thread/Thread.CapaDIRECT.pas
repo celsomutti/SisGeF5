@@ -84,7 +84,6 @@ var
   FEntregas: TEntregasControl;
   FVerbas: TVerbasExpressasControl;
   FBases: TBasesControl;
-  FEntregadores: TEntregadoresExpressasControl;
 begin
   { Place thread code here }
   try
@@ -112,7 +111,7 @@ begin
                          ';' + FEntregas.Entregas.PesoReal.ToString + ';' + FPlanilha.Planilha.Planilha[i].KGM3.ToString + ';' +
                          FEntregas.Entregas.VerbaEntregador.ToString + ';' + FPlanilha.Planilha.Planilha[i].ValorPagar.ToString + ';' +
                          FPlanilha.Planilha.Planilha[i].Motorista + ';' + FEntregas.Entregas.CEP;
-                  UpdateLOG(sMensagem);
+            UpdateLOG(sMensagem);
             Inc(FTotalInconsistencias,1);
             dVerba := 0;
           end;
