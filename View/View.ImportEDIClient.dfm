@@ -733,7 +733,8 @@
       Properties.Items.Strings = (
         'Selecione ...'
         'Entregas'
-        'Baixas')
+        'Baixas'
+        'Tracking')
       Properties.OnChange = tipoPropertiesChange
       Style.HotTrack = False
       TabOrder = 1

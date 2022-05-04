@@ -15,6 +15,8 @@ type
     function Save(): boolean;
     function SetupClass(): boolean;
     function GetID(): integer;
+
+    property Veiculos : TModelSisGeFVehiclesRegistration read FVeiculos write FVeiculos;
   end;
 
 implementation

@@ -6,7 +6,8 @@ uses
   System.Classes, Control.Entregas, Control.PlanilhaEntradaTFO, System.SysUtils, System.DateUtils, Control.VerbasExpressas,
   Control.Bases, Control.EntregadoresExpressas, Generics.Collections, System.StrUtils, Control.PlanilhaEntradaDIRECT,
   Control.PlanilhaEntradaSimExpress, Control.ControleAWB, Control.PlanilhaBaixasTFO, Control.PlanilhaBaixasDIRECT,
-  Control.PlanilhaEntradaRedeForte, Control.PlanilhaEntradaENGLOBA;
+  Control.PlanilhaEntradaRedeForte, Control.PlanilhaEntradaENGLOBA, Controller.SisGeFTrackingExpress,
+  Control.PlanilhaEntradaTracking, Common.Utils;
 
 type
   Thread_ImportEDIClient = class(TThread)
@@ -32,6 +33,7 @@ type
     FBases: TBasesControl;
     FEntregadores: TEntregadoresExpressasControl;
     FControleAWB : TControleAWBControl;
+    FTracking: TControllerSisGeFTrackingExpress;
 
     procedure UpdateLOG(sMensagem: String);
     procedure ProcessTFO;
@@ -41,6 +43,7 @@ type
     procedure ProcessRF;
     procedure BaixaTFO;
     procedure BaixaDIRECT;
+    procedure TrackingImport;
     function RetornaVerba(aParam: array of variant): double;
     function RetornaAgente(iEntregador: integer): integer;
     function RetornaAgenteDocumento(sChave: String): integer;
@@ -424,6 +427,19 @@ begin
     case FCliente of
       1 : BaixaTFO;
       4 : BaixaDIRECT;
+      else
+        begin
+          sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
+                       ' - Rotina não implementada para este Cliente! Processamento cancelado.';
+          UpdateLOG(sMensagem);
+          FCancelar := True;
+        end;
+    end;
+  end
+  else if FTipoProcesso = 3 then
+  begin
+    case FCliente of
+      4 : TrackingImport;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
@@ -1346,6 +1362,86 @@ begin
   finally
     FBases.Free;
     FVerbas.Free;
+  end;
+end;
+
+procedure Thread_ImportEDIClient.TrackingImport;
+var
+  FPlanilha : TPlanilhaEntradaTrackingController;
+  iTipo, i : integer;
+  sOperacao : string;
+  dPeso: double;
+begin
+  try
+    try
+      FProcesso := True;
+      FCancelar := False;
+      FPlanilha := TPlanilhaEntradaTrackingController.Create;
+      FTracking := TControllerSisGeFTrackingExpress.Create;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
+      UpdateLog(sMensagem);
+      if not FPLanilha.GetPlanilha(FArquivo) then
+      begin
+        UpdateLOG(FPlanilha.Planilha.Mensagem);
+        FCancelar := True;
+        Exit;
+      end;
+      if not FTracking.TruncTable then
+      begin
+        sMensagem := 'Não foi possível limpa a tabela.';
+        UpdateLOG(sMensagem);
+        FCancelar := True;
+        Exit;
+      end;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Iniciando a importação do arquivo ' + FArquivo +
+                '. Aguarde...';
+      UpdateLog(sMensagem);
+      iPos := 0;
+      FTotalRegistros := FPlanilha.Planilha.Planilha.Count;
+      FTotalGravados := 0;
+      FTotalInconsistencias := 0;
+      FProgresso := 0;
+      for i := 0 to Pred(FTotalRegistros) do
+      begin
+        FTracking.Tracking.Data := Now;
+        FTracking.Tracking.Remessa := FPlanilha.Planilha.Planilha[i].Remessa;
+        FTracking.Tracking.AWB := FPlanilha.Planilha.Planilha[i].AWB;
+        FTracking.Tracking.Logradouro := FPlanilha.Planilha.Planilha[i].Endereco;
+        FTracking.Tracking.Bairro := FPlanilha.Planilha.Planilha[i].Bairro;
+        FTracking.Tracking.Cidade := FPlanilha.Planilha.Planilha[i].CidadeUF;
+        FTracking.Tracking.CEP := FPlanilha.Planilha.Planilha[i].CEP;
+        FTracking.Tracking.Telefone1 := FPlanilha.Planilha.Planilha[i].Telefone1;
+        FTracking.Tracking.Telefone2 := FPlanilha.Planilha.Planilha[i].Telefone2;
+        FTracking.Tracking.Telefone3 := FPlanilha.Planilha.Planilha[i].Telefone3;
+        FTracking.Tracking.Complemento := FPlanilha.Planilha.Planilha[i].Complemento;
+        FTracking.Tracking.Acao := tacIncluir;
+        if not FTracking.Save() then
+        begin
+          sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Erro ao gravar a remessa ' +
+          FTracking.Tracking.Remessa + ' !';
+          UpdateLog(sMensagem);
+          Inc(FTotalInconsistencias,1);
+        end
+        else
+        begin
+          Inc(FTotalGravados,1);
+        end;
+      end;
+      iPos := i;
+      FProgresso := (iPos / FTotalRegistros) * 100;
+      if Self.Terminated then Abort;
+      FProcesso := False;
+    Except on E: Exception do
+      begin
+        sMensagem := '>> ** ERROR TRACKING**' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
+        UpdateLog(sMensagem);
+        FProcesso := False;
+        FCancelar := True;
+      end;
+    end;
+  finally
+    FPlanilha.Free;
+    FTracking.Free;
   end;
 end;
 

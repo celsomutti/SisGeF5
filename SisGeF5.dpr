@@ -121,7 +121,7 @@ uses
   Control.PlanilhaBaixasDIRECT in 'Control\Control.PlanilhaBaixasDIRECT.pas',
   Thread.ImportarPlanilhaEntradaDIRECT in 'Thread\Thread.ImportarPlanilhaEntradaDIRECT.pas',
   Control.PlanilhaEntradaDIRECT in 'Control\Control.PlanilhaEntradaDIRECT.pas',
-  Model.PlanilhaEntradaDIRECT in 'Model\Model.PlanilhaEntradaDIRECT.pas',
+  Model.PlanilhaEntradaTracking in 'Model\Model.PlanilhaEntradaTracking.pas',
   DAO.PlanilhaEntradaDIRECT in 'DAO\DAO.PlanilhaEntradaDIRECT.pas',
   Control.Parametros in 'Control\Control.Parametros.pas',
   Model.Parametros in 'Model\Model.Parametros.pas',
@@ -251,7 +251,11 @@ uses
   Model.SisgeFVehiclesRegistration in 'Model\Model.SisgeFVehiclesRegistration.pas',
   View.SisGeFVehiclesRegistration in 'View\View.SisGeFVehiclesRegistration.pas' {view_SisGeFVehiclesRegistration},
   Controller.SisGeFVehiclesRegistration in 'Control\Controller.SisGeFVehiclesRegistration.pas',
-  View.SisGeFVehicleRegistrationDetail in 'View\View.SisGeFVehicleRegistrationDetail.pas' {view_SisGeFVehiclesRegistrationDetail};
+  View.SisGeFVehicleRegistrationDetail in 'View\View.SisGeFVehicleRegistrationDetail.pas' {view_SisGeFVehiclesRegistrationDetail},
+  Model.PlanilhaEntradaDIRECT in 'Model\Model.PlanilhaEntradaDIRECT.pas',
+  Model.SisGeFTrackingExpress in 'Model\Model.SisGeFTrackingExpress.pas',
+  Controller.SisGeFTrackingExpress in 'Control\Controller.SisGeFTrackingExpress.pas',
+  Control.PlanilhaEntradaTracking in 'Control\Control.PlanilhaEntradaTracking.pas';
 
 {$R *.res}
 
