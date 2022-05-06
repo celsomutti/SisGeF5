@@ -1407,6 +1407,7 @@ begin
         FTracking.Tracking.Remessa := FPlanilha.Planilha.Planilha[i].Remessa;
         FTracking.Tracking.AWB := FPlanilha.Planilha.Planilha[i].AWB;
         FTracking.Tracking.Logradouro := FPlanilha.Planilha.Planilha[i].Endereco;
+        FTracking.Tracking.Numero := FPlanilha.Planilha.Planilha[i].Numero;
         FTracking.Tracking.Bairro := FPlanilha.Planilha.Planilha[i].Bairro;
         FTracking.Tracking.Cidade := FPlanilha.Planilha.Planilha[i].CidadeUF;
         FTracking.Tracking.CEP := FPlanilha.Planilha.Planilha[i].CEP;
