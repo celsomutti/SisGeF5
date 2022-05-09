@@ -16,6 +16,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
   OldCreateOrder = False
   Position = poMainFormCenter
   ShowHint = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl
@@ -28,10 +29,6 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitLeft = 408
-    ExplicitTop = 192
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object pessoa: TcxImageComboBox
       Left = 78
       Top = 28

@@ -98,19 +98,36 @@ type
     dxLayoutItem34: TdxLayoutItem;
     labelMessage: TcxLabel;
     dxLayoutItem35: TdxLayoutItem;
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
+    procedure StartForm;
   public
     { Public declarations }
   end;
 
 var
   view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDetail;
+  FVehicle : TControllerSisGeFVehiclesRegistration;
+  FCEP: TAPICEPController;
+  FCNPJ: TAPICNPJController;
 
 implementation
 
 {$R *.dfm}
 
 uses Data.SisGeF;
+
+{ Tview_SisGeFVehiclesRegistrationDetail }
+
+procedure Tview_SisGeFVehiclesRegistrationDetail.FormShow(Sender: TObject);
+begin
+  StartForm;
+end;
+
+procedure Tview_SisGeFVehiclesRegistrationDetail.StartForm;
+begin
+  FVehicle := TControllerSisGeFVehiclesRegistration.Create;
+end;
 
 end.

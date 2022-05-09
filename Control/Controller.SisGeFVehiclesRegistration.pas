@@ -5,7 +5,7 @@ interface
 uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Control.Sistema, Model.SisgeFVehiclesRegistration;
 
 type
-  ControllerSisGeFVehiclesRegistration = class
+  TControllerSisGeFVehiclesRegistration = class
   private
     FVeiculos : TModelSisGeFVehiclesRegistration;
   public
@@ -21,35 +21,35 @@ type
 
 implementation
 
-{ ControllerSisGeFVehiclesRegistration }
+{ TControllerSisGeFVehiclesRegistration }
 
-constructor ControllerSisGeFVehiclesRegistration.Create;
+constructor TControllerSisGeFVehiclesRegistration.Create;
 begin
   FVeiculos := TModelSisGeFVehiclesRegistration.Create;
 end;
 
-destructor ControllerSisGeFVehiclesRegistration.Destroy;
+destructor TControllerSisGeFVehiclesRegistration.Destroy;
 begin
   FVeiculos.Free;
   inherited;
 end;
 
-function ControllerSisGeFVehiclesRegistration.GetID: integer;
+function TControllerSisGeFVehiclesRegistration.GetID: integer;
 begin
   Result := FVeiculos.GetID;
 end;
 
-function ControllerSisGeFVehiclesRegistration.Save: boolean;
+function TControllerSisGeFVehiclesRegistration.Save: boolean;
 begin
   Result := FVeiculos.Save;
 end;
 
-function ControllerSisGeFVehiclesRegistration.Search(aParam: array of variant): boolean;
+function TControllerSisGeFVehiclesRegistration.Search(aParam: array of variant): boolean;
 begin
   Result := FVeiculos.Search(aParam);
 end;
 
-function ControllerSisGeFVehiclesRegistration.SetupClass: boolean;
+function TControllerSisGeFVehiclesRegistration.SetupClass: boolean;
 begin
   Result := SetupClass;
 end;

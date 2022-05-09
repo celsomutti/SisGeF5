@@ -29,10 +29,6 @@ object view_SisGeFVehiclesRegistration: Tview_SisGeFVehiclesRegistration
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitLeft = 200
-    ExplicitTop = 184
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object parametro: TcxTextEdit
       Left = 61
       Top = 10
