@@ -12,6 +12,7 @@ type
     constructor Create();
     destructor Destroy(); override;
     function Search(aParam: array of variant): boolean;
+    function SearchVehicle(iIndex: integer; sText, sFilter: String): boolean;
     function Save(): boolean;
     function SetupClass(): boolean;
     function GetID(): integer;
@@ -47,6 +48,11 @@ end;
 function TControllerSisGeFVehiclesRegistration.Search(aParam: array of variant): boolean;
 begin
   Result := FVeiculos.Search(aParam);
+end;
+
+function TControllerSisGeFVehiclesRegistration.SearchVehicle(iIndex: integer; sText, sFilter: String): boolean;
+begin
+  Result := FVeiculos.SearchVehicle(iIndex, sText, sFilter);
 end;
 
 function TControllerSisGeFVehiclesRegistration.SetupClass: boolean;

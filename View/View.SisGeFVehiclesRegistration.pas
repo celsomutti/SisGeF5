@@ -4,60 +4,87 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Controller.SisGeFVehiclesRegistration, cxGraphics, cxControls, cxLookAndFeels,
-  cxLookAndFeelPainters, dxSkinsCore, dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, FireDAC.Stan.Intf,
-  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.Actions, Vcl.ActnList, dxBar, cxContainer, cxEdit, dxLayoutcxEditAdapters,
-  cxMaskEdit, cxDropDownEdit, cxTextEdit, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
-  cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, Common.Utils, Common.ENum, DAO.Conexao;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList, dxSkinsCore, dxSkinsDefaultPainters, cxClasses, dxBar,
+  Vcl.ExtCtrls, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, cxTextEdit, cxLabel, Vcl.Menus,
+  Vcl.StdCtrls, cxButtons, cxMaskEdit, cxDropDownEdit, cxCheckBox, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage,
+  cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
+  cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Stan.StorageBin, Common.Utils, Control.ExtraviosMultas, cxCalendar,
+  cxCurrencyEdit, cxBlobEdit, dxBarBuiltInMenu, cxPC, cxFilterControl, cxDBFilterControl, cxDBLookupComboBox, Common.ENum,
+  Control.EntregadoresExpressas, Global.Parametros, frxClass, cxImageComboBox, cxProgressBar, Controller.APICEP, Controller.APICNPJ,
+  Controller.SisGeFVehiclesRegistration;
 
 type
-  Tview_SisGeFVehiclesRegistration = class(TForm)
-    dxLayoutControl1Group_Root: TdxLayoutGroup;
-    dxLayoutControl1: TdxLayoutControl;
-    memTableListaVeiculos: TFDMemTable;
-    memTableListaVeiculosCOD_VEICULO: TIntegerField;
-    memTableListaVeiculosNUM_CNPJ: TStringField;
-    memTableListaVeiculosNOM_PROPRIETARIO: TStringField;
-    memTableListaVeiculosNUM_RG: TStringField;
-    memTableListaVeiculosCOD_ENTREGADOR: TIntegerField;
-    memTableListaVeiculosDES_RAZAO_SOCIAL: TStringField;
-    memTableListaVeiculosDES_MARCA: TStringField;
-    memTableListaVeiculosDES_MODELO: TStringField;
-    memTableListaVeiculosDES_PLACA: TStringField;
-    memTableListaVeiculosDES_TIPO: TStringField;
-    memTableListaVeiculosNUM_CHASSIS: TStringField;
-    memTableListaVeiculosDES_ANO: TStringField;
-    memTableListaVeiculosDES_COR: TStringField;
-    memTableListaVeiculosNUM_RENAVAN: TStringField;
-    memTableListaVeiculosANO_EXERCICIO_CLRV: TStringField;
+  Tview_SisGeFVehicleRegistration = class(TForm)
     actionListVeiculos: TActionList;
-    actionNew: TAction;
-    actionSearch: TAction;
-    actionEdit: TAction;
-    actionCancel: TAction;
-    actionSave: TAction;
-    actionClose: TAction;
+    actionNovo: TAction;
+    actionEditar: TAction;
+    actionCancelar: TAction;
+    actionFiltro: TAction;
+    actionExportar: TAction;
+    actionFechar: TAction;
     barManager: TdxBarManager;
     barManagerBar1: TdxBar;
+    actionImprimirDeclaracao: TAction;
+    actionImprimirRecibo: TAction;
     dxBarLargeButton1: TdxBarLargeButton;
     dxBarLargeButton2: TdxBarLargeButton;
     dxBarLargeButton3: TdxBarLargeButton;
     dxBarLargeButton4: TdxBarLargeButton;
     dxBarLargeButton5: TdxBarLargeButton;
+    dxBarSubItem1: TdxBarSubItem;
+    dxBarButton1: TdxBarButton;
+    dxBarButton2: TdxBarButton;
     dxBarLargeButton6: TdxBarLargeButton;
-    dxLayoutGroup1: TdxLayoutGroup;
-    parametro: TcxTextEdit;
-    dxLayoutItem1: TdxLayoutItem;
-    campos: TcxComboBox;
-    dxLayoutItem2: TdxLayoutItem;
-    dxLayoutGroup2: TdxLayoutGroup;
+    dxBarSubItem2: TdxBarSubItem;
+    dxBarLargeButton7: TdxBarLargeButton;
+    dxBarLargeButton8: TdxBarLargeButton;
+    dxBarLargeButton9: TdxBarLargeButton;
+    dxBarLargeButton10: TdxBarLargeButton;
+    dxBarLargeButton11: TdxBarLargeButton;
+    actionPesquisar: TAction;
+    memTableVeiculos: TFDMemTable;
+    dsVeiculos: TDataSource;
+    actionPainelGrupos: TAction;
+    pageControlPesquisa: TcxPageControl;
+    tabResultado: TcxTabSheet;
+    gridVeiculos: TcxGrid;
     gridVeiculosDBTableView1: TcxGridDBTableView;
     gridVeiculosLevel1: TcxGridLevel;
-    gridVeiculos: TcxGrid;
-    dxLayoutItem3: TdxLayoutItem;
-    dsVeiculos: TDataSource;
+    tabFiltro: TcxTabSheet;
+    actionFiltrar: TAction;
+    actionCancelarFiltro: TAction;
+    panelFooterFiltro: TPanel;
+    filtroVeiculos: TcxDBFilterControl;
+    actionLimparFiltro: TAction;
+    frxDeclaracao: TfrxReport;
+    dxBarLargeButton12: TdxBarLargeButton;
+    panelPesquisa: TPanel;
+    cxLabel1: TcxLabel;
+    pesquisar: TcxTextEdit;
+    cxButton1: TcxButton;
+    cxLabel2: TcxLabel;
+    comboBoxCampos: TcxComboBox;
+    checkBoxGrupo: TcxCheckBox;
+    dxBarLargeButton13: TdxBarLargeButton;
+    dxBarLargeButton14: TdxBarLargeButton;
+    dxBarLargeButton15: TdxBarLargeButton;
+    memTableVeiculosCOD_VEICULO: TIntegerField;
+    memTableVeiculosNUM_CNPJ: TStringField;
+    memTableVeiculosNOM_PROPRIETARIO: TStringField;
+    memTableVeiculosNUM_RG: TStringField;
+    memTableVeiculosCOD_ENTREGADOR: TIntegerField;
+    memTableVeiculosDES_RAZAO_SOCIAL: TStringField;
+    memTableVeiculosDES_MARCA: TStringField;
+    memTableVeiculosDES_MODELO: TStringField;
+    memTableVeiculosDES_PLACA: TStringField;
+    memTableVeiculosDES_TIPO: TStringField;
+    memTableVeiculosNUM_CHASSIS: TStringField;
+    memTableVeiculosDES_ANO: TStringField;
+    memTableVeiculosDES_COR: TStringField;
+    memTableVeiculosNUM_RENAVAN: TStringField;
+    memTableVeiculosANO_EXERCICIO_CLRV: TStringField;
     gridVeiculosDBTableView1COD_VEICULO: TcxGridDBColumn;
     gridVeiculosDBTableView1NUM_CNPJ: TcxGridDBColumn;
     gridVeiculosDBTableView1NOM_PROPRIETARIO: TcxGridDBColumn;
@@ -73,222 +100,299 @@ type
     gridVeiculosDBTableView1DES_COR: TcxGridDBColumn;
     gridVeiculosDBTableView1NUM_RENAVAN: TcxGridDBColumn;
     gridVeiculosDBTableView1ANO_EXERCICIO_CLRV: TcxGridDBColumn;
-    actionExpand: TAction;
-    actionRetract: TAction;
-    actionGroupPanel: TAction;
-    actionExport: TAction;
-    dxBarLargeButton7: TdxBarLargeButton;
-    procedure actionCloseExecute(Sender: TObject);
+    procedure actionFecharExecute(Sender: TObject);
+    procedure actionPainelGruposExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionPesquisarExecute(Sender: TObject);
+    procedure actionFiltroExecute(Sender: TObject);
+    procedure actionFiltrarExecute(Sender: TObject);
+    procedure actionLimparFiltroExecute(Sender: TObject);
+    procedure actionCancelarFiltroExecute(Sender: TObject);
+    procedure actionCancelarExecute(Sender: TObject);
+    procedure dsVeiculosStateChange(Sender: TObject);
+    procedure memTableVeiculosAfterClose(DataSet: TDataSet);
     procedure FormShow(Sender: TObject);
-    procedure actionSearchExecute(Sender: TObject);
-    procedure actionCancelExecute(Sender: TObject);
+    procedure actionEditarExecute(Sender: TObject);
+    procedure actionNovoExecute(Sender: TObject);
+    procedure gridVeiculosDBTableView1CellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+      AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+    procedure actionExportarExecute(Sender: TObject);
+    procedure pageControlPesquisaChange(Sender: TObject);
+    procedure gridVeiculosDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
   private
     { Private declarations }
-    procedure Mode;
-    procedure Search(sFilter: string);
-    procedure CancelOperation;
+    function Formulafilro(iIndex: integer; sTexto: string): boolean;
+    procedure MostraFiltro;
+    procedure Filtro;
+    procedure CancelarPesquisa;
+    procedure CancelaFiltro;
     procedure StartForm;
-    procedure EndingForm;
-    function FormulateFilter(sText: string): string;
+    procedure MostraCadastro(FAcao: TAcao; iNumero: integer);
+    procedure InsertData;
+    procedure EditData;
+    procedure Exportar;
+    function ConfirmPassword(): boolean;
   public
     { Public declarations }
-    FView: String;
   end;
 
 var
-  view_SisGeFVehiclesRegistration: Tview_SisGeFVehiclesRegistration;
-  FAcao: TAcao;
+  view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration;
 
 implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, View.SisGeFConfirmPassword, View.SisGeFVehicleRegistrationDetail;
 
-procedure Tview_SisGeFVehiclesRegistration.actionCancelExecute(Sender: TObject);
+procedure Tview_SisGeFVehicleRegistration.actionCancelarExecute(Sender: TObject);
 begin
-  CancelOperation;
+  CancelarPesquisa;
 end;
 
-procedure Tview_SisGeFVehiclesRegistration.actionCloseExecute(Sender: TObject);
+procedure Tview_SisGeFVehicleRegistration.actionCancelarFiltroExecute(Sender: TObject);
+begin
+  CancelaFiltro;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.actionEditarExecute(Sender: TObject);
+begin
+  EditData;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.actionExportarExecute(Sender: TObject);
+begin
+  Exportar;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.actionFecharExecute(Sender: TObject);
 begin
   Close;
 end;
 
-procedure Tview_SisGeFVehiclesRegistration.actionSearchExecute(Sender: TObject);
+procedure Tview_SisGeFVehicleRegistration.actionFiltrarExecute(Sender: TObject);
 begin
-  Search(FormulateFilter(parametro.Text));
+  Filtro;
 end;
 
-procedure Tview_SisGeFVehiclesRegistration.CancelOperation;
+procedure Tview_SisGeFVehicleRegistration.actionFiltroExecute(Sender: TObject);
 begin
-  parametro.Clear;
-  memTableListaVeiculos.Active := False;
-  FAcao := tacIndefinido;
-  Mode;
+  MostraFiltro;
 end;
 
-procedure Tview_SisGeFVehiclesRegistration.EndingForm;
+procedure Tview_SisGeFVehicleRegistration.actionLimparFiltroExecute(Sender: TObject);
 begin
-  memTableListaVeiculos.Active := False;
+  filtroVeiculos.Clear;
 end;
 
-procedure Tview_SisGeFVehiclesRegistration.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure Tview_SisGeFVehicleRegistration.actionNovoExecute(Sender: TObject);
 begin
-  EndingForm;
-  Action := caFree;
-  view_SisGeFVehiclesRegistration := nil;
+  InsertData;
 end;
 
-procedure Tview_SisGeFVehiclesRegistration.FormShow(Sender: TObject);
+procedure Tview_SisGeFVehicleRegistration.actionPainelGruposExecute(Sender: TObject);
+begin
+  gridVeiculosDBTableView1.OptionsView.GroupByBox := checkBoxGrupo.Checked;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.actionPesquisarExecute(Sender: TObject);
+begin
+  if not Formulafilro(comboBoxCampos.ItemIndex, pesquisar.Text) then
+  begin
+    Application.MessageBox('Nenhum registro encontrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+  end;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.CancelaFiltro;
+begin
+  filtroVeiculos.Clear;
+  pageControlPesquisa.ActivePageIndex := 0;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.CancelarPesquisa;
+begin
+  memTableVeiculos.Active := False;
+  pesquisar.Clear;
+  comboBoxCampos.ItemIndex := 0;
+  filtroVeiculos.Clear;
+end;
+
+function Tview_SisGeFVehicleRegistration.ConfirmPassword: boolean;
+begin
+  Result := False;
+  if not Assigned(view_SisGeFConfirmPassword) then
+    view_SisGeFConfirmPassword := Tview_SisGeFConfirmPassword.Create(Application);
+  Result := (view_SisGeFConfirmPassword.ShowModal = mrOk);
+  FreeAndNil(view_SisGeFConfirmPassword);
+end;
+
+procedure Tview_SisGeFVehicleRegistration.dsVeiculosStateChange(Sender: TObject);
+begin
+  if dsVeiculos.State = dsBrowse then
+  begin
+    actionEditar.Enabled := not memTableVeiculos.IsEmpty;
+    actionCancelar.Enabled := not memTableVeiculos.IsEmpty;
+  end
+end;
+
+procedure Tview_SisGeFVehicleRegistration.EditData;
+begin
+  MostraCadastro(tacAlterar, memTableveiculosCOD_VEICULO.AsInteger);
+end;
+
+procedure Tview_SisGeFVehicleRegistration.Exportar;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if memTableVeiculos.IsEmpty then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if MessageDlg(sMensagem, mtConfirmation, [mbYes,mbNo], 0) = mrNo then Exit
+      end;
+      fnUtil.ExportarDados(gridVeiculos,Data_Sisgef.SaveDialog.FileName);
+    end;
+  finally
+    fnUtil.Free;
+  end;end;
+
+procedure Tview_SisGeFVehicleRegistration.Filtro;
+var
+  FVeiculos: TControllerSisGeFVehiclesRegistration;
+  sFiltro: string;
+begin
+  try
+    FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
+    sFiltro := filtroVeiculos.FilterText;
+    memTableVeiculos.Active := False;
+    if FVeiculos.SearchVehicle(0, '', sFiltro) then
+    begin
+      memTableVeiculos.Data := FVeiculos.Veiculos.Query.Data;
+      FVeiculos.Veiculos.Query.Connection.Connected := False;
+    end;
+    actionFiltro.Enabled := True;
+    pageControlPesquisa.ActivePageIndex := 0;
+  finally
+    FVeiculos.Free;
+  end;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  memTableVeiculos.Active := False;
+  Action:= caFree;
+  view_SisGeFVehicleRegistration := nil;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.FormShow(Sender: TObject);
 begin
   StartForm;
 end;
 
-function Tview_SisGeFVehiclesRegistration.FormulateFilter(sText: string): string;
+function Tview_SisGeFVehicleRegistration.Formulafilro(iIndex: integer; sTexto: string): boolean;
 var
   sMensagem: String;
-  sFiltro: String;
-  fFuncoes : Common.Utils.TUtils;
+  FVeiculos: TControllerSisGeFVehiclesRegistration;
 begin
-  Result := '';
-  sFiltro := '';
-  fFuncoes := Common.Utils.TUtils.Create;
-  if sText = '' then
+  try
+  Result := False;
+  memTableVeiculos.Active := False;
+  FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
+  if sTexto = '' then
   begin
     sMensagem := 'O campo de texto a pesquisar não foi preenchido!. ' +
     'Caso deseje visualizar todos os registros clique OK, porém, esse processo pode ser lento.';
     if Application.MessageBox(PChar(sMensagem), 'Atenção!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
     begin
-      sFiltro := 'NONE';
+      Exit;
     end;
+  end;
+  if FVeiculos.SearchVehicle(iIndex, sTexto, '') then
+  begin
+    memTableVeiculos.Data := FVeiculos.Veiculos.Query.Data;
+    FVeiculos.Veiculos.Query.Connection.Connected := False;
+  end;
+  Result := True;
+  finally
+    FVeiculos.Free;
+  end;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.gridVeiculosDBTableView1CellDblClick(Sender: TcxCustomGridTableView;
+  ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  if memTableVeiculos.IsEmpty then
+    Exit;
+  EditData;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.gridVeiculosDBTableView1NavigatorButtonsButtonClick(Sender: TObject;
+  AButtonIndex: Integer; var ADone: Boolean);
+begin
+  case AButtonIndex of
+    16: gridVeiculosDBTableView1.ViewData.Expand(True);
+    17: gridVeiculosDBTableView1.ViewData.Collapse(True);
+  end;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.InsertData;
+begin
+  MostraCadastro(tacIncluir, 0);
+end;
+
+procedure Tview_SisGeFVehicleRegistration.memTableVeiculosAfterClose(DataSet: TDataSet);
+begin
+  actionEditar.Enabled := False;
+  actionCancelar.Enabled := False;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.MostraCadastro(FAcao: TAcao; iNumero: integer);
+begin
+  if not Assigned(view_SisGeFVehicleRegistration) then
+  begin
+    view_SisGeFVehiclesRegistrationDetail := Tview_SisGeFVehiclesRegistrationDetail.Create(Application);
+  end;
+  if view_SisGeFVehicleRegistration.ShowModal() = mrOk then
+    Application.MessageBox('Dados gravados com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+  FreeAndNil(view_SisGeFVehiclesRegistrationDetail);
+end;
+
+procedure Tview_SisGeFVehicleRegistration.MostraFiltro;
+begin
+  pageControlPesquisa.ActivePageIndex := 1;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.pageControlPesquisaChange(Sender: TObject);
+begin
+  if pageControlPesquisa.ActivePageIndex = 1 then
+  begin
+    actionFiltro.Enabled := False;
+    actionFiltrar.Enabled := True;
+    actionLimparFiltro.Enabled := True;
+    actionCancelarFiltro.Enabled := True;
+    actionCancelar.Enabled := False;
+    actionNovo.Enabled := False;
   end
   else
   begin
-    if campos.ItemIndex = 0 then
-    begin
-      sFiltro := 'nom_proprietario like ' + QuotedStr('%' + sText + '%') +
-                 ' or des_razao_social like ' + QuotedStr('%' + sText + '%') + ' or num_cnpj like ' + QuotedStr('%' + sText + '%') +
-                 ' or des_marca like ' + QuotedStr('%' + sText + '%') + ' or des_modelo like ' + QuotedStr('%' + sText + '%') +
-                 ' or des_placa like ' + QuotedStr('%' + sText + '%') + ' or des_tipo like ' + QuotedStr('%' + sText + '%') +
-                 ' or num_chassis like ' + QuotedStr('%' + sText + '%');
-      if fFuncoes.ENumero(sText) then
-      begin
-        if sText <> '' then
-        begin
-          sFiltro := sFiltro + ' or ';
-        end;
-        sFiltro := sFiltro + 'cod_veiculo like ' + sText  + ' or cod_entregador like ' + sText + ' or num_renavan like ' + sText;
-      end;
-    end
-    else if campos.ItemIndex = 1 then
-    begin
-      sFiltro := 'cod_veiculo like ' + QuotedStr('%' +  sText + '%');
-    end
-    else if campos.ItemIndex = 2 then
-    begin
-      sFiltro := 'num_cnpj like ' + QuotedStr('%' + sText + '%');
-    end
-    else if campos.ItemIndex = 3 then
-    begin
-      sFiltro := 'nom_proprietario like ' + QuotedStr('%' + sText + '%');
-    end
-    else if campos.ItemIndex = 4 then
-    begin
-      sFiltro := 'des_placa like ' + QuotedStr('%' + sText + '%');
-    end
-    else if campos.ItemIndex = 5 then
-    begin
-      sFiltro := 'num_chassis like ' + QuotedStr('%' + sText + '%');
-    end
-    else if campos.ItemIndex = 6 then
-    begin
-      sFiltro := 'num_renavan like ' + QuotedStr('%' + sText + '%');
-    end;
-  end;
-  fFuncoes.Free;
-  Result := sFiltro;
-end;
-
-procedure Tview_SisGeFVehiclesRegistration.Mode;
-begin
-  if FAcao = tacIndefinido then
-  begin
-    actionNew.Enabled := True;
-    actionSearch.Enabled := True;
-    actionEdit.Enabled := False;
-    actionCancel.Enabled := False;
-    actionSave.Enabled := False;
-    actionClose.Enabled := True;
-  end
-  else if FAcao = tacIncluir then
-  begin
-    actionNew.Enabled := False;
-    actionsearch.Enabled := False;
-    actionEdit.Enabled := False;
-    actionCancel.Enabled := True;
-    actionSave.Enabled := True;
-    actionClose.Enabled := False;
-  end
-  else if FAcao = tacAlterar then
-  begin
-    actionNew.Enabled := False;
-    actionsearch.Enabled := False;
-    actionEdit.Enabled := False;
-    actionCancel.Enabled := True;
-    actionSave.Enabled := True;
-    actionClose.Enabled := False;
-  end
-  else if FAcao = tacPesquisa then
-  begin
-    actionNew.Enabled := True;
-    actionSearch.Enabled := True;
-    actionEdit.Enabled := True;
-    actionCancel.Enabled := True;
-    actionSave.Enabled := True;
-    actionClose.Enabled := True;
+    actionFiltro.Enabled := True;
+    actionFiltrar.Enabled := False;
+    actionLimparFiltro.Enabled := False;
+    actionCancelarFiltro.Enabled := False;
+    actionCancelar.Enabled := True;
+    actionNovo.Enabled := True;
   end;
 end;
 
-procedure Tview_SisGeFVehiclesRegistration.Search(sFilter: string);
-var
-  FConnection : TConexao;
-  fQuery : TFDQuery;
+procedure Tview_SisGeFVehicleRegistration.StartForm;
 begin
-  if sFilter = 'NONE' then
-  begin
-    Exit;
-  end;
-  FConnection := TConexao.Create;
-  FQuery := FConnection.ReturnQuery;
-  if memTableListaVeiculos.Active then
-  begin
-    memTableListaVeiculos.Close;
-  end;
-  fQuery.SQL.Clear;
-  fQuery.SQL.Text := 'select * from ' + FView;
-  if not sFilter.IsEmpty then
-  begin
-    fQuery.SQL.Add('where ' + sFilter);
-  end;
-  fQuery.Open();
-  if not fQuery.IsEmpty then
-  begin
-    memTableListaVeiculos.Data := fQuery.Data;
-    gridVeiculos.SetFocus;
-    FAcao := tacPesquisa;
-    Mode;
-  end;
-  FConnection.Free;
-  fQuery.Free;
-end;
-
-procedure Tview_SisGeFVehiclesRegistration.StartForm;
-begin
-  FView := 'viewlistaveiculos';
-  FAcao := tacIndefinido;
-  Mode;
 end;
 
 end.

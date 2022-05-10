@@ -555,8 +555,8 @@
         <DCCReference Include="Model\Model.PlanilhaEntradaSIMExpress.pas"/>
         <DCCReference Include="Thread\Thread.ImportarPedidosSIMExpress.pas"/>
         <DCCReference Include="Control\Control.PlanilhaEntradaSimExpress.pas"/>
-        <DCCReference Include="View\View.ExtraviosSinistrosMultas.pas">
-            <Form>view_ExtraviosSinistrosMultas</Form>
+        <DCCReference Include="View\View.SisGeFVehiclesRegistration.pas">
+            <Form>view_SisGeFVehicleRegistration</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\View.CadastroExtravios.pas">
@@ -583,10 +583,6 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Model\Model.SisgeFVehiclesRegistration.pas"/>
-        <DCCReference Include="View\View.SisGeFVehiclesRegistration.pas">
-            <Form>view_SisGeFVehiclesRegistration</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Control\Controller.SisGeFVehiclesRegistration.pas"/>
         <DCCReference Include="View\View.SisGeFVehicleRegistrationDetail.pas">
             <Form>view_SisGeFVehiclesRegistrationDetail</Form>
@@ -596,6 +592,10 @@
         <DCCReference Include="Model\Model.SisGeFTrackingExpress.pas"/>
         <DCCReference Include="Control\Controller.SisGeFTrackingExpress.pas"/>
         <DCCReference Include="Control\Control.PlanilhaEntradaTracking.pas"/>
+        <DCCReference Include="View\View.ExtraviosSinistrosMultas.pas">
+            <Form>view_ExtraviosSinistrosMultas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -651,10 +651,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Images\logo_150_150.png" Configuration="Release" Class="UWP_DelphiLogo150">
-                    <Platform Name="Win64">
-                        <RemoteDir>Assets\</RemoteDir>
-                        <RemoteName>Logo150x150.png</RemoteName>
+                <DeployFile LocalName="Win32\Release\SisGeF5.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>SisGeF5.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -672,9 +671,10 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Release\SisGeF5.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>SisGeF5.exe</RemoteName>
+                <DeployFile LocalName="Images\logo_150_150.png" Configuration="Release" Class="UWP_DelphiLogo150">
+                    <Platform Name="Win64">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo150x150.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

@@ -239,7 +239,7 @@ uses
   Model.PlanilhaEntradaSIMExpress in 'Model\Model.PlanilhaEntradaSIMExpress.pas',
   Thread.ImportarPedidosSIMExpress in 'Thread\Thread.ImportarPedidosSIMExpress.pas',
   Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas',
-  View.ExtraviosSinistrosMultas in 'View\View.ExtraviosSinistrosMultas.pas' {view_ExtraviosSinistrosMultas},
+  View.SisGeFVehiclesRegistration in 'View\View.SisGeFVehiclesRegistration.pas' {view_SisGeFVehicleRegistration},
   View.CadastroExtravios in 'View\View.CadastroExtravios.pas' {view_CadastroExtravios},
   View.SisGeFConfirmPassword in 'View\View.SisGeFConfirmPassword.pas' {view_SisGeFConfirmPassword},
   Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
@@ -249,13 +249,13 @@ uses
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
   View.SisaGeFAttachDocuments in 'View\View.SisaGeFAttachDocuments.pas' {view_SisgeFAttachDocuments},
   Model.SisgeFVehiclesRegistration in 'Model\Model.SisgeFVehiclesRegistration.pas',
-  View.SisGeFVehiclesRegistration in 'View\View.SisGeFVehiclesRegistration.pas' {view_SisGeFVehiclesRegistration},
   Controller.SisGeFVehiclesRegistration in 'Control\Controller.SisGeFVehiclesRegistration.pas',
   View.SisGeFVehicleRegistrationDetail in 'View\View.SisGeFVehicleRegistrationDetail.pas' {view_SisGeFVehiclesRegistrationDetail},
   Model.PlanilhaEntradaDIRECT in 'Model\Model.PlanilhaEntradaDIRECT.pas',
   Model.SisGeFTrackingExpress in 'Model\Model.SisGeFTrackingExpress.pas',
   Controller.SisGeFTrackingExpress in 'Control\Controller.SisGeFTrackingExpress.pas',
-  Control.PlanilhaEntradaTracking in 'Control\Control.PlanilhaEntradaTracking.pas';
+  Control.PlanilhaEntradaTracking in 'Control\Control.PlanilhaEntradaTracking.pas',
+  View.ExtraviosSinistrosMultas in 'View\View.ExtraviosSinistrosMultas.pas' {view_ExtraviosSinistrosMultas};
 
 {$R *.res}
 

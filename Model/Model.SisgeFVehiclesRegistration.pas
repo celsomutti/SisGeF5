@@ -2,7 +2,7 @@ unit Model.SisgeFVehiclesRegistration;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils;
+uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Common.Utils;
 
 type
   TModelSisGeFVehiclesRegistration = class
@@ -88,6 +88,7 @@ type
     property Acao: TAcao read FAcao write FAcao;
     constructor Create;
     function Search(aParam: array of variant): boolean;
+    function SearchVehicle(iIndex: integer; sText, sFilter: String): boolean;
     function Save(): boolean;
     function SetupClass(): boolean;
     function GetID(): integer;
@@ -261,44 +262,112 @@ begin
   Result := True;
 end;
 
+function TModelSisGeFVehiclesRegistration.SearchVehicle(iIndex: integer; sText, sFilter: String): boolean;
+var
+  sFiltro: String;
+  fFuncoes : Common.Utils.TUtils;
+begin
+  Result := False;
+  sFiltro := '';
+  fFuncoes := Common.Utils.TUtils.Create;
+  if sFilter <> '' then
+  begin
+    sFiltro := sfilter;
+  end
+  else
+  begin
+    if sText <> '' then
+    begin
+      if iIndex = 0 then
+      begin
+        sFiltro := 'NUM_CNPJ like ' + QuotedStr('%' +  sText + '%') + ' or NOM_PROPRIETARIO like ' +
+                   QuotedStr('%' + sText + '%') + ' or NUM_RG like ' + QuotedStr('%' +  sText + '%') +
+                   ' or DES_RAZAO_SOCIAL like ' + QuotedStr('%' + sText + '%') + ' or DES_MARCA ' +
+                   QuotedStr('%' + sText + '%') + ' or DES_MODELO like ' + QuotedStr('%' + sText + '%') +
+                   ' or DES_PLACA like ' + QuotedStr('%' + sText + '%') + ' or DES_TIPO like ' +
+                   QuotedStr('%' + sText + '%') + ' or NUM_CHASSIS like ' + QuotedStr('%' + sText + '%') +
+                   ' or DES_COR like ' + QuotedStr('%' + sText + '%');
+        if fFuncoes.ENumero(sText) then
+        begin
+          if sFiltro <> '' then
+          begin
+            sFiltro := sFiltro + ' or ';
+          end;
+          sFiltro := sFiltro + 'COD_VEICULO like ' + sText + ' or COD_ENTREGADOR like ' + sText +
+          ' or DES_ANO like ' + sText + ' or NUM_RENAVAN like ' + sText + ' or ANO_EXERCICIO_CLRV like '
+          + sText;
+        end;
+      end;
+    end
+    else
+    begin
+      case iIndex of
+        1 : sFiltro := 'COD_VEICULO like ' + sText;
+        2 : sFiltro := 'NUM_CNPJ like ' + QuotedStr('%' +  sText + '%');
+        3 : sFiltro := 'NOM_PROPRIETARIO like ' + QuotedStr('%' +  sText + '%');
+        4 : sFiltro := 'NUM_RG like ' + sText;
+        5 : sFiltro := 'COD_ENTREGADOR like ' + sText;
+        6 : sFiltro := 'DES_RAZAO_SOCIAL like ' + QuotedStr('%' +  sText + '%');
+        7 : sFiltro := 'DES_PLACA like ' + QuotedStr('%' +  sText + '%');
+        8 : sFiltro := 'NUM_RENAVAN like ' + sText;
+      end;
+    end;
+  end;
+  fFuncoes.Free;
+  FQuery := FConexao.ReturnQuery;
+  FQuery.SQL.Add('select * from viewlistaveiculos');
+  if sFiltro <> '' then
+  begin
+    FQuery.SQL.Add('where ' + sFiltro);
+  end;
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    FQuery.Connection.Connected := False;
+    FQuery.Free;
+    Exit;
+  end;
+  Result := True;
+end;
+
 function TModelSisGeFVehiclesRegistration.SetupClass: boolean;
 begin
   Result := False;
   FTipoDoc := FQuery.FieldByName('DES_TIPO_DOC').AsString;
-  FID := FQuery.FieldByName('COD_VEICULO').AsInteger;
-  FDescricaoTelefone1 := FQuery.FieldByName('DES_TELEFONE_1').AsString;
-  FBairroEndereco := FQuery.FieldByName('DES_BAIRRO').AsString;
-  FPai := FQuery.FieldByName('NOM_PAI').AsString;
+  FID := FQuery.FieldByName('COD_VEICULO').Asinteger;
+  FDescricaoTelefone1 := FQuery.FieldByName('DES_TELEFONE_1').Asstring;
+  FBairroEndereco := FQuery.FieldByName('DES_BAIRRO').Asstring;
+  FPai := FQuery.FieldByName('NOM_PAI').Asstring;
   FDataNascimento := FQuery.FieldByName('DAT_NASCIMENTO').AsDateTime;
-  FAnoExercicioCRLVVeiculo := FQuery.FieldByName('ANO_EXERCICIO_CLRV').AsString;
-  FMunicipioPlacaVeiculo := FQuery.FieldByName('NOM_CIDADE_PLACA').AsString;
-  FUFEndereco := FQuery.FieldByName('UF_ENDERECO').AsString;
-  FAnoFabricacaoVeiculo := FQuery.FieldByName('DES_ANO').AsString;
-  FModeloVeiculo := FQuery.FieldByName('DES_MODELO').AsString;
-  FCheckRastreador := FQuery.FieldByName('DOM_RASTREADOR').AsString;
-  FCEPEndereco := FQuery.FieldByName('DES_ENDERECO').AsString;
-  FUFRG := FQuery.FieldByName('UF_RG').AsString;
-  FCPFCNPJ := FQuery.FieldByName('NUM_CNPJ').AsString;
+  FAnoExercicioCRLVVeiculo := FQuery.FieldByName('ANO_EXERCICIO_CLRV').Asstring;
+  FMunicipioPlacaVeiculo := FQuery.FieldByName('NOM_CIDADE_PLACA').Asstring;
+  FUFEndereco := FQuery.FieldByName('UF_ENDERECO').Asstring;
+  FAnoFabricacaoVeiculo := FQuery.FieldByName('DES_ANO').Asstring;
+  FModeloVeiculo := FQuery.FieldByName('DES_MODELO').Asstring;
+  FCheckRastreador := FQuery.FieldByName('DOM_RASTREAMENTO').Asstring;
+  FCEPEndereco := FQuery.FieldByName('NUM_CEP').Asstring;
+  FUFRG := FQuery.FieldByName('UF_RG').Asstring;
+  FCPFCNPJ := FQuery.FieldByName('NUM_CNPJ').Asstring;
   FDataManutencao := FQuery.FieldByName('DAT_MANUTENCAO').AsDateTime;
-  FMarcaVeiculo := FQuery.FieldByName('DES_MARCA').AsString;
-  FIERG := FQuery.FieldByName('NUM_RG').AsString;
-  FNomeProprietario := FQuery.FieldByName('NOM_PROPRIETARIO').AsString;
-  FRenavanVeiculo := FQuery.FieldByName('NUM_RENAVAN').AsString;
-  FPlacaVeiculo := FQuery.FieldByName('DES_PLACA').AsString;
-  FTelefone2 := FQuery.FieldByName('NUM_TELEFONE_2').AsString;
+  FMarcaVeiculo := FQuery.FieldByName('DES_MARCA').Asstring;
+  FIERG := FQuery.FieldByName('NUM_RG').Asstring;
+  FNomeProprietario := FQuery.FieldByName('NOM_PROPRIETARIO').Asstring;
+  FRenavanVeiculo := FQuery.FieldByName('NUM_RENAVAN').Asstring;
+  FPlacaVeiculo := FQuery.FieldByName('DES_PLACA').Asstring;
+  FTelefone2 := FQuery.FieldByName('NUM_TELEFONE_2').Asstring;
   FDataEmissaoRG := FQuery.FieldByName('DAT_EMISSAO_RG').AsDateTime;
-  FNomeUsuario := FQuery.FieldByName('NOM_EXECUTOR').AsString;
-  FTipoVeiculo := FQuery.FieldByName('DES_TIPO').AsString;
-  FTelefone1 := FQuery.FieldByName('NUM_TELEFONE_1').AsString;
-  FCadastro := FQuery.FieldByName('COD_ENTREGADOR').AsInteger;
-  FCidadeEndereco := FQuery.FieldByName('NOM_CIDADE').AsString;
-  FCorVeiculo := FQuery.FieldByName('DES_COR').AsString;
-  FUFPlacaVeiculo := FQuery.FieldByName('NOM_CIDADE_PLACA').AsString;
-  FLogradouroEndereco := FQuery.FieldByName('DES_ENDERECO').AsString;
-  FMae := FQuery.FieldByName('NOM_MAE').AsString;
-  FCheckAbastecimento := FQuery.FieldByName('DOM_ABASTECIMENTO').AsString;
-  FChassisVeiculo := FQuery.FieldByName('NUM_CHASSIS').AsString;
-  FDescricaoTelefone2 := FQuery.FieldByName('DES_TELEFONE_2').AsString;
+  FNomeUsuario := FQuery.FieldByName('NOM_EXECUTOR').Asstring;
+  FTipoVeiculo := FQuery.FieldByName('DES_TIPO').Asstring;
+  FTelefone1 := FQuery.FieldByName('NUM_TELEFONE_1').Asstring;
+  FCadastro := FQuery.FieldByName('COD_ENTREGADOR').Asinteger;
+  FCidadeEndereco := FQuery.FieldByName('NOM_CIDADE').Asstring;
+  FCorVeiculo := FQuery.FieldByName('DES_COR').Asstring;
+  FUFPlacaVeiculo := FQuery.FieldByName('UF_PLACA').Asstring;
+  FLogradouroEndereco := FQuery.FieldByName('DES_ENDERECO').Asstring;
+  FMae := FQuery.FieldByName('NOM_MAE').Asstring;
+  FCheckAbastecimento := FQuery.FieldByName('DOM_ABASTECIMENTO').Asstring;
+  FChassisVeiculo := FQuery.FieldByName('NUM_CHASSIS').Asstring;
+  FDescricaoTelefone2 := FQuery.FieldByName('DES_TELEFONE_2').Asstring;
   Result := True;
 end;
 

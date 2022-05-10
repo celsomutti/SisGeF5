@@ -99,8 +99,10 @@ type
     labelMessage: TcxLabel;
     dxLayoutItem35: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
+
     procedure StartForm;
   public
     { Public declarations }
@@ -119,6 +121,13 @@ implementation
 uses Data.SisGeF;
 
 { Tview_SisGeFVehiclesRegistrationDetail }
+
+procedure Tview_SisGeFVehiclesRegistrationDetail.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FVehicle.Free;
+  Action := caFree;
+  view_SisGeFVehiclesRegistrationDetail := nil;
+end;
 
 procedure Tview_SisGeFVehiclesRegistrationDetail.FormShow(Sender: TObject);
 begin

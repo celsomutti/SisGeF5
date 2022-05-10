@@ -394,11 +394,11 @@ end;
 
 procedure Tview_Main.actCadastroVeículosExecute(Sender: TObject);
 begin
-  if not Assigned(view_SisGeFVehiclesRegistration) then
+  if not Assigned(view_SisGeFVehicleRegistration) then
   begin
-    view_SisGeFVehiclesRegistration := Tview_SisGeFVehiclesRegistration.Create(Application);
+    view_SisGeFVehicleRegistration := Tview_SisGeFVehicleRegistration.Create(Application);
   end;
-  view_SisGeFVehiclesRegistration.Show;
+  view_SisGeFVehicleRegistration.Show;
 end;
 
 procedure Tview_Main.actCalendarioExecute(Sender: TObject);
