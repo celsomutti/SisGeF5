@@ -8,7 +8,7 @@ uses
   Controller.SisGeFVehiclesRegistration, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore,
   dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxTextEdit,
   cxGroupBox, cxRadioGroup, cxMaskEdit, cxDropDownEdit, cxImageComboBox, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxButtonEdit,
-  dxLayoutControlAdapters, Vcl.StdCtrls, cxCheckBox, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons, cxLabel;
+  dxLayoutControlAdapters, Vcl.StdCtrls, cxCheckBox, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons, cxLabel, Vcl.Buttons;
 
 type
   Tview_SisGeFVehiclesRegistrationDetail = class(TForm)
@@ -17,8 +17,6 @@ type
     dxLayoutGroup1: TdxLayoutGroup;
     pessoa: TcxImageComboBox;
     dxLayoutItem2: TdxLayoutItem;
-    cpf: TcxMaskEdit;
-    dxLayoutItem3: TdxLayoutItem;
     nome: TcxTextEdit;
     dxLayoutItem4: TdxLayoutItem;
     dxLayoutGroup2: TdxLayoutGroup;
@@ -98,6 +96,7 @@ type
     dxLayoutItem34: TdxLayoutItem;
     labelMessage: TcxLabel;
     dxLayoutItem35: TdxLayoutItem;
+    SpeedButton1: TSpeedButton;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
