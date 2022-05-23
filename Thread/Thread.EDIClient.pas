@@ -413,6 +413,7 @@ begin
       5 : ProcessSIM;
       6 : ProcessSIM;
       7 : ProcessRF;
+      8 : ProcessEngloba;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
@@ -626,7 +627,8 @@ end;
 procedure Thread_ImportEDIClient.ProcessENGLOBA;
 var
   FPlanilha : TPlanilhaEntradaENGLOBAControl;
-  i: integer;
+  sChaveERP: String;
+  i, iStart, iStop: integer;
 begin
   try
     try
@@ -665,7 +667,13 @@ begin
         end;
         Finalize(aParam);
         SetLength(aParam,3);
-        aParam := ['CHAVECLIENTE', FPlanilha.Planilha.Planilha[i].UltimoMotorista, FCliente];
+        iStart := Pos('[',FPlanilha.Planilha.Planilha[i].UltimoMotorista);
+        iStop := Pos(']',FPlanilha.Planilha.Planilha[i].UltimoMotorista);
+        if iStop > 0 then
+          sChaveERP := Copy(FPlanilha.Planilha.Planilha[i].UltimoMotorista,iStart + 1, iStop + -1)
+        else
+          sChaveERP := '0';
+        aParam := ['CHAVECLIENTE', sChaveERP, FCliente];
         if not FEntregadores.LocalizarExato(aParam) then
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Entregador não encontrado ' +
@@ -761,7 +769,7 @@ begin
       FProcesso := False;
     Except on E: Exception do
       begin
-        sMensagem := '>> ** ERROR SIM EXPRESS **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
+        sMensagem := '>> ** ERROR ENGLOBA **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
         UpdateLog(sMensagem);
         FProcesso := False;
         FCancelar := True;
