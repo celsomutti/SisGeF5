@@ -46,6 +46,7 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
         Height = 351
         Align = alClient
         TabOrder = 0
+        ExplicitLeft = 35
         object gridVeiculosDBTableView1: TcxGridDBTableView
           Navigator.Buttons.OnButtonClick = gridVeiculosDBTableView1NavigatorButtonsButtonClick
           Navigator.Buttons.CustomButtons = <
@@ -421,14 +422,14 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
     Images = Data_Sisgef.imageListOperation_32_32
     Left = 504
     object actionNovo: TAction
-      Category = 'Extravios'
+      Category = 'Veiculos'
       Caption = '&Novo'
       Hint = 'Novo registro'
       ImageIndex = 0
       OnExecute = actionNovoExecute
     end
     object actionEditar: TAction
-      Category = 'Extravios'
+      Category = 'Veiculos'
       Caption = '&Editar'
       Enabled = False
       Hint = 'Editar registro'
@@ -436,7 +437,7 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
       OnExecute = actionEditarExecute
     end
     object actionCancelar: TAction
-      Category = 'Extravios'
+      Category = 'Pesquisar'
       Caption = '&Cancelar'
       Enabled = False
       Hint = 'Cancelar pesquisa'
@@ -444,14 +445,14 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
       OnExecute = actionCancelarExecute
     end
     object actionFiltro: TAction
-      Category = 'Extravios'
+      Category = 'Filtro'
       Caption = 'Fi&ltro'
       Hint = 'Filtrar registros'
       ImageIndex = 11
       OnExecute = actionFiltroExecute
     end
     object actionExportar: TAction
-      Category = 'Extravios'
+      Category = 'Veiculos'
       Caption = 'E&xportar'
       Enabled = False
       Hint = 'Exportar dados da grade'
@@ -459,21 +460,11 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
       OnExecute = actionExportarExecute
     end
     object actionFechar: TAction
-      Category = 'Extravios'
+      Category = 'Veiculos'
       Caption = '&Fechar'
       Hint = 'Fechar a tela'
       ImageIndex = 3
       OnExecute = actionFecharExecute
-    end
-    object actionImprimirDeclaracao: TAction
-      Category = 'Imprimir'
-      Caption = '&Declara'#231#227'o'
-      Hint = 'Imprimir declara'#231#227'o'
-    end
-    object actionImprimirRecibo: TAction
-      Category = 'Imprimir'
-      Caption = '&Recibo'
-      Hint = 'Imprimir recibo'
     end
     object actionPesquisar: TAction
       Category = 'Pesquisar'
@@ -650,12 +641,16 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
       ItemLinks = <>
     end
     object dxBarButton1: TdxBarButton
-      Action = actionImprimirDeclaracao
+      Caption = '&Declara'#231#227'o'
       Category = 0
+      Hint = 'Imprimir declara'#231#227'o'
+      Visible = ivAlways
     end
     object dxBarButton2: TdxBarButton
-      Action = actionImprimirRecibo
+      Caption = '&Recibo'
       Category = 0
+      Hint = 'Imprimir recibo'
+      Visible = ivAlways
     end
     object dxBarLargeButton6: TdxBarLargeButton
       Caption = 'New Button'

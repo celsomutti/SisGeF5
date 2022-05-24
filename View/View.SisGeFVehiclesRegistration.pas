@@ -26,8 +26,6 @@ type
     actionFechar: TAction;
     barManager: TdxBarManager;
     barManagerBar1: TdxBar;
-    actionImprimirDeclaracao: TAction;
-    actionImprimirRecibo: TAction;
     dxBarLargeButton1: TdxBarLargeButton;
     dxBarLargeButton2: TdxBarLargeButton;
     dxBarLargeButton3: TdxBarLargeButton;
@@ -355,11 +353,13 @@ end;
 
 procedure Tview_SisGeFVehicleRegistration.MostraCadastro(FAcao: TAcao; iNumero: integer);
 begin
-  if not Assigned(view_SisGeFVehicleRegistration) then
+  if not Assigned(view_SisGeFVehiclesRegistrationDetail) then
   begin
     view_SisGeFVehiclesRegistrationDetail := Tview_SisGeFVehiclesRegistrationDetail.Create(Application);
   end;
-  if view_SisGeFVehicleRegistration.ShowModal() = mrOk then
+  view_SisGeFVehiclesRegistrationDetail.iID := iNumero;
+  view_SisGeFVehiclesRegistrationDetail.fAcao := FAcao;
+  if view_SisGeFVehiclesRegistrationDetail.ShowModal() = mrOk then
     Application.MessageBox('Dados gravados com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
   FreeAndNil(view_SisGeFVehiclesRegistrationDetail);
 end;

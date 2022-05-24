@@ -51,18 +51,20 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
           Description = 'Jur'#237'dica'
           Value = 'CNPJ'
         end>
+      Properties.OnChange = pessoaPropertiesChange
       Style.HotTrack = False
       TabOrder = 0
       Width = 87
     end
     object nome: TcxTextEdit
-      Left = 207
+      Left = 355
       Top = 28
+      Hint = 'Nome do propriet'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.HotTrack = False
-      TabOrder = 1
-      Width = 435
+      TabOrder = 2
+      Width = 287
     end
     object nascimento: TcxDateEdit
       Left = 712
@@ -71,7 +73,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 2
+      TabOrder = 3
       Width = 76
     end
     object pai: TcxTextEdit
@@ -81,7 +83,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.HotTrack = False
-      TabOrder = 3
+      TabOrder = 4
       Width = 180
     end
     object mae: TcxTextEdit
@@ -91,7 +93,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.HotTrack = False
-      TabOrder = 4
+      TabOrder = 5
       Width = 164
     end
     object rgie: TcxTextEdit
@@ -100,7 +102,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Hint = 'Rg/IE do propriet'#225'rio'
       Properties.MaxLength = 20
       Style.HotTrack = False
-      TabOrder = 5
+      TabOrder = 6
       Width = 74
     end
     object ufrg: TcxComboBox
@@ -110,7 +112,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Properties.DropDownListStyle = lsEditFixedList
       Properties.MaxLength = 2
       Style.HotTrack = False
-      TabOrder = 6
+      TabOrder = 7
       Width = 37
     end
     object emissao: TcxDateEdit
@@ -120,113 +122,115 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 7
+      TabOrder = 8
       Width = 76
     end
-    object cxButtonEdit1: TcxButtonEdit
+    object cep: TcxButtonEdit
       Left = 78
       Top = 112
       Hint = 'CEP do endere'#231'o'
       Properties.Buttons = <
         item
+          Action = actionSearchCEP
           Default = True
-          Kind = bkEllipsis
+          Kind = bkGlyph
         end>
       Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
       Properties.EditMask = '99999\-999;1; '
       Style.HotTrack = False
-      TabOrder = 8
+      TabOrder = 9
       Text = '     -   '
-      Width = 83
+      Width = 99
     end
     object endereco: TcxTextEdit
-      Left = 241
-      Top = 112
+      Left = 257
+      Top = 113
       Hint = 'Endere'#231'o do propriet'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 85
       Style.HotTrack = False
-      TabOrder = 9
-      Width = 319
+      TabOrder = 10
+      Width = 309
     end
     object bairro: TcxTextEdit
-      Left = 603
-      Top = 112
+      Left = 609
+      Top = 113
       Hint = 'Nome do bairro'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.HotTrack = False
-      TabOrder = 10
-      Width = 185
+      TabOrder = 11
+      Width = 179
     end
     object cidade: TcxTextEdit
       Left = 78
-      Top = 139
+      Top = 142
       Hint = 'Cidade do endere'#231'o'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.HotTrack = False
-      TabOrder = 11
-      Width = 202
+      TabOrder = 12
+      Width = 189
     end
     object ufendereco: TcxComboBox
-      Left = 308
-      Top = 139
+      Left = 295
+      Top = 142
       Hint = 'UD do endere'#231'o'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.MaxLength = 2
       Style.HotTrack = False
-      TabOrder = 12
-      Width = 32
+      TabOrder = 13
+      Width = 45
     end
     object descricao1: TcxTextEdit
       Left = 382
-      Top = 139
+      Top = 142
       Hint = 'descri'#231#227'o do telefone 1'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 40
       Style.HotTrack = False
-      TabOrder = 13
+      TabOrder = 14
       Width = 94
     end
     object telefone1: TcxMaskEdit
       Left = 482
-      Top = 139
+      Top = 142
       Hint = 'Telefone 1'
       Properties.EditMask = '!\(99\)9999-9999;1; '
       Style.HotTrack = False
-      TabOrder = 14
+      TabOrder = 15
       Text = '(  )    -    '
       Width = 90
     end
     object descricao2: TcxTextEdit
       Left = 614
-      Top = 139
+      Top = 142
       Hint = 'Descri'#231#227'o do telefone 2'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 40
       Style.HotTrack = False
-      TabOrder = 15
+      TabOrder = 16
       Width = 83
     end
     object telefone2: TcxMaskEdit
       Left = 703
-      Top = 139
+      Top = 142
       Hint = 'Telefone 2'
       Properties.EditMask = '!\(99\)9999-9999;1; '
       Style.HotTrack = False
-      TabOrder = 16
+      TabOrder = 17
       Text = '(  )    -    '
       Width = 85
     end
     object marca: TComboBox
       Left = 78
-      Top = 196
+      Top = 199
       Width = 108
       Height = 21
       Hint = 'Marca do ve'#237'culo'
       MaxLength = 50
-      TabOrder = 17
+      TabOrder = 18
       Items.Strings = (
         'Agrale'
         'Alfa Romeo'
@@ -257,76 +261,76 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object modelo: TcxTextEdit
       Left = 235
-      Top = 196
+      Top = 199
       Hint = 'Modelo do ve'#237'culo'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 50
       Style.HotTrack = False
-      TabOrder = 18
+      TabOrder = 19
       Width = 123
     end
     object placa: TcxTextEdit
       Left = 398
-      Top = 196
+      Top = 199
       Hint = 'Placa do ve'#237'culo'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 7
       Style.HotTrack = False
-      TabOrder = 19
+      TabOrder = 20
       Width = 70
     end
     object cidadePlaca: TcxTextEdit
       Left = 593
-      Top = 196
+      Top = 199
       Hint = 'Cidade da placa'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.HotTrack = False
-      TabOrder = 21
+      TabOrder = 22
       Width = 124
     end
     object ufplaca: TcxComboBox
       Left = 745
-      Top = 196
+      Top = 199
       Hint = 'UF da placa'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.MaxLength = 2
       Style.HotTrack = False
-      TabOrder = 22
+      TabOrder = 23
       Width = 43
     end
     object ano: TcxMaskEdit
       Left = 502
-      Top = 196
+      Top = 199
       Hint = 'Ano de fabrica'#231#227'o'
       Properties.EditMask = '!9999;1; '
       Style.HotTrack = False
-      TabOrder = 20
+      TabOrder = 21
       Text = '    '
       Width = 43
     end
     object renavan: TcxTextEdit
       Left = 78
-      Top = 223
+      Top = 226
       Hint = 'N'#250'mero do RENAVAN'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 25
       Style.HotTrack = False
-      TabOrder = 23
+      TabOrder = 24
       Width = 109
     end
     object chassis: TcxTextEdit
       Left = 238
-      Top = 223
+      Top = 226
       Hint = 'N'#250'mero do chassis'
       Properties.MaxLength = 50
       Style.HotTrack = False
-      TabOrder = 24
+      TabOrder = 25
       Width = 138
     end
     object tipo: TcxComboBox
       Left = 411
-      Top = 223
+      Top = 226
       Hint = 'Tipo de ve'#237'culo'
       Properties.Items.Strings = (
         'Informe ...'
@@ -347,13 +351,13 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
         'QUADRICICLO')
       Properties.MaxLength = 20
       Style.HotTrack = False
-      TabOrder = 25
+      TabOrder = 26
       Text = 'Informe ...'
       Width = 120
     end
     object cor: TcxTextEdit
       Left = 563
-      Top = 223
+      Top = 226
       Hint = 'Cor predominante do ve'#237'culo'
       Properties.LookupItems.Strings = (
         'AMARELA'
@@ -372,38 +376,39 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Properties.LookupItemsSorted = True
       Properties.MaxLength = 20
       Style.HotTrack = False
-      TabOrder = 26
+      TabOrder = 27
       Width = 93
     end
     object licenciamento: TcxMaskEdit
       Left = 738
-      Top = 223
+      Top = 226
+      Hint = 'Licenciamento'
       Properties.EditMask = '!9999;1; '
       Style.HotTrack = False
-      TabOrder = 27
+      TabOrder = 28
       Text = '    '
       Width = 50
     end
     object rastreador: TcxCheckBox
       Left = 595
-      Top = 250
+      Top = 253
       Hint = 'Ve'#237'culo possui rastreador'
       Caption = 'Rastreador'
       Properties.ValueChecked = 'S'
       Properties.ValueUnchecked = 'N'
       Style.HotTrack = False
-      TabOrder = 28
+      TabOrder = 32
       Transparent = True
     end
-    object cxCheckBox1: TcxCheckBox
+    object abastecimento: TcxCheckBox
       Left = 679
-      Top = 250
+      Top = 253
       Hint = 'Ve'#237'culo ter'#225' verba de abastecimento'
       Caption = 'Abastecimemento'
       Properties.ValueChecked = 'S'
       Properties.ValueUnchecked = 'N'
       Style.HotTrack = False
-      TabOrder = 29
+      TabOrder = 33
       Transparent = True
     end
     object cxButton1: TcxButton
@@ -413,7 +418,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Height = 25
       Cursor = crHandPoint
       Action = actionOK
-      TabOrder = 32
+      TabOrder = 36
     end
     object cxButton2: TcxButton
       Left = 725
@@ -422,7 +427,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Height = 25
       Cursor = crHandPoint
       Action = actionCancel
-      TabOrder = 33
+      TabOrder = 37
     end
     object labelOperation: TcxLabel
       Left = 10
@@ -432,11 +437,63 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Transparent = True
     end
     object labelMessage: TcxLabel
-      Left = 393
+      Left = 398
       Top = 305
-      Caption = '-----'
+      Caption = '   '
       Style.HotTrack = False
       Transparent = True
+    end
+    object cpfcnpj: TcxMaskEdit
+      Left = 199
+      Top = 28
+      Properties.IgnoreMaskBlank = True
+      Properties.EditMask = '0##\.###\.###\-##;1; '
+      Style.HotTrack = False
+      TabOrder = 1
+      Text = '   .   .   -  '
+      Width = 114
+    end
+    object id: TcxMaskEdit
+      Left = 480
+      Top = 253
+      Hint = 'ID Ve'#237'culo'
+      TabStop = False
+      Properties.Alignment.Horz = taRightJustify
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      TabOrder = 31
+      Text = '0'
+      Width = 109
+    end
+    object cadastro: TcxButtonEdit
+      Left = 78
+      Top = 253
+      Hint = 'C'#243'digo do cadastro'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+      Style.HotTrack = False
+      TabOrder = 29
+      Text = '0'
+      Width = 75
+    end
+    object nomeCadastro: TcxTextEdit
+      Left = 159
+      Top = 253
+      Hint = 'Nome do cadastro'
+      TabStop = False
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      TabOrder = 30
+      Width = 228
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -473,7 +530,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -491,7 +548,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 76
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutGroup3: TdxLayoutGroup
       Parent = dxLayoutGroup2
@@ -574,9 +631,9 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     object dxLayoutItem10: TdxLayoutItem
       Parent = dxLayoutGroup5
       CaptionOptions.Text = 'CEP:'
-      Control = cxButtonEdit1
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 83
+      Control = cep
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 99
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -630,7 +687,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       CaptionOptions.Text = 'UF:'
       Control = ufendereco
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 32
+      ControlOptions.OriginalWidth = 45
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -847,7 +904,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 78
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 3
     end
     object dxLayoutItem31: TdxLayoutItem
       Parent = dxLayoutGroup10
@@ -855,11 +912,11 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       AlignVert = avCenter
       CaptionOptions.Text = 'cxCheckBox1'
       CaptionOptions.Visible = False
-      Control = cxCheckBox1
+      Control = abastecimento
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 109
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 4
     end
     object dxLayoutGroup11: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -914,7 +971,48 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       CaptionOptions.Visible = False
       Control = labelMessage
       ControlOptions.OriginalHeight = 17
-      ControlOptions.OriginalWidth = 24
+      ControlOptions.OriginalWidth = 13
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem3: TdxLayoutItem
+      Parent = dxLayoutGroup1
+      CaptionOptions.Text = 'CPF:'
+      Control = cpfcnpj
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 114
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem36: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      AlignHorz = ahRight
+      AlignVert = avTop
+      CaptionOptions.Text = 'ID:'
+      Control = id
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 109
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem37: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      CaptionOptions.Text = 'Cadastro:'
+      Control = cadastro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem38: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      AlignHorz = ahLeft
+      AlignVert = avTop
+      CaptionOptions.Text = 'Nome'
+      CaptionOptions.Visible = False
+      Control = nomeCadastro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 228
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -926,11 +1024,23 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Caption = '&OK'
       Hint = 'Gravar os dados'
       ImageIndex = 83
+      OnExecute = actionOKExecute
     end
     object actionCancel: TAction
       Caption = '&Cancelar'
       Hint = 'Cancelar opera'#231#227'o atual'
       ImageIndex = 84
+      OnExecute = actionCancelExecute
+    end
+    object actionSearchCEP: TAction
+      Caption = 'Pesquisa CEP'
+      Hint = 'Pesquisar CEP'
+      ImageIndex = 82
+      OnExecute = actionSearchCEPExecute
+    end
+    object actionPesquisaCadastro: TAction
+      Caption = 'Pesquisa Cadastro'
+      ImageIndex = 14
     end
   end
 end

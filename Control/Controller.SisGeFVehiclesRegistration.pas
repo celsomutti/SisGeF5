@@ -16,6 +16,7 @@ type
     function Save(): boolean;
     function SetupClass(): boolean;
     function GetID(): integer;
+    function ValidateData(): boolean;
 
     property Veiculos : TModelSisGeFVehiclesRegistration read FVeiculos write FVeiculos;
   end;
@@ -57,7 +58,12 @@ end;
 
 function TControllerSisGeFVehiclesRegistration.SetupClass: boolean;
 begin
-  Result := SetupClass;
+  Result := FVeiculos.SetupClass;
+end;
+
+function TControllerSisGeFVehiclesRegistration.ValidateData: boolean;
+begin
+  Result := FVeiculos.ValidateData();
 end;
 
 end.

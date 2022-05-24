@@ -2,7 +2,7 @@ unit Model.SisgeFVehiclesRegistration;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Common.Utils;
+uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Common.Utils, System.DateUtils;
 
 type
   TModelSisGeFVehiclesRegistration = class
@@ -45,6 +45,8 @@ type
     FAcao: TAcao;
     FQuery: TFDQuery;
     FConexao: TConexao;
+    FUtils: Common.Utils.TUtils;
+    FMensagem: string;
     function Insert(): boolean;
     function Update(): boolean;
     function Delete: boolean;
@@ -86,12 +88,14 @@ type
     property DataManutencao: TDateTime read FDataManutencao write FDataManutencao;
     property Query: TFDQuery read FQuery write FQuery;
     property Acao: TAcao read FAcao write FAcao;
+    property Mensagem: string read FMensagem write FMensagem;
     constructor Create;
     function Search(aParam: array of variant): boolean;
     function SearchVehicle(iIndex: integer; sText, sFilter: String): boolean;
     function Save(): boolean;
     function SetupClass(): boolean;
     function GetID(): integer;
+    function ValidateData(): boolean;
   end;
 
   const
@@ -193,6 +197,8 @@ end;
 function TModelSisGeFVehiclesRegistration.Save: boolean;
 begin
   Result := False;
+  if not ValidateData() then
+    eXIT;
   case FAcao of
     tacIncluir: Result := Insert();
     tacAlterar: Result := Update();
@@ -390,6 +396,94 @@ begin
     FDQuery.Connection.Close;
     FDQuery.Free;
   end;
+end;
+
+function TModelSisGeFVehiclesRegistration.ValidateData: boolean;
+var
+  sCampo: string;
+  aParam : array of variant;
+begin
+  Result := False;
+  sCampo := FUtils.DesmontaCPFCNPJ(FCPFCNPJ);
+  SetLength(aParam,2);
+  if not sCampo.IsEmpty then
+  begin
+    if FTipoDoc = 'CPF' then
+    begin
+      if not FUtils.CPF(FCPFCNPJ) then
+      begin
+        FMensagem := 'CPF inválido!';
+        Exit;
+      end
+      else if FTipoDoc = 'CNPJ' then
+      begin
+        FMensagem := 'CNPJ inválido!';
+        Exit;
+      end;
+    end;
+    if FNomeProprietario.IsEmpty then
+    begin
+      FMensagem := 'Informe o nome do proprietário!';
+      Exit;
+    end;
+  end;
+  if FDataNascimento <> 0 then
+  begin
+    if YearsBetween(Now, FDataNascimento) < 18 then
+    begin
+      FMensagem := 'Data de nascimento do proprietário inválida!';
+      Exit;
+    end;
+  end;
+  if not FIERG.IsEmpty then
+  begin
+    if FTipoDoc = 'CPF' then
+    begin
+      if FUFRG.IsEmpty then
+      begin
+        FMensagem := 'Informe a sigla do estado do RG!';
+        Exit;
+      end;
+      if FDataEmissaoRG = 0 then
+      begin
+        FMensagem := 'Informe a data de emnissão do RG!';
+        Exit;
+      end;
+    end;
+  end;
+  aParam := ['PLACA', FPlacaVeiculo];
+  if Search(aParam) then
+  begin
+    if FAcao = tacIncluir then
+    begin
+      FMensagem := 'PLACA já cadastrada!';
+      FQuery.Active := False;
+      Exit;
+    end;
+  end;
+  aParam := ['RENAVAN', FRenavanVeiculo];
+  if Search(aParam) then
+  begin
+    if FAcao = tacIncluir then
+    begin
+      FMensagem := 'RENAVAN já cadastrado!';
+      FQuery.Active := False;
+      Exit;
+    end;
+  end;
+  aParam := ['CHASSIS', FChassisVeiculo];
+  if Search(aParam) then
+  begin
+    if FAcao = tacIncluir then
+    begin
+      FMensagem := 'CHASSIS já cadastrado!';
+      FQuery.Active := False;
+      Exit;
+    end;
+  end;
+  FQuery.Connection.Connected := False;
+  Finalize(aParam);
+  Result := True;
 end;
 
 end.
