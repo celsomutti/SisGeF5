@@ -46,7 +46,6 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
         Height = 351
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 35
         object gridVeiculosDBTableView1: TcxGridDBTableView
           Navigator.Buttons.OnButtonClick = gridVeiculosDBTableView1NavigatorButtonsButtonClick
           Navigator.Buttons.CustomButtons = <
@@ -278,6 +277,10 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
     object tabFiltro: TcxTabSheet
       Caption = 'Filtro'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object panelFooterFiltro: TPanel
         AlignWithMargins = True
         Left = 3

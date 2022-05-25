@@ -17,6 +17,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
   Position = poMainFormCenter
   ShowHint = True
   OnClose = FormClose
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -197,10 +198,11 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Left = 482
       Top = 142
       Hint = 'Telefone 1'
-      Properties.EditMask = '!\(99\)9999-9999;1; '
+      Properties.IgnoreMaskBlank = True
+      Properties.EditMask = '!\(99\)99999-9999;1; '
       Style.HotTrack = False
       TabOrder = 15
-      Text = '(  )    -    '
+      Text = '(  )     -    '
       Width = 90
     end
     object descricao2: TcxTextEdit
@@ -217,10 +219,11 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Left = 703
       Top = 142
       Hint = 'Telefone 2'
-      Properties.EditMask = '!\(99\)9999-9999;1; '
+      Properties.IgnoreMaskBlank = True
+      Properties.EditMask = '!\(99\)99999-9999;1; '
       Style.HotTrack = False
       TabOrder = 17
-      Text = '(  )    -    '
+      Text = '(  )     -    '
       Width = 85
     end
     object marca: TComboBox
@@ -303,6 +306,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Left = 502
       Top = 199
       Hint = 'Ano de fabrica'#231#227'o'
+      Properties.IgnoreMaskBlank = True
       Properties.EditMask = '!9999;1; '
       Style.HotTrack = False
       TabOrder = 21
@@ -383,6 +387,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Left = 738
       Top = 226
       Hint = 'Licenciamento'
+      Properties.IgnoreMaskBlank = True
       Properties.EditMask = '!9999;1; '
       Style.HotTrack = False
       TabOrder = 28
@@ -391,7 +396,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object rastreador: TcxCheckBox
       Left = 595
-      Top = 253
+      Top = 254
       Hint = 'Ve'#237'culo possui rastreador'
       Caption = 'Rastreador'
       Properties.ValueChecked = 'S'
@@ -402,7 +407,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object abastecimento: TcxCheckBox
       Left = 679
-      Top = 253
+      Top = 254
       Hint = 'Ve'#237'culo ter'#225' verba de abastecimento'
       Caption = 'Abastecimemento'
       Properties.ValueChecked = 'S'
@@ -474,12 +479,15 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
+          Action = actionPesquisaCadastro
           Default = True
-          Kind = bkEllipsis
+          Kind = bkGlyph
         end>
       Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+      Properties.OnValidate = cadastroPropertiesValidate
       Style.HotTrack = False
       TabOrder = 29
       Text = '0'
@@ -999,7 +1007,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       Parent = dxLayoutGroup10
       CaptionOptions.Text = 'Cadastro:'
       Control = cadastro
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 0
@@ -1041,6 +1049,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     object actionPesquisaCadastro: TAction
       Caption = 'Pesquisa Cadastro'
       ImageIndex = 14
+      OnExecute = actionPesquisaCadastroExecute
     end
   end
 end

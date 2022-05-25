@@ -10,7 +10,7 @@ uses
   cxGroupBox, cxRadioGroup, cxMaskEdit, cxDropDownEdit, cxImageComboBox, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxButtonEdit,
   dxLayoutControlAdapters, Vcl.StdCtrls, cxCheckBox, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons, cxLabel, Vcl.Buttons,
   System.StrUtils, Control.Estados, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Control.Cadastro;
 
 type
   Tview_SisGeFVehiclesRegistrationDetail = class(TForm)
@@ -115,6 +115,9 @@ type
     procedure actionOKExecute(Sender: TObject);
     procedure actionCancelExecute(Sender: TObject);
     procedure actionSearchCEPExecute(Sender: TObject);
+    procedure cadastroPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure actionPesquisaCadastroExecute(Sender: TObject);
   private
     { Private declarations }
 
@@ -126,6 +129,8 @@ type
     procedure SetupClass;
     procedure SearchCEP(sCEP: string);
     procedure PopulateUF;
+    procedure SearchPersons;
+    function ReturnNamePerson(iCode: integer): string;
     function Save(): boolean;
   public
     { Public declarations }
@@ -143,7 +148,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.ListaCEPs;
+uses Data.SisGeF, View.ListaCEPs, View.PesquisarPessoas;
 
 { Tview_SisGeFVehiclesRegistrationDetail }
 
@@ -159,9 +164,23 @@ begin
   ModalResult := mrOk;
 end;
 
+procedure Tview_SisGeFVehiclesRegistrationDetail.actionPesquisaCadastroExecute(Sender: TObject);
+begin
+  SearchPersons;
+end;
+
 procedure Tview_SisGeFVehiclesRegistrationDetail.actionSearchCEPExecute(Sender: TObject);
 begin
-  SearchCEP(cep.EditValue);
+  SearchCEP(cep.Text);
+end;
+
+procedure Tview_SisGeFVehiclesRegistrationDetail.cadastroPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if (Facao =  tacIncluir) or (FAcao = tacAlterar) then
+  begin
+    nomeCadastro.Text := ReturnNamePerson(StrToIntDef(cadastro.Text,0));
+  end;
 end;
 
 procedure Tview_SisGeFVehiclesRegistrationDetail.ClearForm;
@@ -183,7 +202,7 @@ begin
   telefone1.Clear;
   descricao2.Clear;
   telefone2.Clear;
-  marca.Clear;
+  marca.ItemIndex := -1;
   modelo.Clear;
   placa.Clear;
   ano.ClearSelection;
@@ -192,13 +211,14 @@ begin
   renavan.Clear;
   chassis.Clear;
   tipo.ItemIndex := 0;
-  cor.Clear;
+  cor.Text := '';
   licenciamento.Clear;
   rastreador.Checked  := False;
   abastecimento.Checked := False;
   id.EditValue := 0;
   nomeCadastro.Clear;
   cadastro.EditValue := '0';
+  nomeCadastro.Clear;
 end;
 
 procedure Tview_SisGeFVehiclesRegistrationDetail.DescriptionOperation;
@@ -216,6 +236,15 @@ procedure Tview_SisGeFVehiclesRegistrationDetail.FormClose(Sender: TObject; var 
 begin
   Action := caFree;
   view_SisGeFVehiclesRegistrationDetail := nil;
+end;
+
+procedure Tview_SisGeFVehiclesRegistrationDetail.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  If Key = #13 then
+  begin
+    Key := #0;
+    Perform(Wm_NextDlgCtl, 0, 0);
+  end;
 end;
 
 procedure Tview_SisGeFVehiclesRegistrationDetail.FormShow(Sender: TObject);
@@ -309,6 +338,8 @@ begin
   rastreador.EditValue := FVehicle.Veiculos.CheckRastreador;
   abastecimento.EditValue := FVehicle.Veiculos.CheckAbastecimento;
   id.EditValue := FVehicle.Veiculos.ID;
+  cadastro.EditValue := FVehicle.Veiculos.Cadastro;
+  nomeCadastro.Text := ReturnNamePerson(StrToIntDef(cadastro.Text,0));
 end;
 
 procedure Tview_SisGeFVehiclesRegistrationDetail.PopulateUF;
@@ -337,6 +368,25 @@ begin
     fdQuery.Active := False;
   finally
     estados.Free;
+  end;
+end;
+
+function Tview_SisGeFVehiclesRegistrationDetail.ReturnNamePerson(iCode: integer): string;
+var
+  cadastro : TCadastroControl;
+  sRetorno: String;
+begin
+  try
+    Result := '';
+    sRetorno := '';
+    cadastro := TCadastroControl.Create;
+    if iCode <> 0 then
+    begin
+      sRetorno := cadastro.GetField('DES_RAZAO_SOCIAL', 'COD_CADASTRO', iCode.ToString)
+    end;
+    Result := sRetorno;
+  finally
+    cadastro.free;
   end;
 end;
 
@@ -386,7 +436,6 @@ begin
           bairro.Text := Data_Sisgef.memTableCEPbairro.AsString;
           cidade.Text := Data_Sisgef.memTableCEPlocalidade.AsString;
           ufendereco.Text := Data_Sisgef.memTableCEPuf.AsString;
-          cep.EditValue := Data_Sisgef.memTableCEPcep.AsString;
         end;
         Data_Sisgef.memTableCEP.Active := False;
         FreeAndNil(view_ListaCEPs);
@@ -398,10 +447,43 @@ begin
       bairro.Text := APICEP.APICEP.Enderecos.Bairro;
       cidade.Text := APICEP.APICEP.Enderecos.Cidade;
       ufendereco.Text := APICEP.APICEP.Enderecos.UF;
-      cep.EditValue := Data_Sisgef.memTableCEPcep.AsString;
     end;
   finally
     APICEP.Free;
+  end;
+end;
+
+procedure Tview_SisGeFVehiclesRegistrationDetail.SearchPersons;
+var
+  sSQL: String;
+  sWhere: String;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
+    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
+    sSQL := 'select COD_CADASTRO as "Código", DES_RAZAO_SOCIAL as Nome, NUM_IE as "CNPJ / CPF", NUM_CNPJ as "CNPJ / CPF" ' +
+            'from tbentregadores ';
+    sWhere := 'where COD_CADASTRO like paraN or DES_RAZAO_SOCIAL like "%param%" or NUM_IE like "%param%" or ' +
+              'NUM_CNPJ like "%param%"';
+    View_PesquisarPessoas.sSQL := sSQL;
+    View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := False;
+    View_PesquisarPessoas.Caption := 'Pesquisa de Tabelas de Verbas';
+    if View_PesquisarPessoas.ShowModal = mrOK then
+    begin
+      cadastro.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+      nomeCadastro.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+    end;
+  finally
+    View_PesquisarPessoas.qryPesquisa.Close;
+    View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
   end;
 end;
 
@@ -421,9 +503,9 @@ begin
   FVehicle.Veiculos.CidadeEndereco := cidade.Text;
   FVehicle.Veiculos.UFEndereco := ufendereco.Text;
   FVehicle.Veiculos.DescricaoTelefone1 := descricao1.Text;
-  FVehicle.Veiculos.Telefone1 := telefone1.EditValue;
+  FVehicle.Veiculos.Telefone1 := telefone1.Text;
   FVehicle.Veiculos.DescricaoTelefone2 := descricao2.Text;
-  FVehicle.Veiculos.Telefone2 := telefone2.EditValue;
+  FVehicle.Veiculos.Telefone2 := telefone2.Text;
   FVehicle.Veiculos.MarcaVeiculo := marca.Text;
   FVehicle.Veiculos.ModeloVeiculo := modelo.Text;
   FVehicle.Veiculos.PlacaVeiculo := placa.Text;
@@ -438,6 +520,7 @@ begin
   FVehicle.Veiculos.CheckRastreador := rastreador.EditValue;
   FVehicle.Veiculos.CheckAbastecimento := abastecimento.EditValue;
   FVehicle.Veiculos.ID := id.EditValue;
+  FVehicle.Veiculos.Cadastro := cadastro.EditValue;
   FVehicle.Veiculos.Acao := FAcao;
 end;
 
