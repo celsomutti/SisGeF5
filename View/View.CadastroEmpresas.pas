@@ -25,8 +25,6 @@ type
     dxLayoutItem2: TdxLayoutItem;
     memTableCadastro: TFDMemTable;
     dsCadastro: TDataSource;
-    tipoDoc: TcxDBComboBox;
-    dxLayoutItem3: TdxLayoutItem;
     nomeRazao: TcxDBTextEdit;
     dxLayoutItem4: TdxLayoutItem;
     nomeFantasia: TcxDBTextEdit;
@@ -209,6 +207,10 @@ type
     procedure memTableCadastroAfterPost(DataSet: TDataSet);
     procedure memTableCadastroAfterCancel(DataSet: TDataSet);
     procedure actionPesquisarBancosExecute(Sender: TObject);
+    procedure memTableEnderecosAfterInsert(DataSet: TDataSet);
+    procedure memTableContatosAfterInsert(DataSet: TDataSet);
+    procedure memTableFinanceiroAfterInsert(DataSet: TDataSet);
+    procedure memTableCNAEAfterInsert(DataSet: TDataSet);
   private
     { Private declarations }
     procedure StartForm;
@@ -388,6 +390,7 @@ begin
     actionFechar.Enabled := True;
     actionConsultaCNPJ.Enabled := True;
     cnpjEmpresa.Properties.ReadOnly := False;
+    memTableCadastrocod_status.AsInteger := 1;
     facao := tacIncluir;
   end;
 end;
@@ -574,6 +577,11 @@ begin
     Abort;
 end;
 
+procedure Tview_CadastroEmpresas.memTableCNAEAfterInsert(DataSet: TDataSet);
+begin
+  memTableCNAEcod_empresa.AsInteger := memTableCadastrocod_empresa.AsInteger;
+end;
+
 procedure Tview_CadastroEmpresas.memTableCNAEBeforeDelete(DataSet: TDataSet);
 begin
   if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
@@ -590,6 +598,11 @@ procedure Tview_CadastroEmpresas.memTableCNAEBeforeInsert(DataSet: TDataSet);
 begin
   if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
     Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableContatosAfterInsert(DataSet: TDataSet);
+begin
+  memTableContatoscod_empresa.AsInteger := memTableCadastrocod_empresa.AsInteger;
 end;
 
 procedure Tview_CadastroEmpresas.memTableContatosBeforeDelete(DataSet: TDataSet);
@@ -610,6 +623,11 @@ begin
     Abort;
 end;
 
+procedure Tview_CadastroEmpresas.memTableEnderecosAfterInsert(DataSet: TDataSet);
+begin
+  memTableCadastrocod_empresa.AsInteger := memTableCadastrocod_empresa.AsInteger;
+end;
+
 procedure Tview_CadastroEmpresas.memTableEnderecosBeforeDelete(DataSet: TDataSet);
 begin
   if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
@@ -626,6 +644,11 @@ procedure Tview_CadastroEmpresas.memTableEnderecosBeforeInsert(DataSet: TDataSet
 begin
   if (dsCadastro.State <> dsInsert) and (dsCadastro.State <> dsEdit) then
     Abort;
+end;
+
+procedure Tview_CadastroEmpresas.memTableFinanceiroAfterInsert(DataSet: TDataSet);
+begin
+  memTableFinanceirocod_empresa.AsInteger := memTableCadastrocod_empresa.AsInteger;
 end;
 
 procedure Tview_CadastroEmpresas.memTableFinanceiroBeforeDelete(DataSet: TDataSet);
@@ -732,7 +755,7 @@ begin
       Exit;
     end;
     fcontatos.Contatos.Campos.Cadastro := iCodigo;
-    fcontatos.Contatos.Campos.Sequencia := -1;
+    fcontatos.Contatos.Campos.Sequencia := 0;
     fcontatos.Contatos.Acao := tacExcluir;
     if not fcontatos.Gravar then
     begin
@@ -1001,7 +1024,7 @@ begin
   Result := False;
   if dscadastro.State = dsInsert then
   begin
-    if tipoDoc.Text = 'CPF' then
+    if memTableCadastrodes_tipo_doc.AsString = 'CPF' then
     begin
       if not Common.Utils.TUtils.CPF(cnpjEmpresa.Text) then
       begin
@@ -1010,7 +1033,7 @@ begin
         Exit;
       end;
     end
-    else if tipoDoc.Text = 'CNPJ' then
+    else if memTableCadastrodes_tipo_doc.AsString = 'CNPJ' then
     begin
       if not Common.Utils.TUtils.CNPJ(cnpjEmpresa.Text) then
       begin
@@ -1022,7 +1045,6 @@ begin
     else
     begin
       Application.MessageBox('Informe o tipo de documento!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-      tipoDoc.SetFocus;
       Exit;
     end;
     if CPFCNPJExiste(cnpjEmpresa.Text) then
@@ -1039,7 +1061,7 @@ begin
     nomeRazao.SetFocus;
     Exit;
   end;
-  if tipoDoc.ItemIndex = 2 then
+  if memTableCadastrodes_tipo_doc.AsString = 'CNPJ' then
   begin
     if nomeFantasia.Text = '' then
     begin
@@ -1057,7 +1079,7 @@ begin
       end;
     end;}
   end;
-  if tipoDoc.Text = 'CPF' then
+  if memTableCadastrodes_tipo_doc.AsString = 'CPF' then
   begin
     if dsCadastro.State = dsInsert then
     begin

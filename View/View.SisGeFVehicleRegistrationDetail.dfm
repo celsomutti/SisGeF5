@@ -4,7 +4,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Cadastro de Ve'#237'culos'
-  ClientHeight = 336
+  ClientHeight = 412
   ClientWidth = 810
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -31,12 +31,13 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     Left = 0
     Top = 0
     Width = 810
-    Height = 336
+    Height = 412
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitHeight = 336
     object pessoa: TcxImageComboBox
       Left = 78
       Top = 28
@@ -418,32 +419,25 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object cxButton1: TcxButton
       Left = 644
-      Top = 301
+      Top = 353
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actionOK
-      TabOrder = 36
+      TabOrder = 35
     end
     object cxButton2: TcxButton
       Left = 725
-      Top = 301
+      Top = 353
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actionCancel
-      TabOrder = 37
-    end
-    object labelOperation: TcxLabel
-      Left = 10
-      Top = 305
-      Caption = '-----'
-      Style.HotTrack = False
-      Transparent = True
+      TabOrder = 36
     end
     object labelMessage: TcxLabel
       Left = 398
-      Top = 305
+      Top = 357
       Caption = '   '
       Style.HotTrack = False
       Transparent = True
@@ -503,12 +497,67 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       TabOrder = 30
       Width = 228
     end
+    object dxStatusBar2: TdxStatusBar
+      Left = 10
+      Top = 384
+      Width = 790
+      Height = 18
+      Panels = <
+        item
+          PanelStyleClassName = 'TdxStatusBarContainerPanelStyle'
+          PanelStyle.Container = dxStatusBar2Container0
+          MinWidth = 150
+          Width = 150
+        end
+        item
+          PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+          Fixed = False
+        end
+        item
+          PanelStyleClassName = 'TdxStatusBarKeyboardStatePanelStyle'
+          PanelStyle.CapsLockKeyAppearance.ActiveCaption = 'CAPS'
+          PanelStyle.CapsLockKeyAppearance.InactiveCaption = 'CAPS'
+          PanelStyle.NumLockKeyAppearance.ActiveCaption = 'NUM'
+          PanelStyle.NumLockKeyAppearance.InactiveCaption = 'NUM'
+          PanelStyle.ScrollLockKeyAppearance.ActiveCaption = 'SCRL'
+          PanelStyle.ScrollLockKeyAppearance.InactiveCaption = 'SCRL'
+          PanelStyle.InsertKeyAppearance.ActiveCaption = 'OVR'
+          PanelStyle.InsertKeyAppearance.InactiveCaption = 'INS'
+        end>
+      PaintStyle = stpsUseLookAndFeel
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      object dxStatusBar2Container0: TdxStatusBarContainerControl
+        Left = 0
+        Top = 2
+        Width = 152
+        Height = 16
+        object labelOperation: TcxLabel
+          Left = 0
+          Top = 0
+          Align = alClient
+          Caption = '-----'
+          ParentFont = False
+          Style.Font.Charset = DEFAULT_CHARSET
+          Style.Font.Color = clWindowText
+          Style.Font.Height = -11
+          Style.Font.Name = 'Tahoma'
+          Style.Font.Style = [fsBold]
+          Style.HotTrack = False
+          Style.IsFontAssigned = True
+          Transparent = True
+        end
+      end
+    end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 3
+      ItemIndex = 4
       ShowBorder = False
       Index = -1
     end
@@ -946,7 +995,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 1
     end
     object dxLayoutItem33: TdxLayoutItem
       Parent = dxLayoutGroup11
@@ -958,19 +1007,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 3
-    end
-    object dxLayoutItem34: TdxLayoutItem
-      Parent = dxLayoutGroup11
-      AlignHorz = ahLeft
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxLabel1'
-      CaptionOptions.Visible = False
-      Control = labelOperation
-      ControlOptions.OriginalHeight = 17
-      ControlOptions.OriginalWidth = 24
-      ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 2
     end
     object dxLayoutItem35: TdxLayoutItem
       Parent = dxLayoutGroup11
@@ -981,7 +1018,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       ControlOptions.OriginalHeight = 17
       ControlOptions.OriginalWidth = 13
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = dxLayoutGroup1
@@ -1024,6 +1061,37 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       ControlOptions.ShowBorder = False
       Index = 1
     end
+    object dxLayoutItem39: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      CaptionOptions.Text = 'dxStatusBar2'
+      CaptionOptions.Visible = False
+      Control = dxStatusBar2
+      ControlOptions.OriginalHeight = 18
+      ControlOptions.OriginalWidth = 790
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup12: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ShowBorder = False
+      Index = 4
+    end
+  end
+  object dxStatusBar1: TdxStatusBar
+    Left = 0
+    Top = 22
+    Width = 0
+    Height = 20
+    Panels = <>
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
   end
   object actionListVeiculos: TActionList
     Images = Data_Sisgef.iml_16_16

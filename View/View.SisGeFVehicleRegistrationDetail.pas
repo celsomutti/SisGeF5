@@ -10,7 +10,7 @@ uses
   cxGroupBox, cxRadioGroup, cxMaskEdit, cxDropDownEdit, cxImageComboBox, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxButtonEdit,
   dxLayoutControlAdapters, Vcl.StdCtrls, cxCheckBox, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons, cxLabel, Vcl.Buttons,
   System.StrUtils, Control.Estados, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Control.Cadastro;
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Control.Cadastro, dxStatusBar;
 
 type
   Tview_SisGeFVehiclesRegistrationDetail = class(TForm)
@@ -94,8 +94,6 @@ type
     dxLayoutItem32: TdxLayoutItem;
     cxButton2: TcxButton;
     dxLayoutItem33: TdxLayoutItem;
-    labelOperation: TcxLabel;
-    dxLayoutItem34: TdxLayoutItem;
     labelMessage: TcxLabel;
     dxLayoutItem35: TdxLayoutItem;
     SpeedButton1: TSpeedButton;
@@ -109,6 +107,12 @@ type
     nomeCadastro: TcxTextEdit;
     dxLayoutItem38: TdxLayoutItem;
     actionPesquisaCadastro: TAction;
+    dxStatusBar1: TdxStatusBar;
+    dxStatusBar2: TdxStatusBar;
+    dxLayoutItem39: TdxLayoutItem;
+    dxStatusBar2Container0: TdxStatusBarContainerControl;
+    labelOperation: TcxLabel;
+    dxLayoutGroup12: TdxLayoutGroup;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure pessoaPropertiesChange(Sender: TObject);
@@ -490,6 +494,7 @@ end;
 procedure Tview_SisGeFVehiclesRegistrationDetail.SetupClass;
 begin
   FVehicle.Veiculos.TipoDos := pessoa.EditValue;
+  FVehicle.Veiculos.CPFCNPJ := cpfcnpj.EditValue;
   FVehicle.Veiculos.NomeProprietario := nome.Text;
   FVehicle.Veiculos.DataNascimento := nascimento.Date;
   FVehicle.Veiculos.Pai := pai.Text;
@@ -497,7 +502,7 @@ begin
   FVehicle.Veiculos.IERG := rgie.Text;
   FVehicle.Veiculos.UFRG := ufrg.Text;
   FVehicle.Veiculos.DataEmissaoRG := emissao.Date;
-  FVehicle.Veiculos.CEPEndereco := cep.EditValue;
+  FVehicle.Veiculos.CEPEndereco := cep.text;
   FVehicle.Veiculos.LogradouroEndereco := endereco.Text;
   FVehicle.Veiculos.BairroEndereco := bairro.Text;
   FVehicle.Veiculos.CidadeEndereco := cidade.Text;
@@ -509,14 +514,14 @@ begin
   FVehicle.Veiculos.MarcaVeiculo := marca.Text;
   FVehicle.Veiculos.ModeloVeiculo := modelo.Text;
   FVehicle.Veiculos.PlacaVeiculo := placa.Text;
-  FVehicle.Veiculos.AnoFabricacaoVeiculo := ano.EditValue;
+  FVehicle.Veiculos.AnoFabricacaoVeiculo := ano.Text;
   FVehicle.Veiculos.MunicipioPlacaVeiculo := cidadePlaca.Text;
   FVehicle.Veiculos.UFPlacaVeiculo := ufplaca.Text;
   FVehicle.Veiculos.RenavanVeiculo := renavan.Text;
   FVehicle.Veiculos.ChassisVeiculo := chassis.Text;
   FVehicle.Veiculos.TipoVeiculo := tipo.Text;
   FVehicle.Veiculos.CorVeiculo := cor.Text;
-  FVehicle.Veiculos.AnoExercicioCRLVVeiculo := licenciamento.EditValue;
+  FVehicle.Veiculos.AnoExercicioCRLVVeiculo := licenciamento.Text;
   FVehicle.Veiculos.CheckRastreador := rastreador.EditValue;
   FVehicle.Veiculos.CheckAbastecimento := abastecimento.EditValue;
   FVehicle.Veiculos.ID := id.EditValue;

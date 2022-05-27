@@ -206,7 +206,6 @@ begin
   memTable.First;
   while not memTable.Eof do
   begin
-    //FContatos.Cadastro := memTable.FieldByName('cod_empresa').AsInteger;
     FContatos.Descricao := memTable.FieldByName('des_contato').AsString;
     FContatos.Telefone := memTable.FieldByName('num_telefone').AsString;
     FContatos.EMail := memTable.FieldByName('des_email').AsString;

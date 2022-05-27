@@ -996,6 +996,9 @@ object ViewSisGeFEmployeeRegistration: TViewSisGeFEmployeeRegistration
     end
   end
   object memTableContatos: TFDMemTable
+    BeforeInsert = memTableContatosBeforeInsert
+    BeforeEdit = memTableContatosBeforeEdit
+    BeforeDelete = memTableContatosBeforeDelete
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]

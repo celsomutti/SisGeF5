@@ -70,7 +70,7 @@ begin
     FDQuery := FConexao.ReturnQuery;
     if Self.Sequencia = -1 then
     begin
-      sSQL := 'delete drom ' + TABLENAME + ' ' +
+      sSQL := 'delete from ' + TABLENAME + ' ' +
               'where cod_entregador = :pcod_entregadoro;';
       FDQuery.ExecSQL(sSQL,[Self.ID]);
     end
@@ -135,7 +135,8 @@ function TCadastroContatos.Localizar(aParam: array of variant): Boolean;
 begin
   Result := False;
   FQuery := FConexao.ReturnQuery();
-  if Length(aParam) < 2 then Exit;
+  if Length(aParam) < 2 then
+    Exit;
   FQuery.SQL.Clear;
 
   FQuery.SQL.Add('select * from ' + TABLENAME);

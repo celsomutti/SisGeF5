@@ -138,7 +138,7 @@ end;
 
 procedure Tview_SisGeFPesquisaPessoas.actionPesquisarExecute(Sender: TObject);
 begin
-  PesquisaEntregador(FormulaFilro(buttonEditTextoPesquisar.Text));
+  PesquisaEntregador(FormulaFilro(UpperCase(buttonEditTextoPesquisar.Text)));
 end;
 
 procedure Tview_SisGeFPesquisaPessoas.actionRetrairGridExecute(Sender: TObject);

@@ -277,10 +277,6 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
     object tabFiltro: TcxTabSheet
       Caption = 'Filtro'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object panelFooterFiltro: TPanel
         AlignWithMargins = True
         Left = 3
@@ -449,7 +445,7 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
     end
     object actionFiltro: TAction
       Category = 'Filtro'
-      Caption = 'Fi&ltro'
+      Caption = '&Filtro'
       Hint = 'Filtrar registros'
       ImageIndex = 11
       OnExecute = actionFiltroExecute

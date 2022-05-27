@@ -214,7 +214,7 @@ uses
   Vcl.Styles,
   View.PesquisaRemessas_201040 in 'View\View.PesquisaRemessas_201040.pas' {view_PesquisaRemessas},
   Model.CRMContatosEmpresa in 'Model\Model.CRMContatosEmpresa.pas',
-  Model.CRMEmpresas in 'Model\Model.CRMEmpresas.pas',
+  Model.CRMClientes in 'Model\Model.CRMClientes.pas',
   Model.CRMEnderecosEmpresas in 'Model\Model.CRMEnderecosEmpresas.pas',
   Model.CRMContatos in 'Model\Model.CRMContatos.pas',
   Model.CRMEnderecos in 'Model\Model.CRMEnderecos.pas',
@@ -255,7 +255,8 @@ uses
   Model.SisGeFTrackingExpress in 'Model\Model.SisGeFTrackingExpress.pas',
   Controller.SisGeFTrackingExpress in 'Control\Controller.SisGeFTrackingExpress.pas',
   Control.PlanilhaEntradaTracking in 'Control\Control.PlanilhaEntradaTracking.pas',
-  View.ExtraviosSinistrosMultas in 'View\View.ExtraviosSinistrosMultas.pas' {view_ExtraviosSinistrosMultas};
+  View.ExtraviosSinistrosMultas in 'View\View.ExtraviosSinistrosMultas.pas' {view_ExtraviosSinistrosMultas},
+  Model.CRMEmpresas in 'Model\Model.CRMEmpresas.pas';
 
 {$R *.res}
 

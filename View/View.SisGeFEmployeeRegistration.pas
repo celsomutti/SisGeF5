@@ -156,6 +156,9 @@ type
     procedure actionSearchCEPExecute(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure actionAttachExecute(Sender: TObject);
+    procedure memTableContatosBeforeDelete(DataSet: TDataSet);
+    procedure memTableContatosBeforeEdit(DataSet: TDataSet);
+    procedure memTableContatosBeforeInsert(DataSet: TDataSet);
   private
     { Private declarations }
     procedure StartForm;
@@ -290,7 +293,8 @@ begin
   cidadeLogradouro.Properties.ReadOnly := bValue;
   ufLogradouro.Properties.ReadOnly := bValue;
   referenciaLogradouro.Properties.ReadOnly := bValue;
-  dsContatos.Enabled := not bValue;
+  dsContatos.AutoEdit := not bValue;
+  gridContatosDBTableView1.Navigator.Visible := not bValue;
   formaPagamento.Properties.ReadOnly := bValue;
   tipoConta.Properties.ReadOnly := bValue;
   banco.Properties.ReadOnly := bValue;
@@ -407,6 +411,25 @@ begin
   FContatos := TCadastroContatosControl.Create;
 end;
 
+procedure TViewSisGeFEmployeeRegistration.memTableContatosBeforeDelete(DataSet: TDataSet);
+begin
+  if (FAcao <> tacIncluir) and (FAcao <> tacAlterar) and (memTableContatos.Tag = 0) then
+    Abort;
+end;
+
+procedure TViewSisGeFEmployeeRegistration.memTableContatosBeforeEdit(DataSet: TDataSet);
+begin
+  if (FAcao <> tacIncluir) and (FAcao <> tacAlterar) and (memTableContatos.Tag = 0) then
+    Abort;
+
+end;
+
+procedure TViewSisGeFEmployeeRegistration.memTableContatosBeforeInsert(DataSet: TDataSet);
+begin
+  if (FAcao <> tacIncluir) and (FAcao <> tacAlterar) and (memTableContatos.Tag = 0) then
+    Abort;
+end;
+
 procedure TViewSisGeFEmployeeRegistration.Mode;
 begin
   if FAcao = tacIndefinido then
@@ -453,7 +476,7 @@ begin
     actionEdit.Enabled := True;
     actionAttach.Enabled := True;
     actionCancel.Enabled := True;
-    actionSave.Enabled := True;
+    actionSave.Enabled := False;
     actionCloseForm.Enabled := True;
     statusBar.Panels[0].Text := '';
     BlockUnblockFieldsForm(True);
@@ -468,7 +491,6 @@ var
 begin
   SetLength(aParam, 2);
   aParam := ['ID', iID];
-  memTableContatos.Active := False;
   if FEnderecos.Localizar(aParam) then
   begin
     FEnderecos.SetupClass(FEnderecos.Enderecos.Query);
@@ -510,9 +532,24 @@ begin
   SetLength(aParam, 2);
   aParam := ['ID', iID];
   memTableContatos.Active := False;
+  memTableContatos.Active := True;
   if FContatos.Localizar(aParam) then
   begin
-    memTableContatos.Data := FContatos.Contatos.Query.Data;
+    memTableContatos.Tag := 1;
+    while not FContatos.Contatos.Query.Eof do
+    begin
+      memTableContatos.Insert;
+      memTableContatos.FieldByName('cod_entregador').AsInteger := FContatos.Contatos.Query.FieldByName('cod_entregador').AsInteger;
+      memTableContatos.FieldByName('seq_contato').AsInteger := FContatos.Contatos.Query.FieldByName('seq_contato').AsInteger;
+      memTableContatos.FieldByName('des_contato').AsString := FContatos.Contatos.Query.FieldByName('des_contato').AsString;
+      memTableContatos.FieldByName('num_telefone').AsString := FContatos.Contatos.Query.FieldByName('num_telefone').AsString;
+      memTableContatos.FieldByName('des_email').AsString := FContatos.Contatos.Query.FieldByName('des_email').AsString;
+      memTableContatos.Post;
+      FContatos.Contatos.Query.Next;
+    end;
+    memTableContatos.Tag := 0;
+    if not memTableContatos.IsEmpty then
+      memTableContatos.First
   end;
   Finalize(aParam);
   FContatos.Contatos.Query.Connection.Connected := False;
@@ -628,6 +665,8 @@ begin
   end;
   Application.MessageBox('Dados gravados com sucesso!', 'Gravar', MB_OK + MB_ICONINFORMATION);
   cxPageControl1.ActivePageIndex := 0;
+  FAcao := tacPesquisa;
+  Mode;
 end;
 
 procedure TViewSisGeFEmployeeRegistration.SearchCEP(sCEP: string);

@@ -116,7 +116,7 @@ type
                 ':DES_TELEFONE_1, :NUM_TELEFONE_2, :DES_TELEFONE_2, :COD_ENTREGADOR, :DES_MARCA, :DES_MODELO, :DES_PLACA, ' +
                 ':UF_PLACA, :NOM_CIDADE_PLACA, :DES_TIPO, :NUM_CHASSIS, :DES_ANO, :DES_COR, :NUM_RENAVAN, :ANO_EXERCICIO_CLRV, ' +
                 ':DOM_RASTREAMENTO, :DOM_ABASTECIMENTO, :NOM_EXECUTOR, :DAT_MANUTENCAO); ';
-    SQLUPDATE = 'UPDATE ' + TABLENAME + 'SET COD_VEICULO = :COD_VEICULO, DES_TIPO_DOC = :DES_TIPO_DOC, NUM_CNPJ = :NUM_CNPJ, ' +
+    SQLUPDATE = 'UPDATE ' + TABLENAME + ' SET DES_TIPO_DOC = :DES_TIPO_DOC, NUM_CNPJ = :NUM_CNPJ, ' +
                 'NOM_PROPRIETARIO = :NOM_PROPRIETARIO, DAT_NASCIMENTO = :DAT_NASCIMENTO, NOM_MAE = :NOM_MAE, NOM_PAI = :NOM_PAI, ' +
                 'NUM_RG = :NUM_RG, UF_RG = :UF_RG, DAT_EMISSAO_RG = :DAT_EMISSAO_RG, UF_ENDERECO = :UF_ENDERECO, ' +
                 'NOM_CIDADE = :NOM_CIDADE, DES_ENDERECO = :DES_ENDERECO, NUM_CEP = :NUM_CEP, DES_BAIRRO = :DES_BAIRRO, ' +
@@ -288,7 +288,7 @@ begin
       begin
         sFiltro := 'NUM_CNPJ like ' + QuotedStr('%' +  sText + '%') + ' or NOM_PROPRIETARIO like ' +
                    QuotedStr('%' + sText + '%') + ' or NUM_RG like ' + QuotedStr('%' +  sText + '%') +
-                   ' or DES_RAZAO_SOCIAL like ' + QuotedStr('%' + sText + '%') + ' or DES_MARCA ' +
+                   ' or DES_RAZAO_SOCIAL like ' + QuotedStr('%' + sText + '%') + ' or DES_MARCA like' +
                    QuotedStr('%' + sText + '%') + ' or DES_MODELO like ' + QuotedStr('%' + sText + '%') +
                    ' or DES_PLACA like ' + QuotedStr('%' + sText + '%') + ' or DES_TIPO like ' +
                    QuotedStr('%' + sText + '%') + ' or NUM_CHASSIS like ' + QuotedStr('%' + sText + '%') +
@@ -403,87 +403,92 @@ var
   sCampo: string;
   aParam : array of variant;
 begin
-  Result := False;
-  sCampo := FUtils.DesmontaCPFCNPJ(FCPFCNPJ);
-  SetLength(aParam,2);
-  if not sCampo.IsEmpty then
-  begin
-    if FTipoDoc = 'CPF' then
+  try
+    Result := False;
+    FUtils := Common.Utils.TUtils.Create;
+    sCampo := FUtils.DesmontaCPFCNPJ(FCPFCNPJ);
+    SetLength(aParam,2);
+    if not sCampo.IsEmpty then
     begin
-      if not FUtils.CPF(FCPFCNPJ) then
+      if FTipoDoc = 'CPF' then
       begin
-        FMensagem := 'CPF inválido!';
-        Exit;
-      end
-      else if FTipoDoc = 'CNPJ' then
+        if not FUtils.CPF(FCPFCNPJ) then
+        begin
+          FMensagem := 'CPF inválido!';
+          Exit;
+        end
+        else if FTipoDoc = 'CNPJ' then
+        begin
+          FMensagem := 'CNPJ inválido!';
+          Exit;
+        end;
+      end;
+      if FNomeProprietario.IsEmpty then
       begin
-        FMensagem := 'CNPJ inválido!';
+        FMensagem := 'Informe o nome do proprietário!';
         Exit;
       end;
     end;
-    if FNomeProprietario.IsEmpty then
+    if FDataNascimento <> 0 then
     begin
-      FMensagem := 'Informe o nome do proprietário!';
-      Exit;
-    end;
-  end;
-  if FDataNascimento <> 0 then
-  begin
-    if YearsBetween(Now, FDataNascimento) < 18 then
-    begin
-      FMensagem := 'Data de nascimento do proprietário inválida!';
-      Exit;
-    end;
-  end;
-  if not FIERG.IsEmpty then
-  begin
-    if FTipoDoc = 'CPF' then
-    begin
-      if FUFRG.IsEmpty then
+      if YearsBetween(Now, FDataNascimento) < 18 then
       begin
-        FMensagem := 'Informe a sigla do estado do RG!';
-        Exit;
-      end;
-      if FDataEmissaoRG = 0 then
-      begin
-        FMensagem := 'Informe a data de emnissão do RG!';
+        FMensagem := 'Data de nascimento do proprietário inválida!';
         Exit;
       end;
     end;
-  end;
-  aParam := ['PLACA', FPlacaVeiculo];
-  if Search(aParam) then
-  begin
-    if FAcao = tacIncluir then
+    if not FIERG.IsEmpty then
     begin
-      FMensagem := 'PLACA já cadastrada!';
-      FQuery.Active := False;
-      Exit;
+      if FTipoDoc = 'CPF' then
+      begin
+        if FUFRG.IsEmpty then
+        begin
+          FMensagem := 'Informe a sigla do estado do RG!';
+          Exit;
+        end;
+        if FDataEmissaoRG = 0 then
+        begin
+          FMensagem := 'Informe a data de emnissão do RG!';
+          Exit;
+        end;
+      end;
     end;
-  end;
-  aParam := ['RENAVAN', FRenavanVeiculo];
-  if Search(aParam) then
-  begin
-    if FAcao = tacIncluir then
+    aParam := ['PLACA', FPlacaVeiculo];
+    if Search(aParam) then
     begin
-      FMensagem := 'RENAVAN já cadastrado!';
-      FQuery.Active := False;
-      Exit;
+      if FAcao = tacIncluir then
+      begin
+        FMensagem := 'PLACA já cadastrada!';
+        FQuery.Active := False;
+        Exit;
+      end;
     end;
-  end;
-  aParam := ['CHASSIS', FChassisVeiculo];
-  if Search(aParam) then
-  begin
-    if FAcao = tacIncluir then
+    aParam := ['RENAVAN', FRenavanVeiculo];
+    if Search(aParam) then
     begin
-      FMensagem := 'CHASSIS já cadastrado!';
-      FQuery.Active := False;
-      Exit;
+      if FAcao = tacIncluir then
+      begin
+        FMensagem := 'RENAVAN já cadastrado!';
+        FQuery.Active := False;
+        Exit;
+      end;
     end;
+    aParam := ['CHASSIS', FChassisVeiculo];
+    if Search(aParam) then
+    begin
+      if FAcao = tacIncluir then
+      begin
+        FMensagem := 'CHASSIS já cadastrado!';
+        FQuery.Active := False;
+        Exit;
+      end;
+    end;
+    Result := True;
+  finally
+    FQuery.Connection.Connected := False;
+    Finalize(aParam);
+    FUtils.Free;
   end;
-  FQuery.Connection.Connected := False;
-  Finalize(aParam);
-  Result := True;
 end;
 
 end.

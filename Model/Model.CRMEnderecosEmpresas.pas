@@ -218,8 +218,6 @@ function TCRMEnderecosEmpresas.SaveBatch(memTable: TFDMemTable): Boolean;
   memTable.First;
   while not memTable.Eof do
   begin
-//    FModelEndereco.Cadastro := FModelEndereco.Cadastro;
-    FModelEndereco.Sequencia := GetID(memTable.FieldByName('cod_empresa').AsInteger);
     FModelEndereco.Tipo := memTable.FieldByName('des_tipo').AsString;
     FModelEndereco.Logradouro := memTable.FieldByName('des_logradouro').AsString;
     FModelEndereco.Numero := memTable.FieldByName('num_logradouro').AsString;
