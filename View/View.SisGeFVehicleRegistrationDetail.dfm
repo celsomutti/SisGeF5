@@ -31,13 +31,12 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     Left = 0
     Top = 0
     Width = 810
-    Height = 412
+    Height = 392
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitHeight = 336
     object pessoa: TcxImageComboBox
       Left = 78
       Top = 28
@@ -419,7 +418,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object cxButton1: TcxButton
       Left = 644
-      Top = 353
+      Top = 333
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -428,7 +427,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object cxButton2: TcxButton
       Left = 725
-      Top = 353
+      Top = 333
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -437,7 +436,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object labelMessage: TcxLabel
       Left = 398
-      Top = 357
+      Top = 337
       Caption = '   '
       Style.HotTrack = False
       Transparent = True
@@ -499,7 +498,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object dxStatusBar2: TdxStatusBar
       Left = 10
-      Top = 384
+      Top = 364
       Width = 790
       Height = 18
       Panels = <
@@ -1083,8 +1082,8 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
   end
   object dxStatusBar1: TdxStatusBar
     Left = 0
-    Top = 22
-    Width = 0
+    Top = 392
+    Width = 810
     Height = 20
     Panels = <>
     Font.Charset = DEFAULT_CHARSET

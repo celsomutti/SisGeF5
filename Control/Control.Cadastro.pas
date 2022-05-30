@@ -18,6 +18,7 @@ type
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
     function ValidateData(): boolean;
     function SetupModel(FDCadastro: TFDQuery): Boolean;
+    function SearchEmployee(iIndex: integer; sText, sFilter: String): boolean;
 
     property Cadastro: TCadastro read FCadastro write FCadastro;
 
@@ -60,6 +61,11 @@ end;
 function TCadastroControl.Localizar(aParam: array of variant): Boolean;
 begin
   Result := Fcadastro.Localizar(aParam);
+end;
+
+function TCadastroControl.SearchEmployee(iIndex: integer; sText, sFilter: String): boolean;
+begin
+  Result := FCadastro.SearchEmployee(iIndex, sText, sFilter);
 end;
 
 function TCadastroControl.SetupModel(FDCadastro: TFDQuery): Boolean;

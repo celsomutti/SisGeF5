@@ -140,6 +140,7 @@ type
     { Public declarations }
     iID: integer;
     fAcao: Tacao;
+    fRegistro : Integer;
   end;
 
 var
@@ -221,7 +222,7 @@ begin
   abastecimento.Checked := False;
   id.EditValue := 0;
   nomeCadastro.Clear;
-  cadastro.EditValue := '0';
+  cadastro.EditValue := 0;
   nomeCadastro.Clear;
 end;
 
@@ -264,7 +265,14 @@ begin
     FVehicle := TControllerSisGeFVehiclesRegistration.Create;
     ClearForm;
     SetLength(aParam, 2);
-    aParam := ['ID', iID];
+    if iID <> 0 then
+    begin
+      aParam := ['ID', iID];
+    end
+    else if fRegistro <> 0 then
+    begin
+      aParam := ['CADASTRO', FRegistro];
+    end;
     if FVehicle.Search(aParam) then
     begin
       FVehicle.SetupClass;
@@ -536,11 +544,18 @@ begin
   PopulateUF;
   if FAcao = tacAlterar then
   begin
+    cadastro.Properties.ReadOnly := False;
     LocateVehicle;
   end
   else
   begin
     ClearForm;
+    if FRegistro > 0 then
+    begin
+      cadastro.EditValue := FRegistro;
+      nomeCadastro.Text := ReturnNamePerson(FRegistro);
+      cadastro.Properties.ReadOnly := True;
+    end;
   end;
   cpfcnpj.SetFocus;
 end;

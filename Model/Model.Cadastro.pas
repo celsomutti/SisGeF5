@@ -158,6 +158,7 @@ uses
       function GetField(sField: String; sKey: String; sKeyValue: String): String;
       function SetupModel(FDCadastro: TFDQuery): Boolean;
       function ValidateData(): boolean;
+      function SearchEmployee(iIndex: integer; sText, sFilter: String): boolean;
 
     end;
     const
@@ -376,6 +377,73 @@ begin
   if FQuery.IsEmpty then
   begin
     FQuery.Connection.Close;
+    FQuery.Free;
+    Exit;
+  end;
+  Result := True;
+end;
+
+function TCadastro.SearchEmployee(iIndex: integer; sText, sFilter: String): boolean;
+var
+  sFiltro: String;
+  fFuncoes : Common.Utils.TUtils;
+begin
+  Result := False;
+  sFiltro := '';
+  fFuncoes := Common.Utils.TUtils.Create;
+  if sFilter <> '' then
+  begin
+    sFiltro := sFilter;
+  end
+  else
+  begin
+    if sText <> '' then
+    begin
+      if iIndex = 0 then
+      begin
+        sFiltro := '(des_razao_social like ' + QuotedStr('%' +  sText + '%') + ' or nom_fantasia like ' +
+                 QuotedStr('%' + sText + '%') + ' or num_cnpj like ' + QuotedStr('%' +  sText + '%') +
+                 ' or num_ie like ' + QuotedStr('%' +  sText + '%') + ' or num_iest like ' +
+                 QuotedStr('%' +  sText + '%') + ' or num_cnh like ' + QuotedStr('%' +  sText + '%') +
+                 ' or num_registro_cnh like ' + QuotedStr('%' +  sText + '%');
+        if fFuncoes.ENumero(sText) then
+        begin
+          if sFiltro <> '' then
+          begin
+            sFiltro := sFiltro + ' or ';
+          end;
+          sFiltro := sFiltro + 'cod_cadastro = ' + sText;
+        end;
+        sFiltro := sFiltro + ')';
+      end;
+    end
+    else
+    begin
+      case iIndex of
+        1 : sFiltro := 'num_ie like ' + QuotedStr('%' +  sText + '%');
+        2 : sFiltro := 'num_iest like ' + QuotedStr('%' +  sText + '%');
+        3 : sFiltro := 'num_cnh like ' + QuotedStr('%' +  sText + '%');
+        4 : sFiltro := 'num_registro_cnh like ' + QuotedStr('%' +  sText + '%');
+      end;
+    end;
+  end;
+  fFuncoes.Free;
+  FQuery := FConexao.ReturnQuery;
+  FQuery.SQL.Text := 'select * from view_pesquisafuncionariosv1';
+  if sFiltro <> '' then
+  begin
+    FQuery.Filter := sFiltro;
+    FQuery.Filtered := True;
+  end
+  else
+  begin
+    FQuery.Filtered := False;
+    FQuery.Filter := '';
+  end;
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    FQuery.Connection.Connected := False;
     FQuery.Free;
     Exit;
   end;

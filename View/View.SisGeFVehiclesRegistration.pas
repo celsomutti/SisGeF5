@@ -56,7 +56,6 @@ type
     panelFooterFiltro: TPanel;
     filtroVeiculos: TcxDBFilterControl;
     actionLimparFiltro: TAction;
-    frxDeclaracao: TfrxReport;
     dxBarLargeButton12: TdxBarLargeButton;
     panelPesquisa: TPanel;
     cxLabel1: TcxLabel;

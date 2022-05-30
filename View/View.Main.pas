@@ -387,9 +387,9 @@ end;
 
 procedure Tview_Main.actCadastroFuncionariosExecute(Sender: TObject);
 begin
-  if not Assigned(ViewSisGeFEmployeeRegistration) then
-    ViewSisGeFEmployeeRegistration := TViewSisGeFEmployeeRegistration.Create(Application);
-  ViewSisGeFEmployeeRegistration.Show;
+  if not Assigned(view_SisGeFEmployeeRegistration) then
+    view_SisGeFEmployeeRegistration := Tview_SisGeFEmployeeRegistration.Create(Application);
+  view_SisGeFEmployeeRegistration.Show;
 end;
 
 procedure Tview_Main.actCadastroVeículosExecute(Sender: TObject);

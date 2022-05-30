@@ -299,8 +299,8 @@ begin
           begin
             sFiltro := sFiltro + ' or ';
           end;
-          sFiltro := sFiltro + 'COD_VEICULO like ' + sText + ' or COD_ENTREGADOR like ' + sText +
-          ' or DES_ANO like ' + sText + ' or NUM_RENAVAN like ' + sText + ' or ANO_EXERCICIO_CLRV like '
+          sFiltro := sFiltro + 'COD_VEICULO = ' + sText + ' or COD_ENTREGADOR = ' + sText +
+          ' or DES_ANO = ' + sText + ' or NUM_RENAVAN = ' + sText + ' or ANO_EXERCICIO_CLRV = '
           + sText;
         end;
       end;
