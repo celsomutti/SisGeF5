@@ -95,11 +95,11 @@ begin
     Application.MessageBox('Informe a descrição do contato!', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
   end;
-  if not Common.Utils.TUtils.ValidaEMail(PChar(FContatos.EMail)) then
-  begin
-    Application.MessageBox('Formato de E-Mail inválido!', 'Atenção', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
+//  if not Common.Utils.TUtils.ValidaEMail(PChar(FContatos.EMail)) then
+//  begin
+//    Application.MessageBox('Formato de E-Mail inválido!', 'Atenção', MB_OK + MB_ICONWARNING);
+//    Exit;
+//  end;
   Result := True;
 end;
 

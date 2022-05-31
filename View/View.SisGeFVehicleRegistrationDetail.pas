@@ -153,7 +153,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.ListaCEPs, View.PesquisarPessoas;
+uses Data.SisGeF, View.ListaCEPs, View.PesquisarPessoas, Global.Parametros;
 
 { Tview_SisGeFVehiclesRegistrationDetail }
 
@@ -504,12 +504,14 @@ begin
   FVehicle.Veiculos.TipoDos := pessoa.EditValue;
   FVehicle.Veiculos.CPFCNPJ := cpfcnpj.EditValue;
   FVehicle.Veiculos.NomeProprietario := nome.Text;
-  FVehicle.Veiculos.DataNascimento := nascimento.Date;
+  if nascimento.Text <> '' then
+    FVehicle.Veiculos.DataNascimento := nascimento.Date;
   FVehicle.Veiculos.Pai := pai.Text;
   FVehicle.Veiculos.Mae := mae.Text;
   FVehicle.Veiculos.IERG := rgie.Text;
   FVehicle.Veiculos.UFRG := ufrg.Text;
-  FVehicle.Veiculos.DataEmissaoRG := emissao.Date;
+  if emissao.Text <> '' then
+    FVehicle.Veiculos.DataEmissaoRG := emissao.Date;
   FVehicle.Veiculos.CEPEndereco := cep.text;
   FVehicle.Veiculos.LogradouroEndereco := endereco.Text;
   FVehicle.Veiculos.BairroEndereco := bairro.Text;
@@ -534,6 +536,8 @@ begin
   FVehicle.Veiculos.CheckAbastecimento := abastecimento.EditValue;
   FVehicle.Veiculos.ID := id.EditValue;
   FVehicle.Veiculos.Cadastro := cadastro.EditValue;
+  FVehicle.Veiculos.NomeUsuario := Global.Parametros.pUser_Name;
+  FVehicle.Veiculos.DataManutencao := Now;
   FVehicle.Veiculos.Acao := FAcao;
 end;
 

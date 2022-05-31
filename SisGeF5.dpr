@@ -209,7 +209,7 @@ uses
   Model.EnderecosBases in 'Model\Model.EnderecosBases.pas',
   Control.ContatosBases in 'Control\Control.ContatosBases.pas',
   Model.ContatosBases in 'Model\Model.ContatosBases.pas',
-  View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas},
+  View.CadastroClientes in 'View\View.CadastroClientes.pas' {view_CadastroClientes},
   Vcl.Themes,
   Vcl.Styles,
   View.PesquisaRemessas_201040 in 'View\View.PesquisaRemessas_201040.pas' {view_PesquisaRemessas},
@@ -222,7 +222,7 @@ uses
   Controller.CRMContatosClientes in 'Control\Controller.CRMContatosClientes.pas',
   Controller.CRMClientes in 'Control\Controller.CRMClientes.pas',
   Controller.CRMEnderecosClientes in 'Control\Controller.CRMEnderecosClientes.pas',
-  View.PesquisaEmpresas in 'View\View.PesquisaEmpresas.pas' {view_PesquisaEmpresas},
+  View.PesquisaClientes in 'View\View.PesquisaClientes.pas' {view_PesquisaClientes},
   Model.APICNPJ in 'Model\Model.APICNPJ.pas',
   Model.APICEP in 'Model\Model.APICEP.pas',
   Model.CRMCNAEClientes in 'Model\Model.CRMCNAEClientes.pas',
@@ -266,7 +266,9 @@ uses
   Controller.CRMCNAEEmpresas in 'Control\Controller.CRMCNAEEmpresas.pas',
   View.SisGeFEmployeeRegistration in 'View\View.SisGeFEmployeeRegistration.pas' {view_SisGeFEmployeeRegistration},
   View.SisGeFVehiclesRegistration in 'View\View.SisGeFVehiclesRegistration.pas' {view_SisGeFVehicleRegistration},
-  Controller.CRMContatosEmpresas in 'Control\Controller.CRMContatosEmpresas.pas';
+  Controller.CRMContatosEmpresas in 'Control\Controller.CRMContatosEmpresas.pas',
+  View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas},
+  View.PesquisaEmpresas in 'View\View.PesquisaEmpresas.pas' {view_PesquisaEmpresas};
 
 {$R *.res}
 

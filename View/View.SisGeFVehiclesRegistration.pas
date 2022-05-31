@@ -128,6 +128,7 @@ type
     procedure InsertData;
     procedure EditData;
     procedure Exportar;
+    procedure RefreshGrid(iCode: integer);
     function ConfirmPassword(): boolean;
   public
     { Public declarations }
@@ -135,7 +136,7 @@ type
 
 var
   view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration;
-
+  bFilter: boolean;
 implementation
 
 {$R *.dfm}
@@ -275,6 +276,7 @@ begin
       FVeiculos.Veiculos.Query.Connection.Connected := False;
     end;
     actionFiltro.Enabled := True;
+    bFilter := True;
     pageControlPesquisa.ActivePageIndex := 0;
   finally
     FVeiculos.Free;
@@ -316,6 +318,7 @@ begin
     memTableVeiculos.Data := FVeiculos.Veiculos.Query.Data;
     FVeiculos.Veiculos.Query.Connection.Connected := False;
   end;
+  bFilter := False;
   Result := True;
   finally
     FVeiculos.Free;
@@ -373,21 +376,34 @@ begin
   if pageControlPesquisa.ActivePageIndex = 1 then
   begin
     actionFiltro.Enabled := False;
-    actionFiltrar.Enabled := True;
-    actionLimparFiltro.Enabled := True;
-    actionCancelarFiltro.Enabled := True;
+    actionFiltrar.Visible := True;
+    actionLimparFiltro.Visible := True;
+    actionCancelarFiltro.Visible := True;
     actionCancelar.Enabled := False;
     actionNovo.Enabled := False;
   end
   else
   begin
     actionFiltro.Enabled := True;
-    actionFiltrar.Enabled := False;
-    actionLimparFiltro.Enabled := False;
-    actionCancelarFiltro.Enabled := False;
+    actionFiltrar.Visible := False;
+    actionLimparFiltro.Visible := False;
+    actionCancelarFiltro.Visible := False;
     actionCancelar.Enabled := True;
     actionNovo.Enabled := True;
   end;
+end;
+
+procedure Tview_SisGeFVehicleRegistration.RefreshGrid(iCode: integer);
+begin
+  if bFilter then
+  begin
+    Filtro;
+  end
+  else
+  begin
+    Formulafilro(comboBoxCampos.ItemIndex, pesquisar.Text);
+  end;
+  memTableVeiculos.Locate('COD_VEICULO',iCode, []);
 end;
 
 procedure Tview_SisGeFVehicleRegistration.StartForm;

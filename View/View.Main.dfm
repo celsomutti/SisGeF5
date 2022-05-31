@@ -1958,6 +1958,7 @@
       Category = 'Cadastro'
       Caption = '&Clientes'
       Hint = 'Cadastro de clientes'
+      OnExecute = actCadastroClientesExecute
     end
     object actCadastroVeículos: TAction
       Tag = 501040

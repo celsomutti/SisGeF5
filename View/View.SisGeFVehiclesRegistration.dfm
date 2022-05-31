@@ -480,25 +480,25 @@ object view_SisGeFVehicleRegistration: Tview_SisGeFVehicleRegistration
     object actionFiltrar: TAction
       Category = 'Filtro'
       Caption = 'Aplicar'
-      Enabled = False
       Hint = 'Aplicar filtro'
       ImageIndex = 1
+      Visible = False
       OnExecute = actionFiltrarExecute
     end
     object actionCancelarFiltro: TAction
       Category = 'Filtro'
       Caption = 'Cancelar'
-      Enabled = False
       Hint = 'Cancelar filtro'
       ImageIndex = 19
+      Visible = False
       OnExecute = actionCancelarFiltroExecute
     end
     object actionLimparFiltro: TAction
       Category = 'Filtro'
       Caption = 'Limpar'
-      Enabled = False
       Hint = 'Limpar filtro'
       ImageIndex = 20
+      Visible = False
       OnExecute = actionLimparFiltroExecute
     end
   end

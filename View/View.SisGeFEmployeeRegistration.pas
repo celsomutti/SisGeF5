@@ -65,17 +65,6 @@ type
     dxBarLargeButton13: TdxBarLargeButton;
     dxBarLargeButton14: TdxBarLargeButton;
     dxBarLargeButton15: TdxBarLargeButton;
-    memTableEmployees: TFDQuery;
-    memTableEmployeesCOD_CADASTRO: TIntegerField;
-    memTableEmployeesNUM_CNPJ: TStringField;
-    memTableEmployeesDES_RAZAO_SOCIAL: TStringField;
-    memTableEmployeesNOM_FANTASIA: TStringField;
-    memTableEmployeesNUM_IE: TStringField;
-    memTableEmployeesNUM_IEST: TStringField;
-    memTableEmployeesdes_funcao: TStringField;
-    memTableEmployeesNUM_CNH: TStringField;
-    memTableEmployeesNUM_REGISTRO_CNH: TStringField;
-    memTableEmployeesDES_STATUS: TStringField;
     gridEmployeesDBTableView1COD_CADASTRO: TcxGridDBColumn;
     gridEmployeesDBTableView1NUM_CNPJ: TcxGridDBColumn;
     gridEmployeesDBTableView1DES_RAZAO_SOCIAL: TcxGridDBColumn;
@@ -86,6 +75,18 @@ type
     gridEmployeesDBTableView1NUM_CNH: TcxGridDBColumn;
     gridEmployeesDBTableView1NUM_REGISTRO_CNH: TcxGridDBColumn;
     gridEmployeesDBTableView1DES_STATUS: TcxGridDBColumn;
+    memTableEmployees: TFDMemTable;
+    memTableEmployeesCOD_CADASTRO: TIntegerField;
+    memTableEmployeesDOM_FUNCIONARIO: TStringField;
+    memTableEmployeesNUM_CNPJ: TStringField;
+    memTableEmployeesDES_RAZAO_SOCIAL: TStringField;
+    memTableEmployeesNOM_FANTASIA: TStringField;
+    memTableEmployeesNUM_IE: TStringField;
+    memTableEmployeesNUM_IEST: TStringField;
+    memTableEmployeesdes_funcao: TStringField;
+    memTableEmployeesNUM_CNH: TStringField;
+    memTableEmployeesNUM_REGISTRO_CNH: TStringField;
+    memTableEmployeesDES_STATUS: TStringField;
     procedure actionFecharExecute(Sender: TObject);
     procedure actionPainelGruposExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -117,6 +118,7 @@ type
     procedure InsertData;
     procedure EditData;
     procedure Exportar;
+    procedure RefreshGrid(iCode: integer);
     function ConfirmPassword(): boolean;
   public
     { Public declarations }
@@ -124,7 +126,7 @@ type
 
 var
   view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration;
-
+  bFilter: boolean;
 implementation
 
 {$R *.dfm}
@@ -223,7 +225,7 @@ end;
 
 procedure Tview_SisGeFEmployeeRegistration.EditData;
 begin
-  MostraCadastro(tacAlterar, memTableEmployeesCOD_CADASTRO.AsInteger);
+  MostraCadastro(tacPesquisa, memTableEmployeesCOD_CADASTRO.AsInteger);
 end;
 
 procedure Tview_SisGeFEmployeeRegistration.Exportar;
@@ -263,8 +265,10 @@ begin
       memTableEmployees.Data := FFuncionarios.Cadastro.Query.Data;
       FFuncionarios.Cadastro.Query.Connection.Connected := False;
     end;
+    bFilter := True;
     actionFiltro.Enabled := True;
     pageControlPesquisa.ActivePageIndex := 0;
+    gridEmployees.SetFocus;
   finally
     FFuncionarios.Free;
   end;
@@ -302,9 +306,11 @@ begin
   end;
   if FFuncionarios.SearchEmployee(iIndex, sTexto, '') then
   begin
-    memTableEmployees.Data := FFuncionarios.Cadastro.Query.Data;
+    memTableEmployees.Data := FFuncionarios.Cadastro.Query.Data;;
     FFuncionarios.Cadastro.Query.Connection.Connected := False;
   end;
+  gridEmployees.SetFocus;
+  bFilter := False;
   Result := True;
   finally
     FFuncionarios.Free;
@@ -346,7 +352,10 @@ begin
   view_SisGeFEmployeeRegistrationDetail.iID := iNumero;
   view_SisGeFEmployeeRegistrationDetail.fAcao := FAcao;
   if view_SisGeFEmployeeRegistrationDetail.ShowModal() = mrOk then
-    Application.MessageBox('Dados gravados com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+  begin
+    if FAcao = tacPesquisa then
+      RefreshGrid(iNumero);
+  end;
   FreeAndNil(view_SisGeFEmployeeRegistrationDetail);
 end;
 
@@ -360,21 +369,34 @@ begin
   if pageControlPesquisa.ActivePageIndex = 1 then
   begin
     actionFiltro.Enabled := False;
-    actionFiltrar.Enabled := True;
-    actionLimparFiltro.Enabled := True;
-    actionCancelarFiltro.Enabled := True;
+    actionFiltrar.Visible := True;
+    actionLimparFiltro.Visible := True;
+    actionCancelarFiltro.Visible := True;
     actionCancelar.Enabled := False;
     actionNovo.Enabled := False;
   end
   else
   begin
     actionFiltro.Enabled := True;
-    actionFiltrar.Enabled := False;
-    actionLimparFiltro.Enabled := False;
-    actionCancelarFiltro.Enabled := False;
+    actionFiltrar.Visible := False;
+    actionLimparFiltro.Visible := False;
+    actionCancelarFiltro.Visible := False;
     actionCancelar.Enabled := True;
     actionNovo.Enabled := True;
   end;
+end;
+
+procedure Tview_SisGeFEmployeeRegistration.RefreshGrid(iCode: integer);
+begin
+  if bFilter then
+  begin
+    Filtro;
+  end
+  else
+  begin
+    Formulafilro(comboBoxCampos.ItemIndex, pesquisar.Text);
+  end;
+  memTableEmployees.Locate('COD_CADASTRO',iCode, []);
 end;
 
 procedure Tview_SisGeFEmployeeRegistration.StartForm;

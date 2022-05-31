@@ -3,7 +3,7 @@ unit Model.Cadastro;
 interface
 
 uses
-    Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Common.Utils;
+    Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Common.Utils, System.StrUtils;
 
     type
     TCadastro = class
@@ -385,7 +385,7 @@ end;
 
 function TCadastro.SearchEmployee(iIndex: integer; sText, sFilter: String): boolean;
 var
-  sFiltro: String;
+  sFiltro, sSQL: String;
   fFuncoes : Common.Utils.TUtils;
 begin
   Result := False;
@@ -393,7 +393,7 @@ begin
   fFuncoes := Common.Utils.TUtils.Create;
   if sFilter <> '' then
   begin
-    sFiltro := sFilter;
+    sFiltro := sfilter;
   end
   else
   begin
@@ -401,46 +401,37 @@ begin
     begin
       if iIndex = 0 then
       begin
-        sFiltro := '(des_razao_social like ' + QuotedStr('%' +  sText + '%') + ' or nom_fantasia like ' +
-                 QuotedStr('%' + sText + '%') + ' or num_cnpj like ' + QuotedStr('%' +  sText + '%') +
-                 ' or num_ie like ' + QuotedStr('%' +  sText + '%') + ' or num_iest like ' +
-                 QuotedStr('%' +  sText + '%') + ' or num_cnh like ' + QuotedStr('%' +  sText + '%') +
-                 ' or num_registro_cnh like ' + QuotedStr('%' +  sText + '%');
+        sFiltro := 'NUM_CNPJ like ' + QuotedStr('%' +  sText + '%')  + ' or DES_RAZAO_SOCIAL like ' + QuotedStr('%' + sText + '%') +
+                    ' or NOM_FANTASIA like' + QuotedStr('%' + sText + '%') + ' or des_funcao like ' + QuotedStr('%' + sText + '%') ;
         if fFuncoes.ENumero(sText) then
         begin
           if sFiltro <> '' then
           begin
             sFiltro := sFiltro + ' or ';
           end;
-          sFiltro := sFiltro + 'cod_cadastro = ' + sText;
+          sFiltro := sFiltro + 'COD_CADASTRO like ' + sText + ' or NUM_IE like ' + sText  + ' or NUM_IEST like ' + sText +
+                     ' or NUM_CNH like ' + sText + ' or NUM_REGISTRO_CNH like ' + sText;
         end;
-        sFiltro := sFiltro + ')';
       end;
     end
     else
     begin
       case iIndex of
-        1 : sFiltro := 'num_ie like ' + QuotedStr('%' +  sText + '%');
-        2 : sFiltro := 'num_iest like ' + QuotedStr('%' +  sText + '%');
-        3 : sFiltro := 'num_cnh like ' + QuotedStr('%' +  sText + '%');
-        4 : sFiltro := 'num_registro_cnh like ' + QuotedStr('%' +  sText + '%');
+        1 : sFiltro := 'NUM_IE like ' + sText;
+        2 : sFiltro := 'NUM_IEST like ' + QuotedStr('%' +  sText + '%');
+        3 : sFiltro := 'NUM_CNH like ' + sText;
+        4 : sFiltro := 'NUM_REGISTRO_CNH like ' + QuotedStr('%' +  sText + '%');
       end;
     end;
   end;
   fFuncoes.Free;
   FQuery := FConexao.ReturnQuery;
-  FQuery.SQL.Text := 'select * from view_pesquisafuncionariosv1';
+  sSQL := 'select * from view_pesquisafuncionariosv1';
   if sFiltro <> '' then
   begin
-    FQuery.Filter := sFiltro;
-    FQuery.Filtered := True;
-  end
-  else
-  begin
-    FQuery.Filtered := False;
-    FQuery.Filter := '';
+    ssQL := sSQL + ' where ' +  sFiltro;
   end;
-  FQuery.Open();
+  FQuery.Open(sSQL);
   if FQuery.IsEmpty then
   begin
     FQuery.Connection.Connected := False;

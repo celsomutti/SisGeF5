@@ -258,7 +258,7 @@ end;
 
 procedure Tview_SisGeFEmployeeRegistrationDetail.actionCloseFormExecute(Sender: TObject);
 begin
-  Close;
+  ModalResult := mrCancel;
 end;
 
 procedure Tview_SisGeFEmployeeRegistrationDetail.actionEditExecute(Sender: TObject);
@@ -268,7 +268,8 @@ end;
 
 procedure Tview_SisGeFEmployeeRegistrationDetail.actionEditVehicleExecute(Sender: TObject);
 begin
-   MostraCadastro(tacAlterar, codigo.EditValue);
+  if not memTableVeiculos.IsEmpty then
+    MostraCadastro(tacAlterar, memTableVeiculosCOD_VEICULO.AsInteger);
 end;
 
 procedure Tview_SisGeFEmployeeRegistrationDetail.actionLocateExecute(Sender: TObject);
@@ -450,16 +451,7 @@ begin
   Result := False;
   memTableVeiculos.Active := False;
   FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
-//  if sTexto = '' then
-//  begin
-//    sMensagem := 'O campo de texto a pesquisar não foi preenchido!. ' +
-//    'Caso deseje visualizar todos os registros clique OK, porém, esse processo pode ser lento.';
-//    if Application.MessageBox(PChar(sMensagem), 'Atenção!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
-//    begin
-//      Exit;
-//    end;
-//  end;
-  if FVeiculos.SearchVehicle(iIndex, sTexto, '') then
+  if FVeiculos.SearchVehicle(iIndex, '', sTexto) then
   begin
     memTableVeiculos.Data := FVeiculos.Veiculos.Query.Data;
     FVeiculos.Veiculos.Query.Connection.Connected := False;
@@ -516,7 +508,7 @@ begin
     actionAttach.Enabled := False;
     actionCancel.Enabled := False;
     actionSave.Enabled := False;
-    actionCloseForm.Enabled := True;
+//    actionCloseForm.Enabled := True;
     statusBar.Panels[0].Text := '';
     BlockUnblockFieldsForm(True);
   end
@@ -528,8 +520,10 @@ begin
     actionAttach.Enabled := False;
     actionCancel.Enabled := True;
     actionSave.Enabled := True;
-    actionCloseForm.Enabled := False;
+//    actionCloseForm.Enabled := False;
     statusBar.Panels[0].Text := 'INCLUIR';
+    actionNewVehicle.Enabled := False;
+    actionEditvehicle.Enabled := False;
     BlockUnblockFieldsForm(False);
   end
   else if FAcao = tacAlterar then
@@ -540,8 +534,10 @@ begin
     actionAttach.Enabled := True;
     actionCancel.Enabled := True;
     actionSave.Enabled := True;
-    actionCloseForm.Enabled := False;
+//    actionCloseForm.Enabled := False;
     statusBar.Panels[0].Text := 'EDITAR';
+    actionNewVehicle.Enabled := True;
+    actionEditvehicle.Enabled := True;
     BlockUnblockFieldsForm(False);
     cpf.Properties.ReadOnly := True;
   end
@@ -553,7 +549,7 @@ begin
     actionAttach.Enabled := True;
     actionCancel.Enabled := True;
     actionSave.Enabled := False;
-    actionCloseForm.Enabled := True;
+//    actionCloseForm.Enabled := True;
     statusBar.Panels[0].Text := '';
     BlockUnblockFieldsForm(True);
   end;
@@ -567,12 +563,12 @@ begin
   begin
     view_SisGeFVehiclesRegistrationDetail := Tview_SisGeFVehiclesRegistrationDetail.Create(Application);
   end;
-  view_SisGeFVehiclesRegistrationDetail.iID := 0;
+  view_SisGeFVehiclesRegistrationDetail.iID := iNumero;
   view_SisGeFVehiclesRegistrationDetail.fAcao := FAcao;
-  view_SisGeFVehiclesRegistrationDetail.fRegistro := iNumero;
+  view_SisGeFVehiclesRegistrationDetail.fRegistro := codigo.EditValue;
   if view_SisGeFVehiclesRegistrationDetail.ShowModal() = mrOk then
   begin
-    Formulafilro(1, iNumero.toString);
+    Formulafilro(0,'COD_ENTREGADOR = ' + codigo.Text);
   end;
   FreeAndNil(view_SisGeFVehiclesRegistrationDetail);
 end;
@@ -692,7 +688,7 @@ begin
       SetupFieldsForm;
       PopulateAdress(iCadastro);
       PopulateContacts(iCadastro);
-      Formulafilro(0,iCadastro.ToString);
+      Formulafilro(0,'COD_ENTREGADOR = ' + iCadastro.ToString);
       FAcao := tacAlterar;
       Mode;
     end
@@ -731,8 +727,11 @@ end;
 
 procedure Tview_SisGeFEmployeeRegistrationDetail.SaveData;
 begin
+
   if Application.MessageBox('Confirma gravar os dados ?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
+  begin
     Exit;
+  end;
   SetupClass;
 
   if not FCadastro.Gravar  then
@@ -750,16 +749,37 @@ begin
   end;
 
   FContatos.Contatos.ID := FCadastro.Cadastro.Cadastro;
+  FContatos.Contatos.Sequencia := - 1;
+  FContatos.Contatos.Acao := tacExcluir;
 
-  if not FContatos.SaveBatch(memTableContatos)  then
+  if FContatos.Gravar then
   begin
-    Application.MessageBox('Erro ao gravar os contatos!', 'Erro', MB_OK + MB_ICONERROR);
-    Exit;
+    if not memTableContatos.IsEmpty then
+      memTableContatos.First;
+    FContatos.Contatos.Acao := tacIncluir;
+    while not memTableContatos.Eof do
+    begin
+      FContatos.Contatos.Descricao := memTableContatosdes_contato.AsString;
+      Fcontatos.Contatos.Telefone := memTableContatosnum_telefone.AsString;
+      FContatos.Contatos.EMail := memTableContatosdes_email.AsString;
+      if not FContatos.Gravar() then
+      begin
+        Application.MessageBox('Erro ao gravar os contatos!', 'Erro', MB_OK + MB_ICONERROR);
+      end;
+      memTableContatos.Next
+    end;
+    if not memTableContatos.IsEmpty then
+      memTableContatos.First;
   end;
-  Application.MessageBox('Dados gravados com sucesso!', 'Gravar', MB_OK + MB_ICONINFORMATION);
+
+//  if not FContatos.SaveBatch(memTableContatos)  then
+//  begin
+//    Application.MessageBox('Erro ao gravar os contatos!', 'Erro', MB_OK + MB_ICONERROR);
+//    Exit;
+//  end;
+  Application.MessageBox('Dados gravados com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
   cxPageControl1.ActivePageIndex := 0;
-  FAcao := tacPesquisa;
-  Mode;
+  ModalResult := mrOk;
 end;
 
 procedure Tview_SisGeFEmployeeRegistrationDetail.SearchCEP(sCEP: string);

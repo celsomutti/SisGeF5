@@ -14,7 +14,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
   OldCreateOrder = False
   Position = poMainFormCenter
   ShowHint = True
-  Visible = True
   OnClose = FormClose
   OnKeyPress = FormKeyPress
   OnShow = FormShow
@@ -28,7 +27,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     Caption = ' Identifica'#231#227'o '
     TabOrder = 0
     Transparent = True
-    ExplicitTop = 57
     Height = 64
     Width = 811
     object cxLabel1: TcxLabel
@@ -104,7 +102,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     Caption = ' Documentos/Filia'#231#227'o '
     TabOrder = 1
     Transparent = True
-    ExplicitTop = 127
     Height = 166
     Width = 811
     object cxLabel5: TcxLabel
@@ -431,7 +428,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet1: TcxTabSheet
       Caption = 'Endere'#231'o'
       ImageIndex = 0
-      ExplicitHeight = 163
       object cxLabel24: TcxLabel
         Left = 2
         Top = 2
@@ -563,7 +559,10 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet2: TcxTabSheet
       Caption = 'Contato'
       ImageIndex = 1
-      ExplicitHeight = 163
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gridContatos: TcxGrid
         Left = 0
         Top = 0
@@ -571,7 +570,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
         Height = 151
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 163
         object gridContatosDBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -642,7 +640,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet3: TcxTabSheet
       Caption = 'Dados Banc'#225'rios'
       ImageIndex = 2
-      ExplicitHeight = 163
       object formaPagamento: TcxComboBox
         Left = 3
         Top = 19
@@ -774,7 +771,10 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet4: TcxTabSheet
       Caption = 'Observa'#231#245'es'
       ImageIndex = 3
-      ExplicitHeight = 163
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object observacoes: TcxMemo
         Left = 0
         Top = 0
@@ -782,7 +782,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
         Align = alClient
         Properties.ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitHeight = 163
         Height = 151
         Width = 809
       end
@@ -790,9 +789,10 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet5: TcxTabSheet
       Caption = 'Ve'#237'culos'
       ImageIndex = 4
-      ExplicitLeft = 3
-      ExplicitTop = 25
-      ExplicitHeight = 133
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gridVeiculos: TcxGrid
         AlignWithMargins = True
         Left = 3
@@ -1017,7 +1017,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 487
   end
   object cxButton1: TcxButton
     Left = 573

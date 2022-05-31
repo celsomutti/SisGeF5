@@ -22,7 +22,7 @@ uses
   IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, ScBridge, ScSSHClient,
   ScSFTPClient, Dialogs, ScSSHUtils, ScUtils, ScSFTPUtils, FireDAC.DApt, frxRich, System.DateUtils,
   frxExportBaseDialog, cxImageList, Control.Bases, Control.Sistema, REST.Types, REST.Client, REST.Response.Adapter,
-  Data.Bind.Components, Data.Bind.ObjectScope;
+  Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes;
 
 type
   TData_Sisgef = class(TDataModule)
@@ -329,7 +329,6 @@ type
     mtbExtratosExpressasdat_credito: TDateField;
     mtbBasescod_base: TIntegerField;
     mtbBasesnom_base: TStringField;
-    mtbClientesEmpresadom_check: TIntegerField;
     mtbBasesdom_check: TLargeintField;
     mtbExtratosExpressasid_extrato: TLargeintField;
     mtbExtratosExpressasnum_ano: TLargeintField;
@@ -568,6 +567,7 @@ type
     RESTResponseDataSetAdapter: TRESTResponseDataSetAdapter;
     RESTResponse: TRESTResponse;
     RESTRequest: TRESTRequest;
+    mtbClientesEmpresadom_check: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
@@ -705,50 +705,83 @@ begin
 end;
 
 procedure TData_Sisgef.PopulaClientesEmpresa;
+var
+  Fclientes : TCRMClientesController;
+  aParam : array of variant;
 begin
-  if Data_Sisgef.mtbClientesEmpresa.Active then Data_Sisgef.mtbClientesEmpresa.Close;
-  Data_Sisgef.mtbClientesEmpresa.Open;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 1;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'TRANSFOLHA';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 2;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'CARRIERS';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 3;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'SPLOG';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 4;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'DIRECT';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 5;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'RODOÊ';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 6;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'COMPLOG';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 7;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'REDE FORTE';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.Insert;
-  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
-  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 8;
-  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'MANDAÊ';
-  Data_Sisgef.mtbClientesEmpresa.Post;
-  Data_Sisgef.mtbClientesEmpresa.First;
+  try
+    Fclientes := TCRMClientesController.Create;
+    if Data_Sisgef.mtbClientesEmpresa.Active then Data_Sisgef.mtbClientesEmpresa.Close;
+    SetLength(aParam,3);
+    aParam[0] := 'APOIO';
+    aParam[1] := '1 as dom_check, cod_cliente as cod_cliente, nom_fantasia as nom_cliente';
+    aParam[2] := '';
+    mtbClientesEmpresa.Active := True;
+    if Fclientes.Localizar(aParam) then
+    begin
+      while not Fclientes.Clientes.Query.Eof do
+      begin
+        mtbClientesEmpresa.Insert;
+        mtbClientesEmpresacod_cliente.AsInteger := Fclientes.Clientes.Query.FieldByName('cod_cliente').AsInteger;
+        mtbClientesEmpresanom_cliente.AsString := Fclientes.Clientes.Query.FieldByName('nom_cliente').AsString;
+        mtbClientesEmpresadom_check.AsInteger := 1;
+        Fclientes.Clientes.Query.Next;
+      end;
+    end;
+    Finalize(aParam);
+    Data_Sisgef.mtbClientesEmpresa.Open;
+    Data_Sisgef.mtbClientesEmpresa.First;
+  finally
+    Fclientes.Clientes.Query.Connection.Connected := False;
+    Fclientes.Free;
+  end;
+//
+//  finally
+//    Fclientes.Free;
+//  end;
+//
+//  Data_Sisgef.mtbClientesEmpresa.Open;
+//  Data_Sisgef.mtbClientesEmpresa.Insert;
+//  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+//  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 1;
+//  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'TRANSFOLHA';
+//  Data_Sisgef.mtbClientesEmpresa.Post;
+//  Data_Sisgef.mtbClientesEmpresa.Insert;
+//  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+//  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 2;
+//  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'CARRIERS';
+//  Data_Sisgef.mtbClientesEmpresa.Post;
+//  Data_Sisgef.mtbClientesEmpresa.Insert;
+//  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+//  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 3;
+//  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'SPLOG';
+//  Data_Sisgef.mtbClientesEmpresa.Post;
+//  Data_Sisgef.mtbClientesEmpresa.Insert;
+//  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+//  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 4;
+//  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'DIRECT';
+//  Data_Sisgef.mtbClientesEmpresa.Post;
+//  Data_Sisgef.mtbClientesEmpresa.Insert;
+//  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+//  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 5;
+//  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'RODOÊ';
+//  Data_Sisgef.mtbClientesEmpresa.Post;
+//  Data_Sisgef.mtbClientesEmpresa.Insert;
+//  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+//  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 6;
+//  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'COMPLOG';
+//  Data_Sisgef.mtbClientesEmpresa.Post;
+//  Data_Sisgef.mtbClientesEmpresa.Insert;
+//  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+//  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 7;
+//  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'REDE FORTE';
+//  Data_Sisgef.mtbClientesEmpresa.Post;
+//  Data_Sisgef.mtbClientesEmpresa.Insert;
+//  Data_Sisgef.mtbClientesEmpresadom_check.AsInteger := 0;
+//  Data_Sisgef.mtbClientesEmpresacod_cliente.AsInteger := 8;
+//  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'MANDAÊ';
+//  Data_Sisgef.mtbClientesEmpresa.Post;
+//  Data_Sisgef.mtbClientesEmpresa.First;
 end;
 
 procedure TData_Sisgef.ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
