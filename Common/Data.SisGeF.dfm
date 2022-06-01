@@ -8908,12 +8908,12 @@ object Data_Sisgef: TData_Sisgef
   end
   object FDGUIxWaitCursor: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 664
-    Top = 416
+    Left = 720
+    Top = 368
   end
   object FDPhysMySQLDriverLink: TFDPhysMySQLDriverLink
-    Left = 552
-    Top = 416
+    Left = 640
+    Top = 368
   end
   object iml_16_16: TcxImageList
     SourceDPI = 96
@@ -12055,8 +12055,8 @@ object Data_Sisgef: TData_Sisgef
     PdfA = False
     PDFStandard = psNone
     PDFVersion = pv17
-    Left = 552
-    Top = 264
+    Left = 568
+    Top = 216
   end
   object frxHTMLExport1: TfrxHTMLExport
     UseFileCache = True
@@ -12070,8 +12070,8 @@ object Data_Sisgef: TData_Sisgef
     EmptyLines = True
     Print = False
     PictureType = gpPNG
-    Left = 600
-    Top = 264
+    Left = 616
+    Top = 216
   end
   object frxRTFExport1: TfrxRTFExport
     UseFileCache = True
@@ -12085,40 +12085,40 @@ object Data_Sisgef: TData_Sisgef
     SuppressPageHeadersFooters = False
     HeaderFooterMode = hfText
     AutoSize = False
-    Left = 640
-    Top = 264
+    Left = 656
+    Top = 216
   end
   object frxBMPExport1: TfrxBMPExport
     UseFileCache = True
     ShowProgress = True
     OverwritePrompt = False
     DataOnly = False
-    Left = 680
-    Top = 264
+    Left = 696
+    Top = 216
   end
   object frxJPEGExport1: TfrxJPEGExport
     UseFileCache = True
     ShowProgress = True
     OverwritePrompt = False
     DataOnly = False
-    Left = 552
-    Top = 312
+    Left = 568
+    Top = 264
   end
   object frxTIFFExport1: TfrxTIFFExport
     UseFileCache = True
     ShowProgress = True
     OverwritePrompt = False
     DataOnly = False
-    Left = 600
-    Top = 360
+    Left = 616
+    Top = 312
   end
   object frxGIFExport1: TfrxGIFExport
     UseFileCache = True
     ShowProgress = True
     OverwritePrompt = False
     DataOnly = False
-    Left = 640
-    Top = 312
+    Left = 656
+    Top = 264
   end
   object frxSimpleTextExport1: TfrxSimpleTextExport
     UseFileCache = True
@@ -12130,8 +12130,8 @@ object Data_Sisgef: TData_Sisgef
     OEMCodepage = False
     OpenAfterExport = False
     DeleteEmptyColumns = True
-    Left = 680
-    Top = 312
+    Left = 696
+    Top = 264
   end
   object frxCSVExport1: TfrxCSVExport
     UseFileCache = True
@@ -12144,12 +12144,12 @@ object Data_Sisgef: TData_Sisgef
     OpenAfterExport = False
     NoSysSymbols = True
     ForcedQuotes = False
-    Left = 552
-    Top = 360
+    Left = 568
+    Top = 312
   end
   object frxBarCodeObject1: TfrxBarCodeObject
-    Left = 640
-    Top = 360
+    Left = 656
+    Top = 312
   end
   object memTableCadastro: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -12889,77 +12889,28 @@ object Data_Sisgef: TData_Sisgef
     Top = 120
   end
   object FDBTextReader: TFDBatchMoveTextReader
-    DataDef.Fields = <
-      item
-        FieldName = 'AGENTE'
-      end
-      item
-        FieldName = 'DESCRI'#199#195'O'
-      end
-      item
-        FieldName = 'NOSSO N'#218'MERO'
-      end
-      item
-        FieldName = 'CLIENTE'
-      end
-      item
-        FieldName = 'NOTA'
-      end
-      item
-        FieldName = 'CONSUMIDOR'
-      end
-      item
-        FieldName = 'AOS CUIDADOS'
-      end
-      item
-        FieldName = 'LOGRADOURO'
-      end
-      item
-        FieldName = 'COMPLEMENTO'
-      end
-      item
-        FieldName = 'BAIRRO'
-      end
-      item
-        FieldName = 'CIDADE'
-      end
-      item
-        FieldName = 'CEP'
-      end
-      item
-        FieldName = 'TELEFONE'
-      end
-      item
-        FieldName = 'EXPEDI'#199#195'O'
-      end
-      item
-        FieldName = 'PREV.DISTRIBUI'#199#195'O'
-      end
-      item
-        FieldName = 'STATUS'
-      end
-      item
-      end>
+    DataDef.Fields = <>
     DataDef.Delimiter = '"'
     DataDef.Separator = ';'
-    DataDef.EndOfLine = elPosix
     DataDef.RecordFormat = rfCustom
-    Left = 448
-    Top = 64
+    DataDef.WithFieldNames = True
+    Left = 440
+    Top = 288
   end
   object FDBDataSetWriter: TFDBatchMoveDataSetWriter
     Direct = True
-    Left = 448
-    Top = 288
+    Left = 288
+    Top = 520
   end
   object FDBatchMove: TFDBatchMove
     Reader = FDBTextReader
     Writer = FDBDataSetWriter
     Options = [poClearDest, poCreateDest]
     Mappings = <>
+    LogFileAction = laCreate
     LogFileName = 'Data.log'
-    Left = 448
-    Top = 344
+    Left = 200
+    Top = 520
   end
   object mtbPlanilhas: TFDMemTable
     FieldDefs = <
@@ -14892,8 +14843,8 @@ object Data_Sisgef: TData_Sisgef
     end
   end
   object frxRichObject1: TfrxRichObject
-    Left = 600
-    Top = 312
+    Left = 616
+    Top = 264
   end
   object mtbRoteirosExpressas: TFDMemTable
     Indexes = <
@@ -15395,8 +15346,8 @@ object Data_Sisgef: TData_Sisgef
     ResourceOptions.AutoReconnect = True
     LoginPrompt = False
     BeforeConnect = FDConnectionMySQLBeforeConnect
-    Left = 664
-    Top = 480
+    Left = 544
+    Top = 368
   end
   object SaveDialog: TSaveDialog
     DefaultExt = 'xlsx'
@@ -15560,375 +15511,12 @@ object Data_Sisgef: TData_Sisgef
       FieldName = 'val_total_pgr'
     end
   end
-  object FDMemTable1: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 728
-    Top = 112
-    object IntegerField6: TIntegerField
-      DisplayLabel = 'ID'
-      FieldName = 'id_cadastro'
-    end
-    object IntegerField7: TIntegerField
-      DisplayLabel = 'Tipo'
-      FieldName = 'cod_tipo_cadastro'
-    end
-    object SmallintField1: TSmallintField
-      DisplayLabel = 'Pessoa'
-      FieldName = 'cod_pessoa'
-    end
-    object StringField9: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'nom_nome_razao'
-      Size = 70
-    end
-    object StringField10: TStringField
-      DisplayLabel = 'Alias'
-      FieldName = 'nom_fantasia'
-      Size = 70
-    end
-    object StringField11: TStringField
-      DisplayLabel = 'CNPJ/CPF'
-      FieldName = 'num_cpf_cnpj'
-    end
-    object StringField12: TStringField
-      DisplayLabel = 'Ins. Estadual / RG'
-      FieldName = 'num_rg_ie'
-    end
-    object StringField13: TStringField
-      DisplayLabel = 'Expedidor RG'
-      FieldName = 'des_expedidor'
-      Size = 70
-    end
-    object DateField1: TDateField
-      DisplayLabel = 'Data Emiss'#227'o RG'
-      FieldName = 'dat_emissao_rg'
-    end
-    object StringField14: TStringField
-      DisplayLabel = 'UF RG'
-      FieldName = 'uf_expedidor_rg'
-      Size = 2
-    end
-    object DateField2: TDateField
-      DisplayLabel = 'Nascimento'
-      FieldName = 'dat_nascimento'
-    end
-    object StringField15: TStringField
-      DisplayLabel = 'Nome do Pai'
-      FieldName = 'nom_pai'
-      Size = 70
-    end
-    object StringField16: TStringField
-      DisplayLabel = 'Nome da M'#227'e'
-      FieldName = 'nom_mae'
-      Size = 70
-    end
-    object StringField17: TStringField
-      DisplayLabel = 'Nacionalidade'
-      FieldName = 'des_nacionalidade'
-      Size = 50
-    end
-    object StringField18: TStringField
-      DisplayLabel = 'Naturalidade'
-      FieldName = 'des_naturalidade'
-      Size = 70
-    end
-    object StringField19: TStringField
-      DisplayLabel = 'UF'
-      FieldName = 'uf_naturalidade'
-      Size = 2
-    end
-    object StringField20: TStringField
-      DisplayLabel = 'SUFRAMA'
-      FieldName = 'num_suframa'
-    end
-    object StringField21: TStringField
-      DisplayLabel = 'CNAE'
-      FieldName = 'num_cnae'
-    end
-    object IntegerField8: TIntegerField
-      DisplayLabel = 'CRT'
-      FieldName = 'num_crt'
-    end
-    object StringField22: TStringField
-      DisplayLabel = 'C'#243'd. Seg. CNH'
-      FieldName = 'cod_seguranca_cnh'
-    end
-    object StringField23: TStringField
-      DisplayLabel = 'C'#243'd. CNH'
-      FieldName = 'cod_cnh'
-    end
-    object StringField24: TStringField
-      DisplayLabel = 'Registro CNH'
-      FieldName = 'num_registro_cnh'
-    end
-    object DateField3: TDateField
-      DisplayLabel = 'Validade CNH'
-      FieldName = 'dat_validade_cnh'
-    end
-    object StringField25: TStringField
-      DisplayLabel = 'Categoria CNH'
-      FieldName = 'des_categoria'
-      Size = 2
-    end
-    object DateField4: TDateField
-      DisplayLabel = 'Data Emiss'#227'o CNH'
-      FieldName = 'dat_emissao_cnh'
-    end
-    object DateField5: TDateField
-      DisplayLabel = 'Data Primeira CNH'
-      FieldName = 'dat_primeira_cnh'
-    end
-    object StringField26: TStringField
-      DisplayLabel = 'UF CNH'
-      FieldName = 'uf_cnh'
-      Size = 2
-    end
-    object SmallintField2: TSmallintField
-      DisplayLabel = 'Sexo'
-      FieldName = 'cod_sexo'
-    end
-    object StringField27: TStringField
-      DisplayLabel = 'Estado Civil'
-      FieldName = 'des_estado_civil'
-      Size = 30
-    end
-    object DateField6: TDateField
-      DisplayLabel = 'Data Cadastro'
-      FieldName = 'dat_cadastro'
-    end
-    object IntegerField9: TIntegerField
-      DisplayLabel = 'C'#243'd. Usu'#225'rio'
-      FieldName = 'cod_usuario'
-    end
-    object StringField28: TStringField
-      DisplayLabel = 'Foto'
-      FieldName = 'des_imagem'
-      Size = 100
-    end
-    object IntegerField10: TIntegerField
-      DisplayLabel = 'Status'
-      FieldName = 'id_status'
-    end
-    object MemoField1: TMemoField
-      DisplayLabel = 'Observa'#231#245'es'
-      FieldName = 'des_obs'
-      BlobType = ftMemo
-    end
-    object StringField29: TStringField
-      DisplayLabel = 'Ins. Municipal'
-      FieldName = 'num_im'
-    end
-    object StringField30: TStringField
-      DisplayLabel = 'Ins. Estadual ST'
-      FieldName = 'num_iest'
-    end
-  end
-  object FDMemTable2: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 728
-    Top = 160
-    object IntegerField11: TIntegerField
-      FieldName = 'id_cadastro'
-    end
-    object memTableEnderecoscod_tipo_cadastro: TIntegerField
-      FieldName = 'cod_tipo_cadastro'
-    end
-    object StringField31: TStringField
-      FieldName = 'des_tipo_endereco'
-      Size = 50
-    end
-    object StringField32: TStringField
-      FieldName = 'num_cep'
-      Size = 9
-    end
-    object StringField33: TStringField
-      FieldName = 'des_logradouro'
-      Size = 70
-    end
-    object StringField34: TStringField
-      FieldName = 'num_logradouro'
-      Size = 10
-    end
-    object StringField35: TStringField
-      FieldName = 'des_complemento'
-      Size = 50
-    end
-    object StringField36: TStringField
-      FieldName = 'nom_bairro'
-      Size = 70
-    end
-    object StringField37: TStringField
-      FieldName = 'nom_cidade'
-      Size = 70
-    end
-    object StringField38: TStringField
-      FieldName = 'uf_estado'
-      Size = 2
-    end
-  end
-  object FDMemTable3: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'id_cadastro'
-        DataType = ftInteger
-      end
-      item
-        Name = 'seq_contato'
-        DataType = ftInteger
-      end
-      item
-        Name = 'des_contato'
-        DataType = ftString
-        Size = 30
-      end
-      item
-        Name = 'num_telefone'
-        DataType = ftString
-        Size = 15
-      end
-      item
-        Name = 'des_email'
-        DataType = ftString
-        Size = 150
-      end>
-    IndexDefs = <>
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    StoreDefs = True
-    Left = 728
-    Top = 216
-    object IntegerField12: TIntegerField
-      DisplayLabel = 'ID'
-      FieldName = 'id_cadastro'
-    end
-    object memTableContatoscod_tipo_cadastro: TIntegerField
-      FieldKind = fkCalculated
-      FieldName = 'cod_tipo_cadastro'
-      Calculated = True
-    end
-    object IntegerField13: TIntegerField
-      DisplayLabel = 'Sequencia'
-      FieldName = 'seq_contato'
-    end
-    object StringField39: TStringField
-      DisplayLabel = 'Descri'#231#227'o'
-      FieldName = 'des_contato'
-      Size = 30
-    end
-    object StringField40: TStringField
-      DisplayLabel = 'Telefone'
-      FieldName = 'num_telefone'
-      Size = 15
-    end
-    object StringField41: TStringField
-      DisplayLabel = 'E-Mail'
-      FieldName = 'des_email'
-      Size = 150
-    end
-  end
-  object FDMemTable4: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 728
-    Top = 264
-    object IntegerField14: TIntegerField
-      DisplayLabel = 'C'#243'digo'
-      FieldName = 'cod_empresa'
-    end
-    object StringField42: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'nom_razao_social'
-      Size = 70
-    end
-    object StringField43: TStringField
-      DisplayLabel = 'Alias'
-      FieldName = 'nom_fantasia'
-      Size = 70
-    end
-    object memTableCadastrodes_tipo_doc: TStringField
-      FieldName = 'des_tipo_doc'
-      Size = 4
-    end
-    object StringField44: TStringField
-      DisplayLabel = 'CNPJ'
-      FieldName = 'num_cnpj'
-    end
-    object StringField45: TStringField
-      DisplayLabel = 'CNAE'
-      FieldName = 'num_cnae'
-    end
-    object IntegerField15: TIntegerField
-      DisplayLabel = 'CRT'
-      FieldName = 'num_crt'
-    end
-    object IntegerField16: TIntegerField
-      DisplayLabel = 'Status'
-      FieldName = 'cod_status'
-    end
-    object MemoField2: TMemoField
-      DisplayLabel = 'Observa'#231#245'es'
-      FieldName = 'des_observacoes'
-      BlobType = ftMemo
-    end
-    object DateField7: TDateField
-      DisplayLabel = 'Data Cadastro'
-      FieldName = 'dat_cadastro'
-    end
-    object memTableCadastrodes_tipo_conta: TStringField
-      FieldName = 'des_tipo_conta'
-    end
-    object memTableCadastrocod_banco: TStringField
-      FieldName = 'cod_banco'
-      Size = 4
-    end
-    object memTableCadastrocod_agencia: TStringField
-      FieldName = 'cod_agencia'
-      Size = 10
-    end
-    object memTableCadastronum_conta: TStringField
-      FieldName = 'num_conta'
-    end
-    object memTableCadastronom_favorecido: TStringField
-      FieldName = 'nom_favorecido'
-      Size = 70
-    end
-    object memTableCadastronum_cpf_cnpj_favorecido: TStringField
-      FieldName = 'num_cpf_cnpj_favorecido'
-    end
-    object memTableCadastrodes_forma_pagamento: TStringField
-      FieldName = 'des_forma_pagamento'
-      Size = 30
-    end
-  end
   object imageListOperation_32_32: TcxImageList
     SourceDPI = 96
     Height = 32
     Width = 32
     FormatVersion = 1
-    DesignInfo = 30409152
+    DesignInfo = 34078768
     ImageInfo = <
       item
         ImageClass = 'TdxPNGImage'
@@ -16256,8 +15844,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 728
-    Top = 64
+    Left = 720
+    Top = 424
     object memTableCNPJatividade_principal: TMemoField
       FieldName = 'atividade_principal'
       BlobType = ftMemo
@@ -16386,8 +15974,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 728
-    Top = 8
+    Left = 640
+    Top = 424
     object memTableCEPcep: TStringField
       FieldName = 'cep'
       Size = 8
@@ -16468,5 +16056,373 @@ object Data_Sisgef: TData_Sisgef
     SynchronizedEvents = False
     Left = 136
     Top = 64
+  end
+  object memTableImport: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode, evItems]
+    FetchOptions.Mode = fmManual
+    FetchOptions.Items = [fiMeta]
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.UpdateChangedFields = False
+    UpdateOptions.LockWait = True
+    UpdateOptions.RefreshMode = rmManual
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.CheckReadOnly = False
+    UpdateOptions.CheckUpdatable = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 440
+    Top = 456
+  end
+  object openDialog: TOpenDialog
+    Left = 624
+    Top = 112
+  end
+  object textReaderEngloba: TFDBatchMoveTextReader
+    DataDef.Fields = <
+      item
+        FieldName = 'FCodigoEntrega'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'FNumeroPedido'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'FNumeroCliente'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'FRomaneioCliente'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'FNumeroNF'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'FNomeServico'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FSubServico'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FDataPedido'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FDataConfirmacao'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FDataExpedicao'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FDataRecebimentoBase'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FDataUltimaRota'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FDataPrevista'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FDataPrevistaSemInsucesso'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FDataFinalizacao'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FNoPrazo'
+        DataType = atString
+        FieldSize = 3
+      end
+      item
+        FieldName = 'FInfoNoPrazo'
+        DataType = atString
+        FieldSize = 3
+      end
+      item
+        FieldName = 'FNoPrazoBase'
+        DataType = atString
+        FieldSize = 3
+      end
+      item
+        FieldName = 'FDataUltimaOcorrencia'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FUltimaOcorrencia'
+        DataType = atString
+        FieldSize = 50
+      end
+      item
+        FieldName = 'FUltimoInsucesso'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FDataUltimoInsucesso'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'FSituacao'
+        DataType = atString
+        FieldSize = 50
+      end
+      item
+        FieldName = 'FNomeRemetente'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FCidadeRemetente'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FUFRemetente'
+        DataType = atString
+        FieldSize = 2
+      end
+      item
+        FieldName = 'FBaseDestino'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FNomeEmpresa'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FNomeDestinatario'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FLogradouroDestinatario'
+        DataType = atString
+        FieldSize = 145
+      end
+      item
+        FieldName = 'FNumeroLogradouroDestinatario'
+        DataType = atString
+        FieldSize = 11
+      end
+      item
+        FieldName = 'FComplementoLogradouroDestinatarioa'
+        DataType = atString
+        FieldSize = 50
+      end
+      item
+        FieldName = 'FBairroDestinatario'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FCidadeDestinatario'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'FTipoRegiao'
+        DataType = atString
+        FieldSize = 50
+      end
+      item
+        FieldName = 'FCEPDestinatario'
+        DataType = atString
+        FieldSize = 8
+      end
+      item
+        FieldName = 'UFDestinatario'
+        DataType = atString
+        FieldSize = 2
+      end
+      item
+        FieldName = 'FTelefone1'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'FEdicao'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'FQtdeItens'
+        DataType = atString
+        FieldSize = 6
+      end
+      item
+        FieldName = 'FQtdeVolumes'
+        DataType = atString
+        FieldSize = 6
+      end
+      item
+        FieldName = 'FPesoTransportadora'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'FPesoReal'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'FPesoCubado'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'FPesoTaxado'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'FValorPedido'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FProdutos'
+        DataType = atString
+        FieldSize = 80
+      end
+      item
+        FieldName = 'FUltimoMotorista'
+        DataType = atString
+        FieldSize = 80
+      end
+      item
+        FieldName = 'FUltimoRomaneioRota'
+        DataType = atString
+        FieldSize = 9
+      end
+      item
+        FieldName = 'FUltimoManifesto'
+        DataType = atString
+        FieldSize = 9
+      end
+      item
+        FieldName = 'FAliquotaICMS'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'FAliquotaISS'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'FTaxaColeta'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FTaxaEntrega'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FTaxaDespacho'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FTaxaRedespacho'
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FAdeme'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FPedagio'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FTaxaCOD'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FTAS'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FTDA'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FTDE'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FTRT'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FAcrescimos'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FDescontos'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FTaxaEmergencial'
+        DataType = atString
+        FieldSize = 14
+      end
+      item
+        FieldName = 'FValorManuseio'
+        DataType = atString
+        FieldSize = 14
+      end>
+    DataDef.Delimiter = '"'
+    DataDef.Separator = ';'
+    DataDef.RecordFormat = rfCustom
+    DataDef.WithFieldNames = True
+    Left = 440
+    Top = 400
   end
 end

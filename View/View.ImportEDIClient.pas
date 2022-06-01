@@ -12,7 +12,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxMemo, Thread.EDIClient,
   dxActivityIndicator, ShellAPI, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxCheckBox, cxCurrencyEdit, cxDropDownEdit,
-  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox;
+  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Vcl.Grids, Vcl.DBGrids;
 
 type
   Tview_ImporEDIClient = class(TForm)

@@ -6,7 +6,7 @@ uses
   System.Classes, Control.Entregas, Control.PlanilhaEntradaTFO, System.SysUtils, System.DateUtils, Control.VerbasExpressas,
   Control.Bases, Control.EntregadoresExpressas, Generics.Collections, System.StrUtils, Control.PlanilhaEntradaDIRECT,
   Control.PlanilhaEntradaSimExpress, Control.ControleAWB, Control.PlanilhaBaixasTFO, Control.PlanilhaBaixasDIRECT,
-  Control.PlanilhaEntradaRedeForte, Control.PlanilhaEntradaENGLOBA, Controller.SisGeFTrackingExpress,
+  Control.PlanilhaEntradaRedeForte, Controller.SisGeFTrackingExpress,
   Control.PlanilhaEntradaTracking, Common.Utils;
 
 type
@@ -97,7 +97,7 @@ implementation
 
 }
 
-uses Common.ENum, Global.Parametros;
+uses Common.ENum, Global.Parametros, Data.SisGeF;
 
 { Thread_ImportEDIClient }
 
@@ -626,7 +626,6 @@ end;
 
 procedure Thread_ImportEDIClient.ProcessENGLOBA;
 var
-  FPlanilha : TPlanilhaEntradaENGLOBAControl;
   sChaveERP: String;
   i, iStart, iStop: integer;
 begin
@@ -634,14 +633,13 @@ begin
     try
       FProcesso := True;
       FCancelar := False;
-      FPlanilha := TPlanilhaEntradaENGLOBAControl.Create;
       FEntregadores := TEntregadoresExpressasControl.Create;
       FEntregas := TEntregasControl.Create;
       sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
       UpdateLog(sMensagem);
-      if not FPLanilha.GetPlanilha(FArquivo) then
+      if not Data_Sisgef.ImportEngloba(FArquivo) then
       begin
-        UpdateLOG(FPlanilha.Planilha.Mensagem);
+        UpdateLOG('Erro ao importar a planilha!');
         FCancelar := True;
         Exit;
       end;
@@ -649,14 +647,15 @@ begin
                 '. Aguarde...';
       UpdateLog(sMensagem);
       iPos := 0;
-      FTotalRegistros := FPlanilha.Planilha.Planilha.Count;
+      FTotalRegistros := Data_Sisgef.memTableImport.RecordCount;
       FTotalGravados := 0;
       FTotalInconsistencias := 0;
       FProgresso := 0;
-      for i := 0 to Pred(FTotalRegistros) do
+      Data_Sisgef.memTableImport.First;
+      while not Data_Sisgef.memTableImport.Eof do
       begin
         SetLength(aParam,3);
-        aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Codigo, FCliente];
+        aParam := ['NNCLIENTE', Data_Sisgef.memTableImport.Fields.Fields[0].AsString, FCliente];
         if not FEntregas.LocalizarExata(aParam) then
         begin
           FEntregas.Entregas.Acao := tacIncluir;
@@ -667,17 +666,17 @@ begin
         end;
         Finalize(aParam);
         SetLength(aParam,3);
-        iStart := Pos('[',FPlanilha.Planilha.Planilha[i].UltimoMotorista);
-        iStop := Pos(']',FPlanilha.Planilha.Planilha[i].UltimoMotorista);
+        iStart := Pos('[',Data_Sisgef.memTableImport.Fields.Fields[32].AsString);
+        iStop := Pos(']',Data_Sisgef.memTableImport.Fields.Fields[32].AsString);
         if iStop > 0 then
-          sChaveERP := Copy(FPlanilha.Planilha.Planilha[i].UltimoMotorista,iStart + 1, iStop + -1)
+          sChaveERP := Copy(Data_Sisgef.memTableImport.Fields.Fields[32].AsString,iStart + 1, iStop + -1)
         else
           sChaveERP := '0';
         aParam := ['CHAVECLIENTE', sChaveERP, FCliente];
         if not FEntregadores.LocalizarExato(aParam) then
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Entregador não encontrado ' +
-                       FPlanilha.Planilha.Planilha[i].UltimaOcorrencia;
+                       Data_Sisgef.memTableImport.Fields.Fields[32].AsString;
           UpdateLog(sMensagem);
           Inc(FTotalInconsistencias,1);
           FEntregas.Entregas.Distribuidor := 1;
@@ -691,19 +690,19 @@ begin
         Finalize(aParam);
 
         FEntregas.Entregas.Cliente := 0;
-        FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].Codigo;
-        FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[I].NF;
-        FEntregas.Entregas.Consumidor := LeftStr(FPlanilha.Planilha.Planilha[I].Destinatario,70);
-        FEntregas.Entregas.Retorno := FPlanilha.Planilha.Planilha[i].NumeroCliente;
-        FEntregas.Entregas.Endereco := LeftStr(FPlanilha.Planilha.Planilha[I].EnderecoDestinatario,60) + ', ' +
-          LeftStr(FPlanilha.Planilha.Planilha[I].NumeroEnderecoDestinatario,8);
-        FEntregas.Entregas.Complemento := LeftStr(FPlanilha.Planilha.Planilha[I].ComplementoEnderecoDestinatario,50);
-        FEntregas.Entregas.Bairro := LeftStr(FPlanilha.Planilha.Planilha[I].BairroEnderecoDestinatario, 70);
-        FEntregas.Entregas.Cidade := LeftStr(FPlanilha.Planilha.Planilha[I].CidadeEnderecoDestinatario,70);
-        FEntregas.Entregas.Cep := FPlanilha.Planilha.Planilha[I].CEPEnderecoDestinatario;
-        FEntregas.Entregas.Telefone := LeftStr(FPlanilha.Planilha.Planilha[I].Telefone1,20);;
-        FEntregas.Entregas.Expedicao := FPlanilha.Planilha.Planilha[I].DataExpedicao;
-        FEntregas.Entregas.Previsao := FPlanilha.Planilha.Planilha[I].DataPrevista;
+        FEntregas.Entregas.NN := Data_Sisgef.memTableImport.Fields.Fields[2].AsString;
+        FEntregas.Entregas.NF := '0';
+        FEntregas.Entregas.Consumidor := Data_Sisgef.memTableImport.Fields.Fields[20].AsString;
+        FEntregas.Entregas.Retorno := Data_Sisgef.memTableImport.Fields.Fields[0].AsString;
+        FEntregas.Entregas.Endereco := Data_Sisgef.memTableImport.Fields.Fields[21].AsString;
+        FEntregas.Entregas.Complemento := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[23].AsString, 85);
+        FEntregas.Entregas.Bairro := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[24].AsString, 70);
+        FEntregas.Entregas.Cidade := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[25].AsString,70);
+        FEntregas.Entregas.Cep := Data_Sisgef.memTableImport.Fields.Fields[27].AsString;
+        FEntregas.Entregas.Telefone := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[28].AsString,3) +
+                                       LeftStr(Data_Sisgef.memTableImport.Fields.Fields[29].AsString,10);
+        FEntregas.Entregas.Expedicao := Data_Sisgef.memTableImport.Fields.Fields[9].AsDateTime;
+        FEntregas.Entregas.Previsao := Data_Sisgef.memTableImport.Fields.Fields[28].AsDateTime;
         FEntregas.Entregas.Status := 0;
         FEntregas.Entregas.VerbaFranquia := 0;
         FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[I].PesoReal;
