@@ -64,6 +64,7 @@ type
     dxLayoutItem12: TdxLayoutItem;
     lojas: TcxCheckBox;
     dxLayoutItem13: TdxLayoutItem;
+    actionVisualizarDados: TAction;
     procedure FormShow(Sender: TObject);
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -74,6 +75,7 @@ type
     procedure actionCancelarExecute(Sender: TObject);
     procedure clientePropertiesChange(Sender: TObject);
     procedure tipoPropertiesChange(Sender: TObject);
+    procedure actionVisualizarDadosExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -84,6 +86,7 @@ type
     procedure TerminateProcess;
     procedure RenameFiles(sFile: String);
     procedure VerifyTypeEDI;
+    procedure VisualizeData;
   public
     { Public declarations }
   end;
@@ -97,7 +100,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, Common.Utils, Global.Parametros;
+uses Data.SisGeF, Common.Utils, Global.Parametros, View.VisualizacaoPlanilha;
 
 { Tview_ImporEDIClient }
 
@@ -127,6 +130,11 @@ end;
 procedure Tview_ImporEDIClient.actionSelecionarArquivoExecute(Sender: TObject);
 begin
   Openfile;
+end;
+
+procedure Tview_ImporEDIClient.actionVisualizarDadosExecute(Sender: TObject);
+begin
+  VisualizeData;
 end;
 
 procedure Tview_ImporEDIClient.clientePropertiesChange(Sender: TObject);
@@ -285,6 +293,47 @@ begin
   begin
     dxLayoutItem13.Visible := False;
     lojas.Checked := False;
+  end;
+  if cliente.EditValue = 8 then
+  begin
+    actionVisualizarDados.Visible := True;
+  end
+  else
+  begin
+    actionVisualizarDados.Visible := False;
+  end;
+end;
+
+procedure Tview_ImporEDIClient.VisualizeData;
+begin
+  if nomeArquivo.Text <> '' then
+  begin
+    if FileExists(nomeArquivo.Text) then
+    begin
+      if Data_Sisgef.ImportEngloba(nomeArquivo.Text) then
+      begin
+        if not Assigned(view_VisualizacaoPlanilhas) then
+        begin
+          view_VisualizacaoPlanilhas := Tview_VisualizacaoPlanilhas.Create(Application);
+        end;
+        view_VisualizacaoPlanilhas.ds.DataSet := Data_Sisgef.memTableImport;
+        view_VisualizacaoPlanilhas.labelFile.Caption := 'Arquivo ' + nomeArquivo.Text;
+        view_VisualizacaoPlanilhas.ShowModal;
+      end
+      else
+      begin
+        Exit;
+      end;
+    end
+    else
+    begin
+      Application.MessageBox('Arquivo não encontrado!', 'Atenção', MB_OK + MB_ICONERROR);
+      Exit;
+    end;
+  end
+  else
+  begin
+    Application.MessageBox('Arquivo da planilha não informado!', 'Atenção', MB_OK + MB_ICONERROR);
   end;
 end;
 

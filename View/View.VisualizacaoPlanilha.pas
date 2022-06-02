@@ -16,7 +16,8 @@ uses
   dxSkinXmas2008Blue, dxSkinscxPCPainter, cxContainer, cxEdit, dxLayoutcxEditAdapters, dxLayoutContainer, cxLabel, cxClasses,
   dxLayoutControl, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage,
   cxNavigator, Data.DB, cxDBData, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxGridExportLink, ShellAPI;
+  cxGridTableView, cxGridDBTableView, cxGrid, cxGridExportLink, ShellAPI, dxDateRanges,
+  cxDataControllerConditionalFormattingRulesManagerDialog;
 
 type
   Tview_VisualizacaoPlanilhas = class(TForm)
@@ -34,10 +35,13 @@ type
     dxLayoutItem3: TdxLayoutItem;
     ds: TDataSource;
     SaveDialog: TSaveDialog;
+    labelFile: TcxLabel;
+    dxLayoutItem4: TdxLayoutItem;
+    dxLayoutGroup1: TdxLayoutGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actFecharExecute(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure tvPlanilhaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     procedure ExportarDados;
@@ -75,47 +79,14 @@ end;
 
 procedure Tview_VisualizacaoPlanilhas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Data_Sisgef.FDBatchMove.Mappings.Clear;
-  Data_Sisgef.FDBTextReader.DataDef.Fields.Clear;
-  if Data_Sisgef.mtbPlanilhas.Active then
-  begin
-    Data_Sisgef.mtbPlanilhas.Close;
-  end;
+  ds.DataSet.Active := False;
   Action := caFree;
   view_VisualizacaoPlanilhas := nil;
 end;
 
 procedure Tview_VisualizacaoPlanilhas.FormShow(Sender: TObject);
 begin
-  sFileExt := LowerCase(ExtractFileExt(FFile));
-  if sFileExt = '.txt' then
-  begin
-    Data_Sisgef.FDBTextReader.DataDef.Separator := #9;
-  end
-  else if sFileExt = '.csv' then
-  begin
-    Data_Sisgef.FDBTextReader.DataDef.Separator := ';';
-  end
-  else
-  begin
-    Application.MessageBox('Tipo de arquivo não suportado (diferente de TXT ou CSV)!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    actFecharExecute(Sender);
-    Exit;
-  end;
-  Data_SisGeF.FDBatchMove.Mappings.Clear;
-  Data_Sisgef.FDBDataSetWriter.DataSet := Data_Sisgef.mtbPlanilhas;
-  Data_Sisgef.FDBTextReader.FileName := FFile;
-  Data_Sisgef.FDBTextReader.DataDef.WithFieldNames := True;
-  if sFileExt = '.txt' then Data_Sisgef.FDBatchMove.GuessFormat;
-  //Data_SisGeF.FDBatchMove.Mappings.AddAll;
-  Data_Sisgef.mtbPlanilhas.Open;
-  Data_Sisgef.mtbPlanilhas.Edit;
-  Data_Sisgef.mtbPlanilhas.ClearFields;
-  Data_Sisgef.mtbPlanilhas.Close;
-  Data_Sisgef.FDBatchMove.Execute;
-  tvPlanilha.ClearItems;
   tvPlanilha.DataController.CreateAllItems;
-  if not Data_Sisgef.mtbPlanilhas.IsEmpty then Data_Sisgef.mtbPlanilhas.First;
 end;
 
 procedure Tview_VisualizacaoPlanilhas.tvPlanilhaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;

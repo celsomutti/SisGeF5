@@ -606,6 +606,11 @@
           LeftAlignment = True
         end
         item
+          Action = actionVisualizarDados
+          Kind = bkGlyph
+          Visible = False
+        end
+        item
           Action = actionLimparCampo
           Kind = bkGlyph
         end>
@@ -978,56 +983,62 @@
     object actionFecharTela: TAction
       Caption = '&Fechar'
       Hint = 'Fechar a tela'
-      ImageIndex = 17
+      ImageIndex = 98
       OnExecute = actionFecharTelaExecute
     end
     object actionSelecionarArquivo: TAction
       Caption = 'Selecionar Arquivo'
       Hint = 'Selecionar arquivo'
-      ImageIndex = 40
+      ImageIndex = 104
       ShortCut = 16397
       OnExecute = actionSelecionarArquivoExecute
     end
     object actionLimparCampo: TAction
       Caption = 'Limpar'
       Hint = 'Limpar o campo'
-      ImageIndex = 9
+      ImageIndex = 84
       ShortCut = 16411
       OnExecute = actionLimparCampoExecute
     end
     object actionImportar: TAction
       Caption = '&Importar'
       Hint = 'Importar planilha'
-      ImageIndex = 33
+      ImageIndex = 103
       OnExecute = actionImportarExecute
     end
     object actionCancelar: TAction
       Caption = '&Cancelar'
       Enabled = False
       Hint = 'Cancelar importa'#231#227'o'
-      ImageIndex = 2
+      ImageIndex = 84
       OnExecute = actionCancelarExecute
     end
     object actionSalvarArquivo: TAction
       Caption = 'Salvar'
       Enabled = False
       Hint = 'Salvar LOG para arquivo'
-      ImageIndex = 13
+      ImageIndex = 85
     end
     object actionExpandirGrupos: TAction
       Caption = 'Expandir'
       Hint = 'Expandir grupos'
-      ImageIndex = 62
+      ImageIndex = 106
     end
     object actionColapsarGrupos: TAction
       Caption = 'Colapsar'
       Hint = 'Colapsar Grupos'
-      ImageIndex = 63
+      ImageIndex = 107
     end
     object actionRestaurar: TAction
       Caption = 'Restaurar '
       Hint = 'Restaurar layout'
-      ImageIndex = 64
+      ImageIndex = 105
+    end
+    object actionVisualizarDados: TAction
+      Caption = 'Visualizar'
+      Hint = 'Visualizar dados a serem importados'
+      ImageIndex = 88
+      OnExecute = actionVisualizarDadosExecute
     end
   end
   object OpenDialog: TOpenDialog

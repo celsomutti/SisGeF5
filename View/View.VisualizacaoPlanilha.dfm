@@ -25,7 +25,9 @@ object view_VisualizacaoPlanilhas: Tview_VisualizacaoPlanilhas
     Width = 913
     Height = 409
     Align = alClient
+    ParentBackground = True
     TabOrder = 0
+    Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object cxLabel1: TcxLabel
       Left = 10
@@ -44,13 +46,13 @@ object view_VisualizacaoPlanilhas: Tview_VisualizacaoPlanilhas
     object grdPlanilha: TcxGrid
       Left = 10
       Top = 38
-      Width = 250
-      Height = 200
-      Font.Charset = DEFAULT_CHARSET
+      Width = 893
+      Height = 330
+      Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
+      Font.Name = 'Segoe UI'
+      Font.Style = []
       ParentFont = False
       TabOrder = 1
       object tvPlanilha: TcxGridDBTableView
@@ -58,15 +60,15 @@ object view_VisualizacaoPlanilhas: Tview_VisualizacaoPlanilhas
         Navigator.Buttons.CustomButtons = <
           item
             Hint = 'Exportar dados'
-            ImageIndex = 11
+            ImageIndex = 101
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
-        Navigator.Buttons.First.ImageIndex = 5
+        Navigator.Buttons.First.ImageIndex = 91
         Navigator.Buttons.PriorPage.Visible = False
-        Navigator.Buttons.Prior.ImageIndex = 8
-        Navigator.Buttons.Next.ImageIndex = 7
+        Navigator.Buttons.Prior.ImageIndex = 94
+        Navigator.Buttons.Next.ImageIndex = 93
         Navigator.Buttons.NextPage.Visible = False
-        Navigator.Buttons.Last.ImageIndex = 6
+        Navigator.Buttons.Last.ImageIndex = 92
         Navigator.Buttons.Insert.Visible = False
         Navigator.Buttons.Delete.Visible = False
         Navigator.Buttons.Edit.Visible = False
@@ -75,7 +77,7 @@ object view_VisualizacaoPlanilhas: Tview_VisualizacaoPlanilhas
         Navigator.Buttons.Refresh.Visible = False
         Navigator.Buttons.SaveBookmark.Visible = False
         Navigator.Buttons.GotoBookmark.Visible = False
-        Navigator.Buttons.Filter.ImageIndex = 19
+        Navigator.Buttons.Filter.ImageIndex = 96
         Navigator.InfoPanel.Visible = True
         Navigator.Visible = True
         DataController.DataSource = ds
@@ -100,13 +102,24 @@ object view_VisualizacaoPlanilhas: Tview_VisualizacaoPlanilhas
       Height = 25
       Cursor = crHandPoint
       Action = actFechar
+      OptionsImage.ImageIndex = 98
       TabOrder = 2
+    end
+    object labelFile: TcxLabel
+      Left = 10
+      Top = 374
+      Caption = 'labelFile'
+      Style.HotTrack = False
+      Properties.Alignment.Vert = taVCenter
+      Transparent = True
+      AnchorY = 387
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 2
       ShowBorder = False
       Index = -1
     end
@@ -115,6 +128,8 @@ object view_VisualizacaoPlanilhas: Tview_VisualizacaoPlanilhas
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -126,17 +141,42 @@ object view_VisualizacaoPlanilhas: Tview_VisualizacaoPlanilhas
       CaptionOptions.Visible = False
       CaptionOptions.Layout = clTop
       Control = grdPlanilha
+      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
       Index = 1
     end
     object dxLayoutItem3: TdxLayoutItem
-      Parent = dxLayoutControl1Group_Root
+      Parent = dxLayoutGroup1
       AlignHorz = ahRight
-      AlignVert = avBottom
+      AlignVert = avClient
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem4: TdxLayoutItem
+      Parent = dxLayoutGroup1
+      AlignHorz = ahLeft
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxLabel2'
+      CaptionOptions.Visible = False
+      Control = labelFile
+      ControlOptions.OriginalHeight = 17
+      ControlOptions.OriginalWidth = 42
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup1: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ItemIndex = 1
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 2
     end
   end
@@ -154,7 +194,6 @@ object view_VisualizacaoPlanilhas: Tview_VisualizacaoPlanilhas
   end
   object ds: TDataSource
     AutoEdit = False
-    DataSet = Data_Sisgef.mtbPlanilhas
     Left = 752
     Top = 16
   end
