@@ -76,6 +76,10 @@ type
     tvVerbascod_roteiro: TcxGridDBColumn;
     mtbverbasqtd_peso_inicial: TSingleField;
     mtbverbasqtd_peso_final: TSingleField;
+    tvVerbasqtd_excedente: TcxGridDBColumn;
+    tvVerbasval_excedente: TcxGridDBColumn;
+    mtbverbasqtd_excedente: TSingleField;
+    mtbverbasval_excedente: TSingleField;
     procedure actFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -314,7 +318,7 @@ var
   FDQuery: TFDQuery;
   aParam: array of variant;
 begin
-  try
+ try
     bFlag := False;
     FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
     SetLength(aParam,3);

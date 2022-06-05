@@ -498,6 +498,7 @@ type
     memTableImport: TFDMemTable;
     openDialog: TOpenDialog;
     textReaderEngloba: TFDBatchMoveTextReader;
+    dxLayoutCxLookAndFeel1: TdxLayoutCxLookAndFeel;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

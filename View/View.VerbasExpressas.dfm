@@ -733,6 +733,7 @@ object view_Verbas_Expressas: Tview_Verbas_Expressas
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DecimalPlaces = 3
           Properties.DisplayFormat = ',0.000;-,0.000'
+          Properties.MinValue = 0.001000000000000000
           Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 54
@@ -742,6 +743,8 @@ object view_Verbas_Expressas: Tview_Verbas_Expressas
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DecimalPlaces = 3
           Properties.DisplayFormat = ',0.000;-,0.000'
+          Properties.MaxValue = 999999.000000000000000000
+          Properties.MinValue = 0.001000000000000000
           Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 54
@@ -753,6 +756,21 @@ object view_Verbas_Expressas: Tview_Verbas_Expressas
           Properties.DisplayFormat = ',0;-,0'
           Visible = False
           HeaderAlignmentHorz = taCenter
+        end
+        object tvVerbasqtd_excedente: TcxGridDBColumn
+          DataBinding.FieldName = 'qtd_excedente'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DecimalPlaces = 3
+          Properties.DisplayFormat = ' ,0.000;-,0.000'
+          Properties.EditFormat = ' ,0.000;-,0.000'
+          Visible = False
+        end
+        object tvVerbasval_excedente: TcxGridDBColumn
+          DataBinding.FieldName = 'val_excedente'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;-,0.00'
+          Properties.EditFormat = ' ,0.00;-,0.00'
+          Visible = False
         end
       end
       object lvVerbas: TcxGridLevel
@@ -818,6 +836,7 @@ object view_Verbas_Expressas: Tview_Verbas_Expressas
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
+      LayoutLookAndFeel = Data_Sisgef.dxLayoutCxLookAndFeel1
       ButtonOptions.Buttons = <>
       Hidden = True
       ShowBorder = False
@@ -985,6 +1004,14 @@ object view_Verbas_Expressas: Tview_Verbas_Expressas
     object mtbverbascod_roteiro: TIntegerField
       DisplayLabel = 'C'#243'd. Roteiro'
       FieldName = 'cod_roteiro'
+    end
+    object mtbverbasqtd_excedente: TSingleField
+      DisplayLabel = 'Unidade excedente'
+      FieldName = 'qtd_excedente'
+    end
+    object mtbverbasval_excedente: TSingleField
+      DisplayLabel = 'Valor excedente'
+      FieldName = 'val_excedente'
     end
   end
   object dsVerbas: TDataSource

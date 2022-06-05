@@ -156,7 +156,7 @@ begin
         Exit;
       end;
     end;
-    if FVerbas.Tipo = 5 then
+    if (FVerbas.Tipo = 3) or (FVerbas.Tipo = 5) then
     begin
       if FVerbas.PesoInicial = 0 then
       begin
@@ -171,6 +171,16 @@ begin
       if FVerbas.PesoFinal < FVerbas.PesoInicial then
       begin
         Application.MessageBox('Peso final menor que o peso inicial!', 'Atenção!', MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+      if (FVerbas.UnidadeExcedente > 0) and (FVerbas.ValorExcedente <= 0) then
+      begin
+        Application.MessageBox('Valor da unidade excedente inválido!', 'Atenção!', MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+      if (FVerbas.UnidadeExcedente <= 0) and (FVerbas.ValorExcedente > 0) then
+      begin
+        Application.MessageBox('Unidade excedente inválida!', 'Atenção!', MB_OK + MB_ICONEXCLAMATION);
         Exit;
       end;
     end;

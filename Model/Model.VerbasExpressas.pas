@@ -22,6 +22,8 @@ type
     FConexao : TConexao;
     FCliente: Integer;
     FRoteiro: Integer;
+    FValorExcedente: Double;
+    FUnidadeExcedente: Double;
 
     function Inserir(): Boolean;
     function Alterar(): Boolean;
@@ -40,6 +42,8 @@ type
     property PesoFinal: Double read FPesoFinal write FPesoFinal;
     property Cliente: Integer read FCliente write FCliente;
     property Roteiro: Integer read FRoteiro write FRoteiro;
+    property UnidadeExcedente: Double read FUnidadeExcedente write FUnidadeExcedente;
+    property ValorExcedente: Double read FValorExcedente write FValorExcedente;
     property Acao: TAcao read FAcao write FAcao;
     function GetID(): Integer;
     function Localizar(aParam: array of variant): TFDQuery;
@@ -71,9 +75,9 @@ begin
     'cod_tipo = :pcod_tipo, cod_cliente = :cod_cliente, id_grupo = :pid_grupo, dat_vigencia = :pdat_vigencia, ' +
     'val_verba = :pval_verba, val_performance = :pval_performance, num_cep_inicial = :pnum_cep_inicial, ' +
     'num_cep_final = :pnum_cep_final, qtd_peso_inicial = :pqtd_peso_inicial, qtd_peso_final = :pqtd_peso_final, ' +
-    'cod_roteiro = :cod_roteiro ' +
+    'cod_roteiro = :cod_roteiro, qtd_excedente = :qtd_excedente, val_excedente = :val_excedente ' +
     'where id_verba = :pid_verba;', [Tipo, Cliente, Grupo, Vigencia, Verba, Performance, CEPInicial, CEPFinal, PesoInicial,
-    PesoFinal, Roteiro, ID]);
+    PesoFinal, Roteiro, UnidadeExcedente, ValorExcedente, ID]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -96,6 +100,8 @@ begin
   FPesoFinal := 0;
   FCliente := 0;
   FRoteiro := 0;
+  FUnidadeExcedente := 0;
+  FValorExcedente := 0;
 end;
 
 constructor TVerbasExpressas.Create;
@@ -155,12 +161,14 @@ begin
     FDQuery := FConexao.ReturnQuery();
     ID := GetID();
     FDQuery.ExecSQL('insert into ' + TABLENAME  + '(id_verba, cod_cliente, cod_tipo, id_grupo, dat_vigencia, val_verba, ' +
-                    'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro) ' +
+                    'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro, ' +
+                    'qtd_excedente, val_excedente) ' +
                     'values ' +
                     '(:pid_verba, :pcod_cliente, :pcod_tipo, :pid_grupo, :pdat_vigencia, :pval_verba, :pval_performance, ' +
-                    ':pnum_cep_inicial, :pnum_cep_final, :pqtd_peso_inicial, :pqtd_peso_final, :cod_roteiro);',
+                    ':pnum_cep_inicial, :pnum_cep_final, :pqtd_peso_inicial, :pqtd_peso_final, :cod_roteiro, ' +
+                    ':qtd_excedente, :val_excedente);',
                     [ID, Cliente, Tipo, Grupo, Vigencia, Verba, Performance, CEPInicial, CEPFinal, PesoInicial, PesoFinal,
-                    Roteiro]);
+                    Roteiro, UnidadeExcedente, ValorExcedente]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -177,7 +185,8 @@ begin
   FDQuery.SQL.Clear;
 
   FDQuery.SQL.Add('select id_verba, cod_cliente, cod_tipo, id_grupo, dat_vigencia, val_verba, ' +
-                  'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro from ' +
+                  'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro, ' +
+                  'qtd_excedente, val_excedente from ' +
                   TABLENAME);
   if aParam[0] = 'ID' then
   begin
@@ -471,14 +480,18 @@ end;
 function TVerbasExpressas.RetornaVerba(): double;
 var
   FDQuery: TFDQuery;
+  dExcedente, dValor: Double;
 begin
   try
     Result := 0;
+    dExcedente := 0;
+    dValor := 0;
     FDQuery := FConexao.ReturnQuery();
     FDQuery.SQL.Clear;
 
     FDQuery.SQL.Add('select id_verba, cod_cliente, cod_tipo, id_grupo, dat_vigencia, val_verba, ' +
-                    'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro from ' +
+                    'val_performance, num_cep_inicial, num_cep_final, qtd_peso_inicial, qtd_peso_final, cod_roteiro, ' +
+                    'qtd_excedente, val_excedente from ' +
                     TABLENAME);
 
     if Self.Tipo = 0 then
@@ -562,7 +575,24 @@ begin
     if FDQuery.RecordCount > 0 then
     begin
       FDQuery.First;
-      Result := FDQuery.FieldByName('val_verba').AsFloat;
+      if (FDQuery.FieldByName('cod_tipo').AsInteger = 3) or (FDQuery.FieldByName('cod_tipo').AsInteger = 5) then
+      begin
+        if (FDQuery.FieldByName('qtd_peso_final').AsFloat = 999999) and (FDQuery.FieldByName('qtd_excedente').AsFloat > 0) then
+        begin
+          dExcedente := Self.PesoInicial - FDQuery.FieldByName('qtd_peso_inicial').AsFloat;
+          dValor := FDQuery.FieldByName('val_verba').AsFloat +
+                   (FDQuery.FieldByName('val_excedente').AsFloat *
+                   Round(dExcedente / FDQuery.FieldByName('qtd_excedente').AsFloat));
+        end
+        else
+        begin
+          Result := FDQuery.FieldByName('val_verba').AsFloat;
+        end;
+      end
+      else
+      begin
+        Result := FDQuery.FieldByName('val_verba').AsFloat;
+      end;
     end;
   finally
     FDQuery.Close;
