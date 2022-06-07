@@ -268,7 +268,8 @@ uses
   View.SisGeFVehiclesRegistration in 'View\View.SisGeFVehiclesRegistration.pas' {view_SisGeFVehicleRegistration},
   Controller.CRMContatosEmpresas in 'Control\Controller.CRMContatosEmpresas.pas',
   View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas},
-  View.PesquisaEmpresas in 'View\View.PesquisaEmpresas.pas' {view_PesquisaEmpresas};
+  View.PesquisaEmpresas in 'View\View.PesquisaEmpresas.pas' {view_PesquisaEmpresas},
+  View.SisGeFExtractedExpress in 'View\View.SisGeFExtractedExpress.pas' {view_SisGeFExtractedExpress};
 
 {$R *.res}
 
