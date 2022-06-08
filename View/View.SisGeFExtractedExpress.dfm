@@ -3,7 +3,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
   Top = 0
   Caption = 'Extrato de Expressas'
   ClientHeight = 405
-  ClientWidth = 812
+  ClientWidth = 868
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,14 +18,14 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 812
+    Width = 868
     Height = 405
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitWidth = 739
+    ExplicitWidth = 812
     object tipoExtrato: TcxComboBox
       Left = 36
       Top = 80
@@ -73,7 +73,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Width = 209
     end
     object anoPeriodo: TcxComboBox
-      Left = 295
+      Left = 313
       Top = 77
       Hint = 'Ano do per'#237'odo do extrato'
       Properties.DropDownListStyle = lsEditFixedList
@@ -82,7 +82,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Width = 66
     end
     object mesPeriodo: TcxComboBox
-      Left = 367
+      Left = 385
       Top = 76
       Hint = 'M'#234's do per'#237'odo do extrato'
       Properties.DropDownListStyle = lsEditFixedList
@@ -106,7 +106,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Width = 98
     end
     object periodoParametrizado: TcxComboBox
-      Left = 471
+      Left = 489
       Top = 76
       Hint = 'Per'#237'odo parametrizado'
       Style.HotTrack = False
@@ -114,7 +114,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Width = 121
     end
     object situacaoExtrato: TcxComboBox
-      Left = 645
+      Left = 690
       Top = 80
       Hint = 'Situa'#231#227'o do extrato'
       Properties.DropDownListStyle = lsEditFixedList
@@ -125,12 +125,12 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 7
       Text = 'SELECIONE ...'
-      Width = 131
+      Width = 142
     end
     object listaClientes: TcxMCListBox
-      Left = 48
-      Top = 173
-      Width = 227
+      Left = 36
+      Top = 155
+      Width = 245
       Height = 97
       HeaderSections = <
         item
@@ -146,25 +146,25 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 8
     end
     object cxButton1: TcxButton
-      Left = 48
-      Top = 276
-      Width = 111
+      Left = 36
+      Top = 258
+      Width = 78
       Height = 25
-      Caption = 'cxButton1'
+      Action = actionIncludeClients
       TabOrder = 9
     end
     object cxButton2: TcxButton
-      Left = 165
-      Top = 276
-      Width = 110
+      Left = 120
+      Top = 258
+      Width = 77
       Height = 25
-      Caption = 'cxButton2'
+      Action = actionExcludeClients
       TabOrder = 10
     end
     object listaBases: TcxMCListBox
-      Left = 305
-      Top = 173
-      Width = 209
+      Left = 311
+      Top = 155
+      Width = 246
       Height = 97
       HeaderSections = <
         item
@@ -175,30 +175,30 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         item
           AutoSize = True
           Text = 'Nome'
-          Width = 140
+          Width = 177
         end>
-      TabOrder = 11
-    end
-    object cxButton3: TcxButton
-      Left = 305
-      Top = 276
-      Width = 102
-      Height = 25
-      Caption = 'cxButton3'
       TabOrder = 12
     end
-    object cxButton4: TcxButton
-      Left = 413
-      Top = 276
-      Width = 101
+    object cxButton3: TcxButton
+      Left = 311
+      Top = 258
+      Width = 78
       Height = 25
-      Caption = 'cxButton4'
+      Action = actionIncludeBases
       TabOrder = 13
     end
+    object cxButton4: TcxButton
+      Left = 395
+      Top = 258
+      Width = 78
+      Height = 25
+      Action = actionExcludeBases
+      TabOrder = 14
+    end
     object listaEntregadores: TcxMCListBox
-      Left = 544
-      Top = 173
-      Width = 216
+      Left = 587
+      Top = 155
+      Width = 245
       Height = 97
       HeaderSections = <
         item
@@ -209,25 +209,49 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         item
           AutoSize = True
           Text = 'Nome'
-          Width = 147
+          Width = 176
         end>
-      TabOrder = 14
+      TabOrder = 16
     end
     object cxButton5: TcxButton
-      Left = 544
-      Top = 276
-      Width = 105
+      Left = 587
+      Top = 258
+      Width = 78
       Height = 25
-      Caption = 'cxButton5'
-      TabOrder = 15
+      Action = actionIncludeCouriers
+      TabOrder = 17
     end
     object cxButton6: TcxButton
-      Left = 655
-      Top = 276
-      Width = 105
+      Left = 671
+      Top = 258
+      Width = 77
       Height = 25
-      Caption = 'cxButton6'
-      TabOrder = 16
+      Action = actionExcludeCouriers
+      TabOrder = 18
+    end
+    object cxButton7: TcxButton
+      Left = 203
+      Top = 258
+      Width = 78
+      Height = 25
+      Action = actionClearClients
+      TabOrder = 11
+    end
+    object cxButton8: TcxButton
+      Left = 479
+      Top = 258
+      Width = 78
+      Height = 25
+      Action = actionClearBases
+      TabOrder = 15
+    end
+    object cxButton9: TcxButton
+      Left = 754
+      Top = 258
+      Width = 78
+      Height = 25
+      Action = actionClearCouriers
+      TabOrder = 19
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -414,14 +438,19 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object dxLayoutGroup6: TdxLayoutGroup
       Parent = layoutGroupParameters
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ItemIndex = 2
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 1
     end
     object dxLayoutItem9: TdxLayoutItem
       Parent = dxLayoutGroup7
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Clientes: (Nenhum cliente informado = TODOS)'
       CaptionOptions.Layout = clTop
       Control = listaClientes
@@ -432,8 +461,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object dxLayoutGroup7: TdxLayoutGroup
       Parent = dxLayoutGroup6
-      AlignHorz = ahLeft
-      AlignVert = avClient
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
@@ -475,6 +504,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object dxLayoutGroup9: TdxLayoutGroup
       Parent = dxLayoutGroup6
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
@@ -483,6 +514,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object dxLayoutItem12: TdxLayoutItem
       Parent = dxLayoutGroup9
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Bases: (Nenhuma base informda = TODOS)'
       CaptionOptions.Layout = clTop
       Control = listaBases
@@ -495,6 +528,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Parent = dxLayoutGroup9
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -525,6 +559,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object dxLayoutGroup11: TdxLayoutGroup
       Parent = dxLayoutGroup6
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
@@ -533,7 +569,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object dxLayoutItem15: TdxLayoutItem
       Parent = dxLayoutGroup11
-      CaptionOptions.Text = 'Entregadores: (Nenhum informado = TODOS'
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'Entregadores: (Nenhum informado = TODOS)'
       CaptionOptions.Layout = clTop
       Control = listaEntregadores
       ControlOptions.OriginalHeight = 97
@@ -547,6 +585,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -574,6 +613,101 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
+    end
+    object dxLayoutItem18: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton7'
+      CaptionOptions.Visible = False
+      Control = cxButton7
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem19: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton8'
+      CaptionOptions.Visible = False
+      Control = cxButton8
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem20: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton9'
+      CaptionOptions.Visible = False
+      Control = cxButton9
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+  end
+  object actionListExtract: TActionList
+    Images = Data_Sisgef.iml_16_16
+    Left = 264
+    Top = 16
+    object actionIncludeClients: TAction
+      Category = 'Clients'
+      Caption = 'Incluir'
+      Hint = 'Incluir Clientes'
+      ImageIndex = 89
+    end
+    object actionExcludeClients: TAction
+      Category = 'Clients'
+      Caption = 'Excluir'
+      Hint = 'Excluir cliente'
+      ImageIndex = 90
+    end
+    object actionClearClients: TAction
+      Category = 'Clients'
+      Caption = 'Limpar'
+      Hint = 'Limpar lista'
+      ImageIndex = 84
+    end
+    object actionIncludeBases: TAction
+      Category = 'Bases'
+      Caption = 'Incluir'
+      Hint = 'Incluir base'
+      ImageIndex = 89
+    end
+    object actionExcludeBases: TAction
+      Category = 'Bases'
+      Caption = 'Excluir'
+      Hint = 'Excluir base'
+      ImageIndex = 90
+    end
+    object actionClearBases: TAction
+      Category = 'Bases'
+      Caption = 'Limpar'
+      Hint = 'Limpar lista'
+      ImageIndex = 84
+    end
+    object actionIncludeCouriers: TAction
+      Category = 'Couriers'
+      Caption = 'Incluir'
+      Hint = 'Incluir entregadores'
+      ImageIndex = 89
+    end
+    object actionExcludeCouriers: TAction
+      Category = 'Couriers'
+      Caption = 'Excluir'
+      Hint = 'Excluir entregador da lista'
+      ImageIndex = 90
+    end
+    object actionClearCouriers: TAction
+      Category = 'Couriers'
+      Caption = 'Limpar'
+      Hint = 'Limpar lista de entregadores'
+      ImageIndex = 84
     end
   end
 end

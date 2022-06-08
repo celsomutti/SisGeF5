@@ -245,7 +245,7 @@ uses
   View.SisGeFEmployeeRegistrationDetail in 'View\View.SisGeFEmployeeRegistrationDetail.pas' {view_SisGeFEmployeeRegistrationDetail},
   Model.SisgeFRHFuncoes in 'Model\Model.SisgeFRHFuncoes.pas',
   Control.SisGeFRHFuncoes in 'Control\Control.SisGeFRHFuncoes.pas',
-  View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
+  View.PesquisaAgentes in 'View\View.PesquisaAgentes.pas' {view_PesquisaPessoasAgentes},
   View.SisaGeFAttachDocuments in 'View\View.SisaGeFAttachDocuments.pas' {view_SisgeFAttachDocuments},
   Model.SisgeFVehiclesRegistration in 'Model\Model.SisgeFVehiclesRegistration.pas',
   Controller.SisGeFVehiclesRegistration in 'Control\Controller.SisGeFVehiclesRegistration.pas',
@@ -269,7 +269,8 @@ uses
   Controller.CRMContatosEmpresas in 'Control\Controller.CRMContatosEmpresas.pas',
   View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas},
   View.PesquisaEmpresas in 'View\View.PesquisaEmpresas.pas' {view_PesquisaEmpresas},
-  View.SisGeFExtractedExpress in 'View\View.SisGeFExtractedExpress.pas' {view_SisGeFExtractedExpress};
+  View.SisGeFExtractedExpress in 'View\View.SisGeFExtractedExpress.pas' {view_SisGeFExtractedExpress},
+  View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM};
 
 {$R *.res}
 

@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore,
   dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxCustomListBox, cxMCListBox, dxLayoutControlAdapters,
-  Vcl.Menus, Vcl.StdCtrls, cxButtons;
+  Vcl.Menus, Vcl.StdCtrls, cxButtons, System.Actions, Vcl.ActnList;
 
 type
   Tview_SisGeFExtractedExpress = class(TForm)
@@ -64,6 +64,22 @@ type
     dxLayoutItem16: TdxLayoutItem;
     cxButton6: TcxButton;
     dxLayoutItem17: TdxLayoutItem;
+    cxButton7: TcxButton;
+    dxLayoutItem18: TdxLayoutItem;
+    cxButton8: TcxButton;
+    dxLayoutItem19: TdxLayoutItem;
+    cxButton9: TcxButton;
+    dxLayoutItem20: TdxLayoutItem;
+    actionListExtract: TActionList;
+    actionIncludeClients: TAction;
+    actionExcludeClients: TAction;
+    actionClearClients: TAction;
+    actionIncludeBases: TAction;
+    actionExcludeBases: TAction;
+    actionClearBases: TAction;
+    actionIncludeCouriers: TAction;
+    actionExcludeCouriers: TAction;
+    actionClearCouriers: TAction;
   private
     { Private declarations }
   public
