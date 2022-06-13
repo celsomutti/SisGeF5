@@ -262,7 +262,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
   View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
   View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
-  View.CadastroClientes;
+  View.CadastroClientes, View.SisGeFExtractedExpress;
 
 procedure Tview_Main.Acessos;
 var
@@ -465,11 +465,17 @@ end;
 
 procedure Tview_Main.actExtratoEntregadoresExpressasExecute(Sender: TObject);
 begin
-  if not Assigned(view_ExtratoExpressas) then
+//  if not Assigned(view_ExtratoExpressas) then
+//  begin
+//    view_ExtratoExpressas := Tview_ExtratoExpressas.Create(Application);
+//  end;
+//  view_ExtratoExpressas.Show;
+  if not Assigned(view_SisGeFExtractedExpress) then
   begin
-    view_ExtratoExpressas := Tview_ExtratoExpressas.Create(Application);
+    view_SisGeFExtractedExpress := Tview_SisGeFExtractedExpress.Create(Application);
   end;
-  view_ExtratoExpressas.Show;
+  view_SisGeFExtractedExpress.Show;
+
 end;
 
 procedure Tview_Main.actExtraviosExpressasExecute(Sender: TObject);

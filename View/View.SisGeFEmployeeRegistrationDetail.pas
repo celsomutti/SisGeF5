@@ -881,7 +881,8 @@ begin
   FEnderecos.Enderecos.Referencia := referenciaLogradouro.Text;
   FCadastro.Cadastro.FormaPagamento := formaPagamento.Text;
   FCadastro.Cadastro.TipoConta := tipoConta.Text;
-  FCadastro.Cadastro.Banco := banco.EditValue;
+  if banco.Text <> '' then
+    FCadastro.Cadastro.Banco := banco.EditValue;
   FCadastro.Cadastro.AgenciaConta := agencia.Text;
   FCadastro.Cadastro.NumeroConta := numeroConta.Text;
   FCadastro.Cadastro.NomeFavorecido := nomeFavorecido.Text;

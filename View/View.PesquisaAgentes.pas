@@ -11,7 +11,7 @@ uses
   cxGridTableView, cxGridDBTableView, cxGrid, dxLayoutControlAdapters, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.StdCtrls,
   cxButtons, Vcl.Buttons, cxCheckBox, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxTextEdit,
-  cxMaskEdit, cxButtonEdit, dxBar, cxDropDownEdit;
+  cxMaskEdit, cxButtonEdit, dxBar, cxDropDownEdit, DAO.Conexao;
 
 type
   Tview_PesquisaPessoasAgentes = class(TForm)
@@ -52,7 +52,6 @@ type
     comboBoxOutrosCampos: TcxComboBox;
     layoutItemTipoPesquisa: TdxLayoutItem;
     dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
-    fdPesquisacod_cadastro: TIntegerField;
     fdPesquisades_razao_social: TStringField;
     fdPesquisanom_fantasia: TStringField;
     fdPesquisanum_cnpj: TStringField;
@@ -65,6 +64,7 @@ type
     gridPesquisaDBTableView1num_im: TcxGridDBColumn;
     gridPesquisaDBTableView1num_telefone: TcxGridDBColumn;
     gridPesquisaDBTableView1des_email: TcxGridDBColumn;
+    fdPesquisacod_agente: TIntegerField;
     procedure FormShow(Sender: TObject);
     procedure actionExpandirGridExecute(Sender: TObject);
     procedure actionRetrairGridExecute(Sender: TObject);
@@ -94,6 +94,7 @@ type
 
 var
   view_PesquisaPessoasAgentes: Tview_PesquisaPessoasAgentes;
+  Fconexao : TConexao;
 
 implementation
 
@@ -123,7 +124,7 @@ end;
 
 procedure Tview_PesquisaPessoasAgentes.actionOKExecute(Sender: TObject);
 begin
-  iId := fdPesquisacod_cadastro.AsInteger;
+  iId := fdPesquisacod_agente.AsInteger;
   sNome := fdPesquisades_razao_social.AsString;
   fdpesquisa.Filtered := False;
   ModalResult := mrOk;
@@ -269,6 +270,7 @@ begin
     fdpesquisa.Filter := sFiltro;
     fdpesquisa.Filtered := True;
   end;
+  fdPesquisa.Connection := FConexao.GetConn;
   fdPesquisa.Open();
   if not fdPesquisa.IsEmpty then
   begin
@@ -285,6 +287,7 @@ end;
 procedure Tview_PesquisaPessoasAgentes.StartForm;
 begin
   iID := 0;
+  Fconexao := TConexao.Create;
   SetGroup(checkBoxBarraGrupos.Checked);
 end;
 

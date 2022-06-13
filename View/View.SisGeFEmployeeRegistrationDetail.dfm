@@ -419,7 +419,7 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     Height = 179
     Align = alTop
     TabOrder = 3
-    Properties.ActivePage = cxTabSheet1
+    Properties.ActivePage = cxTabSheet3
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 175
     ClientRectLeft = 4
@@ -559,10 +559,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet2: TcxTabSheet
       Caption = 'Contato'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gridContatos: TcxGrid
         Left = 0
         Top = 0
@@ -771,10 +767,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet4: TcxTabSheet
       Caption = 'Observa'#231#245'es'
       ImageIndex = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object observacoes: TcxMemo
         Left = 0
         Top = 0
@@ -789,10 +781,6 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet5: TcxTabSheet
       Caption = 'Ve'#237'culos'
       ImageIndex = 4
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gridVeiculos: TcxGrid
         AlignWithMargins = True
         Left = 3

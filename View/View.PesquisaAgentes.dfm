@@ -94,7 +94,7 @@ object view_PesquisaPessoasAgentes: Tview_PesquisaPessoasAgentes
         OptionsView.Indicator = True
         object gridPesquisaDBTableView1cod_cadastro: TcxGridDBColumn
           Caption = 'C'#243'digo'
-          DataBinding.FieldName = 'cod_cadastro'
+          DataBinding.FieldName = 'cod_agente'
         end
         object gridPesquisaDBTableView1des_razao_social: TcxGridDBColumn
           Caption = 'Nome / Raz'#227'o Social'
@@ -397,14 +397,14 @@ object view_PesquisaPessoasAgentes: Tview_PesquisaPessoasAgentes
       Category = 'Op'#231#245'es'
       Caption = 'Expandir'
       Hint = 'Expandir os detalhes do Grid'
-      ImageIndex = 3
+      ImageIndex = 106
       OnExecute = actionExpandirGridExecute
     end
     object actionRetrairGrid: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Retrair'
       Hint = 'Retrair detalhes do Grid'
-      ImageIndex = 3
+      ImageIndex = 107
       OnExecute = actionRetrairGridExecute
     end
     object actionPesquisar: TAction
@@ -412,7 +412,7 @@ object view_PesquisaPessoasAgentes: Tview_PesquisaPessoasAgentes
       AutoCheck = True
       Caption = 'Localizar'
       Hint = 'Realizar pesquisa'
-      ImageIndex = 7
+      ImageIndex = 86
       OnExecute = actionPesquisarExecute
     end
     object actionLimpar: TAction
@@ -420,28 +420,28 @@ object view_PesquisaPessoasAgentes: Tview_PesquisaPessoasAgentes
       Caption = 'Limpar'
       Enabled = False
       Hint = 'Limpar o campo de texto a pesquisar'
-      ImageIndex = 4
+      ImageIndex = 9
       OnExecute = actionLimparExecute
     end
     object actionExportar: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Exportar'
       Hint = 'Exportar dados do grid'
-      ImageIndex = 8
+      ImageIndex = 101
       ShortCut = 49240
     end
     object actionFechar: TAction
       Category = 'Op'#231#245'es'
       Caption = 'Fechar'
       Hint = 'Fechar a tela'
-      ImageIndex = 6
+      ImageIndex = 98
       OnExecute = actionFecharExecute
     end
     object actionOK: TAction
       Category = 'Op'#231#245'es'
       Caption = 'OK'
       Hint = 'Selecionar o registro'
-      ImageIndex = 5
+      ImageIndex = 83
       OnExecute = actionOKExecute
     end
   end
@@ -453,10 +453,8 @@ object view_PesquisaPessoasAgentes: Tview_PesquisaPessoasAgentes
       'select * from tbagentes')
     Left = 272
     Top = 65528
-    object fdPesquisacod_cadastro: TIntegerField
-      FieldName = 'cod_cadastro'
-      Origin = 'cod_cadastro'
-      Required = True
+    object fdPesquisacod_agente: TIntegerField
+      FieldName = 'cod_agente'
     end
     object fdPesquisades_razao_social: TStringField
       AutoGenerateValue = arDefault
