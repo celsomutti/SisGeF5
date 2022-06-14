@@ -23,6 +23,7 @@ type
 
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
+    function GetField(sField: String; sKey: String; sKeyValue: String): String;
   end;
 
 implementation
@@ -30,6 +31,18 @@ implementation
 { TParametros }
 
 uses DAO.Parametros;
+
+function TParametros.GetField(sField, sKey, sKeyValue: String): String;
+var
+  parametroDAO: TParametrosDAO;
+begin
+  try
+    parametroDAO := TParametrosDAO.Create;
+    Result := parametroDAO.GetField(sField, sKey, sKeyValue);
+  finally
+    parametroDAO.Free;
+  end;
+end;
 
 function TParametros.Gravar: Boolean;
 var

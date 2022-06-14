@@ -2,7 +2,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
   Left = 0
   Top = 0
   Caption = 'Extrato de Expressas'
-  ClientHeight = 405
+  ClientHeight = 441
   ClientWidth = 868
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,12 +22,13 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     Left = 0
     Top = 0
     Width = 868
-    Height = 405
+    Height = 441
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitHeight = 405
     object tipoExtrato: TcxComboBox
       Left = 24
       Top = 76
@@ -129,12 +130,12 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Hint = 'Situa'#231#227'o do extrato'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
-        'SELECIONE ...'
+        'Selecione ...'
         'ABERTO'
         'ENCERRADO')
       Style.HotTrack = False
       TabOrder = 7
-      Text = 'SELECIONE ...'
+      Text = 'Selecione ...'
       Width = 140
     end
     object listaClientes: TcxMCListBox
@@ -275,21 +276,59 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object cxButton10: TcxButton
       Left = 783
-      Top = 370
+      Top = 406
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 21
+      TabOrder = 25
     end
     object cxButton11: TcxButton
       Left = 10
-      Top = 370
+      Top = 406
       Width = 87
       Height = 25
       Cursor = crHandPoint
       Action = actionProcess
+      TabOrder = 24
+    end
+    object processaEntregasAnteriores: TcxCheckBox
+      Left = 36
+      Top = 317
+      Cursor = crHandPoint
+      Hint = 'Processar entregas baixdas anteriormente ao per'#237'odo informado'
+      Caption = 'Processar entregas anteriores ao per'#237'odo'
+      Style.HotTrack = False
       TabOrder = 20
+    end
+    object calcularVolumeExtra: TcxCheckBox
+      Left = 340
+      Top = 317
+      Cursor = crHandPoint
+      Hint = 'Calcular volumes extras'
+      Caption = 'Volumes extras'
+      Style.HotTrack = False
+      TabOrder = 21
+    end
+    object considerarExtravios: TcxCheckBox
+      Left = 475
+      Top = 317
+      Cursor = crHandPoint
+      Hint = 'Considerar extravios'
+      Caption = 'Considerar extravios'
+      State = cbsChecked
+      Style.HotTrack = False
+      TabOrder = 22
+    end
+    object considerarLancamentos: TcxCheckBox
+      Left = 647
+      Top = 317
+      Cursor = crHandPoint
+      Hint = 'Considerar lan'#231'amentos de d'#233'bitos e cr'#233'ditos'
+      Caption = 'Considerar lan'#231'amentos'
+      State = cbsChecked
+      Style.HotTrack = False
+      TabOrder = 23
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -338,6 +377,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Parent = layoutGroupMain
       CaptionOptions.Text = 'Par'#226'metros'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       Index = 0
     end
     object layoutGroupExtract: TdxLayoutGroup
@@ -350,7 +390,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Parent = layoutGroupParameters
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -492,7 +531,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -614,7 +652,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       Index = 2
     end
     object dxLayoutItem15: TdxLayoutItem
@@ -737,6 +774,62 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       Index = 2
+    end
+    object dxLayoutGroup15: TdxLayoutGroup
+      Parent = layoutGroupParameters
+      CaptionOptions.Text = 'New Group'
+      CaptionOptions.Visible = False
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      Index = 2
+    end
+    object dxLayoutItem23: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = processaEntregasAnteriores
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 223
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem24: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = calcularVolumeExtra
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 97
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem25: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = considerarExtravios
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 124
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem26: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = considerarLancamentos
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 139
+      ControlOptions.ShowBorder = False
+      Index = 3
     end
   end
   object actionListExtract: TActionList

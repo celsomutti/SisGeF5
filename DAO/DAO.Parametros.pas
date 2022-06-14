@@ -13,6 +13,7 @@ interface
     function Alterar(AParametros: TParametros): Boolean;
     function Excluir(AParametros: TParametros): Boolean;
     function Pesquisar(aParam: array of variant): TFDQuery;
+    function GetField(sField: String; sKey: String; sKeyValue: String): String;
   end;
   const
     TABLENAME = 'financeiro_parametros';
@@ -55,6 +56,21 @@ begin
     Result := True;
   finally
     FDquery.Free;
+  end;
+end;
+
+function TParametrosDAO.GetField(sField, sKey, sKeyValue: String): String;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := '';
+    FDQuery := FConexao.ReturnQuery();
+    FDQuery.SQL.Text := 'select ' + sField + ' from ' + TABLENAME + ' where ' + sKey + ' = ' + sKeyValue;
+    FDQuery.Open();
+    if not FDQuery.IsEmpty then Result := FDQuery.FieldByName(sField).AsString;
+  finally
+    FDQuery.Free;
   end;
 end;
 

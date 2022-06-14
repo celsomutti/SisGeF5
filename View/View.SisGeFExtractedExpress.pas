@@ -8,7 +8,7 @@ uses
   dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxCustomListBox, cxMCListBox, dxLayoutControlAdapters,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, System.Actions, Vcl.ActnList, Control.Parametros, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, DAO.Conexao, System.DateUtils;
+  FireDAC.Comp.Client, DAO.Conexao, System.DateUtils, cxCheckBox;
 
 type
   Tview_SisGeFExtractedExpress = class(TForm)
@@ -89,6 +89,15 @@ type
     cxButton11: TcxButton;
     dxLayoutItem22: TdxLayoutItem;
     dxLayoutGroup14: TdxLayoutGroup;
+    dxLayoutGroup15: TdxLayoutGroup;
+    processaEntregasAnteriores: TcxCheckBox;
+    dxLayoutItem23: TdxLayoutItem;
+    calcularVolumeExtra: TcxCheckBox;
+    dxLayoutItem24: TdxLayoutItem;
+    considerarExtravios: TcxCheckBox;
+    dxLayoutItem25: TdxLayoutItem;
+    considerarLancamentos: TcxCheckBox;
+    dxLayoutItem26: TdxLayoutItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionIncludeClientsExecute(Sender: TObject);
@@ -132,6 +141,7 @@ type
 
 var
   view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress;
+  FYear, FMounth, FPeriod: integer;
 
 implementation
 
@@ -508,11 +518,17 @@ begin
   if (tipoPeriodo.ItemIndex = 3) or (tipoPeriodo.ItemIndex = 4) then
   begin
     sFilter := sField + RidePeriod(StrToInt(anoPeriodo.Text), mesPeriodo.ItemIndex, periodoParametrizado.ItemIndex);
+    FYear := StrToInt(anoPeriodo.Text);
+    FMounth := mesPeriodo.ItemIndex;
+    FPeriod := periodoParametrizado.ItemIndex;
   end
   else if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 2) then
   begin
     sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and ' +
                QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
+    FYear := YearOf(dataFinalPeriodo.Date);
+    FMounth := MonthOf(dataFinalPeriodo.Date);
+    FPeriod := 0;
   end;
   Result := sFilter;
 end;

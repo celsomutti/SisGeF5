@@ -15,6 +15,7 @@ uses System.SysUtils, FireDAC.Comp.Client, Model.Parametros;
 
     function Gravar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
+    function GetField(sField: String; sKey: String; sKeyValue: String): String;
 
     property Parametros: TParametros read FParametros write FParametros;
 
@@ -32,6 +33,11 @@ destructor TParametrosControl.Destroy;
 begin
   FParametros.Free;
   inherited;
+end;
+
+function TParametrosControl.GetField(sField, sKey, sKeyValue: String): String;
+begin
+  Result := FParametros.GetField(sField, sKey, sKeyValue);
 end;
 
 function TParametrosControl.Gravar: Boolean;
