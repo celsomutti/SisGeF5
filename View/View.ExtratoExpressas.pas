@@ -1080,6 +1080,7 @@ var
   dtData1, dtData2: TDateTime;
   iCliente: Integer;
 begin
+
   try
     fdQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery();
     extravios := TExtraviosMultasControl.Create;

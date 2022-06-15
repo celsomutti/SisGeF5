@@ -139,6 +139,7 @@ interface
       function EncerraEntregas(aParam: Array of variant): Boolean;
       function GetField(sField: String; sKey: String; sKeyValue: String): String;
       function GetAReceber(iEntregador: Integer): TFDQuery;
+      function GenerateExtract(pFilter: string): boolean;
       procedure SetupSelf(fdQuery: TFDQuery);
       procedure ClearSelf();
     end;
@@ -488,6 +489,13 @@ begin
     FDQuery.Connection.Close;
     FDQuery.Free;
   end;
+end;
+
+function TEntregas.GenerateExtract(pFilter: string): boolean;
+var
+  sSQL, sGroup : String;
+begin
+  sSQL := '';
 end;
 
 function TEntregas.GetAReceber(iEntregador: Integer): TFDQuery;

@@ -270,7 +270,8 @@ uses
   View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas},
   View.PesquisaEmpresas in 'View\View.PesquisaEmpresas.pas' {view_PesquisaEmpresas},
   View.SisGeFExtractedExpress in 'View\View.SisGeFExtractedExpress.pas' {view_SisGeFExtractedExpress},
-  View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM};
+  View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
+  Thread.SisGeFExpressExtract in 'Thread\Thread.SisGeFExpressExtract.pas';
 
 {$R *.res}
 

@@ -28,7 +28,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitHeight = 405
     object tipoExtrato: TcxComboBox
       Left = 24
       Top = 76
@@ -281,7 +280,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 25
+      TabOrder = 27
     end
     object cxButton11: TcxButton
       Left = 10
@@ -290,7 +289,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionProcess
-      TabOrder = 24
+      TabOrder = 26
     end
     object processaEntregasAnteriores: TcxCheckBox
       Left = 36
@@ -329,6 +328,26 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       State = cbsChecked
       Style.HotTrack = False
       TabOrder = 23
+    end
+    object DBGrid1: TDBGrid
+      Left = 10000
+      Top = 10000
+      Width = 728
+      Height = 116
+      BorderStyle = bsNone
+      DataSource = dsExtract
+      TabOrder = 24
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Visible = False
+    end
+    object activityIndicator: TActivityIndicator
+      Left = 10000
+      Top = 10000
+      IndicatorSize = aisXLarge
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -831,6 +850,23 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.ShowBorder = False
       Index = 3
     end
+    object dxLayoutItem27: TdxLayoutItem
+      Parent = layoutGroupExtract
+      CaptionOptions.Text = 'DBGrid1'
+      Control = DBGrid1
+      ControlOptions.OriginalHeight = 116
+      ControlOptions.OriginalWidth = 320
+      Index = 0
+    end
+    object dxLayoutItem28: TdxLayoutItem
+      Parent = layoutGroupExtract
+      CaptionOptions.Text = 'ActivityIndicator1'
+      Control = activityIndicator
+      ControlOptions.OriginalHeight = 64
+      ControlOptions.OriginalWidth = 32
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
   end
   object actionListExtract: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -913,5 +949,16 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ImageIndex = 83
       OnExecute = actionProcessExecute
     end
+  end
+  object dsExtract: TDataSource
+    AutoEdit = False
+    DataSet = Data_Sisgef.storedProc
+    Left = 384
+    Top = 8
+  end
+  object timer: TTimer
+    OnTimer = timerTimer
+    Left = 720
+    Top = 16
   end
 end

@@ -51,6 +51,7 @@ type
     class Procedure CancelaTocaErro;
     class function GenerateUniqueKey(pPrefix: String = ''): String;
     class Function DesmontaCPFCNPJ(sNum: String): String;
+    class function GetNewID(Prefix:String):string;
     class procedure NoRotine;
   end;
 
@@ -562,6 +563,7 @@ begin
   Result := Result + LMilsSince.ToString;
 end;
 
+
 class function TUtils.GetBuildInfo(prog: String): String;
 var
   VerInfoSize: Dword;
@@ -591,6 +593,24 @@ begin
 end;
 
 
+
+class function TUtils.GetNewID(Prefix: String): string;
+var
+   reg:array [1..7] of word;
+   Ano,Mes,Dia,Hora,Minuto,Segundo,MSeg,i:word;
+begin
+  Result:='';
+  DecodeDate(Date,reg[1],reg[2],reg[3]);
+  Ano:=StrToInt(Copy(IntToStr(reg[1]),3,2));
+  DecodeTime(Time,reg[4],reg[5],reg[6],reg[7]);
+  randomize;
+  for i:=1 to 7 do
+     begin
+          reg[i]:=reg[i]+Random(100);
+          Result:=Result+IntToHex(reg[i],2);
+     end;
+  Result:=Prefix+Result;
+end;
 
 // Retorna o tamanho de um arquivo em bytes
 class function TUtils.DSiFileSize(const fileName: string): int64;

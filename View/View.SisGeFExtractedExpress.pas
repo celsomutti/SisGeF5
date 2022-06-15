@@ -8,7 +8,10 @@ uses
   dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxCustomListBox, cxMCListBox, dxLayoutControlAdapters,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, System.Actions, Vcl.ActnList, Control.Parametros, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, DAO.Conexao, System.DateUtils, cxCheckBox;
+  FireDAC.Comp.Client, DAO.Conexao, System.DateUtils, cxCheckBox, Common.Utils, cxStyles, cxCustomData, cxFilter, cxData,
+  cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
+  cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Vcl.Grids, Vcl.DBGrids, Vcl.WinXCtrls,
+  Thread.SisGeFExpressExtract, Vcl.ExtCtrls;
 
 type
   Tview_SisGeFExtractedExpress = class(TForm)
@@ -98,6 +101,12 @@ type
     dxLayoutItem25: TdxLayoutItem;
     considerarLancamentos: TcxCheckBox;
     dxLayoutItem26: TdxLayoutItem;
+    dsExtract: TDataSource;
+    DBGrid1: TDBGrid;
+    dxLayoutItem27: TdxLayoutItem;
+    activityIndicator: TActivityIndicator;
+    dxLayoutItem28: TdxLayoutItem;
+    timer: TTimer;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionIncludeClientsExecute(Sender: TObject);
@@ -112,6 +121,7 @@ type
     procedure tipoPeriodoPropertiesChange(Sender: TObject);
     procedure actionProcessExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure timerTimer(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -142,6 +152,7 @@ type
 var
   view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress;
   FYear, FMounth, FPeriod: integer;
+  FExtract : TTHead_ExpressExtract;
 
 implementation
 
@@ -437,7 +448,7 @@ begin
       sQuery := sFilter;
   end;
   if not sQuery.IsEmpty then
-    sResult := ' where ' + sQuery;
+    sResult := ' where ' + sQuery + ' and dom_fechado = ' + QuotedStr('N');
   Result := sResult;
 end;
 
@@ -524,8 +535,15 @@ begin
   end
   else if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 2) then
   begin
-    sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and ' +
-               QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
+    if processaEntregasAnteriores.Checked then
+    begin
+      sFilter := sField + ' <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
+    end
+    else
+    begin
+      sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and ' +
+                 QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
+    end;
     FYear := YearOf(dataFinalPeriodo.Date);
     FMounth := MonthOf(dataFinalPeriodo.Date);
     FPeriod := 0;
@@ -539,7 +557,19 @@ begin
     Exit;
   if Application.MessageBox('Confirma processar o extrato?', 'Processar', MB_YESNO + MB_ICONQUESTION) = IDNO then
     Exit;
-  ShowMessage(GeneralFilter);
+  dsExtract.Enabled := False;
+  FExtract := TTHead_ExpressExtract.Create(True);
+  FExtract.Filtro := GeneralFilter();
+//  FExtract.Cliente := iCliente;
+//  FExtract.MemTab := memTab;
+//  FExtract.Priority := tpNormal;
+//  Timer.Enabled := True;
+//  actionSelecionarArquivo.Enabled := False;
+//  actionLimparCampo.Enabled := False;
+//  actionImportar.Enabled := False;
+//  actionCancelar.Enabled := True;
+  activityIndicator.Animate := True;
+  FExtract.Start;
 end;
 
 function Tview_SisGeFExtractedExpress.RidePeriod(iYear, iMonth, iFortnight: Integer): string;
@@ -635,6 +665,11 @@ begin
   ListYears;
   ListFortnights;
   tipoPeriodo.ItemIndex := 0;
+end;
+
+procedure Tview_SisGeFExtractedExpress.timerTimer(Sender: TObject);
+begin
+  timer.Enabled := FExtract.InProcess;
 end;
 
 procedure Tview_SisGeFExtractedExpress.tipoPeriodoPropertiesChange(Sender: TObject);

@@ -12056,26 +12056,26 @@ object Data_Sisgef: TData_Sisgef
           22307078222076696577426F783D2230203020333220333222207374796C653D
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
-          303B2623393B2623393B2623393B093C7374796C6520747970653D2274657874
-          2F6373732220786D6C3A73706163653D227072657365727665223E2E5265647B
-          66696C6C3A234431314331433B7D262331333B262331303B2623393B2E426C61
-          636B7B66696C6C3A233732373237323B7D262331333B262331303B2623393B2E
-          426C75657B66696C6C3A233131373744373B7D262331333B262331303B262339
-          3B2E477265656E7B66696C6C3A233033394332333B7D262331333B262331303B
-          2623393B2E59656C6C6F777B66696C6C3A234646423131353B7D262331333B26
-          2331303B2623393B2E57686974657B66696C6C3A234646464646463B7D262331
-          333B262331303B2623393B2E7374307B6F7061636974793A302E353B7D262331
-          333B262331303B2623393B2E7374317B6F7061636974793A302E37353B7D2623
-          31333B262331303B2623393B2E7374327B6F7061636974793A302E32353B7D3C
-          2F7374796C653E0D0A093C672069643D22496D706F7274223E0D0A09093C7061
-          746820636C6173733D22426C61636B2220643D224D31302C3132483656366834
-          5631327A204D32322C31377631763963302C302E362D302E342C312D312C3148
-          31632D302E362C302D312D302E342D312D31563763302D302E362C302E342D31
-          2C312D31683376386831344C32322C31377A204D31382C313848342020262339
-          3B2623393B76366831345631387A222F3E0D0A09093C706F6C79676F6E20636C
-          6173733D22477265656E2220706F696E74733D2233302C362032322C36203232
-          2C322031342C382032322C31342032322C31302033302C3130202623393B222F
-          3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          303B2623393B2623393B2623393B2623393B093C7374796C6520747970653D22
+          746578742F6373732220786D6C3A73706163653D227072657365727665223E2E
+          5265647B66696C6C3A234431314331433B7D262331333B262331303B2623393B
+          2E426C61636B7B66696C6C3A233732373237323B7D262331333B262331303B26
+          23393B2E426C75657B66696C6C3A233131373744373B7D262331333B26233130
+          3B2623393B2E477265656E7B66696C6C3A233033394332333B7D262331333B26
+          2331303B2623393B2E59656C6C6F777B66696C6C3A234646423131353B7D2623
+          31333B262331303B2623393B2E57686974657B66696C6C3A234646464646463B
+          7D262331333B262331303B2623393B2E7374307B6F7061636974793A302E353B
+          7D262331333B262331303B2623393B2E7374317B6F7061636974793A302E3735
+          3B7D262331333B262331303B2623393B2E7374327B6F7061636974793A302E32
+          353B7D3C2F7374796C653E0D0A093C672069643D22496D706F7274223E0D0A09
+          093C7061746820636C6173733D22426C61636B2220643D224D31302C31324836
+          563668345631327A204D32322C31377631763963302C302E362D302E342C312D
+          312C314831632D302E362C302D312D302E342D312D31563763302D302E362C30
+          2E342D312C312D31683376386831344C32322C31377A204D31382C3138483420
+          202623393B2623393B76366831345631387A222F3E0D0A09093C706F6C79676F
+          6E20636C6173733D22477265656E2220706F696E74733D2233302C362032322C
+          362032322C322031342C382032322C31342032322C31302033302C3130202623
+          393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -15485,7 +15485,7 @@ object Data_Sisgef: TData_Sisgef
     ResourceOptions.AutoReconnect = True
     LoginPrompt = False
     BeforeConnect = FDConnectionMySQLBeforeConnect
-    Left = 544
+    Left = 536
     Top = 368
   end
   object SaveDialog: TSaveDialog
@@ -16563,5 +16563,100 @@ object Data_Sisgef: TData_Sisgef
     DataDef.WithFieldNames = True
     Left = 440
     Top = 400
+  end
+  object storedProc: TFDStoredProc
+    Filtered = True
+    Left = 552
+    Top = 440
+    object storedProccod_base: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'cod_base'
+      Origin = 'COD_AGENTE'
+    end
+    object storedProcnom_base: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_base'
+      Origin = 'nom_fantasia'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 80
+    end
+    object storedProccod_entregador: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'cod_entregador'
+      Origin = 'COD_ENTREGADOR'
+    end
+    object storedProcnom_entregador: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_entregador'
+      Origin = 'NOM_FANTASIA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 70
+    end
+    object storedProcval_verba: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'val_verba'
+      Origin = 'VAL_VERBA_ENTREGADOR'
+    end
+    object storedProcqtd_volumes: TFMTBCDField
+      AutoGenerateValue = arDefault
+      FieldName = 'qtd_volumes'
+      Origin = 'qtd_volumes'
+      ProviderFlags = []
+      ReadOnly = True
+      Precision = 32
+      Size = 0
+    end
+    object storedProcqtd_entregas: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'qtd_entregas'
+      Origin = 'qtd_entregas'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object storedProcqtd_atraso: TFMTBCDField
+      AutoGenerateValue = arDefault
+      FieldName = 'qtd_atraso'
+      Origin = 'qtd_atraso'
+      ProviderFlags = []
+      ReadOnly = True
+      Precision = 23
+      Size = 0
+    end
+    object storedProcval_performance: TFMTBCDField
+      AutoGenerateValue = arDefault
+      FieldName = 'val_performance'
+      Origin = 'val_performance'
+      ProviderFlags = []
+      ReadOnly = True
+      Precision = 31
+      Size = 4
+    end
+    object storedProcval_producao: TFloatField
+      AutoGenerateValue = arDefault
+      FieldName = 'val_producao'
+      Origin = 'val_producao'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object storedProccod_cliente: TIntegerField
+      FieldName = 'cod_cliente'
+      Origin = 'COD_CLIENTE_EMPRESA'
+      Required = True
+    end
+    object storedProcnom_cliente: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_cliente'
+      Origin = 'nom_fantasia'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 70
+    end
+    object storedProcdat_baixa: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'dat_baixa'
+      Origin = 'DAT_BAIXA'
+    end
   end
 end
