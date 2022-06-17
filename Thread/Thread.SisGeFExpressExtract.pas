@@ -3,7 +3,7 @@ unit Thread.SisGeFExpressExtract;
 interface
 
 uses
-  System.Classes, DAO.Conexao;
+  System.Classes, DAO.Conexao, FireDAC.Comp.Client, System.SysUtils;
 
 type
   TTHead_ExpressExtract = class(TThread)
@@ -12,6 +12,9 @@ type
     FFiltro: String;
     FTipo: integer;
     FInProcess: boolean;
+    FEndDate: TDate;
+    FStartDate: TDate;
+    FExtraVolume: boolean;
     { Private declarations }
     procedure ExecuteExpressExtractDeliveryDate;
   protected
@@ -20,6 +23,9 @@ type
     property Filtro : String read FFiltro write FFiltro;
     property Tipo: integer read FTipo write FTipo;
     property InProcess: boolean read FInProcess;
+    property StartDate: TDate read FStartDate write FStartDate;
+    property EndDate: TDate read FEndDate write FEndDate;
+    property ExtraVolume: boolean read FExtraVolume write FExtraVolume;
   end;
 
 implementation
@@ -68,27 +74,37 @@ end;
 procedure TTHead_ExpressExtract.ExecuteExpressExtractDeliveryDate;
 var
   FConnection : TConexao;
+  FQuery : TFDQuery;
 begin
   FInProcess := True;
   FConnection := Tconexao.Create;
   with Data_Sisgef do
   begin
-    storedProc.StoredProcName := 'sp_generate_express_extract';
-    storedProc.SchemaName := 'bderpsisgef';
-    storedProc.Connection := FConnection.GetConn;
+    storedProcExtractExpress.Connection := FConnection.GetConn;
+    storedProcExtractExpress.storedProcName := 'sp_generate_express_extract';
+    storedProcExtractExpress.SchemaName := 'bderpsisgef';
+    storedProcExtractExpress.Prepare;
+    storedProcExtractExpress.Params[0].AsDate := FStartDate;
+    storedProcExtractExpress.Params[1].AsDate := FEndDate;
+    storedProcExtractExpress.Params[2].AsBoolean := FExtraVolume;
     if FFiltro <> '' then
     begin
-      storedProc.Filter := FFiltro;
-      storedProc.Filtered := True;
+      storedProcExtractExpress.Filter := FFiltro;
+      storedProcExtractExpress.Filtered := True;
     end
     else
     begin
-      storedProc.Filtered := False;
-      storedProc.Filter := '';
+      storedProcExtractExpress.Filtered := False;
+      storedProcExtractExpress.Filter := '';
     end;
-    storedProc.Active := True;
+    storedProcExtractExpress.Active := True;
+    mtbExtratosExpressas.Active := True;
+    mtbExtratosExpressas.CopyDataSet(storedProcExtractExpress);
+    storedProcExtractExpress.Connection.Connected := False;
     FInProcess := False;
   end;
+  FInProcess := False;
 end;
+
 
 end.

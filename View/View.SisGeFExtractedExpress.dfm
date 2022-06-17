@@ -2,7 +2,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
   Left = 0
   Top = 0
   Caption = 'Extrato de Expressas'
-  ClientHeight = 441
+  ClientHeight = 453
   ClientWidth = 868
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,12 +22,13 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     Left = 0
     Top = 0
     Width = 868
-    Height = 441
+    Height = 453
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitHeight = 441
     object tipoExtrato: TcxComboBox
       Left = 24
       Top = 76
@@ -275,21 +276,12 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object cxButton10: TcxButton
       Left = 783
-      Top = 406
+      Top = 418
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 27
-    end
-    object cxButton11: TcxButton
-      Left = 10
-      Top = 406
-      Width = 87
-      Height = 25
-      Cursor = crHandPoint
-      Action = actionProcess
-      TabOrder = 26
+      TabOrder = 28
     end
     object processaEntregasAnteriores: TcxCheckBox
       Left = 36
@@ -299,6 +291,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Caption = 'Processar entregas anteriores ao per'#237'odo'
       Style.HotTrack = False
       TabOrder = 20
+      Transparent = True
     end
     object calcularVolumeExtra: TcxCheckBox
       Left = 340
@@ -306,8 +299,10 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Cursor = crHandPoint
       Hint = 'Calcular volumes extras'
       Caption = 'Volumes extras'
+      Properties.OnChange = calcularVolumeExtraPropertiesChange
       Style.HotTrack = False
       TabOrder = 21
+      Transparent = True
     end
     object considerarExtravios: TcxCheckBox
       Left = 475
@@ -318,6 +313,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       State = cbsChecked
       Style.HotTrack = False
       TabOrder = 22
+      Transparent = True
     end
     object considerarLancamentos: TcxCheckBox
       Left = 647
@@ -328,26 +324,208 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       State = cbsChecked
       Style.HotTrack = False
       TabOrder = 23
+      Transparent = True
     end
-    object DBGrid1: TDBGrid
+    object gridExtrato: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 728
-      Height = 116
-      BorderStyle = bsNone
-      DataSource = dsExtract
-      TabOrder = 24
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'Tahoma'
-      TitleFont.Style = []
+      Width = 820
+      Height = 241
+      TabOrder = 25
+      Visible = False
+      object gridExtratoDBTableView1: TcxGridDBTableView
+        Navigator.Buttons.CustomButtons = <>
+        DataController.DataSource = dsExtract
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+        OptionsView.ColumnAutoWidth = True
+        OptionsView.Footer = True
+        object gridExtratoDBTableView1id_extrato: TcxGridDBColumn
+          DataBinding.FieldName = 'id_extrato'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1dat_inicio: TcxGridDBColumn
+          DataBinding.FieldName = 'dat_inicio'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1dat_final: TcxGridDBColumn
+          DataBinding.FieldName = 'dat_final'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1num_ano: TcxGridDBColumn
+          DataBinding.FieldName = 'num_ano'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1num_mes: TcxGridDBColumn
+          DataBinding.FieldName = 'num_mes'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1num_quinzena: TcxGridDBColumn
+          DataBinding.FieldName = 'num_quinzena'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1num_extrato: TcxGridDBColumn
+          DataBinding.FieldName = 'num_extrato'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1nom_cliente: TcxGridDBColumn
+          DataBinding.FieldName = 'nom_cliente'
+          Visible = False
+          GroupIndex = 0
+          HeaderAlignmentHorz = taCenter
+          Width = 179
+        end
+        object gridExtratoDBTableView1cod_base: TcxGridDBColumn
+          DataBinding.FieldName = 'cod_base'
+          HeaderAlignmentHorz = taCenter
+          Width = 44
+        end
+        object gridExtratoDBTableView1nom_base: TcxGridDBColumn
+          DataBinding.FieldName = 'nom_base'
+          Visible = False
+          GroupIndex = 1
+          HeaderAlignmentHorz = taCenter
+        end
+        object gridExtratoDBTableView1cod_entregador: TcxGridDBColumn
+          DataBinding.FieldName = 'cod_entregador'
+          HeaderAlignmentHorz = taCenter
+          Width = 43
+        end
+        object gridExtratoDBTableView1nom_entregador: TcxGridDBColumn
+          DataBinding.FieldName = 'nom_entregador'
+          HeaderAlignmentHorz = taCenter
+        end
+        object gridExtratoDBTableView1val_verba: TcxGridDBColumn
+          DataBinding.FieldName = 'val_verba'
+          HeaderAlignmentHorz = taCenter
+          Width = 43
+        end
+        object gridExtratoDBTableView1qtd_volumes: TcxGridDBColumn
+          DataBinding.FieldName = 'qtd_volumes'
+          HeaderAlignmentHorz = taCenter
+          Width = 44
+        end
+        object gridExtratoDBTableView1qtd_volumes_extra: TcxGridDBColumn
+          DataBinding.FieldName = 'qtd_volumes_extra'
+          HeaderAlignmentHorz = taCenter
+          Width = 44
+        end
+        object gridExtratoDBTableView1val_volumes_extra: TcxGridDBColumn
+          DataBinding.FieldName = 'val_volumes_extra'
+          HeaderAlignmentHorz = taCenter
+          Width = 43
+        end
+        object gridExtratoDBTableView1qtd_entregas: TcxGridDBColumn
+          DataBinding.FieldName = 'qtd_entregas'
+          HeaderAlignmentHorz = taCenter
+          Width = 44
+        end
+        object gridExtratoDBTableView1qtd_atraso: TcxGridDBColumn
+          DataBinding.FieldName = 'qtd_atraso'
+          HeaderAlignmentHorz = taCenter
+          Width = 43
+        end
+        object gridExtratoDBTableView1val_performance: TcxGridDBColumn
+          DataBinding.FieldName = 'val_performance'
+          HeaderAlignmentHorz = taCenter
+          Width = 43
+        end
+        object gridExtratoDBTableView1val_producao: TcxGridDBColumn
+          DataBinding.FieldName = 'val_producao'
+          HeaderAlignmentHorz = taCenter
+          Width = 44
+        end
+        object gridExtratoDBTableView1val_creditos: TcxGridDBColumn
+          DataBinding.FieldName = 'val_creditos'
+          HeaderAlignmentHorz = taCenter
+          Width = 44
+        end
+        object gridExtratoDBTableView1val_debitos: TcxGridDBColumn
+          DataBinding.FieldName = 'val_debitos'
+          HeaderAlignmentHorz = taCenter
+          Width = 43
+        end
+        object gridExtratoDBTableView1val_extravios: TcxGridDBColumn
+          DataBinding.FieldName = 'val_extravios'
+          HeaderAlignmentHorz = taCenter
+          Width = 43
+        end
+        object gridExtratoDBTableView1val_total_expressa: TcxGridDBColumn
+          DataBinding.FieldName = 'val_total_expressa'
+          HeaderAlignmentHorz = taCenter
+          Width = 44
+        end
+        object gridExtratoDBTableView1val_total_empresa: TcxGridDBColumn
+          DataBinding.FieldName = 'val_total_empresa'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1cod_cliente: TcxGridDBColumn
+          DataBinding.FieldName = 'cod_cliente'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1dat_credito: TcxGridDBColumn
+          DataBinding.FieldName = 'dat_credito'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+        object gridExtratoDBTableView1des_unique_key: TcxGridDBColumn
+          DataBinding.FieldName = 'des_unique_key'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
+        end
+      end
+      object gridExtratoLevel1: TcxGridLevel
+        GridView = gridExtratoDBTableView1
+      end
+    end
+    object activityIndicator: TdxActivityIndicator
+      Left = 10000
+      Top = 10000
+      Width = 820
+      Height = 10
+      PropertiesClassName = 'TdxActivityIndicatorHorizontalDotsProperties'
+      Transparent = True
       Visible = False
     end
-    object activityIndicator: TActivityIndicator
+    object cxButton11: TcxButton
+      Left = 757
+      Top = 373
+      Width = 87
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionProcess
+      TabOrder = 24
+    end
+    object cxButton12: TcxButton
       Left = 10000
       Top = 10000
-      IndicatorSize = aisXLarge
+      Width = 75
+      Height = 25
+      Cursor = crDrag
+      Action = actionComeBack
+      TabOrder = 26
+      Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -396,19 +574,21 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Parent = layoutGroupMain
       CaptionOptions.Text = 'Par'#226'metros'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
+      ItemIndex = 3
       Index = 0
     end
     object layoutGroupExtract: TdxLayoutGroup
       Parent = layoutGroupMain
       CaptionOptions.Text = 'Extrato'
       ButtonOptions.Buttons = <>
+      ItemIndex = 3
       Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = layoutGroupParameters
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -776,16 +956,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem22: TdxLayoutItem
-      Parent = dxLayoutGroup13
-      CaptionOptions.Text = 'cxButton11'
-      CaptionOptions.Visible = False
-      Control = cxButton11
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 87
-      ControlOptions.ShowBorder = False
       Index = 0
     end
     object dxLayoutGroup14: TdxLayoutGroup
@@ -850,22 +1020,95 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.ShowBorder = False
       Index = 3
     end
-    object dxLayoutItem27: TdxLayoutItem
+    object dxLayoutGroup16: TdxLayoutGroup
       Parent = layoutGroupExtract
-      CaptionOptions.Text = 'DBGrid1'
-      Control = DBGrid1
-      ControlOptions.OriginalHeight = 116
-      ControlOptions.OriginalWidth = 320
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
       Index = 0
     end
-    object dxLayoutItem28: TdxLayoutItem
+    object dxLayoutGroup17: TdxLayoutGroup
       Parent = layoutGroupExtract
-      CaptionOptions.Text = 'ActivityIndicator1'
-      Control = activityIndicator
-      ControlOptions.OriginalHeight = 64
-      ControlOptions.OriginalWidth = 32
-      ControlOptions.ShowBorder = False
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ShowBorder = False
       Index = 1
+    end
+    object dxLayoutGroup18: TdxLayoutGroup
+      Parent = layoutGroupExtract
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      Index = 2
+    end
+    object dxLayoutItem27: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxGrid1'
+      CaptionOptions.Visible = False
+      Control = gridExtrato
+      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalWidth = 250
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup19: TdxLayoutGroup
+      Parent = layoutGroupExtract
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem28: TdxLayoutItem
+      Parent = dxLayoutGroup19
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'dxActivityIndicator1'
+      CaptionOptions.Visible = False
+      Control = activityIndicator
+      ControlOptions.OriginalHeight = 10
+      ControlOptions.OriginalWidth = 300
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup20: TdxLayoutGroup
+      Parent = layoutGroupParameters
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem22: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton11'
+      CaptionOptions.Visible = False
+      Control = cxButton11
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 87
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem29: TdxLayoutItem
+      Parent = dxLayoutGroup18
+      AlignHorz = ahRight
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxButton12'
+      CaptionOptions.Visible = False
+      Control = cxButton12
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 0
     end
   end
   object actionListExtract: TActionList
@@ -949,14 +1192,36 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ImageIndex = 83
       OnExecute = actionProcessExecute
     end
+    object actionExpandGrid: TAction
+      Category = 'Form'
+      Caption = 'Expandir'
+      Hint = 'Expardir os grupos do grid'
+      ImageIndex = 106
+      OnExecute = actionExpandGridExecute
+    end
+    object actionRetractGrid: TAction
+      Category = 'Form'
+      Caption = 'Retrair'
+      Hint = 'Retrair os grupos do grid'
+      ImageIndex = 107
+      OnExecute = actionRetractGridExecute
+    end
+    object actionComeBack: TAction
+      Category = 'Form'
+      Caption = 'Voltar'
+      Hint = 'Vontar '#224'tela de par'#226'metros'
+      ImageIndex = 108
+      OnExecute = actionComeBackExecute
+    end
   end
   object dsExtract: TDataSource
     AutoEdit = False
-    DataSet = Data_Sisgef.storedProc
+    DataSet = Data_Sisgef.mtbExtratosExpressas
     Left = 384
     Top = 8
   end
   object timer: TTimer
+    Enabled = False
     OnTimer = timerTimer
     Left = 720
     Top = 16

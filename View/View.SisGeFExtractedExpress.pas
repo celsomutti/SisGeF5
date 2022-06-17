@@ -11,7 +11,7 @@ uses
   FireDAC.Comp.Client, DAO.Conexao, System.DateUtils, cxCheckBox, Common.Utils, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Vcl.Grids, Vcl.DBGrids, Vcl.WinXCtrls,
-  Thread.SisGeFExpressExtract, Vcl.ExtCtrls;
+  Thread.SisGeFExpressExtract, Vcl.ExtCtrls, dxActivityIndicator;
 
 type
   Tview_SisGeFExtractedExpress = class(TForm)
@@ -89,8 +89,6 @@ type
     cxButton10: TcxButton;
     dxLayoutItem21: TdxLayoutItem;
     actionProcess: TAction;
-    cxButton11: TcxButton;
-    dxLayoutItem22: TdxLayoutItem;
     dxLayoutGroup14: TdxLayoutGroup;
     dxLayoutGroup15: TdxLayoutGroup;
     processaEntregasAnteriores: TcxCheckBox;
@@ -102,11 +100,53 @@ type
     considerarLancamentos: TcxCheckBox;
     dxLayoutItem26: TdxLayoutItem;
     dsExtract: TDataSource;
-    DBGrid1: TDBGrid;
-    dxLayoutItem27: TdxLayoutItem;
-    activityIndicator: TActivityIndicator;
-    dxLayoutItem28: TdxLayoutItem;
     timer: TTimer;
+    dxLayoutGroup16: TdxLayoutGroup;
+    dxLayoutGroup17: TdxLayoutGroup;
+    dxLayoutGroup18: TdxLayoutGroup;
+    actionExpandGrid: TAction;
+    actionRetractGrid: TAction;
+    gridExtratoDBTableView1: TcxGridDBTableView;
+    gridExtratoLevel1: TcxGridLevel;
+    gridExtrato: TcxGrid;
+    dxLayoutItem27: TdxLayoutItem;
+    gridExtratoDBTableView1id_extrato: TcxGridDBColumn;
+    gridExtratoDBTableView1dat_inicio: TcxGridDBColumn;
+    gridExtratoDBTableView1dat_final: TcxGridDBColumn;
+    gridExtratoDBTableView1num_ano: TcxGridDBColumn;
+    gridExtratoDBTableView1num_mes: TcxGridDBColumn;
+    gridExtratoDBTableView1num_quinzena: TcxGridDBColumn;
+    gridExtratoDBTableView1cod_base: TcxGridDBColumn;
+    gridExtratoDBTableView1cod_entregador: TcxGridDBColumn;
+    gridExtratoDBTableView1num_extrato: TcxGridDBColumn;
+    gridExtratoDBTableView1val_verba: TcxGridDBColumn;
+    gridExtratoDBTableView1qtd_volumes: TcxGridDBColumn;
+    gridExtratoDBTableView1qtd_volumes_extra: TcxGridDBColumn;
+    gridExtratoDBTableView1val_volumes_extra: TcxGridDBColumn;
+    gridExtratoDBTableView1qtd_entregas: TcxGridDBColumn;
+    gridExtratoDBTableView1qtd_atraso: TcxGridDBColumn;
+    gridExtratoDBTableView1val_performance: TcxGridDBColumn;
+    gridExtratoDBTableView1val_producao: TcxGridDBColumn;
+    gridExtratoDBTableView1val_creditos: TcxGridDBColumn;
+    gridExtratoDBTableView1val_debitos: TcxGridDBColumn;
+    gridExtratoDBTableView1val_extravios: TcxGridDBColumn;
+    gridExtratoDBTableView1val_total_expressa: TcxGridDBColumn;
+    gridExtratoDBTableView1val_total_empresa: TcxGridDBColumn;
+    gridExtratoDBTableView1cod_cliente: TcxGridDBColumn;
+    gridExtratoDBTableView1nom_cliente: TcxGridDBColumn;
+    gridExtratoDBTableView1dat_credito: TcxGridDBColumn;
+    gridExtratoDBTableView1nom_base: TcxGridDBColumn;
+    gridExtratoDBTableView1nom_entregador: TcxGridDBColumn;
+    gridExtratoDBTableView1des_unique_key: TcxGridDBColumn;
+    dxLayoutGroup19: TdxLayoutGroup;
+    activityIndicator: TdxActivityIndicator;
+    dxLayoutItem28: TdxLayoutItem;
+    actionComeBack: TAction;
+    dxLayoutGroup20: TdxLayoutGroup;
+    cxButton11: TcxButton;
+    dxLayoutItem22: TdxLayoutItem;
+    cxButton12: TcxButton;
+    dxLayoutItem29: TdxLayoutItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionIncludeClientsExecute(Sender: TObject);
@@ -122,6 +162,10 @@ type
     procedure actionProcessExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure timerTimer(Sender: TObject);
+    procedure actionExpandGridExecute(Sender: TObject);
+    procedure actionRetractGridExecute(Sender: TObject);
+    procedure actionComeBackExecute(Sender: TObject);
+    procedure calcularVolumeExtraPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -153,7 +197,7 @@ var
   view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress;
   FYear, FMounth, FPeriod: integer;
   FExtract : TTHead_ExpressExtract;
-
+  FDataInicial, FDataFinal: String;
 implementation
 
 {$R *.dfm}
@@ -182,6 +226,11 @@ begin
   CloseForm;
 end;
 
+procedure Tview_SisGeFExtractedExpress.actionComeBackExecute(Sender: TObject);
+begin
+  layoutGroupMain.ItemIndex := 0;
+end;
+
 procedure Tview_SisGeFExtractedExpress.actionExcludeBasesExecute(Sender: TObject);
 begin
   ExcludeBase;
@@ -195,6 +244,11 @@ end;
 procedure Tview_SisGeFExtractedExpress.actionExcludeCouriersExecute(Sender: TObject);
 begin
   ExcludeCourier;
+end;
+
+procedure Tview_SisGeFExtractedExpress.actionExpandGridExecute(Sender: TObject);
+begin
+  gridExtratoDBTableView1.ViewData.Expand(True);
 end;
 
 procedure Tview_SisGeFExtractedExpress.actionIncludeBasesExecute(Sender: TObject);
@@ -215,6 +269,11 @@ end;
 procedure Tview_SisGeFExtractedExpress.actionProcessExecute(Sender: TObject);
 begin
   ProcessExtract;
+end;
+
+procedure Tview_SisGeFExtractedExpress.actionRetractGridExecute(Sender: TObject);
+begin
+  gridExtratoDBTableView1.ViewData.Expand(False);
 end;
 
 procedure Tview_SisGeFExtractedExpress.AddBase;
@@ -284,6 +343,20 @@ begin
   FreeAndNil(view_PesquisaEntregadoresExpressas);
 end;
 
+procedure Tview_SisGeFExtractedExpress.calcularVolumeExtraPropertiesChange(Sender: TObject);
+begin
+  if calcularVolumeExtra.Checked then
+  begin
+    gridExtratoDBTableView1qtd_volumes_extra.Visible := True;
+    gridExtratoDBTableView1val_volumes_extra.Visible := True;
+  end
+  else
+  begin
+    gridExtratoDBTableView1qtd_volumes_extra.Visible := False;
+    gridExtratoDBTableView1val_volumes_extra.Visible := False;
+  end;
+end;
+
 procedure Tview_SisGeFExtractedExpress.ClearBase;
 begin
   listaBases.Items.Clear;
@@ -344,7 +417,7 @@ begin
     sFilter := sFilter + FResult[0];
   end;
   if not sFilter.IsEmpty then
-    Result := 'cod_agente in (' + sFilter + ')';
+    Result := 'cod_base in (' + sFilter + ')';
   FResult.Free;
 end;
 
@@ -440,15 +513,15 @@ begin
       sQuery := sFilter;
   end;
   sFilter := MountPeriodFilter();
-  if not sFilter.IsEmpty then
-  begin
-    if not sQuery.IsEmpty then
-      sQuery := sQuery + ' and ' + sFilter
-    else
-      sQuery := sFilter;
-  end;
+//  if not sFilter.IsEmpty then
+//  begin
+//    if not sQuery.IsEmpty then
+//      sQuery := sQuery + ' and ' + sFilter
+//    else
+//      sQuery := sFilter;
+//  end;
   if not sQuery.IsEmpty then
-    sResult := ' where ' + sQuery + ' and dom_fechado = ' + QuotedStr('N');
+    sResult := sQuery;
   Result := sResult;
 end;
 
@@ -537,7 +610,8 @@ begin
   begin
     if processaEntregasAnteriores.Checked then
     begin
-      sFilter := sField + ' <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
+      sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', 0)) + ' and ' +
+                 QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date))
     end
     else
     begin
@@ -557,9 +631,13 @@ begin
     Exit;
   if Application.MessageBox('Confirma processar o extrato?', 'Processar', MB_YESNO + MB_ICONQUESTION) = IDNO then
     Exit;
+  layoutGroupMain.ItemIndex := 1;
   dsExtract.Enabled := False;
   FExtract := TTHead_ExpressExtract.Create(True);
   FExtract.Filtro := GeneralFilter();
+  FExtract.StartDate := StrToDate(FDataInicial);
+  FExtract.EndDate := StrToDate(FDataFinal);
+  FExtract.ExtraVolume := calcularVolumeExtra.Checked;
 //  FExtract.Cliente := iCliente;
 //  FExtract.MemTab := memTab;
 //  FExtract.Priority := tpNormal;
@@ -568,7 +646,8 @@ begin
 //  actionLimparCampo.Enabled := False;
 //  actionImportar.Enabled := False;
 //  actionCancelar.Enabled := True;
-  activityIndicator.Animate := True;
+  timer.Enabled := True;
+  activityIndicator.Active := True;
   FExtract.Start;
 end;
 
@@ -578,10 +657,10 @@ var
   FDQuery: TFDQuery;
   FConexao : TConexao;
   pParam: Array of variant;
-  iDiaInicio, iDiaFinal, iMesData, iAnoData: Integer;
+  iMesData, iAnoData: Integer;
   sData: String;
   datData, datBase: TDate;
-  FDataInicial, FDataFinal: String;
+  iDiaInicio, iDiaFinal: Integer;
 begin
   try
     Result := '';
@@ -650,6 +729,10 @@ begin
       FDataFinal := sData;
     end;
     FDQuery.Close;
+    if processaEntregasAnteriores.Checked then
+    begin
+      FDataInicial := '0';
+    end;
     Result := ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', StrToDate(FDataInicial))) + ' and ' +
               QuotedStr(FormatDateTime('yyyy-mm-dd', StrToDate(FDataFinal)));
   finally
@@ -669,7 +752,13 @@ end;
 
 procedure Tview_SisGeFExtractedExpress.timerTimer(Sender: TObject);
 begin
-  timer.Enabled := FExtract.InProcess;
+  if not FExtract.InProcess then
+  begin
+    dsExtract.Enabled := True;
+    activityIndicator.Active := False;
+    timer.Enabled := False;
+    gridExtratoDBTableView1.ViewData.Expand(True);
+  end;
 end;
 
 procedure Tview_SisGeFExtractedExpress.tipoPeriodoPropertiesChange(Sender: TObject);

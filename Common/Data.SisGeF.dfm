@@ -12056,26 +12056,26 @@ object Data_Sisgef: TData_Sisgef
           22307078222076696577426F783D2230203020333220333222207374796C653D
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
-          303B2623393B2623393B2623393B2623393B093C7374796C6520747970653D22
-          746578742F6373732220786D6C3A73706163653D227072657365727665223E2E
-          5265647B66696C6C3A234431314331433B7D262331333B262331303B2623393B
-          2E426C61636B7B66696C6C3A233732373237323B7D262331333B262331303B26
-          23393B2E426C75657B66696C6C3A233131373744373B7D262331333B26233130
-          3B2623393B2E477265656E7B66696C6C3A233033394332333B7D262331333B26
-          2331303B2623393B2E59656C6C6F777B66696C6C3A234646423131353B7D2623
-          31333B262331303B2623393B2E57686974657B66696C6C3A234646464646463B
-          7D262331333B262331303B2623393B2E7374307B6F7061636974793A302E353B
-          7D262331333B262331303B2623393B2E7374317B6F7061636974793A302E3735
-          3B7D262331333B262331303B2623393B2E7374327B6F7061636974793A302E32
-          353B7D3C2F7374796C653E0D0A093C672069643D22496D706F7274223E0D0A09
-          093C7061746820636C6173733D22426C61636B2220643D224D31302C31324836
-          563668345631327A204D32322C31377631763963302C302E362D302E342C312D
-          312C314831632D302E362C302D312D302E342D312D31563763302D302E362C30
-          2E342D312C312D31683376386831344C32322C31377A204D31382C3138483420
-          202623393B2623393B76366831345631387A222F3E0D0A09093C706F6C79676F
-          6E20636C6173733D22477265656E2220706F696E74733D2233302C362032322C
-          362032322C322031342C382032322C31342032322C31302033302C3130202623
-          393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          303B2623393B2623393B2623393B2623393B2623393B093C7374796C65207479
+          70653D22746578742F6373732220786D6C3A73706163653D2270726573657276
+          65223E2E5265647B66696C6C3A234431314331433B7D262331333B262331303B
+          2623393B2E426C61636B7B66696C6C3A233732373237323B7D262331333B2623
+          31303B2623393B2E426C75657B66696C6C3A233131373744373B7D262331333B
+          262331303B2623393B2E477265656E7B66696C6C3A233033394332333B7D2623
+          31333B262331303B2623393B2E59656C6C6F777B66696C6C3A23464642313135
+          3B7D262331333B262331303B2623393B2E57686974657B66696C6C3A23464646
+          4646463B7D262331333B262331303B2623393B2E7374307B6F7061636974793A
+          302E353B7D262331333B262331303B2623393B2E7374317B6F7061636974793A
+          302E37353B7D262331333B262331303B2623393B2E7374327B6F706163697479
+          3A302E32353B7D3C2F7374796C653E0D0A093C672069643D22496D706F727422
+          3E0D0A09093C7061746820636C6173733D22426C61636B2220643D224D31302C
+          31324836563668345631327A204D32322C31377631763963302C302E362D302E
+          342C312D312C314831632D302E362C302D312D302E342D312D31563763302D30
+          2E362C302E342D312C312D31683376386831344C32322C31377A204D31382C31
+          38483420202623393B2623393B76366831345631387A222F3E0D0A09093C706F
+          6C79676F6E20636C6173733D22477265656E2220706F696E74733D2233302C36
+          2032322C362032322C322031342C382032322C31342032322C31302033302C31
+          30202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -12156,6 +12156,21 @@ object Data_Sisgef: TData_Sisgef
           73733D22426C61636B2220643D224D31382C32683134763248313856327A204D
           31382C3136683134762D324831385631367A204D31382C3238683134762D3248
           31385632387A222F3E0D0A3C2F7376673E0D0A}
+      end
+      item
+        ImageClass = 'TdxPNGImage'
+        Image.Data = {
+          89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+          610000001974455874536F6674776172650041646F626520496D616765526561
+          647971C9653C0000000F744558745469746C65004261636B3B507265763D5C97
+          C9000000E349444154785EA5D33F0AC2301406F0EC3A751114244B076F205DE2
+          D4CD2B0882F72838B77B77472FE0DAA974F2066E0A2ED2B14EF12B7C42782482
+          64F80DEDFB43F292A8EDF122E550410B3DB5FC97CB7CF74343090D14602021C3
+          7F0D73B46CA0E10435A4D65AE533C6A066AE761B940C4C981C34E630B7FC36C8
+          B9B45424CEA0030B03ECC54A1AC815875388E215DC587C87B5672505548A1336
+          4E60032FB08CCD035B31D02A1E53C2E21DBCC186380D12E87D0D867F1BC82D64
+          F06441078B5F5B080D710957367940161E62F818A770768EF1E03BC6C88B147F
+          95E31F53F473FE00C527425349ACC3430000000049454E44AE426082}
       end>
   end
   object LayoutLookAndFeelList: TdxLayoutLookAndFeelList
@@ -15161,14 +15176,8 @@ object Data_Sisgef: TData_Sisgef
     end
     object mtbExtratosExpressasnom_cliente: TStringField
       DisplayLabel = 'Nome Cliente'
-      FieldKind = fkLookup
       FieldName = 'nom_cliente'
-      LookupDataSet = mtbClientesEmpresa
-      LookupKeyFields = 'cod_cliente'
-      LookupResultField = 'nom_cliente'
-      KeyFields = 'cod_cliente'
       Size = 70
-      Lookup = True
     end
     object mtbExtratosExpressasdat_credito: TDateField
       DisplayLabel = 'Data Cr'#233'dito'
@@ -15176,25 +15185,14 @@ object Data_Sisgef: TData_Sisgef
     end
     object mtbExtratosExpressasnom_base: TStringField
       DisplayLabel = 'Nome da Base'
-      FieldKind = fkLookup
       FieldName = 'nom_base'
-      LookupDataSet = mtbBases
-      LookupKeyFields = 'cod_base'
-      LookupResultField = 'nom_base'
-      KeyFields = 'cod_base'
       Size = 70
-      Lookup = True
     end
     object mtbExtratosExpressasnom_entregador: TStringField
       DisplayLabel = 'Nome Entregador'
-      FieldKind = fkLookup
       FieldName = 'nom_entregador'
       LookupDataSet = mtbEntregadores
-      LookupKeyFields = 'cod_entregador'
-      LookupResultField = 'nom_fantasia'
-      KeyFields = 'cod_entregador'
       Size = 70
-      Lookup = True
     end
     object mtbExtratosExpressasdes_unique_key: TStringField
       FieldName = 'des_unique_key'
@@ -16564,16 +16562,34 @@ object Data_Sisgef: TData_Sisgef
     Left = 440
     Top = 400
   end
-  object storedProc: TFDStoredProc
-    Filtered = True
-    Left = 552
-    Top = 440
-    object storedProccod_base: TIntegerField
+  object storedProcExtractExpress: TFDStoredProc
+    Left = 632
+    Top = 480
+    ParamData = <
+      item
+        Name = 'pdataInicio'
+        DataType = ftDate
+        FDDataType = dtDate
+        ParamType = ptInput
+      end
+      item
+        Name = 'pdataFinal'
+        DataType = ftDate
+        FDDataType = dtDate
+        ParamType = ptInput
+      end
+      item
+        Name = 'pvolumeExtra'
+        DataType = ftBoolean
+        FDDataType = dtBoolean
+        ParamType = ptInput
+      end>
+    object storedProcExtractExpresscod_base: TIntegerField
       AutoGenerateValue = arDefault
       FieldName = 'cod_base'
       Origin = 'COD_AGENTE'
     end
-    object storedProcnom_base: TStringField
+    object storedProcExtractExpressnom_base: TStringField
       AutoGenerateValue = arDefault
       FieldName = 'nom_base'
       Origin = 'nom_fantasia'
@@ -16581,12 +16597,12 @@ object Data_Sisgef: TData_Sisgef
       ReadOnly = True
       Size = 80
     end
-    object storedProccod_entregador: TIntegerField
+    object storedProcExtractExpresscod_entregador: TIntegerField
       AutoGenerateValue = arDefault
       FieldName = 'cod_entregador'
       Origin = 'COD_ENTREGADOR'
     end
-    object storedProcnom_entregador: TStringField
+    object storedProcExtractExpressnom_entregador: TStringField
       AutoGenerateValue = arDefault
       FieldName = 'nom_entregador'
       Origin = 'NOM_FANTASIA'
@@ -16594,12 +16610,12 @@ object Data_Sisgef: TData_Sisgef
       ReadOnly = True
       Size = 70
     end
-    object storedProcval_verba: TFloatField
+    object storedProcExtractExpressval_verba: TFloatField
       AutoGenerateValue = arDefault
       FieldName = 'val_verba'
       Origin = 'VAL_VERBA_ENTREGADOR'
     end
-    object storedProcqtd_volumes: TFMTBCDField
+    object storedProcExtractExpressqtd_volumes: TFMTBCDField
       AutoGenerateValue = arDefault
       FieldName = 'qtd_volumes'
       Origin = 'qtd_volumes'
@@ -16608,14 +16624,14 @@ object Data_Sisgef: TData_Sisgef
       Precision = 32
       Size = 0
     end
-    object storedProcqtd_entregas: TLargeintField
+    object storedProcExtractExpressqtd_entregas: TLargeintField
       AutoGenerateValue = arDefault
       FieldName = 'qtd_entregas'
       Origin = 'qtd_entregas'
       ProviderFlags = []
       ReadOnly = True
     end
-    object storedProcqtd_atraso: TFMTBCDField
+    object storedProcExtractExpressqtd_atraso: TFMTBCDField
       AutoGenerateValue = arDefault
       FieldName = 'qtd_atraso'
       Origin = 'qtd_atraso'
@@ -16624,7 +16640,7 @@ object Data_Sisgef: TData_Sisgef
       Precision = 23
       Size = 0
     end
-    object storedProcval_performance: TFMTBCDField
+    object storedProcExtractExpressval_performance: TFMTBCDField
       AutoGenerateValue = arDefault
       FieldName = 'val_performance'
       Origin = 'val_performance'
@@ -16633,19 +16649,19 @@ object Data_Sisgef: TData_Sisgef
       Precision = 31
       Size = 4
     end
-    object storedProcval_producao: TFloatField
+    object storedProcExtractExpressval_producao: TFloatField
       AutoGenerateValue = arDefault
       FieldName = 'val_producao'
       Origin = 'val_producao'
       ProviderFlags = []
       ReadOnly = True
     end
-    object storedProccod_cliente: TIntegerField
+    object storedProcExtractExpresscod_cliente: TIntegerField
       FieldName = 'cod_cliente'
       Origin = 'COD_CLIENTE_EMPRESA'
       Required = True
     end
-    object storedProcnom_cliente: TStringField
+    object storedProcExtractExpressnom_cliente: TStringField
       AutoGenerateValue = arDefault
       FieldName = 'nom_cliente'
       Origin = 'nom_fantasia'
@@ -16653,7 +16669,7 @@ object Data_Sisgef: TData_Sisgef
       ReadOnly = True
       Size = 70
     end
-    object storedProcdat_baixa: TDateField
+    object storedProcExtractExpressdat_baixa: TDateField
       AutoGenerateValue = arDefault
       FieldName = 'dat_baixa'
       Origin = 'DAT_BAIXA'
