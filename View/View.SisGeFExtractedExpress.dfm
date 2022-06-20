@@ -28,7 +28,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitHeight = 441
     object tipoExtrato: TcxComboBox
       Left = 24
       Top = 76
@@ -299,6 +298,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Cursor = crHandPoint
       Hint = 'Calcular volumes extras'
       Caption = 'Volumes extras'
+      Properties.ValueChecked = '1'
+      Properties.ValueUnchecked = '0'
       Properties.OnChange = calcularVolumeExtraPropertiesChange
       Style.HotTrack = False
       TabOrder = 21
@@ -339,8 +340,11 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsView.CellAutoHeight = True
         OptionsView.ColumnAutoWidth = True
         OptionsView.Footer = True
+        OptionsView.GroupByBox = False
+        OptionsView.HeaderAutoHeight = True
         object gridExtratoDBTableView1id_extrato: TcxGridDBColumn
           DataBinding.FieldName = 'id_extrato'
           Visible = False
@@ -393,7 +397,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         object gridExtratoDBTableView1cod_base: TcxGridDBColumn
           DataBinding.FieldName = 'cod_base'
           HeaderAlignmentHorz = taCenter
-          Width = 44
+          Width = 32
         end
         object gridExtratoDBTableView1nom_base: TcxGridDBColumn
           DataBinding.FieldName = 'nom_base'
@@ -404,71 +408,74 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         object gridExtratoDBTableView1cod_entregador: TcxGridDBColumn
           DataBinding.FieldName = 'cod_entregador'
           HeaderAlignmentHorz = taCenter
-          Width = 43
+          Width = 36
         end
         object gridExtratoDBTableView1nom_entregador: TcxGridDBColumn
           DataBinding.FieldName = 'nom_entregador'
           HeaderAlignmentHorz = taCenter
+          Width = 174
         end
         object gridExtratoDBTableView1val_verba: TcxGridDBColumn
           DataBinding.FieldName = 'val_verba'
           HeaderAlignmentHorz = taCenter
-          Width = 43
+          Width = 54
         end
         object gridExtratoDBTableView1qtd_volumes: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_volumes'
           HeaderAlignmentHorz = taCenter
-          Width = 44
+          Width = 55
         end
         object gridExtratoDBTableView1qtd_volumes_extra: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_volumes_extra'
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 44
         end
         object gridExtratoDBTableView1val_volumes_extra: TcxGridDBColumn
           DataBinding.FieldName = 'val_volumes_extra'
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 43
         end
         object gridExtratoDBTableView1qtd_entregas: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_entregas'
           HeaderAlignmentHorz = taCenter
-          Width = 44
+          Width = 56
         end
         object gridExtratoDBTableView1qtd_atraso: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_atraso'
           HeaderAlignmentHorz = taCenter
-          Width = 43
+          Width = 53
         end
         object gridExtratoDBTableView1val_performance: TcxGridDBColumn
           DataBinding.FieldName = 'val_performance'
           HeaderAlignmentHorz = taCenter
-          Width = 43
+          Width = 54
         end
         object gridExtratoDBTableView1val_producao: TcxGridDBColumn
           DataBinding.FieldName = 'val_producao'
           HeaderAlignmentHorz = taCenter
-          Width = 44
+          Width = 56
         end
         object gridExtratoDBTableView1val_creditos: TcxGridDBColumn
           DataBinding.FieldName = 'val_creditos'
           HeaderAlignmentHorz = taCenter
-          Width = 44
+          Width = 55
         end
         object gridExtratoDBTableView1val_debitos: TcxGridDBColumn
           DataBinding.FieldName = 'val_debitos'
           HeaderAlignmentHorz = taCenter
-          Width = 43
+          Width = 54
         end
         object gridExtratoDBTableView1val_extravios: TcxGridDBColumn
           DataBinding.FieldName = 'val_extravios'
           HeaderAlignmentHorz = taCenter
-          Width = 43
+          Width = 54
         end
         object gridExtratoDBTableView1val_total_expressa: TcxGridDBColumn
           DataBinding.FieldName = 'val_total_expressa'
           HeaderAlignmentHorz = taCenter
-          Width = 44
+          Width = 55
         end
         object gridExtratoDBTableView1val_total_empresa: TcxGridDBColumn
           DataBinding.FieldName = 'val_total_empresa'
@@ -522,7 +529,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Top = 10000
       Width = 75
       Height = 25
-      Cursor = crDrag
+      Cursor = crHandPoint
       Action = actionComeBack
       TabOrder = 26
       Visible = False

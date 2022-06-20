@@ -14,7 +14,7 @@ type
     FInProcess: boolean;
     FEndDate: TDate;
     FStartDate: TDate;
-    FExtraVolume: boolean;
+    FExtraVolume: integer;
     { Private declarations }
     procedure ExecuteExpressExtractDeliveryDate;
   protected
@@ -25,7 +25,7 @@ type
     property InProcess: boolean read FInProcess;
     property StartDate: TDate read FStartDate write FStartDate;
     property EndDate: TDate read FEndDate write FEndDate;
-    property ExtraVolume: boolean read FExtraVolume write FExtraVolume;
+    property ExtraVolume: integer read FExtraVolume write FExtraVolume;
   end;
 
 implementation
@@ -84,9 +84,9 @@ begin
     storedProcExtractExpress.storedProcName := 'sp_generate_express_extract';
     storedProcExtractExpress.SchemaName := 'bderpsisgef';
     storedProcExtractExpress.Prepare;
-    storedProcExtractExpress.Params[0].AsDate := FStartDate;
-    storedProcExtractExpress.Params[1].AsDate := FEndDate;
-    storedProcExtractExpress.Params[2].AsBoolean := FExtraVolume;
+    storedProcExtractExpress.ParamByName('pdataInicio').AsDate := FStartDate;
+    storedProcExtractExpress.ParamByName('pdataFinal').AsDate := FEndDate;
+    storedProcExtractExpress.ParamByName('pvolumeExtra').AsInteger := FExtraVolume;
     if FFiltro <> '' then
     begin
       storedProcExtractExpress.Filter := FFiltro;

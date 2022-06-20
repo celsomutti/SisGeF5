@@ -637,7 +637,7 @@ begin
   FExtract.Filtro := GeneralFilter();
   FExtract.StartDate := StrToDate(FDataInicial);
   FExtract.EndDate := StrToDate(FDataFinal);
-  FExtract.ExtraVolume := calcularVolumeExtra.Checked;
+  FExtract.ExtraVolume := calcularVolumeExtra.EditValue;
 //  FExtract.Cliente := iCliente;
 //  FExtract.MemTab := memTab;
 //  FExtract.Priority := tpNormal;
