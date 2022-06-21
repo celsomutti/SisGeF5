@@ -300,7 +300,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Caption = 'Volumes extras'
       Properties.ValueChecked = '1'
       Properties.ValueUnchecked = '0'
-      Properties.OnChange = calcularVolumeExtraPropertiesChange
       Style.HotTrack = False
       TabOrder = 21
       Transparent = True
@@ -427,13 +426,11 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         end
         object gridExtratoDBTableView1qtd_volumes_extra: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_volumes_extra'
-          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 44
         end
         object gridExtratoDBTableView1val_volumes_extra: TcxGridDBColumn
           DataBinding.FieldName = 'val_volumes_extra'
-          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 43
         end
@@ -516,7 +513,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Visible = False
     end
     object cxButton11: TcxButton
-      Left = 757
+      Left = 24
       Top = 373
       Width = 87
       Height = 25
@@ -1095,7 +1092,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object dxLayoutItem22: TdxLayoutItem
       Parent = dxLayoutGroup20
-      AlignHorz = ahRight
+      AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton11'
       CaptionOptions.Visible = False
@@ -1194,9 +1191,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object actionProcess: TAction
       Category = 'Filter'
-      Caption = 'Processar'
+      Caption = '&Processar'
       Hint = 'Processar o extrato'
-      ImageIndex = 83
+      ImageIndex = 109
       OnExecute = actionProcessExecute
     end
     object actionExpandGrid: TAction

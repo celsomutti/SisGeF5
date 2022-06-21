@@ -310,7 +310,6 @@ type
     mtbExtratosExpressasnom_entregador: TStringField;
     mtbExtratosExpressasnum_extrato: TStringField;
     mtbExtratosExpressasval_verba: TCurrencyField;
-    mtbExtratosExpressasqtd_volumes_extra: TFloatField;
     mtbExtratosExpressasval_volumes_extra: TCurrencyField;
     mtbExtratosExpressasqtd_entregas: TIntegerField;
     mtbExtratosExpressasqtd_atraso: TIntegerField;
@@ -513,6 +512,7 @@ type
     storedProcExtractExpresscod_cliente: TIntegerField;
     storedProcExtractExpressnom_cliente: TStringField;
     storedProcExtractExpressdat_baixa: TDateField;
+    mtbExtratosExpressasqtd_volumes_extra: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

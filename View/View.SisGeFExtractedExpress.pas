@@ -165,7 +165,6 @@ type
     procedure actionExpandGridExecute(Sender: TObject);
     procedure actionRetractGridExecute(Sender: TObject);
     procedure actionComeBackExecute(Sender: TObject);
-    procedure calcularVolumeExtraPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -287,13 +286,16 @@ begin
   FItem := '';
   if view_PesquisaPessoasAgentes.ShowModal = mrOk then
   begin
-    FCode := view_PesquisaPessoasAgentes.fdPesquisacod_agente.AsString;
-    FName := view_PesquisaPessoasAgentes.fdPesquisanom_fantasia.AsString;
-    FItem := Fcode + ';' + FName;
+    if not view_PesquisaClientes.fdPesquisa.IsEmpty then
+    begin
+      FCode := view_PesquisaPessoasAgentes.fdPesquisacod_agente.AsString;
+      FName := view_PesquisaPessoasAgentes.fdPesquisanom_fantasia.AsString;
+      FItem := Fcode + ';' + FName;
+      if listaBases.Items.IndexOf(FItem) <> -1 then
+        Exit;
+      listaBases.Items.Add(FItem);
+    end;
   end;
-  if listaBases.Items.IndexOf(FItem) <> -1 then
-    Exit;
-  listaBases.Items.Add(FItem);
   view_PesquisaPessoasAgentes.fdPesquisa.Connection.Connected := False;
   FreeAndNil(view_PesquisaPessoasAgentes);
 end;
@@ -309,13 +311,16 @@ begin
   FItem := '';
   if view_PesquisaClientes.ShowModal = mrOk then
   begin
-    FCode := view_PesquisaClientes.fdPesquisacod_cliente.AsString;
-    FName := view_PesquisaClientes.fdPesquisanom_fantasia.AsString;
-    FItem := Fcode + ';' + FName;
+    if not view_PesquisaClientes.fdPesquisa.IsEmpty then
+    begin
+      FCode := view_PesquisaClientes.fdPesquisacod_cliente.AsString;
+      FName := view_PesquisaClientes.fdPesquisanom_fantasia.AsString;
+      FItem := Fcode + ';' + FName;
+      if listaClientes.Items.IndexOf(FItem) <> -1 then
+        Exit;
+      listaClientes.Items.Add(FItem);
+    end;
   end;
-  if listaClientes.Items.IndexOf(FItem) <> -1 then
-    Exit;
-  listaClientes.Items.Add(FItem);
   view_PesquisaClientes.fdPesquisa.Connection.Connected := False;
   FreeAndNil(view_PesquisaClientes);
 end;
@@ -331,30 +336,19 @@ begin
   FItem := '';
   if view_PesquisaEntregadoresExpressas.ShowModal = mrOk then
   begin
-    FCode := view_PesquisaEntregadoresExpressas.fdPesquisacod_entregador.AsString;
-    FName := view_PesquisaEntregadoresExpressas.fdPesquisanom_entregador.AsString;
-    FItem := Fcode + ';' + FName;
+    if not view_PesquisaEntregadoresExpressas.fdPesquisa.IsEmpty then
+    begin
+      FCode := view_PesquisaEntregadoresExpressas.fdPesquisacod_entregador.AsString;
+      FName := view_PesquisaEntregadoresExpressas.fdPesquisanom_entregador.AsString;
+      FItem := Fcode + ';' + FName;
+    end;
+    if listaEntregadores.Items.IndexOf(FItem) <> -1 then
+      Exit;
+    listaEntregadores.Items.Add(FItem);
   end;
-  if listaEntregadores.Items.IndexOf(FItem) <> -1 then
-    Exit;
-  listaEntregadores.Items.Add(FItem);
   view_PesquisaEntregadoresExpressas.fdPesquisa.Active := False;
   Data_Sisgef.FDConnectionMySQL.Connected := False;
   FreeAndNil(view_PesquisaEntregadoresExpressas);
-end;
-
-procedure Tview_SisGeFExtractedExpress.calcularVolumeExtraPropertiesChange(Sender: TObject);
-begin
-  if calcularVolumeExtra.Checked then
-  begin
-    gridExtratoDBTableView1qtd_volumes_extra.Visible := True;
-    gridExtratoDBTableView1val_volumes_extra.Visible := True;
-  end
-  else
-  begin
-    gridExtratoDBTableView1qtd_volumes_extra.Visible := False;
-    gridExtratoDBTableView1val_volumes_extra.Visible := False;
-  end;
 end;
 
 procedure Tview_SisGeFExtractedExpress.ClearBase;
@@ -440,7 +434,7 @@ begin
     sFilter := sFilter + FResult[0];
   end;
   if not sFilter.IsEmpty then
-    Result := 'cod_cliente_empresa in (' + sFilter + ')';
+    Result := 'cod_cliente in (' + sFilter + ')';
   FResult.Free;
 end;
 
