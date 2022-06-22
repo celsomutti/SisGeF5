@@ -91,8 +91,6 @@ type
     actionProcess: TAction;
     dxLayoutGroup14: TdxLayoutGroup;
     dxLayoutGroup15: TdxLayoutGroup;
-    processaEntregasAnteriores: TcxCheckBox;
-    dxLayoutItem23: TdxLayoutItem;
     calcularVolumeExtra: TcxCheckBox;
     dxLayoutItem24: TdxLayoutItem;
     considerarExtravios: TcxCheckBox;
@@ -602,16 +600,8 @@ begin
   end
   else if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 2) then
   begin
-    if processaEntregasAnteriores.Checked then
-    begin
-      sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', 0)) + ' and ' +
-                 QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date))
-    end
-    else
-    begin
-      sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and ' +
-                 QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
-    end;
+    sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and ' +
+               QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
     FYear := YearOf(dataFinalPeriodo.Date);
     FMounth := MonthOf(dataFinalPeriodo.Date);
     FPeriod := 0;
@@ -634,7 +624,7 @@ begin
   FExtract.ExtraVolume := calcularVolumeExtra.EditValue;
 //  FExtract.Cliente := iCliente;
 //  FExtract.MemTab := memTab;
-//  FExtract.Priority := tpNormal;
+  FExtract.Priority := tpNormal;
 //  Timer.Enabled := True;
 //  actionSelecionarArquivo.Enabled := False;
 //  actionLimparCampo.Enabled := False;
@@ -723,10 +713,6 @@ begin
       FDataFinal := sData;
     end;
     FDQuery.Close;
-    if processaEntregasAnteriores.Checked then
-    begin
-      FDataInicial := '0';
-    end;
     Result := ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', StrToDate(FDataInicial))) + ' and ' +
               QuotedStr(FormatDateTime('yyyy-mm-dd', StrToDate(FDataFinal)));
   finally
@@ -801,7 +787,7 @@ begin
     end;
     if dataFinalPeriodo.Text = '' then
     begin
-      Application.MessageBox('Informe a data fnal do período do extrato!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Application.MessageBox('Informe a data final do período do extrato!', 'Atenção', MB_OK + MB_ICONWARNING);
       dataFinalPeriodo.SetFocus;
       Exit;
     end;

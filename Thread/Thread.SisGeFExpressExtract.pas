@@ -75,6 +75,7 @@ procedure TTHead_ExpressExtract.ExecuteExpressExtractDeliveryDate;
 var
   FConnection : TConexao;
   FQuery : TFDQuery;
+  i: integer;
 begin
   FInProcess := True;
   FConnection := Tconexao.Create;
@@ -99,8 +100,22 @@ begin
     end;
     storedProcExtractExpress.Active := True;
     mtbExtratosExpressas.Active := True;
-    mtbExtratosExpressas.CopyDataSet(storedProcExtractExpress);
+    if not storedProcExtractExpress.IsEmpty then
+      storedProcExtractExpress.First;
+    while not storedProcExtractExpress.Eof do
+    begin
+      mtbExtratosExpressas.Insert;
+      for i := 0 to Pred(storedProcExtractExpress.FieldCount) do
+      begin
+        mtbExtratosExpressas.FieldByName(storedProcExtractExpress.Fields[i].FieldName).Value :=
+        storedProcExtractExpress.Fields[i].Value;
+      end;
+      mtbExtratosExpressas.Post;
+    end;
+//    mtbExtratosExpressas.CopyDataSet(storedProcExtractExpress);
     storedProcExtractExpress.Connection.Connected := False;
+    if not mtbExtratosExpressas.IsEmpty then
+      mtbExtratosExpressas.First;
     FInProcess := False;
   end;
   FInProcess := False;

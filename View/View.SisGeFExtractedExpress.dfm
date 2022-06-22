@@ -280,20 +280,10 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 28
-    end
-    object processaEntregasAnteriores: TcxCheckBox
-      Left = 36
-      Top = 317
-      Cursor = crHandPoint
-      Hint = 'Processar entregas baixdas anteriormente ao per'#237'odo informado'
-      Caption = 'Processar entregas anteriores ao per'#237'odo'
-      Style.HotTrack = False
-      TabOrder = 20
-      Transparent = True
+      TabOrder = 27
     end
     object calcularVolumeExtra: TcxCheckBox
-      Left = 340
+      Left = 36
       Top = 317
       Cursor = crHandPoint
       Hint = 'Calcular volumes extras'
@@ -301,29 +291,29 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Properties.ValueChecked = '1'
       Properties.ValueUnchecked = '0'
       Style.HotTrack = False
-      TabOrder = 21
+      TabOrder = 20
       Transparent = True
     end
     object considerarExtravios: TcxCheckBox
-      Left = 475
+      Left = 253
       Top = 317
       Cursor = crHandPoint
       Hint = 'Considerar extravios'
       Caption = 'Considerar extravios'
       State = cbsChecked
       Style.HotTrack = False
-      TabOrder = 22
+      TabOrder = 21
       Transparent = True
     end
     object considerarLancamentos: TcxCheckBox
-      Left = 647
+      Left = 529
       Top = 317
       Cursor = crHandPoint
       Hint = 'Considerar lan'#231'amentos de d'#233'bitos e cr'#233'ditos'
       Caption = 'Considerar lan'#231'amentos'
       State = cbsChecked
       Style.HotTrack = False
-      TabOrder = 23
+      TabOrder = 22
       Transparent = True
     end
     object gridExtrato: TcxGrid
@@ -331,7 +321,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Top = 10000
       Width = 820
       Height = 241
-      TabOrder = 25
+      TabOrder = 24
       Visible = False
       object gridExtratoDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
@@ -519,7 +509,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionProcess
-      TabOrder = 24
+      TabOrder = 23
     end
     object cxButton12: TcxButton
       Left = 10000
@@ -528,7 +518,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionComeBack
-      TabOrder = 26
+      TabOrder = 25
       Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
@@ -976,18 +966,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       LayoutDirection = ldHorizontal
       Index = 2
     end
-    object dxLayoutItem23: TdxLayoutItem
-      Parent = dxLayoutGroup15
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxCheckBox1'
-      CaptionOptions.Visible = False
-      Control = processaEntregasAnteriores
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 223
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
     object dxLayoutItem24: TdxLayoutItem
       Parent = dxLayoutGroup15
       AlignHorz = ahClient
@@ -998,7 +976,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 97
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object dxLayoutItem25: TdxLayoutItem
       Parent = dxLayoutGroup15
@@ -1010,7 +988,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 124
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 1
     end
     object dxLayoutItem26: TdxLayoutItem
       Parent = dxLayoutGroup15
@@ -1022,7 +1000,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 139
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 2
     end
     object dxLayoutGroup16: TdxLayoutGroup
       Parent = layoutGroupExtract
@@ -1056,7 +1034,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       CaptionOptions.Text = 'cxGrid1'
       CaptionOptions.Visible = False
       Control = gridExtrato
-      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalHeight = 113
       ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
       Index = 0
