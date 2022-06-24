@@ -776,6 +776,7 @@ begin
         begin
           Inc(FTotalGravados,1);
         end;
+        Data_Sisgef.memTableImport.Next;
         Finalize(aParam);
         iPos := i;
         FProgresso := (iPos / FTotalRegistros) * 100;
