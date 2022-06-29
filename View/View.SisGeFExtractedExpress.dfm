@@ -51,10 +51,10 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
         'Selecione ...'
-        'Customizado / Entrega'
-        'Customizado / Expedi'#231#227'o'
-        'Parametrizado / Entrega'
-        'Parametrizado / Expedi'#231#227'o')
+        'Data Inicial e Final / Por Baixa'
+        'Data Inicial e Final / Por Expedi'#231#227'o'
+        'Quinzena / Por Baixa'
+        'Quinzena / Por Expedi'#231#227'o')
       Properties.OnChange = tipoPeriodoPropertiesChange
       Style.HotTrack = False
       TabOrder = 1
@@ -406,6 +406,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         end
         object gridExtratoDBTableView1val_verba: TcxGridDBColumn
           DataBinding.FieldName = 'val_verba'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
           Width = 54
         end
@@ -416,11 +418,16 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         end
         object gridExtratoDBTableView1qtd_volumes_extra: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_volumes_extra'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DecimalPlaces = 3
+          Properties.DisplayFormat = ' ,0.000;- ,0.000'
           HeaderAlignmentHorz = taCenter
           Width = 44
         end
         object gridExtratoDBTableView1val_volumes_extra: TcxGridDBColumn
           DataBinding.FieldName = 'val_volumes_extra'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
           Width = 43
         end
@@ -436,36 +443,51 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         end
         object gridExtratoDBTableView1val_performance: TcxGridDBColumn
           DataBinding.FieldName = 'val_performance'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DecimalPlaces = 3
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
           Width = 54
         end
         object gridExtratoDBTableView1val_producao: TcxGridDBColumn
           DataBinding.FieldName = 'val_producao'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
           Width = 56
         end
         object gridExtratoDBTableView1val_creditos: TcxGridDBColumn
           DataBinding.FieldName = 'val_creditos'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
           Width = 55
         end
         object gridExtratoDBTableView1val_debitos: TcxGridDBColumn
           DataBinding.FieldName = 'val_debitos'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
           Width = 54
         end
         object gridExtratoDBTableView1val_extravios: TcxGridDBColumn
           DataBinding.FieldName = 'val_extravios'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
           Width = 54
         end
         object gridExtratoDBTableView1val_total_expressa: TcxGridDBColumn
           DataBinding.FieldName = 'val_total_expressa'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
           Width = 55
         end
         object gridExtratoDBTableView1val_total_empresa: TcxGridDBColumn
           DataBinding.FieldName = 'val_total_empresa'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           Visible = False
           HeaderAlignmentHorz = taCenter
           VisibleForCustomization = False
@@ -1198,7 +1220,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
   end
   object dsExtract: TDataSource
     AutoEdit = False
-    DataSet = Data_Sisgef.mtbExtratosExpressas
+    DataSet = Data_Sisgef.memTableExtracts
     Left = 384
     Top = 8
   end

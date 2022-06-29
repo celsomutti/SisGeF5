@@ -514,12 +514,43 @@ type
     storedProcExtractExpressdat_baixa: TDateField;
     mtbExtratosExpressasqtd_volumes_extra: TFloatField;
     mtbExtratosExpressasdat_baixa: TDateField;
+    memTableExtracts: TFDMemTable;
+    memTableExtractsid_extrato: TFDAutoIncField;
+    memTableExtractsdat_inicio: TDateField;
+    memTableExtractsdat_final: TDateField;
+    memTableExtractsnum_ano: TIntegerField;
+    memTableExtractsnum_mes: TIntegerField;
+    memTableExtractsnum_quinzena: TIntegerField;
+    memTableExtractscod_base: TIntegerField;
+    memTableExtractscod_entregador: TIntegerField;
+    memTableExtractsnum_extrato: TStringField;
+    memTableExtractsval_verba: TSingleField;
+    memTableExtractsqtd_volumes: TIntegerField;
+    memTableExtractsqtd_volumes_extra: TSingleField;
+    memTableExtractsval_volumes_extra: TSingleField;
+    memTableExtractsqtd_entregas: TIntegerField;
+    memTableExtractsqtd_atraso: TSingleField;
+    memTableExtractsval_performance: TSingleField;
+    memTableExtractsval_producao: TSingleField;
+    memTableExtractsval_creditos: TSingleField;
+    memTableExtractsval_debitos: TSingleField;
+    memTableExtractsval_extravios: TSingleField;
+    memTableExtractsval_total_expressa: TSingleField;
+    memTableExtractsval_total_empresa: TSingleField;
+    memTableExtractscod_cliente: TIntegerField;
+    memTableExtractsdat_credito: TDateField;
+    memTableExtractsdes_unique_key: TStringField;
+    memTableExtractsnom_cliente: TStringField;
+    memTableExtractsnom_base: TStringField;
+    memTableExtractsnom_entregador: TStringField;
+    memTableExtractsdat_baixa: TDateField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
     procedure mtbExtratosExpressasCalcFields(DataSet: TDataSet);
     procedure FDConnectionMySQLBeforeConnect(Sender: TObject);
     procedure memTableResumoRoteirosCalcFields(DataSet: TDataSet);
+    procedure memTableExtractsCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
     procedure DoServerKeyValidate(FileStorage: TScFileStorage;  const HostKeyName: string; NewServerKey: TScKey;
@@ -607,6 +638,40 @@ begin
     Exit;
   end;
   Result := True;
+end;
+
+procedure TData_Sisgef.memTableExtractsCalcFields(DataSet: TDataSet);
+begin
+
+  if memTableExtracts.Tag = 1 then
+  begin
+    if memTableExtractsval_verba.AsFloat < 16.99 then
+    begin
+      memTableExtractsqtd_volumes_extra.AsFloat := ((memTableExtractsqtd_volumes.AsInteger -
+                                                   memTableExtractsqtd_entregas.AsInteger) / 2);
+      memTableExtractsval_volumes_extra.AsFloat := memTableExtractsqtd_volumes_extra.AsFloat *
+                                                   memTableExtractsval_verba.AsFloat;
+    end
+    else
+    begin
+      memTableExtractsqtd_volumes_extra.AsFloat := 0;
+      memTableExtractsval_volumes_extra.AsFloat := 0;
+    end;
+  end
+  else
+  begin
+    memTableExtractsqtd_volumes_extra.AsFloat := 0;
+    memTableExtractsval_volumes_extra.AsFloat := 0;
+  end;
+//  memTableExtractsval_volumes_extra.AsFloat := memTableExtractsqtd_volumes_extra.AsFloat *
+//                                                   memTableExtractsval_verba.AsFloat;
+//  memTableExtractsval_producao.AsFloat := (memTableExtractsqtd_entregas.AsInteger *
+//                                                    memTableExtractsval_verba.AsFloat) +
+//                                                    memTableExtractsval_volumes_extra.AsFloat;
+//  memTableExtractsval_total_expressa.AsFloat := memTableExtractsval_producao.AsFloat +
+//                                                    memTableExtractsval_creditos.AsFloat +
+//                                                    memTableExtractsval_debitos.AsFloat +
+//                                                    memTableExtractsval_extravios.AsFloat;
 end;
 
 procedure TData_Sisgef.memTableResumoRoteirosCalcFields(DataSet: TDataSet);

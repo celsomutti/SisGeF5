@@ -12057,26 +12057,26 @@ object Data_Sisgef: TData_Sisgef
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
           303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
-          393B2623393B093C7374796C6520747970653D22746578742F6373732220786D
-          6C3A73706163653D227072657365727665223E2E5265647B66696C6C3A234431
-          314331433B7D262331333B262331303B2623393B2E426C61636B7B66696C6C3A
-          233732373237323B7D262331333B262331303B2623393B2E426C75657B66696C
-          6C3A233131373744373B7D262331333B262331303B2623393B2E477265656E7B
-          66696C6C3A233033394332333B7D262331333B262331303B2623393B2E59656C
-          6C6F777B66696C6C3A234646423131353B7D262331333B262331303B2623393B
-          2E57686974657B66696C6C3A234646464646463B7D262331333B262331303B26
-          23393B2E7374307B6F7061636974793A302E353B7D262331333B262331303B26
-          23393B2E7374317B6F7061636974793A302E37353B7D262331333B262331303B
-          2623393B2E7374327B6F7061636974793A302E32353B7D3C2F7374796C653E0D
-          0A093C672069643D22496D706F7274223E0D0A09093C7061746820636C617373
-          3D22426C61636B2220643D224D31302C31324836563668345631327A204D3232
-          2C31377631763963302C302E362D302E342C312D312C314831632D302E362C30
-          2D312D302E342D312D31563763302D302E362C302E342D312C312D3168337638
-          6831344C32322C31377A204D31382C3138483420202623393B2623393B763668
-          31345631387A222F3E0D0A09093C706F6C79676F6E20636C6173733D22477265
-          656E2220706F696E74733D2233302C362032322C362032322C322031342C3820
-          32322C31342032322C31302033302C3130202623393B222F3E0D0A093C2F673E
-          0D0A3C2F7376673E0D0A}
+          393B2623393B2623393B093C7374796C6520747970653D22746578742F637373
+          2220786D6C3A73706163653D227072657365727665223E2E5265647B66696C6C
+          3A234431314331433B7D262331333B262331303B2623393B2E426C61636B7B66
+          696C6C3A233732373237323B7D262331333B262331303B2623393B2E426C7565
+          7B66696C6C3A233131373744373B7D262331333B262331303B2623393B2E4772
+          65656E7B66696C6C3A233033394332333B7D262331333B262331303B2623393B
+          2E59656C6C6F777B66696C6C3A234646423131353B7D262331333B262331303B
+          2623393B2E57686974657B66696C6C3A234646464646463B7D262331333B2623
+          31303B2623393B2E7374307B6F7061636974793A302E353B7D262331333B2623
+          31303B2623393B2E7374317B6F7061636974793A302E37353B7D262331333B26
+          2331303B2623393B2E7374327B6F7061636974793A302E32353B7D3C2F737479
+          6C653E0D0A093C672069643D22496D706F7274223E0D0A09093C706174682063
+          6C6173733D22426C61636B2220643D224D31302C31324836563668345631327A
+          204D32322C31377631763963302C302E362D302E342C312D312C314831632D30
+          2E362C302D312D302E342D312D31563763302D302E362C302E342D312C312D31
+          683376386831344C32322C31377A204D31382C3138483420202623393B262339
+          3B76366831345631387A222F3E0D0A09093C706F6C79676F6E20636C6173733D
+          22477265656E2220706F696E74733D2233302C362032322C362032322C322031
+          342C382032322C31342032322C31302033302C3130202623393B222F3E0D0A09
+          3C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -12184,16 +12184,16 @@ object Data_Sisgef: TData_Sisgef
           22307078222076696577426F783D2230203020333220333222207374796C653D
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
-          303B2623393B2623393B093C7374796C6520747970653D22746578742F637373
-          2220786D6C3A73706163653D227072657365727665223E2E426C75657B66696C
-          6C3A233131373744373B7D262331333B262331303B2623393B2E426C61636B7B
-          66696C6C3A233732373237323B7D262331333B262331303B2623393B2E59656C
-          6C6F777B66696C6C3A234646423131353B7D262331333B262331303B2623393B
-          2E5265647B66696C6C3A234431314331433B7D3C2F7374796C653E0D0A093C67
-          2069643D224C696768746E696E67223E0D0A09093C706F6C79676F6E20636C61
-          73733D2259656C6C6F772220706F696E74733D2232322C322031342C3220362C
-          31362031342C313620382C33302032362C31322031362E332C3132202623393B
-          222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          303B2623393B2623393B2623393B093C7374796C6520747970653D2274657874
+          2F6373732220786D6C3A73706163653D227072657365727665223E2E426C7565
+          7B66696C6C3A233131373744373B7D262331333B262331303B2623393B2E426C
+          61636B7B66696C6C3A233732373237323B7D262331333B262331303B2623393B
+          2E59656C6C6F777B66696C6C3A234646423131353B7D262331333B262331303B
+          2623393B2E5265647B66696C6C3A234431314331433B7D3C2F7374796C653E0D
+          0A093C672069643D224C696768746E696E67223E0D0A09093C706F6C79676F6E
+          20636C6173733D2259656C6C6F772220706F696E74733D2232322C322031342C
+          3220362C31362031342C313620382C33302032362C31322031362E332C313220
+          2623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end>
   end
   object LayoutLookAndFeelList: TdxLayoutLookAndFeelList
@@ -14269,6 +14269,7 @@ object Data_Sisgef: TData_Sisgef
     end
   end
   object mtbBases: TFDMemTable
+    Active = True
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -15093,6 +15094,8 @@ object Data_Sisgef: TData_Sisgef
   end
   object mtbExtratosExpressas: TFDMemTable
     OnCalcFields = mtbExtratosExpressasCalcFields
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -15100,6 +15103,7 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 320
     Top = 288
     object mtbExtratosExpressasid_extrato: TLargeintField
@@ -15244,6 +15248,7 @@ object Data_Sisgef: TData_Sisgef
     end
   end
   object mtbClientesEmpresa: TFDMemTable
+    Active = True
     Indexes = <
       item
         Fields = 'cod_cliente'
@@ -16625,7 +16630,7 @@ object Data_Sisgef: TData_Sisgef
       item
         Name = 'pvolumeExtra'
         DataType = ftInteger
-        FDDataType = dtUInt32
+        FDDataType = dtInt32
         ParamType = ptInput
       end>
     object storedProcExtractExpresscod_base: TIntegerField
@@ -16717,6 +16722,176 @@ object Data_Sisgef: TData_Sisgef
       AutoGenerateValue = arDefault
       FieldName = 'dat_baixa'
       Origin = 'DAT_BAIXA'
+    end
+  end
+  object memTableExtracts: TFDMemTable
+    OnCalcFields = memTableExtractsCalcFields
+    FieldDefs = <>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 448
+    Top = 56
+    object memTableExtractsid_extrato: TFDAutoIncField
+      DisplayLabel = 'ID'
+      FieldName = 'id_extrato'
+    end
+    object memTableExtractsdat_inicio: TDateField
+      DisplayLabel = 'Data Inicio'
+      FieldName = 'dat_inicio'
+      Required = True
+    end
+    object memTableExtractsdat_final: TDateField
+      DisplayLabel = 'Data Final'
+      FieldName = 'dat_final'
+      Required = True
+    end
+    object memTableExtractsnum_ano: TIntegerField
+      DisplayLabel = 'Ano'
+      FieldName = 'num_ano'
+      Required = True
+    end
+    object memTableExtractsnum_mes: TIntegerField
+      DisplayLabel = 'M'#234's'
+      FieldName = 'num_mes'
+      Required = True
+    end
+    object memTableExtractsnum_quinzena: TIntegerField
+      DisplayLabel = 'Quinzena'
+      FieldName = 'num_quinzena'
+      Required = True
+    end
+    object memTableExtractscod_base: TIntegerField
+      DisplayLabel = 'C'#243'd. Base'
+      FieldName = 'cod_base'
+      Required = True
+    end
+    object memTableExtractsnom_base: TStringField
+      DisplayLabel = 'Base'
+      FieldName = 'nom_base'
+      Size = 70
+    end
+    object memTableExtractscod_entregador: TIntegerField
+      DisplayLabel = 'C'#243'd. Entregador'
+      FieldName = 'cod_entregador'
+      Required = True
+    end
+    object memTableExtractsnom_entregador: TStringField
+      DisplayLabel = 'Entregador'
+      FieldName = 'nom_entregador'
+      Size = 70
+    end
+    object memTableExtractsnum_extrato: TStringField
+      DisplayLabel = 'N'#186'. Extrato'
+      FieldName = 'num_extrato'
+      Required = True
+      Size = 30
+    end
+    object memTableExtractsval_verba: TSingleField
+      DisplayLabel = 'Verba Entregador'
+      FieldName = 'val_verba'
+      Required = True
+    end
+    object memTableExtractsqtd_volumes: TIntegerField
+      DisplayLabel = 'Volumes'
+      FieldName = 'qtd_volumes'
+      Required = True
+    end
+    object memTableExtractsqtd_volumes_extra: TSingleField
+      DisplayLabel = 'Volumes Extra'
+      FieldKind = fkCalculated
+      FieldName = 'qtd_volumes_extra'
+      Required = True
+      Calculated = True
+    end
+    object memTableExtractsval_volumes_extra: TSingleField
+      DisplayLabel = 'Valor Volumes Extra'
+      FieldKind = fkCalculated
+      FieldName = 'val_volumes_extra'
+      Required = True
+      Calculated = True
+    end
+    object memTableExtractsqtd_entregas: TIntegerField
+      DisplayLabel = 'Entregas'
+      FieldName = 'qtd_entregas'
+      Required = True
+    end
+    object memTableExtractsqtd_atraso: TSingleField
+      DisplayLabel = 'Atraso'
+      FieldName = 'qtd_atraso'
+      Required = True
+    end
+    object memTableExtractsval_performance: TSingleField
+      DisplayLabel = 'Performance'
+      FieldName = 'val_performance'
+      Required = True
+    end
+    object memTableExtractsval_producao: TSingleField
+      DisplayLabel = 'Produ'#231#227'o'
+      FieldName = 'val_producao'
+      Required = True
+    end
+    object memTableExtractsval_creditos: TSingleField
+      DisplayLabel = 'Cr'#233'ditos'
+      FieldName = 'val_creditos'
+      Required = True
+    end
+    object memTableExtractsval_debitos: TSingleField
+      DisplayLabel = 'D'#233'bitos'
+      FieldName = 'val_debitos'
+      Required = True
+    end
+    object memTableExtractsval_extravios: TSingleField
+      DisplayLabel = 'Extravios'
+      FieldName = 'val_extravios'
+      Required = True
+    end
+    object memTableExtractsval_total_expressa: TSingleField
+      DisplayLabel = 'Total'
+      FieldName = 'val_total_expressa'
+      Required = True
+    end
+    object memTableExtractsval_total_empresa: TSingleField
+      DisplayLabel = 'Valor Empresa'
+      FieldName = 'val_total_empresa'
+      Required = True
+    end
+    object memTableExtractscod_cliente: TIntegerField
+      DisplayLabel = 'C'#243'd. Cliente'
+      FieldName = 'cod_cliente'
+      Required = True
+    end
+    object memTableExtractsdat_credito: TDateField
+      DisplayLabel = 'Data Cr'#233'dito'
+      FieldName = 'dat_credito'
+    end
+    object memTableExtractsdes_unique_key: TStringField
+      DisplayLabel = 'Key'
+      FieldName = 'des_unique_key'
+      Size = 30
+    end
+    object memTableExtractsnom_cliente: TStringField
+      DisplayLabel = 'Cliente'
+      FieldName = 'nom_cliente'
+      Size = 70
+    end
+    object memTableExtractsdat_baixa: TDateField
+      DisplayLabel = 'Data Baixa'
+      FieldKind = fkCalculated
+      FieldName = 'dat_baixa'
+      Calculated = True
     end
   end
 end

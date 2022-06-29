@@ -465,16 +465,16 @@ end;
 
 procedure Tview_Main.actExtratoEntregadoresExpressasExecute(Sender: TObject);
 begin
-  if not Assigned(view_ExtratoExpressas) then
-  begin
-    view_ExtratoExpressas := Tview_ExtratoExpressas.Create(Application);
-  end;
-  view_ExtratoExpressas.Show;
-//  if not Assigned(view_SisGeFExtractedExpress) then
+//  if not Assigned(view_ExtratoExpressas) then
 //  begin
-//    view_SisGeFExtractedExpress := Tview_SisGeFExtractedExpress.Create(Application);
+//    view_ExtratoExpressas := Tview_ExtratoExpressas.Create(Application);
 //  end;
-//  view_SisGeFExtractedExpress.Show;
+//  view_ExtratoExpressas.Show;
+  if not Assigned(view_SisGeFExtractedExpress) then
+  begin
+    view_SisGeFExtractedExpress := Tview_SisGeFExtractedExpress.Create(Application);
+  end;
+  view_SisGeFExtractedExpress.Show;
 
 end;
 

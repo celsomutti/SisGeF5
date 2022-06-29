@@ -99,23 +99,25 @@ begin
       storedProcExtractExpress.Filter := '';
     end;
     storedProcExtractExpress.Active := True;
-    mtbExtratosExpressas.Active := True;
+    memTableExtracts.Active := True;
+    memTableExtracts.Tag := FExtraVolume;
     if not storedProcExtractExpress.IsEmpty then
       storedProcExtractExpress.First;
     while not storedProcExtractExpress.Eof do
     begin
-      mtbExtratosExpressas.Insert;
+      memTableExtracts.Insert;
       for i := 0 to Pred(storedProcExtractExpress.FieldCount) do
       begin
-        mtbExtratosExpressas.FieldByName(storedProcExtractExpress.Fields[i].FieldName).Value :=
+        memTableExtracts.FieldByName(storedProcExtractExpress.Fields[i].FieldName).Value :=
         storedProcExtractExpress.Fields[i].Value;
       end;
-      mtbExtratosExpressas.Post;
+      memTableExtracts.Post;
+      storedProcExtractExpress.Next;
     end;
-//    mtbExtratosExpressas.CopyDataSet(storedProcExtractExpress);
+//    memTableExtracts.CopyDataSet(storedProcExtractExpress);
     storedProcExtractExpress.Connection.Connected := False;
-    if not mtbExtratosExpressas.IsEmpty then
-      mtbExtratosExpressas.First;
+    if not memTableExtracts.IsEmpty then
+      memTableExtracts.First;
     FInProcess := False;
   end;
   FInProcess := False;

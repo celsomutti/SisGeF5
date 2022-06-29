@@ -11,7 +11,7 @@ uses
   FireDAC.Comp.Client, DAO.Conexao, System.DateUtils, cxCheckBox, Common.Utils, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Vcl.Grids, Vcl.DBGrids, Vcl.WinXCtrls,
-  Thread.SisGeFExpressExtract, Vcl.ExtCtrls, dxActivityIndicator;
+  Thread.SisGeFExpressExtract, Vcl.ExtCtrls, dxActivityIndicator, cxCurrencyEdit;
 
 type
   Tview_SisGeFExtractedExpress = class(TForm)
@@ -727,7 +727,7 @@ procedure Tview_SisGeFExtractedExpress.StartForm;
 begin
   ListYears;
   ListFortnights;
-  tipoPeriodo.ItemIndex := 0;
+  tipoPeriodo.ItemIndex := 3;
 end;
 
 procedure Tview_SisGeFExtractedExpress.timerTimer(Sender: TObject);
