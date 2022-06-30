@@ -225,6 +225,7 @@ end;
 
 procedure Tview_SisGeFExtractedExpress.actionComeBackExecute(Sender: TObject);
 begin
+  Data_Sisgef.memTableExtracts.Active := False;
   layoutGroupMain.ItemIndex := 0;
 end;
 
@@ -622,6 +623,7 @@ begin
   FExtract.StartDate := StrToDate(FDataInicial);
   FExtract.EndDate := StrToDate(FDataFinal);
   FExtract.ExtraVolume := calcularVolumeExtra.EditValue;
+  FExtract.DomLancamento := 'N';
 //  FExtract.Cliente := iCliente;
 //  FExtract.MemTab := memTab;
   FExtract.Priority := tpNormal;

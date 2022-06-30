@@ -526,7 +526,6 @@ type
     memTableExtractsnum_extrato: TStringField;
     memTableExtractsval_verba: TSingleField;
     memTableExtractsqtd_volumes: TIntegerField;
-    memTableExtractsqtd_volumes_extra: TSingleField;
     memTableExtractsval_volumes_extra: TSingleField;
     memTableExtractsqtd_entregas: TIntegerField;
     memTableExtractsqtd_atraso: TSingleField;
@@ -544,6 +543,17 @@ type
     memTableExtractsnom_base: TStringField;
     memTableExtractsnom_entregador: TStringField;
     memTableExtractsdat_baixa: TDateField;
+    memTableExtractsqtd_volumes_extra: TFloatField;
+    storedProcExtractExpressqtd_volumes_extra: TFMTBCDField;
+    storedProcPostingValuesStatement: TFDStoredProc;
+    storedProcPostingValuesStatementcod_entregador: TIntegerField;
+    storedProcPostingValuesStatementcod_base: TIntegerField;
+    storedProcPostingValuesStatementcod_cliente: TIntegerField;
+    storedProcPostingValuesStatementdes_tipo: TStringField;
+    storedProcPostingValuesStatementval_total: TFloatField;
+    storedProcPostingValuesStatementnom_entregador: TStringField;
+    storedProcPostingValuesStatementnom_base: TStringField;
+    storedProcPostingValuesStatementnom_cliente: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
@@ -645,33 +655,20 @@ begin
 
   if memTableExtracts.Tag = 1 then
   begin
-    if memTableExtractsval_verba.AsFloat < 16.99 then
-    begin
-      memTableExtractsqtd_volumes_extra.AsFloat := ((memTableExtractsqtd_volumes.AsInteger -
-                                                   memTableExtractsqtd_entregas.AsInteger) / 2);
-      memTableExtractsval_volumes_extra.AsFloat := memTableExtractsqtd_volumes_extra.AsFloat *
-                                                   memTableExtractsval_verba.AsFloat;
-    end
-    else
-    begin
-      memTableExtractsqtd_volumes_extra.AsFloat := 0;
-      memTableExtractsval_volumes_extra.AsFloat := 0;
-    end;
+    memTableExtractsval_volumes_extra.AsFloat := memTableExtractsqtd_volumes_extra.AsFloat *
+                                                 memTableExtractsval_verba.AsFloat;
   end
   else
   begin
-    memTableExtractsqtd_volumes_extra.AsFloat := 0;
     memTableExtractsval_volumes_extra.AsFloat := 0;
   end;
-//  memTableExtractsval_volumes_extra.AsFloat := memTableExtractsqtd_volumes_extra.AsFloat *
-//                                                   memTableExtractsval_verba.AsFloat;
-//  memTableExtractsval_producao.AsFloat := (memTableExtractsqtd_entregas.AsInteger *
-//                                                    memTableExtractsval_verba.AsFloat) +
-//                                                    memTableExtractsval_volumes_extra.AsFloat;
-//  memTableExtractsval_total_expressa.AsFloat := memTableExtractsval_producao.AsFloat +
-//                                                    memTableExtractsval_creditos.AsFloat +
-//                                                    memTableExtractsval_debitos.AsFloat +
-//                                                    memTableExtractsval_extravios.AsFloat;
+  memTableExtractsval_producao.AsFloat := (memTableExtractsqtd_entregas.AsInteger *
+                                                    memTableExtractsval_verba.AsFloat) +
+                                                    memTableExtractsval_volumes_extra.AsFloat;
+  memTableExtractsval_total_expressa.AsFloat := memTableExtractsval_producao.AsFloat +
+                                                    memTableExtractsval_creditos.AsFloat +
+                                                    memTableExtractsval_debitos.AsFloat +
+                                                    memTableExtractsval_extravios.AsFloat;
 end;
 
 procedure TData_Sisgef.memTableResumoRoteirosCalcFields(DataSet: TDataSet);

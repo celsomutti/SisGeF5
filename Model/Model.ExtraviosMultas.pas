@@ -265,6 +265,7 @@ var
   sSQL: String;
   fdQuery : TFDQuery;
 begin
+
   try
     Result := False;
     sSQL := 'select tbextravios.cod_agente as cod_agente, tbextravios.cod_entregador as cod_entregador,' +

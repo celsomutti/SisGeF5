@@ -52,6 +52,7 @@ type
     class function GenerateUniqueKey(pPrefix: String = ''): String;
     class Function DesmontaCPFCNPJ(sNum: String): String;
     class function GetNewID(Prefix:String):string;
+    class function ExpressStatementNumber(initialDate, finalDate: TDate; idDeliveryMan: integer): string;
     class procedure NoRotine;
   end;
 
@@ -761,6 +762,18 @@ begin
       ShellExecute(0, 'open', pchar(sFile), nil, nil, SW_SHOW);
     end;
   end;
+end;
+
+class function TUtils.ExpressStatementNumber(initialDate, finalDate: TDate; idDeliveryMan: integer): string;
+var
+  iDaysBetweenPediod, iDaysBetweenBegin, iSumOfDays: integer;
+  sNumber: string;
+begin
+  Result := '';
+  iDaysBetweenPediod := DaysBetween(finalDate, initialDate);
+  iDaysBetweenBegin := DaysBetween(finalDate, StrToDate('31/12/1899'));
+  iSumOfDays := iDaysBetweenPediod + iDaysBetweenBegin + idDeliveryMan;
+  sNumber := IntToStr(iSumOfDays);
 end;
 
 { ===============================

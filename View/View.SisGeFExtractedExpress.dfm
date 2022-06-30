@@ -68,7 +68,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 2
       Visible = False
-      Width = 194
+      Width = 96
     end
     object dataFinalPeriodo: TcxDateEdit
       Left = 10000
@@ -77,7 +77,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 3
       Visible = False
-      Width = 196
+      Width = 97
     end
     object anoPeriodo: TcxComboBox
       Left = 10000
@@ -121,7 +121,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 6
       Visible = False
-      Width = 178
+      Width = 121
     end
     object situacaoExtrato: TcxComboBox
       Left = 704
@@ -326,14 +326,194 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       object gridExtratoDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = dsExtract
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.DefaultGroupSummaryItems = <
+          item
+            Format = ',0; -,0'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1qtd_atraso
+          end
+          item
+            Format = ',0; -,0'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1qtd_entregas
+          end
+          item
+            Format = ',0; -,0'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1qtd_volumes
+          end
+          item
+            Format = ',0.000; -,0.000'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1qtd_volumes_extra
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1val_creditos
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1val_debitos
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1val_extravios
+          end
+          item
+            Format = ',0.000; -,0.000'
+            Kind = skAverage
+            Position = spFooter
+            Column = gridExtratoDBTableView1val_performance
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1val_producao
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1val_total_empresa
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1val_total_expressa
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skAverage
+            Position = spFooter
+            Column = gridExtratoDBTableView1val_verba
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtratoDBTableView1val_volumes_extra
+          end>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0; -,0'
+            Kind = skSum
+            Column = gridExtratoDBTableView1qtd_atraso
+          end
+          item
+            Format = ',0; -,0'
+            Kind = skSum
+            Column = gridExtratoDBTableView1qtd_entregas
+          end
+          item
+            Format = ',0; -,0'
+            Kind = skSum
+            Column = gridExtratoDBTableView1qtd_volumes
+          end
+          item
+            Format = ',0.000; -,0.000'
+            Kind = skSum
+            Column = gridExtratoDBTableView1qtd_volumes_extra
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Column = gridExtratoDBTableView1val_creditos
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Column = gridExtratoDBTableView1val_creditos
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Column = gridExtratoDBTableView1val_debitos
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Column = gridExtratoDBTableView1val_extravios
+          end
+          item
+            Format = ',0.000; -,0.000'
+            Kind = skAverage
+            Column = gridExtratoDBTableView1val_performance
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Column = gridExtratoDBTableView1val_producao
+          end
+          item
+            Format = 'R$ ,0.00; - R$ ,0.00'
+            Kind = skSum
+            Column = gridExtratoDBTableView1val_total_empresa
+          end
+          item
+            Format = 'R$ ,0.00; - R$ ,0.00'
+            Kind = skSum
+            Column = gridExtratoDBTableView1val_total_expressa
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skAverage
+            Column = gridExtratoDBTableView1val_verba
+          end
+          item
+            Format = ',0.00; -,0.00'
+            Kind = skSum
+            Column = gridExtratoDBTableView1val_volumes_extra
+          end>
         DataController.Summary.SummaryGroups = <>
+        OptionsCustomize.ColumnsQuickCustomization = True
+        OptionsData.CancelOnExit = False
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
         OptionsView.CellAutoHeight = True
         OptionsView.ColumnAutoWidth = True
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
+        OptionsView.GroupFooterMultiSummaries = True
+        OptionsView.GroupFooters = gfAlwaysVisible
+        OptionsView.GroupSummaryLayout = gslAlignWithColumns
         OptionsView.HeaderAutoHeight = True
+        ConditionalFormatting = {
+          030000000A0000002D0000005400640078005300700072006500610064005300
+          680065006500740043006F006E0064006900740069006F006E0061006C004600
+          6F0072006D0061007400740069006E006700520075006C006500430065006C00
+          6C00490073007F000000170000000000000017000000FFFFFF7F0001FF000000
+          0B00000007000000430061006C00690062007200690000000000000020000000
+          2000000000200000000020000000002000000000200007000000470045004E00
+          4500520041004C00000000000002000000000000000001020000003D00300001
+          0000003D00040000002D00000054006400780053007000720065006100640053
+          00680065006500740043006F006E0064006900740069006F006E0061006C0046
+          006F0072006D0061007400740069006E006700520075006C006500430065006C
+          006C00490073007F000000150000000000000015000000FFFFFF7F0001FF0000
+          000B00000007000000430061006C006900620072006900000000000000200000
+          002000000000200000000020000000002000000000200007000000470045004E
+          004500520041004C00000000000002000000000000000001020000003D003000
+          010000003D00040000002D000000540064007800530070007200650061006400
+          5300680065006500740043006F006E0064006900740069006F006E0061006C00
+          46006F0072006D0061007400740069006E006700520075006C00650043006500
+          6C006C00490073007F000000160000000000000016000000FFFFFF7F0001FF00
+          00000B00000007000000430061006C0069006200720069000000000000002000
+          0000200000000020000000002000000000200000000020000700000047004500
+          4E004500520041004C00000000000002000000000000000001020000003D0030
+          00010000003D0004000000}
         object gridExtratoDBTableView1id_extrato: TcxGridDBColumn
           DataBinding.FieldName = 'id_extrato'
           Visible = False
@@ -386,7 +566,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         object gridExtratoDBTableView1cod_base: TcxGridDBColumn
           DataBinding.FieldName = 'cod_base'
           HeaderAlignmentHorz = taCenter
-          Width = 32
+          Width = 25
         end
         object gridExtratoDBTableView1nom_base: TcxGridDBColumn
           DataBinding.FieldName = 'nom_base'
@@ -397,24 +577,24 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         object gridExtratoDBTableView1cod_entregador: TcxGridDBColumn
           DataBinding.FieldName = 'cod_entregador'
           HeaderAlignmentHorz = taCenter
-          Width = 36
+          Width = 32
         end
         object gridExtratoDBTableView1nom_entregador: TcxGridDBColumn
           DataBinding.FieldName = 'nom_entregador'
           HeaderAlignmentHorz = taCenter
-          Width = 174
+          Width = 136
         end
         object gridExtratoDBTableView1val_verba: TcxGridDBColumn
           DataBinding.FieldName = 'val_verba'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
-          Width = 54
+          Width = 50
         end
         object gridExtratoDBTableView1qtd_volumes: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_volumes'
           HeaderAlignmentHorz = taCenter
-          Width = 55
+          Width = 50
         end
         object gridExtratoDBTableView1qtd_volumes_extra: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_volumes_extra'
@@ -422,24 +602,24 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
           Properties.DecimalPlaces = 3
           Properties.DisplayFormat = ' ,0.000;- ,0.000'
           HeaderAlignmentHorz = taCenter
-          Width = 44
+          Width = 41
         end
         object gridExtratoDBTableView1val_volumes_extra: TcxGridDBColumn
           DataBinding.FieldName = 'val_volumes_extra'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
-          Width = 43
+          Width = 40
         end
         object gridExtratoDBTableView1qtd_entregas: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_entregas'
           HeaderAlignmentHorz = taCenter
-          Width = 56
+          Width = 46
         end
         object gridExtratoDBTableView1qtd_atraso: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_atraso'
           HeaderAlignmentHorz = taCenter
-          Width = 53
+          Width = 49
         end
         object gridExtratoDBTableView1val_performance: TcxGridDBColumn
           DataBinding.FieldName = 'val_performance'
@@ -447,42 +627,42 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
           Properties.DecimalPlaces = 3
           Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
-          Width = 54
+          Width = 51
         end
         object gridExtratoDBTableView1val_producao: TcxGridDBColumn
           DataBinding.FieldName = 'val_producao'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
-          Width = 56
+          Width = 53
         end
         object gridExtratoDBTableView1val_creditos: TcxGridDBColumn
           DataBinding.FieldName = 'val_creditos'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
-          Width = 55
+          Width = 50
         end
         object gridExtratoDBTableView1val_debitos: TcxGridDBColumn
           DataBinding.FieldName = 'val_debitos'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
-          Width = 54
+          Width = 51
         end
         object gridExtratoDBTableView1val_extravios: TcxGridDBColumn
           DataBinding.FieldName = 'val_extravios'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
-          Width = 54
+          Width = 50
         end
         object gridExtratoDBTableView1val_total_expressa: TcxGridDBColumn
           DataBinding.FieldName = 'val_total_expressa'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
-          Width = 55
+          Width = 52
         end
         object gridExtratoDBTableView1val_total_empresa: TcxGridDBColumn
           DataBinding.FieldName = 'val_total_empresa'

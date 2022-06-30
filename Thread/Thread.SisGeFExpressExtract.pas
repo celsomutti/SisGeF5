@@ -15,8 +15,10 @@ type
     FEndDate: TDate;
     FStartDate: TDate;
     FExtraVolume: integer;
+    FDomLancamento: string;
     { Private declarations }
     procedure ExecuteExpressExtractDeliveryDate;
+    procedure ExecuteExpressPostingValuesStatement;
   protected
     procedure Execute; override;
   public
@@ -26,6 +28,7 @@ type
     property StartDate: TDate read FStartDate write FStartDate;
     property EndDate: TDate read FEndDate write FEndDate;
     property ExtraVolume: integer read FExtraVolume write FExtraVolume;
+    property DomLancamento: string read FDomLancamento write FDomLancamento;
   end;
 
 implementation
@@ -81,6 +84,9 @@ begin
   FConnection := Tconexao.Create;
   with Data_Sisgef do
   begin
+    storedProcExtractExpress.Active := False;
+    storedProcExtractExpress.Filtered := False;
+    storedProcExtractExpress.Filter := '';
     storedProcExtractExpress.Connection := FConnection.GetConn;
     storedProcExtractExpress.storedProcName := 'sp_generate_express_extract';
     storedProcExtractExpress.SchemaName := 'bderpsisgef';
@@ -92,30 +98,13 @@ begin
     begin
       storedProcExtractExpress.Filter := FFiltro;
       storedProcExtractExpress.Filtered := True;
-    end
-    else
-    begin
-      storedProcExtractExpress.Filtered := False;
-      storedProcExtractExpress.Filter := '';
     end;
     storedProcExtractExpress.Active := True;
     memTableExtracts.Active := True;
     memTableExtracts.Tag := FExtraVolume;
-    if not storedProcExtractExpress.IsEmpty then
-      storedProcExtractExpress.First;
-    while not storedProcExtractExpress.Eof do
-    begin
-      memTableExtracts.Insert;
-      for i := 0 to Pred(storedProcExtractExpress.FieldCount) do
-      begin
-        memTableExtracts.FieldByName(storedProcExtractExpress.Fields[i].FieldName).Value :=
-        storedProcExtractExpress.Fields[i].Value;
-      end;
-      memTableExtracts.Post;
-      storedProcExtractExpress.Next;
-    end;
-//    memTableExtracts.CopyDataSet(storedProcExtractExpress);
+    memTableExtracts.CopyDataSet(storedProcExtractExpress);
     storedProcExtractExpress.Connection.Connected := False;
+    ExecuteExpressPostingValuesStatement;
     if not memTableExtracts.IsEmpty then
       memTableExtracts.First;
     FInProcess := False;
@@ -123,5 +112,83 @@ begin
   FInProcess := False;
 end;
 
+
+procedure TTHead_ExpressExtract.ExecuteExpressPostingValuesStatement;
+var
+  FConnection : TConexao;
+  FQuery : TFDQuery;
+  i: integer;
+  dNewValue: double;
+begin
+  FConnection := Tconexao.Create;
+  with Data_Sisgef do
+  begin
+    storedProcPostingValuesStatement.Active := False;
+    storedProcPostingValuesStatement.Filtered := False;
+    storedProcPostingValuesStatement.Filter := '';
+    storedProcPostingValuesStatement.Connection := FConnection.GetConn;
+    storedProcPostingValuesStatement.storedProcName := 'sp_posting_values_statement';
+    storedProcPostingValuesStatement.SchemaName := 'bderpsisgef';
+    storedProcPostingValuesStatement.Prepare;
+    storedProcPostingValuesStatement.ParamByName('pdateBase').AsDate := FEndDate;
+    storedProcPostingValuesStatement.ParamByName('pclosedRelease').AsString := FDomLancamento;
+    if FFiltro <> '' then
+    begin
+      storedProcPostingValuesStatement.Filter := FFiltro;
+      storedProcPostingValuesStatement.Filtered := True;
+    end;
+    storedProcPostingValuesStatement.Active := True;
+    if not storedProcPostingValuesStatement.IsEmpty then
+      storedProcPostingValuesStatement.First;
+    while not storedProcPostingValuesStatement.Eof do
+    begin
+      dNewValue := 0;
+      if memTableExtracts.Locate('cod_entregador', storedProcPostingValuesStatementcod_entregador.asinteger, [])  then
+      begin
+        if storedProcPostingValuesStatementdes_tipo.AsString = 'CREDITO' then
+        begin
+          dNewValue := memTableExtractsval_creditos.AsFloat + storedProcPostingValuesStatementval_total.AsFloat;
+          memTableExtracts.Edit;
+          memTableExtractsval_creditos.AsFloat := dNewValue;
+          memTableExtracts.Post;
+        end
+        else
+        begin
+          dNewValue := memTableExtractsval_debitos.AsFloat + (0 - storedProcPostingValuesStatementval_total.AsFloat);
+          memTableExtracts.Edit;
+          memTableExtractsval_debitos.AsFloat := dNewValue;
+          memTableExtracts.Post;
+        end;
+      end
+      else
+      begin
+        memTableExtracts.insert;
+        memTableExtractscod_base.AsInteger := storedProcPostingValuesStatementcod_base.AsInteger;
+        memTableExtractsnom_base.AsString := storedProcPostingValuesStatementnom_base.AsString;
+        memTableExtractscod_entregador.AsInteger := storedProcPostingValuesStatementcod_entregador.AsInteger;
+        memTableExtractsnom_entregador.AsString := storedProcPostingValuesStatementnom_entregador.AsString;
+        memTableExtractscod_cliente.AsInteger := storedProcPostingValuesStatementcod_cliente.AsInteger;
+        memTableExtractsnom_cliente.AsString := storedProcPostingValuesStatementnom_cliente.AsString;
+        memTableExtractscod_base.AsInteger := storedProcPostingValuesStatementcod_base.AsInteger;
+        if storedProcPostingValuesStatementdes_tipo.AsString = 'CREDITO' then
+        begin
+          dNewValue := memTableExtractsval_creditos.AsFloat + storedProcPostingValuesStatementval_total.AsFloat;
+          memTableExtractsval_creditos.AsFloat := dNewValue;
+        end
+        else
+        begin
+          dNewValue := memTableExtractsval_debitos.AsFloat + (0 - storedProcPostingValuesStatementval_total.AsFloat);
+          memTableExtractsval_debitos.AsFloat := dNewValue;
+        end;
+        memTableExtracts.Post
+      end;
+      storedProcPostingValuesStatement.Next;
+    end;
+    storedProcPostingValuesStatement.Connection.Connected := False;
+    if not memTableExtracts.IsEmpty then
+      memTableExtracts.First;
+    FInProcess := False;
+  end;
+end;
 
 end.
