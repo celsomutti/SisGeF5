@@ -16,9 +16,17 @@ type
     FStartDate: TDate;
     FExtraVolume: integer;
     FDomLancamento: string;
+    FDomExtravio: string;
+    FMensagem: string;
+    FAbortProcess: boolean;
+    FQuinzena: integer;
+    FMes: integer;
+    FAno: integer;
     { Private declarations }
     procedure ExecuteExpressExtractDeliveryDate;
     procedure ExecuteExpressPostingValuesStatement;
+    procedure ExecuteExpressStrays;
+    procedure ExecuteListExpressExtractDelivery;
   protected
     procedure Execute; override;
   public
@@ -29,6 +37,12 @@ type
     property EndDate: TDate read FEndDate write FEndDate;
     property ExtraVolume: integer read FExtraVolume write FExtraVolume;
     property DomLancamento: string read FDomLancamento write FDomLancamento;
+    property DomExtravio: string read FDomExtravio write FDomExtravio;
+    property Mensagem: string read FMensagem write FMensagem;
+    property AbortProcess: boolean read FAbortProcess write FAbortProcess;
+    property Ano: integer read FAno write FAno;
+    property Mes: integer read FMes write FMes;
+    property Quinzena: integer read FQuinzena write FQuinzena;
   end;
 
 implementation
@@ -71,7 +85,10 @@ uses Data.SisGeF;
 procedure TTHead_ExpressExtract.Execute;
 begin
   { Place thread code here }
-  ExecuteExpressExtractDeliveryDate;
+  if FTipo = 1 then
+    ExecuteExpressExtractDeliveryDate
+  else if FTipo = 2 then
+    ExecuteListExpressExtractDelivery;
 end;
 
 procedure TTHead_ExpressExtract.ExecuteExpressExtractDeliveryDate;
@@ -81,6 +98,7 @@ var
   i: integer;
 begin
   FInProcess := True;
+  FAbortProcess := False;
   FConnection := Tconexao.Create;
   with Data_Sisgef do
   begin
@@ -104,9 +122,19 @@ begin
     memTableExtracts.Tag := FExtraVolume;
     memTableExtracts.CopyDataSet(storedProcExtractExpress);
     storedProcExtractExpress.Connection.Connected := False;
-    ExecuteExpressPostingValuesStatement;
+    if FDomLancamento <> 'X' then
+      ExecuteExpressPostingValuesStatement;
+    if FDomExtravio <> 'X' then
+      ExecuteExpressStrays;
     if not memTableExtracts.IsEmpty then
+    begin
       memTableExtracts.First;
+    end
+    else
+    begin
+      FMensagem := 'Nenhum registro encontrado!';
+      FAbortProcess := True;
+    end;
     FInProcess := False;
   end;
   FInProcess := False;
@@ -185,10 +213,108 @@ begin
       storedProcPostingValuesStatement.Next;
     end;
     storedProcPostingValuesStatement.Connection.Connected := False;
+  end;
+end;
+
+procedure TTHead_ExpressExtract.ExecuteExpressStrays;
+var
+  FConnection : TConexao;
+  FQuery : TFDQuery;
+  i: integer;
+  dNewValue: double;
+begin
+  FConnection := Tconexao.Create;
+  with Data_Sisgef do
+  begin
+    storedProcExpressStrays.Active := False;
+    storedProcExpressStrays.Filtered := False;
+    storedProcExpressStrays.Filter := '';
+    storedProcExpressStrays.Connection := FConnection.GetConn;
+    storedProcExpressStrays.storedProcName := 'sp_express_extract_loss';
+    storedProcExpressStrays.SchemaName := 'bderpsisgef';
+    storedProcExpressStrays.Prepare;
+    storedProcExpressStrays.ParamByName('pdomFinalize').AsString := FDomExtravio;
+    if FFiltro <> '' then
+    begin
+      storedProcExpressStrays.Filter := FFiltro;
+      storedProcExpressStrays.Filtered := True;
+    end;
+    storedProcExpressStrays.Active := True;
+    if not storedProcExpressStrays.IsEmpty then
+      storedProcExpressStrays.First;
+    while not storedProcExpressStrays.Eof do
+    begin
+      dNewValue := 0;
+      if memTableExtracts.Locate('cod_entregador', storedProcExpressStrayscod_entregador.asinteger, [])  then
+      begin
+        dNewValue := memTableExtractsval_extravios.AsFloat + (0 - storedProcExpressStraysval_total.AsFloat);
+        memTableExtracts.Edit;
+        memTableExtractsval_extravios.AsFloat := dNewValue;
+        memTableExtracts.Post;
+      end
+      else
+      begin
+        memTableExtracts.insert;
+        memTableExtractscod_base.AsInteger := storedProcExpressStrayscod_base.AsInteger;
+        memTableExtractsnom_base.AsString := storedProcExpressStraysnom_base.AsString;
+        memTableExtractscod_entregador.AsInteger := storedProcExpressStrayscod_entregador.AsInteger;
+        memTableExtractsnom_entregador.AsString := storedProcExpressStraysnom_entregador.AsString;
+        memTableExtractscod_cliente.AsInteger := storedProcExpressStrayscod_cliente.AsInteger;
+        memTableExtractsnom_cliente.AsString := storedProcExpressStraysnom_cliente.AsString;
+        memTableExtractscod_base.AsInteger := storedProcExpressStrayscod_base.AsInteger;
+        dNewValue := memTableExtractsval_extravios.AsFloat + (0 - storedProcExpressStraysval_total.AsFloat);
+        memTableExtractsval_extravios.AsFloat := dNewValue;
+        memTableExtracts.Post
+      end;
+      storedProcExpressStrays.Next;
+    end;
+    storedProcExpressStrays.Connection.Connected := False;
+  end;
+end;
+
+procedure TTHead_ExpressExtract.ExecuteListExpressExtractDelivery;
+var
+  FConnection : TConexao;
+  FQuery : TFDQuery;
+  i: integer;
+begin
+  FInProcess := True;
+  FAbortProcess := False;
+  FConnection := Tconexao.Create;
+  with Data_Sisgef do
+  begin
+    storedProcListExtractExpress.Active := False;
+    storedProcListExtractExpress.Filtered := False;
+    storedProcListExtractExpress.Filter := '';
+    storedProcListExtractExpress.Connection := FConnection.GetConn;
+    storedProcListExtractExpress.storedProcName := 'sp_list_express_extract';
+    storedProcListExtractExpress.SchemaName := 'bderpsisgef';
+    storedProcListExtractExpress.Prepare;
+    storedProcListExtractExpress.ParamByName('pYear').AsInteger := FAno;
+    storedProcListExtractExpress.ParamByName('pMonth').AsInteger := FMes;
+    storedProcListExtractExpress.ParamByName('pFortnight').AsInteger := FQuinzena;
+    if FFiltro <> '' then
+    begin
+      storedProcListExtractExpress.Filter := FFiltro;
+      storedProcListExtractExpress.Filtered := True;
+    end;
+    storedProcListExtractExpress.Active := True;
+    memTableExtracts.Active := True;
+    memTableExtracts.Tag := FExtraVolume;
+    memTableExtracts.CopyDataSet(storedProcListExtractExpress);
+    storedProcListExtractExpress.Connection.Connected := False;
     if not memTableExtracts.IsEmpty then
+    begin
       memTableExtracts.First;
+    end
+    else
+    begin
+      FMensagem := 'Nenhum registro encontrado!';
+      FAbortProcess := True;
+    end;
     FInProcess := False;
   end;
+  FInProcess := False;
 end;
 
 end.

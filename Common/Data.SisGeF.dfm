@@ -12057,26 +12057,26 @@ object Data_Sisgef: TData_Sisgef
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
           303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
-          393B2623393B2623393B2623393B2623393B093C7374796C6520747970653D22
-          746578742F6373732220786D6C3A73706163653D227072657365727665223E2E
-          5265647B66696C6C3A234431314331433B7D262331333B262331303B2623393B
-          2E426C61636B7B66696C6C3A233732373237323B7D262331333B262331303B26
-          23393B2E426C75657B66696C6C3A233131373744373B7D262331333B26233130
-          3B2623393B2E477265656E7B66696C6C3A233033394332333B7D262331333B26
-          2331303B2623393B2E59656C6C6F777B66696C6C3A234646423131353B7D2623
-          31333B262331303B2623393B2E57686974657B66696C6C3A234646464646463B
-          7D262331333B262331303B2623393B2E7374307B6F7061636974793A302E353B
-          7D262331333B262331303B2623393B2E7374317B6F7061636974793A302E3735
-          3B7D262331333B262331303B2623393B2E7374327B6F7061636974793A302E32
-          353B7D3C2F7374796C653E0D0A093C672069643D22496D706F7274223E0D0A09
-          093C7061746820636C6173733D22426C61636B2220643D224D31302C31324836
-          563668345631327A204D32322C31377631763963302C302E362D302E342C312D
-          312C314831632D302E362C302D312D302E342D312D31563763302D302E362C30
-          2E342D312C312D31683376386831344C32322C31377A204D31382C3138483420
-          202623393B2623393B76366831345631387A222F3E0D0A09093C706F6C79676F
-          6E20636C6173733D22477265656E2220706F696E74733D2233302C362032322C
-          362032322C322031342C382032322C31342032322C31302033302C3130202623
-          393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          393B2623393B2623393B2623393B2623393B2623393B093C7374796C65207479
+          70653D22746578742F6373732220786D6C3A73706163653D2270726573657276
+          65223E2E5265647B66696C6C3A234431314331433B7D262331333B262331303B
+          2623393B2E426C61636B7B66696C6C3A233732373237323B7D262331333B2623
+          31303B2623393B2E426C75657B66696C6C3A233131373744373B7D262331333B
+          262331303B2623393B2E477265656E7B66696C6C3A233033394332333B7D2623
+          31333B262331303B2623393B2E59656C6C6F777B66696C6C3A23464642313135
+          3B7D262331333B262331303B2623393B2E57686974657B66696C6C3A23464646
+          4646463B7D262331333B262331303B2623393B2E7374307B6F7061636974793A
+          302E353B7D262331333B262331303B2623393B2E7374317B6F7061636974793A
+          302E37353B7D262331333B262331303B2623393B2E7374327B6F706163697479
+          3A302E32353B7D3C2F7374796C653E0D0A093C672069643D22496D706F727422
+          3E0D0A09093C7061746820636C6173733D22426C61636B2220643D224D31302C
+          31324836563668345631327A204D32322C31377631763963302C302E362D302E
+          342C312D312C314831632D302E362C302D312D302E342D312D31563763302D30
+          2E362C302E342D312C312D31683376386831344C32322C31377A204D31382C31
+          38483420202623393B2623393B76366831345631387A222F3E0D0A09093C706F
+          6C79676F6E20636C6173733D22477265656E2220706F696E74733D2233302C36
+          2032322C362032322C322031342C382032322C31342032322C31302033302C31
+          30202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -12184,16 +12184,46 @@ object Data_Sisgef: TData_Sisgef
           22307078222076696577426F783D2230203020333220333222207374796C653D
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
-          303B2623393B2623393B2623393B2623393B2623393B093C7374796C65207479
-          70653D22746578742F6373732220786D6C3A73706163653D2270726573657276
-          65223E2E426C75657B66696C6C3A233131373744373B7D262331333B26233130
-          3B2623393B2E426C61636B7B66696C6C3A233732373237323B7D262331333B26
-          2331303B2623393B2E59656C6C6F777B66696C6C3A234646423131353B7D2623
-          31333B262331303B2623393B2E5265647B66696C6C3A234431314331433B7D3C
-          2F7374796C653E0D0A093C672069643D224C696768746E696E67223E0D0A0909
-          3C706F6C79676F6E20636C6173733D2259656C6C6F772220706F696E74733D22
-          32322C322031342C3220362C31362031342C313620382C33302032362C313220
-          31362E332C3132202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          303B2623393B2623393B2623393B2623393B2623393B2623393B093C7374796C
+          6520747970653D22746578742F6373732220786D6C3A73706163653D22707265
+          7365727665223E2E426C75657B66696C6C3A233131373744373B7D262331333B
+          262331303B2623393B2E426C61636B7B66696C6C3A233732373237323B7D2623
+          31333B262331303B2623393B2E59656C6C6F777B66696C6C3A23464642313135
+          3B7D262331333B262331303B2623393B2E5265647B66696C6C3A234431314331
+          433B7D3C2F7374796C653E0D0A093C672069643D224C696768746E696E67223E
+          0D0A09093C706F6C79676F6E20636C6173733D2259656C6C6F772220706F696E
+          74733D2232322C322031342C3220362C31362031342C313620382C3330203236
+          2C31322031362E332C3132202623393B222F3E0D0A093C2F673E0D0A3C2F7376
+          673E0D0A}
+      end
+      item
+        ImageClass = 'TdxSmartImage'
+        Image.Data = {
+          3C3F786D6C2076657273696F6E3D22312E302220656E636F64696E673D225554
+          462D38223F3E0D0A3C7376672076657273696F6E3D22312E31222069643D2246
+          69656C645F4C6973742220786D6C6E733D22687474703A2F2F7777772E77332E
+          6F72672F323030302F7376672220786D6C6E733A786C696E6B3D22687474703A
+          2F2F7777772E77332E6F72672F313939392F786C696E6B2220783D2230707822
+          20793D22307078222076696577426F783D223020302033322033322220737479
+          6C653D22656E61626C652D6261636B67726F756E643A6E657720302030203332
+          2033323B2220786D6C3A73706163653D227072657365727665223E262331333B
+          262331303B093C7374796C6520747970653D22746578742F6373732220786D6C
+          3A73706163653D227072657365727665223E2E426C75657B66696C6C3A233131
+          373744373B7D262331333B262331303B2623393B2E426C61636B7B66696C6C3A
+          233732373237323B7D262331333B262331303B2623393B2E7374307B6F706163
+          6974793A302E37353B7D3C2F7374796C653E0D0A093C7061746820636C617373
+          3D22426C75652220643D224D32362C36563163302D302E352D302E352D312D31
+          2D31483543342E352C302C342C302E352C342C3176354832367A222F3E0D0A09
+          3C7061746820636C6173733D22426C61636B2220643D224D32342C3676387632
+          7632763476327634682D38682D324836762D34762D32762D34762D32762D3256
+          364834763130763276347632763563302C302E352C302E352C312C312C316832
+          3063302E352C302C312D302E352C312D31563138762D3256364832347A222F3E
+          0D0A093C6720636C6173733D22737430223E0D0A09093C7061746820636C6173
+          733D22426C61636B2220643D224D32322C313048313256386831305631307A20
+          4D32322C313248313276326831305631327A204D31302C384838763268325638
+          7A204D31302C31324838763268325631327A204D32342C3138762D3248367632
+          6838763448367632683876346832762D34683820202623393B2623393B762D32
+          682D38762D344832347A222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end>
   end
   object LayoutLookAndFeelList: TdxLayoutLookAndFeelList
@@ -15538,7 +15568,7 @@ object Data_Sisgef: TData_Sisgef
   object SaveDialog: TSaveDialog
     DefaultExt = 'xlsx'
     Filter = 
-      'Excel (*.xls) |*.xls|Excel (*.xlsx) |*.xlsx|XML (*.xml) |*.xml|A' +
+      'Excel (*.xlsx) |*.xlsx|Excel (*.xls) |*.xls|XML (*.xml) |*.xml|A' +
       'rquivo Texto (*.txt) |*.txt|P'#225'gina Web (*.html)|*.html|Arquivo s' +
       'eparado por virgulas (;) (*.csv)|*.csv'
     Title = 'Exportar Dados'
@@ -16612,8 +16642,8 @@ object Data_Sisgef: TData_Sisgef
     Top = 400
   end
   object storedProcExtractExpress: TFDStoredProc
-    Left = 640
-    Top = 480
+    Left = 536
+    Top = 424
     ParamData = <
       item
         Name = 'pdataInicio'
@@ -16953,8 +16983,235 @@ object Data_Sisgef: TData_Sisgef
     object storedProcPostingValuesStatementdes_tipo: TStringField
       FieldName = 'des_tipo'
     end
+    object storedProcPostingValuesStatementnum_extrato: TStringField
+      FieldName = 'num_extrato'
+      Size = 30
+    end
     object storedProcPostingValuesStatementval_total: TFloatField
       FieldName = 'val_total'
+    end
+  end
+  object storedProcExpressStrays: TFDStoredProc
+    Connection = FDConnectionMySQL
+    Left = 664
+    Top = 480
+    ParamData = <
+      item
+        Name = 'pdomFinalize'
+        DataType = ftString
+        FDDataType = dtWideString
+        ParamType = ptInput
+      end>
+    object storedProcExpressStrayscod_entregador: TIntegerField
+      FieldName = 'cod_entregador'
+    end
+    object storedProcExpressStraysnom_entregador: TStringField
+      FieldName = 'nom_entregador'
+      Size = 70
+    end
+    object storedProcExpressStrayscod_base: TIntegerField
+      FieldName = 'cod_base'
+    end
+    object storedProcExpressStraysnom_base: TStringField
+      FieldName = 'nom_base'
+      Size = 70
+    end
+    object storedProcExpressStrayscod_cliente: TIntegerField
+      FieldName = 'cod_cliente'
+    end
+    object storedProcExpressStraysnom_cliente: TStringField
+      FieldName = 'nom_cliente'
+      Size = 70
+    end
+    object storedProcExpressStraysdes_extravio: TStringField
+      FieldName = 'des_extravio'
+      Size = 150
+    end
+    object storedProcExpressStraysdes_produto: TStringField
+      FieldName = 'des_produto'
+      Size = 256
+    end
+    object storedProcExpressStraysnum_extrato: TStringField
+      FieldName = 'num_extrato'
+      Size = 30
+    end
+    object storedProcExpressStraysval_total: TFloatField
+      FieldName = 'val_total'
+    end
+  end
+  object storedProcListExtractExpress: TFDStoredProc
+    SchemaName = 'bderpsisgef'
+    StoredProcName = 'sp_list_express_extract'
+    Left = 536
+    Top = 528
+    ParamData = <
+      item
+        Position = 1
+        Name = 'pYear'
+        DataType = ftInteger
+        ParamType = ptInput
+      end
+      item
+        Position = 2
+        Name = 'pMonth'
+        DataType = ftInteger
+        ParamType = ptInput
+      end
+      item
+        Position = 3
+        Name = 'pFortnight'
+        DataType = ftInteger
+        ParamType = ptInput
+      end>
+    object storedProcListExtractExpressid_extrato: TFDAutoIncField
+      FieldName = 'id_extrato'
+      Origin = 'id_extrato'
+    end
+    object storedProcListExtractExpressdat_inicio: TDateField
+      FieldName = 'dat_inicio'
+      Origin = 'dat_inicio'
+      Required = True
+    end
+    object storedProcListExtractExpressdat_final: TDateField
+      FieldName = 'dat_final'
+      Origin = 'dat_final'
+      Required = True
+    end
+    object storedProcListExtractExpressnum_ano: TIntegerField
+      FieldName = 'num_ano'
+      Origin = 'num_ano'
+      Required = True
+    end
+    object storedProcListExtractExpressnum_mes: TIntegerField
+      FieldName = 'num_mes'
+      Origin = 'num_mes'
+      Required = True
+    end
+    object storedProcListExtractExpressnum_quinzena: TIntegerField
+      FieldName = 'num_quinzena'
+      Origin = 'num_quinzena'
+      Required = True
+    end
+    object storedProcListExtractExpresscod_base: TIntegerField
+      FieldName = 'cod_base'
+      Origin = 'cod_base'
+      Required = True
+    end
+    object storedProcListExtractExpressnom_base: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_base'
+      Origin = 'nom_fantasia'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 80
+    end
+    object storedProcListExtractExpresscod_entregador: TIntegerField
+      FieldName = 'cod_entregador'
+      Origin = 'cod_entregador'
+      Required = True
+    end
+    object storedProcListExtractExpressnom_entregador: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_entregador'
+      Origin = 'NOM_FANTASIA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 70
+    end
+    object storedProcListExtractExpressnum_extrato: TStringField
+      FieldName = 'num_extrato'
+      Origin = 'num_extrato'
+      Required = True
+      Size = 30
+    end
+    object storedProcListExtractExpressval_verba: TSingleField
+      FieldName = 'val_verba'
+      Origin = 'val_verba'
+      Required = True
+    end
+    object storedProcListExtractExpressqtd_volumes: TIntegerField
+      FieldName = 'qtd_volumes'
+      Origin = 'qtd_volumes'
+      Required = True
+    end
+    object storedProcListExtractExpressqtd_volumes_extra: TSingleField
+      FieldName = 'qtd_volumes_extra'
+      Origin = 'qtd_volumes_extra'
+      Required = True
+    end
+    object storedProcListExtractExpressval_volumes_extra: TSingleField
+      FieldName = 'val_volumes_extra'
+      Origin = 'val_volumes_extra'
+      Required = True
+    end
+    object storedProcListExtractExpressqtd_entregas: TIntegerField
+      FieldName = 'qtd_entregas'
+      Origin = 'qtd_entregas'
+      Required = True
+    end
+    object storedProcListExtractExpressqtd_atraso: TSingleField
+      FieldName = 'qtd_atraso'
+      Origin = 'qtd_atraso'
+      Required = True
+    end
+    object storedProcListExtractExpressval_performance: TSingleField
+      FieldName = 'val_performance'
+      Origin = 'val_performance'
+      Required = True
+    end
+    object storedProcListExtractExpressval_producao: TSingleField
+      FieldName = 'val_producao'
+      Origin = 'val_producao'
+      Required = True
+    end
+    object storedProcListExtractExpressval_creditos: TSingleField
+      FieldName = 'val_creditos'
+      Origin = 'val_creditos'
+      Required = True
+    end
+    object storedProcListExtractExpressval_debitos: TSingleField
+      FieldName = 'val_debitos'
+      Origin = 'val_debitos'
+      Required = True
+    end
+    object storedProcListExtractExpressval_extravios: TSingleField
+      FieldName = 'val_extravios'
+      Origin = 'val_extravios'
+      Required = True
+    end
+    object storedProcListExtractExpressval_total_expressa: TSingleField
+      FieldName = 'val_total_expressa'
+      Origin = 'val_total_expressa'
+      Required = True
+    end
+    object storedProcListExtractExpressval_total_empresa: TSingleField
+      FieldName = 'val_total_empresa'
+      Origin = 'val_total_empresa'
+      Required = True
+    end
+    object storedProcListExtractExpresscod_cliente: TIntegerField
+      FieldName = 'cod_cliente'
+      Origin = 'cod_cliente'
+      Required = True
+    end
+    object storedProcListExtractExpressnom_cliente: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_cliente'
+      Origin = 'nom_fantasia'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 70
+    end
+    object storedProcListExtractExpressdat_credito: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'dat_credito'
+      Origin = 'dat_credito'
+    end
+    object storedProcListExtractExpressdes_unique_key: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'des_unique_key'
+      Origin = 'des_unique_key'
+      Size = 30
     end
   end
 end

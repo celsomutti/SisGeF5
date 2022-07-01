@@ -11,7 +11,7 @@ uses
   FireDAC.Comp.Client, DAO.Conexao, System.DateUtils, cxCheckBox, Common.Utils, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Vcl.Grids, Vcl.DBGrids, Vcl.WinXCtrls,
-  Thread.SisGeFExpressExtract, Vcl.ExtCtrls, dxActivityIndicator, cxCurrencyEdit;
+  Thread.SisGeFExpressExtract, Vcl.ExtCtrls, dxActivityIndicator, cxCurrencyEdit, cxLabel;
 
 type
   Tview_SisGeFExtractedExpress = class(TForm)
@@ -137,14 +137,30 @@ type
     gridExtratoDBTableView1nom_entregador: TcxGridDBColumn;
     gridExtratoDBTableView1des_unique_key: TcxGridDBColumn;
     dxLayoutGroup19: TdxLayoutGroup;
-    activityIndicator: TdxActivityIndicator;
-    dxLayoutItem28: TdxLayoutItem;
     actionComeBack: TAction;
     dxLayoutGroup20: TdxLayoutGroup;
     cxButton11: TcxButton;
     dxLayoutItem22: TdxLayoutItem;
     cxButton12: TcxButton;
     dxLayoutItem29: TdxLayoutItem;
+    cxButton13: TcxButton;
+    dxLayoutItem23: TdxLayoutItem;
+    cxButton14: TcxButton;
+    dxLayoutItem30: TdxLayoutItem;
+    actionPanelGroup: TAction;
+    cxButton15: TcxButton;
+    dxLayoutItem31: TdxLayoutItem;
+    labelPeriod: TcxLabel;
+    dxLayoutItem32: TdxLayoutItem;
+    actionExportGrid: TAction;
+    cxButton16: TcxButton;
+    dxLayoutItem33: TdxLayoutItem;
+    dxLayoutGroup21: TdxLayoutGroup;
+    activityIndicator: TdxActivityIndicator;
+    dxLayoutItem28: TdxLayoutItem;
+    actionCloseExtract: TAction;
+    cxButton17: TcxButton;
+    dxLayoutItem34: TdxLayoutItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionIncludeClientsExecute(Sender: TObject);
@@ -163,6 +179,11 @@ type
     procedure actionExpandGridExecute(Sender: TObject);
     procedure actionRetractGridExecute(Sender: TObject);
     procedure actionComeBackExecute(Sender: TObject);
+    procedure actionPanelGroupExecute(Sender: TObject);
+    procedure actionExportGridExecute(Sender: TObject);
+    procedure situacaoExtratoPropertiesChange(Sender: TObject);
+    procedure actionCloseExtractExecute(Sender: TObject);
+    procedure dsExtractStateChange(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -179,6 +200,10 @@ type
     procedure ClearCourier;
     procedure ProcessExtract;
     procedure ListFortnights;
+    procedure ProcessNewExtract;
+    procedure ProcessListExtract;
+    procedure ExportGrid;
+    procedure Mode;
     function RidePeriod(iYear, iMonth, iFortnight: Integer): String;
     function FilterClient(): string;
     function FilterBase(): string;
@@ -218,6 +243,11 @@ begin
   ClearCourier;
 end;
 
+procedure Tview_SisGeFExtractedExpress.actionCloseExtractExecute(Sender: TObject);
+begin
+  Common.Utils.TUtils.NoRotine;
+end;
+
 procedure Tview_SisGeFExtractedExpress.actionCloseFormExecute(Sender: TObject);
 begin
   CloseForm;
@@ -226,6 +256,7 @@ end;
 procedure Tview_SisGeFExtractedExpress.actionComeBackExecute(Sender: TObject);
 begin
   Data_Sisgef.memTableExtracts.Active := False;
+  labelPeriod.Caption := '';
   layoutGroupMain.ItemIndex := 0;
 end;
 
@@ -249,6 +280,11 @@ begin
   gridExtratoDBTableView1.ViewData.Expand(True);
 end;
 
+procedure Tview_SisGeFExtractedExpress.actionExportGridExecute(Sender: TObject);
+begin
+  ExportGrid;
+end;
+
 procedure Tview_SisGeFExtractedExpress.actionIncludeBasesExecute(Sender: TObject);
 begin
   AddBase;
@@ -264,6 +300,11 @@ begin
   AddCourier;
 end;
 
+procedure Tview_SisGeFExtractedExpress.actionPanelGroupExecute(Sender: TObject);
+begin
+  gridExtratoDBTableView1.OptionsView.GroupByBox := (not gridExtratoDBTableView1.OptionsView.GroupByBox);
+end;
+
 procedure Tview_SisGeFExtractedExpress.actionProcessExecute(Sender: TObject);
 begin
   ProcessExtract;
@@ -271,7 +312,7 @@ end;
 
 procedure Tview_SisGeFExtractedExpress.actionRetractGridExecute(Sender: TObject);
 begin
-  gridExtratoDBTableView1.ViewData.Expand(False);
+  gridExtratoDBTableView1.ViewData.Collapse(False);
 end;
 
 procedure Tview_SisGeFExtractedExpress.AddBase;
@@ -370,6 +411,14 @@ begin
   Close;
 end;
 
+procedure Tview_SisGeFExtractedExpress.dsExtractStateChange(Sender: TObject);
+begin
+  if dsExtract.State = dsBrowse then
+  begin
+    Mode;
+  end;
+end;
+
 procedure Tview_SisGeFExtractedExpress.ExcludeBase;
 begin
   if listaBases.Items.Count = 0 then
@@ -389,6 +438,32 @@ begin
   if listaEntregadores.Items.Count = 0 then
     Exit;
   listaEntregadores.DeleteSelected;
+end;
+
+procedure Tview_SisGeFExtractedExpress.ExportGrid;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if gridExtratoDBTableView1.ViewData.RowCount = 0 then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(gridExtrato,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
+  end;
 end;
 
 function Tview_SisGeFExtractedExpress.FilterBase: string;
@@ -462,6 +537,7 @@ end;
 
 procedure Tview_SisGeFExtractedExpress.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  Data_Sisgef.memTableExtracts.Active := False;
   Action := caFree;
   view_SisGeFExtractedExpress := nil;
 end;
@@ -577,6 +653,14 @@ begin
   mesPeriodo.ItemIndex := Pred(MonthOf(Now));
 end;
 
+procedure Tview_SisGeFExtractedExpress.Mode;
+begin
+  calcularVolumeExtra.Enabled := (situacaoExtrato.ItemIndex = 1);
+  considerarExtravios.Enabled := (situacaoExtrato.ItemIndex = 1);
+  considerarLancamentos.Enabled := (situacaoExtrato.ItemIndex = 1);
+  actionCloseExtract.Enabled := (situacaoExtrato.ItemIndex = 1);
+end;
+
 function Tview_SisGeFExtractedExpress.MountPeriodFilter: string;
 var
   sFilter, sField: string;
@@ -616,22 +700,53 @@ begin
     Exit;
   if Application.MessageBox('Confirma processar o extrato?', 'Processar', MB_YESNO + MB_ICONQUESTION) = IDNO then
     Exit;
-  layoutGroupMain.ItemIndex := 1;
+  if situacaoExtrato.ItemIndex = 1 then
+  begin
+    ProcessNewExtract;
+  end
+  else
+  begin
+    ProcessListExtract;
+  end;
+end;
+
+procedure Tview_SisGeFExtractedExpress.ProcessListExtract;
+begin
   dsExtract.Enabled := False;
   FExtract := TTHead_ExpressExtract.Create(True);
   FExtract.Filtro := GeneralFilter();
+  labelPeriod.Caption := 'Extrato ' + situacaoExtrato.Text + ' do período de ' + FDataInicial + ' até ' + FDataFinal;
+  FExtract.StartDate := StrToDate(FDataInicial);
+  FExtract.EndDate := StrToDate(FDataFinal);
+  FExtract.Ano := StrToIntDef(anoPeriodo.Text, YearOf(Now));
+  FExtract.Mes := mesPeriodo.ItemIndex;
+  FExtract.Quinzena := periodoParametrizado.ItemIndex;
+  FExtract.Tipo := situacaoExtrato.ItemIndex;
+  FExtract.Priority := tpNormal;
+  timer.Enabled := True;
+  activityIndicator.Active := True;
+  FExtract.Start;
+end;
+
+procedure Tview_SisGeFExtractedExpress.ProcessNewExtract;
+begin
+  dsExtract.Enabled := False;
+  FExtract := TTHead_ExpressExtract.Create(True);
+  FExtract.Filtro := GeneralFilter();
+  labelPeriod.Caption := 'Extrato ' + situacaoExtrato.Text + ' do período de ' + FDataInicial + ' até ' + FDataFinal;
   FExtract.StartDate := StrToDate(FDataInicial);
   FExtract.EndDate := StrToDate(FDataFinal);
   FExtract.ExtraVolume := calcularVolumeExtra.EditValue;
-  FExtract.DomLancamento := 'N';
-//  FExtract.Cliente := iCliente;
-//  FExtract.MemTab := memTab;
+  FExtract.Tipo := situacaoExtrato.ItemIndex;
+  if considerarLancamentos.Checked then
+    FExtract.DomLancamento := 'N'
+  else
+    FExtract.DomLancamento := 'X';
+  if considerarExtravios.Checked then
+    FExtract.DomExtravio := 'S'
+  else
+    FExtract.DomExtravio := 'X';
   FExtract.Priority := tpNormal;
-//  Timer.Enabled := True;
-//  actionSelecionarArquivo.Enabled := False;
-//  actionLimparCampo.Enabled := False;
-//  actionImportar.Enabled := False;
-//  actionCancelar.Enabled := True;
   timer.Enabled := True;
   activityIndicator.Active := True;
   FExtract.Start;
@@ -725,6 +840,11 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFExtractedExpress.situacaoExtratoPropertiesChange(Sender: TObject);
+begin
+  Mode;
+end;
+
 procedure Tview_SisGeFExtractedExpress.StartForm;
 begin
   ListYears;
@@ -736,10 +856,18 @@ procedure Tview_SisGeFExtractedExpress.timerTimer(Sender: TObject);
 begin
   if not FExtract.InProcess then
   begin
-    dsExtract.Enabled := True;
-    activityIndicator.Active := False;
     timer.Enabled := False;
-    gridExtratoDBTableView1.ViewData.Expand(True);
+    if not FExtract.AbortProcess then
+    begin
+      dsExtract.Enabled := True;
+      layoutGroupMain.ItemIndex := 1;
+      gridExtratoDBTableView1.ViewData.Expand(True);
+    end
+    else
+    begin
+      MessageDlg(FExtract.Mensagem, mtWarning, [mbOK], 0);
+    end;
+    activityIndicator.Active := False;
   end;
 end;
 

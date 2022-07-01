@@ -774,6 +774,7 @@ begin
   iDaysBetweenBegin := DaysBetween(finalDate, StrToDate('31/12/1899'));
   iSumOfDays := iDaysBetweenPediod + iDaysBetweenBegin + idDeliveryMan;
   sNumber := IntToStr(iSumOfDays);
+  Result := sNumber;
 end;
 
 { ===============================

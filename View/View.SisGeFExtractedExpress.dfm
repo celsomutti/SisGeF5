@@ -30,7 +30,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object tipoExtrato: TcxComboBox
       Left = 24
-      Top = 76
+      Top = 56
       Hint = 'Tipo de Extrato'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -44,7 +44,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object tipoPeriodo: TcxComboBox
       Left = 139
-      Top = 76
+      Top = 56
       Hint = 'Tipo de Periodo'
       BiDiMode = bdLeftToRight
       ParentBiDiMode = False
@@ -125,13 +125,14 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object situacaoExtrato: TcxComboBox
       Left = 704
-      Top = 76
+      Top = 56
       Hint = 'Situa'#231#227'o do extrato'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
         'Selecione ...'
         'ABERTO'
         'ENCERRADO')
+      Properties.OnChange = situacaoExtratoPropertiesChange
       Style.HotTrack = False
       TabOrder = 7
       Text = 'Selecione ...'
@@ -139,7 +140,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object listaClientes: TcxMCListBox
       Left = 36
-      Top = 153
+      Top = 133
       Width = 245
       Height = 97
       HeaderSections = <
@@ -158,25 +159,29 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object cxButton1: TcxButton
       Left = 36
-      Top = 256
+      Top = 236
       Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionIncludeClients
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 9
     end
     object cxButton2: TcxButton
       Left = 120
-      Top = 256
+      Top = 236
       Width = 77
       Height = 25
       Cursor = crHandPoint
       Action = actionExcludeClients
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 10
     end
     object listaBases: TcxMCListBox
       Left = 311
-      Top = 153
+      Top = 133
       Width = 246
       Height = 97
       HeaderSections = <
@@ -194,25 +199,29 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object cxButton3: TcxButton
       Left = 311
-      Top = 256
+      Top = 236
       Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionIncludeBases
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 13
     end
     object cxButton4: TcxButton
       Left = 395
-      Top = 256
+      Top = 236
       Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionExcludeBases
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 14
     end
     object listaEntregadores: TcxMCListBox
       Left = 587
-      Top = 153
+      Top = 133
       Width = 245
       Height = 97
       HeaderSections = <
@@ -230,47 +239,57 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object cxButton5: TcxButton
       Left = 587
-      Top = 256
+      Top = 236
       Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionIncludeCouriers
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 17
     end
     object cxButton6: TcxButton
       Left = 671
-      Top = 256
+      Top = 236
       Width = 77
       Height = 25
       Cursor = crHandPoint
       Action = actionExcludeCouriers
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 18
     end
     object cxButton7: TcxButton
       Left = 203
-      Top = 256
+      Top = 236
       Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionClearClients
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 11
     end
     object cxButton8: TcxButton
       Left = 479
-      Top = 256
+      Top = 236
       Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionClearBases
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 15
     end
     object cxButton9: TcxButton
       Left = 754
-      Top = 256
+      Top = 236
       Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionClearCouriers
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 19
     end
     object cxButton10: TcxButton
@@ -280,14 +299,15 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 27
+      TabOrder = 33
     end
     object calcularVolumeExtra: TcxCheckBox
       Left = 36
-      Top = 317
+      Top = 297
       Cursor = crHandPoint
       Hint = 'Calcular volumes extras'
       Caption = 'Volumes extras'
+      Enabled = False
       Properties.ValueChecked = '1'
       Properties.ValueUnchecked = '0'
       Style.HotTrack = False
@@ -296,10 +316,13 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object considerarExtravios: TcxCheckBox
       Left = 253
-      Top = 317
+      Top = 297
       Cursor = crHandPoint
       Hint = 'Considerar extravios'
       Caption = 'Considerar extravios'
+      Enabled = False
+      Properties.ValueChecked = 'N'
+      Properties.ValueUnchecked = 'S'
       State = cbsChecked
       Style.HotTrack = False
       TabOrder = 21
@@ -307,10 +330,13 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object considerarLancamentos: TcxCheckBox
       Left = 529
-      Top = 317
+      Top = 297
       Cursor = crHandPoint
       Hint = 'Considerar lan'#231'amentos de d'#233'bitos e cr'#233'ditos'
       Caption = 'Considerar lan'#231'amentos'
+      Enabled = False
+      Properties.ValueChecked = 'N'
+      Properties.ValueUnchecked = 'S'
       State = cbsChecked
       Style.HotTrack = False
       TabOrder = 22
@@ -320,8 +346,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Left = 10000
       Top = 10000
       Width = 820
-      Height = 241
-      TabOrder = 24
+      Height = 301
+      TabOrder = 29
       Visible = False
       object gridExtratoDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
@@ -565,7 +591,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         end
         object gridExtratoDBTableView1cod_base: TcxGridDBColumn
           DataBinding.FieldName = 'cod_base'
+          Visible = False
           HeaderAlignmentHorz = taCenter
+          VisibleForCustomization = False
           Width = 25
         end
         object gridExtratoDBTableView1nom_base: TcxGridDBColumn
@@ -695,15 +723,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         GridView = gridExtratoDBTableView1
       end
     end
-    object activityIndicator: TdxActivityIndicator
-      Left = 10000
-      Top = 10000
-      Width = 820
-      Height = 10
-      PropertiesClassName = 'TdxActivityIndicatorHorizontalDotsProperties'
-      Transparent = True
-      Visible = False
-    end
     object cxButton11: TcxButton
       Left = 24
       Top = 373
@@ -711,7 +730,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionProcess
-      TabOrder = 23
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 24
     end
     object cxButton12: TcxButton
       Left = 10000
@@ -720,7 +741,84 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionComeBack
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 30
+      Visible = False
+    end
+    object cxButton13: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionExpandGrid
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
       TabOrder = 25
+      Visible = False
+    end
+    object cxButton14: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionRetractGrid
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 26
+      Visible = False
+    end
+    object cxButton15: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionPanelGroup
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 27
+      Visible = False
+    end
+    object labelPeriod: TcxLabel
+      Left = 10000
+      Top = 10000
+      Caption = 'labelPeriod'
+      Style.HotTrack = False
+      Transparent = True
+      Visible = False
+    end
+    object cxButton16: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionExportGrid
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 31
+      Visible = False
+    end
+    object activityIndicator: TdxActivityIndicator
+      Left = 24
+      Top = 336
+      Width = 820
+      Height = 10
+      PropertiesClassName = 'TdxActivityIndicatorHorizontalDotsProperties'
+      Transparent = True
+    end
+    object cxButton17: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 75
+      Height = 25
+      Action = actionCloseExtract
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 32
       Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
@@ -764,6 +862,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ButtonOptions.Buttons = <>
       LayoutDirection = ldTabbed
       ShowBorder = False
+      TabbedOptions.HideTabs = True
       Index = 0
     end
     object layoutGroupParameters: TdxLayoutGroup
@@ -777,7 +876,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Parent = layoutGroupMain
       CaptionOptions.Text = 'Extrato'
       ButtonOptions.Buttons = <>
-      ItemIndex = 3
       Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup
@@ -1178,6 +1276,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 97
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 0
     end
     object dxLayoutItem25: TdxLayoutItem
@@ -1190,6 +1289,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 124
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 1
     end
     object dxLayoutItem26: TdxLayoutItem
@@ -1202,6 +1302,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 139
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 2
     end
     object dxLayoutGroup16: TdxLayoutGroup
@@ -1210,6 +1311,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 0
     end
     object dxLayoutGroup17: TdxLayoutGroup
@@ -1227,6 +1331,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       AlignVert = avBottom
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 2
     end
     object dxLayoutItem27: TdxLayoutItem
@@ -1249,18 +1355,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ShowBorder = False
       Index = 3
     end
-    object dxLayoutItem28: TdxLayoutItem
-      Parent = dxLayoutGroup19
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'dxActivityIndicator1'
-      CaptionOptions.Visible = False
-      Control = activityIndicator
-      ControlOptions.OriginalHeight = 10
-      ControlOptions.OriginalWidth = 300
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
     object dxLayoutGroup20: TdxLayoutGroup
       Parent = layoutGroupParameters
       AlignHorz = ahClient
@@ -1268,7 +1362,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object dxLayoutItem22: TdxLayoutItem
       Parent = dxLayoutGroup20
@@ -1284,7 +1378,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object dxLayoutItem29: TdxLayoutItem
       Parent = dxLayoutGroup18
-      AlignHorz = ahRight
+      AlignHorz = ahLeft
       AlignVert = avClient
       CaptionOptions.Text = 'cxButton12'
       CaptionOptions.Visible = False
@@ -1293,6 +1387,92 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 0
+    end
+    object dxLayoutItem23: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton13'
+      CaptionOptions.Visible = False
+      Control = cxButton13
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem30: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxButton14'
+      CaptionOptions.Visible = False
+      Control = cxButton14
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem31: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      CaptionOptions.Text = 'cxButton15'
+      CaptionOptions.Visible = False
+      Control = cxButton15
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem32: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxLabel1'
+      CaptionOptions.Visible = False
+      Control = labelPeriod
+      ControlOptions.OriginalHeight = 17
+      ControlOptions.OriginalWidth = 56
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem33: TdxLayoutItem
+      Parent = dxLayoutGroup18
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton16'
+      CaptionOptions.Visible = False
+      Control = cxButton16
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup21: TdxLayoutGroup
+      Parent = layoutGroupParameters
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem28: TdxLayoutItem
+      Parent = dxLayoutGroup21
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'dxActivityIndicator1'
+      CaptionOptions.Visible = False
+      Control = activityIndicator
+      ControlOptions.OriginalHeight = 10
+      ControlOptions.OriginalWidth = 300
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem34: TdxLayoutItem
+      Parent = dxLayoutGroup18
+      CaptionOptions.Text = 'cxButton17'
+      CaptionOptions.Visible = False
+      Control = cxButton17
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
     end
   end
   object actionListExtract: TActionList
@@ -1364,7 +1544,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object actionCloseForm: TAction
       Category = 'Form'
-      Caption = 'Fechar'
+      Caption = '&Fechar'
       Hint = 'Fechar a tela'
       ImageIndex = 98
       OnExecute = actionCloseFormExecute
@@ -1378,29 +1558,51 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object actionExpandGrid: TAction
       Category = 'Form'
-      Caption = 'Expandir'
+      Caption = 'Expa&ndir'
       Hint = 'Expardir os grupos do grid'
       ImageIndex = 106
       OnExecute = actionExpandGridExecute
     end
     object actionRetractGrid: TAction
       Category = 'Form'
-      Caption = 'Retrair'
+      Caption = 'Re&trair'
       Hint = 'Retrair os grupos do grid'
       ImageIndex = 107
       OnExecute = actionRetractGridExecute
     end
     object actionComeBack: TAction
       Category = 'Form'
-      Caption = 'Voltar'
-      Hint = 'Vontar '#224'tela de par'#226'metros'
+      Caption = '&Voltar'
+      Hint = 'Voltar '#224' tela de par'#226'metros'
       ImageIndex = 108
       OnExecute = actionComeBackExecute
+    end
+    object actionPanelGroup: TAction
+      Category = 'Form'
+      Caption = 'Paine&l'
+      Hint = 'Painel de grupo'
+      ImageIndex = 110
+      OnExecute = actionPanelGroupExecute
+    end
+    object actionExportGrid: TAction
+      Category = 'Form'
+      Caption = 'E&xportar'
+      Hint = 'Exportar dados do grid'
+      ImageIndex = 101
+      OnExecute = actionExportGridExecute
+    end
+    object actionCloseExtract: TAction
+      Category = 'Form'
+      Caption = '&Encerrar'
+      Hint = 'Encerrar extrato'
+      ImageIndex = 83
+      OnExecute = actionCloseExtractExecute
     end
   end
   object dsExtract: TDataSource
     AutoEdit = False
     DataSet = Data_Sisgef.memTableExtracts
+    OnStateChange = dsExtractStateChange
     Left = 384
     Top = 8
   end
