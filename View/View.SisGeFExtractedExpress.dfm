@@ -299,7 +299,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 33
+      TabOrder = 34
     end
     object calcularVolumeExtra: TcxCheckBox
       Left = 36
@@ -821,6 +821,12 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 32
       Visible = False
     end
+    object labelInfo: TcxLabel
+      Left = 10
+      Top = 422
+      Style.HotTrack = False
+      Transparent = True
+    end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
@@ -1250,7 +1256,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object dxLayoutGroup14: TdxLayoutGroup
       Parent = dxLayoutGroup3
@@ -1473,6 +1479,18 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 2
+    end
+    object dxLayoutItem35: TdxLayoutItem
+      Parent = dxLayoutGroup13
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxLabel1'
+      CaptionOptions.Visible = False
+      Control = labelInfo
+      ControlOptions.OriginalHeight = 17
+      ControlOptions.OriginalWidth = 7
+      ControlOptions.ShowBorder = False
+      Index = 0
     end
   end
   object actionListExtract: TActionList

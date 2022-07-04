@@ -52,7 +52,7 @@ type
     class function GenerateUniqueKey(pPrefix: String = ''): String;
     class Function DesmontaCPFCNPJ(sNum: String): String;
     class function GetNewID(Prefix:String):string;
-    class function ExpressStatementNumber(initialDate, finalDate: TDate; idDeliveryMan: integer): string;
+    class function ExpressStatementNumber(initialDate, finalDate: TDate; idDeliveryMan: integer; sPosfix: string): string;
     class procedure NoRotine;
   end;
 
@@ -764,7 +764,7 @@ begin
   end;
 end;
 
-class function TUtils.ExpressStatementNumber(initialDate, finalDate: TDate; idDeliveryMan: integer): string;
+class function TUtils.ExpressStatementNumber(initialDate, finalDate: TDate; idDeliveryMan: integer; sPosfix: string): string;
 var
   iDaysBetweenPediod, iDaysBetweenBegin, iSumOfDays: integer;
   sNumber: string;
@@ -772,8 +772,11 @@ begin
   Result := '';
   iDaysBetweenPediod := DaysBetween(finalDate, initialDate);
   iDaysBetweenBegin := DaysBetween(finalDate, StrToDate('31/12/1899'));
-  iSumOfDays := iDaysBetweenPediod + iDaysBetweenBegin + idDeliveryMan;
-  sNumber := IntToStr(iSumOfDays);
+  iSumOfDays := iDaysBetweenPediod + iDaysBetweenBegin;
+  if idDeliveryMan > 0 then
+    sNumber := IntToStr(iSumOfDays) + IntTOStr(idDeliveryMan)
+  else
+    sNumber := sPosFix + IntToStr(iSumOfDays);
   Result := sNumber;
 end;
 

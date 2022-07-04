@@ -11,7 +11,7 @@ uses
   FireDAC.Comp.Client, DAO.Conexao, System.DateUtils, cxCheckBox, Common.Utils, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Vcl.Grids, Vcl.DBGrids, Vcl.WinXCtrls,
-  Thread.SisGeFExpressExtract, Vcl.ExtCtrls, dxActivityIndicator, cxCurrencyEdit, cxLabel;
+  Thread.SisGeFExpressExtract, Vcl.ExtCtrls, dxActivityIndicator, cxCurrencyEdit, cxLabel, Thread.SisGeFClosingExpressExtract;
 
 type
   Tview_SisGeFExtractedExpress = class(TForm)
@@ -161,6 +161,8 @@ type
     actionCloseExtract: TAction;
     cxButton17: TcxButton;
     dxLayoutItem34: TdxLayoutItem;
+    labelInfo: TcxLabel;
+    dxLayoutItem35: TdxLayoutItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionIncludeClientsExecute(Sender: TObject);
@@ -202,6 +204,7 @@ type
     procedure ListFortnights;
     procedure ProcessNewExtract;
     procedure ProcessListExtract;
+    procedure ClosingExtractDeliveries;
     procedure ExportGrid;
     procedure Mode;
     function RidePeriod(iYear, iMonth, iFortnight: Integer): String;
@@ -219,7 +222,9 @@ var
   view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress;
   FYear, FMounth, FPeriod: integer;
   FExtract : TTHead_ExpressExtract;
+  FClosing : TThread_SisGeFClosingExpressExtract;
   FDataInicial, FDataFinal: String;
+  FCreditDate: TDate;
 implementation
 
 {$R *.dfm}
@@ -411,6 +416,34 @@ begin
   Close;
 end;
 
+procedure Tview_SisGeFExtractedExpress.ClosingExtractDeliveries;
+var
+  sPosfix: string;
+begin
+  labelInfo.Caption := 'Encerrando o extrato. Aguarde ...';
+  dsExtract.Enabled := False;
+  FClosing := TTHead_ExpressExtract.Create(True);
+  FClosing.Extract := '';
+  FClosing.Deliverymam := 0;
+  FClosing.CreditDate := FCreditDate;
+  FClosing.StartDate := StrToDate(FDataInicial);
+  FClosing.EndDate := StrToDate(FDataFinal);
+  if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 3) then
+  begin
+    sPosfix := 'exp';
+  end
+  else if (tipoPeriodo.ItemIndex = 2) or (tipoPeriodo.ItemIndex = 4) then
+  begin
+    sPosFix := 'ped';
+  end;
+  FClosing.Posfix := sPosfix;
+  FClosing.Priority := tpNormal;
+  timer.Tag := 1;
+  timer.Enabled := True;
+  activityIndicator.Active := True;
+  FClosing.Start;
+end;
+
 procedure Tview_SisGeFExtractedExpress.dsExtractStateChange(Sender: TObject);
 begin
   if dsExtract.State = dsBrowse then
@@ -547,7 +580,7 @@ begin
   StartForm;
 end;
 
-function Tview_SisGeFExtractedExpress.GeneralFilter: string;
+function Tview_SisGeFExtractedExpress.GeneralFilter(): string;
 var
   sQuery, sFilter, sResult : String;
 begin
@@ -581,6 +614,7 @@ begin
     else
       sQuery := sFilter;
   end;
+
   sFilter := MountPeriodFilter();
 //  if not sFilter.IsEmpty then
 //  begin
@@ -711,7 +745,10 @@ begin
 end;
 
 procedure Tview_SisGeFExtractedExpress.ProcessListExtract;
+var
+  sPosfix: string;
 begin
+  labelInfo.Caption := 'Recuperando extrato fexhado. Aguarde ...';
   dsExtract.Enabled := False;
   FExtract := TTHead_ExpressExtract.Create(True);
   FExtract.Filtro := GeneralFilter();
@@ -722,7 +759,17 @@ begin
   FExtract.Mes := mesPeriodo.ItemIndex;
   FExtract.Quinzena := periodoParametrizado.ItemIndex;
   FExtract.Tipo := situacaoExtrato.ItemIndex;
+  if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 3) then
+  begin
+    sPosfix := 'exp';
+  end
+  else if (tipoPeriodo.ItemIndex = 2) or (tipoPeriodo.ItemIndex = 4) then
+  begin
+    sPosFix := 'ped';
+  end;
+  FExtract.Posfix := sPosfix;
   FExtract.Priority := tpNormal;
+  timer.Tag := 0;
   timer.Enabled := True;
   activityIndicator.Active := True;
   FExtract.Start;
@@ -730,6 +777,7 @@ end;
 
 procedure Tview_SisGeFExtractedExpress.ProcessNewExtract;
 begin
+  labelInfo.Caption := 'Processando extrato. Aguarde ...';
   dsExtract.Enabled := False;
   FExtract := TTHead_ExpressExtract.Create(True);
   FExtract.Filtro := GeneralFilter();
@@ -747,6 +795,7 @@ begin
   else
     FExtract.DomExtravio := 'X';
   FExtract.Priority := tpNormal;
+  timer.Tag := 0;
   timer.Enabled := True;
   activityIndicator.Active := True;
   FExtract.Start;
@@ -854,20 +903,42 @@ end;
 
 procedure Tview_SisGeFExtractedExpress.timerTimer(Sender: TObject);
 begin
-  if not FExtract.InProcess then
+  if timer.Tag = 0 then
   begin
-    timer.Enabled := False;
-    if not FExtract.AbortProcess then
+    if not FExtract.InProcess then
     begin
-      dsExtract.Enabled := True;
-      layoutGroupMain.ItemIndex := 1;
-      gridExtratoDBTableView1.ViewData.Expand(True);
-    end
-    else
-    begin
-      MessageDlg(FExtract.Mensagem, mtWarning, [mbOK], 0);
+      timer.Enabled := False;
+      if not FExtract.AbortProcess then
+      begin
+        dsExtract.Enabled := True;
+        layoutGroupMain.ItemIndex := 1;
+        gridExtratoDBTableView1.ViewData.Expand(True);
+      end
+      else
+      begin
+        MessageDlg(FExtract.Mensagem, mtWarning, [mbOK], 0);
+      end;
+      labelInfo.Caption := '';
+      activityIndicator.Active := False;
     end;
-    activityIndicator.Active := False;
+  end
+  else if timer.Tag = 1 then
+  begin
+    if not FClosing.InProcess then
+    begin
+      timer.Enabled := False;
+      if not FClosing.AbortProcess then
+      begin
+        dsExtract.Enabled := True;
+        layoutGroupMain.ItemIndex := 0;
+      end
+      else
+      begin
+        MessageDlg(FClosing.Mensagem, mtWarning, [mbOK], 0);
+      end;
+      labelInfo.Caption := '';
+      activityIndicator.Active := False;
+    end;
   end;
 end;
 

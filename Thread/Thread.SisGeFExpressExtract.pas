@@ -22,6 +22,7 @@ type
     FQuinzena: integer;
     FMes: integer;
     FAno: integer;
+    FPosfix: string;
     { Private declarations }
     procedure ExecuteExpressExtractDeliveryDate;
     procedure ExecuteExpressPostingValuesStatement;
@@ -43,6 +44,7 @@ type
     property Ano: integer read FAno write FAno;
     property Mes: integer read FMes write FMes;
     property Quinzena: integer read FQuinzena write FQuinzena;
+    property Posfix: string read FPosfix write FPosfix;
   end;
 
 implementation
@@ -293,6 +295,7 @@ begin
     storedProcListExtractExpress.ParamByName('pYear').AsInteger := FAno;
     storedProcListExtractExpress.ParamByName('pMonth').AsInteger := FMes;
     storedProcListExtractExpress.ParamByName('pFortnight').AsInteger := FQuinzena;
+    storedProcListExtractExpress.ParamByName('pPosfix').AsString := FPosfix;
     if FFiltro <> '' then
     begin
       storedProcListExtractExpress.Filter := FFiltro;

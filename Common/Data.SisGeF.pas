@@ -595,6 +595,7 @@ type
     storedProcListExtractExpressnom_cliente: TStringField;
     storedProcListExtractExpressdat_credito: TDateField;
     storedProcListExtractExpressdes_unique_key: TStringField;
+    storedProcClosingExpress: TFDStoredProc;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
