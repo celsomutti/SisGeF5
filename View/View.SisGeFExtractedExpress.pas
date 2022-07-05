@@ -422,7 +422,7 @@ var
 begin
   labelInfo.Caption := 'Encerrando o extrato. Aguarde ...';
   dsExtract.Enabled := False;
-  FClosing := TTHead_ExpressExtract.Create(True);
+  FClosing := TThread_SisGeFClosingExpressExtract.Create(True);
   FClosing.Extract := '';
   FClosing.Deliverymam := 0;
   FClosing.CreditDate := FCreditDate;
@@ -437,6 +437,9 @@ begin
     sPosFix := 'ped';
   end;
   FClosing.Posfix := sPosfix;
+  FClosing.Ano := FYear;
+  FClosing.Mes := FMounth;
+  FClosing.Quinzena := FPeriod;
   FClosing.Priority := tpNormal;
   timer.Tag := 1;
   timer.Enabled := True;
@@ -748,7 +751,7 @@ procedure Tview_SisGeFExtractedExpress.ProcessListExtract;
 var
   sPosfix: string;
 begin
-  labelInfo.Caption := 'Recuperando extrato fexhado. Aguarde ...';
+  labelInfo.Caption := 'Recuperando extrato fechado. Aguarde ...';
   dsExtract.Enabled := False;
   FExtract := TTHead_ExpressExtract.Create(True);
   FExtract.Filtro := GeneralFilter();

@@ -19,7 +19,11 @@ type
     FDeliverymam: integer;
     FUniqueExtract: string;
     FPosfix: string;
+    FQuinzena: integer;
+    FMes: integer;
+    FAno: integer;
     { Private declarations }
+    procedure ExecuteSaveExtractExpress;
     procedure ExecuteClosingExpressDeliverires;
     procedure ExecuteClosingExpressFinancialPostings;
     procedure ExecuteCloseDeliveryLosses;
@@ -37,6 +41,9 @@ type
     property Mensagem: string read FMensagem write FMensagem;
     property AbortProcess: boolean read FAbortProcess write FAbortProcess;
     property Posfix: string read FPosfix write FPosfix;
+    property Ano: integer read FAno write FAno;
+    property Mes: integer read FMes write FMes;
+    property Quinzena: integer read FQuinzena write FQuinzena;
   end;
 
 implementation
@@ -106,14 +113,15 @@ var
   FUtils : Common.Utils.TUtils;
 begin
   FUtils := Common.Utils.TUtils.Create;
-  FUniqueExtract := FUtils.ExpressStatementNumber(FStartDate,FEndDate,0) + FPosfix;
+  FUniqueExtract := FUtils.ExpressStatementNumber(FStartDate,FEndDate,0,FPosfix);
   with Data_Sisgef do
   begin
     if not memTableExtracts.IsEmpty then memTableExtracts.First;
     while not memTableExtracts.Eof do
     begin
-      FExtract := FUtils.ExpressStatementNumber(FStartDate,FEndDate,memTableExtractscod_entregador.AsInteger);
+      FExtract := FUtils.ExpressStatementNumber(FStartDate,FEndDate,memTableExtractscod_entregador.AsInteger,'');
       FDeliverymam := memTableExtractscod_entregador.AsInteger;
+      ExecuteSaveExtractExpress;
       ExecuteClosingExpressDeliverires;
       ExecuteClosingExpressFinancialPostings;
       ExecuteCloseDeliveryLosses;
@@ -173,6 +181,44 @@ begin
     storedProcClosingExpress.ParamByName('pCreditDate').AsDate := FCreditDate;
     storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
     storedProcClosingExpress.ParamByName('pFinalDate').AsDate := EndDate;
+    storedProcClosingExpress.ExecProc;
+    storedProcClosingExpress.Connection.Connected := False;;
+    FInProcess := False;
+  end;
+  FInProcess := False;
+end;
+
+procedure TThread_SisGeFClosingExpressExtract.ExecuteSaveExtractExpress;
+var
+  sParamName : string;
+  FConnection : TConexao;
+  i : integer;
+begin
+  FInProcess := True;
+  FAbortProcess := False;
+  FConnection := Tconexao.Create;
+  with Data_Sisgef do
+  begin
+    if not memTableExtracts.IsEmpty then memTableExtracts.First;
+    storedProcClosingExpress.Active := False;
+    storedProcClosingExpress.Filtered := False;
+    storedProcClosingExpress.Filter := '';
+    storedProcClosingExpress.Connection := FConnection.GetConn;
+    storedProcClosingExpress.storedProcName := 'sp_insert_extract_express';
+    storedProcClosingExpress.SchemaName := 'bderpsisgef';
+    storedProcClosingExpress.Prepare;
+    for i := 0 to Pred(memTableExtracts.FieldCount) do
+    begin
+      sParamName := 'p' + memTableExtracts.Fields[i].FieldName;
+      if memTableExtracts.Fields[i].FieldName = 'num_ano' then
+        storedProcClosingExpress.ParamByName(sParamName).Value := FAno
+      else if memTableExtracts.Fields[i].FieldName = 'num_mes' then
+        storedProcClosingExpress.ParamByName(sParamName).Value := FMes
+      else if memTableExtracts.Fields[i].FieldName = 'num_quinzena' then
+        storedProcClosingExpress.ParamByName(sParamName).Value := FQuinzena
+      else
+        storedProcClosingExpress.ParamByName(sParamName).Value := memTableExtracts.Fields[i].Value;
+    end;
     storedProcClosingExpress.ExecProc;
     storedProcClosingExpress.Connection.Connected := False;;
     FInProcess := False;

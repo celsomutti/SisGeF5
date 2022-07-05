@@ -12057,26 +12057,27 @@ object Data_Sisgef: TData_Sisgef
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
           303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
-          393B2623393B2623393B2623393B2623393B2623393B2623393B093C7374796C
-          6520747970653D22746578742F6373732220786D6C3A73706163653D22707265
-          7365727665223E2E5265647B66696C6C3A234431314331433B7D262331333B26
-          2331303B2623393B2E426C61636B7B66696C6C3A233732373237323B7D262331
-          333B262331303B2623393B2E426C75657B66696C6C3A233131373744373B7D26
-          2331333B262331303B2623393B2E477265656E7B66696C6C3A23303339433233
-          3B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A234646
-          423131353B7D262331333B262331303B2623393B2E57686974657B66696C6C3A
-          234646464646463B7D262331333B262331303B2623393B2E7374307B6F706163
-          6974793A302E353B7D262331333B262331303B2623393B2E7374317B6F706163
-          6974793A302E37353B7D262331333B262331303B2623393B2E7374327B6F7061
-          636974793A302E32353B7D3C2F7374796C653E0D0A093C672069643D22496D70
-          6F7274223E0D0A09093C7061746820636C6173733D22426C61636B2220643D22
-          4D31302C31324836563668345631327A204D32322C31377631763963302C302E
-          362D302E342C312D312C314831632D302E362C302D312D302E342D312D315637
-          63302D302E362C302E342D312C312D31683376386831344C32322C31377A204D
-          31382C3138483420202623393B2623393B76366831345631387A222F3E0D0A09
-          093C706F6C79676F6E20636C6173733D22477265656E2220706F696E74733D22
-          33302C362032322C362032322C322031342C382032322C31342032322C313020
-          33302C3130202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B093C
+          7374796C6520747970653D22746578742F6373732220786D6C3A73706163653D
+          227072657365727665223E2E5265647B66696C6C3A234431314331433B7D2623
+          31333B262331303B2623393B2E426C61636B7B66696C6C3A233732373237323B
+          7D262331333B262331303B2623393B2E426C75657B66696C6C3A233131373744
+          373B7D262331333B262331303B2623393B2E477265656E7B66696C6C3A233033
+          394332333B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C
+          3A234646423131353B7D262331333B262331303B2623393B2E57686974657B66
+          696C6C3A234646464646463B7D262331333B262331303B2623393B2E7374307B
+          6F7061636974793A302E353B7D262331333B262331303B2623393B2E7374317B
+          6F7061636974793A302E37353B7D262331333B262331303B2623393B2E737432
+          7B6F7061636974793A302E32353B7D3C2F7374796C653E0D0A093C672069643D
+          22496D706F7274223E0D0A09093C7061746820636C6173733D22426C61636B22
+          20643D224D31302C31324836563668345631327A204D32322C31377631763963
+          302C302E362D302E342C312D312C314831632D302E362C302D312D302E342D31
+          2D31563763302D302E362C302E342D312C312D31683376386831344C32322C31
+          377A204D31382C3138483420202623393B2623393B76366831345631387A222F
+          3E0D0A09093C706F6C79676F6E20636C6173733D22477265656E2220706F696E
+          74733D2233302C362032322C362032322C322031342C382032322C3134203232
+          2C31302033302C3130202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E
+          0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -12184,17 +12185,17 @@ object Data_Sisgef: TData_Sisgef
           22307078222076696577426F783D2230203020333220333222207374796C653D
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
-          303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B093C
-          7374796C6520747970653D22746578742F6373732220786D6C3A73706163653D
-          227072657365727665223E2E426C75657B66696C6C3A233131373744373B7D26
-          2331333B262331303B2623393B2E426C61636B7B66696C6C3A23373237323732
-          3B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A234646
-          423131353B7D262331333B262331303B2623393B2E5265647B66696C6C3A2344
-          31314331433B7D3C2F7374796C653E0D0A093C672069643D224C696768746E69
-          6E67223E0D0A09093C706F6C79676F6E20636C6173733D2259656C6C6F772220
-          706F696E74733D2232322C322031342C3220362C31362031342C313620382C33
-          302032362C31322031362E332C3132202623393B222F3E0D0A093C2F673E0D0A
-          3C2F7376673E0D0A}
+          303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
+          393B093C7374796C6520747970653D22746578742F6373732220786D6C3A7370
+          6163653D227072657365727665223E2E426C75657B66696C6C3A233131373744
+          373B7D262331333B262331303B2623393B2E426C61636B7B66696C6C3A233732
+          373237323B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C
+          3A234646423131353B7D262331333B262331303B2623393B2E5265647B66696C
+          6C3A234431314331433B7D3C2F7374796C653E0D0A093C672069643D224C6967
+          68746E696E67223E0D0A09093C706F6C79676F6E20636C6173733D2259656C6C
+          6F772220706F696E74733D2232322C322031342C3220362C31362031342C3136
+          20382C33302032362C31322031362E332C3132202623393B222F3E0D0A093C2F
+          673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxSmartImage'
@@ -16293,7 +16294,7 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
     Left = 440
-    Top = 456
+    Top = 400
   end
   object openDialog: TOpenDialog
     Left = 624
@@ -16640,7 +16641,7 @@ object Data_Sisgef: TData_Sisgef
     DataDef.RecordFormat = rfCustom
     DataDef.WithFieldNames = True
     Left = 440
-    Top = 400
+    Top = 344
   end
   object storedProcExtractExpress: TFDStoredProc
     Left = 536
@@ -17043,7 +17044,7 @@ object Data_Sisgef: TData_Sisgef
   object storedProcListExtractExpress: TFDStoredProc
     SchemaName = 'bderpsisgef'
     StoredProcName = 'sp_list_express_extract'
-    Left = 536
+    Left = 528
     Top = 488
     ParamData = <
       item
@@ -17257,6 +17258,331 @@ object Data_Sisgef: TData_Sisgef
         DataType = ftDate
         FDDataType = dtDate
         ParamType = ptInput
+      end>
+  end
+  object storedProcInsertExtractExpress: TFDStoredProc
+    Left = 672
+    Top = 488
+    ParamData = <
+      item
+        Name = 'pid_extrato'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pdat_inicio'
+        DataType = ftDate
+        FDDataType = dtDate
+        ParamType = ptInput
+      end
+      item
+        Name = 'pdat_final'
+        DataType = ftDate
+        FDDataType = dtDate
+        ParamType = ptInput
+      end
+      item
+        Name = 'pnum_ano'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pnum_mes'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'num_quinzena'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pcod_base'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'cod_entregador'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pnum_extrato'
+        DataType = ftString
+        FDDataType = dtWideString
+        Size = 30
+      end
+      item
+        Name = 'pval_verba'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pqtd_volumes'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pqtd_volumes_extra'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_volumes_extra'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pqtd_entregas'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pqtd_atraso'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_performance'
+        DataType = ftFloat
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_producao'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_creditos'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_debitos'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_extravios'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_total_expressa'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_total_empresa'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pcod_cliente'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pdat_credito'
+        DataType = ftDate
+        FDDataType = dtDate
+        ParamType = ptInput
+      end
+      item
+        Name = 'pdes_unique_key'
+        DataType = ftString
+        FDDataType = dtWideString
+        ParamType = ptInput
+        Size = 30
+      end>
+  end
+  object storedProcUpdateExtractExpress: TFDStoredProc
+    Connection = FDConnectionMySQL
+    Left = 784
+    Top = 376
+    ParamData = <
+      item
+        Name = 'pid_extrato'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pdat_inicio'
+        DataType = ftDate
+        FDDataType = dtDate
+        ParamType = ptInput
+      end
+      item
+        Name = 'pdat_final'
+        DataType = ftDate
+        FDDataType = dtDate
+        ParamType = ptInput
+      end
+      item
+        Name = 'pnum_ano'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pnum_mes'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'num_quinzena'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pcod_base'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'cod_entregador'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pnum_extrato'
+        DataType = ftString
+        FDDataType = dtWideString
+        Size = 30
+      end
+      item
+        Name = 'pval_verba'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pqtd_volumes'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pqtd_volumes_extra'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_volumes_extra'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pqtd_entregas'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pqtd_atraso'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_performance'
+        DataType = ftFloat
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_producao'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_creditos'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_debitos'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_extravios'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_total_expressa'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pval_total_empresa'
+        DataType = ftFloat
+        FDDataType = dtDouble
+        ParamType = ptInput
+      end
+      item
+        Name = 'pcod_cliente'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pdat_credito'
+        DataType = ftDate
+        FDDataType = dtDate
+        ParamType = ptInput
+      end
+      item
+        Name = 'pdes_unique_key'
+        DataType = ftString
+        FDDataType = dtWideString
+        ParamType = ptInput
+        Size = 30
+      end>
+  end
+  object storedProcClearExtractExpress: TFDStoredProc
+    Connection = FDConnectionMySQL
+    Left = 784
+    Top = 432
+    ParamData = <
+      item
+        Name = 'pKey'
+        DataType = ftString
+        FDDataType = dtWideString
+        Size = 30
       end>
   end
 end
