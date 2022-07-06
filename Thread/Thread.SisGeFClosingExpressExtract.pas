@@ -209,15 +209,22 @@ begin
     storedProcClosingExpress.Prepare;
     for i := 0 to Pred(memTableExtracts.FieldCount) do
     begin
-      sParamName := 'p' + memTableExtracts.Fields[i].FieldName;
-      if memTableExtracts.Fields[i].FieldName = 'num_ano' then
-        storedProcClosingExpress.ParamByName(sParamName).Value := FAno
-      else if memTableExtracts.Fields[i].FieldName = 'num_mes' then
-        storedProcClosingExpress.ParamByName(sParamName).Value := FMes
-      else if memTableExtracts.Fields[i].FieldName = 'num_quinzena' then
-        storedProcClosingExpress.ParamByName(sParamName).Value := FQuinzena
-      else
-        storedProcClosingExpress.ParamByName(sParamName).Value := memTableExtracts.Fields[i].Value;
+      if Pos(memTableExtracts.Fields[i].FieldName, 'nom_cliente, nom_base, nom_entregador,dat_baixa') = 0 then
+      begin
+        sParamName := 'p' + memTableExtracts.Fields[i].FieldName;
+        if memTableExtracts.Fields[i].FieldName = 'num_ano' then
+          storedProcClosingExpress.ParamByName(sParamName).Value := FAno
+        else if memTableExtracts.Fields[i].FieldName = 'num_mes' then
+          storedProcClosingExpress.ParamByName(sParamName).Value := FMes
+        else if memTableExtracts.Fields[i].FieldName = 'num_quinzena' then
+          storedProcClosingExpress.ParamByName(sParamName).Value := FQuinzena
+        else if memTableExtracts.Fields[i].FieldName = 'dat_inicio' then
+          storedProcClosingExpress.ParamByName(sParamName).Value := FStartDate
+        else if memTableExtracts.Fields[i].FieldName = 'dat_final' then
+          storedProcClosingExpress.ParamByName(sParamName).Value := FEndDate
+        else
+          storedProcClosingExpress.ParamByName(sParamName).Value := memTableExtracts.Fields[i].Value;
+      end;
     end;
     storedProcClosingExpress.ExecProc;
     storedProcClosingExpress.Connection.Connected := False;;

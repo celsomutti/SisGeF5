@@ -56,13 +56,11 @@ uses Data.SisGeF;
 procedure Tview_DataFechamento.actCancelarExecute(Sender: TObject);
 begin
   ModalResult := mrCancel;
-  view_DataFechamento.CloseModal;
 end;
 
 procedure Tview_DataFechamento.actOKExecute(Sender: TObject);
 begin
   ModalResult := mrOk;
-  view_DataFechamento.CloseModal;
 end;
 
 function Tview_DataFechamento.ValidaDados: Boolean;

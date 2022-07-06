@@ -90,6 +90,8 @@ object view_DataFechamento: Tview_DataFechamento
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 20
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -100,6 +102,8 @@ object view_DataFechamento: Tview_DataFechamento
       CaptionOptions.Text = 'Data'
       CaptionOptions.Layout = clTop
       Control = datPagamento
+      ControlOptions.OriginalHeight = 27
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -110,6 +114,8 @@ object view_DataFechamento: Tview_DataFechamento
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -128,6 +134,8 @@ object view_DataFechamento: Tview_DataFechamento
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 0
     end

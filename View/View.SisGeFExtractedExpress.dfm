@@ -815,6 +815,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Top = 10000
       Width = 75
       Height = 25
+      Cursor = crHandPoint
       Action = actionCloseExtract
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True

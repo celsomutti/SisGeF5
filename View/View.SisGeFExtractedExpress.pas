@@ -214,6 +214,7 @@ type
     function GeneralFilter(): string;
     function ValidadeProcess(): boolean;
     function MountPeriodFilter(): string;
+    function InfortCreditDate(): string;
   public
     { Public declarations }
   end;
@@ -229,7 +230,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.PesquisaAgentes, View.PesquisaClientes, View.PesquisaEntregadoresExpressas;
+uses Data.SisGeF, View.PesquisaAgentes, View.PesquisaClientes, View.PesquisaEntregadoresExpressas, View.DataFechamento;
 
 { Tview_SisGeFExtractedExpress }
 
@@ -250,7 +251,7 @@ end;
 
 procedure Tview_SisGeFExtractedExpress.actionCloseExtractExecute(Sender: TObject);
 begin
-  Common.Utils.TUtils.NoRotine;
+  ClosingExtractDeliveries;
 end;
 
 procedure Tview_SisGeFExtractedExpress.actionCloseFormExecute(Sender: TObject);
@@ -418,8 +419,14 @@ end;
 
 procedure Tview_SisGeFExtractedExpress.ClosingExtractDeliveries;
 var
-  sPosfix: string;
+  sPosfix, sDatCredit: string;
 begin
+  sDatCredit := InfortCreditDate;
+  if sDatCredit.IsEmpty then
+    Exit;
+  if MessageDlg('Confirma encerrar esse extrato para pagamento em ' + sDatCredit + ' ?', mtConfirmation, [mbOK, mbCancel], 0 ) = mrCancel then
+    Exit;
+  FCreditDate := StrToDate(sDatCredit);
   labelInfo.Caption := 'Encerrando o extrato. Aguarde ...';
   dsExtract.Enabled := False;
   FClosing := TThread_SisGeFClosingExpressExtract.Create(True);
@@ -629,6 +636,33 @@ begin
   if not sQuery.IsEmpty then
     sResult := sQuery;
   Result := sResult;
+end;
+
+function Tview_SisGeFExtractedExpress.InfortCreditDate(): string;
+var
+  sReturn: string;
+begin
+  try
+    Result := '';
+    if not Assigned(view_DataFechamento) then
+      view_DataFechamento := Tview_DataFechamento.Create(Application);
+    if view_DataFechamento.ShowModal = mrCancel then
+      Exit;
+    sReturn := view_DataFechamento.datPagamento.Text;
+    if sReturn.IsEmpty then
+    begin
+      MessageDlg('Data informada inválida! Encerramento cancelado.', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    if StrToDate(sReturn) < StrToDate(FDataFinal)  then
+    begin
+      MessageDlg('Data informada menor que a data base! Encerramento cancelado.', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    Result := view_DataFechamento.datPagamento.Text;
+  finally
+    FreeAndNil(view_DataFechamento);
+  end;
 end;
 
 procedure Tview_SisGeFExtractedExpress.ListFortnights;
@@ -933,13 +967,14 @@ begin
       if not FClosing.AbortProcess then
       begin
         dsExtract.Enabled := True;
-        layoutGroupMain.ItemIndex := 0;
+        actionCloseExtract.Enabled := False;
+//        layoutGroupMain.ItemIndex := 0;
       end
       else
       begin
         MessageDlg(FClosing.Mensagem, mtWarning, [mbOK], 0);
       end;
-      labelInfo.Caption := '';
+      labelInfo.Caption := 'Extrato do período entre ' + dataInicialPeriodo.Text  + ' e ' + dataFinalPeriodo.Text + ' ENCERRADO';
       activityIndicator.Active := False;
     end;
   end;
