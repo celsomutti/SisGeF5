@@ -581,15 +581,12 @@ type
     storedProcListExtractExpressval_verba: TSingleField;
     storedProcListExtractExpressqtd_volumes: TIntegerField;
     storedProcListExtractExpressqtd_volumes_extra: TSingleField;
-    storedProcListExtractExpressval_volumes_extra: TSingleField;
     storedProcListExtractExpressqtd_entregas: TIntegerField;
     storedProcListExtractExpressqtd_atraso: TSingleField;
     storedProcListExtractExpressval_performance: TSingleField;
-    storedProcListExtractExpressval_producao: TSingleField;
     storedProcListExtractExpressval_creditos: TSingleField;
     storedProcListExtractExpressval_debitos: TSingleField;
     storedProcListExtractExpressval_extravios: TSingleField;
-    storedProcListExtractExpressval_total_expressa: TSingleField;
     storedProcListExtractExpressval_total_empresa: TSingleField;
     storedProcListExtractExpresscod_cliente: TIntegerField;
     storedProcListExtractExpressnom_cliente: TStringField;
@@ -599,6 +596,7 @@ type
     storedProcInsertExtractExpress: TFDStoredProc;
     storedProcUpdateExtractExpress: TFDStoredProc;
     storedProcClearExtractExpress: TFDStoredProc;
+    storedProcExtractExpressval_total_empresa: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
@@ -697,16 +695,8 @@ end;
 
 procedure TData_Sisgef.memTableExtractsCalcFields(DataSet: TDataSet);
 begin
-
-  if memTableExtracts.Tag = 1 then
-  begin
-    memTableExtractsval_volumes_extra.AsFloat := memTableExtractsqtd_volumes_extra.AsFloat *
-                                                 memTableExtractsval_verba.AsFloat;
-  end
-  else
-  begin
-    memTableExtractsval_volumes_extra.AsFloat := 0;
-  end;
+  memTableExtractsval_volumes_extra.AsFloat := memTableExtractsqtd_volumes_extra.AsFloat *
+                                                   memTableExtractsval_verba.AsFloat;
   memTableExtractsval_producao.AsFloat := (memTableExtractsqtd_entregas.AsInteger *
                                                     memTableExtractsval_verba.AsFloat) +
                                                     memTableExtractsval_volumes_extra.AsFloat;

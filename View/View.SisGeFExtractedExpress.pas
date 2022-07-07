@@ -156,13 +156,14 @@ type
     cxButton16: TcxButton;
     dxLayoutItem33: TdxLayoutItem;
     dxLayoutGroup21: TdxLayoutGroup;
-    activityIndicator: TdxActivityIndicator;
-    dxLayoutItem28: TdxLayoutItem;
     actionCloseExtract: TAction;
     cxButton17: TcxButton;
     dxLayoutItem34: TdxLayoutItem;
     labelInfo: TcxLabel;
     dxLayoutItem35: TdxLayoutItem;
+    gridExtratoDBTableView1dat_baixa: TcxGridDBColumn;
+    activityIndicatorClose: TdxActivityIndicator;
+    dxLayoutItem36: TdxLayoutItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionIncludeClientsExecute(Sender: TObject);
@@ -435,6 +436,7 @@ begin
   FClosing.CreditDate := FCreditDate;
   FClosing.StartDate := StrToDate(FDataInicial);
   FClosing.EndDate := StrToDate(FDataFinal);
+  FClosing.CreditDate := StrToDate(sDatCredit);
   if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 3) then
   begin
     sPosfix := 'exp';
@@ -447,10 +449,18 @@ begin
   FClosing.Ano := FYear;
   FClosing.Mes := FMounth;
   FClosing.Quinzena := FPeriod;
+  if considerarLancamentos.Checked then
+    FClosing.Lancamentos := 'N'
+  else
+    FClosing.Lancamentos := 'X';
+  if considerarExtravios.Checked then
+    FClosing.Extravios := 'S'
+  else
+    FClosing.Extravios := 'X';
   FClosing.Priority := tpNormal;
   timer.Tag := 1;
   timer.Enabled := True;
-  activityIndicator.Active := True;
+  activityIndicatorClose.Active := True;
   FClosing.Start;
 end;
 
@@ -580,7 +590,8 @@ end;
 
 procedure Tview_SisGeFExtractedExpress.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Data_Sisgef.memTableExtracts.Active := False;
+  if Data_Sisgef.memTableExtracts.Active then
+    Data_Sisgef.memTableExtracts.Active := False;
   Action := caFree;
   view_SisGeFExtractedExpress := nil;
 end;
@@ -808,7 +819,7 @@ begin
   FExtract.Priority := tpNormal;
   timer.Tag := 0;
   timer.Enabled := True;
-  activityIndicator.Active := True;
+  activityIndicatorClose.Active := True;
   FExtract.Start;
 end;
 
@@ -834,7 +845,7 @@ begin
   FExtract.Priority := tpNormal;
   timer.Tag := 0;
   timer.Enabled := True;
-  activityIndicator.Active := True;
+  activityIndicatorClose.Active := True;
   FExtract.Start;
 end;
 
@@ -956,7 +967,7 @@ begin
         MessageDlg(FExtract.Mensagem, mtWarning, [mbOK], 0);
       end;
       labelInfo.Caption := '';
-      activityIndicator.Active := False;
+      activityIndicatorClose.Active := False;
     end;
   end
   else if timer.Tag = 1 then
@@ -968,14 +979,15 @@ begin
       begin
         dsExtract.Enabled := True;
         actionCloseExtract.Enabled := False;
-//        layoutGroupMain.ItemIndex := 0;
+        layoutGroupMain.ItemIndex := 0;
       end
       else
       begin
         MessageDlg(FClosing.Mensagem, mtWarning, [mbOK], 0);
       end;
-      labelInfo.Caption := 'Extrato do período entre ' + dataInicialPeriodo.Text  + ' e ' + dataFinalPeriodo.Text + ' ENCERRADO';
-      activityIndicator.Active := False;
+      activityIndicatorClose.Active := False;
+      labelInfo.Caption := '';
+      MessageDlg('Extrato do período entre ' + FDataInicial  + ' e ' + FDataFinal + ' ENCERRADO', mtInformation, [mbOK], 0);
     end;
   end;
 end;
