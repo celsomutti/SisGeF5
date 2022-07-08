@@ -346,7 +346,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Left = 10000
       Top = 10000
       Width = 820
-      Height = 301
+      Height = 297
       TabOrder = 28
       Visible = False
       object gridExtratoDBTableView1: TcxGridDBTableView
@@ -396,7 +396,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
             Column = gridExtratoDBTableView1val_extravios
           end
           item
-            Format = ',0.000; -,0.000'
+            Format = 'M'#233'dia: ,0.000; -,0.000'
             Kind = skAverage
             Position = spFooter
             Column = gridExtratoDBTableView1val_performance
@@ -420,7 +420,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
             Column = gridExtratoDBTableView1val_total_expressa
           end
           item
-            Format = ',0.00; -,0.00'
+            Format = 'M'#233'dia: ,0.00; -,0.00'
             Kind = skAverage
             Position = spFooter
             Column = gridExtratoDBTableView1val_verba
@@ -473,7 +473,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
             Column = gridExtratoDBTableView1val_extravios
           end
           item
-            Format = ',0.000; -,0.000'
+            Format = 'M'#233'dia: ,0.000; -,0.000'
             Kind = skAverage
             Column = gridExtratoDBTableView1val_performance
           end
@@ -493,7 +493,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
             Column = gridExtratoDBTableView1val_total_expressa
           end
           item
-            Format = ',0.00; -,0.00'
+            Format = 'M'#233'dia: ,0.00; -,0.00'
             Kind = skAverage
             Column = gridExtratoDBTableView1val_verba
           end
@@ -825,7 +825,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end

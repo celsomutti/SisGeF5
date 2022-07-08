@@ -457,6 +457,7 @@ begin
     FClosing.Extravios := 'S'
   else
     FClosing.Extravios := 'X';
+  FClosing.FreeOnTerminate := True;
   FClosing.Priority := tpNormal;
   timer.Tag := 1;
   timer.Enabled := True;
@@ -816,6 +817,7 @@ begin
     sPosFix := 'ped';
   end;
   FExtract.Posfix := sPosfix;
+  FExtract.FreeOnTerminate := True;
   FExtract.Priority := tpNormal;
   timer.Tag := 0;
   timer.Enabled := True;
@@ -842,6 +844,7 @@ begin
     FExtract.DomExtravio := 'S'
   else
     FExtract.DomExtravio := 'X';
+  FExtract.FreeOnTerminate := True;
   FExtract.Priority := tpNormal;
   timer.Tag := 0;
   timer.Enabled := True;
