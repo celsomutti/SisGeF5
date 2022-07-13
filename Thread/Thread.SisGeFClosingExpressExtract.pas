@@ -69,7 +69,7 @@ implementation
     or 
     
     Synchronize( 
-      procedure 
+      procedure
       begin
         Form1.Caption := 'Updated in thread via an anonymous method'
       end
@@ -89,21 +89,30 @@ uses Data.SisGeF, Common.Utils;
 { TThread_SisGeFClosingExpressExtract }
 
 procedure TThread_SisGeFClosingExpressExtract.ExecuteCloseDeliveryLosses;
+var
+  FUtils : Common.Utils.TUtils;
 begin
   FConnection := Tconexao.Create;
   with Data_Sisgef do
   begin
+    FUtils := Common.Utils.TUtils.Create;
+    FExtract := FUtils.ExpressStatementNumber(StartDate, EndDate,0,'');
     storedProcClosingExpress.Active := False;
     storedProcClosingExpress.Filtered := False;
     storedProcClosingExpress.Filter := '';
     storedProcClosingExpress.Connection := FConnection.GetConn;
-    storedProcClosingExpress.storedProcName := 'sp_close_delivery_losses';
+    if FTipo = 0 then
+      storedProcClosingExpress.storedProcName := 'sp_close_delivery_losses'
+    else if FTipo = 1 then
+      storedProcClosingExpress.storedProcName := 'sp_reopen_delivery_losses';
     storedProcClosingExpress.SchemaName := 'bderpsisgef';
     storedProcClosingExpress.Prepare;
     storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
     storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
+    storedProcClosingExpress.ParamByName('pType').AsInteger := FTipo;
     storedProcClosingExpress.ExecProc;
     storedProcClosingExpress.Connection.Connected := False;
+    FUtils.Free;
   end;
 end;
 
@@ -118,14 +127,20 @@ end;
 procedure TThread_SisGeFClosingExpressExtract.ExecuteClosingExpressDeliverires;
 var
   i: integer;
+  FUtils : Common.Utils.TUtils;
 begin
   with Data_Sisgef do
   begin
+    FUtils := Common.Utils.TUtils.Create;
+    FExtract := FUtils.ExpressStatementNumber(StartDate, EndDate,0,'');
     storedProcClosingExpress.Active := False;
     storedProcClosingExpress.Filtered := False;
     storedProcClosingExpress.Filter := '';
     storedProcClosingExpress.Connection := FConnection.GetConn;
-    storedProcClosingExpress.storedProcName := 'sp_closing_express_deliveries';
+    if FTipo = 0 then
+      storedProcClosingExpress.storedProcName := 'sp_closing_express_deliveries'
+    else if FTipo = 1 then
+      storedProcClosingExpress.storedProcName := 'sp_reopen_express_deliveries';
     storedProcClosingExpress.SchemaName := 'bderpsisgef';
     storedProcClosingExpress.Prepare;
     storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
@@ -133,25 +148,36 @@ begin
     storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
     storedProcClosingExpress.ParamByName('pInitialDate').AsDate := StartDate;
     storedProcClosingExpress.ParamByName('pFinalDate').AsDate := EndDate;
+    storedProcClosingExpress.ParamByName('pType').AsInteger := FTipo;
     storedProcClosingExpress.ExecProc;
+    FUtils.Free;
   end;
 end;
 
 procedure TThread_SisGeFClosingExpressExtract.ExecuteClosingExpressFinancialPostings;
+var
+  FUtils : Common.Utils.TUtils;
 begin
   with Data_Sisgef do
   begin
+    FUtils := Common.Utils.TUtils.Create;
+    FExtract := FUtils.ExpressStatementNumber(StartDate, EndDate,0,'');
     storedProcClosingExpress.Active := False;
     storedProcClosingExpress.Filtered := False;
     storedProcClosingExpress.Filter := '';
-    storedProcClosingExpress.storedProcName := 'sp_closing_express_financial_postings';
+    if FTipo = 0 then
+      storedProcClosingExpress.storedProcName := 'sp_closing_express_financial_postings'
+    else if FTipo = 1 then
+      storedProcClosingExpress.storedProcName := 'sp_reopen_express_financial_postings';
     storedProcClosingExpress.SchemaName := 'bderpsisgef';
     storedProcClosingExpress.Prepare;
     storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
     storedProcClosingExpress.ParamByName('pCreditDate').AsDate := FCreditDate;
     storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
     storedProcClosingExpress.ParamByName('pFinalDate').AsDate := EndDate;
+    storedProcClosingExpress.ParamByName('pType').AsInteger := FTipo;
     storedProcClosingExpress.ExecProc;
+    FUtils.Free;
   end;
 end;
 
@@ -171,44 +197,56 @@ begin
     storedProcClosingExpress.Filtered := False;
     storedProcClosingExpress.Filter := '';
     storedProcClosingExpress.Connection := FConnection.GetConn;
-    while not memTableExtracts.Eof do
+    if FTipo = 0 then
     begin
-      storedProcClosingExpress.storedProcName := 'sp_insert_extract_express';
+      while not memTableExtracts.Eof do
+      begin
+        storedProcClosingExpress.storedProcName := 'sp_insert_extract_express';
+        storedProcClosingExpress.SchemaName := 'bderpsisgef';
+        storedProcClosingExpress.Prepare;
+        for i := 0 to Pred(memTableExtracts.FieldCount) do
+        begin
+          if Pos(memTableExtracts.Fields[i].FieldName, 'nom_cliente, nom_base, nom_entregador,dat_baixa,id_extrato') = 0 then
+          begin
+            sParamName := 'p' + memTableExtracts.Fields[i].FieldName;
+            if memTableExtracts.Fields[i].FieldName = 'num_ano' then
+              storedProcClosingExpress.ParamByName(sParamName).Value := FAno
+            else if memTableExtracts.Fields[i].FieldName = 'num_mes' then
+              storedProcClosingExpress.ParamByName(sParamName).Value := FMes
+            else if memTableExtracts.Fields[i].FieldName = 'num_quinzena' then
+              storedProcClosingExpress.ParamByName(sParamName).Value := FQuinzena
+            else if memTableExtracts.Fields[i].FieldName = 'dat_inicio' then
+              storedProcClosingExpress.ParamByName(sParamName).Value := FStartDate
+            else if memTableExtracts.Fields[i].FieldName = 'dat_final' then
+              storedProcClosingExpress.ParamByName(sParamName).Value := FEndDate
+            else if memTableExtracts.Fields[i].FieldName = 'dat_credito' then
+              storedProcClosingExpress.ParamByName(sParamName).Value := FCreditDate
+            else if memTableExtracts.Fields[i].FieldName = 'num_extrato' then
+            begin
+              FExtract := FUtils.ExpressStatementNumber(FStartDate, FEndDate, memTableExtractscod_entregador.AsInteger, '');
+              storedProcClosingExpress.ParamByName(sParamName).Value := FExtract;
+            end
+            else if memTableExtracts.Fields[i].FieldName = 'des_unique_key' then
+            begin
+              FUniqueExtract := FUtils.ExpressStatementNumber(FStartDate, FEndDate, 0, FPosfix);
+              storedProcClosingExpress.ParamByName(sParamName).Value := FUniqueExtract;
+            end
+            else
+              storedProcClosingExpress.ParamByName(sParamName).Value := memTableExtracts.Fields[i].Value;
+          end;
+        end;
+        storedProcClosingExpress.ExecProc;
+        memTableExtracts.Next;
+      end;
+    end
+    else if FTipo = 1 then
+    begin
+      FUniqueExtract := FUtils.ExpressStatementNumber(FStartDate, FEndDate, 0, '');
+      storedProcClosingExpress.storedProcName := 'sp_clear_extract_express';
       storedProcClosingExpress.SchemaName := 'bderpsisgef';
       storedProcClosingExpress.Prepare;
-      for i := 0 to Pred(memTableExtracts.FieldCount) do
-      begin
-        if Pos(memTableExtracts.Fields[i].FieldName, 'nom_cliente, nom_base, nom_entregador,dat_baixa,id_extrato') = 0 then
-        begin
-          sParamName := 'p' + memTableExtracts.Fields[i].FieldName;
-          if memTableExtracts.Fields[i].FieldName = 'num_ano' then
-            storedProcClosingExpress.ParamByName(sParamName).Value := FAno
-          else if memTableExtracts.Fields[i].FieldName = 'num_mes' then
-            storedProcClosingExpress.ParamByName(sParamName).Value := FMes
-          else if memTableExtracts.Fields[i].FieldName = 'num_quinzena' then
-            storedProcClosingExpress.ParamByName(sParamName).Value := FQuinzena
-          else if memTableExtracts.Fields[i].FieldName = 'dat_inicio' then
-            storedProcClosingExpress.ParamByName(sParamName).Value := FStartDate
-          else if memTableExtracts.Fields[i].FieldName = 'dat_final' then
-            storedProcClosingExpress.ParamByName(sParamName).Value := FEndDate
-          else if memTableExtracts.Fields[i].FieldName = 'dat_credito' then
-            storedProcClosingExpress.ParamByName(sParamName).Value := FCreditDate
-          else if memTableExtracts.Fields[i].FieldName = 'num_extrato' then
-          begin
-            FExtract := FUtils.ExpressStatementNumber(FStartDate, FEndDate, memTableExtractscod_entregador.AsInteger, '');
-            storedProcClosingExpress.ParamByName(sParamName).Value := FExtract;
-          end
-          else if memTableExtracts.Fields[i].FieldName = 'des_unique_key' then
-          begin
-            FUniqueExtract := FUtils.ExpressStatementNumber(FStartDate, FEndDate, 0, FPosfix);
-            storedProcClosingExpress.ParamByName(sParamName).Value := FUniqueExtract;
-          end
-          else
-            storedProcClosingExpress.ParamByName(sParamName).Value := memTableExtracts.Fields[i].Value;
-        end;
-      end;
+      storedProcClosingExpress.ParamByName('pKey').Value := '%' + FUniqueExtract;
       storedProcClosingExpress.ExecProc;
-      memTableExtracts.Next;
     end;
     ExecuteClosingExpressDeliverires;
     if FLancamentos <> 'X' then

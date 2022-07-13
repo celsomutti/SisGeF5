@@ -38,7 +38,7 @@ uses
   Model.Estados in 'Model\Model.Estados.pas',
   Control.Empresas in 'Control\Control.Empresas.pas',
   Model.Empresas in 'Model\Model.Empresas.pas',
-  View.Calendario in 'View\View.Calendario.pas' {view_Calendario},
+  View.SisGeFCalendar in 'View\View.SisGeFCalendar.pas' {view_SisGeFCalendar},
   Control.Estados in 'Control\Control.Estados.pas',
   View.VerbasExpressas in 'View\View.VerbasExpressas.pas' {view_Verbas_Expressas},
   Model.VerbasExpressas in 'Model\Model.VerbasExpressas.pas',
@@ -272,7 +272,8 @@ uses
   View.SisGeFExtractedExpress in 'View\View.SisGeFExtractedExpress.pas' {view_SisGeFExtractedExpress},
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
   Thread.SisGeFExpressExtract in 'Thread\Thread.SisGeFExpressExtract.pas',
-  Thread.SisGeFClosingExpressExtract in 'Thread\Thread.SisGeFClosingExpressExtract.pas';
+  Thread.SisGeFClosingExpressExtract in 'Thread\Thread.SisGeFClosingExpressExtract.pas',
+  View.Calendario in 'View\View.Calendario.pas' {view_Calendario};
 
 {$R *.res}
 

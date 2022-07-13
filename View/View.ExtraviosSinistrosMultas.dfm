@@ -557,10 +557,11 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           end
           item
             Caption = 'Situa'#231#227'o'
-            FieldName = 'VAL_PERCENTUAL_PAGO'
+            FieldName = 'des_situacao'
             PropertiesClassName = 'TcxComboBoxProperties'
             Properties.Items.Strings = (
-              'QUITADO')
+              'QUITADO'
+              'PENDENTE')
           end
           item
             Caption = 'Valor Produto'
@@ -601,6 +602,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
             Properties.ListSource = dsClientes
           end>
         TabOrder = 1
+        ExplicitTop = -3
       end
     end
   end

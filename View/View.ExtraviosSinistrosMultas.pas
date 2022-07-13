@@ -472,7 +472,7 @@ begin
     memTableExtravios.Active := False;
     if FExtravios.PesquisaExtraviosMultas(0, '', sFiltro) then
     begin
-      memTableExtravios.Data := FExtravios.Extravios.Query.Data;
+      memTableExtravios.CopyDataSet(FExtravios.Extravios.Query);
       FExtravios.Extravios.Query.Connection.Connected := False;
     end;
     actionFiltro.Enabled := True;

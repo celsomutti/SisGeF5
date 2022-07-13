@@ -164,6 +164,12 @@ type
     gridExtratoDBTableView1dat_baixa: TcxGridDBColumn;
     activityIndicatorClose: TdxActivityIndicator;
     dxLayoutItem36: TdxLayoutItem;
+    dxLayoutGroup22: TdxLayoutGroup;
+    cxLabel1: TcxLabel;
+    dxLayoutItem28: TdxLayoutItem;
+    actionReopenExtract: TAction;
+    cxButton18: TcxButton;
+    dxLayoutItem37: TdxLayoutItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionIncludeClientsExecute(Sender: TObject);
@@ -187,6 +193,7 @@ type
     procedure situacaoExtratoPropertiesChange(Sender: TObject);
     procedure actionCloseExtractExecute(Sender: TObject);
     procedure dsExtractStateChange(Sender: TObject);
+    procedure actionReopenExtractExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -206,6 +213,7 @@ type
     procedure ProcessNewExtract;
     procedure ProcessListExtract;
     procedure ClosingExtractDeliveries;
+    procedure ReopenExtract;
     procedure ExportGrid;
     procedure Mode;
     function RidePeriod(iYear, iMonth, iFortnight: Integer): String;
@@ -216,6 +224,7 @@ type
     function ValidadeProcess(): boolean;
     function MountPeriodFilter(): string;
     function InfortCreditDate(): string;
+    function ConfirmUserPwd(): boolean;
   public
     { Public declarations }
   end;
@@ -231,7 +240,8 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.PesquisaAgentes, View.PesquisaClientes, View.PesquisaEntregadoresExpressas, View.DataFechamento;
+uses Data.SisGeF, View.PesquisaAgentes, View.PesquisaClientes, View.PesquisaEntregadoresExpressas, View.DataFechamento,
+  View.SisGeFCalendar, View.SisGeFConfirmPassword, Global.Parametros;
 
 { Tview_SisGeFExtractedExpress }
 
@@ -315,6 +325,11 @@ end;
 procedure Tview_SisGeFExtractedExpress.actionProcessExecute(Sender: TObject);
 begin
   ProcessExtract;
+end;
+
+procedure Tview_SisGeFExtractedExpress.actionReopenExtractExecute(Sender: TObject);
+begin
+  ReopenExtract;
 end;
 
 procedure Tview_SisGeFExtractedExpress.actionRetractGridExecute(Sender: TObject);
@@ -437,6 +452,7 @@ begin
   FClosing.StartDate := StrToDate(FDataInicial);
   FClosing.EndDate := StrToDate(FDataFinal);
   FClosing.CreditDate := StrToDate(sDatCredit);
+  FClosing.Tipo := 0;
   if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 3) then
   begin
     sPosfix := 'exp';
@@ -463,6 +479,17 @@ begin
   timer.Enabled := True;
   activityIndicatorClose.Active := True;
   FClosing.Start;
+end;
+
+function Tview_SisGeFExtractedExpress.ConfirmUserPwd: boolean;
+begin
+  Result := False;
+  if not Assigned(view_SisGeFConfirmPassword) then
+    view_SisGeFConfirmPassword := Tview_SisGeFConfirmPassword.Create(Application);
+  view_SisGeFConfirmPassword.username.Text := Global.Parametros.pUser_Name;
+  view_SisGeFConfirmPassword.username.Properties.ReadOnly := True;
+  Result := (view_SisGeFConfirmPassword.ShowModal = mrOk);
+  FreeAndNil(view_SisGeFConfirmPassword);
 end;
 
 procedure Tview_SisGeFExtractedExpress.dsExtractStateChange(Sender: TObject);
@@ -656,11 +683,12 @@ var
 begin
   try
     Result := '';
-    if not Assigned(view_DataFechamento) then
-      view_DataFechamento := Tview_DataFechamento.Create(Application);
-    if view_DataFechamento.ShowModal = mrCancel then
+    if not Assigned(view_SisGeFCalendar) then
+      view_SisGeFCalendar := Tview_SisGeFCalendar.Create(Application);
+    view_SisGeFExtractedExpress.Caption := 'Calendário - INFORME A DATA DE PAGAMENTO';
+    if view_SisGeFCalendar.ShowModal = mrCancel then
       Exit;
-    sReturn := view_DataFechamento.datPagamento.Text;
+    sReturn := DateToStr(view_SisGeFCalendar.CalendarView1.Date);
     if sReturn.IsEmpty then
     begin
       MessageDlg('Data informada inválida! Encerramento cancelado.', mtError, [mbCancel], 0);
@@ -671,9 +699,9 @@ begin
       MessageDlg('Data informada menor que a data base! Encerramento cancelado.', mtError, [mbCancel], 0);
       Exit;
     end;
-    Result := view_DataFechamento.datPagamento.Text;
+    Result := sReturn;
   finally
-    FreeAndNil(view_DataFechamento);
+    FreeAndNil(view_SisGeFCalendar);
   end;
 end;
 
@@ -742,6 +770,7 @@ begin
   considerarExtravios.Enabled := (situacaoExtrato.ItemIndex = 1);
   considerarLancamentos.Enabled := (situacaoExtrato.ItemIndex = 1);
   actionCloseExtract.Enabled := (situacaoExtrato.ItemIndex = 1);
+  actionReopenExtract.Enabled := (situacaoExtrato.ItemIndex = 2);
 end;
 
 function Tview_SisGeFExtractedExpress.MountPeriodFilter: string;
@@ -781,7 +810,7 @@ procedure Tview_SisGeFExtractedExpress.ProcessExtract;
 begin
   if not ValidadeProcess() then
     Exit;
-  if Application.MessageBox('Confirma processar o extrato?', 'Processar', MB_YESNO + MB_ICONQUESTION) = IDNO then
+  if MessageDlg('Confirma processar o extrato?', mtConfirmation, [mbOK, mbCancel],0) = mrCancel then
     Exit;
   if situacaoExtrato.ItemIndex = 1 then
   begin
@@ -808,16 +837,7 @@ begin
   FExtract.Mes := mesPeriodo.ItemIndex;
   FExtract.Quinzena := periodoParametrizado.ItemIndex;
   FExtract.Tipo := situacaoExtrato.ItemIndex;
-  if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 3) then
-  begin
-    sPosfix := 'exp';
-  end
-  else if (tipoPeriodo.ItemIndex = 2) or (tipoPeriodo.ItemIndex = 4) then
-  begin
-    sPosFix := 'ped';
-  end;
-  FExtract.Posfix := sPosfix;
-  FExtract.FreeOnTerminate := True;
+  FExtract.Posfix := '';
   FExtract.Priority := tpNormal;
   timer.Tag := 0;
   timer.Enabled := True;
@@ -844,12 +864,39 @@ begin
     FExtract.DomExtravio := 'S'
   else
     FExtract.DomExtravio := 'X';
-  FExtract.FreeOnTerminate := True;
   FExtract.Priority := tpNormal;
   timer.Tag := 0;
   timer.Enabled := True;
   activityIndicatorClose.Active := True;
   FExtract.Start;
+end;
+
+procedure Tview_SisGeFExtractedExpress.ReopenExtract;
+var
+  FUtils : Common.Utils.TUtils;
+begin
+  if MessageDlg('Confirma reabrir esse extrato?', mtConfirmation, [mbOK,mbCancel],0) = mrCancel then
+    Exit;
+  if not ConfirmUserPwd() then
+  begin
+    MessageDlg('Confirmação de usuário inválida!', mtWarning, [mbCancel],0);
+    Exit;
+  end;
+  labelInfo.Caption := 'Reabrindo o extrato. Aguarde ...';
+  FUtils := Common.Utils.TUtils.Create;
+  dsExtract.Enabled := False;
+  FClosing := TThread_SisGeFClosingExpressExtract.Create(True);
+  FClosing.Extract := FUtils.ExpressStatementNumber(StrToDate(FDataInicial),StrToDate(FDataFinal),0, '');
+  FClosing.StartDate := StrToDate(FDataInicial);
+  FClosing.EndDate := StrToDate(FDataFinal);
+  FClosing.Deliverymam := 0;
+  FClosing.Tipo := 1;
+  FClosing.Priority := tpNormal;
+  FUtils.Free;
+  timer.Tag := 2;
+  timer.Enabled := True;
+  activityIndicatorClose.Active := True;
+  FClosing.Start;
 end;
 
 function Tview_SisGeFExtractedExpress.RidePeriod(iYear, iMonth, iFortnight: Integer): string;
@@ -969,11 +1016,32 @@ begin
       begin
         MessageDlg(FExtract.Mensagem, mtWarning, [mbOK], 0);
       end;
+      FExtract.Free;
       labelInfo.Caption := '';
       activityIndicatorClose.Active := False;
     end;
   end
   else if timer.Tag = 1 then
+  begin
+    if not FClosing.InProcess then
+    begin
+      timer.Enabled := False;
+      if not FClosing.AbortProcess then
+      begin
+        dsExtract.Enabled := True;
+        layoutGroupMain.ItemIndex := 0;
+      end
+      else
+      begin
+        MessageDlg(FClosing.Mensagem, mtWarning, [mbOK], 0);
+      end;
+      FClosing.Free;
+      activityIndicatorClose.Active := False;
+      labelInfo.Caption := '';
+      MessageDlg('Extrato do período entre ' + FDataInicial  + ' e ' + FDataFinal + ' ENCERRADO.', mtInformation, [mbOK], 0);
+    end;
+  end
+  else if timer.Tag = 2 then
   begin
     if not FClosing.InProcess then
     begin
@@ -988,9 +1056,10 @@ begin
       begin
         MessageDlg(FClosing.Mensagem, mtWarning, [mbOK], 0);
       end;
+      FClosing.Free;
       activityIndicatorClose.Active := False;
       labelInfo.Caption := '';
-      MessageDlg('Extrato do período entre ' + FDataInicial  + ' e ' + FDataFinal + ' ENCERRADO', mtInformation, [mbOK], 0);
+      MessageDlg('Extrato do período entre ' + FDataInicial  + ' e ' + FDataFinal + ' REABERTO ', mtInformation, [mbOK], 0);
     end;
   end;
 end;

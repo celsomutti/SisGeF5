@@ -124,10 +124,6 @@ begin
     memTableExtracts.Tag := FExtraVolume;
     memTableExtracts.CopyDataSet(storedProcExtractExpress);
     storedProcExtractExpress.Connection.Connected := False;
-    if FDomLancamento <> 'X' then
-      ExecuteExpressPostingValuesStatement;
-    if FDomExtravio <> 'X' then
-      ExecuteExpressStrays;
     if not memTableExtracts.IsEmpty then
     begin
       memTableExtracts.First;
@@ -136,8 +132,13 @@ begin
     begin
       FMensagem := 'Nenhum registro encontrado!';
       FAbortProcess := True;
+      FInProcess := False;
+      Exit;
     end;
-    FInProcess := False;
+    if FDomLancamento <> 'X' then
+      ExecuteExpressPostingValuesStatement;
+    if FDomExtravio <> 'X' then
+      ExecuteExpressStrays;
   end;
   FInProcess := False;
 end;
@@ -315,7 +316,6 @@ begin
       FMensagem := 'Nenhum registro encontrado!';
       FAbortProcess := True;
     end;
-    FInProcess := False;
   end;
   FInProcess := False;
 end;
