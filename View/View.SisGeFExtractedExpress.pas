@@ -453,14 +453,7 @@ begin
   FClosing.EndDate := StrToDate(FDataFinal);
   FClosing.CreditDate := StrToDate(sDatCredit);
   FClosing.Tipo := 0;
-  if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 3) then
-  begin
-    sPosfix := 'exp';
-  end
-  else if (tipoPeriodo.ItemIndex = 2) or (tipoPeriodo.ItemIndex = 4) then
-  begin
-    sPosFix := 'ped';
-  end;
+  sPosfix := 'exp';
   FClosing.Posfix := sPosfix;
   FClosing.Ano := FYear;
   FClosing.Mes := FMounth;
@@ -473,7 +466,6 @@ begin
     FClosing.Extravios := 'S'
   else
     FClosing.Extravios := 'X';
-  FClosing.FreeOnTerminate := True;
   FClosing.Priority := tpNormal;
   timer.Tag := 1;
   timer.Enabled := True;
@@ -1036,6 +1028,7 @@ begin
         MessageDlg(FClosing.Mensagem, mtWarning, [mbOK], 0);
       end;
       FClosing.Free;
+      Data_Sisgef.memTableExtracts.Active := False;
       activityIndicatorClose.Active := False;
       labelInfo.Caption := '';
       MessageDlg('Extrato do período entre ' + FDataInicial  + ' e ' + FDataFinal + ' ENCERRADO.', mtInformation, [mbOK], 0);
@@ -1058,6 +1051,7 @@ begin
       end;
       FClosing.Free;
       activityIndicatorClose.Active := False;
+      Data_Sisgef.memTableExtracts.Active := False;
       labelInfo.Caption := '';
       MessageDlg('Extrato do período entre ' + FDataInicial  + ' e ' + FDataFinal + ' REABERTO ', mtInformation, [mbOK], 0);
     end;

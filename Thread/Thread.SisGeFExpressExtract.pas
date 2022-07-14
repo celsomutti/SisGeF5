@@ -3,7 +3,7 @@ unit Thread.SisGeFExpressExtract;
 interface
 
 uses
-  System.Classes, DAO.Conexao, FireDAC.Comp.Client, System.SysUtils;
+  System.Classes, DAO.Conexao, FireDAC.Comp.Client, FireDAC.Comp.DataSet, System.SysUtils;
 
 type
   TTHead_ExpressExtract = class(TThread)
@@ -122,7 +122,7 @@ begin
     storedProcExtractExpress.Active := True;
     memTableExtracts.Active := True;
     memTableExtracts.Tag := FExtraVolume;
-    memTableExtracts.CopyDataSet(storedProcExtractExpress);
+    memTableExtracts.CopyDataSet(storedProcExtractExpress, [coAppend]);
     storedProcExtractExpress.Connection.Connected := False;
     if not memTableExtracts.IsEmpty then
     begin
@@ -305,7 +305,7 @@ begin
     storedProcListExtractExpress.Active := True;
     memTableExtracts.Active := True;
     memTableExtracts.Tag := FExtraVolume;
-    memTableExtracts.CopyDataSet(storedProcListExtractExpress);
+    memTableExtracts.CopyDataSet(storedProcListExtractExpress, [coAppend]);
     storedProcListExtractExpress.Connection.Connected := False;
     if not memTableExtracts.IsEmpty then
     begin
