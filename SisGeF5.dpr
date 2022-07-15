@@ -273,7 +273,8 @@ uses
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
   Thread.SisGeFExpressExtract in 'Thread\Thread.SisGeFExpressExtract.pas',
   Thread.SisGeFClosingExpressExtract in 'Thread\Thread.SisGeFClosingExpressExtract.pas',
-  View.Calendario in 'View\View.Calendario.pas' {view_Calendario};
+  View.Calendario in 'View\View.Calendario.pas' {view_Calendario},
+  Thread.SisGeFCreditWorksheet in 'Thread\Thread.SisGeFCreditWorksheet.pas';
 
 {$R *.res}
 

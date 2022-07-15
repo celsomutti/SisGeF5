@@ -12058,26 +12058,26 @@ object Data_Sisgef: TData_Sisgef
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
           303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
-          393B2623393B2623393B2623393B2623393B2623393B093C7374796C65207479
-          70653D22746578742F6373732220786D6C3A73706163653D2270726573657276
-          65223E2E5265647B66696C6C3A234431314331433B7D262331333B262331303B
-          2623393B2E426C61636B7B66696C6C3A233732373237323B7D262331333B2623
-          31303B2623393B2E426C75657B66696C6C3A233131373744373B7D262331333B
-          262331303B2623393B2E477265656E7B66696C6C3A233033394332333B7D2623
-          31333B262331303B2623393B2E59656C6C6F777B66696C6C3A23464642313135
-          3B7D262331333B262331303B2623393B2E57686974657B66696C6C3A23464646
-          4646463B7D262331333B262331303B2623393B2E7374307B6F7061636974793A
-          302E353B7D262331333B262331303B2623393B2E7374317B6F7061636974793A
-          302E37353B7D262331333B262331303B2623393B2E7374327B6F706163697479
-          3A302E32353B7D3C2F7374796C653E0D0A093C672069643D22496D706F727422
-          3E0D0A09093C7061746820636C6173733D22426C61636B2220643D224D31302C
-          31324836563668345631327A204D32322C31377631763963302C302E362D302E
-          342C312D312C314831632D302E362C302D312D302E342D312D31563763302D30
-          2E362C302E342D312C312D31683376386831344C32322C31377A204D31382C31
-          38483420202623393B2623393B76366831345631387A222F3E0D0A09093C706F
-          6C79676F6E20636C6173733D22477265656E2220706F696E74733D2233302C36
-          2032322C362032322C322031342C382032322C31342032322C31302033302C31
-          30202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          393B2623393B2623393B2623393B2623393B2623393B2623393B093C7374796C
+          6520747970653D22746578742F6373732220786D6C3A73706163653D22707265
+          7365727665223E2E5265647B66696C6C3A234431314331433B7D262331333B26
+          2331303B2623393B2E426C61636B7B66696C6C3A233732373237323B7D262331
+          333B262331303B2623393B2E426C75657B66696C6C3A233131373744373B7D26
+          2331333B262331303B2623393B2E477265656E7B66696C6C3A23303339433233
+          3B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A234646
+          423131353B7D262331333B262331303B2623393B2E57686974657B66696C6C3A
+          234646464646463B7D262331333B262331303B2623393B2E7374307B6F706163
+          6974793A302E353B7D262331333B262331303B2623393B2E7374317B6F706163
+          6974793A302E37353B7D262331333B262331303B2623393B2E7374327B6F7061
+          636974793A302E32353B7D3C2F7374796C653E0D0A093C672069643D22496D70
+          6F7274223E0D0A09093C7061746820636C6173733D22426C61636B2220643D22
+          4D31302C31324836563668345631327A204D32322C31377631763963302C302E
+          362D302E342C312D312C314831632D302E362C302D312D302E342D312D315637
+          63302D302E362C302E342D312C312D31683376386831344C32322C31377A204D
+          31382C3138483420202623393B2623393B76366831345631387A222F3E0D0A09
+          093C706F6C79676F6E20636C6173733D22477265656E2220706F696E74733D22
+          33302C362032322C362032322C322031342C382032322C31342032322C313020
+          33302C3130202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -12186,17 +12186,17 @@ object Data_Sisgef: TData_Sisgef
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
           303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
-          393B2623393B2623393B2623393B2623393B2623393B2623393B093C7374796C
-          6520747970653D22746578742F6373732220786D6C3A73706163653D22707265
-          7365727665223E2E426C75657B66696C6C3A233131373744373B7D262331333B
-          262331303B2623393B2E426C61636B7B66696C6C3A233732373237323B7D2623
-          31333B262331303B2623393B2E59656C6C6F777B66696C6C3A23464642313135
-          3B7D262331333B262331303B2623393B2E5265647B66696C6C3A234431314331
-          433B7D3C2F7374796C653E0D0A093C672069643D224C696768746E696E67223E
-          0D0A09093C706F6C79676F6E20636C6173733D2259656C6C6F772220706F696E
-          74733D2232322C322031342C3220362C31362031342C313620382C3330203236
-          2C31322031362E332C3132202623393B222F3E0D0A093C2F673E0D0A3C2F7376
-          673E0D0A}
+          393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B093C
+          7374796C6520747970653D22746578742F6373732220786D6C3A73706163653D
+          227072657365727665223E2E426C75657B66696C6C3A233131373744373B7D26
+          2331333B262331303B2623393B2E426C61636B7B66696C6C3A23373237323732
+          3B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A234646
+          423131353B7D262331333B262331303B2623393B2E5265647B66696C6C3A2344
+          31314331433B7D3C2F7374796C653E0D0A093C672069643D224C696768746E69
+          6E67223E0D0A09093C706F6C79676F6E20636C6173733D2259656C6C6F772220
+          706F696E74733D2232322C322031342C3220362C31362031342C313620382C33
+          302032362C31322031362E332C3132202623393B222F3E0D0A093C2F673E0D0A
+          3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxSmartImage'
@@ -16811,8 +16811,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 448
-    Top = 56
+    Left = 680
+    Top = 544
     object memTableExtractsid_extrato: TFDAutoIncField
       DisplayLabel = 'ID'
       FieldName = 'id_extrato'
@@ -17086,6 +17086,12 @@ object Data_Sisgef: TData_Sisgef
         DataType = ftString
         FDDataType = dtWideString
         Size = 3
+      end
+      item
+        Name = 'pDatecredit'
+        DataType = ftDate
+        FDDataType = dtDate
+        ParamType = ptInput
       end>
     object storedProcListExtractExpressid_extrato: TFDAutoIncField
       FieldName = 'id_extrato'
@@ -17594,10 +17600,6 @@ object Data_Sisgef: TData_Sisgef
         Name = 'mtbExtratoExpressaIndex1'
         Options = [ixNonMaintained]
       end>
-    Indexes = <
-      item
-        Fields = 'cod_expressa;cod_tipo_expressa'
-      end>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -17606,186 +17608,84 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 384
-    Top = 512
-    object IntegerField6: TIntegerField
+    Left = 528
+    Top = 544
+    object memTableCreditWorksheetid_registro: TIntegerField
+      FieldName = 'id_registro'
+    end
+    object memTableCreditWorksheetcod_tipo_extrato: TIntegerField
       DisplayLabel = 'Tipo'
-      FieldName = 'cod_tipo_expressa'
+      FieldName = 'cod_tipo_extrato'
     end
-    object IntegerField7: TIntegerField
+    object memTableCreditWorksheetcod_cadastro: TIntegerField
       DisplayLabel = 'C'#243'digo'
-      FieldName = 'cod_expressa'
+      FieldName = 'cod_cadastro'
     end
-    object DateField1: TDateField
-      FieldName = 'dat_inicio'
-    end
-    object DateField2: TDateField
-      FieldName = 'dat_fim'
-    end
-    object StringField9: TStringField
+    object memTableCreditWorksheetnom_cadastro: TStringField
       DisplayLabel = 'Nome'
-      FieldName = 'nom_expressa'
+      FieldName = 'nom_cadastro'
       Size = 70
     end
-    object IntegerField8: TIntegerField
-      DisplayLabel = 'Volumes'
-      FieldName = 'qtd_volumes'
-    end
-    object IntegerField9: TIntegerField
-      DisplayLabel = 'Entregas'
-      FieldName = 'qtd_entregas'
-    end
-    object FloatField1: TFloatField
-      DisplayLabel = 'Extra'
-      FieldName = 'qtd_volumes_extra'
-    end
-    object FloatField2: TFloatField
-      DisplayLabel = 'Val. Extra'
-      FieldName = 'val_volume_extra'
-    end
-    object IntegerField10: TIntegerField
-      DisplayLabel = 'Atrasos'
-      FieldName = 'qtd_atraso'
-    end
-    object FloatField3: TFloatField
-      DisplayLabel = 'Produ'#231#227'o'
-      FieldName = 'val_producao'
-    end
-    object FloatField4: TFloatField
-      DisplayLabel = '%'
-      FieldKind = fkCalculated
-      FieldName = 'val_performance'
-      Calculated = True
-    end
-    object FloatField5: TFloatField
-      DisplayLabel = 'Total Franquia'
-      FieldName = 'val_total_ticket'
-    end
-    object StringField10: TStringField
+    object memTableCreditWorksheetcod_banco: TStringField
       DisplayLabel = 'C'#243'd. Banco'
       FieldName = 'cod_banco'
       Size = 4
     end
-    object StringField11: TStringField
+    object memTableCreditWorksheetnom_banco: TStringField
       DisplayLabel = 'Banco'
       FieldName = 'nom_banco'
       Size = 70
     end
-    object StringField12: TStringField
+    object memTableCreditWorksheetdes_tipo_conta: TStringField
       DisplayLabel = 'Tipo de Conta'
       FieldName = 'des_tipo_conta'
     end
-    object StringField13: TStringField
+    object memTableCreditWorksheetnum_agencia: TStringField
       DisplayLabel = 'N'#186'. Ag'#234'ncia'
       FieldName = 'num_agencia'
     end
-    object StringField14: TStringField
+    object memTableCreditWorksheetnum_conta: TStringField
       DisplayLabel = 'N'#186'. Conta'
       FieldName = 'num_conta'
       Size = 50
     end
-    object StringField15: TStringField
+    object memTableCreditWorksheetnom_favorecido: TStringField
       DisplayLabel = 'Nome do Favorecido'
       FieldName = 'nom_favorecido'
       Size = 70
     end
-    object StringField16: TStringField
+    object memTableCreditWorksheetnum_cpf_cnpj: TStringField
       DisplayLabel = 'CPF / CNPJ'
       FieldName = 'num_cpf_cnpj'
     end
-    object IntegerField11: TIntegerField
-      DisplayLabel = 'Fora do Padr'#227'o'
-      FieldName = 'qtd_pfp'
-    end
-    object FloatField6: TFloatField
-      DisplayLabel = 'Ticket M'#233'dio'
-      FieldKind = fkCalculated
-      FieldName = 'val_ticket_medio'
-      Calculated = True
-    end
-    object FloatField7: TFloatField
-      DisplayLabel = 'Extravios'
-      FieldName = 'val_extravios'
-    end
-    object FloatField8: TFloatField
-      DisplayLabel = 'D'#233'bitos'
-      FieldName = 'val_debitos'
-    end
-    object FloatField9: TFloatField
-      DisplayLabel = 'Cr'#233'ditos'
-      FieldName = 'val_creditos'
-    end
-    object FloatField10: TFloatField
+    object memTableCreditWorksheetval_total: TFloatField
       DisplayLabel = 'Total'
       FieldKind = fkCalculated
       FieldName = 'val_total'
       Calculated = True
     end
-    object StringField17: TStringField
+    object memTableCreditWorksheetdes_unique_key: TStringField
       FieldName = 'des_unique_key'
       Size = 30
     end
-    object DateField3: TDateField
+    object memTableCreditWorksheetdat_credito: TDateField
       FieldName = 'dat_credito'
     end
-    object IntegerField12: TIntegerField
-      FieldName = 'dom_boleto'
-    end
-    object StringField18: TStringField
+    object memTableCreditWorksheetnum_extrato: TStringField
       FieldName = 'num_extrato'
       Size = 30
     end
-    object StringField19: TStringField
-      FieldName = 'CampoEmpresa'
-      Size = 5
+    object memTableCreditWorksheetdes_forma_pagamento: TStringField
+      FieldName = 'des_forma_pagamento'
+      Size = 30
     end
-    object StringField20: TStringField
-      FieldName = 'CampoCodigoPessoa'
+    object memTableCreditWorksheetcod_modalidade_pagamento: TStringField
+      FieldName = 'cod_modalidade_pagamento'
       Size = 6
     end
-    object StringField21: TStringField
-      FieldName = 'CampoNomeTitulo'
-      Size = 50
-    end
-    object StringField22: TStringField
-      FieldName = 'CampoCNPJCPFPessoa'
-    end
-    object StringField23: TStringField
-      FieldName = 'CampoDtEmissao'
-      Size = 10
-    end
-    object StringField24: TStringField
-      FieldName = 'CampoNumeroTitulo'
-    end
-    object StringField25: TStringField
-      FieldName = 'CampoDtVencimento'
-      Size = 10
-    end
-    object StringField26: TStringField
-      FieldName = 'CampoNaturezaLancamento'
-      Size = 6
-    end
-    object StringField27: TStringField
-      FieldName = 'CampoFormaPagamento'
-      Size = 6
-    end
-    object StringField28: TStringField
-      FieldName = 'CampoValorTitulo'
-      Size = 15
-    end
-    object StringField29: TStringField
-      FieldName = 'CampoAgencia'
-      Size = 10
-    end
-    object StringField30: TStringField
-      FieldName = 'CampoConta'
-    end
-    object StringField31: TStringField
-      FieldName = 'CampoBanco'
-      Size = 3
-    end
-    object StringField32: TStringField
-      FieldName = 'CampoModalidade'
+    object memTableCreditWorksheetcod_forma_pagamento: TStringField
+      DisplayLabel = 'C'#243'd. Forma Pagamento'
+      FieldName = 'cod_forma_pagamento'
       Size = 6
     end
   end
@@ -17807,59 +17707,17 @@ object Data_Sisgef: TData_Sisgef
         ParamType = ptInput
       end
       item
-        Name = 'pnom_expressa'
+        Name = 'pcod_cadastro'
+        DataType = ftInteger
+        FDDataType = dtInt32
+        ParamType = ptInput
+      end
+      item
+        Name = 'pnom_cadastro'
         DataType = ftString
         FDDataType = dtWideString
         ParamType = ptInput
         Size = 70
-      end
-      item
-        Name = 'pqtd_volumes'
-        DataType = ftInteger
-        FDDataType = dtInt32
-        ParamType = ptInput
-      end
-      item
-        Name = 'pqtd_entregas'
-        DataType = ftInteger
-        FDDataType = dtInt32
-        ParamType = ptInput
-      end
-      item
-        Name = 'pqtd_volumes_extra'
-        DataType = ftFloat
-        FDDataType = dtDouble
-        ParamType = ptInput
-      end
-      item
-        Name = 'pval_volume_extra'
-        DataType = ftFloat
-        FDDataType = dtDouble
-        ParamType = ptInput
-      end
-      item
-        Name = 'pqtd_atraso'
-        DataType = ftInteger
-        FDDataType = dtInt32
-        ParamType = ptInput
-      end
-      item
-        Name = 'pval_producao'
-        DataType = ftFloat
-        FDDataType = dtDouble
-        ParamType = ptInput
-      end
-      item
-        Name = 'pval_performance'
-        DataType = ftFloat
-        FDDataType = dtDouble
-        ParamType = ptInput
-      end
-      item
-        Name = 'pval_performance'
-        DataType = ftFloat
-        FDDataType = dtDouble
-        ParamType = ptInput
       end
       item
         Name = 'pcod_banco'
@@ -17911,36 +17769,6 @@ object Data_Sisgef: TData_Sisgef
         Size = 20
       end
       item
-        Name = 'pqtd_pfp'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-      end
-      item
-        Name = 'pval_ticket_medio'
-        DataType = ftFloat
-        FDDataType = dtDouble
-        ParamType = ptInput
-      end
-      item
-        Name = 'pval_extravios'
-        DataType = ftFloat
-        FDDataType = dtDouble
-        ParamType = ptInput
-      end
-      item
-        Name = 'pval_debitos'
-        DataType = ftFloat
-        FDDataType = dtDouble
-        ParamType = ptInput
-      end
-      item
-        Name = 'pval_creditos'
-        DataType = ftFloat
-        FDDataType = dtDouble
-        ParamType = ptInput
-      end
-      item
         Name = 'pval_total'
         DataType = ftFloat
         FDDataType = dtDouble
@@ -17960,12 +17788,6 @@ object Data_Sisgef: TData_Sisgef
         ParamType = ptInput
       end
       item
-        Name = 'pdom_boleto'
-        DataType = ftInteger
-        FDDataType = dtInt32
-        ParamType = ptInput
-      end
-      item
         Name = 'pnum_extrato'
         DataType = ftString
         FDDataType = dtWideString
@@ -17973,107 +17795,24 @@ object Data_Sisgef: TData_Sisgef
         Size = 30
       end
       item
-        Name = 'pCampoEmpresa'
+        Name = 'pdes_forma_pagamento'
         DataType = ftString
         FDDataType = dtWideString
         ParamType = ptInput
-        Size = 5
+        Size = 30
       end
       item
-        Name = 'pCampoCodigoPessoa'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 6
-      end
-      item
-        Name = 'pCampoNomeTitulo'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 50
-      end
-      item
-        Name = 'pCampoCNPJCPFPessoa'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 20
-      end
-      item
-        Name = 'pCampoDtEmissao'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 10
-      end
-      item
-        Name = 'pCampoNumeroTitulo'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 20
-      end
-      item
-        Name = 'pCampoDtVencimento'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 10
-      end
-      item
-        Name = 'pCampoNaturezaLancamento'
+        Name = 'pcod_modalidade_pagamento'
         DataType = ftString
         FDDataType = dtWideString
         ParamType = ptInput
         Size = 6
       end
       item
-        Name = 'pCampoFormaPagamento'
+        Name = 'pcod_forma_pagamento'
         DataType = ftString
         FDDataType = dtWideString
-        ParamType = ptInput
         Size = 6
-      end
-      item
-        Name = 'pCampoValorTitulo'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 15
-      end
-      item
-        Name = 'pCampoAgencia'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 10
-      end
-      item
-        Name = 'pCampoConta'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 20
-      end
-      item
-        Name = 'pCampoBanco'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-      end
-      item
-        Name = 'pCampoModalidade'
-        DataType = ftString
-        FDDataType = dtWideString
-        ParamType = ptInput
-        Size = 6
-      end
-      item
-        Name = 'pcod_cadastro'
-        DataType = ftInteger
-        FDDataType = dtInt32
-        ParamType = ptInput
       end>
   end
 end
