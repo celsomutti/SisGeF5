@@ -274,7 +274,8 @@ uses
   Thread.SisGeFExpressExtract in 'Thread\Thread.SisGeFExpressExtract.pas',
   Thread.SisGeFClosingExpressExtract in 'Thread\Thread.SisGeFClosingExpressExtract.pas',
   View.Calendario in 'View\View.Calendario.pas' {view_Calendario},
-  Thread.SisGeFCreditWorksheet in 'Thread\Thread.SisGeFCreditWorksheet.pas';
+  Thread.SisGeFCreditWorksheet in 'Thread\Thread.SisGeFCreditWorksheet.pas',
+  View.SisGeFCreditWorksheet in 'View\View.SisGeFCreditWorksheet.pas' {view_SisGeFCreditWorksheet};
 
 {$R *.res}
 

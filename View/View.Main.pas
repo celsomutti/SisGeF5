@@ -230,6 +230,7 @@ type
     procedure actCadastroFuncionariosExecute(Sender: TObject);
     procedure actCadastroVeículosExecute(Sender: TObject);
     procedure actCadastroClientesExecute(Sender: TObject);
+    procedure actPlanilhaCreditoExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -262,7 +263,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
   View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
   View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
-  View.CadastroClientes, View.SisGeFExtractedExpress;
+  View.CadastroClientes, View.SisGeFExtractedExpress, View.SisGeFCreditWorksheet;
 
 procedure Tview_Main.Acessos;
 var
@@ -521,6 +522,15 @@ begin
     view_ParametrosPrazosExtratos := Tview_ParametrosPrazosExtratos.Create(Application);
   end;
   view_ParametrosPrazosExtratos.Show;
+end;
+
+procedure Tview_Main.actPlanilhaCreditoExecute(Sender: TObject);
+begin
+  if not Assigned(view_SisGeFCreditWorksheet) then
+  begin
+    view_SisGeFCreditWorksheet := Tview_SisGeFCreditWorksheet.Create(Application);
+  end;
+  view_SisGeFCreditWorksheet.Show;
 end;
 
 procedure Tview_Main.actRecepcaoPedidoExecute(Sender: TObject);

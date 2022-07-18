@@ -16,11 +16,12 @@ type
     FInProcess: boolean;
     FMensagem: string;
     FDateCredit: TDate;
+    procedure ExecuteGeneralProcess;
     procedure ExecuteGenerateCreditWorksheetExpress; // gera planilha de crédito de expressas
   protected
     procedure Execute; override;
   public
-    property Situacao: integer read FSituacao write FSituacao;  // 1 = aberto, 2 = fechado
+    property Situacao: integer read FSituacao write FSituacao;  // 1 = novo, 2 = salvo
     property TipoPlanilha: integer read FTipoPlanilha write FTipoPlanilha; // 0 = Todas, 1 = Expresssas, 2 = Jornal, 3 = Serviços
     property InProcess: boolean read FInProcess write FInProcess; // True = Em processo, False = Processo terminado
     property AbortProcess: boolean read FAbortProcess write FAbortProcess; // True = Processo abortado, False = Processo normal
@@ -72,6 +73,7 @@ begin
   if FSituacao = 1 then
   begin
     case FTipoPlanilha of
+      0 : ExecuteGeneralProcess;
       1 : ExecuteGenerateCreditWorksheetExpress;
       else
         begin
@@ -82,9 +84,17 @@ begin
   end
   else if FSituacao = 2 then
   begin
-
+    begin
+      FMensagem := 'Opção não implementada.';
+      FAbortProcess := True;
+    end;
   end;
   FInProcess := False;
+end;
+
+procedure TThead_SisGefCreditWorksheet.ExecuteGeneralProcess;
+begin
+  ExecuteGenerateCreditWorksheetExpress;
 end;
 
 procedure TThead_SisGefCreditWorksheet.ExecuteGenerateCreditWorksheetExpress;
@@ -99,6 +109,7 @@ var
   aParam : array of variant;
 begin
   try
+    FConnection := TConexao.Create;
     FBases := TBasesControl.Create;
     FBancos := TBancosControl.Create;
     FEntregadores := TEntregadoresExpressasControl.Create;
@@ -125,13 +136,14 @@ begin
         FAbortProcess := True;
         Exit;
       end;
+
       if memTableCreditWorksheet.Active then memTableCreditWorksheet.Active := False;
       memTableCreditWorksheet.Active := True;
       memTableExtracts.First;
       while not memTableExtracts.Eof do
       begin
         FBaseCode := memTableExtractscod_base.AsInteger;
-        FDeliveryCode := memTableExtractsnom_base.AsInteger;
+        FDeliveryCode := memTableExtractscod_entregador.AsInteger;
         FRegisterCode := 0;
         sForma := '0';
         sNome := '';
@@ -150,10 +162,12 @@ begin
         end;
         Finalize(aParam);
         SetLength(aParam, 2);
-        aParam := ['CODIGO', FRegisterCode];
+        aParam := ['CADASTRO', FRegisterCode];
         if FCadastro.Localizar(aParam) then
         begin
-          if FCadastro.Cadastro.FormaPagamento <> 'NENHUMA' then
+          FCadastro.SetupModel(FCadastro.Cadastro.Query);
+          FCadastro.Cadastro.Query.Connection.Connected := False;
+          if (FCadastro.Cadastro.FormaPagamento <> 'NENHUMA') and (FCadastro.Cadastro.FormaPagamento <> '') then
           begin
             if Pos(FCadastro.Cadastro.FormaPagamento,'OBB PLUS,TED/DOC') > 0 then
               sForma := '000009'
@@ -214,32 +228,36 @@ begin
         if memTableCreditWorksheet.Locate('num_cpf_cnpj', sCnpjCpf, [])  then
         begin
           memTableCreditWorksheet.Edit;
-          memTableCreditWorksheetval_total.asFloat = memTableCreditWorksheetval_total.asFloat +
+          memTableCreditWorksheetval_total.asFloat := memTableCreditWorksheetval_total.asFloat +
                                                      memTableExtractsval_total_expressa.AsFloat;
           memTableCreditWorksheet.Post;
         end
         else
         begin
-          sExtrato := FUtils.ExpressStatementNumber(memTableExtractsdat_inicio.AsDateTime, memTableExtractsdat_final.AsDateTime,
-          iBimer, '');
-          memTableCreditWorksheet.Insert;
-          memTableCreditWorksheetid_registro.AsInteger := 0;
-          memTableCreditWorksheetcod_tipo_extrato.AsInteger := 1;
-          memTableCreditWorksheetcod_cadastro.AsInteger := iBimer;
-          memTableCreditWorksheetnom_cadastro.AsString := sNome;
-          memTableCreditWorksheetcod_banco.AsString := sBanco;
-          memTableCreditWorksheetnom_banco.AsString := sNomeBanco;
-          memTableCreditWorksheetdes_tipo_conta.AsString := sTipoConta;
-          memTableCreditWorksheetnum_agencia.AsString := sAgencia;
-          memTableCreditWorksheetnum_conta.AsString := sConta;
-          memTableCreditWorksheetnom_favorecido.AsString := sFavorecido;
-          memTableCreditWorksheetnum_cpf_cnpj.AsString;
-          memTableCreditWorksheetval_total.AsFloat := memTableExtractsval_total_expressa.AsFloat;
-          memTableCreditWorksheetdes_unique_key.AsString := memTableExtractsdes_unique_key.AsString;
-          memTableCreditWorksheetdat_credito.AsDateTime := FDateCredit;
-          memTableCreditWorksheetnum_extrato.AsString := sExtrato;
-          memTableCreditWorksheetdes_forma_pagamento.AsString := sNomeForma;
-          memTableCreditWorksheet.Post;
+          if memTableExtractsval_total_expressa.AsFloat > 0 then
+          begin
+            sExtrato := FUtils.ExpressStatementNumber(memTableExtractsdat_inicio.AsDateTime, memTableExtractsdat_final.AsDateTime,
+            iBimer, '');
+            memTableCreditWorksheet.Insert;
+            memTableCreditWorksheetid_registro.AsInteger := 0;
+            memTableCreditWorksheetcod_tipo_extrato.AsInteger := 1;
+            memTableCreditWorksheetcod_cadastro.AsInteger := iBimer;
+            memTableCreditWorksheetnom_cadastro.AsString := sNome;
+            memTableCreditWorksheetcod_banco.AsString := sBanco;
+            memTableCreditWorksheetnom_banco.AsString := sNomeBanco;
+            memTableCreditWorksheetdes_tipo_conta.AsString := sTipoConta;
+            memTableCreditWorksheetnum_agencia.AsString := sAgencia;
+            memTableCreditWorksheetnum_conta.AsString := sConta;
+            memTableCreditWorksheetnom_favorecido.AsString := sFavorecido;
+            memTableCreditWorksheetnum_cpf_cnpj.AsString := sCnpjCpf;
+            memTableCreditWorksheetval_total.AsFloat := memTableExtractsval_total_expressa.AsFloat;
+            memTableCreditWorksheetdes_unique_key.AsString := memTableExtractsdes_unique_key.AsString;
+            memTableCreditWorksheetdat_credito.AsDateTime := FDateCredit;
+            memTableCreditWorksheetnum_extrato.AsString := sExtrato;
+            memTableCreditWorksheetdes_forma_pagamento.AsString := sNomeForma;
+            memTableCreditWorksheetdom_bloqueio.AsInteger := 0;
+            memTableCreditWorksheet.Post;
+          end;
         end;
         memTableExtracts.Next;
       end;
@@ -251,6 +269,7 @@ begin
     FEntregadores.Free;
     FCadastro.Free;
     FUtils.Free;
+    FConnection.Free;
   end;
 end;
 

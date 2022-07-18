@@ -617,6 +617,7 @@ type
     memTableCreditWorksheetdes_forma_pagamento: TStringField;
     memTableCreditWorksheetcod_modalidade_pagamento: TStringField;
     memTableCreditWorksheetcod_forma_pagamento: TStringField;
+    memTableCreditWorksheetdom_bloqueio: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

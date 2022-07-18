@@ -63,6 +63,7 @@ object view_SisGeFCalendar: Tview_SisGeFCalendar
       HeaderInfo.Font.Height = -20
       HeaderInfo.Font.Name = 'Segoe UI'
       HeaderInfo.Font.Style = []
+      OnDblClick = CalendarView1DblClick
       ParentFont = False
       ShowFirstOfGroupLabel = True
       TabOrder = 0

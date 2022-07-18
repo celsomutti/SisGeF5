@@ -1581,7 +1581,7 @@
     object dxBarLargeButton43: TdxBarLargeButton
       Action = actPlanilhaCredito
       Category = 0
-      LargeImageIndex = 40
+      LargeImageIndex = 36
     end
     object dxBarLargeButton44: TdxBarLargeButton
       Action = actUsuarios
@@ -2209,6 +2209,7 @@
       Category = 'Financeiro'
       Caption = 'Planil&ha de Cr'#233'dito'
       Hint = 'Emiss'#227'o de planilha de cr'#233'dito'
+      OnExecute = actPlanilhaCreditoExecute
     end
     object actUsuarios: TAction
       Tag = 701010
