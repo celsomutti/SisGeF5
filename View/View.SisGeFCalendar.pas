@@ -35,7 +35,6 @@ type
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actionSelectionDayExecute(Sender: TObject);
-    procedure CalendarView1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -57,11 +56,6 @@ begin
 end;
 
 procedure Tview_SisGeFCalendar.actionSelectionDayExecute(Sender: TObject);
-begin
-  ModalResult := mrOk;
-end;
-
-procedure Tview_SisGeFCalendar.CalendarView1DblClick(Sender: TObject);
 begin
   ModalResult := mrOk;
 end;

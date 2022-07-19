@@ -637,6 +637,11 @@
             <Form>view_SisGeFCreditWorksheet</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="View\View.SisGeFWorksheetBIMERCP.pas">
+            <Form>view_SisGeFWorksheetBIMERCP</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Thread\Thread.SisGeFBIMERCP.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

@@ -16,8 +16,12 @@ type
     FInProcess: boolean;
     FMensagem: string;
     FDateCredit: TDate;
+    FTypeProcess: integer;
     procedure ExecuteGeneralProcess;
     procedure ExecuteGenerateCreditWorksheetExpress; // gera planilha de crédito de expressas
+    procedure ExecuteClearCreditWorksheetExpress; // exclui planilhas do banco de dados para novas planilhas
+    procedure ExecuteSaveCreditWorksheetExress; // salva a planilha no banco de dados;
+    procedure ExecuteListCreditWorksheetExpress; // recupera a planilha salva no banco de dados;
   protected
     procedure Execute; override;
   public
@@ -27,6 +31,7 @@ type
     property AbortProcess: boolean read FAbortProcess write FAbortProcess; // True = Processo abortado, False = Processo normal
     property Mensagem: string read FMensagem write FMensagem; // mensagem de processamento
     property DateCredit: TDate read FDateCredit write FDateCredit; // data do crédito
+    property TypeProcess: integer read FTypeProcess write FTypeProcess;
   end;
 
 implementation
@@ -70,26 +75,58 @@ procedure TThead_SisGefCreditWorksheet.Execute;
 begin
   FInProcess := True;
   FAbortProcess := False;
-  if FSituacao = 1 then
+  if FTypeProcess = 1 then
   begin
-    case FTipoPlanilha of
-      0 : ExecuteGeneralProcess;
-      1 : ExecuteGenerateCreditWorksheetExpress;
-      else
-        begin
-          FMensagem := 'Opção não implementada.';
-          FAbortProcess := True;
-        end;
+    if FSituacao = 1 then
+    begin
+      case FTipoPlanilha of
+        0 : ExecuteGeneralProcess;
+        1 : ExecuteGenerateCreditWorksheetExpress;
+        else
+          begin
+            FMensagem := 'Opção não implementada.';
+            FAbortProcess := True;
+          end;
+      end;
+    end
+    else if FSituacao = 2 then
+    begin
+      begin
+        ExecuteListCreditWorksheetExpress;
+      end;
     end;
   end
-  else if FSituacao = 2 then
+  else if FTypeProcess = 2 then
   begin
-    begin
-      FMensagem := 'Opção não implementada.';
-      FAbortProcess := True;
-    end;
+    ExecuteClearCreditWorksheetExpress;
+    ExecuteSaveCreditWorksheetExress;
   end;
   FInProcess := False;
+end;
+
+procedure TThead_SisGefCreditWorksheet.ExecuteClearCreditWorksheetExpress;
+var
+  aParam : array of variant;
+begin
+  try
+    FConnection := TConexao.Create;
+    with Data_Sisgef do
+    begin
+      storedProcCreditWhorsheet.Active := False;
+      storedProcCreditWhorsheet.Filtered := False;
+      storedProcCreditWhorsheet.Filter := '';
+      storedProcCreditWhorsheet.Connection := FConnection.GetConn;
+      storedProcCreditWhorsheet.storedProcName := 'sp_clear_credit_worksheet';
+      storedProcCreditWhorsheet.SchemaName := 'bderpsisgef';
+      storedProcCreditWhorsheet.Prepare;
+      storedProcCreditWhorsheet.ParamByName('pcod_tipo_extrato').AsInteger := FTipoPlanilha;
+      storedProcCreditWhorsheet.ParamByName('pdat_credito').AsDate := FDateCredit;
+      storedProcCreditWhorsheet.ExecProc;
+      storedProcCreditWhorsheet.Connection.Connected := False;
+    end;
+  finally
+    FConnection.Free;
+  end;
 end;
 
 procedure TThead_SisGefCreditWorksheet.ExecuteGeneralProcess;
@@ -220,7 +257,7 @@ begin
           end;
           Finalize(aParam);
         end;
-        if sTipoConta = 'POUPANÇA' then
+        if sTipoConta = 'CONTA POUPANÇA' then
           sModalidade := FBancos.GetField('cod_modalidade_cp',sBanco,'cod_banco')
         else
           sModalidade := FBancos.GetField('cod_modalidade',sBanco,'cod_banco');
@@ -254,7 +291,9 @@ begin
             memTableCreditWorksheetdes_unique_key.AsString := memTableExtractsdes_unique_key.AsString;
             memTableCreditWorksheetdat_credito.AsDateTime := FDateCredit;
             memTableCreditWorksheetnum_extrato.AsString := sExtrato;
+            memTableCreditWorksheetcod_forma_pagamento.AsString := sForma;
             memTableCreditWorksheetdes_forma_pagamento.AsString := sNomeForma;
+            memTableCreditWorksheetcod_modalidade_pagamento.AsString := sModalidade;
             memTableCreditWorksheetdom_bloqueio.AsInteger := 0;
             memTableCreditWorksheet.Post;
           end;
@@ -271,6 +310,93 @@ begin
     FUtils.Free;
     FConnection.Free;
   end;
+end;
+
+procedure TThead_SisGefCreditWorksheet.ExecuteListCreditWorksheetExpress;
+var
+  FConnection : TConexao;
+  i: integer;
+  FFiltro : String;
+begin
+  FInProcess := True;
+  FAbortProcess := False;
+  FConnection := Tconexao.Create;
+  with Data_Sisgef do
+  begin
+    memTableCreditWorksheet.Active := False;
+    FFiltro := '';
+    storedProcCreditWhorsheet.Active := False;
+    storedProcCreditWhorsheet.Filtered := False;
+    storedProcCreditWhorsheet.Filter := '';
+    storedProcCreditWhorsheet.Connection := FConnection.GetConn;
+    storedProcCreditWhorsheet.storedProcName := 'sp_list_credit_worksheet';
+    storedProcCreditWhorsheet.SchemaName := 'bderpsisgef';
+    storedProcCreditWhorsheet.Prepare;
+    storedProcCreditWhorsheet.ParamByName('pdat_credito').AsDate := FDateCredit;
+    if FTipoPlanilha <> 0 then
+    begin
+      FFiltro := 'cod_tipo_extrato = ' + FTipoPlanilha.ToString;
+    end;
+    if FFiltro <> '' then
+    begin
+      storedProcCreditWhorsheet.Filter := FFiltro;
+      storedProcCreditWhorsheet.Filtered := True;
+    end;
+    storedProcCreditWhorsheet.Active := True;
+    memTableCreditWorksheet.Active := True;
+    memTableCreditWorksheet.CopyDataSet(storedProcCreditWhorsheet, [coAppend]);
+    storedProcCreditWhorsheet.Connection.Connected := False;
+    if not memTableCreditWorksheet.IsEmpty then
+    begin
+      memTableCreditWorksheet.First;
+    end
+    else
+    begin
+      FMensagem := 'Nenhum registro encontrado!';
+      FAbortProcess := True;
+    end;
+  end;
+  FInProcess := False;
+end;
+
+procedure TThead_SisGefCreditWorksheet.ExecuteSaveCreditWorksheetExress;
+var
+  sParamName : string;
+  i : integer;
+  FUtils : Common.Utils.TUtils;
+  FConnection : TConexao;
+begin
+  FUtils := Common.Utils.TUtils.Create;
+  FInProcess := True;
+  FAbortProcess := False;
+  FConnection := TConexao.Create;
+  with Data_Sisgef do
+  begin
+    if not memTableExtracts.IsEmpty then memTableExtracts.First;
+    storedProcCreditWhorsheet.Active := False;
+    storedProcCreditWhorsheet.Filtered := False;
+    storedProcCreditWhorsheet.Filter := '';
+    storedProcCreditWhorsheet.Connection := FConnection.GetConn;
+    while not memTableCreditWorksheet.Eof do
+    begin
+      storedProcCreditWhorsheet.storedProcName := 'sp_insert_credit_worksheet_express';
+      storedProcCreditWhorsheet.SchemaName := 'bderpsisgef';
+      storedProcCreditWhorsheet.Prepare;
+      for i := 0 to Pred(memTableCreditWorksheet.FieldCount) do
+      begin
+        if Pos(memTableCreditWorksheet.Fields[i].FieldName, 'id_registro') = 0 then
+        begin
+          sParamName := 'p' + memTableCreditWorksheet.Fields[i].FieldName;
+          storedProcCreditWhorsheet.ParamByName(sParamName).Value := memTableCreditWorksheet.Fields[i].Value;
+        end;
+      end;
+      storedProcCreditWhorsheet.ExecProc;
+      memTableCreditWorksheet.Next;
+    end;
+    storedProcCreditWhorsheet.Connection.Connected := False;
+    FInProcess := False;
+  end;
+  FInProcess := False;
 end;
 
 end.

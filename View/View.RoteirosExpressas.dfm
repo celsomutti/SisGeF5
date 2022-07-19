@@ -1046,7 +1046,7 @@ object view_RoteirosExpressas: Tview_RoteirosExpressas
       Parent = dxLayoutGroup1
       CaptionOptions.Text = 'Roteiro:'
       Control = codigoRoteiro
-      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 92
       ControlOptions.ShowBorder = False
       Index = 0

@@ -48,6 +48,24 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       TabOrder = 8
       object gridCreditWorkssheetDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
+        Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+        Navigator.Buttons.First.ImageIndex = 91
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.Prior.ImageIndex = 94
+        Navigator.Buttons.Next.ImageIndex = 93
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Last.ImageIndex = 92
+        Navigator.Buttons.Insert.Visible = False
+        Navigator.Buttons.Delete.Visible = False
+        Navigator.Buttons.Edit.Visible = False
+        Navigator.Buttons.Post.Visible = False
+        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.Visible = False
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
         DataController.DataSource = dsCreditWorksheet
         DataController.Summary.DefaultGroupSummaryItems = <
           item
@@ -67,6 +85,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
         OptionsSelection.MultiSelect = True
         OptionsSelection.CheckBoxPosition = cbpIndicator
         OptionsSelection.CheckBoxVisibility = [cbvDataRow, cbvColumnHeader]
+        OptionsSelection.ClearPersistentSelectionOnOutsideClick = True
         OptionsSelection.InvertSelect = False
         OptionsSelection.MultiSelectMode = msmPersistent
         OptionsView.CellAutoHeight = True
@@ -124,6 +143,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
           Width = 34
         end
         object gridCreditWorkssheetDBTableView1nom_banco: TcxGridDBColumn
+          Caption = 'Nome Banco'
           DataBinding.FieldName = 'nom_banco'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
@@ -167,16 +187,19 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
           Width = 56
         end
         object gridCreditWorkssheetDBTableView1des_unique_key: TcxGridDBColumn
+          Caption = 'Unique Key'
           DataBinding.FieldName = 'des_unique_key'
           Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object gridCreditWorkssheetDBTableView1dat_credito: TcxGridDBColumn
+          Caption = 'Data Cr'#233'dito'
           DataBinding.FieldName = 'dat_credito'
           Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object gridCreditWorkssheetDBTableView1num_extrato: TcxGridDBColumn
+          Caption = 'N'#186'. Extrato'
           DataBinding.FieldName = 'num_extrato'
           Visible = False
           HeaderAlignmentHorz = taCenter
@@ -195,14 +218,18 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
           Width = 97
         end
         object gridCreditWorkssheetDBTableView1cod_modalidade_pagamento: TcxGridDBColumn
+          Caption = 'Modal. Pgto.'
           DataBinding.FieldName = 'cod_modalidade_pagamento'
           Visible = False
           HeaderAlignmentHorz = taCenter
         end
         object gridCreditWorkssheetDBTableView1dom_bloqueio: TcxGridDBColumn
           DataBinding.FieldName = 'dom_bloqueio'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.Alignment = taRightJustify
+          Properties.ValueChecked = '1'
+          Properties.ValueUnchecked = '0'
           Visible = False
-          VisibleForCustomization = False
         end
       end
       object gridCreditWorkssheetLevel1: TcxGridLevel
@@ -218,6 +245,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
         'EXPRESSAS'
         'PER'#211'DICOS'
         'SERVI'#199'OS')
+      Properties.OnChange = tipoExtratoPropertiesChange
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -303,7 +331,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       TabOrder = 7
     end
     object cxButton5: TcxButton
-      Left = 564
+      Left = 726
       Top = 447
       Width = 75
       Height = 25
@@ -311,10 +339,10 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Action = actionSaveWorksheet
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 11
+      TabOrder = 14
     end
     object cxButton6: TcxButton
-      Left = 726
+      Left = 645
       Top = 447
       Width = 75
       Height = 25
@@ -333,7 +361,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Action = actionCloseForm
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 14
+      TabOrder = 15
     end
     object labelInfo: TcxLabel
       Left = 47
@@ -342,7 +370,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Transparent = True
     end
     object cxButton8: TcxButton
-      Left = 645
+      Left = 564
       Top = 443
       Width = 75
       Height = 34
@@ -359,6 +387,17 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Height = 34
       PropertiesClassName = 'TdxActivityIndicatorCircularDotsProperties'
       Transparent = True
+    end
+    object cxButton9: TcxButton
+      Left = 480
+      Top = 447
+      Width = 78
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionDeleteRegister
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 9
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -506,7 +545,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       AlignVert = avBottom
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 5
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 4
@@ -521,7 +560,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 5
     end
     object dxLayoutItem11: TdxLayoutItem
       Parent = dxLayoutGroup5
@@ -545,7 +584,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 5
+      Index = 6
     end
     object dxLayoutItem14: TdxLayoutItem
       Parent = dxLayoutGroup5
@@ -557,7 +596,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       ControlOptions.OriginalHeight = 17
       ControlOptions.OriginalWidth = 7
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutItem15: TdxLayoutItem
       Parent = dxLayoutGroup5
@@ -579,6 +618,18 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Control = activityIndicator
       ControlOptions.OriginalHeight = 34
       ControlOptions.OriginalWidth = 31
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem16: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton9'
+      CaptionOptions.Visible = False
+      Control = cxButton9
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 78
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -633,6 +684,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Caption = '&Gravar'
       Hint = 'Gravar a planilha no banco de dados'
       ImageIndex = 85
+      OnExecute = actionSaveWorksheetExecute
     end
     object actionExportGrid: TAction
       Category = 'Form'
@@ -653,6 +705,14 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Caption = '&BIMER'
       Hint = 'Gera planilha para o BIMER'
       ImageIndex = 113
+      OnExecute = actionBIMERExecute
+    end
+    object actionDeleteRegister: TAction
+      Category = 'Filter'
+      Caption = '&Excluir'
+      Hint = 'Excluir registro de cr'#233'dito'
+      ImageIndex = 90
+      OnExecute = actionDeleteRegisterExecute
     end
   end
   object timer: TTimer
