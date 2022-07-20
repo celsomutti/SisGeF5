@@ -25,6 +25,7 @@ object view_SisGeFWorksheetBIMERCP: Tview_SisGeFWorksheetBIMERCP
     ParentBackground = True
     TabOrder = 0
     Transparent = True
+    LayoutLookAndFeel = Data_Sisgef.dxLayoutCxLookAndFeel4
     object cxLabel1: TcxLabel
       Left = 10
       Top = 10
@@ -256,6 +257,7 @@ object view_SisGeFWorksheetBIMERCP: Tview_SisGeFWorksheetBIMERCP
       Caption = 'E&xportar'
       Hint = 'Exportar dados do crid'
       ImageIndex = 101
+      OnExecute = actionExportGridExecute
     end
     object actionCloseForm: TAction
       Caption = '&Fechar'

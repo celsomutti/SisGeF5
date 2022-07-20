@@ -277,7 +277,8 @@ uses
   Thread.SisGeFCreditWorksheet in 'Thread\Thread.SisGeFCreditWorksheet.pas',
   View.SisGeFCreditWorksheet in 'View\View.SisGeFCreditWorksheet.pas' {view_SisGeFCreditWorksheet},
   View.SisGeFWorksheetBIMERCP in 'View\View.SisGeFWorksheetBIMERCP.pas' {view_SisGeFWorksheetBIMERCP},
-  Thread.SisGeFBIMERCP in 'Thread\Thread.SisGeFBIMERCP.pas';
+  Thread.SisGeFBIMERCP in 'Thread\Thread.SisGeFBIMERCP.pas',
+  View.SisGeFSelectCompany in 'View\View.SisGeFSelectCompany.pas' {view_SisGeFSelectCompany};
 
 {$R *.res}
 

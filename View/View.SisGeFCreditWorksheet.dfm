@@ -26,6 +26,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
     ParentBackground = True
     TabOrder = 0
     Transparent = True
+    LayoutLookAndFeel = Data_Sisgef.dxLayoutCxLookAndFeel3
     object cxLabel1: TcxLabel
       Left = 10
       Top = 10
@@ -246,11 +247,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
         'PER'#211'DICOS'
         'SERVI'#199'OS')
       Properties.OnChange = tipoExtratoPropertiesChange
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 1
       Text = 'TODOS'
       Width = 121
@@ -268,10 +265,8 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Properties.IgnoreMaskBlank = True
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.EditMask = '!99/99/0099;1; '
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      Style.ButtonStyle = bts3D
+      Style.TransparentBorder = True
       TabOrder = 2
       Text = '  /  /    '
       Width = 100
@@ -281,8 +276,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Top = 36
       Hint = 'Marque para resgatar planolha salva'
       Caption = 'Planilha salva'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
+      Properties.OnChange = planilhaSalvaPropertiesChange
       Style.HotTrack = False
       TabOrder = 3
     end
@@ -560,6 +554,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 5
     end
     object dxLayoutItem11: TdxLayoutItem
@@ -608,6 +603,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 3
     end
     object dxLayoutItem13: TdxLayoutItem
@@ -682,6 +678,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
     object actionSaveWorksheet: TAction
       Category = 'Filter'
       Caption = '&Gravar'
+      Enabled = False
       Hint = 'Gravar a planilha no banco de dados'
       ImageIndex = 85
       OnExecute = actionSaveWorksheetExecute
@@ -703,6 +700,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
     object actionBIMER: TAction
       Category = 'Filter'
       Caption = '&BIMER'
+      Enabled = False
       Hint = 'Gera planilha para o BIMER'
       ImageIndex = 113
       OnExecute = actionBIMERExecute

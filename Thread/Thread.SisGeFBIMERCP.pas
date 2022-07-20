@@ -12,11 +12,14 @@ type
     FMensagem: string;
     FInProcess: boolean;
     FEmpresa: integer;
+    FTipoExtrato: integer;
     procedure ExecuteCreateWorkscheet;
+  public
     property InProcess: boolean read FInProcess write FInProcess; // True = Em processo, False = Processo terminado
     property AbortProcess: boolean read FAbortProcess write FAbortProcess; // True = Processo abortado, False = Processo normal
     property Mensagem: string read FMensagem write FMensagem; // mensagem de processamento
     property Empresa: integer read FEmpresa write FEmpresa; // código da empresa pagadora
+    property TipoExtrato: integer read FTipoExtrato write FTipoExtrato; // tipo de extrato (0=TODOS,1=EXPRESSAS,2=PERIÓDICOS,3=SERVIÇOS)
   protected
     procedure Execute; override;
   end;
@@ -69,8 +72,11 @@ procedure TThread_SisGeFBIMERCP.ExecuteCreateWorkscheet;
 var
   FUtils : Common.Utils.TUtils;
   sTitulo : String;
+  FNaTureza : array of string;
 begin
   FUtils := Common.Utils.TUtils.Create;
+  SetLength(FNaTureza,4);
+  FNatureza := ['000054', '000010', '000039', '000033'];
   with Data_Sisgef do
   begin
     memTableBIMERCP.Active := False;
@@ -79,12 +85,12 @@ begin
     begin
       sTitulo := FUtils.ExpressStatementNumber(0,memTableCreditWorksheetdat_credito.AsDateTime,memTableCreditWorksheetcod_cadastro.AsInteger,'');
       memTableBIMERCP.Insert;
-      memTableBIMERCPCampoEmpresa.AsString := '00003';
+      memTableBIMERCPCampoEmpresa.AsString := Format('%.5d', [FEmpresa]);
       memTableBIMERCPCampoCodigoPessoa.AsString := Format('%.6d', [memTableCreditWorksheetcod_cadastro.AsInteger]);
       memTableBIMERCPCampoNomeTitulo.AsString := memTableCreditWorksheetnom_favorecido.AsString;
       memTableBIMERCPCampoCNPJCPFPessoa.AsString := FUtils.DesmontaCPFCNPJ(memTableCreditWorksheetnum_cpf_cnpj.AsString);
       memTableBIMERCPCampoNumeroTitulo.AsString := sTitulo;
-      memTableBIMERCPCampoNaturezaLancamento.AsString := '000010';
+      memTableBIMERCPCampoNaturezaLancamento.AsString := FNatureza[FTipoExtrato];
       memTableBIMERCPCampoFormaPagamento.AsString := memTableCreditWorksheetcod_forma_pagamento.AsString;
       memTableBIMERCPCampoAgencia.AsString := memTableCreditWorksheetnum_agencia.AsString;
       memTableBIMERCPCampoConta.AsString := memTableCreditWorksheetnum_conta.AsString;
@@ -98,6 +104,7 @@ begin
     end;
   end;
   FUtils.Free;
+  FInProcess := False;
 end;
 
 end.

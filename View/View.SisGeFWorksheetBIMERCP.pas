@@ -48,6 +48,7 @@ type
     dxLayoutItem4: TdxLayoutItem;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionExportGridExecute(Sender: TObject);
   private
     { Private declarations }
     procedure ExportGrid;
@@ -67,6 +68,11 @@ uses Data.SisGeF, Common.Utils;
 procedure Tview_SisGeFWorksheetBIMERCP.actionCloseFormExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure Tview_SisGeFWorksheetBIMERCP.actionExportGridExecute(Sender: TObject);
+begin
+  ExportGrid;
 end;
 
 procedure Tview_SisGeFWorksheetBIMERCP.ExportGrid;

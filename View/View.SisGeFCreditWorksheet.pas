@@ -100,6 +100,7 @@ type
     procedure tipoExtratoPropertiesChange(Sender: TObject);
     procedure actionSaveWorksheetExecute(Sender: TObject);
     procedure actionBIMERExecute(Sender: TObject);
+    procedure planilhaSalvaPropertiesChange(Sender: TObject);
   private
     procedure ShowCalendar;
     procedure ProcessWorksheet;
@@ -124,7 +125,8 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.SisGeFCalendar, Common.Utils, View.SisGeFVehiclesRegistration, View.SisGeFWorksheetBIMERCP;
+uses Data.SisGeF, View.SisGeFCalendar, Common.Utils, View.SisGeFVehiclesRegistration, View.SisGeFWorksheetBIMERCP,
+View.SisGeFSelectCompany;
 
 { Tview_SisGeFCreditWorksheet }
 
@@ -260,11 +262,30 @@ begin
   view_SisGeFCreditWorksheet := nil;
 end;
 
+procedure Tview_SisGeFCreditWorksheet.planilhaSalvaPropertiesChange(Sender: TObject);
+begin
+  actionBIMER.Enabled := planilhaSalva.Checked;
+end;
+
 procedure Tview_SisGeFCreditWorksheet.ProcessarBIMERWorksheet;
+var
+  iCompany: integer;
 begin
   if not Data_Sisgef.memTableCreditWorksheet.Active then
     Exit;
+  if not Assigned(view_SisGeFSelectCompany) then
+    view_SisGeFSelectCompany := Tview_SisGeFSelectCompany.Create(Application);
+  if view_SisGeFSelectCompany.ShowModal = mrOk then
+    iCompany := view_SisGeFSelectCompany.company.EditValue
+  else
+    iCompany := 0;
+  if iCompany = 0 then
+    Exit;
+  FreeAndNil(view_SisGeFSelectCompany);
   FBIMER := TThread_SisGeFBIMERCP.Create(True);
+  dsCreditWorksheet.Enabled := False;
+  FBIMER.Empresa := iCompany;
+  FBimer.TipoExtrato := tipoExtrato.ItemIndex;
   labelInfo.Caption := 'Processando a planilha. Aguarde ...';
   FBIMER.Priority := tpNormal;
   timer.Tag := 2;
@@ -335,38 +356,53 @@ end;
 
 procedure Tview_SisGeFCreditWorksheet.ShowWorksheetBIMER;
 begin
-  if Assigned(view_SisGeFWorksheetBIMERCP) then
+  if not Assigned(view_SisGeFWorksheetBIMERCP) then
     view_SisGeFWorksheetBIMERCP := Tview_SisGeFWorksheetBIMERCP.Create(Application);
   view_SisGeFWorksheetBIMERCP.Show;
 end;
 
 procedure Tview_SisGeFCreditWorksheet.timerTimer(Sender: TObject);
 begin
-  if not FWorksheet.InProcess then
+  if timer.Tag <= 1 then
+  begin
+    if not FWorksheet.InProcess then
+    begin
+      timer.Enabled := False;
+      if not FWorksheet.AbortProcess then
+      begin
+        dsCreditWorksheet.Enabled := True;
+        gridCreditWorkssheetDBTableView1.ViewData.Expand(True);
+      end
+      else
+      begin
+        MessageDlg(FWorksheet.Mensagem, mtWarning, [mbOK], 0);
+      end;
+      FWorksheet.Free;
+      labelInfo.Caption := '';
+      activityIndicator.Active := False;
+      if timer.Tag = 1 then
+      begin
+        if not FWorksheet.AbortProcess then
+          MessageDlg('Planilha gravada com sucesso!', mtInformation, [mbOK], 0);
+      end;
+    end;
+  end
+  else if timer.Tag = 2 then
   begin
     timer.Enabled := False;
-    if not FWorksheet.AbortProcess then
+    if not FBIMER.AbortProcess then
     begin
       dsCreditWorksheet.Enabled := True;
       gridCreditWorkssheetDBTableView1.ViewData.Expand(True);
     end
     else
     begin
-      MessageDlg(FWorksheet.Mensagem, mtWarning, [mbOK], 0);
+      MessageDlg(FBIMER.Mensagem, mtWarning, [mbOK], 0);
     end;
-    FWorksheet.Free;
+    FBIMER.Free;
     labelInfo.Caption := '';
     activityIndicator.Active := False;
-    if timer.Tag = 1 then
-    begin
-      if not FWorksheet.AbortProcess then
-        MessageDlg('Planilha gravada com sucesso!', mtInformation, [mbOK], 0);
-    end
-    else if timer.Tag = 2 then
-    begin
-      FBIMER.Free;
-      ShowWorksheetBIMER;
-    end;
+    ShowWorksheetBIMER;
   end;
 end;
 
