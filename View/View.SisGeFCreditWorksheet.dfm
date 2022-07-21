@@ -353,8 +353,6 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
       TabOrder = 15
     end
     object labelInfo: TcxLabel

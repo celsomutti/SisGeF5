@@ -666,17 +666,17 @@ begin
         end;
         Finalize(aParam);
         SetLength(aParam,3);
-        iStart := Pos('[',Data_Sisgef.memTableImport.Fields.Fields[47].AsString);
-        iStop := Pos(']',Data_Sisgef.memTableImport.Fields.Fields[47].AsString);
+        iStart := Pos('[',Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
+        iStop := Pos(']',Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
         if iStop > 0 then
-          sChaveERP := Copy(Data_Sisgef.memTableImport.Fields.Fields[47].AsString,iStart + 1, ((iStop - 1) - iStart))
+          sChaveERP := Copy(Data_Sisgef.memTableImport.Fields.Fields[49].AsString,iStart + 1, ((iStop - 1) - iStart))
         else
           sChaveERP := '0';
         aParam := ['CHAVECLIENTE', sChaveERP, FCliente];
         if not FEntregadores.LocalizarExato(aParam) then
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Entregador não encontrado ' +
-                       Data_Sisgef.memTableImport.Fields.Fields[47].AsString;
+                       Data_Sisgef.memTableImport.Fields.Fields[49].AsString;
           UpdateLog(sMensagem);
           Inc(FTotalInconsistencias,1);
           FEntregas.Entregas.Distribuidor := 1;
@@ -692,23 +692,23 @@ begin
         FEntregas.Entregas.Cliente := 0;
         FEntregas.Entregas.NN := Data_Sisgef.memTableImport.Fields.Fields[1].AsString;
         FEntregas.Entregas.NF := Data_Sisgef.memTableImport.Fields.Fields[4].AsString;
-        FEntregas.Entregas.Consumidor := Data_Sisgef.memTableImport.Fields.Fields[28].AsString;
+        FEntregas.Entregas.Consumidor := Data_Sisgef.memTableImport.Fields.Fields[30].AsString;
         FEntregas.Entregas.Retorno := Data_Sisgef.memTableImport.Fields.Fields[0].AsString;
-        FEntregas.Entregas.Endereco := LeftStr(Trim(Data_Sisgef.memTableImport.Fields.Fields[29].AsString) + ' ' +
-                                       Trim(Data_Sisgef.memTableImport.Fields.Fields[30].AsString), 70);
-        FEntregas.Entregas.Complemento := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[31].AsString, 50);
-        FEntregas.Entregas.Bairro := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[32].AsString, 70);
-        FEntregas.Entregas.Cidade := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[33].AsString,70);
-        FEntregas.Entregas.Cep := Data_Sisgef.memTableImport.Fields.Fields[35].AsString;
-        FEntregas.Entregas.Telefone := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[37].AsString,10);
+        FEntregas.Entregas.Endereco := LeftStr(Trim(Data_Sisgef.memTableImport.Fields.Fields[31].AsString) + ' ' +
+                                       Trim(Data_Sisgef.memTableImport.Fields.Fields[32].AsString), 70);
+        FEntregas.Entregas.Complemento := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[33].AsString, 50);
+        FEntregas.Entregas.Bairro := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[34].AsString, 70);
+        FEntregas.Entregas.Cidade := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[35].AsString,70);
+        FEntregas.Entregas.Cep := Data_Sisgef.memTableImport.Fields.Fields[37].AsString;
+        FEntregas.Entregas.Telefone := LeftStr(Data_Sisgef.memTableImport.Fields.Fields[39].AsString,10);
         FEntregas.Entregas.Expedicao := Data_Sisgef.memTableImport.Fields.Fields[9].AsDateTime;
         FEntregas.Entregas.Previsao := Data_Sisgef.memTableImport.Fields.Fields[12].AsDateTime;
         FEntregas.Entregas.Status := 0;
         FEntregas.Entregas.VerbaFranquia := 0;
-        FEntregas.Entregas.PesoReal := Data_Sisgef.memTableImport.Fields.Fields[42].AsFloat;
-        if Data_Sisgef.memTableImport.Fields.Fields[43].AsFloat > 0 then
+        FEntregas.Entregas.PesoReal := Data_Sisgef.memTableImport.Fields.Fields[44].AsFloat;
+        if Data_Sisgef.memTableImport.Fields.Fields[45].AsFloat > 0 then
         begin
-          if Data_Sisgef.memTableImport.Fields.Fields[44].AsFloat = Data_Sisgef.memTableImport.Fields.Fields[42].AsFloat then
+          if Data_Sisgef.memTableImport.Fields.Fields[44].AsFloat = Data_Sisgef.memTableImport.Fields.Fields[45].AsFloat then
           begin
             FEntregas.Entregas.TipoPeso := 'CUBADO';
           end
@@ -721,12 +721,12 @@ begin
         begin
           FEntregas.Entregas.TipoPeso := 'NORMAL';
         end;
-        FEntregas.Entregas.PesoCobrado := Data_Sisgef.memTableImport.Fields.Fields[44].AsFloat;
-        FEntregas.Entregas.Volumes := Data_Sisgef.memTableImport.Fields.Fields[40].AsInteger;
+        FEntregas.Entregas.PesoCobrado := Data_Sisgef.memTableImport.Fields.Fields[46].AsFloat;
+        FEntregas.Entregas.Volumes := Data_Sisgef.memTableImport.Fields.Fields[42].AsInteger;
         FEntregas.Entregas.VolumesExtra := 0;
         FEntregas.Entregas.ValorVolumes := 0;
-        FEntregas.Entregas.Container := '0';
-        FEntregas.Entregas.ValorProduto := Data_Sisgef.memTableImport.Fields.Fields[45].AsFloat;
+        FEntregas.Entregas.Container := Data_Sisgef.memTableImport.Fields.Fields[51].AsString;
+        FEntregas.Entregas.ValorProduto := Data_Sisgef.memTableImport.Fields.Fields[47].AsFloat;
         FEntregas.Entregas.Atribuicao := Data_Sisgef.memTableImport.Fields.Fields[11].AsDateTime;;
         FEntregas.Entregas.Altura := 0;
         FEntregas.Entregas.Largura := 0;
@@ -734,7 +734,7 @@ begin
         FEntregas.Entregas.Rastreio := '';
         FEntregas.Entregas.Pedido := Data_Sisgef.memTableImport.Fields.Fields[1].AsString;
         FEntregas.Entregas.CodCliente := FCliente;
-        if Pos( 'Entregue', Data_Sisgef.memTableImport.Fields.Fields[19].AsString) > 0 then
+        if Pos( 'Entregue', Data_Sisgef.memTableImport.Fields.Fields[20].AsString) > 0 then
         begin
           FEntregas.Entregas.Baixa := Data_Sisgef.memTableImport.Fields.Fields[14].AsDateTime;
           FEntregas.Entregas.Entrega := Data_Sisgef.memTableImport.Fields.Fields[14].AsDateTime;
@@ -754,9 +754,9 @@ begin
           Finalize(aParam);
           if FEntregas.Entregas.VerbaEntregador = 0 then
           begin
-            sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + 'Verba do NN ' + FEntregas.Entregas.NN +
+            sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + 'Verba do pedido ' + FEntregas.Entregas.NN +
                          ' do entregador ' +
-                         Data_Sisgef.memTableImport.Fields.Fields[47].AsString + ' não encontrada !';
+                         Data_Sisgef.memTableImport.Fields.Fields[49].AsString + ' não encontrada !';
             UpdateLog(sMensagem);
             if FEntregas.Entregas.Entregador <> 781 then
               Inc(FTotalInconsistencias,1);
@@ -768,7 +768,8 @@ begin
         end;
         if not FEntregas.Gravar() then
         begin
-          sMensagem := '>> ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', Now) + ' - Erro ao gravar o NN ' + FEntregas.Entregas.NN + ' !';
+          sMensagem := '>> ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', Now) + ' - Erro ao gravar o Pedido ' +
+                       FEntregas.Entregas.NN + ' !';
           UpdateLog(sMensagem);
           Inc(FTotalInconsistencias,1);
         end

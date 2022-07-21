@@ -38,10 +38,26 @@ type
     labelFile: TcxLabel;
     dxLayoutItem4: TdxLayoutItem;
     dxLayoutGroup1: TdxLayoutGroup;
+    dxLayoutGroup2: TdxLayoutGroup;
+    actionExpand: TAction;
+    actionCollapse: TAction;
+    actionPanel: TAction;
+    cxButton2: TcxButton;
+    dxLayoutItem5: TdxLayoutItem;
+    cxButton3: TcxButton;
+    dxLayoutItem6: TdxLayoutItem;
+    cxButton4: TcxButton;
+    dxLayoutItem7: TdxLayoutItem;
+    cxButton5: TcxButton;
+    dxLayoutItem8: TdxLayoutItem;
+    actionExport: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actFecharExecute(Sender: TObject);
-    procedure tvPlanilhaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
     procedure FormShow(Sender: TObject);
+    procedure actionCollapseExecute(Sender: TObject);
+    procedure actionExpandExecute(Sender: TObject);
+    procedure actionPanelExecute(Sender: TObject);
+    procedure actionExportExecute(Sender: TObject);
   private
     { Private declarations }
     procedure ExportarDados;
@@ -65,15 +81,49 @@ begin
   ModalResult := mrOk;
 end;
 
-procedure Tview_VisualizacaoPlanilhas.ExportarDados;
+procedure Tview_VisualizacaoPlanilhas.actionCollapseExecute(Sender: TObject);
 begin
-  SaveDialog.Filter := '';
-  SaveDialog.Filter := 'Excel (*.xls) |*.xls|XML (*.xml) |*.xml|Arquivo Texto (*.txt) |*.txt|Página Web (*.html)|*.html';
-  SaveDialog.Title := 'Exportar Dados';
-  SaveDialog.DefaultExt := 'xls';
-  if SaveDialog.Execute then
-  begin
-    TUtils.ExportarDados(grdPlanilha, SaveDialog.FileName);
+  tvPlanilha.ViewData.Collapse(True);
+end;
+
+procedure Tview_VisualizacaoPlanilhas.actionExpandExecute(Sender: TObject);
+begin
+  tvPlanilha.ViewData.Expand(True);
+end;
+
+procedure Tview_VisualizacaoPlanilhas.actionExportExecute(Sender: TObject);
+begin
+  ExportarDados;
+end;
+
+procedure Tview_VisualizacaoPlanilhas.actionPanelExecute(Sender: TObject);
+begin
+  tvPlanilha.OptionsView.GroupByBox := not tvPlanilha.OptionsView.GroupByBox;
+end;
+
+procedure Tview_VisualizacaoPlanilhas.ExportarDados;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if tvPlanilha.ViewData.RowCount = 0 then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(grdPlanilha,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
   end;
 end;
 
@@ -87,14 +137,6 @@ end;
 procedure Tview_VisualizacaoPlanilhas.FormShow(Sender: TObject);
 begin
   tvPlanilha.DataController.CreateAllItems;
-end;
-
-procedure Tview_VisualizacaoPlanilhas.tvPlanilhaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
-  var ADone: Boolean);
-begin
-  case AButtonIndex of
-    16: ExportarDados;
-  end;
 end;
 
 end.

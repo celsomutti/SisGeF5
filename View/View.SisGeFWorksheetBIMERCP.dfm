@@ -142,7 +142,7 @@ object view_SisGeFWorksheetBIMERCP: Tview_SisGeFWorksheetBIMERCP
       end
     end
     object cxButton1: TcxButton
-      Left = 10
+      Left = 613
       Top = 371
       Width = 75
       Height = 25
@@ -159,8 +159,6 @@ object view_SisGeFWorksheetBIMERCP: Tview_SisGeFWorksheetBIMERCP
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
       TabOrder = 3
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
@@ -227,7 +225,7 @@ object view_SisGeFWorksheetBIMERCP: Tview_SisGeFWorksheetBIMERCP
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahLeft
+      AlignHorz = ahRight
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False

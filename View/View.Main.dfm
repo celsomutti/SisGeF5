@@ -715,7 +715,9 @@
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
         PanelStyle.Alignment = taCenter
         PanelStyle.ImageIndex = 29
-        Width = 120
+        Fixed = False
+        MinWidth = 10
+        Width = 20
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'

@@ -28,10 +28,6 @@ object view_SisGeFSelectCompany: Tview_SisGeFSelectCompany
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.dxLayoutCxLookAndFeel2
-    ExplicitLeft = 168
-    ExplicitTop = 80
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object cxButton1: TcxButton
       Left = 10
       Top = 101
@@ -53,8 +49,8 @@ object view_SisGeFSelectCompany: Tview_SisGeFSelectCompany
       TabOrder = 2
     end
     object company: TcxLookupComboBox
-      Left = 117
-      Top = 42
+      Left = 10
+      Top = 51
       Properties.KeyFieldNames = 'cod_empresa'
       Properties.ListColumns = <
         item
@@ -64,7 +60,7 @@ object view_SisGeFSelectCompany: Tview_SisGeFSelectCompany
       Properties.ListSource = dsCompany
       Style.HotTrack = False
       TabOrder = 0
-      Width = 258
+      Width = 365
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -121,7 +117,8 @@ object view_SisGeFSelectCompany: Tview_SisGeFSelectCompany
       Parent = dxLayoutGroup1
       AlignHorz = ahClient
       AlignVert = avCenter
-      CaptionOptions.Text = 'Selecione a Empresa:'
+      CaptionOptions.Text = 'Informe a Empresa que realizar'#225' o cr'#233'dito:'
+      CaptionOptions.Layout = clTop
       Control = company
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 145

@@ -874,7 +874,7 @@ begin
       F := PFFI(Buffer);
       Result := Format('%d.%d.%d.%d', [hiword(F^.dwFileVersionMS),
         loword(F^.dwFileVersionMS), hiword(F^.dwFileVersionLS),
-        loword(F^.dwFileVersionLS)]);
+        loword(F^.dwFileVersionLS)]) + ' ' + Sistema('LegalTrademarks');
     end;
     StrDispose(Data);
   end;
