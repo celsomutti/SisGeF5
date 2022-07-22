@@ -72,7 +72,8 @@ procedure TThread_SisGeFBIMERCP.ExecuteCreateWorkscheet;
 var
   FUtils : Common.Utils.TUtils;
   sTitulo : String;
-  FNaTureza : array of string;
+  FNaTureza, FCPFCNPJ, sObs, sObsOld : array of string;
+  FValor: Double;
 begin
   FUtils := Common.Utils.TUtils.Create;
   SetLength(FNaTureza,4);
@@ -81,25 +82,43 @@ begin
   begin
     memTableBIMERCP.Active := False;
     memTableBIMERCP.Active := True;
+    FValor := 0;
     while not memTableCreditWorksheet.Eof do
     begin
-      sTitulo := FUtils.ExpressStatementNumber(0,memTableCreditWorksheetdat_credito.AsDateTime,memTableCreditWorksheetcod_cadastro.AsInteger,'');
-      memTableBIMERCP.Insert;
-      memTableBIMERCPCampoEmpresa.AsString := Format('%.5d', [FEmpresa]);
-      memTableBIMERCPCampoCodigoPessoa.AsString := Format('%.6d', [memTableCreditWorksheetcod_cadastro.AsInteger]);
-      memTableBIMERCPCampoNomeTitulo.AsString := memTableCreditWorksheetnom_favorecido.AsString;
-      memTableBIMERCPCampoCNPJCPFPessoa.AsString := FUtils.DesmontaCPFCNPJ(memTableCreditWorksheetnum_cpf_cnpj.AsString);
-      memTableBIMERCPCampoNumeroTitulo.AsString := sTitulo;
-      memTableBIMERCPCampoNaturezaLancamento.AsString := FNatureza[FTipoExtrato];
-      memTableBIMERCPCampoFormaPagamento.AsString := memTableCreditWorksheetcod_forma_pagamento.AsString;
-      memTableBIMERCPCampoAgencia.AsString := memTableCreditWorksheetnum_agencia.AsString;
-      memTableBIMERCPCampoConta.AsString := memTableCreditWorksheetnum_conta.AsString;
-      memTableBIMERCPCampoBanco.AsString := Format('%.3d', [StrToIntDef(memTableCreditWorksheetcod_banco.AsString,0)]);
-      memTableBIMERCPCampoValorTitulo.AsString := FormatFloat( '###0.00' , memTableCreditWorksheetval_total.AsFloat);
-      memTableBIMERCPCampoDtEmissao.AsString := FormatDateTime('dd/mm/yyyy', Now);
-      memTableBIMERCPCampoDtVencimento.AsString := FormatDateTime('dd/mm/yyyy', memTableCreditWorksheetdat_credito.AsDateTime);
-      memTableBIMERCPCampoModalidade.AsString := memTableCreditWorksheetcod_modalidade_pagamento.AsString;
-      memTableBIMERCP.Post;
+      FCPFCNPJ := FUtils.DesmontaCPFCNPJ(memTableCreditWorksheetnum_cpf_cnpj.AsString);
+      if memTableBIMERCP.Locate('PCampoCNPJCPFPessoa', FCPFCNPJ,[]) then
+      begin
+        FValor :=  StrToFloatDef(memTableBIMERCPCampoValorTitulo.AsString, 0);
+        FValor := FValor +   memTableCreditWorksheetval_total.AsFloat;
+        sObsOld := memTableCreditWorksheetdes_observation.asString;
+        if Pos(sObs, sObsOld) = 0 then
+          sObsOld := sObsOld + #13 + sObs;
+        memTableCreditWorksheet.Edit;
+        memTableBIMERCPCampoValorTitulo.AsString := FormatFloat( '###0.00' , FValor);
+        memTableBIMERCPCampoObservacao.AsString := sObsOld;
+        memTableCreditWorksheet.Post;
+      end
+      else
+      begin
+        sTitulo := FUtils.ExpressStatementNumber(0,memTableCreditWorksheetdat_credito.AsDateTime,memTableCreditWorksheetcod_cadastro.AsInteger,'');
+        memTableBIMERCP.Insert;
+        memTableBIMERCPCampoEmpresa.AsString := Format('%.5d', [FEmpresa]);
+        memTableBIMERCPCampoCodigoPessoa.AsString := Format('%.6d', [memTableCreditWorksheetcod_cadastro.AsInteger]);
+        memTableBIMERCPCampoNomeTitulo.AsString := memTableCreditWorksheetnom_favorecido.AsString;
+        memTableBIMERCPCampoCNPJCPFPessoa.AsString := FUtils.DesmontaCPFCNPJ(memTableCreditWorksheetnum_cpf_cnpj.AsString);
+        memTableBIMERCPCampoNumeroTitulo.AsString := sTitulo;
+        memTableBIMERCPCampoNaturezaLancamento.AsString := FNatureza[FTipoExtrato];
+        memTableBIMERCPCampoFormaPagamento.AsString := memTableCreditWorksheetcod_forma_pagamento.AsString;
+        memTableBIMERCPCampoAgencia.AsString := memTableCreditWorksheetnum_agencia.AsString;
+        memTableBIMERCPCampoConta.AsString := memTableCreditWorksheetnum_conta.AsString;
+        memTableBIMERCPCampoBanco.AsString := Format('%.3d', [StrToIntDef(memTableCreditWorksheetcod_banco.AsString,0)]);
+        memTableBIMERCPCampoValorTitulo.AsString := FormatFloat( '###0.00' , memTableCreditWorksheetval_total.AsFloat);
+        memTableBIMERCPCampoDtEmissao.AsString := FormatDateTime('dd/mm/yyyy', Now);
+        memTableBIMERCPCampoDtVencimento.AsString := FormatDateTime('dd/mm/yyyy', memTableCreditWorksheetdat_credito.AsDateTime);
+        memTableBIMERCPCampoModalidade.AsString := memTableCreditWorksheetcod_modalidade_pagamento.AsString;
+        memTableBIMERCPCampoObservacao.AsString := memTableCreditWorksheetdes_observation.AsString;
+        memTableBIMERCP.Post;
+      end;
       memTableCreditWorksheet.Next;
     end;
   end;

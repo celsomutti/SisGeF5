@@ -141,8 +141,10 @@ var
   FEntregadores : TEntregadoresExpressasControl;
   FCadastro : TCadastroControl;
   FUtils : Common.Utils.TUtils;
-  sForma, sModalidade, sBanco, sNomeBanco, sAgencia, sConta, sCnpjCpf, sFavorecido, sTipoConta, sNome, sExtrato, sNomeForma: String;
+  sForma, sModalidade, sBanco, sNomeBanco, sAgencia, sConta, sCnpjCpf, sFavorecido, sTipoConta, sNome, sExtrato,
+  sNomeForma, sObs, sObsOld: String;
   FBaseCode, FDeliveryCode, FRegisterCode, iBimer: integer;
+  aTypeExtract : array of string;
   aParam : array of variant;
 begin
   try
@@ -152,6 +154,8 @@ begin
     FEntregadores := TEntregadoresExpressasControl.Create;
     FCadastro := TCadastroControl.Create;
     FUtils := Common.Utils.TUtils.Create;
+    SetLength(aTypeExtract,4);
+    aTypeExtract := ['TODOS', 'EXPRESSAS', 'PERIÓDICOS', 'SERVIÇOS'];
     with Data_Sisgef do
     begin
       if memTableExtracts.Active then memTableExtracts.Active := False;
@@ -191,6 +195,8 @@ begin
         sCnpjCpf := '';
         sBanco := '0';
         iBimer := 0;
+        sObs := '';
+        sObsOld := '';
         SetLength(aParam, 2);
         aParam := ['ENTREGADOR', FDeliveryCode];
         if FEntregadores.LocalizarExato(aParam) then
@@ -262,9 +268,15 @@ begin
         else
           sModalidade := FBancos.GetField('cod_modalidade',sBanco,'cod_banco');
         sNomeBanco := FBancos.GetField('nom_banco',sBanco,'cod_banco');
+        sObs := aTypeExtract[FTipoPlanilha] + ' - período de ' + memTableExtractsdat_inicio.AsString + ' e ' +
+                memTableExtractsdat_final.AsString;
         if memTableCreditWorksheet.Locate('num_cpf_cnpj', sCnpjCpf, [])  then
         begin
+          sObsOld := memTableCreditWorksheetdes_observation.asString;
+          if Pos(sObs, sObsOld) = 0 then
+            sObsOld := sObsOld + #13 + sObs;
           memTableCreditWorksheet.Edit;
+          memTableCreditWorksheetdes_observation.asString := sObsOld;
           memTableCreditWorksheetval_total.asFloat := memTableCreditWorksheetval_total.asFloat +
                                                      memTableExtractsval_total_expressa.AsFloat;
           memTableCreditWorksheet.Post;
@@ -295,6 +307,7 @@ begin
             memTableCreditWorksheetdes_forma_pagamento.AsString := sNomeForma;
             memTableCreditWorksheetcod_modalidade_pagamento.AsString := sModalidade;
             memTableCreditWorksheetdom_bloqueio.AsInteger := 0;
+            memTableCreditWorksheetdes_observation.AsString := sObs;
             memTableCreditWorksheet.Post;
           end;
         end;
@@ -372,7 +385,7 @@ begin
   FConnection := TConexao.Create;
   with Data_Sisgef do
   begin
-    if not memTableExtracts.IsEmpty then memTableExtracts.First;
+    if not memTableCreditWorksheet.IsEmpty then memTableCreditWorksheet.First;
     storedProcCreditWhorsheet.Active := False;
     storedProcCreditWhorsheet.Filtered := False;
     storedProcCreditWhorsheet.Filter := '';

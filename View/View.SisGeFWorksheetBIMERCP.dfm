@@ -136,6 +136,9 @@ object view_SisGeFWorksheetBIMERCP: Tview_SisGeFWorksheetBIMERCP
           HeaderAlignmentHorz = taCenter
           Width = 93
         end
+        object gridBIMERDBTableView1CampoObservacao: TcxGridDBColumn
+          DataBinding.FieldName = 'CampoObservacao'
+        end
       end
       object gridBIMERLevel1: TcxGridLevel
         GridView = gridBIMERDBTableView1

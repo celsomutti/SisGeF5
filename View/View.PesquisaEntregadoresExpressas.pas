@@ -89,6 +89,7 @@ type
   public
     { Public declarations }
     iID: Integer;
+    FCliente : Integer;
   end;
 
 var
@@ -281,10 +282,20 @@ begin
 end;
 
 procedure Tview_PesquisaEntregadoresExpressas.PesquisaEntregador(sFiltro: String);
+var
+  sFilterClient: string;
 begin
-  if sFiltro = 'NONE' then
+  if FCliente <> 0 then
   begin
-    Exit;
+    sFilterClient := ' cod_cliente = ' + FCliente.ToString;
+  end;
+  if sFiltro = '' then
+  begin
+    sFiltro := sFilterClient;
+  end
+  else
+  begin
+    sFiltro := sFiltro + ' and ' + sFilterClient;
   end;
   if not sFiltro.IsEmpty then
   begin

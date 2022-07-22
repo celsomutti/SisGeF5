@@ -339,8 +339,15 @@ end;
 
 procedure Tview_CadastroExtravios.PesquisaEntregadores;
 begin
+  if Cliente.ItemIndex = -1 then
+  begin
+    MessageDlg('Informe o Cliente!', mtWarning, [mbCancel], 0);
+    Cliente.SetFocus;
+    Exit;
+  end;
   if not Assigned(view_PesquisaEntregadoresExpressas)  then
     view_PesquisaEntregadoresExpressas := Tview_PesquisaEntregadoresExpressas.Create(Application);
+  view_PesquisaEntregadoresExpressas.FCliente := Cliente.EditValue;
   if view_PesquisaEntregadoresExpressas.ShowModal = mrOk then
   begin
     entregador.EditValue := view_PesquisaEntregadoresExpressas.fdPesquisacod_entregador.AsInteger;
@@ -535,8 +542,8 @@ begin
   if (FAcao = tacAlterar) or (FAcao = tacPesquisa) then
   begin
     operacao.Caption := 'Editar';
-    Modo;
     PopulateFields;
+    Modo;
   end;
   if Facao = tacIncluir then
   begin

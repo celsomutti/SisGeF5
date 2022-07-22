@@ -46,6 +46,7 @@ type
     dxLayoutItem3: TdxLayoutItem;
     cxButton2: TcxButton;
     dxLayoutItem4: TdxLayoutItem;
+    gridBIMERDBTableView1CampoObservacao: TcxGridDBColumn;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionExportGridExecute(Sender: TObject);

@@ -636,6 +636,8 @@ type
     dxLayoutCxLookAndFeel2: TdxLayoutCxLookAndFeel;
     dxLayoutCxLookAndFeel3: TdxLayoutCxLookAndFeel;
     dxLayoutCxLookAndFeel4: TdxLayoutCxLookAndFeel;
+    memTableBIMERCPCampoObservacao: TStringField;
+    memTableCreditWorksheetdes_observation: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
