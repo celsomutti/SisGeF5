@@ -71,8 +71,8 @@ end;
 procedure TThread_SisGeFBIMERCP.ExecuteCreateWorkscheet;
 var
   FUtils : Common.Utils.TUtils;
-  sTitulo : String;
-  FNaTureza, FCPFCNPJ, sObs, sObsOld : array of string;
+  sTitulo, FCPFCNPJ, sObs, sObsOld : String;
+  FNaTureza : array of string;
   FValor: Double;
 begin
   FUtils := Common.Utils.TUtils.Create;
@@ -86,7 +86,7 @@ begin
     while not memTableCreditWorksheet.Eof do
     begin
       FCPFCNPJ := FUtils.DesmontaCPFCNPJ(memTableCreditWorksheetnum_cpf_cnpj.AsString);
-      if memTableBIMERCP.Locate('PCampoCNPJCPFPessoa', FCPFCNPJ,[]) then
+      if memTableBIMERCP.Locate('CampoCNPJCPFPessoa', FCPFCNPJ,[]) then
       begin
         FValor :=  StrToFloatDef(memTableBIMERCPCampoValorTitulo.AsString, 0);
         FValor := FValor +   memTableCreditWorksheetval_total.AsFloat;
@@ -101,6 +101,7 @@ begin
       else
       begin
         sTitulo := FUtils.ExpressStatementNumber(0,memTableCreditWorksheetdat_credito.AsDateTime,memTableCreditWorksheetcod_cadastro.AsInteger,'');
+        sObsOld := memTableCreditWorksheetdes_observation.asString;
         memTableBIMERCP.Insert;
         memTableBIMERCPCampoEmpresa.AsString := Format('%.5d', [FEmpresa]);
         memTableBIMERCPCampoCodigoPessoa.AsString := Format('%.6d', [memTableCreditWorksheetcod_cadastro.AsInteger]);
@@ -116,7 +117,7 @@ begin
         memTableBIMERCPCampoDtEmissao.AsString := FormatDateTime('dd/mm/yyyy', Now);
         memTableBIMERCPCampoDtVencimento.AsString := FormatDateTime('dd/mm/yyyy', memTableCreditWorksheetdat_credito.AsDateTime);
         memTableBIMERCPCampoModalidade.AsString := memTableCreditWorksheetcod_modalidade_pagamento.AsString;
-        memTableBIMERCPCampoObservacao.AsString := memTableCreditWorksheetdes_observation.AsString;
+        memTableBIMERCPCampoObservacao.AsString := sObsOld;
         memTableBIMERCP.Post;
       end;
       memTableCreditWorksheet.Next;

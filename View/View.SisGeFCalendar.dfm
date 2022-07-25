@@ -36,8 +36,6 @@ object view_SisGeFCalendar: Tview_SisGeFCalendar
       Cursor = crHandPoint
       Action = actionCloseForm
       Cancel = True
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
       TabOrder = 2
     end
     object CalendarView1: TCalendarView
@@ -75,8 +73,6 @@ object view_SisGeFCalendar: Tview_SisGeFCalendar
       Cursor = crHandPoint
       Action = actionSelectionDay
       Default = True
-      SpeedButtonOptions.CanBeFocused = False
-      SpeedButtonOptions.Flat = True
       TabOrder = 1
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup

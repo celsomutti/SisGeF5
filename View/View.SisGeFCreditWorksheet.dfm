@@ -232,6 +232,11 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
           Properties.ValueUnchecked = '0'
           Visible = False
         end
+        object gridCreditWorkssheetDBTableView1des_observation: TcxGridDBColumn
+          Caption = 'Observa'#231#245'es'
+          DataBinding.FieldName = 'des_observation'
+          Visible = False
+        end
       end
       object gridCreditWorkssheetLevel1: TcxGridLevel
         GridView = gridCreditWorkssheetDBTableView1

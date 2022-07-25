@@ -87,6 +87,7 @@ type
     actionDeleteRegister: TAction;
     cxButton9: TcxButton;
     dxLayoutItem16: TdxLayoutItem;
+    gridCreditWorkssheetDBTableView1des_observation: TcxGridDBColumn;
     procedure actionExpandGridExecute(Sender: TObject);
     procedure actionCollapseGridExecute(Sender: TObject);
     procedure actionPanelGridExecute(Sender: TObject);
