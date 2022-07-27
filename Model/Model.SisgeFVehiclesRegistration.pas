@@ -223,8 +223,8 @@ begin
   end;
   if aParam[0] = 'RG' then
   begin
-    FQuery.SQL.Add('where um_rg = :um_rg');
-    FQuery.ParamByName('um_rg').AsString := aParam[1];
+    FQuery.SQL.Add('where num_rg = :num_rg');
+    FQuery.ParamByName('num_rg').AsString := aParam[1];
   end;
   if aParam[0] = 'CPFCNPJ' then
   begin

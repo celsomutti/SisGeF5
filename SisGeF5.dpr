@@ -279,7 +279,9 @@ uses
   View.SisGeFWorksheetBIMERCP in 'View\View.SisGeFWorksheetBIMERCP.pas' {view_SisGeFWorksheetBIMERCP},
   Thread.SisGeFBIMERCP in 'Thread\Thread.SisGeFBIMERCP.pas',
   View.SisGeFSelectCompany in 'View\View.SisGeFSelectCompany.pas' {view_SisGeFSelectCompany},
-  View.SisGeFServiceOrders in 'View\View.SisGeFServiceOrders.pas' {view_SisGeFServiceOrders};
+  View.SisGeFServiceOrders in 'View\View.SisGeFServiceOrders.pas' {view_SisGeFServiceOrders},
+  Model.SisGeFOrderServices in 'Model\Model.SisGeFOrderServices.pas',
+  Controller.SisGeFOrderServices in 'Control\Controller.SisGeFOrderServices.pas';
 
 {$R *.res}
 

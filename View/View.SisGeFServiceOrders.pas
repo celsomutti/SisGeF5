@@ -11,7 +11,8 @@ uses
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, cxCurrencyEdit, dxLayoutControlAdapters, Vcl.Menus, Vcl.Buttons, Vcl.StdCtrls, cxButtons, Common.ENum;
+  FireDAC.Comp.Client, cxCurrencyEdit, dxLayoutControlAdapters, Vcl.Menus, Vcl.Buttons, Vcl.StdCtrls, cxButtons, Common.ENum,
+  Controller.SisGeFOrderServices;
 
 type
   Tview_SisGeFServiceOrders = class(TForm)
@@ -103,9 +104,12 @@ type
     dxLayoutItem18: TdxLayoutItem;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionSearchOSExecute(Sender: TObject);
   private
     procedure StartForm;
+    function LocateOSByNumber(iNumber: integer): boolean;
     procedure ClearFieldsForm;
+    procedure PopulateFieldsForm;
     procedure Mode;
   public
     { Public declarations }
@@ -114,6 +118,7 @@ type
 var
   view_SisGeFServiceOrders: Tview_SisGeFServiceOrders;
   FAcao: Tacao;
+  FOS : TSisGeFOrderServicesController;
 
 implementation
 
@@ -126,6 +131,13 @@ uses Data.SisGeF;
 procedure Tview_SisGeFServiceOrders.actionCloseFormExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure Tview_SisGeFServiceOrders.actionSearchOSExecute(Sender: TObject);
+begin
+
+  if LocateOSByNumber(StrToIntDef(numeroOS.Text, 0)) then
+    PopulateFieldsForm;
 end;
 
 procedure Tview_SisGeFServiceOrders.ClearFieldsForm;
@@ -141,6 +153,7 @@ begin
   horaSaida.Clear;
   kmFinal.EditValue := 0;
   horaRetorno.Clear;
+  memTableServices.Active := False;
 end;
 
 procedure Tview_SisGeFServiceOrders.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -148,6 +161,26 @@ begin
   memTableServices.Active := False;
   Action := caFree;
   view_SisGeFServiceOrders := nil;
+end;
+
+function Tview_SisGeFServiceOrders.LocateOSByNumber(iNumber: integer): boolean;
+var
+  aParam : array of variant;
+begin
+  try
+    Result := False;
+    FOS := TSisGeFOrderServicesController.Create;
+    SetLength(aParam, 2);
+    aParam := ['OS', iNumber];
+    if not FOS.Search(aParam) then
+    begin
+      Exit;
+    end;
+    Result := True;
+  finally
+    Finalize(aParam);
+    FOS.Free;
+  end;
 end;
 
 procedure Tview_SisGeFServiceOrders.Mode;
@@ -261,6 +294,19 @@ begin
     gridOSDBTableView1.OptionsData.Deleting := False;
   end;
 
+end;
+
+procedure Tview_SisGeFServiceOrders.PopulateFieldsForm;
+var
+  lDetalhe: TStringList;
+  i: integer;
+  sDescricao : String;
+begin
+  lDetalhe := TStringList.Create;
+  lDetalhe.StrictDelimiter := True;
+  lDetalhe.Delimiter := '|';
+  sDescricao := FOS.OS.ServiceDescription;
+  lDetalhe.DelimitedText := sDescricao;
 end;
 
 procedure Tview_SisGeFServiceOrders.StartForm;

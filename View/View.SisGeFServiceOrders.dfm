@@ -775,6 +775,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Caption = 'Pesquisar N'#250'mero'
       Hint = 'Pesquisar OS pelo n'#250'mero'
       ImageIndex = 86
+      OnExecute = actionSearchOSExecute
     end
     object actionSearchDriver: TAction
       Category = 'Search'
