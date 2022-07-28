@@ -169,7 +169,7 @@ begin
   FQuery.SQL.Add(SQLSELECT);
   if aParam[0] = 'OS' then
   begin
-    FQuery.SQL.Add('WHERE NUM_OS = :NUM_OS');
+    FQuery.SQL.Add('where NUM_OS = :NUM_OS');
     FQuery.ParamByName('NUM_OS').AsInteger := aParam[1];
   end;
   if aParam[0] = 'DATA' then
@@ -206,7 +206,7 @@ end;
 
 function TSisGeFOrderServices.SetupClass: boolean;
 begin
-  result := False;
+  Result := False;
   FServiceDescription := FQuery.FieldByName('DES_SERVICO').AsString;
   FClientCode := FQuery.FieldByName('COD_CLIENTE').AsInteger;
   FControllerId := FQuery.FieldByName('ID_CONTROLE').AsInteger;

@@ -285,6 +285,7 @@ procedure Tview_PesquisaEntregadoresExpressas.PesquisaEntregador(sFiltro: String
 var
   sFilterClient: string;
 begin
+  sFilterClient := '';
   if FCliente <> 0 then
   begin
     sFilterClient := ' cod_cliente = ' + FCliente.ToString;
@@ -295,7 +296,8 @@ begin
   end
   else
   begin
-    sFiltro := sFiltro + ' and ' + sFilterClient;
+    if not sFilterClient.IsEmpty then
+      sFiltro := sFiltro + ' and ' + sFilterClient;
   end;
   if not sFiltro.IsEmpty then
   begin

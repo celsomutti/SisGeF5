@@ -293,10 +293,10 @@ begin
     storedProcListExtractExpress.storedProcName := 'sp_list_express_extract';
     storedProcListExtractExpress.SchemaName := 'bderpsisgef';
     storedProcListExtractExpress.Prepare;
-    storedProcListExtractExpress.ParamByName('pYear').AsInteger := FAno;
-    storedProcListExtractExpress.ParamByName('pMonth').AsInteger := FMes;
-    storedProcListExtractExpress.ParamByName('pFortnight').AsInteger := FQuinzena;
-    storedProcListExtractExpress.ParamByName('pPosfix').AsString := FPosfix;
+//    storedProcListExtractExpress.ParamByName('pYear').AsInteger := FAno;
+//    storedProcListExtractExpress.ParamByName('pMonth').AsInteger := FMes;
+//    storedProcListExtractExpress.ParamByName('pFortnight').AsInteger := FQuinzena;
+//    storedProcListExtractExpress.ParamByName('pPosfix').AsString := FPosfix;
     if FFiltro <> '' then
     begin
       storedProcListExtractExpress.Filter := FFiltro;

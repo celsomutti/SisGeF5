@@ -2,7 +2,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
   Left = 0
   Top = 0
   Caption = 'Extrato de Expressas'
-  ClientHeight = 453
+  ClientHeight = 539
   ClientWidth = 868
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,12 +22,13 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     Left = 0
     Top = 0
     Width = 868
-    Height = 453
+    Height = 539
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitHeight = 453
     object tipoExtrato: TcxComboBox
       Left = 24
       Top = 82
@@ -40,10 +41,10 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 1
       Text = 'SELECIONE ...'
-      Width = 107
+      Width = 109
     end
     object tipoPeriodo: TcxComboBox
-      Left = 137
+      Left = 139
       Top = 82
       Hint = 'Tipo de Periodo'
       BiDiMode = bdLeftToRight
@@ -59,7 +60,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 2
       Text = 'Selecione ...'
-      Width = 126
+      Width = 129
     end
     object dataInicialPeriodo: TcxDateEdit
       Left = 10000
@@ -124,7 +125,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Width = 121
     end
     object situacaoExtrato: TcxComboBox
-      Left = 690
+      Left = 704
       Top = 82
       Hint = 'Situa'#231#227'o do extrato'
       Properties.DropDownListStyle = lsEditFixedList
@@ -136,12 +137,12 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 8
       Text = 'Selecione ...'
-      Width = 137
+      Width = 140
     end
     object listaClientes: TcxMCListBox
       Left = 36
       Top = 159
-      Width = 240
+      Width = 245
       Height = 97
       HeaderSections = <
         item
@@ -152,7 +153,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         item
           AutoSize = True
           Text = 'Nome'
-          Width = 176
+          Width = 181
         end>
       Style.TransparentBorder = True
       TabOrder = 9
@@ -160,7 +161,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     object cxButton1: TcxButton
       Left = 36
       Top = 262
-      Width = 76
+      Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionIncludeClients
@@ -169,9 +170,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 10
     end
     object cxButton2: TcxButton
-      Left = 118
+      Left = 120
       Top = 262
-      Width = 76
+      Width = 77
       Height = 25
       Cursor = crHandPoint
       Action = actionExcludeClients
@@ -180,9 +181,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 11
     end
     object listaBases: TcxMCListBox
-      Left = 306
+      Left = 311
       Top = 159
-      Width = 239
+      Width = 246
       Height = 97
       HeaderSections = <
         item
@@ -193,14 +194,14 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         item
           AutoSize = True
           Text = 'Nome'
-          Width = 170
+          Width = 177
         end>
       TabOrder = 13
     end
     object cxButton3: TcxButton
-      Left = 306
+      Left = 311
       Top = 262
-      Width = 76
+      Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionIncludeBases
@@ -209,9 +210,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 14
     end
     object cxButton4: TcxButton
-      Left = 388
+      Left = 395
       Top = 262
-      Width = 75
+      Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionExcludeBases
@@ -220,9 +221,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 15
     end
     object listaEntregadores: TcxMCListBox
-      Left = 575
+      Left = 587
       Top = 159
-      Width = 240
+      Width = 245
       Height = 97
       HeaderSections = <
         item
@@ -233,14 +234,14 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
         item
           AutoSize = True
           Text = 'Nome'
-          Width = 171
+          Width = 176
         end>
       TabOrder = 17
     end
     object cxButton5: TcxButton
-      Left = 575
+      Left = 587
       Top = 262
-      Width = 76
+      Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionIncludeCouriers
@@ -249,9 +250,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 18
     end
     object cxButton6: TcxButton
-      Left = 657
+      Left = 671
       Top = 262
-      Width = 76
+      Width = 77
       Height = 25
       Cursor = crHandPoint
       Action = actionExcludeCouriers
@@ -260,9 +261,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 19
     end
     object cxButton7: TcxButton
-      Left = 200
+      Left = 203
       Top = 262
-      Width = 76
+      Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionClearClients
@@ -271,9 +272,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 12
     end
     object cxButton8: TcxButton
-      Left = 469
+      Left = 479
       Top = 262
-      Width = 76
+      Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionClearBases
@@ -282,9 +283,9 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 16
     end
     object cxButton9: TcxButton
-      Left = 739
+      Left = 754
       Top = 262
-      Width = 76
+      Width = 78
       Height = 25
       Cursor = crHandPoint
       Action = actionClearCouriers
@@ -293,8 +294,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       TabOrder = 20
     end
     object cxButton10: TcxButton
-      Left = 766
-      Top = 420
+      Left = 783
+      Top = 502
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -315,7 +316,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Transparent = True
     end
     object considerarExtravios: TcxCheckBox
-      Left = 249
+      Left = 253
       Top = 323
       Cursor = crHandPoint
       Hint = 'Considerar extravios'
@@ -329,7 +330,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Transparent = True
     end
     object considerarLancamentos: TcxCheckBox
-      Left = 519
+      Left = 529
       Top = 323
       Cursor = crHandPoint
       Hint = 'Considerar lan'#231'amentos de d'#233'bitos e cr'#233'ditos'
@@ -735,7 +736,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object cxButton11: TcxButton
       Left = 24
-      Top = 373
+      Top = 455
       Width = 87
       Height = 25
       Cursor = crHandPoint
@@ -826,13 +827,13 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     end
     object labelInfo: TcxLabel
       Left = 60
-      Top = 424
+      Top = 506
       Style.HotTrack = False
       Transparent = True
     end
     object activityIndicatorClose: TdxActivityIndicator
       Left = 10
-      Top = 418
+      Top = 500
       Width = 44
       Height = 29
       PropertiesClassName = 'TdxActivityIndicatorCircularDotsProperties'
@@ -1703,5 +1704,11 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     OnTimer = timerTimer
     Left = 720
     Top = 16
+  end
+  object DataSource1: TDataSource
+    AutoEdit = False
+    DataSet = Data_Sisgef.storedProcListExtractExpress
+    OnStateChange = dsExtractStateChange
+    Left = 480
   end
 end

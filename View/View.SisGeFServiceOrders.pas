@@ -158,6 +158,7 @@ end;
 
 procedure Tview_SisGeFServiceOrders.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  FOS.Free;
   memTableServices.Active := False;
   Action := caFree;
   view_SisGeFServiceOrders := nil;
@@ -169,13 +170,14 @@ var
 begin
   try
     Result := False;
-    FOS := TSisGeFOrderServicesController.Create;
     SetLength(aParam, 2);
     aParam := ['OS', iNumber];
     if not FOS.Search(aParam) then
     begin
       Exit;
     end;
+    if not FOS.SetupClass then
+      Exit;
     Result := True;
   finally
     Finalize(aParam);
@@ -311,6 +313,7 @@ end;
 
 procedure Tview_SisGeFServiceOrders.StartForm;
 begin
+  FOS := TSisGeFOrderServicesController.Create;
   FAcao := tacIndefinido;
   Mode;
 end;

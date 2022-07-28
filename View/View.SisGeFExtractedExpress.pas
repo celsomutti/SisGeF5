@@ -170,6 +170,7 @@ type
     actionReopenExtract: TAction;
     cxButton18: TcxButton;
     dxLayoutItem37: TdxLayoutItem;
+    DataSource1: TDataSource;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionIncludeClientsExecute(Sender: TObject);
@@ -657,13 +658,13 @@ begin
   end;
 
   sFilter := MountPeriodFilter();
-//  if not sFilter.IsEmpty then
-//  begin
-//    if not sQuery.IsEmpty then
-//      sQuery := sQuery + ' and ' + sFilter
-//    else
-//      sQuery := sFilter;
-//  end;
+  if not sFilter.IsEmpty then
+  begin
+    if not sQuery.IsEmpty then
+      sQuery := sQuery + ' and ' + sFilter
+    else
+      sQuery := sFilter;
+  end;
   if not sQuery.IsEmpty then
     sResult := sQuery;
   Result := sResult;
@@ -789,8 +790,20 @@ begin
   end
   else if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 2) then
   begin
-    sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and ' +
-               QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
+    if situacaoExtrato.ItemIndex = 1 then
+    begin
+      sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and ' +
+                 QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
+      FDataInicial := dataInicialPeriodo.Text;
+      FDataFinal := dataFinalPeriodo.Text;
+    end
+    else
+    begin
+      FDataInicial := dataInicialPeriodo.Text;
+      FDataFinal := dataFinalPeriodo.Text;
+      sFilter := 'dat_inicio >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and dat_final <= ' +
+                 QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
+    end;
     FYear := YearOf(dataFinalPeriodo.Date);
     FMounth := MonthOf(dataFinalPeriodo.Date);
     FPeriod := 0;
