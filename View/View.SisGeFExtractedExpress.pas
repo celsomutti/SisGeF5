@@ -768,7 +768,7 @@ end;
 
 function Tview_SisGeFExtractedExpress.MountPeriodFilter: string;
 var
-  sFilter, sField: string;
+  sFilter, sField, sX: string;
 begin
   Result := '';
   sFilter :='';
@@ -783,16 +783,25 @@ begin
   end;
   if (tipoPeriodo.ItemIndex = 3) or (tipoPeriodo.ItemIndex = 4) then
   begin
-    sFilter := sField + RidePeriod(StrToInt(anoPeriodo.Text), mesPeriodo.ItemIndex, periodoParametrizado.ItemIndex);
-    FYear := StrToInt(anoPeriodo.Text);
-    FMounth := mesPeriodo.ItemIndex;
-    FPeriod := periodoParametrizado.ItemIndex;
+    if situacaoExtrato.ItemIndex = 2 then
+    begin
+      RidePeriod(StrToInt(anoPeriodo.Text), mesPeriodo.ItemIndex, periodoParametrizado.ItemIndex);
+      sFilter := 'dat_inicio >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', StrToDate(FDataInicial))) + ' and dat_final <= ' +
+                 QuotedStr(FormatDateTime('yyyy-mm-dd', StrToDate(FDataFinal)));
+    end
+    else
+    begin
+      sX := sField + RidePeriod(StrToInt(anoPeriodo.Text), mesPeriodo.ItemIndex, periodoParametrizado.ItemIndex);
+      FYear := StrToInt(anoPeriodo.Text);
+      FMounth := mesPeriodo.ItemIndex;
+      FPeriod := periodoParametrizado.ItemIndex;
+    end;
   end
   else if (tipoPeriodo.ItemIndex = 1) or (tipoPeriodo.ItemIndex = 2) then
   begin
     if situacaoExtrato.ItemIndex = 1 then
     begin
-      sFilter := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and ' +
+      sX := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', dataInicialPeriodo.Date)) + ' and ' +
                  QuotedStr(FormatDateTime('yyyy-mm-dd', dataFinalPeriodo.Date));
       FDataInicial := dataInicialPeriodo.Text;
       FDataFinal := dataFinalPeriodo.Text;
@@ -861,6 +870,12 @@ begin
   FExtract.EndDate := StrToDate(FDataFinal);
   FExtract.ExtraVolume := calcularVolumeExtra.EditValue;
   FExtract.Tipo := situacaoExtrato.ItemIndex;
+  case tipoPeriodo.ItemIndex of
+    1 : FExtract.TipoData := 1;
+    2 : FExtract.TipoData := 2;
+    3 : FExtract.TipoData := 1;
+    4 : FExtract.TipoData := 2;
+  end;
   if considerarLancamentos.Checked then
     FExtract.DomLancamento := 'N'
   else
@@ -982,8 +997,8 @@ begin
       FDataFinal := sData;
     end;
     FDQuery.Close;
-    Result := ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', StrToDate(FDataInicial))) + ' and ' +
-              QuotedStr(FormatDateTime('yyyy-mm-dd', StrToDate(FDataFinal)));
+    Result := ' between "' +  FormatDateTime('yyyy-mm-dd', StrToDate(FDataInicial)) + '" and "' +
+              FormatDateTime('yyyy-mm-dd', StrToDate(FDataFinal)) + '"';
   finally
     FDQuery.Connection.Connected := False;
     FDQuery.Free;

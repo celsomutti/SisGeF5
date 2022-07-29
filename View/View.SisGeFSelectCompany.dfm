@@ -29,7 +29,7 @@ object view_SisGeFSelectCompany: Tview_SisGeFSelectCompany
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.dxLayoutCxLookAndFeel2
     object cxButton1: TcxButton
-      Left = 10
+      Left = 219
       Top = 101
       Width = 75
       Height = 25
@@ -91,7 +91,7 @@ object view_SisGeFSelectCompany: Tview_SisGeFSelectCompany
     end
     object dxLayoutItem1: TdxLayoutItem
       Parent = dxLayoutGroup2
-      AlignHorz = ahLeft
+      AlignHorz = ahRight
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False

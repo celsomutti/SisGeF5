@@ -84,6 +84,8 @@ object view_SisGeFWorksheetBIMERCP: Tview_SisGeFWorksheetBIMERCP
         object gridBIMERDBTableView1CampoNomeTitulo: TcxGridDBColumn
           DataBinding.FieldName = 'CampoNomeTitulo'
           HeaderAlignmentHorz = taCenter
+          SortIndex = 0
+          SortOrder = soAscending
         end
         object gridBIMERDBTableView1CampoCNPJCPFPessoa: TcxGridDBColumn
           DataBinding.FieldName = 'CampoCNPJCPFPessoa'

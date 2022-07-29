@@ -28,7 +28,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitHeight = 453
     object tipoExtrato: TcxComboBox
       Left = 24
       Top = 82
@@ -41,10 +40,10 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 1
       Text = 'SELECIONE ...'
-      Width = 109
+      Width = 96
     end
     object tipoPeriodo: TcxComboBox
-      Left = 139
+      Left = 126
       Top = 82
       Hint = 'Tipo de Periodo'
       BiDiMode = bdLeftToRight
@@ -60,7 +59,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 2
       Text = 'Selecione ...'
-      Width = 129
+      Width = 113
     end
     object dataInicialPeriodo: TcxDateEdit
       Left = 10000
@@ -125,7 +124,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Width = 121
     end
     object situacaoExtrato: TcxComboBox
-      Left = 704
+      Left = 626
       Top = 82
       Hint = 'Situa'#231#227'o do extrato'
       Properties.DropDownListStyle = lsEditFixedList
@@ -137,7 +136,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Style.HotTrack = False
       TabOrder = 8
       Text = 'Selecione ...'
-      Width = 140
+      Width = 125
     end
     object listaClientes: TcxMCListBox
       Left = 36
@@ -156,7 +155,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
           Width = 181
         end>
       Style.TransparentBorder = True
-      TabOrder = 9
+      TabOrder = 10
     end
     object cxButton1: TcxButton
       Left = 36
@@ -167,7 +166,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Action = actionIncludeClients
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 10
+      TabOrder = 11
     end
     object cxButton2: TcxButton
       Left = 120
@@ -178,7 +177,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Action = actionExcludeClients
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 11
+      TabOrder = 12
     end
     object listaBases: TcxMCListBox
       Left = 311
@@ -196,7 +195,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
           Text = 'Nome'
           Width = 177
         end>
-      TabOrder = 13
+      TabOrder = 14
     end
     object cxButton3: TcxButton
       Left = 311
@@ -207,7 +206,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Action = actionIncludeBases
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 14
+      TabOrder = 15
     end
     object cxButton4: TcxButton
       Left = 395
@@ -218,7 +217,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Action = actionExcludeBases
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 15
+      TabOrder = 16
     end
     object listaEntregadores: TcxMCListBox
       Left = 587
@@ -236,7 +235,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
           Text = 'Nome'
           Width = 176
         end>
-      TabOrder = 17
+      TabOrder = 18
     end
     object cxButton5: TcxButton
       Left = 587
@@ -247,7 +246,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Action = actionIncludeCouriers
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 18
+      TabOrder = 19
     end
     object cxButton6: TcxButton
       Left = 671
@@ -258,7 +257,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Action = actionExcludeCouriers
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 19
+      TabOrder = 20
     end
     object cxButton7: TcxButton
       Left = 203
@@ -269,7 +268,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Action = actionClearClients
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 12
+      TabOrder = 13
     end
     object cxButton8: TcxButton
       Left = 479
@@ -280,7 +279,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Action = actionClearBases
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 16
+      TabOrder = 17
     end
     object cxButton9: TcxButton
       Left = 754
@@ -291,7 +290,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Action = actionClearCouriers
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 20
+      TabOrder = 21
     end
     object cxButton10: TcxButton
       Left = 783
@@ -312,7 +311,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Properties.ValueChecked = '1'
       Properties.ValueUnchecked = '0'
       Style.HotTrack = False
-      TabOrder = 21
+      TabOrder = 22
       Transparent = True
     end
     object considerarExtravios: TcxCheckBox
@@ -326,7 +325,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Properties.ValueUnchecked = 'S'
       State = cbsChecked
       Style.HotTrack = False
-      TabOrder = 22
+      TabOrder = 23
       Transparent = True
     end
     object considerarLancamentos: TcxCheckBox
@@ -340,14 +339,14 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Properties.ValueUnchecked = 'S'
       State = cbsChecked
       Style.HotTrack = False
-      TabOrder = 23
+      TabOrder = 24
       Transparent = True
     end
     object gridExtrato: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 803
-      Height = 275
+      Width = 820
+      Height = 357
       TabOrder = 29
       Visible = False
       object gridExtratoDBTableView1: TcxGridDBTableView
@@ -735,15 +734,15 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       end
     end
     object cxButton11: TcxButton
-      Left = 24
-      Top = 455
+      Left = 757
+      Top = 71
       Width = 87
       Height = 25
       Cursor = crHandPoint
       Action = actionProcess
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 24
+      TabOrder = 9
     end
     object cxButton12: TcxButton
       Left = 10000
@@ -870,6 +869,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end
@@ -926,7 +926,7 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Parent = layoutGroupParameters
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -1047,6 +1047,8 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
+      LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 2
     end
@@ -1410,16 +1412,17 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Index = 4
     end
     object dxLayoutItem22: TdxLayoutItem
-      Parent = dxLayoutGroup20
-      AlignHorz = ahLeft
+      Parent = dxLayoutGroup5
+      AlignHorz = ahRight
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton11'
       CaptionOptions.Visible = False
+      CaptionOptions.Layout = clTop
       Control = cxButton11
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 87
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object dxLayoutItem29: TdxLayoutItem
       Parent = dxLayoutGroup18

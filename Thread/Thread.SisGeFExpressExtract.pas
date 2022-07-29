@@ -23,6 +23,7 @@ type
     FMes: integer;
     FAno: integer;
     FPosfix: string;
+    FTipoData: integer;
     { Private declarations }
     procedure ExecuteExpressExtractDeliveryDate;
     procedure ExecuteExpressPostingValuesStatement;
@@ -44,6 +45,7 @@ type
     property Ano: integer read FAno write FAno;
     property Mes: integer read FMes write FMes;
     property Quinzena: integer read FQuinzena write FQuinzena;
+    property TipoData: integer read FTipoData write FTipoData;
     property Posfix: string read FPosfix write FPosfix;
   end;
 
@@ -108,7 +110,10 @@ begin
     storedProcExtractExpress.Filtered := False;
     storedProcExtractExpress.Filter := '';
     storedProcExtractExpress.Connection := FConnection.GetConn;
-    storedProcExtractExpress.storedProcName := 'sp_generate_express_extract';
+    if FTipoData = 1 then
+      storedProcExtractExpress.storedProcName := 'sp_generate_express_extract'
+    else
+      storedProcExtractExpress.storedProcName := 'sp_generate_express_extract_by_expedition';
     storedProcExtractExpress.SchemaName := 'bderpsisgef';
     storedProcExtractExpress.Prepare;
     storedProcExtractExpress.ParamByName('pdataInicio').AsDate := FStartDate;
@@ -286,27 +291,17 @@ begin
   FConnection := Tconexao.Create;
   with Data_Sisgef do
   begin
-    storedProcListExtractExpress.Active := False;
-    storedProcListExtractExpress.Filtered := False;
-    storedProcListExtractExpress.Filter := '';
-    storedProcListExtractExpress.Connection := FConnection.GetConn;
-    storedProcListExtractExpress.storedProcName := 'sp_list_express_extract';
-    storedProcListExtractExpress.SchemaName := 'bderpsisgef';
-    storedProcListExtractExpress.Prepare;
-//    storedProcListExtractExpress.ParamByName('pYear').AsInteger := FAno;
-//    storedProcListExtractExpress.ParamByName('pMonth').AsInteger := FMes;
-//    storedProcListExtractExpress.ParamByName('pFortnight').AsInteger := FQuinzena;
-//    storedProcListExtractExpress.ParamByName('pPosfix').AsString := FPosfix;
+    FQuery := FConnection.ReturnQuery();
+    FQuery.SQL.Text := 'select * from view_list_express_extract ';
     if FFiltro <> '' then
     begin
-      storedProcListExtractExpress.Filter := FFiltro;
-      storedProcListExtractExpress.Filtered := True;
+      FQuery.Filter := FFiltro;
+      FQuery.SQL.Add('where ' + FFiltro);
     end;
-    storedProcListExtractExpress.Active := True;
+    FQuery.Open();
     memTableExtracts.Active := True;
     memTableExtracts.Tag := FExtraVolume;
-    memTableExtracts.CopyDataSet(storedProcListExtractExpress, [coAppend]);
-    storedProcListExtractExpress.Connection.Connected := False;
+    memTableExtracts.CopyDataSet(FQuery, [coAppend]);
     if not memTableExtracts.IsEmpty then
     begin
       memTableExtracts.First;
