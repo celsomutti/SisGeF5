@@ -96,6 +96,7 @@ type
     function SetupClass(): boolean;
     function GetID(): integer;
     function ValidateData(): boolean;
+    function GetField(sField: String; sKey: String; sKeyValue: String): String;
   end;
 
   const
@@ -151,6 +152,21 @@ begin
   finally
     FDQuery.Connection.Close;
     FDquery.Free;
+  end;
+end;
+
+function TModelSisGeFVehiclesRegistration.GetField(sField, sKey, sKeyValue: String): String;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := '';
+    FDQuery := FConexao.ReturnQuery();
+    FDQuery.SQL.Text := 'select ' + sField + ' from ' + TABLENAME + ' where ' + sKey + ' = ' + sKeyValue;
+    FDQuery.Open();
+    if not FDQuery.IsEmpty then Result := FDQuery.FieldByName(sField).AsString;
+  finally
+    FDQuery.Free;
   end;
 end;
 

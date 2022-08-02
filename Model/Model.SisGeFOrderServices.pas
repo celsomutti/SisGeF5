@@ -24,9 +24,9 @@ type
       FInitialMileage: integer;
       FExtractNumber: string;
       FRouteDescription: string;
-      FPayDay: TDate;
+      FPayDay: TDateTime;
       FFinalMileage: integer;
-      FOSDate: TDate;
+      FOSDate: TDateTime;
       FClosureFlag: integer;
       FConnection: TConexao;
     FAction: TAcao;
@@ -38,7 +38,7 @@ type
     public
       constructor Create;
       property OSNumber : integer read FOSNumber write FOSNumber;
-      property OSDate : TDate read FOSDate write FOSDate;
+      property OSDate : TDateTime read FOSDate write FOSDate;
       property DeliveryManCode : integer read FDeliveryManCode write FDeliveryManCode;
       property ClientCode : integer read FClientCode write FClientCode;
       property VehicleCode : integer read FVehicleCode write FVehicleCode;
@@ -50,7 +50,7 @@ type
       property ServiceDescription : string read FServiceDescription write FServiceDescription;
       property ServiceValue : Double read FServiceValue write FServiceValue;
       property ClosedFlag : string read FClosedFlag write FClosedFlag;
-      property PayDay : TDate read FPayDay write FPayDay;
+      property PayDay : TDateTime read FPayDay write FPayDay;
       property ExtractNumber : string read FExtractNumber write FExtractNumber;
       property ExecutorName : string read FExecutorName write FExecutorName;
       property MaintenanceDate : TDateTime read FMaintenanceDate write FMaintenanceDate;
@@ -78,16 +78,16 @@ type
                 'VALUES (:NUM_OS, :DAT_OS, :COD_ENTREGADOR, :COD_CLIENTE, :COD_VEICULO, :DES_ROTA, ' +
                 ':QTD_KM_INICIAL, :QTD_KM_FINAL, :DES_HORA_SAIDA, :DES_HORA_RETORNO, :DES_SERVICO, :VAL_DIARIA, DOM_FECHADO, ' +
                 ':DAT_PAGO, :NUM_EXTRATO, :NOM_EXECUTOR, :DAT_MANUTENCAO, :ID_CONTROLE, :DOM_ENCERRADO, :COD_TIPO_OS);';
-    SQLUPDATE = 'UPDATE ' + TABLENAME + ' SET DAT_OS = PDAT_OS, COD_ENTREGADOR = PCOD_ENTREGADOR, COD_CLIENTE = PCOD_CLIENTE, ' +
-                'COD_VEICULO = PCOD_VEICULO, DES_ROTA = PDES_ROTA, QTD_KM_INICIAL = PQTD_KM_INICIAL, ' +
-                'QTD_KM_FINAL = PQTD_KM_FINAL, DES_HORA_SAIDA = PDES_HORA_SAIDA, DES_HORA_RETORNO = PDES_HORA_RETORNO, ' +
-                'DES_SERVICO = PDES_SERVICO, VAL_DIARIA = PVAL_DIARIA, DOM_FECHADO = PDOM_FECHADO, ' +
-                'DAT_PAGO = PDAT_PAGO, NUM_EXTRATO = PNUM_EXTRATO, NOM_EXECUTOR = PNOM_EXECUTOR, ' +
-                'DAT_MANUTENCAO = PDAT_MANUTENCAO, ID_CONTROLE = PID_CONTROLE, DOM_ENCERRADO = PDOM_ENCERRADO, ' +
-                'COD_TIPO_OS = PCOD_TIPO_OS ' +
-                'WHERE NUM_OS = PNUMOS;';
+    SQLUPDATE = 'UPDATE ' + TABLENAME + ' SET DAT_OS = :DAT_OS, COD_ENTREGADOR = :COD_ENTREGADOR, COD_CLIENTE = :COD_CLIENTE, ' +
+                'COD_VEICULO = :COD_VEICULO, DES_ROTA = :DES_ROTA, QTD_KM_INICIAL = :QTD_KM_INICIAL, ' +
+                'QTD_KM_FINAL = :QTD_KM_FINAL, DES_HORA_SAIDA = :DES_HORA_SAIDA, DES_HORA_RETORNO = :DES_HORA_RETORNO, ' +
+                'DES_SERVICO = :DES_SERVICO, VAL_DIARIA = :VAL_DIARIA, DOM_FECHADO = :DOM_FECHADO, ' +
+                'DAT_PAGO = :DAT_PAGO, NUM_EXTRATO = :NUM_EXTRATO, NOM_EXECUTOR = :NOM_EXECUTOR, ' +
+                'DAT_MANUTENCAO = :DAT_MANUTENCAO, ID_CONTROLE = :ID_CONTROLE, DOM_ENCERRADO = :DOM_ENCERRADO, ' +
+                'COD_TIPO_OS = :COD_TIPO_OS ' +
+                'WHERE NUM_OS = :NUMOS;';
     SQLDELETE = 'DELETE FROM ' + TABLENAME +
-                ' WHERE NUM_OS = PNUMOS;';
+                ' WHERE NUM_OS = :NUMOS;';
     SQLGETID  = 'select coalesce(max(NUM_OS),0) + 1 from ' + TABLENAME;
 
 

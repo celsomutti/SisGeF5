@@ -17,6 +17,7 @@ type
     function SetupClass(): boolean;
     function GetID(): integer;
     function ValidateData(): boolean;
+    function GetField(sField: String; sKey: String; sKeyValue: String): String;
 
     property Veiculos : TModelSisGeFVehiclesRegistration read FVeiculos write FVeiculos;
   end;
@@ -34,6 +35,11 @@ destructor TControllerSisGeFVehiclesRegistration.Destroy;
 begin
   FVeiculos.Free;
   inherited;
+end;
+
+function TControllerSisGeFVehiclesRegistration.GetField(sField, sKey, sKeyValue: String): String;
+begin
+  Result := FVeiculos.GetField(sField, sKey, sKeyValue);
 end;
 
 function TControllerSisGeFVehiclesRegistration.GetID: integer;

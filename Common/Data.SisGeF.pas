@@ -639,6 +639,9 @@ type
     memTableCreditWorksheetdes_observation: TStringField;
     memTableBIMERCPCampoObservacao: TStringField;
     dxLayoutCxLookAndFeel5: TdxLayoutCxLookAndFeel;
+    dxLayoutCxLookAndFeel6: TdxLayoutCxLookAndFeel;
+    dxLayoutOfficeLookAndFeel1: TdxLayoutOfficeLookAndFeel;
+    dxLayoutStandardLookAndFeel1: TdxLayoutStandardLookAndFeel;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
