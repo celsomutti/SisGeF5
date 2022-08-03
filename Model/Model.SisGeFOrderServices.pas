@@ -29,7 +29,8 @@ type
       FOSDate: TDateTime;
       FClosureFlag: integer;
       FConnection: TConexao;
-    FAction: TAcao;
+      FAction: TAcao;
+      FOSMessage: string;
 
       function Insert(): boolean;
       function Update(): boolean;
@@ -58,12 +59,14 @@ type
       property ClosureFlag : integer read FClosureFlag write FClosureFlag;
       property ServiceOrderTypeCode : integer read FServiceOrderTypeCode write FServiceOrderTypeCode;
       property Query : TFDQuery read FQuery write FQuery;
+      property OSMessage: string read FOSMessage write FOSMessage;
       property Action : TAcao read FAction write FAction;
 
       function Search(aParam: array of variant): boolean;
       function Save(): boolean;
       function SetupClass(): boolean;
       function GetId(): integer;
+      function Validade(): boolean;
 
   end;
   const
@@ -244,6 +247,54 @@ begin
     FQuery.Connection.Connected := False;
     FQuery.Free;
   end;
+end;
+
+function TSisGeFOrderServices.Validade: boolean;
+begin
+  Result := False;
+  if FOSDate = 0 then
+  begin
+    FOSMessage := 'Informe a data da ordem de serviço!';
+    Exit;
+  end;
+  if FServiceOrderTypeCode = 0 then
+  begin
+    FOSMessage := 'Informe o tipo de ordem de serviço!';
+    Exit;
+  end;
+  if FServiceOrderTypeCode = 2 then
+  begin
+    if FClientCode = 0 then
+    begin
+      FOSMessage := 'Informe o cliente desta ordem de serviço!';
+      Exit;
+    end;
+  end;
+  if FServiceOrderTypeCode = 1 then
+  begin
+    if FDeliveryManCode = 0 then
+    begin
+      FOSMessage := 'Informe o Motorista/Terceirizado desta ordem de serviço!';
+      Exit;
+    end;
+  end;
+  if FInitialMileage > FFinalMileage then
+  begin
+    FOSMessage := 'Quilometragem inicial e final inválidos!';
+    Exit;
+  end;
+  if FServiceDescription.IsEmpty then
+  begin
+    FOSMessage := 'Nenhum serviço informado para esta ordem de serviço!';
+    Exit;
+  end;
+  if FServiceValue = 0 then
+  begin
+    FOSMessage := 'Informe o valor desta ordem de serviço!';
+    Exit;
+  end;
+
+  Result := True;
 end;
 
 end.

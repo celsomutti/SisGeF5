@@ -26,7 +26,6 @@ uses
   Model.CadastroRH in 'Model\Model.CadastroRH.pas',
   Control.CadastroRH in 'Control\Control.CadastroRH.pas',
   View.CadastroUsuarios in 'View\View.CadastroUsuarios.pas' {view_CadastroUsuarios},
-  View.SisGeFGeneralSearch in 'View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch},
   View.CadastraSenha in 'View\View.CadastraSenha.pas' {view_CadastraSenha},
   Model.CadastroEnderecos in 'Model\Model.CadastroEnderecos.pas',
   Control.CadastroEnderecos in 'Control\Control.CadastroEnderecos.pas',
@@ -282,7 +281,8 @@ uses
   View.SisGeFServiceOrders in 'View\View.SisGeFServiceOrders.pas' {view_SisGeFServiceOrders},
   Model.SisGeFOrderServices in 'Model\Model.SisGeFOrderServices.pas',
   Controller.SisGeFOrderServices in 'Control\Controller.SisGeFOrderServices.pas',
-  View.PesquisarGeral in 'View\View.PesquisarGeral.pas' {View_PesquisarGeral};
+  View.PesquisarGeral in 'View\View.PesquisarGeral.pas' {View_PesquisarGeral},
+  View.SisGeFGeneralSearch in 'View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch};
 
 {$R *.res}
 

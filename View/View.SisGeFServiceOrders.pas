@@ -121,6 +121,12 @@ type
     procedure numeroOSPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure actionEditOSExecute(Sender: TObject);
     procedure actionDeleteOSExecute(Sender: TObject);
+    procedure placaVeiculoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure codigoMotoristaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure actionSearchVeichleExecute(Sender: TObject);
+    procedure actionLocateOSExecute(Sender: TObject);
   private
     procedure StartForm;
     function LocateOSByNumber(iNumber: integer): boolean;
@@ -133,6 +139,7 @@ type
     procedure CancelOperation;
     procedure EditOs;
     procedure DeleteOS;
+    procedure SaveOS;
     procedure SetupClass;
     procedure ShutDownOS;
     procedure SearchVehicles;
@@ -140,6 +147,7 @@ type
     function VehicleBoardByCode(iCode: integer): String;
     function LocateVehicleDescription(sBoard: string): String;
     procedure SearchPerson;
+    procedure SearchOS;
     function LocatePerson(iCode: integer): string;
   public
     { Public declarations }
@@ -178,6 +186,11 @@ begin
   EditOS;
 end;
 
+procedure Tview_SisGeFServiceOrders.actionLocateOSExecute(Sender: TObject);
+begin
+  SearchOS;
+end;
+
 procedure Tview_SisGeFServiceOrders.actionNewOSExecute(Sender: TObject);
 begin
   NewOS;
@@ -186,7 +199,18 @@ end;
 procedure Tview_SisGeFServiceOrders.actionSearchOSExecute(Sender: TObject);
 begin
   if LocateOSByNumber(StrToIntDef(numeroOS.Text, 0)) then
+  begin
+    FAcao := tacIndefinido;
     PopulateFieldsForm;
+    FAcao := tacPesquisa;
+    Mode;
+    dataOs.SetFocus;
+  end;
+end;
+
+procedure Tview_SisGeFServiceOrders.actionSearchVeichleExecute(Sender: TObject);
+begin
+  SearchVehicles;
 end;
 
 procedure Tview_SisGeFServiceOrders.actionShutDownOSExecute(Sender: TObject);
@@ -209,7 +233,9 @@ begin
   tipoOS.ItemIndex := 2;
   cliente.ItemIndex := -1;
   codigoMotorista.EditValue := 0;
+  nomeMotorista.Clear;
   placaVeiculo.Clear;
+  descricaoVeiculo.Clear;
   roteiro.Clear;
   kmInicial.EditValue := 0;
   horaSaida.Clear;
@@ -217,6 +243,15 @@ begin
   horaRetorno.Clear;
   memTableServices.Active := False;
   OSEncerrada.Checked := False;
+end;
+
+procedure Tview_SisGeFServiceOrders.codigoMotoristaPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if (FAcao =  tacIncluir) or (FAcao = tacAlterar) then
+  begin
+    nomeMotorista.Text := LocatePerson(DisplayValue);
+  end;
 end;
 
 procedure Tview_SisGeFServiceOrders.DeleteOS;
@@ -330,7 +365,7 @@ begin
   try
     Result := '';
     sRetorno := '';
-    sFields := 'select cod_veiculo, des_placa, des_marca, des_modelo, des_tipo, des_cor' ;
+    sFields := '*' ;
     sWhere := ' where des_placa = ' + QuotedStr(sBoard);
     FVeiculo := TControllerSisGeFVehiclesRegistration.Create;
     SetLength(aParam, 3);
@@ -558,6 +593,15 @@ begin
     OSEncerrada.Caption := 'NÃO ENCERRADA';
 end;
 
+procedure Tview_SisGeFServiceOrders.placaVeiculoPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if (FAcao =  tacIncluir) or (FAcao = tacAlterar) then
+  begin
+    descricaoVeiculo.Text := LocateVehicleDescription(DisplayValue);
+  end;
+end;
+
 procedure Tview_SisGeFServiceOrders.PopulateFieldsForm;
 begin
   numeroOS.EditValue := FOS.OS.OSNumber;
@@ -565,6 +609,7 @@ begin
   tipoOS.ItemIndex := FOS.OS.ServiceOrderTypeCode;
   cliente.EditValue := FOS.OS.ClientCode;
   codigoMotorista.EditValue := FOS.OS.DeliveryManCode;
+  nomeMotorista.Text := LocatePerson(FOS.OS.DeliveryManCode);
   roteiro.Text := FOS.OS.RouteDescription;
   kmInicial.EditValue := FOS.OS.InitialMileage;
   horaSaida.EditValue := FOS.OS.DepartureTime;
@@ -572,6 +617,62 @@ begin
   horaRetorno.EditValue := FOS.OS.ReturnTime;
   OSEncerrada.EditValue := FOS.OS.ClosureFlag;
   MountGrid(FOS.OS.OSNumber, FOS.OS.ServiceDescription);
+  placaVeiculo.Text := VehicleBoardByCode(FOS.OS.VehicleCode);
+  descricaoVeiculo.Text := LocateVehicleDescription(placaVeiculo.Text);
+end;
+
+procedure Tview_SisGeFServiceOrders.SaveOS;
+begin
+  Setupclass;
+  if not FOS.Validade() then
+  begin
+    MessageDlg(FOs.OS.OSMessage, mtWarning, [mbCancel], 0);
+    Exit;
+  end;
+  if MessageDlg('Confirma gravar esta OS ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+    Exit;
+  if not FOS.Save() then
+  begin
+    MessageDlg('Ocorreu um problema ao tentar gravar esta OS!', mtWarning, [mbCancel], 0);
+    Exit;
+  end
+  else
+  begin
+    MessageDlg('OS gravada com sucesso!', mtInformation, [mbNo], 0);
+    if FAcao = tacIncluir then
+      numeroOS.EditValue := FOS.OS.OSNumber;
+    FAcao := tacPesquisa;
+    Mode;
+    numeroOS.SetFocus;
+  end;
+end;
+
+procedure Tview_SisGeFServiceOrders.SearchOS;
+var
+  sQuery: string;
+begin
+  sQuery := 'select num_os as "Número", dat_os as Data, nom_cliente as Cliente, nom_entregador as "Motorista/Terceiro", ' +
+            'des_rota as Roteiro, des_placa as Placa from view_list_OS order by num_OS desc' ;
+
+  if not Assigned(view_SisGefGeneralSearch) then
+    view_SisGefGeneralSearch := Tview_SisGefGeneralSearch.Create(Application);
+  view_SisGefGeneralSearch.sSQL := sQuery;
+  view_SisGefGeneralSearch.bOpen := True;
+  if view_SisGefGeneralSearch.ShowModal = mrOk then
+  begin
+    numeroOS.EditValue := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].value;
+    if not LocateOSByNumber(numeroOS.EditValue) then
+      MessageDlg('Ordem de serviço não localizada!', mtError, [mbCancel], 0)
+    else
+    begin
+      FAcao := tacIndefinido;
+      PopulateFieldsForm;
+      FAcao := tacPesquisa;
+      Mode;
+      dataOS.SetFocus;
+    end;
+  end;
+  FreeAndNil(view_SisGefGeneralSearch);
 end;
 
 procedure Tview_SisGeFServiceOrders.SearchPerson;
@@ -644,13 +745,18 @@ begin
   FOS.OS.ClosureFlag := OSEncerrada.EditValue;
   FOS.OS.ServiceValue := gridOSDBTableView1.DataController.Summary.FooterSummaryValues[1];
   FOS.OS.ServiceDescription := UnMountGrid();
+  FOS.OS.VehicleCode := VehicleCodeByBoard(placaVeiculo.Text)
 end;
 
 procedure Tview_SisGeFServiceOrders.ShutDownOS;
 begin
+  if not FOS.Validade() then
+  begin
+    MessageDlg(FOS.OS.OSMessage, mtWarning, [mbCancel],0);
+    Exit;
+  end;
   if MessageDlg('Confirma encerrar esta OS ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
     Exit;
-
   FOS.OS.Action := tacAlterar;
   FOS.OS.ClosureFlag := 1;
   FOS.OS.ExecutorName := Global.Parametros.pUser_Name;
@@ -723,6 +829,7 @@ var
 begin
   try
     Result := 0;
+    sBoard := StringReplace(sBoard,'-','',[rfReplaceAll]);
     FVeiculo := TControllerSisGeFVehiclesRegistration.Create;
     iCode := StrToIntDef(FVeiculo.GetField('cod_veiculo','des_placa',sBoard),0);
     Result := iCode;

@@ -28,8 +28,6 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.dxLayoutCxLookAndFeel5
-    ExplicitWidth = 802
-    ExplicitHeight = 486
     object cxLabel1: TcxLabel
       Left = 10
       Top = 10
@@ -134,6 +132,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d'
+      Properties.OnValidate = codigoMotoristaPropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -164,8 +163,10 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
           Default = True
           Kind = bkGlyph
         end>
+      Properties.CharCase = ecUpperCase
       Properties.IgnoreMaskBlank = True
       Properties.Images = Data_Sisgef.iml_16_16
+      Properties.OnValidate = placaVeiculoPropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
@@ -897,6 +898,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Caption = 'Pesquisar Ve'#237'culos'
       Hint = 'Pesquisar ve'#237'culos'
       ImageIndex = 86
+      OnExecute = actionSearchVeichleExecute
     end
     object actionSearchRoadMap: TAction
       Category = 'Search'
@@ -941,6 +943,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Hint = 'Localizar OS'
       ImageIndex = 100
       ShortCut = 119
+      OnExecute = actionLocateOSExecute
     end
     object actionSaveOS: TAction
       Category = 'Service'

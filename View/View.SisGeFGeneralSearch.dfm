@@ -103,11 +103,9 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
         OptionsData.DeletingConfirmation = False
         OptionsData.Editing = False
         OptionsData.Inserting = False
-        OptionsSelection.CellSelect = False
-        OptionsSelection.MultiSelect = True
-        OptionsView.ColumnAutoWidth = True
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
+        Preview.AutoHeight = False
       end
       object lvPesquisa: TcxGridLevel
         GridView = tvPesquisa

@@ -182,12 +182,10 @@ begin
     fdQuery.SQL.Text := sConsulta;
     fdQuery.Open();
     if memtablePesquisa.Active then memtablePesquisa.Close;
-    
     if not fdQuery.IsEmpty then
     begin
-      memtablePesquisa.CopyFields(fdQuery);
-      memtablePesquisa.CopyDataSet(fdQuery, [coRestart]);
-      memtablePesquisa.First;
+      memtablePesquisa.Data := fdQuery;
+      if not memTablePesquisa.IsEmpty then memtablePesquisa.First;
       tvPesquisa.ClearItems;
       tvPesquisa.DataController.CreateAllItems;
       grdPesquisa.SetFocus;

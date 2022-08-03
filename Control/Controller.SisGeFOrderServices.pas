@@ -17,6 +17,7 @@ type
       function Save(): boolean;
       function SetupClass(): boolean;
       function GetId(): integer;
+      function Validade(): boolean;
   end;
 
 implementation
@@ -52,6 +53,11 @@ end;
 function TSisGeFOrderServicesController.SetupClass: boolean;
 begin
   Result := FOS.SetupClass;
+end;
+
+function TSisGeFOrderServicesController.Validade: boolean;
+begin
+  Result := FOS.Validade();
 end;
 
 end.
