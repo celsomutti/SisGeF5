@@ -195,6 +195,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
           Action = actionSearchRoadMap
           Default = True
           Kind = bkGlyph
+          Visible = False
         end>
       Properties.Images = Data_Sisgef.iml_16_16
       Style.BorderColor = clWindowFrame
@@ -300,6 +301,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
           end>
         DataController.Summary.SummaryGroups = <>
         NewItemRow.Visible = True
+        OptionsBehavior.CopyCaptionsToClipboard = False
         OptionsBehavior.FocusCellOnTab = True
         OptionsBehavior.FocusFirstCellOnNewRecord = True
         OptionsBehavior.GoToNextCellOnEnter = True
@@ -323,6 +325,14 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
         end
         object gridOSDBTableView1des_servico: TcxGridDBColumn
           DataBinding.FieldName = 'des_servico'
+          PropertiesClassName = 'TcxButtonEditProperties'
+          Properties.Buttons = <
+            item
+              Action = actionSearchService
+              Default = True
+              Kind = bkGlyph
+            end>
+          Properties.Images = Data_Sisgef.iml_16_16
           HeaderAlignmentHorz = taCenter
           Width = 420
         end
@@ -892,6 +902,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Caption = 'Pesquisar Motorista'
       Hint = 'Pesquisar por motorista ou terceiro'
       ImageIndex = 86
+      OnExecute = actionSearchDriverExecute
     end
     object actionSearchVeichle: TAction
       Category = 'Search'
@@ -951,6 +962,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Hint = 'Gravar OS'
       ImageIndex = 85
       ShortCut = 116
+      OnExecute = actionSaveOSExecute
     end
     object actionCloseForm: TAction
       Category = 'Form'
@@ -965,6 +977,13 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Hint = 'Encerrar ordem de servi'#231'o'
       ImageIndex = 83
       OnExecute = actionShutDownOSExecute
+    end
+    object actionSearchService: TAction
+      Category = 'Search'
+      Caption = 'Servi'#231'o'
+      Hint = 'Servi'#231'o'
+      ImageIndex = 86
+      OnExecute = actionSearchServiceExecute
     end
   end
   object dsClientes: TDataSource
@@ -995,10 +1014,12 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Size = 256
     end
     object memTableServicesqtd_item: TFloatField
+      DefaultExpression = '1'
       DisplayLabel = 'Qtde.'
       FieldName = 'qtd_item'
     end
     object memTableServicesval_unitario: TFloatField
+      DefaultExpression = '1'
       DisplayLabel = 'Valor'
       FieldName = 'val_unitario'
     end

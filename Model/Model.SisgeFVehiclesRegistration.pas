@@ -162,9 +162,12 @@ begin
   try
     Result := '';
     FDQuery := FConexao.ReturnQuery();
-    FDQuery.SQL.Text := 'select ' + sField + ' from ' + TABLENAME + ' where ' + sKey + ' = ' + sKeyValue;
-    FDQuery.Open();
-    if not FDQuery.IsEmpty then Result := FDQuery.FieldByName(sField).AsString;
+    if not sKeyValue.IsEmpty then
+    begin
+      FDQuery.SQL.Text := 'select ' + sField + ' from ' + TABLENAME + ' where ' + sKey + ' = ' + sKeyValue;
+      FDQuery.Open();
+      if not FDQuery.IsEmpty then Result := FDQuery.FieldByName(sField).AsString;
+    end;
   finally
     FDQuery.Free;
   end;

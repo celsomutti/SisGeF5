@@ -108,6 +108,7 @@ type
     dxLayoutGroup14: TdxLayoutGroup;
     OSEncerrada: TcxCheckBox;
     dxLayoutItem24: TdxLayoutItem;
+    actionSearchService: TAction;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionSearchOSExecute(Sender: TObject);
@@ -127,6 +128,9 @@ type
       var Error: Boolean);
     procedure actionSearchVeichleExecute(Sender: TObject);
     procedure actionLocateOSExecute(Sender: TObject);
+    procedure actionSearchDriverExecute(Sender: TObject);
+    procedure actionSearchServiceExecute(Sender: TObject);
+    procedure actionSaveOSExecute(Sender: TObject);
   private
     procedure StartForm;
     function LocateOSByNumber(iNumber: integer): boolean;
@@ -143,6 +147,7 @@ type
     procedure SetupClass;
     procedure ShutDownOS;
     procedure SearchVehicles;
+    procedure SearchServices;
     function VehicleCodeByBoard(sBoard: string): Integer;
     function VehicleBoardByCode(iCode: integer): String;
     function LocateVehicleDescription(sBoard: string): String;
@@ -196,6 +201,16 @@ begin
   NewOS;
 end;
 
+procedure Tview_SisGeFServiceOrders.actionSaveOSExecute(Sender: TObject);
+begin
+  SaveOS;
+end;
+
+procedure Tview_SisGeFServiceOrders.actionSearchDriverExecute(Sender: TObject);
+begin
+  SearchPerson;
+end;
+
 procedure Tview_SisGeFServiceOrders.actionSearchOSExecute(Sender: TObject);
 begin
   if LocateOSByNumber(StrToIntDef(numeroOS.Text, 0)) then
@@ -206,6 +221,11 @@ begin
     Mode;
     dataOs.SetFocus;
   end;
+end;
+
+procedure Tview_SisGeFServiceOrders.actionSearchServiceExecute(Sender: TObject);
+begin
+  SearchServices;
 end;
 
 procedure Tview_SisGeFServiceOrders.actionSearchVeichleExecute(Sender: TObject);
@@ -258,7 +278,7 @@ procedure Tview_SisGeFServiceOrders.DeleteOS;
 begin
   if MessageDlg('Confirma a exclusão desta OS ?', mtConfirmation, [mbOK,mbCancel], 0) = mrCancel then
     Exit;
-  FAcao := tacExcluir;
+  FOS.OS.Action := tacExcluir;
   if not FOS.Save() then
   begin
     MessageDlg('Ocorreu um problema ao tentar excluir esta OS!', mtWarning, [mbCancel], 0);
@@ -346,7 +366,6 @@ begin
     end;
     if sRetorno.IsEmpty then
     begin
-      MessageDlg('Cadastro não encontrado!', mtWarning, [mbCancel], 0);
       sRetorno := 'NONE';
     end;
     Result := sRetorno;
@@ -364,10 +383,10 @@ var
 begin
   try
     Result := '';
+    FVeiculo := TControllerSisGeFVehiclesRegistration.Create;
     sRetorno := '';
     sFields := '*' ;
     sWhere := ' where des_placa = ' + QuotedStr(sBoard);
-    FVeiculo := TControllerSisGeFVehiclesRegistration.Create;
     SetLength(aParam, 3);
     aParam := ['APOIO', sFields, sWhere];
     if FVeiculo.Search(aParam) then
@@ -379,7 +398,6 @@ begin
     end;
     if sRetorno.IsEmpty then
     begin
-      MessageDlg('FVeiculo não encontrado!', mtWarning, [mbCancel], 0);
       sRetorno := 'NONE';
     end;
     Result := sRetorno;
@@ -451,6 +469,126 @@ begin
     gridOSDBTableView1.OptionsData.Inserting := True;
     gridOSDBTableView1.OptionsData.Editing := True;
     gridOSDBTableView1.OptionsData.Deleting := True;
+    memTableServices.Active := True;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   end
   else if FAcao = tacAlterar then
   begin
@@ -709,6 +847,25 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFServiceOrders.SearchServices;
+var
+  sQuery: string;
+begin
+  sQuery := 'select cod_servico as "Código", des_servico as "Descrição", val_servico as Valor ' +
+             'from tbservicos' ;
+
+  if not Assigned(view_SisGefGeneralSearch) then
+    view_SisGefGeneralSearch := Tview_SisGefGeneralSearch.Create(Application);
+  view_SisGefGeneralSearch.sSQL := sQuery;
+  view_SisGefGeneralSearch.bOpen := True;
+  if view_SisGefGeneralSearch.ShowModal = mrOk then
+  begin
+    gridOSDBTableView1des_servico.EditValue := view_SisGefGeneralSearch.memTablePesquisa.Fields[1].AsString;
+    gridOSDBTableView1val_unitario.EditValue := view_SisGefGeneralSearch.memTablePesquisa.Fields[2].AsFloat;
+  end;
+  FreeAndNil(view_SisGefGeneralSearch);
+end;
+
 procedure Tview_SisGeFServiceOrders.SearchVehicles;
 var
   sQuery, sDescricao: string;
@@ -745,7 +902,8 @@ begin
   FOS.OS.ClosureFlag := OSEncerrada.EditValue;
   FOS.OS.ServiceValue := gridOSDBTableView1.DataController.Summary.FooterSummaryValues[1];
   FOS.OS.ServiceDescription := UnMountGrid();
-  FOS.OS.VehicleCode := VehicleCodeByBoard(placaVeiculo.Text)
+  FOS.OS.VehicleCode := VehicleCodeByBoard(placaVeiculo.Text);
+  FOS.OS.Action := FAcao;
 end;
 
 procedure Tview_SisGeFServiceOrders.ShutDownOS;
