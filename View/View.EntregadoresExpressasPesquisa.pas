@@ -11,7 +11,7 @@ uses
   cxGridTableView, cxGridDBTableView, cxGrid, dxLayoutControlAdapters, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.StdCtrls,
   cxButtons, Vcl.Buttons, cxCheckBox, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxTextEdit,
-  cxMaskEdit, cxButtonEdit, dxBar;
+  cxMaskEdit, cxButtonEdit, dxBar, DAO.Conexao;
 
 type
   Tview_EntregadoresExpressasPesquisa = class(TForm)
@@ -25,14 +25,6 @@ type
     actionExpandirGrid: TAction;
     actionRetrairGrid: TAction;
     fdPesquisa: TFDQuery;
-    fdPesquisaid_entregador: TFDAutoIncField;
-    fdPesquisacod_agente: TIntegerField;
-    fdPesquisanom_base: TStringField;
-    fdPesquisacod_entregador: TIntegerField;
-    fdPesquisanom_entregador: TStringField;
-    fdPesquisades_chave: TStringField;
-    fdPesquisacod_cadastro: TIntegerField;
-    fdPesquisanom_cadastro: TStringField;
     dsPesquisa: TDataSource;
     gridPesquisaDBTableView1id_entregador: TcxGridDBColumn;
     gridPesquisaDBTableView1cod_agente: TcxGridDBColumn;
@@ -54,7 +46,6 @@ type
     actionOK: TAction;
     buttonLocalizar: TcxButton;
     layoutItemLocalizar: TdxLayoutItem;
-    fdPesquisaagente: TStringField;
     gridPesquisaDBTableView1agente: TcxGridDBColumn;
     actionNovo: TAction;
     actionEditar: TAction;
@@ -65,6 +56,18 @@ type
     dxLayoutGroup1: TdxLayoutGroup;
     labelTitle: TcxLabel;
     dxLayoutItem3: TdxLayoutItem;
+    gridPesquisaDBTableView1nom_cliente: TcxGridDBColumn;
+    fdPesquisaid_entregador: TFDAutoIncField;
+    fdPesquisacod_agente: TIntegerField;
+    fdPesquisanom_base: TStringField;
+    fdPesquisacod_entregador: TIntegerField;
+    fdPesquisanom_entregador: TStringField;
+    fdPesquisades_chave: TStringField;
+    fdPesquisacod_cadastro: TIntegerField;
+    fdPesquisacod_cliente: TIntegerField;
+    fdPesquisanom_cadastro: TStringField;
+    fdPesquisaagente: TStringField;
+    fdPesquisanom_cliente: TStringField;
     procedure FormShow(Sender: TObject);
     procedure actionExpandirGridExecute(Sender: TObject);
     procedure actionRetrairGridExecute(Sender: TObject);
@@ -106,6 +109,7 @@ type
 var
   view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa;
   sFileLayout : string;
+  FConexao : TConexao;
 
 implementation
 
@@ -193,6 +197,7 @@ begin
   end;
   fdPesquisa.Active := False;
   fdPesquisa.Filter := '';
+  FConexao.Free;
 end;
 
 procedure Tview_EntregadoresExpressasPesquisa.dsPesquisaStateChange(Sender: TObject);
@@ -369,6 +374,7 @@ begin
   begin
     fdPesquisa.Close;
   end;
+  fdpesquisa.Connection := FConexao.GetConn;
   if not sFiltro.IsEmpty then
   begin
     fdpesquisa.Filter := sFiltro;
@@ -408,6 +414,7 @@ begin
   iID := 0;
   sFileLayout := ExtractFilePath(Application.ExeName) + '\layoutBIRemessas' + Global.Parametros.pUser_ID.ToString + '.ini';
   gridPesquisaDBTableView1.StoreToIniFile(sFileLayout);
+  FConexao := TConexao.Create;
 end;
 
 end.

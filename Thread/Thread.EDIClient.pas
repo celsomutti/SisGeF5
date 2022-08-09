@@ -411,7 +411,7 @@ begin
       2 : ProcessSIM;
       4 : ProcessDIRECT;
       5 : ProcessSIM;
-      6 : ProcessSIM;
+      6 : ProcessEngloba;
       7 : ProcessRF;
       8 : ProcessEngloba;
       else

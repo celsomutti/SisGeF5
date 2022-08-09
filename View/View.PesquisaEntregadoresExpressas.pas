@@ -62,6 +62,8 @@ type
     Retrair1: TMenuItem;
     actionPainelGrupo: TAction;
     Painel1: TMenuItem;
+    fdPesquisanom_cliente: TStringField;
+    gridPesquisaDBTableView1nom_cliente: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure actionRetrairGridExecute(Sender: TObject);
     procedure buttonEditTextoPesquisarPropertiesChange(Sender: TObject);

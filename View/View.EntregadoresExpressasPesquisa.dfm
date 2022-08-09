@@ -6,12 +6,12 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
   BorderStyle = bsSingle
   Caption = 'Entregadores Expressas'
   ClientHeight = 465
-  ClientWidth = 716
+  ClientWidth = 898
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
-  Font.Height = -12
-  Font.Name = 'Microsoft JhengHei UI'
+  Font.Height = -11
+  Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsMDIChild
   Icon.Data = {
@@ -572,22 +572,29 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 15
+  TextHeight = 13
   object layoutControlGrid: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 716
+    Width = 898
     Height = 465
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     OptionsImage.Images = Data_Sisgef.lmi_32_32
+    ExplicitWidth = 716
     object gridPesquisa: TcxGrid
-      Left = 12
-      Top = 82
-      Width = 692
-      Height = 339
+      Left = 10
+      Top = 78
+      Width = 878
+      Height = 346
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 2
       OnEnter = gridPesquisaEnter
       OnExit = gridPesquisaExit
@@ -643,50 +650,68 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
         OptionsData.Editing = False
         OptionsData.Inserting = False
         OptionsSelection.CellSelect = False
+        OptionsView.CellAutoHeight = True
         OptionsView.GroupByBox = False
+        OptionsView.HeaderAutoHeight = True
         OptionsView.Indicator = True
         object gridPesquisaDBTableView1id_entregador: TcxGridDBColumn
           Caption = 'ID'
           DataBinding.FieldName = 'id_entregador'
+          HeaderAlignmentHorz = taCenter
           Width = 47
         end
         object gridPesquisaDBTableView1cod_entregador: TcxGridDBColumn
           Caption = 'C'#243'd. Entregador'
           DataBinding.FieldName = 'cod_entregador'
-          Width = 106
+          HeaderAlignmentHorz = taCenter
+          Width = 81
         end
         object gridPesquisaDBTableView1nom_entregador: TcxGridDBColumn
           Caption = 'Nome Entregador'
           DataBinding.FieldName = 'nom_entregador'
+          HeaderAlignmentHorz = taCenter
           Width = 236
         end
         object gridPesquisaDBTableView1des_chave: TcxGridDBColumn
           Caption = 'Chave ERP'
           DataBinding.FieldName = 'des_chave'
-          Width = 176
+          HeaderAlignmentHorz = taCenter
+          Width = 149
         end
         object gridPesquisaDBTableView1cod_agente: TcxGridDBColumn
           Caption = 'C'#243'd. Base'
           DataBinding.FieldName = 'cod_agente'
+          HeaderAlignmentHorz = taCenter
         end
         object gridPesquisaDBTableView1nom_base: TcxGridDBColumn
           Caption = 'Nome Base'
           DataBinding.FieldName = 'nom_base'
+          HeaderAlignmentHorz = taCenter
           Width = 287
         end
         object gridPesquisaDBTableView1cod_cadastro: TcxGridDBColumn
           Caption = 'C'#243'd. Pessoa'
           DataBinding.FieldName = 'cod_cadastro'
+          HeaderAlignmentHorz = taCenter
           Width = 104
         end
         object gridPesquisaDBTableView1nom_cadastro: TcxGridDBColumn
           Caption = 'Nome Pessoa'
           DataBinding.FieldName = 'nom_cadastro'
+          HeaderAlignmentHorz = taCenter
+          Width = 278
         end
         object gridPesquisaDBTableView1agente: TcxGridDBColumn
           DataBinding.FieldName = 'agente'
           Visible = False
           GroupIndex = 0
+          HeaderAlignmentHorz = taCenter
+        end
+        object gridPesquisaDBTableView1nom_cliente: TcxGridDBColumn
+          Caption = 'Cliente'
+          DataBinding.FieldName = 'nom_cliente'
+          HeaderAlignmentHorz = taCenter
+          Width = 314
         end
       end
       object gridPesquisaLevel1: TcxGridLevel
@@ -694,8 +719,8 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
       end
     end
     object buttonEditTextoPesquisar: TcxButtonEdit
-      Left = 205
-      Top = 51
+      Left = 290
+      Top = 48
       Hint = 'Digite o texto a ser pesquisado'
       Properties.Buttons = <
         item
@@ -713,8 +738,8 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
       Width = 412
     end
     object buttonFechar: TcxButton
-      Left = 619
-      Top = 428
+      Left = 803
+      Top = 430
       Width = 85
       Height = 25
       Cursor = crHandPoint
@@ -722,8 +747,8 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
       TabOrder = 6
     end
     object buttonLocalizar: TcxButton
-      Left = 216
-      Top = 428
+      Left = 212
+      Top = 430
       Width = 97
       Height = 25
       Cursor = crHandPoint
@@ -731,8 +756,8 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
       TabOrder = 5
     end
     object cxButton1: TcxButton
-      Left = 12
-      Top = 428
+      Left = 10
+      Top = 430
       Width = 101
       Height = 25
       Cursor = crHandPoint
@@ -740,8 +765,8 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
       TabOrder = 3
     end
     object cxButton2: TcxButton
-      Left = 120
-      Top = 428
+      Left = 117
+      Top = 430
       Width = 89
       Height = 25
       Cursor = crHandPoint
@@ -749,8 +774,8 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
       TabOrder = 4
     end
     object labelTitle: TcxLabel
-      Left = 49
-      Top = 16
+      Left = 46
+      Top = 14
       Caption = 'labelTitle'
       ParentFont = False
       Style.Font.Charset = ANSI_CHARSET
@@ -983,6 +1008,11 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
       Origin = 'cod_cadastro'
       Required = True
     end
+    object fdPesquisacod_cliente: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'cod_cliente'
+      Origin = 'cod_cliente'
+    end
     object fdPesquisanom_cadastro: TStringField
       AutoGenerateValue = arDefault
       FieldName = 'nom_cadastro'
@@ -991,12 +1021,17 @@ object view_EntregadoresExpressasPesquisa: Tview_EntregadoresExpressasPesquisa
     end
     object fdPesquisaagente: TStringField
       AutoGenerateValue = arDefault
-      DisplayLabel = 'Base'
       FieldName = 'agente'
       Origin = 'agente'
       ProviderFlags = []
       ReadOnly = True
       Size = 94
+    end
+    object fdPesquisanom_cliente: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_cliente'
+      Origin = 'nom_cliente'
+      Size = 70
     end
   end
   object dsPesquisa: TDataSource

@@ -632,45 +632,61 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
         OptionsData.DeletingConfirmation = False
         OptionsData.Editing = False
         OptionsData.Inserting = False
+        OptionsView.CellAutoHeight = True
         OptionsView.GroupByBox = False
+        OptionsView.HeaderAutoHeight = True
         OptionsView.Indicator = True
         object gridPesquisaDBTableView1id_entregador: TcxGridDBColumn
           Caption = 'ID'
           DataBinding.FieldName = 'id_entregador'
+          HeaderAlignmentHorz = taCenter
           Width = 47
         end
         object gridPesquisaDBTableView1cod_entregador: TcxGridDBColumn
           Caption = 'C'#243'd. Entregador'
           DataBinding.FieldName = 'cod_entregador'
-          Width = 106
+          HeaderAlignmentHorz = taCenter
+          Width = 78
         end
         object gridPesquisaDBTableView1nom_entregador: TcxGridDBColumn
           Caption = 'Nome Entregador'
           DataBinding.FieldName = 'nom_entregador'
+          HeaderAlignmentHorz = taCenter
           Width = 236
         end
         object gridPesquisaDBTableView1des_chave: TcxGridDBColumn
           Caption = 'Chave ERP'
           DataBinding.FieldName = 'des_chave'
+          HeaderAlignmentHorz = taCenter
           Width = 176
         end
         object gridPesquisaDBTableView1cod_agente: TcxGridDBColumn
           Caption = 'C'#243'd. Base'
           DataBinding.FieldName = 'cod_agente'
+          HeaderAlignmentHorz = taCenter
         end
         object gridPesquisaDBTableView1nom_base: TcxGridDBColumn
           Caption = 'Nome Base'
           DataBinding.FieldName = 'nom_base'
+          HeaderAlignmentHorz = taCenter
           Width = 287
         end
         object gridPesquisaDBTableView1cod_cadastro: TcxGridDBColumn
           Caption = 'C'#243'd. Pessoa'
           DataBinding.FieldName = 'cod_cadastro'
-          Width = 104
+          HeaderAlignmentHorz = taCenter
+          Width = 75
         end
         object gridPesquisaDBTableView1nom_cadastro: TcxGridDBColumn
           Caption = 'Nome Pessoa'
           DataBinding.FieldName = 'nom_cadastro'
+          HeaderAlignmentHorz = taCenter
+          Width = 290
+        end
+        object gridPesquisaDBTableView1nom_cliente: TcxGridDBColumn
+          DataBinding.FieldName = 'nom_cliente'
+          HeaderAlignmentHorz = taCenter
+          Width = 253
         end
       end
       object gridPesquisaLevel1: TcxGridLevel
@@ -914,6 +930,11 @@ object view_PesquisaEntregadoresExpressas: Tview_PesquisaEntregadoresExpressas
       AutoGenerateValue = arDefault
       FieldName = 'nom_cadastro'
       Origin = 'nom_cadastro'
+      Size = 70
+    end
+    object fdPesquisanom_cliente: TStringField
+      DisplayLabel = 'Cliente'
+      FieldName = 'nom_cliente'
       Size = 70
     end
   end
