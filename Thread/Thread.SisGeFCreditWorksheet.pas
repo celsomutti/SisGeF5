@@ -283,33 +283,30 @@ begin
         end
         else
         begin
-          if memTableExtractsval_total_expressa.AsFloat > 0 then
-          begin
-            sExtrato := FUtils.ExpressStatementNumber(memTableExtractsdat_inicio.AsDateTime, memTableExtractsdat_final.AsDateTime,
-            iBimer, '');
-            memTableCreditWorksheet.Insert;
-            memTableCreditWorksheetid_registro.AsInteger := 0;
-            memTableCreditWorksheetcod_tipo_extrato.AsInteger := 1;
-            memTableCreditWorksheetcod_cadastro.AsInteger := iBimer;
-            memTableCreditWorksheetnom_cadastro.AsString := sNome;
-            memTableCreditWorksheetcod_banco.AsString := sBanco;
-            memTableCreditWorksheetnom_banco.AsString := sNomeBanco;
-            memTableCreditWorksheetdes_tipo_conta.AsString := sTipoConta;
-            memTableCreditWorksheetnum_agencia.AsString := sAgencia;
-            memTableCreditWorksheetnum_conta.AsString := sConta;
-            memTableCreditWorksheetnom_favorecido.AsString := sFavorecido;
-            memTableCreditWorksheetnum_cpf_cnpj.AsString := sCnpjCpf;
-            memTableCreditWorksheetval_total.AsFloat := memTableExtractsval_total_expressa.AsFloat;
-            memTableCreditWorksheetdes_unique_key.AsString := memTableExtractsdes_unique_key.AsString;
-            memTableCreditWorksheetdat_credito.AsDateTime := FDateCredit;
-            memTableCreditWorksheetnum_extrato.AsString := sExtrato;
-            memTableCreditWorksheetcod_forma_pagamento.AsString := sForma;
-            memTableCreditWorksheetdes_forma_pagamento.AsString := sNomeForma;
-            memTableCreditWorksheetcod_modalidade_pagamento.AsString := sModalidade;
-            memTableCreditWorksheetdom_bloqueio.AsInteger := 0;
-            memTableCreditWorksheetdes_observation.AsString := sObs;
-            memTableCreditWorksheet.Post;
-          end;
+          sExtrato := FUtils.ExpressStatementNumber(memTableExtractsdat_inicio.AsDateTime, memTableExtractsdat_final.AsDateTime,
+          iBimer, '');
+          memTableCreditWorksheet.Insert;
+          memTableCreditWorksheetid_registro.AsInteger := 0;
+          memTableCreditWorksheetcod_tipo_extrato.AsInteger := 1;
+          memTableCreditWorksheetcod_cadastro.AsInteger := iBimer;
+          memTableCreditWorksheetnom_cadastro.AsString := sNome;
+          memTableCreditWorksheetcod_banco.AsString := sBanco;
+          memTableCreditWorksheetnom_banco.AsString := sNomeBanco;
+          memTableCreditWorksheetdes_tipo_conta.AsString := sTipoConta;
+          memTableCreditWorksheetnum_agencia.AsString := sAgencia;
+          memTableCreditWorksheetnum_conta.AsString := sConta;
+          memTableCreditWorksheetnom_favorecido.AsString := sFavorecido;
+          memTableCreditWorksheetnum_cpf_cnpj.AsString := sCnpjCpf;
+          memTableCreditWorksheetval_total.AsFloat := memTableExtractsval_total_expressa.AsFloat;
+          memTableCreditWorksheetdes_unique_key.AsString := memTableExtractsdes_unique_key.AsString;
+          memTableCreditWorksheetdat_credito.AsDateTime := FDateCredit;
+          memTableCreditWorksheetnum_extrato.AsString := sExtrato;
+          memTableCreditWorksheetcod_forma_pagamento.AsString := sForma;
+          memTableCreditWorksheetdes_forma_pagamento.AsString := sNomeForma;
+          memTableCreditWorksheetcod_modalidade_pagamento.AsString := sModalidade;
+          memTableCreditWorksheetdom_bloqueio.AsInteger := 0;
+          memTableCreditWorksheetdes_observation.AsString := sObs;
+          memTableCreditWorksheet.Post;
         end;
         memTableExtracts.Next;
       end;

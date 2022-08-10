@@ -109,6 +109,12 @@ type
     OSEncerrada: TcxCheckBox;
     dxLayoutItem24: TdxLayoutItem;
     actionSearchService: TAction;
+    dxLayoutGroup15: TdxLayoutGroup;
+    codigoTerceiro: TcxButtonEdit;
+    dxLayoutItem25: TdxLayoutItem;
+    nomeTerceiro: TcxTextEdit;
+    dxLayoutItem26: TdxLayoutItem;
+    actionSearchOutsource: TAction;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionSearchOSExecute(Sender: TObject);
@@ -131,6 +137,9 @@ type
     procedure actionSearchDriverExecute(Sender: TObject);
     procedure actionSearchServiceExecute(Sender: TObject);
     procedure actionSaveOSExecute(Sender: TObject);
+    procedure actionSearchOutsourceExecute(Sender: TObject);
+    procedure codigoTerceiroPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
   private
     procedure StartForm;
     function LocateOSByNumber(iNumber: integer): boolean;
@@ -223,6 +232,11 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFServiceOrders.actionSearchOutsourceExecute(Sender: TObject);
+begin
+  SearchPerson;
+end;
+
 procedure Tview_SisGeFServiceOrders.actionSearchServiceExecute(Sender: TObject);
 begin
   SearchServices;
@@ -261,6 +275,7 @@ begin
   horaSaida.Clear;
   kmFinal.EditValue := 0;
   horaRetorno.Clear;
+  codigoTerceiro.EditValue := 0;
   memTableServices.Active := False;
   OSEncerrada.Checked := False;
 end;
@@ -271,6 +286,15 @@ begin
   if (FAcao =  tacIncluir) or (FAcao = tacAlterar) then
   begin
     nomeMotorista.Text := LocatePerson(DisplayValue);
+  end;
+end;
+
+procedure Tview_SisGeFServiceOrders.codigoTerceiroPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if (FAcao =  tacIncluir) or (FAcao = tacAlterar) then
+  begin
+    nomeTerceiro.Text := LocatePerson(DisplayValue);
   end;
 end;
 
@@ -314,6 +338,8 @@ procedure Tview_SisGeFServiceOrders.NewOS;
 begin
   FAcao := tacIncluir;
   Mode;
+  ClearFieldsForm;
+  memTableServices.Active := True;
   dataOs.Date := Now();
   dataOs.SetFocus;
 end;
@@ -757,6 +783,8 @@ begin
   MountGrid(FOS.OS.OSNumber, FOS.OS.ServiceDescription);
   placaVeiculo.Text := VehicleBoardByCode(FOS.OS.VehicleCode);
   descricaoVeiculo.Text := LocateVehicleDescription(placaVeiculo.Text);
+  codigoTerceiro.EditValue := FOS.OS.PersonCode;
+  nomeTerceiro.Text := LocatePerson(FOS.OS.PersonCode);
 end;
 
 procedure Tview_SisGeFServiceOrders.SaveOS;
@@ -789,8 +817,8 @@ procedure Tview_SisGeFServiceOrders.SearchOS;
 var
   sQuery: string;
 begin
-  sQuery := 'select num_os as "Número", dat_os as Data, nom_cliente as Cliente, nom_entregador as "Motorista/Terceiro", ' +
-            'des_rota as Roteiro, des_placa as Placa from view_list_OS order by num_OS desc' ;
+  sQuery := 'select num_os as "Número", dat_os as Data, nom_cliente as Cliente, nom_terceiro as Terceirizado, ' +
+            'nom_entregador as "Motorista", des_rota as Roteiro, des_placa as Placa from view_list_OS order by num_OS desc' ;
 
   if not Assigned(view_SisGefGeneralSearch) then
     view_SisGefGeneralSearch := Tview_SisGefGeneralSearch.Create(Application);
@@ -837,8 +865,16 @@ begin
     View_PesquisarPessoas.Caption := 'Pesquisa de Tabelas de Verbas';
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
-      codigoMotorista.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
-      nomeMotorista.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+      if codigoMotorista.IsFocused then
+      begin
+        codigoMotorista.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+        nomeMotorista.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+      end
+      else if codigoTerceiro.IsFocused then
+      begin
+        codigoTerceiro.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+        nomeTerceiro.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+      end
     end;
   finally
     View_PesquisarPessoas.qryPesquisa.Close;
@@ -892,7 +928,7 @@ begin
   FOS.OS.OSNumber := numeroOS.EditValue;
   FOS.OS.OSDate := dataOS.Date;
   FOS.OS.ServiceOrderTypeCode := tipoOS.ItemIndex;
-  FOS.OS.ClientCode := cliente.EditValue;
+  FOS.OS.ClientCode :=  StrToIntDef(cliente.EditText,0);
   FOS.OS.DeliveryManCode := codigoMotorista.EditValue;
   FOS.OS.RouteDescription := roteiro.Text;
   FOS.OS.InitialMileage := kmInicial.EditValue;
@@ -903,6 +939,7 @@ begin
   FOS.OS.ServiceValue := gridOSDBTableView1.DataController.Summary.FooterSummaryValues[1];
   FOS.OS.ServiceDescription := UnMountGrid();
   FOS.OS.VehicleCode := VehicleCodeByBoard(placaVeiculo.Text);
+  FOS.OS.PersonCode := StrToIntDef(codigoTerceiro.EditText,0);
   FOS.OS.Action := FAcao;
 end;
 
@@ -941,6 +978,7 @@ end;
 procedure Tview_SisGeFServiceOrders.tipoOSPropertiesChange(Sender: TObject);
 begin
   dxLayoutItem5.Visible := (tipoOS.ItemIndex = 2);
+  dxLayoutGroup15.Visible := (tipoOS.ItemIndex = 1);
 end;
 
 function Tview_SisGeFServiceOrders.UnMountGrid(): string;
@@ -989,7 +1027,7 @@ begin
     Result := 0;
     sBoard := StringReplace(sBoard,'-','',[rfReplaceAll]);
     FVeiculo := TControllerSisGeFVehiclesRegistration.Create;
-    iCode := StrToIntDef(FVeiculo.GetField('cod_veiculo','des_placa',sBoard),0);
+    iCode := StrToIntDef(FVeiculo.GetField('cod_veiculo','des_placa',QuotedStr(sBoard)),0);
     Result := iCode;
   finally
     FVeiculo.Free;

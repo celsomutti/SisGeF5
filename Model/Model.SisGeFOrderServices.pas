@@ -31,6 +31,7 @@ type
       FConnection: TConexao;
       FAction: TAcao;
       FOSMessage: string;
+    FPersonCode: integer;
 
       function Insert(): boolean;
       function Update(): boolean;
@@ -58,6 +59,7 @@ type
       property ControllerId : integer read FControllerId write FControllerId;
       property ClosureFlag : integer read FClosureFlag write FClosureFlag;
       property ServiceOrderTypeCode : integer read FServiceOrderTypeCode write FServiceOrderTypeCode;
+      property PersonCode: integer read FPersonCode write FPersonCode;
       property Query : TFDQuery read FQuery write FQuery;
       property OSMessage: string read FOSMessage write FOSMessage;
       property Action : TAcao read FAction write FAction;
@@ -73,21 +75,21 @@ type
     TABLENAME = 'tbordemservico';
     SQLSELECT = 'SELECT NUM_OS, DAT_OS, COD_ENTREGADOR, COD_CLIENTE, COD_VEICULO, DES_ROTA, QTD_KM_INICIAL, QTD_KM_FINAL, ' +
                 'DES_HORA_SAIDA, DES_HORA_RETORNO, DES_SERVICO, VAL_DIARIA, DOM_FECHADO, DAT_PAGO, NUM_EXTRATO, NOM_EXECUTOR, ' +
-                'DAT_MANUTENCAO, ID_CONTROLE, DOM_ENCERRADO, COD_TIPO_OS ' +
+                'DAT_MANUTENCAO, ID_CONTROLE, DOM_ENCERRADO, COD_TIPO_OS, cod_cadastro ' +
                 'FROM ' + TABLENAME;
     SQLINSERT = 'INSERT INTO ' + TABLENAME + ' (NUM_OS, DAT_OS, COD_ENTREGADOR, COD_CLIENTE, COD_VEICULO, DES_ROTA, ' +
                 'QTD_KM_INICIAL, QTD_KM_FINAL, DES_HORA_SAIDA, DES_HORA_RETORNO, DES_SERVICO, VAL_DIARIA, DOM_FECHADO, ' +
-                'DAT_PAGO, NUM_EXTRATO, NOM_EXECUTOR, DAT_MANUTENCAO, ID_CONTROLE, DOM_ENCERRADO, COD_TIPO_OS) ' +
-                'VALUES (:NUM_OS, :DAT_OS, :COD_ENTREGADOR, :COD_CLIENTE, :COD_VEICULO, :DES_ROTA, ' +
-                ':QTD_KM_INICIAL, :QTD_KM_FINAL, :DES_HORA_SAIDA, :DES_HORA_RETORNO, :DES_SERVICO, :VAL_DIARIA, :DOM_FECHADO, ' +
-                ':DAT_PAGO, :NUM_EXTRATO, :NOM_EXECUTOR, :DAT_MANUTENCAO, :ID_CONTROLE, :DOM_ENCERRADO, :COD_TIPO_OS);';
+                'DAT_PAGO, NUM_EXTRATO, NOM_EXECUTOR, DAT_MANUTENCAO, ID_CONTROLE, DOM_ENCERRADO, COD_TIPO_OS, cod_cadastro) ' +
+                'VALUES (:NUM_OS, :DAT_OS, :COD_ENTREGADOR, :COD_CLIENTE, :COD_VEICULO, :DES_ROTA, :QTD_KM_INICIAL, ' +
+                ':QTD_KM_FINAL, :DES_HORA_SAIDA, :DES_HORA_RETORNO, :DES_SERVICO, :VAL_DIARIA, :DOM_FECHADO, :DAT_PAGO, ' +
+                ':NUM_EXTRATO, :NOM_EXECUTOR, :DAT_MANUTENCAO, :ID_CONTROLE, :DOM_ENCERRADO, :COD_TIPO_OS, :cod_cadastro);';
     SQLUPDATE = 'UPDATE ' + TABLENAME + ' SET DAT_OS = :DAT_OS, COD_ENTREGADOR = :COD_ENTREGADOR, COD_CLIENTE = :COD_CLIENTE, ' +
                 'COD_VEICULO = :COD_VEICULO, DES_ROTA = :DES_ROTA, QTD_KM_INICIAL = :QTD_KM_INICIAL, ' +
                 'QTD_KM_FINAL = :QTD_KM_FINAL, DES_HORA_SAIDA = :DES_HORA_SAIDA, DES_HORA_RETORNO = :DES_HORA_RETORNO, ' +
                 'DES_SERVICO = :DES_SERVICO, VAL_DIARIA = :VAL_DIARIA, DOM_FECHADO = :DOM_FECHADO, ' +
                 'DAT_PAGO = :DAT_PAGO, NUM_EXTRATO = :NUM_EXTRATO, NOM_EXECUTOR = :NOM_EXECUTOR, ' +
                 'DAT_MANUTENCAO = :DAT_MANUTENCAO, ID_CONTROLE = :ID_CONTROLE, DOM_ENCERRADO = :DOM_ENCERRADO, ' +
-                'COD_TIPO_OS = :COD_TIPO_OS ' +
+                'COD_TIPO_OS = :COD_TIPO_OS, cod_cadastro = :cod_cadastro ' +
                 'WHERE NUM_OS = :NUMOS;';
     SQLDELETE = 'DELETE FROM ' + TABLENAME +
                 ' WHERE NUM_OS = :NUMOS;';
@@ -142,7 +144,8 @@ begin
     FOSNumber := GetId;
     FQuery.ExecSQL(SQLINSERT, [FOSNumber, FOSDate, FDeliveryManCode, FClientCode, FVehicleCode, FRouteDescription, FInitialMileage,
                               FFinalMileage, FDepartureTime, FReturnTime, FServiceDescription, FServiceValue, FClosedFlag, FPayDay,
-                              FExtractNumber, FExecutorName, FMaintenanceDate, FControllerId, FClosureFlag, FServiceOrderTypeCode]);
+                              FExtractNumber, FExecutorName, FMaintenanceDate, FControllerId, FClosureFlag, FServiceOrderTypeCode,
+                              FPersonCode]);
     Result := True;
   finally
     FQuery.Connection.Connected := False;
@@ -230,6 +233,7 @@ begin
   FFinalMileage := FQuery.FieldByName('QTD_KM_FINAL').AsInteger;
   FOSDate := FQuery.FieldByName('DAT_OS').AsDateTime;
   FClosureFlag := FQuery.FieldByName('DOM_ENCERRADO').AsInteger;
+  FPersonCode := FQuery.FieldByName('cod_cadastro').AsInteger;
   Result := True;
 end;
 
@@ -241,7 +245,7 @@ begin
     FQuery.ExecSQL(SQLUPDATE, [FOSDate, FDeliveryManCode, FClientCode, FVehicleCode, FRouteDescription, FInitialMileage,
                               FFinalMileage, FDepartureTime, FReturnTime, FServiceDescription, FServiceValue, FClosedFlag, FPayDay,
                               FExtractNumber, FExecutorName, FMaintenanceDate, FControllerId, FClosureFlag, FServiceOrderTypeCode,
-                              FOSNumber]);
+                              FPersonCode, FOSNumber]);
     Result := True;
   finally
     FQuery.Connection.Connected := False;
@@ -272,9 +276,9 @@ begin
   end;
   if FServiceOrderTypeCode = 1 then
   begin
-    if FDeliveryManCode = 0 then
+    if FPersonCode = 0 then
     begin
-      FOSMessage := 'Informe o Motorista/Terceirizado desta ordem de serviço!';
+      FOSMessage := 'Informe o Terceirizado desta ordem de serviço!';
       Exit;
     end;
   end;

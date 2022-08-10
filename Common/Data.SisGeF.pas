@@ -642,6 +642,7 @@ type
     dxLayoutCxLookAndFeel6: TdxLayoutCxLookAndFeel;
     dxLayoutOfficeLookAndFeel1: TdxLayoutOfficeLookAndFeel;
     dxLayoutStandardLookAndFeel1: TdxLayoutStandardLookAndFeel;
+    dxLayoutStandardLookAndFeel2: TdxLayoutStandardLookAndFeel;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

@@ -2,7 +2,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
   Left = 0
   Top = 0
   Caption = 'Ordens de Servi'#231'os'
-  ClientHeight = 528
+  ClientHeight = 563
   ClientWidth = 874
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,7 +22,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
     Left = 0
     Top = 0
     Width = 874
-    Height = 528
+    Height = 563
     Align = alClient
     ParentBackground = True
     TabOrder = 0
@@ -118,8 +118,8 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Width = 341
     end
     object codigoMotorista: TcxButtonEdit
-      Left = 22
-      Top = 157
+      Left = 489
+      Top = 82
       Hint = 'C'#243'digo do motorista/terceiro'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
@@ -137,25 +137,25 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 13
+      TabOrder = 15
       Text = '0'
       Width = 93
     end
     object nomeMotorista: TcxTextEdit
-      Left = 121
-      Top = 160
+      Left = 588
+      Top = 85
       Hint = 'Nome do motorista/terceiro'
       TabStop = False
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 14
-      Width = 284
+      TabOrder = 16
+      Width = 264
     end
     object placaVeiculo: TcxButtonEdit
       Left = 469
-      Top = 82
+      Top = 112
       Hint = 'Placa do ve'#237'culo'
       Properties.Buttons = <
         item
@@ -171,24 +171,24 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 15
+      TabOrder = 17
       Width = 76
     end
     object descricaoVeiculo: TcxTextEdit
       Left = 551
-      Top = 82
+      Top = 112
       Hint = 'Descri'#231#227'o do ve'#237'culo cadastrado'
       TabStop = False
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 16
+      TabOrder = 18
       Width = 301
     end
     object roteiro: TcxButtonEdit
       Left = 479
-      Top = 112
+      Top = 142
       Hint = 'Roteiro'
       Properties.Buttons = <
         item
@@ -202,40 +202,13 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 17
+      TabOrder = 19
       Width = 373
     end
     object kmInicial: TcxMaskEdit
       Left = 435
-      Top = 157
+      Top = 187
       Hint = 'Od'#244'metro inicial'
-      Properties.Alignment.Horz = taRightJustify
-      Properties.IgnoreMaskBlank = True
-      Properties.MaskKind = emkRegExpr
-      Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 18
-      Text = '0'
-      Width = 108
-    end
-    object horaSaida: TcxTimeEdit
-      Left = 549
-      Top = 157
-      Hint = 'Hora da sa'#237'da'
-      Properties.TimeFormat = tfHourMin
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      TabOrder = 19
-      Width = 85
-    end
-    object kmFinal: TcxMaskEdit
-      Left = 640
-      Top = 157
-      Hint = 'Od'#244'metro final'
       Properties.Alignment.Horz = taRightJustify
       Properties.IgnoreMaskBlank = True
       Properties.MaskKind = emkRegExpr
@@ -245,26 +218,53 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Style.HotTrack = False
       TabOrder = 20
       Text = '0'
-      Width = 116
+      Width = 108
     end
-    object horaRetorno: TcxTimeEdit
-      Left = 762
-      Top = 157
-      Hint = 'Hora do retorno'
+    object horaSaida: TcxTimeEdit
+      Left = 549
+      Top = 187
+      Hint = 'Hora da sa'#237'da'
       Properties.TimeFormat = tfHourMin
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 21
+      Width = 85
+    end
+    object kmFinal: TcxMaskEdit
+      Left = 640
+      Top = 187
+      Hint = 'Od'#244'metro final'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.IgnoreMaskBlank = True
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 22
+      Text = '0'
+      Width = 116
+    end
+    object horaRetorno: TcxTimeEdit
+      Left = 762
+      Top = 187
+      Hint = 'Hora do retorno'
+      Properties.TimeFormat = tfHourMin
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 23
       Width = 90
     end
     object gridOS: TcxGrid
       Left = 22
-      Top = 217
+      Top = 244
       Width = 830
-      Height = 262
-      TabOrder = 22
+      Height = 270
+      TabOrder = 24
       object gridOSDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -332,6 +332,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
               Default = True
               Kind = bkGlyph
             end>
+          Properties.CharCase = ecUpperCase
           Properties.Images = Data_Sisgef.iml_16_16
           HeaderAlignmentHorz = taCenter
           Width = 420
@@ -452,7 +453,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
     end
     object OSEncerrada: TcxCheckBox
       Left = 10
-      Top = 497
+      Top = 532
       Hint = 'Indica se OS foi encerrada ou n'#227'o'
       TabStop = False
       Caption = 'N'#195'O ENCERRADA'
@@ -465,8 +466,43 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 23
+      TabOrder = 25
       Transparent = True
+    end
+    object codigoTerceiro: TcxButtonEdit
+      Left = 89
+      Top = 139
+      Hint = 'C'#243'digo do terceirizado'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.Buttons = <
+        item
+          Action = actionSearchOutsource
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d\d\d'
+      Properties.OnValidate = codigoTerceiroPropertiesValidate
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 13
+      Text = '0'
+      Width = 77
+    end
+    object nomeTerceiro: TcxTextEdit
+      Left = 172
+      Top = 139
+      TabStop = False
+      Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 14
+      Width = 233
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -474,7 +510,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       LayoutLookAndFeel = Data_Sisgef.dxLayoutStandardLookAndFeel1
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 4
+      ItemIndex = 2
       ShowBorder = False
       Index = -1
     end
@@ -502,7 +538,6 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 2
@@ -514,6 +549,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       CaptionOptions.Text = 'Identifica'#231#227'o OS'
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
+      ItemIndex = 2
       Index = 0
     end
     object dxLayoutGroup4: TdxLayoutGroup
@@ -523,7 +559,6 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       CaptionOptions.Text = 'Viagem / Trasfer'#234'ncia'
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
-      ItemIndex = 2
       Index = 1
     end
     object dxLayoutItem2: TdxLayoutItem
@@ -589,21 +624,18 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Index = 0
     end
     object dxLayoutGroup7: TdxLayoutGroup
-      Parent = dxLayoutGroup3
-      AlignHorz = ahClient
-      AlignVert = avTop
+      Parent = dxLayoutGroup4
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 2
+      Index = 0
     end
     object dxLayoutItem6: TdxLayoutItem
       Parent = dxLayoutGroup7
       AlignHorz = ahLeft
       AlignVert = avClient
-      CaptionOptions.Text = 'Motorista/Terceiro:'
-      CaptionOptions.Layout = clTop
+      CaptionOptions.Text = 'Motorista:'
       Control = codigoMotorista
       ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 93
@@ -630,7 +662,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object dxLayoutItem8: TdxLayoutItem
       Parent = dxLayoutGroup8
@@ -662,7 +694,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutItem10: TdxLayoutItem
       Parent = dxLayoutGroup9
@@ -681,7 +713,7 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutItem11: TdxLayoutItem
       Parent = dxLayoutGroup10
@@ -885,6 +917,38 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       ControlOptions.ShowBorder = False
       Index = 0
     end
+    object dxLayoutGroup15: TdxLayoutGroup
+      Parent = dxLayoutGroup3
+      CaptionOptions.Text = 'New Group'
+      Visible = False
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem25: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahLeft
+      AlignVert = avClient
+      CaptionOptions.Text = 'Terceirizado:'
+      Control = codigoTerceiro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 77
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem26: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxTextEdit1'
+      CaptionOptions.Visible = False
+      Control = nomeTerceiro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
   end
   object actionListOS: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -984,6 +1048,13 @@ object view_SisGeFServiceOrders: Tview_SisGeFServiceOrders
       Hint = 'Servi'#231'o'
       ImageIndex = 86
       OnExecute = actionSearchServiceExecute
+    end
+    object actionSearchOutsource: TAction
+      Category = 'Search'
+      Caption = 'Pesquisar Terceirizado'
+      Hint = 'Pesquisar terceirizado'
+      ImageIndex = 86
+      OnExecute = actionSearchOutsourceExecute
     end
   end
   object dsClientes: TDataSource
