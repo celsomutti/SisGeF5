@@ -928,7 +928,7 @@ begin
   FOS.OS.OSNumber := numeroOS.EditValue;
   FOS.OS.OSDate := dataOS.Date;
   FOS.OS.ServiceOrderTypeCode := tipoOS.ItemIndex;
-  FOS.OS.ClientCode :=  StrToIntDef(cliente.EditText,0);
+  FOS.OS.ClientCode :=   StrToIntDef(VarToStr(cliente.EditValue), 0);
   FOS.OS.DeliveryManCode := codigoMotorista.EditValue;
   FOS.OS.RouteDescription := roteiro.Text;
   FOS.OS.InitialMileage := kmInicial.EditValue;
@@ -939,7 +939,7 @@ begin
   FOS.OS.ServiceValue := gridOSDBTableView1.DataController.Summary.FooterSummaryValues[1];
   FOS.OS.ServiceDescription := UnMountGrid();
   FOS.OS.VehicleCode := VehicleCodeByBoard(placaVeiculo.Text);
-  FOS.OS.PersonCode := StrToIntDef(codigoTerceiro.EditText,0);
+  FOS.OS.PersonCode := StrToIntDef(VarToStr(codigoTerceiro.EditValue), 0);
   FOS.OS.Action := FAcao;
 end;
 
