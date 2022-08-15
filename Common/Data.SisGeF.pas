@@ -643,6 +643,18 @@ type
     dxLayoutOfficeLookAndFeel1: TdxLayoutOfficeLookAndFeel;
     dxLayoutStandardLookAndFeel1: TdxLayoutStandardLookAndFeel;
     dxLayoutStandardLookAndFeel2: TdxLayoutStandardLookAndFeel;
+    storedProcExtractSO: TFDStoredProc;
+    memTableExtractSO: TFDMemTable;
+    memTableExtractSOnum_os: TIntegerField;
+    memTableExtractSOdata_os: TDateField;
+    memTableExtractSOdes_rota: TStringField;
+    memTableExtractSOcod_cadastro: TIntegerField;
+    memTableExtractSOnom_cadastro: TStringField;
+    memTableExtractSOdes_servico: TStringField;
+    memTableExtractSOqtd_servico: TFloatField;
+    memTableExtractSOval_unitario: TFloatField;
+    memTableExtractSOval_servico: TFloatField;
+    memTableExtractSOdes_placa: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

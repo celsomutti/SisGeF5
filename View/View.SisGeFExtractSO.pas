@@ -88,18 +88,6 @@ type
     gridExtractSOLevel1: TcxGridLevel;
     gridExtractSO: TcxGrid;
     dxLayoutItem21: TdxLayoutItem;
-    memTableExtract: TFDMemTable;
-    memTableExtractnum_os: TIntegerField;
-    memTableExtractdata_os: TDateField;
-    memTableExtractcod_entregador: TIntegerField;
-    memTableExtractnom_entregador: TStringField;
-    memTableExtractcod_cadastro: TIntegerField;
-    memTableExtractdes_servico: TStringField;
-    memTableExtractqtd_servico: TFloatField;
-    memTableExtractval_unitario: TFloatField;
-    memTableExtractval_servico: TFloatField;
-    memTableExtractnom_cadastro: TStringField;
-    memTableExtractdes_placa: TStringField;
     dsExtract: TDataSource;
     gridExtractSODBTableView1num_os: TcxGridDBColumn;
     gridExtractSODBTableView1data_os: TcxGridDBColumn;
@@ -109,8 +97,6 @@ type
     gridExtractSODBTableView1qtd_servico: TcxGridDBColumn;
     gridExtractSODBTableView1val_unitario: TcxGridDBColumn;
     gridExtractSODBTableView1val_servico: TcxGridDBColumn;
-    gridExtractSODBTableView1cod_entregador: TcxGridDBColumn;
-    gridExtractSODBTableView1nom_entregador: TcxGridDBColumn;
     gridExtractSODBTableView1des_placa: TcxGridDBColumn;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -135,6 +121,7 @@ type
     procedure AddClients;
     procedure ExcludeClients;
     procedure ClearClients;
+    function VaidateExtract(): boolean;
   public
     { Public declarations }
   end;
@@ -345,6 +332,11 @@ begin
     layoutGroupClientes.Visible := False;
     layoutGroupTerceirizados.Visible := False;
   end;
+end;
+
+function Tview_SisGeFExtractSO.VaidateExtract: boolean;
+begin
+
 end;
 
 end.

@@ -330,14 +330,6 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
           DataBinding.FieldName = 'val_servico'
           HeaderAlignmentHorz = taCenter
         end
-        object gridExtractSODBTableView1cod_entregador: TcxGridDBColumn
-          DataBinding.FieldName = 'cod_entregador'
-          HeaderAlignmentHorz = taCenter
-        end
-        object gridExtractSODBTableView1nom_entregador: TcxGridDBColumn
-          DataBinding.FieldName = 'nom_entregador'
-          HeaderAlignmentHorz = taCenter
-        end
         object gridExtractSODBTableView1des_placa: TcxGridDBColumn
           DataBinding.FieldName = 'des_placa'
           HeaderAlignmentHorz = taCenter
@@ -804,68 +796,9 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       OnExecute = actionClearOutsourcedListExecute
     end
   end
-  object memTableExtract: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 800
-    Top = 24
-    object memTableExtractnum_os: TIntegerField
-      DisplayLabel = 'N'#176'. OS'
-      FieldName = 'num_os'
-    end
-    object memTableExtractdata_os: TDateField
-      DisplayLabel = 'Data'
-      FieldName = 'data_os'
-    end
-    object memTableExtractcod_cadastro: TIntegerField
-      DisplayLabel = 'C'#243'digo'
-      FieldName = 'cod_cadastro'
-    end
-    object memTableExtractnom_cadastro: TStringField
-      DisplayLabel = 'Nome'
-      FieldName = 'nom_cadastro'
-      Size = 70
-    end
-    object memTableExtractdes_servico: TStringField
-      DisplayLabel = 'Servi'#231'o'
-      FieldName = 'des_servico'
-      Size = 150
-    end
-    object memTableExtractqtd_servico: TFloatField
-      DisplayLabel = 'Qtde.'
-      FieldName = 'qtd_servico'
-    end
-    object memTableExtractval_unitario: TFloatField
-      DisplayLabel = 'Unit'#225'rio'
-      FieldName = 'val_unitario'
-    end
-    object memTableExtractval_servico: TFloatField
-      DisplayLabel = 'Total'
-      FieldName = 'val_servico'
-    end
-    object memTableExtractcod_entregador: TIntegerField
-      DisplayLabel = 'Motorista'
-      FieldName = 'cod_entregador'
-    end
-    object memTableExtractnom_entregador: TStringField
-      DisplayLabel = 'Nome Motorista'
-      FieldName = 'nom_entregador'
-      Size = 70
-    end
-    object memTableExtractdes_placa: TStringField
-      DisplayLabel = 'Placa'
-      FieldName = 'des_placa'
-      Size = 8
-    end
-  end
   object dsExtract: TDataSource
     AutoEdit = False
-    DataSet = memTableExtract
+    DataSet = Data_Sisgef.memTableExtractSO
     Left = 864
     Top = 24
   end

@@ -283,7 +283,8 @@ uses
   Controller.SisGeFOrderServices in 'Control\Controller.SisGeFOrderServices.pas',
   View.PesquisarGeral in 'View\View.PesquisarGeral.pas' {View_PesquisarGeral},
   View.SisGeFGeneralSearch in 'View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch},
-  View.SisGeFExtractSO in 'View\View.SisGeFExtractSO.pas' {view_SisGeFExtractSO};
+  View.SisGeFExtractSO in 'View\View.SisGeFExtractSO.pas' {view_SisGeFExtractSO},
+  THread.SisGeFProcessExtractSO in 'Thread\THread.SisGeFProcessExtractSO.pas';
 
 {$R *.res}
 
