@@ -2,8 +2,8 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
   Left = 0
   Top = 0
   Caption = 'Extrato de Ordens de Servi'#231'o'
-  ClientHeight = 580
-  ClientWidth = 922
+  ClientHeight = 615
+  ClientWidth = 999
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,19 +12,23 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  Position = poDesktopCenter
+  WindowState = wsMaximized
   OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 922
-    Height = 580
+    Width = 999
+    Height = 615
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.dxLayoutStandardLookAndFeel2
+    ExplicitWidth = 922
+    ExplicitHeight = 580
     object cxLabel1: TcxLabel
       Left = 10
       Top = 10
@@ -204,7 +208,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       Width = 121
     end
     object cxButton7: TcxButton
-      Left = 837
+      Left = 832
       Top = 83
       Width = 75
       Height = 25
@@ -215,24 +219,24 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       TabOrder = 13
     end
     object cxButton8: TcxButton
-      Left = 91
-      Top = 545
+      Left = 833
+      Top = 575
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actionClosedExtract
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 19
+      TabOrder = 21
     end
     object cxButton9: TcxButton
-      Left = 837
-      Top = 545
+      Left = 914
+      Top = 575
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 20
+      TabOrder = 22
     end
     object cxButton10: TcxButton
       Left = 22
@@ -268,83 +272,142 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       TabOrder = 16
     end
     object cxButton14: TcxButton
-      Left = 10
-      Top = 545
+      Left = 752
+      Top = 575
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actionExportGrid
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 18
+      TabOrder = 20
     end
     object gridExtractSO: TcxGrid
       Left = 22
       Top = 213
-      Width = 878
-      Height = 314
+      Width = 955
+      Height = 340
       TabOrder = 17
       object gridExtractSODBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = dsExtract
-        DataController.Summary.DefaultGroupSummaryItems = <>
-        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.DefaultGroupSummaryItems = <
+          item
+            Format = ',0.000;-,0.000'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtractSODBTableView1qtd_servico
+          end
+          item
+            Format = ',0.00;-,0.00'
+            Kind = skSum
+            Position = spFooter
+            Column = gridExtractSODBTableView1val_servico
+          end>
+        DataController.Summary.FooterSummaryItems = <
+          item
+            Format = ',0.000;-,0.000'
+            Kind = skSum
+            Column = gridExtractSODBTableView1qtd_servico
+          end
+          item
+            Format = 'R$ ,0.00;- R$ ,0.00'
+            Kind = skSum
+            Column = gridExtractSODBTableView1val_servico
+          end>
         DataController.Summary.SummaryGroups = <>
         OptionsView.CellAutoHeight = True
         OptionsView.ColumnAutoWidth = True
+        OptionsView.Footer = True
+        OptionsView.GroupByBox = False
         OptionsView.GroupFooterMultiSummaries = True
+        OptionsView.GroupFooters = gfAlwaysVisible
         OptionsView.HeaderAutoHeight = True
         OptionsView.Indicator = True
         object gridExtractSODBTableView1num_os: TcxGridDBColumn
           DataBinding.FieldName = 'num_os'
+          Visible = False
+          GroupIndex = 1
           HeaderAlignmentHorz = taCenter
-          Width = 56
+          Width = 51
         end
         object gridExtractSODBTableView1data_os: TcxGridDBColumn
           DataBinding.FieldName = 'data_os'
           HeaderAlignmentHorz = taCenter
+          SortIndex = 0
+          SortOrder = soAscending
+          Width = 63
         end
         object gridExtractSODBTableView1cod_cadastro: TcxGridDBColumn
           DataBinding.FieldName = 'cod_cadastro'
+          Visible = False
           HeaderAlignmentHorz = taCenter
+          Width = 58
         end
         object gridExtractSODBTableView1nom_cadastro: TcxGridDBColumn
           DataBinding.FieldName = 'nom_cadastro'
+          Visible = False
+          GroupIndex = 0
           HeaderAlignmentHorz = taCenter
-          Width = 253
+          Width = 227
         end
         object gridExtractSODBTableView1des_servico: TcxGridDBColumn
           DataBinding.FieldName = 'des_servico'
           HeaderAlignmentHorz = taCenter
-          Width = 358
+          Width = 322
         end
         object gridExtractSODBTableView1qtd_servico: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_servico'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DecimalPlaces = 3
+          Properties.DisplayFormat = ',0.000;- ,0.000'
           HeaderAlignmentHorz = taCenter
+          Width = 58
         end
         object gridExtractSODBTableView1val_unitario: TcxGridDBColumn
           DataBinding.FieldName = 'val_unitario'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
+          Width = 58
         end
         object gridExtractSODBTableView1val_servico: TcxGridDBColumn
           DataBinding.FieldName = 'val_servico'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.DisplayFormat = ' ,0.00;- ,0.00'
           HeaderAlignmentHorz = taCenter
+          Width = 57
         end
         object gridExtractSODBTableView1des_placa: TcxGridDBColumn
           DataBinding.FieldName = 'des_placa'
           HeaderAlignmentHorz = taCenter
+          Width = 47
         end
       end
       object gridExtractSOLevel1: TcxGridLevel
         GridView = gridExtractSODBTableView1
       end
     end
+    object labelInfo: TcxLabel
+      Left = 55
+      Top = 579
+      Style.HotTrack = False
+      Transparent = True
+    end
+    object activityIndicator: TdxActivityIndicator
+      Left = 10
+      Top = 571
+      Width = 39
+      Height = 34
+      PropertiesClassName = 'TdxActivityIndicatorCircularDotsProperties'
+      Transparent = True
+    end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 2
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end
@@ -372,7 +435,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 4
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -560,7 +623,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
     end
     object dxLayoutGroup7: TdxLayoutGroup
       Parent = dxLayoutGroup2
-      AlignHorz = ahRight
+      AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
@@ -591,7 +654,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
     end
     object dxLayoutItem15: TdxLayoutItem
       Parent = dxLayoutGroup8
-      AlignHorz = ahLeft
+      AlignHorz = ahRight
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton8'
       CaptionOptions.Visible = False
@@ -600,7 +663,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Enabled = False
-      Index = 1
+      Index = 3
     end
     object dxLayoutItem16: TdxLayoutItem
       Parent = dxLayoutGroup8
@@ -612,7 +675,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 4
     end
     object dxLayoutGroup9: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -670,7 +733,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
     end
     object dxLayoutItem20: TdxLayoutItem
       Parent = dxLayoutGroup8
-      AlignHorz = ahLeft
+      AlignHorz = ahRight
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton14'
       CaptionOptions.Visible = False
@@ -678,7 +741,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 2
     end
     object dxLayoutGroup11: TdxLayoutGroup
       Parent = dxLayoutGroup9
@@ -698,6 +761,30 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       Control = gridExtractSO
       ControlOptions.OriginalHeight = 200
       ControlOptions.OriginalWidth = 250
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem22: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxLabel2'
+      CaptionOptions.Visible = False
+      Control = labelInfo
+      ControlOptions.OriginalHeight = 17
+      ControlOptions.OriginalWidth = 7
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem23: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'dxActivityIndicator1'
+      CaptionOptions.Visible = False
+      Control = activityIndicator
+      ControlOptions.OriginalHeight = 34
+      ControlOptions.OriginalWidth = 39
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -731,6 +818,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       Caption = '&Processar'
       Hint = 'Processar/Listar extrato'
       ImageIndex = 109
+      OnExecute = actionProcessExtractExecute
     end
     object actionClosedExtract: TAction
       Category = 'Service Orders'
@@ -800,6 +888,12 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
     AutoEdit = False
     DataSet = Data_Sisgef.memTableExtractSO
     Left = 864
+    Top = 24
+  end
+  object timer: TTimer
+    Enabled = False
+    OnTimer = timerTimer
+    Left = 808
     Top = 24
   end
 end

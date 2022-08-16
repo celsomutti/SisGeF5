@@ -1089,6 +1089,10 @@
           BeginGroup = True
           Visible = True
           ItemName = 'dxBarLargeButton30'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton70'
         end>
       OneOnRow = True
       Row = 0
@@ -1932,6 +1936,17 @@
       Category = 0
       LargeImageIndex = 51
     end
+    object dxBarLargeButton69: TdxBarLargeButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarLargeButton70: TdxBarLargeButton
+      Action = actionExtratoOS
+      Category = 0
+      LargeImageIndex = 36
+    end
   end
   object aclMain: TActionList
     Left = 984
@@ -2323,6 +2338,13 @@
       Caption = 'Prazos Extratos'
       Hint = 'Par'#226'metros de Prazos de Extratos'
       OnExecute = actionParametrosPrazosExtratosExecute
+    end
+    object actionExtratoOS: TAction
+      Tag = 401040
+      Category = 'Servi'#231'os'
+      Caption = 'E&xtrato'
+      Hint = 'Extrato de Ordens de Servi'#231'o'
+      OnExecute = actionExtratoOSExecute
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager

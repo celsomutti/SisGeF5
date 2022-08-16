@@ -71,14 +71,20 @@ uses Data.SisGeF;
 
 procedure TTHread_SisGeFProcessExtractSO.Execute;
 begin
-  { Place thread code here }
+  case FTipo of
+    1 : ExecuteProcessExtractSOByConsumption;
+    2 : ExecuteProcessExtractSOByInstallment;
+  end;
 end;
 
 procedure TTHread_SisGeFProcessExtractSO.ExecuteProcessExtractSOByConsumption;
 var
   FConnection : TConexao;
   FQuery : TFDQuery;
-  i: integer;
+  lDetalhe: TStringList;
+  i, iTotalLine, iTotalIndex, iStep, iIndex, iItem: integer;
+  sDescricao : String;
+  aLine: array of variant;
 begin
   FInProcess := True;
   FAbortProcess := False;
@@ -103,11 +109,81 @@ begin
     end;
     storedProcExtractSO.Active := True;
     memTableExtractSO.Active := True;
-    memTableExtractSO.CopyDataSet(storedProcExtractSO, [coAppend]);
-    storedProcExtractSO.Connection.Connected := False;
-    if not memTableExtractSO.IsEmpty then
+//    memTableExtractSO.CopyDataSet(storedProcExtractSO, [coAppend]);
+
+    if not storedProcExtractSO.Eof then
+      storedProcExtractSO.First;
+
+    while not storedProcExtractSO.Eof do
     begin
-      memTableExtractSO.First;
+      lDetalhe := TStringList.Create;
+      SetLength(aLine,4);
+      lDetalhe.StrictDelimiter := True;
+      lDetalhe.Delimiter := '|';
+      lDetalhe.DelimitedText := storedProcExtractSO.FieldByName('des_servico').AsString;
+      iTotalIndex := Pred(lDetalhe.Count);
+      Data_Sisgef.memTableExtractSO.Active := False;
+      Data_Sisgef.memTableExtractSO.Active := True;
+      if storedProcExtractSO.FieldByName('num_os').AsInteger < 44473 then
+      begin
+        iTotalLine := 3;
+        iStep := 2;
+      end
+      else
+      begin
+        iTotalLine := 4;
+        iStep := 3;
+      end;
+      iIndex := -1;
+      iItem := 1;
+      for i := 0 to iTotalIndex  do
+      begin
+        if iIndex < iStep then
+        begin
+          Inc(iIndex,1);
+        end
+        else
+        begin
+          iIndex := 0;
+          Data_Sisgef.memTableExtractSO.Insert;
+          Data_Sisgef.memTableExtractSOnum_os.AsInteger := storedProcExtractSO.FieldByName('num_os').AsInteger;
+          Data_Sisgef.memTableExtractSOdata_os.AsDateTime := storedProcExtractSO.FieldByName('DAT_OS').AsDateTime;
+          Data_Sisgef.memTableExtractSOdes_rota.AsString := storedProcExtractSO.FieldByName('des_rota').AsString;
+          Data_Sisgef.memTableExtractSOcod_cadastro.AsInteger := storedProcExtractSO.FieldByName('cod_cadastro').AsInteger;
+          Data_Sisgef.memTableExtractSOnom_cadastro.AsString := storedProcExtractSO.FieldByName('nom_cadastro').AsString;
+          Data_Sisgef.memTableExtractSOdes_servico.Value := aLine[1];
+          Data_Sisgef.memTableExtractSOqtd_servico.Value := aLine[2];
+          Data_Sisgef.memTableExtractSOval_unitario.Value := aLine[3];
+          Data_Sisgef.memTableExtractSOdes_placa.AsString := storedProcExtractSO.FieldByName('des_placa').AsString;
+          Data_Sisgef.memTableExtractSO.Post;
+        end;
+        if iTotalLine = 3 then
+        begin
+          aLine[2] := 1;
+          case iIndex of
+            0 : aLine[iIndex] := iItem;
+            1 : aLine[iIndex] := lDetalhe[i];
+            2 : aLine[3] := StrToFloatDef(lDetalhe[i], 0);
+          end;
+        end
+        else
+        begin
+          case iIndex of
+            0 : aLine[iIndex] := iItem;
+            1 : aLine[iIndex] := lDetalhe[i];
+            2 : aLine[iIndex] := StrToFloatDef(lDetalhe[i], 0);
+            3 : aLine[iIndex] := StrToFloatDef(lDetalhe[i], 0);
+          end;
+        end;
+        Inc(iItem,1);
+      end;
+      storedProcExtractSO.Next;
+    end;
+    Finalize(aLine);
+    storedProcExtractSO.Connection.Connected := False;
+    if not Data_Sisgef.memTableExtractSO.IsEmpty then
+    begin
+      Data_Sisgef.memTableExtractSO.First;
     end
     else
     begin
@@ -124,7 +200,10 @@ procedure TTHread_SisGeFProcessExtractSO.ExecuteProcessExtractSOByInstallment;
 var
   FConnection : TConexao;
   FQuery : TFDQuery;
-  i: integer;
+  lDetalhe: TStringList;
+  i, iTotalLine, iTotalIndex, iStep, iIndex, iItem: integer;
+  sDescricao : String;
+  aLine: array of variant;
 begin
   FInProcess := True;
   FAbortProcess := False;
@@ -149,7 +228,79 @@ begin
     end;
     storedProcExtractSO.Active := True;
     memTableExtractSO.Active := True;
-    memTableExtractSO.CopyDataSet(storedProcExtractSO, [coAppend]);
+//    memTableExtractSO.CopyDataSet(storedProcExtractSO, [coAppend]);
+
+
+
+    if not storedProcExtractSO.Eof then
+      storedProcExtractSO.First;
+    Data_Sisgef.memTableExtractSO.Active := False;
+    Data_Sisgef.memTableExtractSO.Active := True;
+    while not storedProcExtractSO.Eof do
+    begin
+      lDetalhe := TStringList.Create;
+      SetLength(aLine,4);
+      lDetalhe.StrictDelimiter := True;
+      lDetalhe.Delimiter := '|';
+      lDetalhe.DelimitedText := storedProcExtractSO.FieldByName('des_servico').AsString;
+      iTotalIndex := Pred(lDetalhe.Count);
+      if storedProcExtractSO.FieldByName('num_os').AsInteger < 44473 then
+      begin
+        iTotalLine := 3;
+        iStep := 2;
+      end
+      else
+      begin
+        iTotalLine := 4;
+        iStep := 3;
+      end;
+      iIndex := -1;
+      iItem := 1;
+      for i := 0 to iTotalIndex  do
+      begin
+        if iIndex < iStep then
+        begin
+          Inc(iIndex,1);
+        end
+        else
+        begin
+          iIndex := 0;
+          Data_Sisgef.memTableExtractSO.Insert;
+          Data_Sisgef.memTableExtractSOnum_os.AsInteger := storedProcExtractSO.FieldByName('num_os').AsInteger;
+          Data_Sisgef.memTableExtractSOdata_os.AsDateTime := storedProcExtractSO.FieldByName('DAT_OS').AsDateTime;
+          Data_Sisgef.memTableExtractSOdes_rota.AsString := storedProcExtractSO.FieldByName('des_rota').AsString;
+          Data_Sisgef.memTableExtractSOcod_cadastro.AsInteger := storedProcExtractSO.FieldByName('cod_cadastro').AsInteger;
+          Data_Sisgef.memTableExtractSOnom_cadastro.AsString := storedProcExtractSO.FieldByName('nom_cadastro').AsString;
+          Data_Sisgef.memTableExtractSOdes_servico.Value := aLine[1];
+          Data_Sisgef.memTableExtractSOqtd_servico.Value := aLine[2];
+          Data_Sisgef.memTableExtractSOval_unitario.Value := aLine[3];
+          Data_Sisgef.memTableExtractSOdes_placa.AsString := storedProcExtractSO.FieldByName('des_placa').AsString;
+          Data_Sisgef.memTableExtractSO.Post;
+        end;
+        if iTotalLine = 3 then
+        begin
+          aLine[2] := 1;
+          case iIndex of
+            0 : aLine[iIndex] := iItem;
+            1 : aLine[iIndex] := lDetalhe[i];
+            2 : aLine[3] := StrToFloatDef(lDetalhe[i], 0);
+          end;
+        end
+        else
+        begin
+          case iIndex of
+            0 : aLine[iIndex] := iItem;
+            1 : aLine[iIndex] := lDetalhe[i];
+            2 : aLine[iIndex] := StrToFloatDef(lDetalhe[i], 0);
+            3 : aLine[iIndex] := StrToFloatDef(lDetalhe[i], 0);
+          end;
+        end;
+        Inc(iItem,1);
+      end;
+      storedProcExtractSO.Next;
+    end;
+    Finalize(aLine);
+
     storedProcExtractSO.Connection.Connected := False;
     if not memTableExtractSO.IsEmpty then
     begin

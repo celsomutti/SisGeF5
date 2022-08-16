@@ -11,7 +11,7 @@ uses
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Common.Utils, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, THread.SisGeFProcessExtractSO, Vcl.ExtCtrls, dxActivityIndicator, cxCurrencyEdit;
 
 type
   Tview_SisGeFExtractSO = class(TForm)
@@ -98,6 +98,11 @@ type
     gridExtractSODBTableView1val_unitario: TcxGridDBColumn;
     gridExtractSODBTableView1val_servico: TcxGridDBColumn;
     gridExtractSODBTableView1des_placa: TcxGridDBColumn;
+    labelInfo: TcxLabel;
+    dxLayoutItem22: TdxLayoutItem;
+    timer: TTimer;
+    activityIndicator: TdxActivityIndicator;
+    dxLayoutItem23: TdxLayoutItem;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure tipoOSPropertiesChange(Sender: TObject);
@@ -112,6 +117,8 @@ type
     procedure actionDeleteOutsourcedExecute(Sender: TObject);
     procedure actionClearOutsourcedListExecute(Sender: TObject);
     procedure situacaoExtratoPropertiesChange(Sender: TObject);
+    procedure timerTimer(Sender: TObject);
+    procedure actionProcessExtractExecute(Sender: TObject);
   private
     { Private declarations }
     procedure ExportGrid;
@@ -122,12 +129,18 @@ type
     procedure ExcludeClients;
     procedure ClearClients;
     function VaidateExtract(): boolean;
+    procedure ProcessExtract;
+    function GenerateFilter(): string;
+    function FilterClient(): string;
+    function FilterCourier(): string;
   public
     { Public declarations }
   end;
 
 var
   view_SisGeFExtractSO: Tview_SisGeFExtractSO;
+  FExtract : TTHread_SisGeFProcessExtractSO;
+  FDateCredit: TDate;
 
 implementation
 
@@ -183,6 +196,11 @@ end;
 procedure Tview_SisGeFExtractSO.actionIncludeOutsourcedExecute(Sender: TObject);
 begin
   AddPersons;
+end;
+
+procedure Tview_SisGeFExtractSO.actionProcessExtractExecute(Sender: TObject);
+begin
+  ProcessExtract;
 end;
 
 procedure Tview_SisGeFExtractSO.actionRetractGroupExecute(Sender: TObject);
@@ -255,10 +273,112 @@ begin
   end;
 end;
 
+function Tview_SisGeFExtractSO.FilterClient: string;
+var
+  FResult : TStringList;
+  sFilter: String;
+  i : integer;
+begin
+  Result := '';
+  sFilter := '';
+  FResult := TStringList.Create;
+  FResult.StrictDelimiter := True;
+  FResult.Delimiter := ';';
+  for i := 0 to Pred(listaClientes.Items.Count) do
+  begin
+    FResult.DelimitedText := listaClientes.Items[i];
+    if not sFilter.IsEmpty then
+      sFilter := sFilter + ', ';
+    sFilter := sFilter + FResult[0];
+  end;
+  if not sFilter.IsEmpty then
+    Result := 'cod_cadastro in (' + sFilter + ')';
+  FResult.Free;
+end;
+
+function Tview_SisGeFExtractSO.FilterCourier: string;
+var
+  FResult : TStringList;
+  sFilter: String;
+  i : integer;
+begin
+  Result := '';
+  sFilter := '';
+  FResult := TStringList.Create;
+  FResult.StrictDelimiter := True;
+  FResult.Delimiter := ';';
+  for i := 0 to Pred(listaTerceiros.Items.Count) do
+  begin
+    FResult.DelimitedText := listaTerceiros.Items[i];
+    if not sFilter.IsEmpty then
+      sFilter := sFilter + ', ';
+    sFilter := sFilter + FResult[0];
+  end;
+  if not sFilter.IsEmpty then
+    Result := 'cod_cadastro in (' + sFilter + ')';
+  FResult.Free;
+end;
+
 procedure Tview_SisGeFExtractSO.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  Data_Sisgef.memTableExtractSO.Active := False;
   Action := caFree;
   view_SisGeFExtractSO := nil;
+end;
+
+function Tview_SisGeFExtractSO.GenerateFilter: string;
+var
+  sQuery, sFilter, sResult : String;
+begin
+  Result := '';
+  sQuery := '';
+  sFilter := '';
+  sResult := '';
+  sFilter := FilterClient();
+  if not sFilter.IsEmpty then
+  begin
+    if not sQuery.IsEmpty then
+      sQuery := sQuery + ' and ' + sFilter
+    else
+      sQuery := sFilter;
+  end;
+  sFilter := '';
+  sFilter := FilterCourier();
+  if not sFilter.IsEmpty then
+  begin
+    if not sQuery.IsEmpty then
+      sQuery := sQuery + ' and ' + sFilter
+    else
+      sQuery := sFilter;
+  end;
+  if not sQuery.IsEmpty then
+    sResult := sQuery;
+  Result := sResult;
+end;
+
+
+procedure Tview_SisGeFExtractSO.ProcessExtract;
+begin
+  if MessageDlg('Confirma processar este extrato ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+    Exit;
+  labelInfo.Caption := 'Processando extrato. Aguarde ...';
+  dsExtract.Enabled := False;
+  FExtract := TTHread_SisGeFProcessExtractSO.Create(True);
+  FExtract.Filtro := GenerateFilter();
+  FExtract.StartDate := dataInicial.Date;
+  FExtract.EndDate := dataFinal.Date;
+  FExtract.Tipo := tipoOS.ItemIndex;
+  case situacaoExtrato.ItemIndex of
+    1 : FExtract.Situacao := 'N';
+    2 : FExtract.Situacao := 'S';
+    else
+      FExtract.Situacao := ' ';
+  end;
+  FExtract.Priority := tpNormal;
+  timer.Tag := 0;
+  timer.Enabled := True;
+  activityIndicator.Active := True;
+  FExtract.Start;
 end;
 
 procedure Tview_SisGeFExtractSO.situacaoExtratoPropertiesChange(Sender: TObject);
@@ -315,6 +435,26 @@ begin
   listaTerceiros.Items.Clear;
 end;
 
+procedure Tview_SisGeFExtractSO.timerTimer(Sender: TObject);
+begin
+  if not FExtract.InProcess then
+  begin
+    timer.Enabled := False;
+    if not FExtract.AbortProcess then
+    begin
+      dsExtract.Enabled := True;
+      gridExtractSODBTableView1.ViewData.Expand(True);
+    end
+    else
+    begin
+      MessageDlg(FExtract.Mensagem, mtWarning, [mbOK], 0);
+    end;
+    FExtract.Free;
+    labelInfo.Caption := '';
+    activityIndicator.Active := False;
+  end;
+end;
+
 procedure Tview_SisGeFExtractSO.tipoOSPropertiesChange(Sender: TObject);
 begin
   if tipoOs.ItemIndex = 1 then
@@ -336,7 +476,33 @@ end;
 
 function Tview_SisGeFExtractSO.VaidateExtract: boolean;
 begin
-
+  Result := False;
+  if tipoOS.ItemIndex <= 0 then
+  begin
+    MessageDlg('Informe o tipo de OS do extrato!', mtWarning, [mbCancel], 0);
+    Exit;
+  end;
+  if tipoOS.ItemIndex <= 0 then
+  begin
+    MessageDlg('Informe a situação do extrato!', mtWarning, [mbCancel], 0);
+    Exit;
+  end;
+  if dataInicial.Text = '' then
+  begin
+    MessageDlg('Informe a data inicial do período!', mtWarning, [mbCancel], 0);
+    Exit;
+  end;
+  if dataFinal.Text = '' then
+  begin
+    MessageDlg('Informe a data final do período!', mtWarning, [mbCancel], 0);
+    Exit;
+  end;
+  if dataFinal.Date < dataInicial.Date then
+  begin
+    MessageDlg('A data final do período não pode ser menor que data inicial!', mtWarning, [mbCancel], 0);
+    Exit;
+  end;
+  Result := True;
 end;
 
 end.

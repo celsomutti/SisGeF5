@@ -662,6 +662,7 @@ type
     procedure FDConnectionMySQLBeforeConnect(Sender: TObject);
     procedure memTableResumoRoteirosCalcFields(DataSet: TDataSet);
     procedure memTableExtractsCalcFields(DataSet: TDataSet);
+    procedure memTableExtractSOCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
     procedure DoServerKeyValidate(FileStorage: TScFileStorage;  const HostKeyName: string; NewServerKey: TScKey;
@@ -762,6 +763,11 @@ begin
                                                     memTableExtractsval_creditos.AsFloat +
                                                     memTableExtractsval_debitos.AsFloat +
                                                     memTableExtractsval_extravios.AsFloat;
+end;
+
+procedure TData_Sisgef.memTableExtractSOCalcFields(DataSet: TDataSet);
+begin
+  memTableExtractSOval_servico.AsFloat := memTableExtractSOqtd_servico.AsFloat * memTableExtractSOval_unitario.AsFloat;
 end;
 
 procedure TData_Sisgef.memTableResumoRoteirosCalcFields(DataSet: TDataSet);

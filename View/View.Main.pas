@@ -16,7 +16,7 @@ uses
   dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
   dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxRibbonPainter, dxSkinsdxBarPainter, dxSkinscxPCPainter, Control.Usuarios, FireDAC.Comp.Client,
-  Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems, dxNavBarOfficeNavigationBar;
+  Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems, dxNavBarOfficeNavigationBar, View.SisGeFExtractSO;
 
 type
   Tview_Main = class(TForm)
@@ -195,6 +195,9 @@ type
     actionParametrosPrazosExtratos: TAction;
     dxBarButton7: TdxBarButton;
     dxBarLargeButton68: TdxBarLargeButton;
+    actionExtratoOS: TAction;
+    dxBarLargeButton69: TdxBarLargeButton;
+    dxBarLargeButton70: TdxBarLargeButton;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -232,6 +235,7 @@ type
     procedure actCadastroClientesExecute(Sender: TObject);
     procedure actPlanilhaCreditoExecute(Sender: TObject);
     procedure actOrdemServicoExecute(Sender: TObject);
+    procedure actionExtratoOSExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -514,6 +518,15 @@ begin
     view_ImportaCapaFinanceiroDIRECT := Tview_ImportaCapaFinanceiroDIRECT.Create(Application);
   end;
   view_ImportaCapaFinanceiroDIRECT.Show;
+end;
+
+procedure Tview_Main.actionExtratoOSExecute(Sender: TObject);
+begin
+  if not Assigned(view_SisGeFExtractSO) then
+  begin
+    view_SisGeFExtractSO := Tview_SisGeFExtractSO.Create(Application);
+  end;
+  view_SisGeFExtractSO.Show;
 end;
 
 procedure Tview_Main.actionParametrosPrazosExtratosExecute(Sender: TObject);
