@@ -27,8 +27,6 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.dxLayoutStandardLookAndFeel2
-    ExplicitWidth = 922
-    ExplicitHeight = 580
     object cxLabel1: TcxLabel
       Left = 10
       Top = 10
@@ -208,7 +206,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       Width = 121
     end
     object cxButton7: TcxButton
-      Left = 832
+      Left = 770
       Top = 83
       Width = 75
       Height = 25
@@ -219,7 +217,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       TabOrder = 13
     end
     object cxButton8: TcxButton
-      Left = 833
+      Left = 752
       Top = 575
       Width = 75
       Height = 25
@@ -236,7 +234,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 22
+      TabOrder = 23
     end
     object cxButton10: TcxButton
       Left = 22
@@ -272,7 +270,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       TabOrder = 16
     end
     object cxButton14: TcxButton
-      Left = 752
+      Left = 671
       Top = 575
       Width = 75
       Height = 25
@@ -402,12 +400,23 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       PropertiesClassName = 'TdxActivityIndicatorCircularDotsProperties'
       Transparent = True
     end
+    object cxButton13: TcxButton
+      Left = 833
+      Top = 575
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionReopenExtract
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 22
+    end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
+      ItemIndex = 3
       ShowBorder = False
       Index = -1
     end
@@ -632,10 +641,12 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
     end
     object dxLayoutItem14: TdxLayoutItem
       Parent = dxLayoutGroup7
-      AlignHorz = ahCenter
+      AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton7'
       CaptionOptions.Visible = False
+      Padding.Left = 20
+      Padding.AssignedValues = [lpavLeft]
       Control = cxButton7
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
@@ -648,6 +659,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       AlignVert = avBottom
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 4
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 3
@@ -675,7 +687,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 4
+      Index = 5
     end
     object dxLayoutGroup9: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -788,6 +800,19 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       ControlOptions.ShowBorder = False
       Index = 0
     end
+    object dxLayoutItem24: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton13'
+      CaptionOptions.Visible = False
+      Control = cxButton13
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Enabled = False
+      Index = 4
+    end
   end
   object actionListExtractSO: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -826,6 +851,7 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       Enabled = False
       Hint = 'Encerrar extrato'
       ImageIndex = 83
+      OnExecute = actionClosedExtractExecute
     end
     object actionExportGrid: TAction
       Category = 'Form'
@@ -882,6 +908,14 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
       Hint = 'Limpar lista de terceirizados'
       ImageIndex = 84
       OnExecute = actionClearOutsourcedListExecute
+    end
+    object actionReopenExtract: TAction
+      Category = 'Service Orders'
+      Caption = 'Re&abrir'
+      Enabled = False
+      Hint = 'Reabrir extrato encerrado'
+      ImageIndex = 111
+      OnExecute = actionReopenExtractExecute
     end
   end
   object dsExtract: TDataSource

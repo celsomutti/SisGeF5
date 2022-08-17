@@ -11,7 +11,8 @@ uses
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Common.Utils, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, THread.SisGeFProcessExtractSO, Vcl.ExtCtrls, dxActivityIndicator, cxCurrencyEdit;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, THread.SisGeFProcessExtractSO, Vcl.ExtCtrls, dxActivityIndicator, cxCurrencyEdit,
+  THread.SisGeFCloseExtractSO;
 
 type
   Tview_SisGeFExtractSO = class(TForm)
@@ -103,6 +104,9 @@ type
     timer: TTimer;
     activityIndicator: TdxActivityIndicator;
     dxLayoutItem23: TdxLayoutItem;
+    actionReopenExtract: TAction;
+    cxButton13: TcxButton;
+    dxLayoutItem24: TdxLayoutItem;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure tipoOSPropertiesChange(Sender: TObject);
@@ -119,6 +123,8 @@ type
     procedure situacaoExtratoPropertiesChange(Sender: TObject);
     procedure timerTimer(Sender: TObject);
     procedure actionProcessExtractExecute(Sender: TObject);
+    procedure actionClosedExtractExecute(Sender: TObject);
+    procedure actionReopenExtractExecute(Sender: TObject);
   private
     { Private declarations }
     procedure ExportGrid;
@@ -128,11 +134,16 @@ type
     procedure AddClients;
     procedure ExcludeClients;
     procedure ClearClients;
+    procedure ExecuteCloseExtractOS;
+    procedure ExecuteReopenExtractOS;
     function VaidateExtract(): boolean;
     procedure ProcessExtract;
     function GenerateFilter(): string;
+    procedure ClearForm;
     function FilterClient(): string;
     function FilterCourier(): string;
+    function InfortCreditDate(): string;
+    function ConfirmUserPwd(): boolean;
   public
     { Public declarations }
   end;
@@ -140,13 +151,15 @@ type
 var
   view_SisGeFExtractSO: Tview_SisGeFExtractSO;
   FExtract : TTHread_SisGeFProcessExtractSO;
+  FCloseExtract: TTHread_SisGeFCloseExtractSO;
   FDateCredit: TDate;
 
 implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, Global.Parametros, View.PesquisaClientes, View.PesquisarPessoas;
+uses Data.SisGeF, Global.Parametros, View.PesquisaClientes, View.PesquisarPessoas, View.SisGeFCalendar, View.SisGeFConfirmPassword,
+  View.SisGeFExtractedExpress;
 
 procedure Tview_SisGeFExtractSO.actionClearClientsListExecute(Sender: TObject);
 begin
@@ -156,6 +169,11 @@ end;
 procedure Tview_SisGeFExtractSO.actionClearOutsourcedListExecute(Sender: TObject);
 begin
   ClearPersons;
+end;
+
+procedure Tview_SisGeFExtractSO.actionClosedExtractExecute(Sender: TObject);
+begin
+  ExecuteCloseExtractOS;
 end;
 
 procedure Tview_SisGeFExtractSO.actionCloseFormExecute(Sender: TObject);
@@ -203,6 +221,11 @@ begin
   ProcessExtract;
 end;
 
+procedure Tview_SisGeFExtractSO.actionReopenExtractExecute(Sender: TObject);
+begin
+  ExecuteReopenExtractOS;
+end;
+
 procedure Tview_SisGeFExtractSO.actionRetractGroupExecute(Sender: TObject);
 begin
   gridExtractSODBTableView1.ViewData.Collapse(True);
@@ -245,6 +268,71 @@ begin
   if listaClientes.Items.Count = 0 then
     Exit;
   listaTerceiros.DeleteSelected;
+end;
+
+procedure Tview_SisGeFExtractSO.ExecuteCloseExtractOS;
+var
+  sDatCredit, sMensagem: string;
+begin
+  if not Data_Sisgef.memTableExtractSO.Active then
+    Exit;
+  if Data_Sisgef.memTableExtractSO.IsEmpty then
+    Exit;
+  sDatCredit := FormatDateTime('dd/mm/yyyy', Now);
+  if tipoOS.ItemIndex = 1 then
+  begin
+    sDatCredit := InfortCreditDate;
+    if not sDatCredit.IsEmpty then
+      sMensagem := 'Confirma ENCERRAR este extrato para crédito em ' + sDatCredit + ' ?';
+  end
+  else
+  begin
+    sMensagem := 'Confirma ENCERRAR este extrato ?';
+  end;
+  if sDatCredit.IsEmpty then
+    Exit;
+  if MessageDlg(sMensagem, mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+    Exit;
+  labelInfo.Caption := 'Processando o enceramento do extrato extrato. Aguarde ...';
+  dsExtract.Enabled := False;
+  FCloseExtract := TTHread_SisGeFCloseExtractSO.Create(True);
+
+  FCloseExtract.CreditDate := StrToDateDef(sDatCredit, Now);
+  FCloseExtract.FlagClose := 'S';
+  FCloseExtract.FlagClosed := 1;
+  FCloseExtract.TypeOS := tipoOS.ItemIndex;
+  FCloseExtract.Priority := tpNormal;
+  timer.Tag := 1;
+  timer.Enabled := True;
+  activityIndicator.Active := True;
+  FCloseExtract.Start;
+end;
+
+procedure Tview_SisGeFExtractSO.ExecuteReopenExtractOS;
+begin
+  if not Data_Sisgef.memTableExtractSO.Active then
+    Exit;
+  if Data_Sisgef.memTableExtractSO.IsEmpty then
+    Exit;
+  if MessageDlg('Confirma REABRIR este extrato ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+    Exit;
+  if not ConfirmUserPwd() then
+  begin
+    MessageDlg('Confirmação de usuário inválida!', mtWarning, [mbCancel],0);
+    Exit;
+  end;
+  labelInfo.Caption := 'Processando o enceramento do extrato extrato. Aguarde ...';
+  dsExtract.Enabled := False;
+  FCloseExtract := TTHread_SisGeFCloseExtractSO.Create(True);
+  FCloseExtract.CreditDate := StrToDateDef('30/12/1899', Now);
+  FCloseExtract.FlagClose := 'N';
+  FCloseExtract.FlagClosed := 0;
+  FCloseExtract.TypeOS := tipoOS.ItemIndex;
+  FCloseExtract.Priority := tpNormal;
+  timer.Tag := 2;
+  timer.Enabled := True;
+  activityIndicator.Active := True;
+  FCloseExtract.Start;
 end;
 
 procedure Tview_SisGeFExtractSO.ExportGrid;
@@ -357,6 +445,34 @@ begin
 end;
 
 
+function Tview_SisGeFExtractSO.InfortCreditDate: string;
+var
+  sReturn: string;
+begin
+  try
+    Result := '';
+    if not Assigned(view_SisGeFCalendar) then
+      view_SisGeFCalendar := Tview_SisGeFCalendar.Create(Application);
+    view_SisGeFExtractedExpress.Caption := 'Calendário - INFORME A DATA DE PAGAMENTO';
+    if view_SisGeFCalendar.ShowModal = mrCancel then
+      Exit;
+    sReturn := DateToStr(view_SisGeFCalendar.CalendarView1.Date);
+    if sReturn.IsEmpty then
+    begin
+      MessageDlg('Data informada inválida! Encerramento cancelado.', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    if StrToDate(sReturn) < StrToDate(dataFinal.Text)  then
+    begin
+      MessageDlg('Data informada menor que a data base! Encerramento cancelado.', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    Result := sReturn;
+  finally
+    FreeAndNil(view_SisGeFCalendar);
+  end;
+end;
+
 procedure Tview_SisGeFExtractSO.ProcessExtract;
 begin
   if MessageDlg('Confirma processar este extrato ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
@@ -384,6 +500,7 @@ end;
 procedure Tview_SisGeFExtractSO.situacaoExtratoPropertiesChange(Sender: TObject);
 begin
   actionClosedExtract.Enabled := (situacaoExtrato.ItemIndex = 1);
+  actionReopenExtract.Enabled := (situacaoExtrato.ItemIndex = 2);
 end;
 
 procedure Tview_SisGeFExtractSO.AddPersons;
@@ -430,29 +547,91 @@ begin
   listaClientes.Items.Clear;
 end;
 
+procedure Tview_SisGeFExtractSO.ClearForm;
+begin
+  Data_Sisgef.memTableExtractSO.Active := False;
+  listaClientes.Clear;
+  listaTerceiros.Clear;
+  dataInicial.Clear;
+  dataFinal.Clear;
+  tipoOS.ItemIndex := 0;
+  situacaoExtrato.ItemIndex := 0;
+end;
+
 procedure Tview_SisGeFExtractSO.ClearPersons;
 begin
   listaTerceiros.Items.Clear;
 end;
 
+function Tview_SisGeFExtractSO.ConfirmUserPwd: boolean;
+begin
+  Result := False;
+  if not Assigned(view_SisGeFConfirmPassword) then
+    view_SisGeFConfirmPassword := Tview_SisGeFConfirmPassword.Create(Application);
+  view_SisGeFConfirmPassword.username.Text := Global.Parametros.pUser_Name;
+  view_SisGeFConfirmPassword.username.Properties.ReadOnly := True;
+  Result := (view_SisGeFConfirmPassword.ShowModal = mrOk);
+  FreeAndNil(view_SisGeFConfirmPassword);
+end;
+
 procedure Tview_SisGeFExtractSO.timerTimer(Sender: TObject);
 begin
-  if not FExtract.InProcess then
+  if timer.Tag = 0 then
   begin
-    timer.Enabled := False;
-    if not FExtract.AbortProcess then
+    if not FExtract.InProcess then
     begin
-      dsExtract.Enabled := True;
-      gridExtractSODBTableView1.ViewData.Expand(True);
-    end
-    else
+      timer.Enabled := False;
+      if not FExtract.AbortProcess then
+      begin
+        dsExtract.Enabled := True;
+        gridExtractSODBTableView1.ViewData.Expand(True);
+      end
+      else
+      begin
+        MessageDlg(FExtract.Mensagem, mtWarning, [mbOK], 0);
+      end;
+      FExtract.Free
+    end ;
+  end
+  else if timer.Tag = 1 then
+  begin
+    if not FCloseExtract.InProcess then
     begin
-      MessageDlg(FExtract.Mensagem, mtWarning, [mbOK], 0);
+      timer.Enabled := False;
+      if not FCloseExtract.AbortProcess then
+      begin
+        dsExtract.Enabled := True;
+        gridExtractSODBTableView1.ViewData.Expand(True);
+        MessageDlg('Extrato fechado com sucesso!', mtInformation, [mbOK], 0);
+        situacaoExtrato.ItemIndex := 2;
+      end
+      else
+      begin
+        MessageDlg(FCloseExtract.Mensagem, mtWarning, [mbOK], 0);
+      end;
+      FCloseExtract.Free
     end;
-    FExtract.Free;
-    labelInfo.Caption := '';
-    activityIndicator.Active := False;
+  end
+  else if timer.Tag = 2 then
+  begin
+    if not FCloseExtract.InProcess then
+    begin
+      timer.Enabled := False;
+      if not FCloseExtract.AbortProcess then
+      begin
+        dsExtract.Enabled := True;
+        MessageDlg('Extrato reaberto com sucesso!', mtInformation, [mbOK], 0);
+        ClearForm;
+      end
+      else
+      begin
+        MessageDlg(FCloseExtract.Mensagem, mtWarning, [mbOK], 0);
+      end;
+      FCloseExtract.Free
+    end;
   end;
+  labelInfo.Caption := '';
+  activityIndicator.Active := False;
 end;
 
 procedure Tview_SisGeFExtractSO.tipoOSPropertiesChange(Sender: TObject);

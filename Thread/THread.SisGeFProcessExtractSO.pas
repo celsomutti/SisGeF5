@@ -114,6 +114,9 @@ begin
     if not storedProcExtractSO.Eof then
       storedProcExtractSO.First;
 
+    Data_Sisgef.memTableExtractSO.Active := False;
+    Data_Sisgef.memTableExtractSO.Active := True;
+
     while not storedProcExtractSO.Eof do
     begin
       lDetalhe := TStringList.Create;
@@ -122,8 +125,6 @@ begin
       lDetalhe.Delimiter := '|';
       lDetalhe.DelimitedText := storedProcExtractSO.FieldByName('des_servico').AsString;
       iTotalIndex := Pred(lDetalhe.Count);
-      Data_Sisgef.memTableExtractSO.Active := False;
-      Data_Sisgef.memTableExtractSO.Active := True;
       if storedProcExtractSO.FieldByName('num_os').AsInteger < 44473 then
       begin
         iTotalLine := 3;
@@ -228,10 +229,6 @@ begin
     end;
     storedProcExtractSO.Active := True;
     memTableExtractSO.Active := True;
-//    memTableExtractSO.CopyDataSet(storedProcExtractSO, [coAppend]);
-
-
-
     if not storedProcExtractSO.Eof then
       storedProcExtractSO.First;
     Data_Sisgef.memTableExtractSO.Active := False;
