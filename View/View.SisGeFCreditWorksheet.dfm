@@ -72,6 +72,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
           item
             Format = ' ,0.00; - ,0.00'
             Kind = skSum
+            Position = spFooter
             Column = gridCreditWorkssheetDBTableView1val_total
           end>
         DataController.Summary.FooterSummaryItems = <
@@ -92,6 +93,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
         OptionsView.CellAutoHeight = True
         OptionsView.ColumnAutoWidth = True
         OptionsView.Footer = True
+        OptionsView.FooterMultiSummaries = True
         OptionsView.GroupByBox = False
         OptionsView.GroupFooters = gfAlwaysVisible
         OptionsView.HeaderAutoHeight = True
@@ -119,6 +121,8 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
               Description = 'SERVI'#199'OS'
               Value = 3
             end>
+          Visible = False
+          GroupIndex = 0
           HeaderAlignmentHorz = taCenter
           Width = 58
         end

@@ -20,6 +20,7 @@ type
     procedure ExecuteGeneralProcess;
     procedure ExecuteGenerateCreditWorksheetExpress; // gera planilha de crédito de expressas
     procedure ExecuteClearCreditWorksheetExpress; // exclui planilhas do banco de dados para novas planilhas
+    procedure ExecuteGenerateCreditWorksheetSO; // gera planilha de crédito de  ordens de serviço
     procedure ExecuteSaveCreditWorksheetExress; // salva a planilha no banco de dados;
     procedure ExecuteListCreditWorksheetExpress; // recupera a planilha salva no banco de dados;
   protected
@@ -82,6 +83,7 @@ begin
       case FTipoPlanilha of
         0 : ExecuteGeneralProcess;
         1 : ExecuteGenerateCreditWorksheetExpress;
+        3 : ExecuteGenerateCreditWorksheetSO;
         else
           begin
             FMensagem := 'Opção não implementada.';
@@ -132,6 +134,7 @@ end;
 procedure TThead_SisGefCreditWorksheet.ExecuteGeneralProcess;
 begin
   ExecuteGenerateCreditWorksheetExpress;
+  ExecuteGenerateCreditWorksheetSO;
 end;
 
 procedure TThead_SisGefCreditWorksheet.ExecuteGenerateCreditWorksheetExpress;
@@ -314,6 +317,186 @@ begin
     end;
   finally
     FBases.Free;
+    FBancos.Free;
+    FEntregadores.Free;
+    FCadastro.Free;
+    FUtils.Free;
+    FConnection.Free;
+  end;
+end;
+
+procedure TThead_SisGefCreditWorksheet.ExecuteGenerateCreditWorksheetSO;
+var
+  FBancos : TBancosControl;
+  FEntregadores : TEntregadoresExpressasControl;
+  FCadastro : TCadastroControl;
+  FUtils : Common.Utils.TUtils;
+  sForma, sModalidade, sBanco, sNomeBanco, sAgencia, sConta, sCnpjCpf, sFavorecido, sTipoConta, sNome, sExtrato,
+  sNomeForma, sObs, sObsOld: String;
+  FBaseCode, FDeliveryCode, FRegisterCode, iBimer: integer;
+  aTypeExtract : array of string;
+  dValor : Double;
+  aParam : array of variant;
+begin
+  try
+    FConnection := TConexao.Create;
+    FBancos := TBancosControl.Create;
+    FEntregadores := TEntregadoresExpressasControl.Create;
+    FCadastro := TCadastroControl.Create;
+    FUtils := Common.Utils.TUtils.Create;
+    SetLength(aTypeExtract,4);
+    aTypeExtract := ['TODOS', 'EXPRESSAS', 'PERIÓDICOS', 'SERVIÇOS'];
+    with Data_Sisgef do
+    begin
+      if memTableExtracts.Active then memTableExtracts.Active := False;
+      storedProcExtractSO.Active := False;
+      storedProcExtractSO.Filtered := False;
+      storedProcExtractSO.Filter := '';
+      storedProcExtractSO.Connection := FConnection.GetConn;
+      storedProcExtractSO.storedProcName := 'sp_extractso_by_creditdate';
+      storedProcExtractSO.SchemaName := 'bderpsisgef';
+      storedProcExtractSO.Prepare;
+      storedProcExtractSO.ParamByName('pdateinitial').AsDate := FDateCredit;
+      storedProcExtractSO.ParamByName('pdatefinal').AsDate := FDateCredit;
+      storedProcExtractSO.ParamByName('pTypeExtract').AsInteger := 1;
+      storedProcExtractSO.ParamByName('psituation').AsString := 'S';
+      storedProcExtractSO.Active := True;
+      memTableExtractSO.Active := True;
+      memTableExtractSO.CopyDataSet(storedProcExtractSO, [coAppend]);
+      storedProcExtractSO.Connection.Connected := False;
+      if memTableExtractSO.IsEmpty then
+      begin
+        FMensagem := 'Nenhum registro de extrato encontrado!';
+        FAbortProcess := True;
+        Exit;
+      end;
+
+      if memTableCreditWorksheet.Active then memTableCreditWorksheet.Active := False;
+      memTableCreditWorksheet.Active := True;
+      memTableExtractSO.First;
+      while not memTableExtractSO.Eof do
+      begin
+        FRegisterCode := memTableExtractSOcod_cadastro.AsInteger;
+        sForma := '0';
+        sNome := '';
+        sFavorecido := '';
+        sBanco := '';
+        sAgencia := '';
+        sConta := '';
+        sCnpjCpf := '';
+        sBanco := '0';
+        iBimer := 0;
+        sObs := '';
+        sObsOld := '';
+        Finalize(aParam);
+        SetLength(aParam, 2);
+        aParam := ['CADASTRO', FRegisterCode];
+        if FCadastro.Localizar(aParam) then
+        begin
+          FCadastro.SetupModel(FCadastro.Cadastro.Query);
+          FCadastro.Cadastro.Query.Connection.Connected := False;
+          if (FCadastro.Cadastro.FormaPagamento <> 'NENHUMA') and (FCadastro.Cadastro.FormaPagamento <> '') then
+          begin
+            if Pos(FCadastro.Cadastro.FormaPagamento,'OBB PLUS,TED/DOC') > 0 then
+              sForma := '000009'
+            else if Pos(FCadastro.Cadastro.FormaPagamento,'DEPÓSITO/TRANSFERÊNCIA') > 0 then
+              sForma := '000011'
+            else if Pos(FCadastro.Cadastro.FormaPagamento,'DINHEIRO') > 0 then
+              sForma := '000005';
+            if sForma <> '0' then
+            begin
+              sNome := FCadastro.Cadastro.Nome;
+              sFavorecido := FCadastro.Cadastro.NomeFavorecido;
+              sBanco := FCadastro.Cadastro.Banco;
+              sAgencia := FCadastro.Cadastro.AgenciaConta;
+              sConta := FCadastro.Cadastro.NumeroConta;
+              sCnpjCpf := FCadastro.Cadastro.CPFCNPJFavorecido;
+              sTipoConta := FCadastro.Cadastro.TipoConta;
+              iBimer := FCadastro.Cadastro.CentroCusto;
+              sNomeForma := FCadastro.Cadastro.FormaPagamento;
+            end;
+          end;
+        end;
+        Finalize(aParam);
+//        if sForma = '0' then
+//        begin
+//          SetLength(aParam, 2);
+//          aParam := ['CODIGO', FBaseCode];
+//          if FBases.LocalizarExato(aParam) then
+//          begin
+//            if FBases.Bases.FormaPagamento <> 'NENHUMA' then
+//            begin
+//              if Pos(FBases.Bases.FormaPagamento,'OBB PLUS,TED/DOC') > 0 then
+//                sForma := '000009'
+//              else if Pos(FBases.Bases.FormaPagamento,'DEPÓSITO/TRANSFERÊNCIA') > 0 then
+//                sForma := '000011'
+//              else if Pos(FCadastro.Cadastro.FormaPagamento,'DINHEIRO') > 0 then
+//                sForma := '000005';
+//              if sForma <> '0' then
+//              begin
+//                sNome := FBases.Bases.RazaoSocial;
+//                sFavorecido := FBases.Bases.NomeFavorecido;
+//                sBanco := FBases.Bases.CodigoBanco;
+//                sAgencia := FBases.Bases.NumeroAgente;
+//                sConta := FBases.Bases.NumeroConta;
+//                sCnpjCpf := FBases.Bases.CNPJCPFFavorecido;
+//                sTipoConta := FBases.Bases.TipoConta;
+//                iBimer := FBases.Bases.CentroCusto;
+//                sNomeForma := FBases.Bases.FormaPagamento;
+//              end;
+//            end;
+//          end;
+//          Finalize(aParam);
+//        end;
+        if sTipoConta = 'CONTA POUPANÇA' then
+          sModalidade := FBancos.GetField('cod_modalidade_cp',sBanco,'cod_banco')
+        else
+          sModalidade := FBancos.GetField('cod_modalidade',sBanco,'cod_banco');
+        sNomeBanco := FBancos.GetField('nom_banco',sBanco,'cod_banco');
+        sObs := aTypeExtract[FTipoPlanilha];
+        if memTableCreditWorksheet.Locate('num_cpf_cnpj', sCnpjCpf, [])  then
+        begin
+          sObsOld := memTableCreditWorksheetdes_observation.asString;
+          if Pos(sObs, sObsOld) = 0 then
+            sObsOld := sObsOld + #13 + sObs;
+          dValor :=  memTableExtractSOval_total.AsFloat;
+          memTableCreditWorksheet.Edit;
+          memTableCreditWorksheetdes_observation.asString := sObsOld;
+          memTableCreditWorksheetval_total.asFloat := memTableCreditWorksheetval_total.asFloat + dValor;
+          memTableCreditWorksheet.Post;
+        end
+        else
+        begin
+          sExtrato := FUtils.ExpressStatementNumber(FDateCredit, FDateCredit, iBimer, '');
+          dValor :=  memTableExtractSOval_total.AsFloat;
+          memTableCreditWorksheet.Insert;
+          memTableCreditWorksheetid_registro.AsInteger := 0;
+          memTableCreditWorksheetcod_tipo_extrato.AsInteger := 3;
+          memTableCreditWorksheetcod_cadastro.AsInteger := iBimer;
+          memTableCreditWorksheetnom_cadastro.AsString := sNome;
+          memTableCreditWorksheetcod_banco.AsString := sBanco;
+          memTableCreditWorksheetnom_banco.AsString := sNomeBanco;
+          memTableCreditWorksheetdes_tipo_conta.AsString := sTipoConta;
+          memTableCreditWorksheetnum_agencia.AsString := sAgencia;
+          memTableCreditWorksheetnum_conta.AsString := sConta;
+          memTableCreditWorksheetnom_favorecido.AsString := sFavorecido;
+          memTableCreditWorksheetnum_cpf_cnpj.AsString := sCnpjCpf;
+          memTableCreditWorksheetval_total.AsFloat := dValor;
+          memTableCreditWorksheetdes_unique_key.AsString := FUtils.ExpressStatementNumber(FDateCredit, FDateCredit, 0, 'os');
+          memTableCreditWorksheetdat_credito.AsDateTime := FDateCredit;
+          memTableCreditWorksheetnum_extrato.AsString := sExtrato;
+          memTableCreditWorksheetcod_forma_pagamento.AsString := sForma;
+          memTableCreditWorksheetdes_forma_pagamento.AsString := sNomeForma;
+          memTableCreditWorksheetcod_modalidade_pagamento.AsString := sModalidade;
+          memTableCreditWorksheetdom_bloqueio.AsInteger := 0;
+          memTableCreditWorksheetdes_observation.AsString := sObs;
+          memTableCreditWorksheet.Post;
+        end;
+        memTableExtractSO.Next;
+      end;
+      memTableExtractSO.Active := False;
+    end;
+  finally
     FBancos.Free;
     FEntregadores.Free;
     FCadastro.Free;

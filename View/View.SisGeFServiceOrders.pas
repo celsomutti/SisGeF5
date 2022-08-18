@@ -940,6 +940,11 @@ begin
   FOS.OS.ServiceDescription := UnMountGrid();
   FOS.OS.VehicleCode := VehicleCodeByBoard(placaVeiculo.Text);
   FOS.OS.PersonCode := StrToIntDef(VarToStr(codigoTerceiro.EditValue), 0);
+  if FAcao = tacIncluir then
+  begin
+    FOS.OS.ClosedFlag :='N';
+    FOS.OS.ClosureFlag := 0;
+  end;
   FOS.OS.Action := FAcao;
 end;
 
