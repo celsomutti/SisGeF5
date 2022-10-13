@@ -285,7 +285,12 @@ uses
   View.SisGeFGeneralSearch in 'View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch},
   View.SisGeFExtractSO in 'View\View.SisGeFExtractSO.pas' {view_SisGeFExtractSO},
   THread.SisGeFProcessExtractSO in 'Thread\THread.SisGeFProcessExtractSO.pas',
-  THread.SisGeFCloseExtractSO in 'Thread\THread.SisGeFCloseExtractSO.pas';
+  THread.SisGeFCloseExtractSO in 'Thread\THread.SisGeFCloseExtractSO.pas',
+  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
+  View.SisGeFPrintRunsImports in 'View\View.SisGeFPrintRunsImports.pas' {view_SisGeFPrintRunsImports},
+  Thread.PrintRunsImport in 'Thread\Thread.PrintRunsImport.pas',
+  Model.SisGeFTiragens in 'Model\Model.SisGeFTiragens.pas',
+  Controller.SisGeFTiragens in 'Control\Controller.SisGeFTiragens.pas';
 
 {$R *.res}
 

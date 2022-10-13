@@ -656,6 +656,7 @@ type
     memTableExtractSOval_servico: TFloatField;
     memTableExtractSOdes_placa: TStringField;
     memTableExtractSOval_total: TFloatField;
+    textReaderTiragem: TFDBatchMoveTextReader;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
@@ -673,6 +674,7 @@ type
     procedure PopulaClientesEmpresa;
     procedure PopulaBases;
     function ImportEngloba(FFile: string): boolean;
+    function ImportPrintRuns(FFile: String): boolean;
   end;
 
 var
@@ -743,6 +745,22 @@ begin
   memTableImport.Active := False;
   FDBatchMove.Reader := textReaderEngloba;
   textReaderEngloba.FileName := FFile;
+  FDBDataSetWriter.DataSet := memTableImport;
+  FDBatchMove.Execute;
+  if memTableImport.IsEmpty then
+  begin
+    memTableImport.Active := False;
+    Exit;
+  end;
+  Result := True;
+end;
+
+function TData_Sisgef.ImportPrintRuns(FFile: String): boolean;
+begin
+  Result := False;
+  memTableImport.Active := False;
+  FDBatchMove.Reader := textReaderTiragem;
+  textReaderTiragem.FileName := FFile;
   FDBDataSetWriter.DataSet := memTableImport;
   FDBatchMove.Execute;
   if memTableImport.IsEmpty then

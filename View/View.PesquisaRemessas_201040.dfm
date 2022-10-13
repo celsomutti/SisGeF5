@@ -630,6 +630,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Caption = 'C'#243'd. Entregador'
             FieldName = 'COD_ENTREGADOR'
             PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
             Properties.MaskKind = emkRegExpr
             Properties.EditMask = '\d\d\d\d\d\d'
           end
@@ -642,6 +643,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Caption = 'C'#243'd. Embarcador'
             FieldName = 'COD_CLIENTE'
             PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
             Properties.MaskKind = emkRegExpr
             Properties.EditMask = '\d\d\d\d\d\d'
           end

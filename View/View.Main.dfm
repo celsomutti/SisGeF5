@@ -2062,6 +2062,7 @@
       Category = 'Peri'#243'dicos'
       Caption = '&Importa'#231#227'o de Tiragem'
       Hint = 'Importa'#231#227'o da tiragem do jornal'
+      OnExecute = actImportacaoTiragemExecute
     end
     object actAssinantesJornal: TAction
       Tag = 301020
