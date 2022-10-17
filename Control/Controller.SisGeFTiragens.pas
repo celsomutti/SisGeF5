@@ -16,6 +16,7 @@ interface
     function SetupClass(): boolean;
     function ValidateData(): boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
+    function ReturnExtract(InitialDate, FinalDate: TDate): boolean;
 
     property Tiragens : TModelSisGeFTiragens read FTiragens write FTiragens;
 
@@ -39,6 +40,11 @@ end;
 function TControllerSisGeFTiragens.GetField(sField, sKey, sKeyValue: String): String;
 begin
   Result := FTiragens.GetField(sField, sKey, sKeyValue);
+end;
+
+function TControllerSisGeFTiragens.ReturnExtract(InitialDate, FinalDate: TDate): boolean;
+begin
+  Result := FTiragens.ReturnExtract(InitialDate, FinalDate);
 end;
 
 function TControllerSisGeFTiragens.Save: boolean;

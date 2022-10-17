@@ -2117,6 +2117,7 @@
       Category = 'Peri'#243'dicos'
       Caption = 'E&xtrato Tiragens'
       Hint = 'Gera'#231#227'o e emiss'#227'o do extrato de pagamentos dos enntregadores'
+      OnExecute = actExtratoPeriodicosExecute
     end
     object actVerbasPeriodicos: TAction
       Tag = 305010

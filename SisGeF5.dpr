@@ -290,7 +290,8 @@ uses
   View.SisGeFPrintRunsImports in 'View\View.SisGeFPrintRunsImports.pas' {view_SisGeFPrintRunsImports},
   Thread.PrintRunsImport in 'Thread\Thread.PrintRunsImport.pas',
   Model.SisGeFTiragens in 'Model\Model.SisGeFTiragens.pas',
-  Controller.SisGeFTiragens in 'Control\Controller.SisGeFTiragens.pas';
+  Controller.SisGeFTiragens in 'Control\Controller.SisGeFTiragens.pas',
+  View.SisGeFExtractPeriodicals in 'View\View.SisGeFExtractPeriodicals.pas' {view_SisGeFExtractPeriodicals};
 
 {$R *.res}
 

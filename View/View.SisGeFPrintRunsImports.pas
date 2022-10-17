@@ -38,7 +38,6 @@ type
     indicator: TdxActivityIndicator;
     dxLayoutItem8: TdxLayoutItem;
     OpenDialog: TOpenDialog;
-    procedure FormShow(Sender: TObject);
     procedure actionCloseExecute(Sender: TObject);
     procedure actionLocateFileExecute(Sender: TObject);
     procedure actionImportFileExecute(Sender: TObject);
@@ -89,11 +88,6 @@ begin
   view_SisGeFPrintRunsImports := nil;
 end;
 
-procedure Tview_SisGeFPrintRunsImports.FormShow(Sender: TObject);
-begin
-  FTiragem := TThread_PrintRunsImport.Create(True);
-end;
-
 procedure Tview_SisGeFPrintRunsImports.OpenFile;
 begin
   if OpenDialog.Execute then
@@ -104,6 +98,7 @@ end;
 
 procedure Tview_SisGeFPrintRunsImports.RunImport;
 begin
+  FTiragem := TThread_PrintRunsImport.Create(True);
   if not Validate() then
     Exit;
   memoLog.Clear;

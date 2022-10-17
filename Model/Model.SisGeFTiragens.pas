@@ -37,6 +37,7 @@ interface
         function SetupClass(): boolean;
         function ValidateData(): boolean;
         function GetField(sField: String; sKey: String; sKeyValue: String): String;
+        function ReturnExtract(InitialDate, FinalDate: TDate): boolean;
     end;
 
   const
@@ -106,6 +107,42 @@ begin
     FDQuery.Connection.Close;
     FDQuery.Free;
   end;
+end;
+
+function TModelSisGeFTiragens.ReturnExtract(InitialDate, FinalDate: TDate): boolean;
+var
+  sSQL : String;
+begin
+  Result:= False;
+  if InitialDate = 0 then
+  begin
+    FMensagem := 'Informe a data inicial!';
+    Exit;
+  end;
+  if FinalDate = 0 then
+  begin
+    FMensagem := 'Informe a data Final!';
+    Exit;
+  end;
+  if InitialDate > FinalDate then
+  begin
+    FMensagem := 'A data inicial não pode ser maior que a data final!';
+    Exit;
+  end;
+
+  FQuery := FConnection.ReturnQuery();
+  FQuery.SQL.Add('select cod_macro, nom_macro, qtd_tiragem from view_extrato_periodicos');
+  FQuery.SQL.Add('where dat_tiragem between :dat1 and :dat2');
+  FQuery.ParamByName('dat1').AsDate := InitialDate;
+  FQuery.ParamByName('dat2').AsDate := FinalDate;
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    FQuery.Active := False;
+    FQuery.Connection.Connected := False;
+    Exit;
+  end;
+  Result := True;
 end;
 
 function TModelSisGeFTiragens.Save: boolean;

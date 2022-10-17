@@ -237,6 +237,7 @@ type
     procedure actOrdemServicoExecute(Sender: TObject);
     procedure actionExtratoOSExecute(Sender: TObject);
     procedure actImportacaoTiragemExecute(Sender: TObject);
+    procedure actExtratoPeriodicosExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -270,7 +271,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
   View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
   View.CadastroClientes, View.SisGeFExtractedExpress, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
-  View.SisGeFPrintRunsImports;
+  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals;
 
 procedure Tview_Main.Acessos;
 var
@@ -484,6 +485,15 @@ begin
   end;
   view_SisGeFExtractedExpress.Show;
 
+end;
+
+procedure Tview_Main.actExtratoPeriodicosExecute(Sender: TObject);
+begin
+  if not Assigned(view_SisGeFExtractPeriodicals) then
+  begin
+    view_SisGeFExtractPeriodicals := Tview_SisGeFExtractPeriodicals.Create(Application);
+  end;
+  view_SisGeFExtractPeriodicals.Show;
 end;
 
 procedure Tview_Main.actExtraviosExpressasExecute(Sender: TObject);

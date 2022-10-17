@@ -13,7 +13,6 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl
