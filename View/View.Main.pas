@@ -238,6 +238,7 @@ type
     procedure actionExtratoOSExecute(Sender: TObject);
     procedure actImportacaoTiragemExecute(Sender: TObject);
     procedure actExtratoPeriodicosExecute(Sender: TObject);
+    procedure actCadastroContratadosExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -271,7 +272,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
   View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
   View.CadastroClientes, View.SisGeFExtractedExpress, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
-  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals;
+  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals, View.SisGeFRegisterContractors;
 
 procedure Tview_Main.Acessos;
 var
@@ -385,6 +386,15 @@ begin
     view_CadastroClientes := Tview_CadastroClientes.Create(Application);
   end;
   view_CadastroClientes.Show;
+end;
+
+procedure Tview_Main.actCadastroContratadosExecute(Sender: TObject);
+begin
+  if not Assigned(view_SisGeFRegisterContractors) then
+  begin
+    view_SisGeFRegisterContractors := Tview_SisGeFRegisterContractors.Create(Application);
+  end;
+  view_SisGeFRegisterContractors.Show;
 end;
 
 procedure Tview_Main.actCadastroEmpresasExecute(Sender: TObject);

@@ -291,7 +291,8 @@ uses
   Thread.PrintRunsImport in 'Thread\Thread.PrintRunsImport.pas',
   Model.SisGeFTiragens in 'Model\Model.SisGeFTiragens.pas',
   Controller.SisGeFTiragens in 'Control\Controller.SisGeFTiragens.pas',
-  View.SisGeFExtractPeriodicals in 'View\View.SisGeFExtractPeriodicals.pas' {view_SisGeFExtractPeriodicals};
+  View.SisGeFExtractPeriodicals in 'View\View.SisGeFExtractPeriodicals.pas' {view_SisGeFExtractPeriodicals},
+  View.SisGeFRegisterContractors in 'View\View.SisGeFRegisterContractors.pas' {view_SisGeFRegisterContractors};
 
 {$R *.res}
 

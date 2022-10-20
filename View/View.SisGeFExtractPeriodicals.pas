@@ -163,7 +163,8 @@ begin
       Exit;
     end;
     memTableExtract.Active := False;
-    memTableExtract.Data := FTiragem.Tiragens.Query;
+    memTableExtract.Active := True;
+    memTableExtract.CopyDataSet(FTiragem.Tiragens.Query);
     FTiragem.Tiragens.Query.Active := False;
     FTiragem.Tiragens.Query.Connection.Connected := False;
   finally

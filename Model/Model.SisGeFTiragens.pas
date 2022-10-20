@@ -130,11 +130,21 @@ begin
     Exit;
   end;
 
+  sSQL := 'SELECT ' +
+        'periodicos_macro.cod_macro AS cod_macro, ' +
+        'periodicos_macro.nom_macro AS nom_macro, ' +
+        'periodicos_tiragem.DAT_TIRAGEM AS dat_tiragem, ' +
+        'SUM(periodicos_tiragem.QTD_TIRAGEM) AS qtd_tiragem ' +
+        'FROM ' +
+        '((periodicos_tiragem ' +
+        'JOIN periodicos_agentes ON ((periodicos_tiragem.COD_ROTEIRO = periodicos_agentes.cod_agente))) ' +
+        'JOIN periodicos_macro ON ((periodicos_agentes.cod_macro = periodicos_macro.cod_macro))) ' +
+        'where dat_tiragem >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', InitialDate)) + ' and '  +
+                   'dat_tiragem <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', FinalDate)) +
+        'GROUP BY periodicos_macro.cod_macro , periodicos_macro.nom_macro';
+
   FQuery := FConnection.ReturnQuery();
-  FQuery.SQL.Add('select cod_macro, nom_macro, qtd_tiragem from view_extrato_periodicos');
-  FQuery.SQL.Add('where dat_tiragem between :dat1 and :dat2');
-  FQuery.ParamByName('dat1').AsDate := InitialDate;
-  FQuery.ParamByName('dat2').AsDate := FinalDate;
+  FQuery.SQL.Text := sSQL;
   FQuery.Open();
   if FQuery.IsEmpty then
   begin

@@ -2320,6 +2320,7 @@
     object actCadastroContratados: TAction
       Category = 'Cadastro'
       Caption = 'Contratados'
+      OnExecute = actCadastroContratadosExecute
     end
     object actAnaliseRoteirosExpressas: TAction
       Tag = 202077
