@@ -289,10 +289,13 @@ uses
   View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
   View.SisGeFPrintRunsImports in 'View\View.SisGeFPrintRunsImports.pas' {view_SisGeFPrintRunsImports},
   Thread.PrintRunsImport in 'Thread\Thread.PrintRunsImport.pas',
+  Model.SisGeFNFsFaturas in 'Model\Model.SisGeFNFsFaturas.pas',
+  Controller.SisGeFNFsFaturas in 'Control\Controller.SisGeFNFsFaturas.pas',
+  View.SisGeFExtractPeriodicals in 'View\View.SisGeFExtractPeriodicals.pas' {view_SisGeFExtractPeriodicals},
+  View.SisGeFRegisterContractors in 'View\View.SisGeFRegisterContractors.pas' {view_SisGeFRegisterContractors},
   Model.SisGeFTiragens in 'Model\Model.SisGeFTiragens.pas',
   Controller.SisGeFTiragens in 'Control\Controller.SisGeFTiragens.pas',
-  View.SisGeFExtractPeriodicals in 'View\View.SisGeFExtractPeriodicals.pas' {view_SisGeFExtractPeriodicals},
-  View.SisGeFRegisterContractors in 'View\View.SisGeFRegisterContractors.pas' {view_SisGeFRegisterContractors};
+  View.SisGeFNFsFaturas in 'View\View.SisGeFNFsFaturas.pas' {view_SisGeFNFsFaturas};
 
 {$R *.res}
 

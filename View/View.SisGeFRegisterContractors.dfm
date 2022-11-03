@@ -141,8 +141,6 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
         Height = 339
         Align = alClient
         TabOrder = 1
-        ExplicitLeft = 120
-        ExplicitTop = 17
         object viewCadastro: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.DataSource = dsRecords

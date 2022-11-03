@@ -592,7 +592,6 @@
     TabStop = False
     object dxRibbon1Tab1: TdxRibbonTab
       Tag = 10
-      Active = True
       Caption = 'Cadastro'
       Groups = <
         item
@@ -679,6 +678,7 @@
     end
     object dxRibbon1Tab6: TdxRibbonTab
       Tag = 60
+      Active = True
       Caption = 'Financeiro'
       Groups = <
         item
