@@ -10,7 +10,7 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, cxImageComboBox, cxMaskEdit, cxTextEdit, cxCurrencyEdit, cxDropDownEdit, cxButtonEdit,
   System.Actions, Vcl.ActnList, cxCheckBox, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
-  Thread.SisGeFCreditWorksheet, Vcl.WinXCtrls, dxActivityIndicator, Vcl.ExtCtrls, Thread.SisGeFBIMERCP;
+  Thread.SisGeFCreditWorksheet, Vcl.WinXCtrls, dxActivityIndicator, Vcl.ExtCtrls, Thread.SisGeFBIMERCP, Thread.SisGeFOMIECP;
 
 type
   Tview_SisGeFCreditWorksheet = class(TForm)
@@ -108,10 +108,14 @@ type
     procedure ProcessCreditWorkshet;
     procedure ProcessSaveCreditWorksheet;
     procedure ProcessarBIMERWorksheet;
+    procedure ProcessarOMIEWorksheet;
     procedure ShowWorksheetBIMER;
+    procedure ShowWorksheetOMIE;
     procedure ExportGrid;
     procedure DeleteRegisters;
     procedure ClearWorksheet;
+    procedure ERPChooseWorksSheet;
+    procedure EnableDisableActions(bFlag: boolean);
     function ValidadeProcess(): boolean;
   public
     { Public declarations }
@@ -121,13 +125,14 @@ var
   view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet;
   FWorksheet : TThead_SisGefCreditWorksheet;
   FBIMER: TThread_SisGeFBIMERCP;
+  FOMIE: TThread_SisGeFOMIECP;
 
 implementation
 
 {$R *.dfm}
 
 uses Data.SisGeF, View.SisGeFCalendar, Common.Utils, View.SisGeFVehiclesRegistration, View.SisGeFWorksheetBIMERCP,
-View.SisGeFSelectCompany;
+View.SisGeFSelectCompany, View.SisGeFERPChooseWorksheet, View.SisGeFWorksheetOMIECP;
 
 { Tview_SisGeFCreditWorksheet }
 
@@ -138,7 +143,7 @@ end;
 
 procedure Tview_SisGeFCreditWorksheet.actionBIMERExecute(Sender: TObject);
 begin
-  ProcessarBIMERWorksheet;
+  ERPChooseWorksSheet;
 end;
 
 procedure Tview_SisGeFCreditWorksheet.actionCloseFormExecute(Sender: TObject);
@@ -230,6 +235,33 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFCreditWorksheet.EnableDisableActions(bFlag: boolean);
+begin
+  actionProcess.Enabled := bFlag;
+  actionSaveWorksheet.Enabled := bFlag;
+  actionBIMER.Enabled := bflag;
+end;
+
+procedure Tview_SisGeFCreditWorksheet.ERPChooseWorksSheet;
+var
+  iChoose : integer;
+begin
+
+  if not Assigned(SisGeFERPChooseWorksheet) then
+    SisGeFERPChooseWorksheet := TSisGeFERPChooseWorksheet.Create(Application);
+  if SisGeFERPChooseWorksheet.ShowModal = mrCancel then
+    Exit;
+  ichoose := SisGeFERPChooseWorksheet.ChoosseWorkSheet;
+  FreeAndNil(SisGeFERPChooseWorksheet);
+  case iChoose of
+    1 : ProcessarBIMERWorksheet;
+    2 : ProcessarOMIEWorksheet;
+    else
+      Exit;
+  end;
+
+end;
+
 procedure Tview_SisGeFCreditWorksheet.ExportGrid;
 var
   fnUtil : Common.Utils.TUtils;
@@ -282,6 +314,7 @@ begin
     iCompany := 0;
   if iCompany = 0 then
     Exit;
+  EnableDisableActions(False);
   FreeAndNil(view_SisGeFSelectCompany);
   FBIMER := TThread_SisGeFBIMERCP.Create(True);
   dsCreditWorksheet.Enabled := False;
@@ -295,8 +328,29 @@ begin
   FBIMER.Start;
 end;
 
+procedure Tview_SisGeFCreditWorksheet.ProcessarOMIEWorksheet;
+var
+  iCompany: integer;
+begin
+  if not Data_Sisgef.memTableCreditWorksheet.Active then
+    Exit;
+  EnableDisableActions(False);
+  iCompany := 0;
+  fomie := TThread_SisGeFOMIECP.Create(True);
+  dsCreditWorksheet.Enabled := False;
+  FOMIE.Empresa := iCompany;
+  FOMIE.TipoExtrato := tipoExtrato.ItemIndex;
+  labelInfo.Caption := 'Processando a planilha. Aguarde ...';
+  FOMIE.Priority := tpNormal;
+  timer.Tag := 3;
+  timer.Enabled := True;
+  activityIndicator.Active := True;
+  FOMIE.Start;
+end;
+
 procedure Tview_SisGeFCreditWorksheet.ProcessCreditWorkshet;
 begin
+  EnableDisableActions(False);
   dsCreditWorksheet.Enabled := False;
   FWorksheet := TThead_SisGefCreditWorksheet.Create(True);
   FWorksheet.DateCredit := StrToDate(dataCredito.Text);
@@ -322,6 +376,7 @@ end;
 
 procedure Tview_SisGeFCreditWorksheet.ProcessSaveCreditWorksheet;
 begin
+  EnableDisableActions(False);
   labelInfo.Caption := 'Gravando a planilha. Aguarde ...';
   dsCreditWorksheet.Enabled := False;
   FWorksheet := TThead_SisGefCreditWorksheet.Create(True);
@@ -362,6 +417,13 @@ begin
   view_SisGeFWorksheetBIMERCP.Show;
 end;
 
+procedure Tview_SisGeFCreditWorksheet.ShowWorksheetOMIE;
+begin
+  if not Assigned(view_SisGeFWorksheetOMIECP) then
+    view_SisGeFWorksheetOMIECP := Tview_SisGeFWorksheetOMIECP.Create(Application);
+  view_SisGeFWorksheetOMIECP.Show;
+end;
+
 procedure Tview_SisGeFCreditWorksheet.timerTimer(Sender: TObject);
 begin
   if timer.Tag <= 1 then
@@ -381,6 +443,7 @@ begin
       FWorksheet.Free;
       labelInfo.Caption := '';
       activityIndicator.Active := False;
+      EnableDisableActions(True);
       if timer.Tag = 1 then
       begin
         if not FWorksheet.AbortProcess then
@@ -403,7 +466,26 @@ begin
     FBIMER.Free;
     labelInfo.Caption := '';
     activityIndicator.Active := False;
+    EnableDisableActions(True);
     ShowWorksheetBIMER;
+  end
+  else if timer.Tag = 3 then
+  begin
+    timer.Enabled := False;
+    if not FOMIE.AbortProcess then
+    begin
+      dsCreditWorksheet.Enabled := True;
+      gridCreditWorkssheetDBTableView1.ViewData.Expand(True);
+    end
+    else
+    begin
+      MessageDlg(FOMIE.Mensagem, mtWarning, [mbOK], 0);
+    end;
+    FBIMER.Free;
+    labelInfo.Caption := '';
+    activityIndicator.Active := False;
+    EnableDisableActions(True);
+    ShowWorksheetOMIE;
   end;
 end;
 

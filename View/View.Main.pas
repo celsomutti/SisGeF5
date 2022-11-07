@@ -198,6 +198,8 @@ type
     actionExtratoOS: TAction;
     dxBarLargeButton69: TdxBarLargeButton;
     dxBarLargeButton70: TdxBarLargeButton;
+    dxBarLargeButton71: TdxBarLargeButton;
+    actFaturamentoRecebido: TAction;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -239,6 +241,7 @@ type
     procedure actImportacaoTiragemExecute(Sender: TObject);
     procedure actExtratoPeriodicosExecute(Sender: TObject);
     procedure actCadastroContratadosExecute(Sender: TObject);
+    procedure actFaturamentoRecebidoExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -272,7 +275,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
   View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
   View.CadastroClientes, View.SisGeFExtractedExpress, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
-  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals, View.SisGeFRegisterContractors;
+  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals, View.SisGeFRegisterContractors, View.SisGeFNFsFaturas;
 
 procedure Tview_Main.Acessos;
 var
@@ -513,6 +516,15 @@ begin
     view_ExtraviosSinistrosMultas := Tview_ExtraviosSinistrosMultas.Create(Application);
   end;
   view_ExtraviosSinistrosMultas.Show;
+end;
+
+procedure Tview_Main.actFaturamentoRecebidoExecute(Sender: TObject);
+begin
+  if not Assigned(view_SisGeFNFsFaturas) then
+  begin
+    view_SisGeFNFsFaturas := Tview_SisGeFNFsFaturas.Create(Application);
+  end;
+  view_SisGeFNFsFaturas.Show;
 end;
 
 procedure Tview_Main.actImportacaoPedidosExecute(Sender: TObject);

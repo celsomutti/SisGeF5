@@ -1,7 +1,7 @@
 object Data_Sisgef: TData_Sisgef
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 629
+  Height = 691
   Width = 889
   object lmi_32_32: TcxImageList
     SourceDPI = 96
@@ -12061,26 +12061,26 @@ object Data_Sisgef: TData_Sisgef
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
-          393B2623393B2623393B2623393B093C7374796C6520747970653D2274657874
-          2F6373732220786D6C3A73706163653D227072657365727665223E2E5265647B
-          66696C6C3A234431314331433B7D262331333B262331303B2623393B2E426C61
-          636B7B66696C6C3A233732373237323B7D262331333B262331303B2623393B2E
-          426C75657B66696C6C3A233131373744373B7D262331333B262331303B262339
-          3B2E477265656E7B66696C6C3A233033394332333B7D262331333B262331303B
-          2623393B2E59656C6C6F777B66696C6C3A234646423131353B7D262331333B26
-          2331303B2623393B2E57686974657B66696C6C3A234646464646463B7D262331
-          333B262331303B2623393B2E7374307B6F7061636974793A302E353B7D262331
-          333B262331303B2623393B2E7374317B6F7061636974793A302E37353B7D2623
-          31333B262331303B2623393B2E7374327B6F7061636974793A302E32353B7D3C
-          2F7374796C653E0D0A093C672069643D22496D706F7274223E0D0A09093C7061
-          746820636C6173733D22426C61636B2220643D224D31302C3132483656366834
-          5631327A204D32322C31377631763963302C302E362D302E342C312D312C3148
-          31632D302E362C302D312D302E342D312D31563763302D302E362C302E342D31
-          2C312D31683376386831344C32322C31377A204D31382C313848342020262339
-          3B2623393B76366831345631387A222F3E0D0A09093C706F6C79676F6E20636C
-          6173733D22477265656E2220706F696E74733D2233302C362032322C36203232
-          2C322031342C382032322C31342032322C31302033302C3130202623393B222F
-          3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          393B2623393B2623393B2623393B2623393B2623393B2623393B093C7374796C
+          6520747970653D22746578742F6373732220786D6C3A73706163653D22707265
+          7365727665223E2E5265647B66696C6C3A234431314331433B7D262331333B26
+          2331303B2623393B2E426C61636B7B66696C6C3A233732373237323B7D262331
+          333B262331303B2623393B2E426C75657B66696C6C3A233131373744373B7D26
+          2331333B262331303B2623393B2E477265656E7B66696C6C3A23303339433233
+          3B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A234646
+          423131353B7D262331333B262331303B2623393B2E57686974657B66696C6C3A
+          234646464646463B7D262331333B262331303B2623393B2E7374307B6F706163
+          6974793A302E353B7D262331333B262331303B2623393B2E7374317B6F706163
+          6974793A302E37353B7D262331333B262331303B2623393B2E7374327B6F7061
+          636974793A302E32353B7D3C2F7374796C653E0D0A093C672069643D22496D70
+          6F7274223E0D0A09093C7061746820636C6173733D22426C61636B2220643D22
+          4D31302C31324836563668345631327A204D32322C31377631763963302C302E
+          362D302E342C312D312C314831632D302E362C302D312D302E342D312D315637
+          63302D302E362C302E342D312C312D31683376386831344C32322C31377A204D
+          31382C3138483420202623393B2623393B76366831345631387A222F3E0D0A09
+          093C706F6C79676F6E20636C6173733D22477265656E2220706F696E74733D22
+          33302C362032322C362032322C322031342C382032322C31342032322C313020
+          33302C3130202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -12192,16 +12192,17 @@ object Data_Sisgef: TData_Sisgef
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
-          393B2623393B2623393B2623393B2623393B093C7374796C6520747970653D22
-          746578742F6373732220786D6C3A73706163653D227072657365727665223E2E
-          426C75657B66696C6C3A233131373744373B7D262331333B262331303B262339
-          3B2E426C61636B7B66696C6C3A233732373237323B7D262331333B262331303B
-          2623393B2E59656C6C6F777B66696C6C3A234646423131353B7D262331333B26
-          2331303B2623393B2E5265647B66696C6C3A234431314331433B7D3C2F737479
-          6C653E0D0A093C672069643D224C696768746E696E67223E0D0A09093C706F6C
-          79676F6E20636C6173733D2259656C6C6F772220706F696E74733D2232322C32
-          2031342C3220362C31362031342C313620382C33302032362C31322031362E33
-          2C3132202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B093C
+          7374796C6520747970653D22746578742F6373732220786D6C3A73706163653D
+          227072657365727665223E2E426C75657B66696C6C3A233131373744373B7D26
+          2331333B262331303B2623393B2E426C61636B7B66696C6C3A23373237323732
+          3B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A234646
+          423131353B7D262331333B262331303B2623393B2E5265647B66696C6C3A2344
+          31314331433B7D3C2F7374796C653E0D0A093C672069643D224C696768746E69
+          6E67223E0D0A09093C706F6C79676F6E20636C6173733D2259656C6C6F772220
+          706F696E74733D2232322C322031342C3220362C31362031342C313620382C33
+          302032362C31322031362E332C3132202623393B222F3E0D0A093C2F673E0D0A
+          3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxSmartImage'
@@ -12350,6 +12351,17 @@ object Data_Sisgef: TData_Sisgef
           69297AC5718CB9A6A6823FF40D785AD3413E1F0A77747D997E3C3F1242F531F4
           7E43D785A11E9474D10F2ED41428B99AD13CFCC4B939F1ACD1340BA394D206B4
           D10B937987E0D54FC936DB32E6A372520000000049454E44AE426082}
+      end
+      item
+        ImageClass = 'TdxPNGImage'
+        Image.Data = {
+          89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+          610000001974455874536F6674776172650041646F626520496D616765526561
+          647971C9653C00000015744558745469746C6500446F776E6C6F61643B417272
+          6F773BEC8F1AD00000005B49444154785ECDD3310A80400C44D15C3097921CCA
+          DB8D76BF084384A0587C58C179B0C586A455EF01799C4AB2801B7F08ECAFC020
+          1970E69BB303408880C202207E3C02207D3C021D613C0255A53BF416FF59E069
+          EBB7F02FE00299B7B1B77AA7E0390000000049454E44AE426082}
       end>
   end
   object LayoutLookAndFeelList: TdxLayoutLookAndFeelList
@@ -14594,7 +14606,7 @@ object Data_Sisgef: TData_Sisgef
   end
   object ScSFTPClient: TScSFTPClient
     SSHClient = ScSSHClient
-    Left = 672
+    Left = 696
     Top = 160
   end
   object ScSSHClient: TScSSHClient
@@ -14610,7 +14622,7 @@ object Data_Sisgef: TData_Sisgef
     Password = 'al0c@rioca'
     KeyStorage = ScFileStorage
     OnServerKeyValidate = ScSSHClientServerKeyValidate
-    Left = 616
+    Left = 632
     Top = 160
   end
   object ScFileStorage: TScFileStorage
@@ -16212,17 +16224,18 @@ object Data_Sisgef: TData_Sisgef
           22307078222076696577426F783D2230203020333220333222207374796C653D
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
-          303B093C7374796C6520747970653D22746578742F6373732220786D6C3A7370
-          6163653D227072657365727665223E2E426C61636B7B66696C6C3A2337323732
-          37323B7D262331333B262331303B2623393B2E5265647B66696C6C3A23443131
-          4331433B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A
-          234646423131353B7D262331333B262331303B2623393B2E477265656E7B6669
-          6C6C3A233033394332333B7D3C2F7374796C653E0D0A093C672069643D225365
-          637572697479223E0D0A09093C7061746820636C6173733D22477265656E2220
-          643D224D31362C324C342C3863302C302C302C302C302C3673352C31332E372C
-          31322C313663372D322E332C31322D31302C31322D313673302D362C302D364C
-          31362C327A204D31342C32326C2D362D366C322D326C342C346C382D386C322C
-          324C31342C32327A222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          303B2623393B2623393B2623393B093C7374796C6520747970653D2274657874
+          2F6373732220786D6C3A73706163653D227072657365727665223E2E426C6163
+          6B7B66696C6C3A233732373237323B7D262331333B262331303B2623393B2E52
+          65647B66696C6C3A234431314331433B7D262331333B262331303B2623393B2E
+          59656C6C6F777B66696C6C3A234646423131353B7D262331333B262331303B26
+          23393B2E477265656E7B66696C6C3A233033394332333B7D3C2F7374796C653E
+          0D0A093C672069643D225365637572697479223E0D0A09093C7061746820636C
+          6173733D22477265656E2220643D224D31362C324C342C3863302C302C302C30
+          2C302C3673352C31332E372C31322C313663372D322E332C31322D31302C3132
+          2D313673302D362C302D364C31362C327A204D31342C32326C2D362D366C322D
+          326C342C346C382D386C322C324C31342C32327A222F3E0D0A093C2F673E0D0A
+          3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -16250,16 +16263,16 @@ object Data_Sisgef: TData_Sisgef
           22307078222076696577426F783D2230203020333220333222207374796C653D
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
-          303B093C7374796C6520747970653D22746578742F6373732220786D6C3A7370
-          6163653D227072657365727665223E2E426C75657B66696C6C3A233131373744
-          373B7D262331333B262331303B2623393B2E426C61636B7B66696C6C3A233732
-          373237323B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C
-          3A234646423131353B7D262331333B262331303B2623393B2E5265647B66696C
-          6C3A234431314331433B7D3C2F7374796C653E0D0A093C672069643D224C6967
-          68746E696E67223E0D0A09093C706F6C79676F6E20636C6173733D2259656C6C
-          6F772220706F696E74733D2232322C322031342C3220362C31362031342C3136
-          20382C33302032362C31322031362E332C3132202623393B222F3E0D0A093C2F
-          673E0D0A3C2F7376673E0D0A}
+          303B2623393B2623393B2623393B093C7374796C6520747970653D2274657874
+          2F6373732220786D6C3A73706163653D227072657365727665223E2E426C7565
+          7B66696C6C3A233131373744373B7D262331333B262331303B2623393B2E426C
+          61636B7B66696C6C3A233732373237323B7D262331333B262331303B2623393B
+          2E59656C6C6F777B66696C6C3A234646423131353B7D262331333B262331303B
+          2623393B2E5265647B66696C6C3A234431314331433B7D3C2F7374796C653E0D
+          0A093C672069643D224C696768746E696E67223E0D0A09093C706F6C79676F6E
+          20636C6173733D2259656C6C6F772220706F696E74733D2232322C322031342C
+          3220362C31362031342C313620382C33302032362C31322031362E332C313220
+          2623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -18112,8 +18125,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 800
-    Top = 312
+    Left = 360
+    Top = 616
     object memTableBIMERCPCampoEmpresa: TStringField
       DisplayWidth = 5
       FieldName = 'CampoEmpresa'
@@ -18310,5 +18323,235 @@ object Data_Sisgef: TData_Sisgef
     DataDef.WithFieldNames = True
     Left = 408
     Top = 528
+  end
+  object memTableOMIE: TFDMemTable
+    Indexes = <
+      item
+        Active = True
+        Fields = 'num_CNPJ_CPF_titular'
+      end>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 456
+    Top = 616
+    object memTableOMIEcod_integracao: TStringField
+      DisplayLabel = 'CodigoIntegracao'
+      FieldName = 'cod_integracao'
+    end
+    object memTableOMIEnom_fornecedor: TStringField
+      DisplayLabel = 'NomeFornecedor'
+      FieldName = 'nom_fornecedor'
+      Size = 60
+    end
+    object memTableOMIEdes_categoria: TStringField
+      DisplayLabel = 'DescricaoCategoria'
+      FieldName = 'des_categoria'
+      Size = 70
+    end
+    object memTableOMIEnom_conta_corrente: TStringField
+      DisplayLabel = 'NomeContaCorrente'
+      FieldName = 'nom_conta_corrente'
+      Size = 40
+    end
+    object memTableOMIEval_bruto: TCurrencyField
+      DisplayLabel = 'ValorBruto'
+      FieldName = 'val_bruto'
+    end
+    object memTableOMIEnom_vendedor: TStringField
+      DisplayLabel = 'NomeVendedor'
+      FieldName = 'nom_vendedor'
+      Size = 70
+    end
+    object memTableOMIEnom_projeto: TStringField
+      DisplayLabel = 'NomeProjeto'
+      FieldName = 'nom_projeto'
+      Size = 70
+    end
+    object memTableOMIEdat_emissao: TDateField
+      DisplayLabel = 'DataEmissao'
+      FieldName = 'dat_emissao'
+    end
+    object memTableOMIEdat_registro: TDateField
+      DisplayLabel = 'DataRegistro'
+      FieldName = 'dat_registro'
+    end
+    object memTableOMIEdat_vencimento: TDateField
+      DisplayLabel = 'DataVencimento'
+      FieldName = 'dat_vencimento'
+    end
+    object memTableOMIEdat_previsao: TDateField
+      DisplayLabel = 'DataPrevisao'
+      FieldName = 'dat_previsao'
+    end
+    object memTableOMIEdat_pagamento: TDateField
+      DisplayLabel = 'DataPagamento'
+      FieldName = 'dat_pagamento'
+    end
+    object memTableOMIEval_pagamento: TCurrencyField
+      DisplayLabel = 'ValorPagamento'
+      FieldName = 'val_pagamento'
+    end
+    object memTableOMIEval_juros: TCurrencyField
+      DisplayLabel = 'ValorJuros'
+      FieldName = 'val_juros'
+    end
+    object memTableOMIEval_multa: TCurrencyField
+      DisplayLabel = 'ValorMulta'
+      FieldName = 'val_multa'
+    end
+    object memTableOMIEval_desconto: TCurrencyField
+      DisplayLabel = 'ValorDesconto'
+      FieldName = 'val_desconto'
+    end
+    object memTableOMIEdat_conciliacao: TDateField
+      DisplayLabel = 'DataConciliacao'
+      FieldName = 'dat_conciliacao'
+    end
+    object memTableOMIEdes_observacoes: TStringField
+      DisplayLabel = 'Observacoes'
+      FieldName = 'des_observacoes'
+      Size = 100
+    end
+    object memTableOMIEdes_tipo_documento: TStringField
+      DisplayLabel = 'TipoDocumento'
+      FieldName = 'des_tipo_documento'
+      Size = 50
+    end
+    object memTableOMIEnum_documento: TStringField
+      DisplayLabel = 'NumeroDocumento'
+      FieldName = 'num_documento'
+    end
+    object memTableOMIEnum_parcela: TSmallintField
+      DisplayLabel = 'NumeroParcela'
+      FieldName = 'num_parcela'
+    end
+    object memTableOMIEtot_parcelas: TSmallintField
+      DisplayLabel = 'TotalParcelas'
+      FieldName = 'tot_parcelas'
+    end
+    object memTableOMIEnum_pedido: TStringField
+      DisplayLabel = 'NumeroPedido'
+      FieldName = 'num_pedido'
+      Size = 15
+    end
+    object memTableOMIEnum_nota_fiscal: TStringField
+      DisplayLabel = 'NumeroNotaFiscal'
+      FieldName = 'num_nota_fiscal'
+    end
+    object memTableOMIEnum_chave_nfe: TStringField
+      DisplayLabel = 'ChaveNFe'
+      FieldName = 'num_chave_nfe'
+      Size = 44
+    end
+    object memTableOMIEdes_forma_pagamento: TStringField
+      DisplayLabel = 'FormaPagamento'
+      FieldName = 'des_forma_pagamento'
+      Size = 30
+    end
+    object memTableOMIEcod_barras_boleto: TStringField
+      DisplayLabel = 'CodigoBarrasBoleto'
+      FieldName = 'cod_barras_boleto'
+      Size = 70
+    end
+    object memTableOMIEval_percentual_juros_mes: TFloatField
+      DisplayLabel = 'PercentualJurosMes'
+      FieldName = 'val_percentual_juros_mes'
+    end
+    object memTableOMIEval_percentual_multa_atraso: TFloatField
+      DisplayLabel = 'PercentualMultaAtraso'
+      FieldName = 'val_percentual_multa_atraso'
+    end
+    object memTableOMIEnom_banco_transferencia: TStringField
+      DisplayLabel = 'BancoTransferencia'
+      FieldName = 'nom_banco_transferencia'
+      Size = 70
+    end
+    object memTableOMIEnum_agencia_transferencia: TStringField
+      DisplayLabel = 'AgenciaTransferencia'
+      FieldName = 'num_agencia_transferencia'
+      Size = 10
+    end
+    object memTableOMIEnum_conta_transferencia: TStringField
+      DisplayLabel = 'ContaTransferencia'#39#39
+      FieldName = 'num_conta_transferencia'
+      Size = 15
+    end
+    object memTableOMIEnum_CNPJ_CPF_titular: TStringField
+      FieldName = 'num_CNPJ_CPF_titular'
+    end
+    object memTableOMIEnom_titular: TStringField
+      DisplayLabel = 'NomeTitular'
+      FieldName = 'nom_titular'
+      Size = 60
+    end
+    object memTableOMIEdes_finalidade_transferencia: TStringField
+      DisplayLabel = 'FinalidadeTransferencia'
+      FieldName = 'des_finalidade_transferencia'
+      Size = 100
+    end
+    object memTableOMIEval_PIS: TCurrencyField
+      DisplayLabel = 'ValorPIS'
+      FieldName = 'val_PIS'
+    end
+    object memTableOMIEdes_reter_PIS: TStringField
+      DisplayLabel = 'ReterPIS'
+      FieldName = 'des_reter_PIS'
+      Size = 10
+    end
+    object memTableOMIEval_COFINS: TCurrencyField
+      DisplayLabel = 'ValorCOFINS'
+      FieldName = 'val_COFINS'
+    end
+    object memTableOMIEdes_reter_COFINS: TStringField
+      DisplayLabel = 'ReterCOFINS'
+      FieldName = 'des_reter_COFINS'
+      Size = 10
+    end
+    object memTableOMIEval_CSLL: TCurrencyField
+      DisplayLabel = 'ValorCSLL'
+      FieldName = 'val_CSLL'
+    end
+    object memTableOMIEdes_reter_CSLL: TStringField
+      DisplayLabel = 'ReterCSLL'
+      FieldName = 'des_reter_CSLL'
+      Size = 10
+    end
+    object memTableOMIEval_IR: TCurrencyField
+      DisplayLabel = 'ValorIR'
+      FieldName = 'val_IR'
+    end
+    object memTableOMIEdes_reter_IR: TStringField
+      DisplayLabel = 'ReterIR'
+      FieldName = 'des_reter_IR'
+      Size = 10
+    end
+    object memTableOMIEval_ISS: TCurrencyField
+      DisplayLabel = 'ValorISS'
+      FieldName = 'val_ISS'
+    end
+    object memTableOMIEdes_reter_ISS: TStringField
+      DisplayLabel = 'ReterISS'
+      FieldName = 'des_reter_ISS'
+      Size = 10
+    end
+    object memTableOMIEval_INSS: TCurrencyField
+      DisplayLabel = 'ValorINSS'
+      FieldName = 'val_INSS'
+    end
+    object memTableOMIEdes_reter_INSS: TStringField
+      DisplayLabel = 'ReterINSS'
+      FieldName = 'des_reter_INSS'
+      Size = 10
+    end
+    object memTableOMIEnom_departamento: TStringField
+      DisplayLabel = 'NomeDepartamento'
+      FieldName = 'nom_departamento'
+      Size = 50
+    end
   end
 end

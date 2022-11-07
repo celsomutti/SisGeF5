@@ -592,6 +592,7 @@
     TabStop = False
     object dxRibbon1Tab1: TdxRibbonTab
       Tag = 10
+      Active = True
       Caption = 'Cadastro'
       Groups = <
         item
@@ -678,7 +679,6 @@
     end
     object dxRibbon1Tab6: TdxRibbonTab
       Tag = 60
-      Active = True
       Caption = 'Financeiro'
       Groups = <
         item
@@ -1196,6 +1196,10 @@
         item
           Visible = True
           ItemName = 'dxBarLargeButton42'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton71'
         end
         item
           BeginGroup = True
@@ -1947,6 +1951,11 @@
       Category = 0
       LargeImageIndex = 36
     end
+    object dxBarLargeButton71: TdxBarLargeButton
+      Action = actFaturamentoRecebido
+      Category = 0
+      LargeImageIndex = 58
+    end
   end
   object aclMain: TActionList
     Left = 984
@@ -2348,6 +2357,11 @@
       Caption = 'E&xtrato'
       Hint = 'Extrato de Ordens de Servi'#231'o'
       OnExecute = actionExtratoOSExecute
+    end
+    object actFaturamentoRecebido: TAction
+      Category = 'Financeiro'
+      Caption = 'Fa&turamento Recebido'
+      OnExecute = actFaturamentoRecebidoExecute
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager

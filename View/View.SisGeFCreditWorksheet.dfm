@@ -371,9 +371,9 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Transparent = True
     end
     object cxButton8: TcxButton
-      Left = 564
+      Left = 544
       Top = 443
-      Width = 75
+      Width = 95
       Height = 34
       Cursor = crHandPoint
       Action = actionBIMER
@@ -390,7 +390,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       Transparent = True
     end
     object cxButton9: TcxButton
-      Left = 480
+      Left = 460
       Top = 447
       Width = 78
       Height = 25
@@ -608,7 +608,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
       CaptionOptions.Visible = False
       Control = cxButton8
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 95
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 3
@@ -706,7 +706,7 @@ object view_SisGeFCreditWorksheet: Tview_SisGeFCreditWorksheet
     end
     object actionBIMER: TAction
       Category = 'Filter'
-      Caption = '&BIMER'
+      Caption = 'Planilhas ERP'
       Enabled = False
       Hint = 'Gera planilha para o BIMER'
       ImageIndex = 113

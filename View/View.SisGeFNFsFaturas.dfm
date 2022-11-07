@@ -12,7 +12,10 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
+  ShowHint = True
   WindowState = wsMaximized
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl
@@ -24,10 +27,7 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitLeft = 160
-    ExplicitTop = 112
-    ExplicitWidth = 300
-    ExplicitHeight = 250
+    LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object tipoData: TcxComboBox
       Left = 82
       Top = 12
@@ -37,11 +37,7 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
         'Selecione ...'
         'Data de Vencimento'
         'Data de Envio')
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 0
       Text = 'Selecione ...'
       Width = 121
@@ -51,11 +47,7 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
       Top = 12
       Properties.SaveTime = False
       Properties.ShowTime = False
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 1
       Width = 80
     end
@@ -64,11 +56,7 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
       Top = 12
       Properties.SaveTime = False
       Properties.ShowTime = False
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 2
       Width = 80
     end
@@ -78,7 +66,7 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
       Width = 82
       Height = 25
       Cursor = crHandPoint
-      Caption = 'Pesquisar'
+      Action = actionSearchPeriod
       TabOrder = 3
     end
     object Panel1: TPanel
@@ -104,43 +92,50 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
         ParentBackground = False
         ShowCaption = False
         TabOrder = 0
-        ExplicitWidth = 804
         object cxButton2: TcxButton
           Left = 0
           Top = 0
-          Width = 75
+          Width = 33
           Height = 25
+          Cursor = crHandPoint
           Align = alLeft
           Caption = 'Expandir'
+          OptionsImage.ImageIndex = 106
+          OptionsImage.Images = Data_Sisgef.iml_16_16
+          PaintStyle = bpsGlyph
           SpeedButtonOptions.CanBeFocused = False
           SpeedButtonOptions.Flat = True
           TabOrder = 0
-          ExplicitLeft = -22
-          ExplicitTop = -6
         end
         object cxButton3: TcxButton
-          Left = 75
+          Left = 33
           Top = 0
-          Width = 75
+          Width = 33
           Height = 25
+          Cursor = crHandPoint
           Align = alLeft
           Caption = 'Retrair'
+          OptionsImage.ImageIndex = 107
+          OptionsImage.Images = Data_Sisgef.iml_16_16
+          PaintStyle = bpsGlyph
           SpeedButtonOptions.CanBeFocused = False
           SpeedButtonOptions.Flat = True
           TabOrder = 1
-          ExplicitLeft = 72
         end
         object cxButton4: TcxButton
-          Left = 150
+          Left = 66
           Top = 0
-          Width = 75
+          Width = 33
           Height = 25
+          Cursor = crHandPoint
           Align = alLeft
           Caption = 'Grupo'
+          OptionsImage.ImageIndex = 110
+          OptionsImage.Images = Data_Sisgef.iml_16_16
+          PaintStyle = bpsGlyph
           SpeedButtonOptions.CanBeFocused = False
           SpeedButtonOptions.Flat = True
           TabOrder = 2
-          ExplicitLeft = 211
         end
       end
       object gridFaturas: TcxGrid
@@ -152,6 +147,22 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
         TabOrder = 1
         object gridFaturasDBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 91
+          Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 94
+          Navigator.Buttons.Next.ImageIndex = 93
+          Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 92
+          Navigator.Buttons.Insert.Visible = False
+          Navigator.Buttons.Delete.Visible = False
+          Navigator.Buttons.Edit.Visible = False
+          Navigator.Buttons.Post.Visible = False
+          Navigator.Buttons.Cancel.Visible = False
+          Navigator.Buttons.Refresh.Visible = False
+          Navigator.Buttons.SaveBookmark.Visible = False
+          Navigator.Buttons.GotoBookmark.Visible = False
+          Navigator.Buttons.Filter.ImageIndex = 96
           Navigator.InfoPanel.Visible = True
           Navigator.Visible = True
           DataController.DataSource = ds
@@ -159,47 +170,89 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
           DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
           OptionsCustomize.ColumnsQuickCustomization = True
+          OptionsData.Deleting = False
+          OptionsData.DeletingConfirmation = False
           OptionsSelection.CellSelect = False
-          OptionsSelection.MultiSelect = True
           OptionsSelection.CheckBoxVisibility = [cbvDataRow]
           OptionsSelection.ShowCheckBoxesDynamically = True
           OptionsView.GroupByBox = False
           OptionsView.Indicator = True
+          object gridFaturasDBTableView1id_fatura: TcxGridDBColumn
+            DataBinding.FieldName = 'id_fatura'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d'
+            Properties.ReadOnly = True
+            Width = 34
+          end
+          object gridFaturasDBTableView1dom_aceite: TcxGridDBColumn
+            DataBinding.FieldName = 'dom_aceite'
+            PropertiesClassName = 'TcxCheckBoxProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 62
+          end
+          object gridFaturasDBTableView1dat_vencimento: TcxGridDBColumn
+            DataBinding.FieldName = 'dat_vencimento'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.ReadOnly = True
+            Properties.SaveTime = False
+            Properties.ShowTime = False
+            HeaderAlignmentHorz = taCenter
+            Width = 96
+          end
           object gridFaturasDBTableView1cod_cadastro: TcxGridDBColumn
             DataBinding.FieldName = 'cod_cadastro'
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.MaskKind = emkRegExpr
+            Properties.EditMask = '\d\d\d\d\d\d'
+            Properties.ReadOnly = True
+            Visible = False
             HeaderAlignmentHorz = taCenter
           end
           object gridFaturasDBTableView1num_cnpj: TcxGridDBColumn
             DataBinding.FieldName = 'num_cnpj'
+            PropertiesClassName = 'TcxTextEditProperties'
+            Properties.ReadOnly = True
             HeaderAlignmentHorz = taCenter
           end
           object gridFaturasDBTableView1nom_cadastro: TcxGridDBColumn
             DataBinding.FieldName = 'nom_cadastro'
+            PropertiesClassName = 'TcxTextEditProperties'
+            Properties.ReadOnly = True
             HeaderAlignmentHorz = taCenter
           end
           object gridFaturasDBTableView1nom_favorecido: TcxGridDBColumn
             DataBinding.FieldName = 'nom_favorecido'
+            PropertiesClassName = 'TcxTextEditProperties'
+            Properties.ReadOnly = True
             HeaderAlignmentHorz = taCenter
           end
           object gridFaturasDBTableView1num_cpf_cnpj_favorecido: TcxGridDBColumn
             DataBinding.FieldName = 'num_cpf_cnpj_favorecido'
+            PropertiesClassName = 'TcxTextEditProperties'
+            Properties.ReadOnly = True
             HeaderAlignmentHorz = taCenter
           end
           object gridFaturasDBTableView1nom_razao_mei: TcxGridDBColumn
             DataBinding.FieldName = 'nom_razao_mei'
+            PropertiesClassName = 'TcxTextEditProperties'
+            Properties.ReadOnly = True
             HeaderAlignmentHorz = taCenter
           end
           object gridFaturasDBTableView1num_cnpj_mei: TcxGridDBColumn
             DataBinding.FieldName = 'num_cnpj_mei'
+            PropertiesClassName = 'TcxTextEditProperties'
+            Properties.ReadOnly = True
             HeaderAlignmentHorz = taCenter
-          end
-          object gridFaturasDBTableView1dat_vencimento: TcxGridDBColumn
-            DataBinding.FieldName = 'dat_vencimento'
-            HeaderAlignmentHorz = taCenter
-            Width = 96
           end
           object gridFaturasDBTableView1dat_envio: TcxGridDBColumn
             DataBinding.FieldName = 'dat_envio'
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.ReadOnly = True
+            Properties.SaveTime = False
+            Properties.ShowTime = False
             HeaderAlignmentHorz = taCenter
             Width = 84
           end
@@ -215,13 +268,10 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
             HeaderAlignmentHorz = taCenter
             VisibleForCustomization = False
           end
-          object gridFaturasDBTableView1dom_aceite: TcxGridDBColumn
-            DataBinding.FieldName = 'dom_aceite'
-            HeaderAlignmentHorz = taCenter
-            Width = 62
-          end
           object gridFaturasDBTableView1dom_credito: TcxGridDBColumn
             DataBinding.FieldName = 'dom_credito'
+            PropertiesClassName = 'TcxCheckBoxProperties'
+            Properties.ReadOnly = True
             HeaderAlignmentHorz = taCenter
             Width = 89
           end
@@ -231,42 +281,81 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
         end
       end
       object cxButton7: TcxButton
-        Left = 3
+        Left = 103
         Top = 424
         Width = 94
         Height = 25
-        Caption = 'Gravar'
-        TabOrder = 2
+        Cursor = crHandPoint
+        Action = actionSave
+        Anchors = [akLeft, akBottom]
+        TabOrder = 3
       end
-      object cxButton8: TcxButton
-        Left = 103
+      object cxButton5: TcxButton
+        Left = 203
         Top = 424
         Width = 95
         Height = 25
+        Cursor = crHandPoint
+        Action = actionCancel
         Anchors = [akLeft, akBottom]
-        Caption = 'Cancelar'
-        TabOrder = 3
+        TabOrder = 4
       end
-    end
-    object cxButton5: TcxButton
-      Left = 10
-      Top = 499
-      Width = 75
-      Height = 25
-      Caption = 'Exportar'
-      TabOrder = 5
+      object cxButton8: TcxButton
+        Left = 304
+        Top = 424
+        Width = 95
+        Height = 25
+        Cursor = crHandPoint
+        Action = actionExportGrid
+        Anchors = [akLeft, akBottom]
+        TabOrder = 5
+      end
+      object cxButton9: TcxButton
+        Left = 405
+        Top = 424
+        Width = 95
+        Height = 25
+        Cursor = crHandPoint
+        Action = actionDownload
+        Anchors = [akLeft, akBottom]
+        TabOrder = 6
+      end
+      object cxButton10: TcxButton
+        Left = 2
+        Top = 424
+        Width = 95
+        Height = 25
+        Cursor = crHandPoint
+        Action = actionAccept
+        Anchors = [akLeft, akBottom]
+        TabOrder = 2
+      end
     end
     object cxButton6: TcxButton
       Left = 763
       Top = 499
       Width = 75
       Height = 25
-      Caption = 'Fechar'
+      Cursor = crHandPoint
+      Action = actionCloseForm
       TabOrder = 6
+    end
+    object labelAviso: TcxLabel
+      Left = 10
+      Top = 500
+      ParentFont = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -15
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.HotTrack = False
+      Style.IsFontAssigned = True
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       Hidden = True
       ItemIndex = 2
@@ -360,18 +449,6 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
       ControlOptions.ShowBorder = False
       Index = 0
     end
-    object dxLayoutItem6: TdxLayoutItem
-      Parent = dxLayoutGroup3
-      AlignHorz = ahLeft
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxButton5'
-      CaptionOptions.Visible = False
-      Control = cxButton5
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
     object dxLayoutItem7: TdxLayoutItem
       Parent = dxLayoutGroup3
       AlignHorz = ahRight
@@ -384,6 +461,18 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
       ControlOptions.ShowBorder = False
       Index = 1
     end
+    object dxLayoutItem6: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxLabel1'
+      CaptionOptions.Visible = False
+      Control = labelAviso
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 8
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
   end
   object memTableFaturas: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -395,6 +484,10 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
     UpdateOptions.AutoCommitUpdates = True
     Left = 560
     Top = 16
+    object memTableFaturasid_fatura: TIntegerField
+      DisplayLabel = 'ID'
+      FieldName = 'id_fatura'
+    end
     object memTableFaturascod_cadastro: TIntegerField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'cod_cadastro'
@@ -454,9 +547,79 @@ object view_SisGeFNFsFaturas: Tview_SisGeFNFsFaturas
     end
   end
   object ds: TDataSource
-    AutoEdit = False
     DataSet = memTableFaturas
     Left = 648
     Top = 16
+  end
+  object actionList: TActionList
+    Images = Data_Sisgef.iml_16_16
+    Left = 712
+    Top = 8
+    object actionSearchPeriod: TAction
+      Caption = '&Pesquisar'
+      Hint = 'Pesquisar per'#237'odo'
+      ImageIndex = 86
+      OnExecute = actionSearchPeriodExecute
+    end
+    object actionExpandGridGroup: TAction
+      Caption = 'Expandir'
+      Hint = 'Expandir grupos no grid'
+      ImageIndex = 106
+      OnExecute = actionExpandGridGroupExecute
+    end
+    object actionCollapseGroup: TAction
+      Caption = 'Retrair'
+      Hint = 'Retrair grupos no grid'
+      ImageIndex = 107
+      OnExecute = actionCollapseGroupExecute
+    end
+    object actionGroupPanelView: TAction
+      Caption = 'Grupos'
+      Hint = 'Exibir / Ocultar painel de grupos no grid'
+      ImageIndex = 110
+      OnExecute = actionGroupPanelViewExecute
+    end
+    object actionSave: TAction
+      Caption = '&Gravar'
+      Hint = 'Gravar no banco de dados'
+      ImageIndex = 85
+      OnExecute = actionSaveExecute
+    end
+    object actionCancel: TAction
+      Caption = '&Cancelar'
+      Hint = 'Cancelar Opera'#231#227'o'
+      ImageIndex = 84
+      OnExecute = actionCancelExecute
+    end
+    object actionExportGrid: TAction
+      Caption = 'E&xportar'
+      Hint = 'Exportar dados do grid'
+      ImageIndex = 101
+      OnExecute = actionExportGridExecute
+    end
+    object actionCloseForm: TAction
+      Caption = '&Fechar'
+      Hint = 'Fchar a tela'
+      ImageIndex = 98
+      OnExecute = actionCloseFormExecute
+    end
+    object actionDownload: TAction
+      Caption = 'Do&wnload'
+      Hint = 'Download do documento'
+      ImageIndex = 119
+      OnExecute = actionDownloadExecute
+    end
+    object actionAccept: TAction
+      Caption = '&Aceitar'
+      Hint = 'Aceitar a fatura'
+      ImageIndex = 83
+      OnExecute = actionAcceptExecute
+    end
+  end
+  object SaveDialog: TSaveDialog
+    Filter = '*.*|Todos'
+    Title = 'Salvar arquivo'
+    Left = 608
+    Top = 8
   end
 end

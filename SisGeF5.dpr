@@ -275,8 +275,7 @@ uses
   View.Calendario in 'View\View.Calendario.pas' {view_Calendario},
   Thread.SisGeFCreditWorksheet in 'Thread\Thread.SisGeFCreditWorksheet.pas',
   View.SisGeFCreditWorksheet in 'View\View.SisGeFCreditWorksheet.pas' {view_SisGeFCreditWorksheet},
-  View.SisGeFWorksheetBIMERCP in 'View\View.SisGeFWorksheetBIMERCP.pas' {view_SisGeFWorksheetBIMERCP},
-  Thread.SisGeFBIMERCP in 'Thread\Thread.SisGeFBIMERCP.pas',
+  Thread.SisGeFOMIECP in 'Thread\Thread.SisGeFOMIECP.pas',
   View.SisGeFSelectCompany in 'View\View.SisGeFSelectCompany.pas' {view_SisGeFSelectCompany},
   View.SisGeFServiceOrders in 'View\View.SisGeFServiceOrders.pas' {view_SisGeFServiceOrders},
   Model.SisGeFOrderServices in 'Model\Model.SisGeFOrderServices.pas',
@@ -295,7 +294,11 @@ uses
   View.SisGeFRegisterContractors in 'View\View.SisGeFRegisterContractors.pas' {view_SisGeFRegisterContractors},
   Model.SisGeFTiragens in 'Model\Model.SisGeFTiragens.pas',
   Controller.SisGeFTiragens in 'Control\Controller.SisGeFTiragens.pas',
-  View.SisGeFNFsFaturas in 'View\View.SisGeFNFsFaturas.pas' {view_SisGeFNFsFaturas};
+  View.SisGeFNFsFaturas in 'View\View.SisGeFNFsFaturas.pas' {view_SisGeFNFsFaturas},
+  View.SisGeFWorksheetOMIECP in 'View\View.SisGeFWorksheetOMIECP.pas' {view_SisGeFWorksheetOMIECP},
+  View.SisGeFWorksheetBIMERCP in 'View\View.SisGeFWorksheetBIMERCP.pas' {view_SisGeFWorksheetBIMERCP},
+  Thread.SisGeFBIMERCP in 'Thread\Thread.SisGeFBIMERCP.pas',
+  View.SisGeFERPChooseWorksheet in 'View\View.SisGeFERPChooseWorksheet.pas' {SisGeFERPChooseWorksheet};
 
 {$R *.res}
 

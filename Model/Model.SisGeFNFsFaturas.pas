@@ -117,7 +117,7 @@ begin
   end;
 end;
 
-function TModelSisGeFNFsFaturas.ReturnExtract(InitialDate, FinalDate: TDate): boolean;
+function TModelSisGeFNFsFaturas.ReturnExtract(InitialDate, FinalDate: TDate; iType: integer): boolean;
 var
   sSQL : String;
   sField : string;
@@ -139,12 +139,13 @@ begin
     Exit;
   end;
 
-  if iType =  0 then
+  if iType =  1 then
     sField := 'financeiro_nfs_faturas.dat_vencimento'
-  else
+  else if iType =  2 then
     sField := 'financeiro_nfs_faturas.dat_envio';
 
   sSQL := 'SELECT ' +
+        'financeiro_nfs_faturas.id_fatura AS id_fatura, ' +
         'tbentregadores.cod_cadastro AS cod_cadastro, ' +
         'tbentregadores.num_cnpj AS num_cnpj, ' +
         'tbentregadores.des_razao_social AS nom_cadastro, ' +
@@ -157,10 +158,10 @@ begin
         'financeiro_nfs_faturas.nom_arquivo AS nom_arquivo, ' +
         'financeiro_nfs_faturas.des_localizacao_arquivo AS des_localizacao_arquivo, ' +
         'financeiro_nfs_faturas.dom_aceite AS dom_aceite, ' +
-        'financeiro_nfs_faturas.com_credito AS dom_credito ' +
+        'financeiro_nfs_faturas.dom_credito AS dom_credito ' +
         'FROM ' +
         '((tbentregadores ' +
-        'JOIN financeiro_nfs_faturas ON ((financeiro_nfs_faturas.cod_cadastreo = tbentregadores.cod_cadastro)))) ' +
+        'JOIN financeiro_nfs_faturas ON ((financeiro_nfs_faturas.cod_cadastro = tbentregadores.cod_cadastro)))) ' +
         'WHERE ' + sField + ' >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', InitialDate)) + ' and '  +
                    sField + ' <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', FinalDate));
 
