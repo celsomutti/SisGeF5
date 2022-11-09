@@ -159,6 +159,7 @@ uses
       function SetupModel(FDCadastro: TFDQuery): Boolean;
       function ValidateData(): boolean;
       function SearchEmployee(iIndex: integer; sText, sFilter: String): boolean;
+      function SearchRegister(iIndex: integer; sText, sFilter: String): boolean;
 
     end;
     const
@@ -439,6 +440,53 @@ begin
     Exit;
   end;
   Result := True;
+end;
+
+function TCadastro.SearchRegister(iIndex: integer; sText, sFilter: String): boolean;
+var
+  sFiltro, sSQL: String;
+  fFuncoes : Common.Utils.TUtils;
+begin
+  Result := False;
+  sFiltro := '';
+  fFuncoes := Common.Utils.TUtils.Create;
+  if sFilter <> '' then
+  begin
+    sFiltro := sfilter;
+  end
+  else
+  begin
+    if sText <> '' then
+    begin
+      if iIndex = 0 then
+      begin
+        sFiltro := 'num_cnpj like ' + QuotedStr('%' +  sText + '%')  + ' or des_razao_social like ' + QuotedStr('%' + sText + '%') +
+                    ' or NOM_FANTASIA like ' + QuotedStr('%' + sText + '%') +
+                    ' or nom_razao_mei like ' + QuotedStr('%' + sText + '%') + ' or nom_fantasia_mei like ' +
+                    QuotedStr('%' + sText + '%') + ' or num_cnpj_mei like ' + QuotedStr('%' + sText + '%') +
+                    ' or nom_favorecido like ' + QuotedStr('%' + sText + '%') + ' or num_cpf_cnpj_favorecido like ' +
+                    QuotedStr('%' + sText + '%') + ' or des_placa like ' + QuotedStr('%' + sText + '%');
+        if fFuncoes.ENumero(sText) then
+        begin
+          if sFiltro <> '' then
+          begin
+            sFiltro := sFiltro + ' or ';
+          end;
+          sFiltro := sFiltro + 'cod_cadastro like ' + sText + ' or num_ie like ' + sText  + ' or num_renavan like ' + sText +
+                     ' or num_cnh like ' + sText + ' or num_registro_cnh like ' + sText;
+        end;
+      end;
+    end
+    else
+    begin
+      case iIndex of
+        1 : sFiltro := 'cod_cadastro like ' + sText;
+        2 : sFiltro := 'num_cnpj like ' + QuotedStr('%' +  sText + '%');
+        3 : sFiltro := 'num_ie like ' + sText;
+        4 : sFiltro := 'des_razao_social like ' + QuotedStr('%' +  sText + '%');
+      end;
+    end;
+  end;
 end;
 
 function TCadastro.SetupModel(FDCadastro: TFDQuery): Boolean;

@@ -45,7 +45,7 @@ object view_SisGeFCalendar: Tview_SisGeFCalendar
       Height = 388
       Cursor = crHandPoint
       BorderStyle = bsNone
-      Date = 43378.000000000000000000
+      Date = -700000.000000000000000000
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -20
@@ -61,6 +61,7 @@ object view_SisGeFCalendar: Tview_SisGeFCalendar
       HeaderInfo.Font.Height = -20
       HeaderInfo.Font.Name = 'Segoe UI'
       HeaderInfo.Font.Style = []
+      OnDblClick = CalendarView1DblClick
       ParentFont = False
       ShowFirstOfGroupLabel = True
       TabOrder = 0

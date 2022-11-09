@@ -82,7 +82,7 @@ implementation
 
 }
 
-uses Data.SisGeF;
+uses Data.SisGeF, Global.Parametros;
 
 { TTHead_ExpressExtract }
 
@@ -114,7 +114,7 @@ begin
       storedProcExtractExpress.storedProcName := 'sp_generate_express_extract'
     else
       storedProcExtractExpress.storedProcName := 'sp_generate_express_extract_by_expedition';
-    storedProcExtractExpress.SchemaName := 'bderpsisgef';
+    storedProcExtractExpress.SchemaName := Global.Parametros.pDatabase;
     storedProcExtractExpress.Prepare;
     storedProcExtractExpress.ParamByName('pdataInicio').AsDate := FStartDate;
     storedProcExtractExpress.ParamByName('pdataFinal').AsDate := FEndDate;
@@ -164,7 +164,7 @@ begin
     storedProcPostingValuesStatement.Filter := '';
     storedProcPostingValuesStatement.Connection := FConnection.GetConn;
     storedProcPostingValuesStatement.storedProcName := 'sp_posting_values_statement';
-    storedProcPostingValuesStatement.SchemaName := 'bderpsisgef';
+    storedProcPostingValuesStatement.SchemaName := Global.Parametros.pDatabase;
     storedProcPostingValuesStatement.Prepare;
     storedProcPostingValuesStatement.ParamByName('pdateBase').AsDate := FEndDate;
     storedProcPostingValuesStatement.ParamByName('pclosedRelease').AsString := FDomLancamento;
@@ -239,7 +239,7 @@ begin
     storedProcExpressStrays.Filter := '';
     storedProcExpressStrays.Connection := FConnection.GetConn;
     storedProcExpressStrays.storedProcName := 'sp_express_extract_loss';
-    storedProcExpressStrays.SchemaName := 'bderpsisgef';
+    storedProcExpressStrays.SchemaName := Global.Parametros.pDatabase;
     storedProcExpressStrays.Prepare;
     storedProcExpressStrays.ParamByName('pdomFinalize').AsString := FDomExtravio;
     if FFiltro <> '' then

@@ -84,7 +84,7 @@ implementation
 
 }
 
-uses Data.SisGeF, Common.Utils;
+uses Data.SisGeF, Common.Utils, Global.Parametros;
 
 { TThread_SisGeFClosingExpressExtract }
 
@@ -105,7 +105,7 @@ begin
       storedProcClosingExpress.storedProcName := 'sp_close_delivery_losses'
     else if FTipo = 1 then
       storedProcClosingExpress.storedProcName := 'sp_reopen_delivery_losses';
-    storedProcClosingExpress.SchemaName := 'bderpsisgef';
+    storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
     storedProcClosingExpress.Prepare;
     storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
     storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
@@ -141,7 +141,7 @@ begin
       storedProcClosingExpress.storedProcName := 'sp_closing_express_deliveries'
     else if FTipo = 1 then
       storedProcClosingExpress.storedProcName := 'sp_reopen_express_deliveries';
-    storedProcClosingExpress.SchemaName := 'bderpsisgef';
+    storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
     storedProcClosingExpress.Prepare;
     storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
     storedProcClosingExpress.ParamByName('pCreditDate').AsDate := FCreditDate;
@@ -169,7 +169,7 @@ begin
       storedProcClosingExpress.storedProcName := 'sp_closing_express_financial_postings'
     else if FTipo = 1 then
       storedProcClosingExpress.storedProcName := 'sp_reopen_express_financial_postings';
-    storedProcClosingExpress.SchemaName := 'bderpsisgef';
+    storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
     storedProcClosingExpress.Prepare;
     storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
     storedProcClosingExpress.ParamByName('pCreditDate').AsDate := FCreditDate;
@@ -202,7 +202,7 @@ begin
       while not memTableExtracts.Eof do
       begin
         storedProcClosingExpress.storedProcName := 'sp_insert_extract_express';
-        storedProcClosingExpress.SchemaName := 'bderpsisgef';
+        storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
         storedProcClosingExpress.Prepare;
         for i := 0 to Pred(memTableExtracts.FieldCount) do
         begin
@@ -243,7 +243,7 @@ begin
     begin
       FUniqueExtract := FUtils.ExpressStatementNumber(FStartDate, FEndDate, 0, '');
       storedProcClosingExpress.storedProcName := 'sp_clear_extract_express';
-      storedProcClosingExpress.SchemaName := 'bderpsisgef';
+      storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
       storedProcClosingExpress.Prepare;
       storedProcClosingExpress.ParamByName('pKey').Value := '%' + FUniqueExtract;
       storedProcClosingExpress.ExecProc;

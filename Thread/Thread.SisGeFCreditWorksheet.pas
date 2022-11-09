@@ -68,7 +68,7 @@ implementation
 
 }
 
-uses Data.SisGeF, Common.Utils;
+uses Data.SisGeF, Common.Utils, Global.Parametros;
 
 { TThead_SisGefCreditWorksheet }
 
@@ -119,7 +119,7 @@ begin
       storedProcCreditWhorsheet.Filter := '';
       storedProcCreditWhorsheet.Connection := FConnection.GetConn;
       storedProcCreditWhorsheet.storedProcName := 'sp_clear_credit_worksheet';
-      storedProcCreditWhorsheet.SchemaName := 'bderpsisgef';
+      storedProcCreditWhorsheet.SchemaName := Global.Parametros.pDatabase;
       storedProcCreditWhorsheet.Prepare;
       storedProcCreditWhorsheet.ParamByName('pcod_tipo_extrato').AsInteger := FTipoPlanilha;
       storedProcCreditWhorsheet.ParamByName('pdat_credito').AsDate := FDateCredit;
@@ -167,7 +167,7 @@ begin
       storedProcListExtractExpress.Filter := '';
       storedProcListExtractExpress.Connection := FConnection.GetConn;
       storedProcListExtractExpress.storedProcName := 'sp_list_express_extract_by_date_credit';
-      storedProcListExtractExpress.SchemaName := 'bderpsisgef';
+      storedProcListExtractExpress.SchemaName := Global.Parametros.pDatabase;
       storedProcListExtractExpress.Prepare;
       storedProcListExtractExpress.ParamByName('pDateCredit').AsDate := FDateCredit;
       storedProcListExtractExpress.Active := True;
@@ -354,7 +354,7 @@ begin
       storedProcExtractSO.Filter := '';
       storedProcExtractSO.Connection := FConnection.GetConn;
       storedProcExtractSO.storedProcName := 'sp_extractso_by_creditdate';
-      storedProcExtractSO.SchemaName := 'bderpsisgef';
+      storedProcExtractSO.SchemaName := Global.Parametros.pDatabase;
       storedProcExtractSO.Prepare;
       storedProcExtractSO.ParamByName('pdateinitial').AsDate := FDateCredit;
       storedProcExtractSO.ParamByName('pdatefinal').AsDate := FDateCredit;
@@ -523,7 +523,7 @@ begin
     storedProcCreditWhorsheet.Filter := '';
     storedProcCreditWhorsheet.Connection := FConnection.GetConn;
     storedProcCreditWhorsheet.storedProcName := 'sp_list_credit_worksheet';
-    storedProcCreditWhorsheet.SchemaName := 'bderpsisgef';
+    storedProcCreditWhorsheet.SchemaName := Global.Parametros.pDatabase;
     storedProcCreditWhorsheet.Prepare;
     storedProcCreditWhorsheet.ParamByName('pdat_credito').AsDate := FDateCredit;
     if FTipoPlanilha <> 0 then
@@ -573,7 +573,7 @@ begin
     while not memTableCreditWorksheet.Eof do
     begin
       storedProcCreditWhorsheet.storedProcName := 'sp_insert_credit_worksheet_express';
-      storedProcCreditWhorsheet.SchemaName := 'bderpsisgef';
+      storedProcCreditWhorsheet.SchemaName := Global.Parametros.pDatabase;
       storedProcCreditWhorsheet.Prepare;
       for i := 0 to Pred(memTableCreditWorksheet.FieldCount) do
       begin

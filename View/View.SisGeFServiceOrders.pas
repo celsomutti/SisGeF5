@@ -789,6 +789,11 @@ end;
 
 procedure Tview_SisGeFServiceOrders.SaveOS;
 begin
+  if (dsService.State = dsInsert) or (dsService.State = dsEdit) or (memTableServices.IsEmpty) then
+  begin
+    MessageDlg('Nenhum item de serviço foi especificado!', mtWarning, [mbCancel], 0);
+    Exit;
+  end;
   Setupclass;
   if not FOS.Validade() then
   begin
