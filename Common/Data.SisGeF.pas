@@ -497,7 +497,6 @@ type
     memTableImport: TFDMemTable;
     openDialog: TOpenDialog;
     textReaderEngloba: TFDBatchMoveTextReader;
-    dxLayoutCxLookAndFeel1: TdxLayoutCxLookAndFeel;
     storedProcExtractExpress: TFDStoredProc;
     storedProcExtractExpresscod_base: TIntegerField;
     storedProcExtractExpressnom_base: TStringField;
@@ -633,16 +632,8 @@ type
     memTableBIMERCPCampoConta: TStringField;
     memTableBIMERCPCampoBanco: TStringField;
     memTableBIMERCPCampoModalidade: TStringField;
-    dxLayoutCxLookAndFeel2: TdxLayoutCxLookAndFeel;
-    dxLayoutCxLookAndFeel3: TdxLayoutCxLookAndFeel;
-    dxLayoutCxLookAndFeel4: TdxLayoutCxLookAndFeel;
     memTableCreditWorksheetdes_observation: TStringField;
     memTableBIMERCPCampoObservacao: TStringField;
-    dxLayoutCxLookAndFeel5: TdxLayoutCxLookAndFeel;
-    dxLayoutCxLookAndFeel6: TdxLayoutCxLookAndFeel;
-    dxLayoutOfficeLookAndFeel1: TdxLayoutOfficeLookAndFeel;
-    dxLayoutStandardLookAndFeel1: TdxLayoutStandardLookAndFeel;
-    dxLayoutStandardLookAndFeel2: TdxLayoutStandardLookAndFeel;
     storedProcExtractSO: TFDStoredProc;
     memTableExtractSO: TFDMemTable;
     memTableExtractSOnum_os: TIntegerField;

@@ -697,6 +697,11 @@
             <Form>SisGeFERPChooseWorksheet</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="View\View.SisGeFImportWorksheetExpress.pas">
+            <Form>view_SisGeFImportWorksheetExpress</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Common\Common.SisGeFFunctions.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

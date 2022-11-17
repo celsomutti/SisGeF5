@@ -298,7 +298,9 @@ uses
   View.SisGeFWorksheetOMIECP in 'View\View.SisGeFWorksheetOMIECP.pas' {view_SisGeFWorksheetOMIECP},
   View.SisGeFWorksheetBIMERCP in 'View\View.SisGeFWorksheetBIMERCP.pas' {view_SisGeFWorksheetBIMERCP},
   Thread.SisGeFBIMERCP in 'Thread\Thread.SisGeFBIMERCP.pas',
-  View.SisGeFERPChooseWorksheet in 'View\View.SisGeFERPChooseWorksheet.pas' {SisGeFERPChooseWorksheet};
+  View.SisGeFERPChooseWorksheet in 'View\View.SisGeFERPChooseWorksheet.pas' {SisGeFERPChooseWorksheet},
+  View.SisGeFImportWorksheetExpress in 'View\View.SisGeFImportWorksheetExpress.pas' {view_SisGeFImportWorksheetExpress},
+  Common.SisGeFFunctions in 'Common\Common.SisGeFFunctions.pas';
 
 {$R *.res}
 
