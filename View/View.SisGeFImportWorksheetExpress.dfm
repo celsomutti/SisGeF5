@@ -2,8 +2,8 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
   Left = 0
   Top = 0
   Caption = 'Importa'#231#227'o de Planilhas de Expressas'
-  ClientHeight = 574
-  ClientWidth = 839
+  ClientHeight = 500
+  ClientWidth = 880
   Color = clWhite
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -12,24 +12,29 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
   OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 17
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 839
-    Height = 574
+    Width = 880
+    Height = 500
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitHeight = 614
     object panelDragandDrop: TPanel
       Left = 13
       Top = 46
-      Width = 813
+      Width = 854
       Height = 51
       BevelKind = bkFlat
       BevelOuter = bvNone
@@ -71,80 +76,21 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     object labelLocateFile2: TcxLabel
       Left = 137
       Top = 105
-      Caption = 'para localizar os arquivos.'
+      Caption = 'para localizar o arquivos'
       Style.HotTrack = False
       Transparent = True
     end
-    object panelBackgroundFileList: TPanel
-      Left = 13
-      Top = 134
-      Width = 813
-      Height = 91
-      BevelOuter = bvNone
-      Caption = 'panelBackgroundFileList'
-      ParentBackground = False
-      ShowCaption = False
-      TabOrder = 6
-      DesignSize = (
-        813
-        91)
-      object listBoxFiles: TcxListBox
-        Left = 0
-        Top = 23
-        Width = 815
-        Height = 70
-        Cursor = crHandPoint
-        Hint = 'Lista de arquivos e planilhas selecionados'
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        ItemHeight = 17
-        MultiSelect = True
-        ReadOnly = True
-        Style.BorderStyle = cbsNone
-        Style.TransparentBorder = True
-        TabOrder = 0
-      end
-      object labelTitleFileList: TcxLabel
-        Left = 4
-        Top = 1
-        Caption = 'Arquivos selecionados'
-      end
-      object cxButton7: TcxButton
-        Left = 653
-        Top = 0
-        Width = 75
-        Height = 25
-        Cursor = crHandPoint
-        Action = actionDeleteSelectedFiles
-        Anchors = [akLeft, akRight, akBottom]
-        SpeedButtonOptions.CanBeFocused = False
-        SpeedButtonOptions.Flat = True
-        TabOrder = 2
-        TabStop = False
-      end
-      object cxButton8: TcxButton
-        Left = 734
-        Top = 0
-        Width = 75
-        Height = 25
-        Action = actionDeleteAllFiles
-        Anchors = [akRight, akBottom]
-        SpeedButtonOptions.CanBeFocused = False
-        SpeedButtonOptions.Flat = True
-        TabOrder = 3
-        TabStop = False
-      end
-    end
     object activityIndicator: TdxActivityIndicator
       Left = 13
-      Top = 518
-      Width = 813
+      Top = 444
+      Width = 854
       Height = 10
       PropertiesClassName = 'TdxActivityIndicatorHorizontalDotsProperties'
       Transparent = True
     end
     object cxButton4: TcxButton
-      Left = 743
-      Top = 536
+      Left = 784
+      Top = 462
       Width = 83
       Height = 25
       Cursor = crHandPoint
@@ -171,7 +117,14 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     object cliente: TcxLookupComboBox
       Left = 289
       Top = 13
-      Properties.ListColumns = <>
+      Hint = 'Selecione o cliente'
+      Properties.KeyFieldNames = 'cod_cliente'
+      Properties.ListColumns = <
+        item
+          FieldName = 'nom_cliente'
+        end>
+      Properties.ListOptions.ShowHeader = False
+      Properties.ListSource = dsClientes
       Properties.OnChange = clientePropertiesChange
       Style.HotTrack = False
       TabOrder = 1
@@ -179,7 +132,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     end
     object cxButton5: TcxButton
       Left = 13
-      Top = 233
+      Top = 167
       Width = 93
       Height = 25
       Cursor = crHandPoint
@@ -188,7 +141,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     end
     object cxButton6: TcxButton
       Left = 114
-      Top = 233
+      Top = 167
       Width = 96
       Height = 25
       Cursor = crHandPoint
@@ -198,7 +151,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     end
     object totalRegistros: TcxMaskEdit
       Left = 13
-      Top = 289
+      Top = 223
       Hint = 'Total de registros'
       Properties.Alignment.Horz = taRightJustify
       Properties.IgnoreMaskBlank = True
@@ -212,7 +165,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     end
     object registrosGravados: TcxMaskEdit
       Left = 13
-      Top = 345
+      Top = 279
       Hint = 'Total de registros gravados'
       Properties.Alignment.Horz = taRightJustify
       Properties.IgnoreMaskBlank = True
@@ -226,7 +179,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     end
     object registrosIgnorados: TcxMaskEdit
       Left = 13
-      Top = 401
+      Top = 335
       Hint = 'Total de registros ignorados'
       Properties.Alignment.Horz = taRightJustify
       Properties.MaskKind = emkRegExpr
@@ -239,13 +192,29 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     end
     object log: TcxMemo
       Left = 142
-      Top = 289
+      Top = 223
       Properties.ReadOnly = True
       Properties.ScrollBars = ssBoth
       Style.HotTrack = False
       TabOrder = 12
-      Height = 221
-      Width = 684
+      Height = 213
+      Width = 725
+    end
+    object arquivoSelecionado: TcxButtonEdit
+      Left = 142
+      Top = 134
+      TabStop = False
+      Properties.Buttons = <
+        item
+          Action = actionDeleteSelectedFiles
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      TabOrder = 6
+      Width = 725
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -253,7 +222,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
+      ItemControlAreaAlignment = catNone
       ShowBorder = False
       Index = -1
     end
@@ -263,7 +232,6 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       ShowBorder = False
       Index = 0
     end
@@ -285,6 +253,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -319,6 +288,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 64
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 1
     end
     object dxLayoutItem4: TdxLayoutItem
@@ -329,7 +299,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       CaptionOptions.Visible = False
       Control = labelLocateFile2
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 158
+      ControlOptions.OriginalWidth = 149
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -340,18 +310,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem5: TdxLayoutItem
-      Parent = dxLayoutGroup4
-      CaptionOptions.Text = 'Panel1'
-      CaptionOptions.Visible = False
-      Control = panelBackgroundFileList
-      ControlOptions.AutoColor = True
-      ControlOptions.OriginalHeight = 91
-      ControlOptions.OriginalWidth = 185
-      ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 2
     end
     object dxLayoutGroup5: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -361,7 +320,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutGroup6: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -370,14 +329,14 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ShowBorder = False
-      Index = 4
+      Index = 5
     end
     object dxLayoutGroup7: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object dxLayoutItem6: TdxLayoutItem
       Parent = dxLayoutGroup7
@@ -438,10 +397,9 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Parent = dxLayoutGroup4
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object dxLayoutItem10: TdxLayoutItem
       Parent = dxLayoutGroup9
@@ -533,20 +491,43 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       ControlOptions.ShowBorder = False
       Index = 0
     end
+    object dxLayoutGroup12: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem5: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Arquivo Selecionado:'
+      Control = arquivoSelecionado
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
   end
   object actionList: TActionList
     Images = Data_Sisgef.iml_16_16
     Left = 717
-    Top = 29
+    Top = 21
     object actionLocateFile: TAction
       Caption = '&AQUI'
+      Enabled = False
       Hint = 'Localizar arquivo'
       ImageIndex = 104
+      OnExecute = actionLocateFileExecute
     end
     object actionDeleteSelectedFiles: TAction
       Caption = '&Excluir'
       Hint = 'Excluir arquivos selecionados'
       ImageIndex = 90
+      OnExecute = actionDeleteSelectedFilesExecute
     end
     object actionDeleteAllFiles: TAction
       Caption = '&Limpar'
@@ -557,6 +538,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Caption = '&Fechar'
       Hint = 'Fechar o formul'#225'rio'
       ImageIndex = 98
+      OnExecute = actionCloseFormExecute
     end
     object actionImportWorksheet: TAction
       Caption = '&Importar'
@@ -572,6 +554,12 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
   object Timer: TTimer
     Enabled = False
     Left = 768
-    Top = 32
+    Top = 24
+  end
+  object dsClientes: TDataSource
+    AutoEdit = False
+    DataSet = Data_Sisgef.mtbClientesEmpresa
+    Left = 664
+    Top = 24
   end
 end

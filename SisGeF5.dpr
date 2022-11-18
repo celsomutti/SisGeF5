@@ -240,7 +240,7 @@ uses
   Control.PlanilhaEntradaSimExpress in 'Control\Control.PlanilhaEntradaSimExpress.pas',
   View.CadastroExtravios in 'View\View.CadastroExtravios.pas' {view_CadastroExtravios},
   View.SisGeFConfirmPassword in 'View\View.SisGeFConfirmPassword.pas' {view_SisGeFConfirmPassword},
-  Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
+  Thread.SisGeFImportExpressWorksheet in 'Thread\Thread.SisGeFImportExpressWorksheet.pas',
   View.SisGeFEmployeeRegistrationDetail in 'View\View.SisGeFEmployeeRegistrationDetail.pas' {view_SisGeFEmployeeRegistrationDetail},
   Model.SisgeFRHFuncoes in 'Model\Model.SisgeFRHFuncoes.pas',
   Control.SisGeFRHFuncoes in 'Control\Control.SisGeFRHFuncoes.pas',
@@ -300,7 +300,8 @@ uses
   Thread.SisGeFBIMERCP in 'Thread\Thread.SisGeFBIMERCP.pas',
   View.SisGeFERPChooseWorksheet in 'View\View.SisGeFERPChooseWorksheet.pas' {SisGeFERPChooseWorksheet},
   View.SisGeFImportWorksheetExpress in 'View\View.SisGeFImportWorksheetExpress.pas' {view_SisGeFImportWorksheetExpress},
-  Common.SisGeFFunctions in 'Common\Common.SisGeFFunctions.pas';
+  Common.SisGeFFunctions in 'Common\Common.SisGeFFunctions.pas',
+  Thread.EDIClient in 'Thread\Thread.EDIClient.pas';
 
 {$R *.res}
 

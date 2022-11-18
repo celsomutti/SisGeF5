@@ -275,7 +275,8 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
   View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
   View.CadastroClientes, View.SisGeFExtractedExpress, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
-  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals, View.SisGeFRegisterContractors, View.SisGeFNFsFaturas;
+  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals, View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
+  View.SisGeFImportWorksheetExpress;
 
 procedure Tview_Main.Acessos;
 var
@@ -529,11 +530,18 @@ end;
 
 procedure Tview_Main.actImportacaoPedidosExecute(Sender: TObject);
 begin
-  if not Assigned(view_ImporEDIClient) then
+//  if not Assigned(view_ImporEDIClient) then
+//  begin
+//    view_ImporEDIClient := Tview_ImporEDIClient.Create(Application);
+//  end;
+//  view_ImporEDIClient.Show;
+
+  if not Assigned(view_SisGeFImportWorksheetExpress) then
   begin
-    view_ImporEDIClient := Tview_ImporEDIClient.Create(Application);
+    view_SisGeFImportWorksheetExpress := Tview_SisGeFImportWorksheetExpress.Create(Application);
   end;
-  view_ImporEDIClient.Show;
+  view_SisGeFImportWorksheetExpress.Show;
+
 end;
 
 procedure Tview_Main.actImportacaoTiragemExecute(Sender: TObject);

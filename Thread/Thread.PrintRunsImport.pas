@@ -91,7 +91,7 @@ begin
       FUtils := Common.Utils.TUtils.Create;
       sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
       UpdateLog(sMensagem);
-      if not Data_Sisgef.ImportEngloba(FArquivo) then
+      if not Data_Sisgef.ImportPrintRuns(FArquivo) then
       begin
         UpdateLOG('Erro ao importar a planilha!');
         FCancelar := True;

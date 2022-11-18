@@ -715,6 +715,7 @@ type
     procedure PopulaBases;
     function ImportEngloba(FFile: string): boolean;
     function ImportPrintRuns(FFile: String): boolean;
+    function ImportDIRECTEntregas(FFile): boolean;
   end;
 
 var
@@ -777,6 +778,22 @@ begin
                                         ';Port=' + Global.Parametros.pPort +
                                         ';User_name=' + Global.Parametros.pUBD +
                                         ';Password=' + Global.Parametros.pPBD;
+end;
+
+function TData_Sisgef.ImportDIRECTEntregas(FFile): boolean;
+begin
+  Result := False;
+  memTableImport.Active := False;
+  FDBatchMove.Reader := FDBTextReader;
+  textReaderEngloba.FileName := FFile;
+  FDBDataSetWriter.DataSet := memTableImport;
+  FDBatchMove.Execute;
+  if memTableImport.IsEmpty then
+  begin
+    memTableImport.Active := False;
+    Exit;
+  end;
+  Result := True;
 end;
 
 function TData_Sisgef.ImportEngloba(FFile: string): boolean;

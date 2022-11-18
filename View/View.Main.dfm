@@ -1996,8 +1996,8 @@
     object actImportacaoPedidos: TAction
       Tag = 201010
       Category = 'Expressas'
-      Caption = '&Importa'#231#227'o EDI'
-      Hint = 'Importa'#231#227'o de dados dos pedidos de entregas '
+      Caption = '&Importa'#231#227'o Planilhas'
+      Hint = 'Importa'#231#227'o de planilhas de expressas'
       OnExecute = actImportacaoPedidosExecute
     end
     object actImportarBaixasTFO: TAction

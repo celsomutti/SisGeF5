@@ -2,7 +2,7 @@ unit Common.SisGeFFunctions;
 
 interface
 
-uses System.Classes, System.SysUtils;
+uses System.Classes, System.SysUtils, System.StrUtils;
 
 type TSisGeFFunctions = class
   private
@@ -49,16 +49,17 @@ end;
     ENTREGASTFO = 'AGENTE;DESCRIÇÃO;NOSSO NÚMERO;CLIENTE;NOTA;CONSUMIDOR;AOS CUIDADOS;LOGRADOURO;COMPLEMENTO;BAIRRO;CIDADE;' +
                   'CEP;TELEFONE;EXPEDIÇÃO;PREV.DISTRIBUIÇÃO;STATUS;DESCRIÇÃO;ENTREGADOR;Nº DO CONTAINER;VALOR PRODUTO;' +
                   'VALOR DA VERBA;ALTURA;LARGURA;COMPRIMENTO;PESO;NUM.VOL';
-    BAIXAPLANCK = 'Numero Viagem;Data Atualização;Documento;Motorista;Base;Pedido;Remessa;Nota Fiscal;Municipio;CEP;Volumes;' +
-                  'Tipo;Data_Registro;Valor_Total;Peso_Aferido;Peso_Cubado;Peso_Nominal;Peso_CTE;Operação;Região';
+    BAIXAPLANCK = 'ï»¿Numero Viagem;Data AtualizaÃ§Ã£o;Documento;Motorista;Base;Pedido;Remessa;Nota Fiscal;Municipio;CEP;' +
+                  'Volumes;Tipo;Data_Registro;Valor_Total;Peso_Aferido;Peso_Cubado;Peso_Nominal;Peso_CTE;OperaÃ§Ã£o;RegiÃ£o';
     BAIXASTFO = 'NOSSO NÚMERO;DT.ENTREGA;HORA ENTREGA;RECEBEDOR;GRAU RELAC;DOCUMENTO;CÓD. ENTREGADOR;ENTREGADOR;' +
                 'DATA ÚLTIMA ATRIBUIÇÃO;OBSERVAÇÃO;USUÁRIO;DT.TRANSF/DIGITAÇÃO;CLIENTE;PEDIDO;PREVISÃO DISTRIBUIÇÃO;' +
                 'CÓD.AGENTE;DESCRIÇÃO AGENTE;PESO COBRADO (KG);TIPO PESO';
-    TRACKINGPLANCK = 'REMESSA;REME;CID/EST;CEP;DATA;HORA;AGENDADA;PEDIDO;SÉRIE;NOTA FISCAL;DANFE;COD;Responsável;' +
-                     'PRODUTO;OCORRÊNCIA;PESO;QTD. DE VOLUMES;VALOR NOTA;CÓDIGO DO PRODUTO/ DESCRIÇÃO;DT STATUS;STATUS;' +
-                     'UNID. ULT. STATUS;RECEBEDOR;IDENTIFICAÇÃO;DOCUMENTO;DT BAIXA;QTDE OCORRÊNCIAS;FATURADO;UNID. ENTREGA;' +
-                     'TIPO ENTREGA;ROTA;UNID. COLETA;ENDEREÇO;BAIRRO;NUMERO;DESTINATÁRIO;E-MAIL;FONE CLIENTE;FONE CLIENTE;' +
-                     'FONE CLIENTE;OBS. ENTREGA;INFORMACAO ADICIONAL;Nº SACA;DT AGENDADO;DT RE-AGENDADA;Passou no Sorter;;;;';
+    TRACKINGPLANCK = 'REMESSA;REME;CID/EST;CEP;DATA;HORA;AGENDADA;PEDIDO;SÃ‰RIE;NOTA FISCAL;DANFE;COD;ResponsÃ¡vel;PRODUTO;' +
+                     'OCORRÃŠNCIA;PESO;QTD. DE VOLUMES;VALOR NOTA;CÃ“DIGO DO PRODUTO/ DESCRIÃ‡ÃƒO;DT STATUS;STATUS;' +
+                     'UNID. ULT. STATUS;RECEBEDOR;IDENTIFICAÃ‡ÃƒO;DOCUMENTO;DT BAIXA;QTDE OCORRÃŠNCIAS;FATURADO;UNID. ENTREGA;' +
+                     'TIPO ENTREGA;ROTA;UNID. COLETA;ENDEREÃ‡O;BAIRRO;NUMERO;DESTINATÃ'#$0081'RIO;E-MAIL;FONE CLIENTE;' +
+                     'FONE CLIENTE;FONE CLIENTE;OBS. ENTREGA;INFORMACAO ADICIONAL;NÂº SACA;DT AGENDADO;DT RE-AGENDADA;' +
+                     'Passou no Sorter;;;;';
     LOJAPLANCK = 'Numero Viagem;Data Atualização;Documento;Motorista;Base;Pedido;Remessa;Nota Fiscal;Municipio;CEP;Volumes;' +
                  'Tipo;Data_Registro;Valor_Total;Peso_Aferido;Peso_Cubado;Peso_Nominal;Peso_CTE;Operação;Região;LOJA';
 
@@ -74,12 +75,20 @@ begin
 end;
 
 function TSisGeFFunctions.ValidadeFile(iTipo, iCliente: integer; sArquivo: string): boolean;
+var
+  FileExt : string;
 begin
   Result := False;
+  FileExt := LowerCase(ExtractFileExt(sArquivo));
+  if FileExt <> '.csv' then
+  begin
+    FMensagem := 'Selecione apenas arquivos de planilhas no formato CSV (Delimitados por ponto e vírgula, *.csv).';
+    Exit;
+  end;
   if iTipo = 1 then
   begin
     case icliente of
-      1 : Result := Result := ValidateTFOEntregas(sArquivo);
+      1 : Result := ValidateTFOEntregas(sArquivo);
       2 : Result := ValidateSIMExpressEntregas(sArquivo);
       3 : Result := NoRotine; {Result := ValidadeSPLOGEntregas(sArquivo)}
       4 : Result := ValidatePlanckEntregas(sArquivo);
@@ -102,11 +111,17 @@ begin
   end
   else if iTipo = 3 then
   begin
-    Result := ValidatePlanckTracking(sArquivo);
+    if icliente = 4 then
+      Result := ValidatePlanckTracking(sArquivo)
+    else
+      Result := NoRotine;
   end
   else if iTipo = 4 then
   begin
-    Result := ValidatePlanckLojas(sArquivo);
+    if iCliente = 4 then
+      Result := ValidatePlanckLojas(sArquivo)
+    else
+    Result := NoRotine;
   end;
 end;
 
@@ -207,6 +222,7 @@ begin
     Reset(ArquivoCSV);
     Readln(ArquivoCSV, sLinha);
     sDetalhe.DelimitedText := sLinha;
+    sLinha := ReplaceStr(sLinha,'"','');
     if Trim(sLinha) <> ENTREGAPLANCK then
     begin
       FMensagem := 'Arquivo informado não foi identificado como a Planilha de Entrada gerada no Planck!';
@@ -277,6 +293,7 @@ begin
     sDetalhe.StrictDelimiter := True;
     sDetalhe.Delimiter := ';';
     Reset(ArquivoCSV);
+    Readln(ArquivoCSV, sLinha);
     Readln(ArquivoCSV, sLinha);
     Readln(ArquivoCSV, sLinha);
     Readln(ArquivoCSV, sLinha);
@@ -353,6 +370,7 @@ begin
     Reset(ArquivoCSV);
     Readln(ArquivoCSV, sLinha);
     Readln(ArquivoCSV, sLinha);
+    Readln(ArquivoCSV, sLinha);
     sDetalhe.DelimitedText := sLinha;
     if Trim(sLinha) <> BAIXASTFO then
     begin
@@ -388,6 +406,7 @@ begin
     sDetalhe.StrictDelimiter := True;
     sDetalhe.Delimiter := ';';
     Reset(ArquivoCSV);
+    Readln(ArquivoCSV, sLinha);
     Readln(ArquivoCSV, sLinha);
     Readln(ArquivoCSV, sLinha);
     Readln(ArquivoCSV, sLinha);
