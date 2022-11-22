@@ -697,6 +697,9 @@ type
     memTableOMIEdes_reter_INSS: TStringField;
     memTableOMIEnom_departamento: TStringField;
     memTableOMIEnum_CNPJ_CPF_titular: TStringField;
+    textReaderEntregasDIRECT: TFDBatchMoveTextReader;
+    textReaderDIRECTBaixas: TFDBatchMoveTextReader;
+    textReaderDIRECTLojas: TFDBatchMoveTextReader;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
@@ -715,7 +718,9 @@ type
     procedure PopulaBases;
     function ImportEngloba(FFile: string): boolean;
     function ImportPrintRuns(FFile: String): boolean;
-    function ImportDIRECTEntregas(FFile): boolean;
+    function ImportDIRECTEntregas(FFile: string): boolean;
+    function ImportDIRECTBaixas(FFile: string): boolean;
+    function ImportDIRECTBaixasLojas(FFile: string): boolean;
   end;
 
 var
@@ -780,12 +785,44 @@ begin
                                         ';Password=' + Global.Parametros.pPBD;
 end;
 
-function TData_Sisgef.ImportDIRECTEntregas(FFile): boolean;
+function TData_Sisgef.ImportDIRECTBaixas(FFile: String): boolean;
 begin
   Result := False;
   memTableImport.Active := False;
-  FDBatchMove.Reader := FDBTextReader;
-  textReaderEngloba.FileName := FFile;
+  FDBatchMove.Reader := textReaderDIRECTBaixas;
+  textReaderDIRECTBaixas.FileName := FFile;
+  FDBDataSetWriter.DataSet := memTableImport;
+  FDBatchMove.Execute;
+  if memTableImport.IsEmpty then
+  begin
+    memTableImport.Active := False;
+    Exit;
+  end;
+  Result := True;
+end;
+
+function TData_Sisgef.ImportDIRECTBaixasLojas(FFile: string): boolean;
+begin
+  Result := False;
+  memTableImport.Active := False;
+  FDBatchMove.Reader := textReaderDIRECTLojas;
+  textReaderDIRECTLojas.FileName := FFile;
+  FDBDataSetWriter.DataSet := memTableImport;
+  FDBatchMove.Execute;
+  if memTableImport.IsEmpty then
+  begin
+    memTableImport.Active := False;
+    Exit;
+  end;
+  Result := True;
+end;
+
+function TData_Sisgef.ImportDIRECTEntregas(FFile: String): boolean;
+begin
+  Result := False;
+  memTableImport.Active := False;
+  FDBatchMove.Reader := textReaderEntregasDIRECT;
+  textReaderEntregasDIRECT.FileName := FFile;
   FDBDataSetWriter.DataSet := memTableImport;
   FDBatchMove.Execute;
   if memTableImport.IsEmpty then

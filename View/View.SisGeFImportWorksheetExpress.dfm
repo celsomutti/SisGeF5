@@ -30,7 +30,6 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitHeight = 614
     object panelDragandDrop: TPanel
       Left = 13
       Top = 46
@@ -80,7 +79,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Style.HotTrack = False
       Transparent = True
     end
-    object activityIndicator: TdxActivityIndicator
+    object indicador: TdxActivityIndicator
       Left = 13
       Top = 444
       Width = 854
@@ -95,7 +94,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 14
+      TabOrder = 15
     end
     object tipoArquivo: TcxComboBox
       Left = 116
@@ -196,7 +195,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Properties.ReadOnly = True
       Properties.ScrollBars = ssBoth
       Style.HotTrack = False
-      TabOrder = 12
+      TabOrder = 13
       Height = 213
       Width = 725
     end
@@ -215,6 +214,12 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Style.HotTrack = False
       TabOrder = 6
       Width = 725
+    end
+    object progressBar: TcxProgressBar
+      Left = 13
+      Top = 391
+      TabOrder = 12
+      Width = 121
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -344,7 +349,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       AlignVert = avCenter
       CaptionOptions.Text = 'dxActivityIndicator1'
       CaptionOptions.Visible = False
-      Control = activityIndicator
+      Control = indicador
       ControlOptions.OriginalHeight = 10
       ControlOptions.OriginalWidth = 300
       ControlOptions.ShowBorder = False
@@ -511,6 +516,16 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       ControlOptions.ShowBorder = False
       Index = 0
     end
+    object dxLayoutItem16: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      CaptionOptions.Text = 'Progresso:'
+      CaptionOptions.Layout = clTop
+      Control = progressBar
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
   end
   object actionList: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -544,15 +559,18 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Caption = '&Importar'
       Hint = 'Importar planilhas selecionadas'
       ImageIndex = 103
+      OnExecute = actionImportWorksheetExecute
     end
     object actionCancelImport: TAction
       Caption = 'Cancelar'
       Hint = 'Cancelar importa'#231#227'o'
       ImageIndex = 84
+      OnExecute = actionCancelImportExecute
     end
   end
   object Timer: TTimer
     Enabled = False
+    OnTimer = TimerTimer
     Left = 768
     Top = 24
   end

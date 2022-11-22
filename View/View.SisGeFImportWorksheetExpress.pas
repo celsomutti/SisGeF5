@@ -8,7 +8,8 @@ uses
   dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, dxLayoutControlAdapters, Vcl.ExtCtrls,
   dxLayoutcxEditAdapters, cxContainer, cxEdit, System.Actions, Vcl.ActnList, cxLabel, Vcl.Menus, Vcl.StdCtrls, cxButtons,
   cxCustomListBox, cxListBox, dxActivityIndicator, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBLookupComboBox, cxMemo, ShellAPI, Data.DB, Common.SisGeFFunctions, cxButtonEdit;
+  cxDBLookupComboBox, cxMemo, ShellAPI, Data.DB, Common.SisGeFFunctions, cxButtonEdit, Thread.SisGeFImportExpressWorksheet,
+  cxProgressBar;
 
 type
   Tview_SisGeFImportWorksheetExpress = class(TForm)
@@ -33,7 +34,7 @@ type
     dxLayoutGroup5: TdxLayoutGroup;
     dxLayoutGroup6: TdxLayoutGroup;
     dxLayoutGroup7: TdxLayoutGroup;
-    activityIndicator: TdxActivityIndicator;
+    indicador: TdxActivityIndicator;
     dxLayoutItem6: TdxLayoutItem;
     actionCloseForm: TAction;
     cxButton4: TcxButton;
@@ -65,6 +66,8 @@ type
     dxLayoutGroup12: TdxLayoutGroup;
     arquivoSelecionado: TcxButtonEdit;
     dxLayoutItem5: TdxLayoutItem;
+    progressBar: TcxProgressBar;
+    dxLayoutItem16: TdxLayoutItem;
     procedure tipoArquivoPropertiesChange(Sender: TObject);
     procedure clientePropertiesChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -74,6 +77,9 @@ type
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionLocateFileExecute(Sender: TObject);
     procedure actionDeleteSelectedFilesExecute(Sender: TObject);
+    procedure actionCancelImportExecute(Sender: TObject);
+    procedure TimerTimer(Sender: TObject);
+    procedure actionImportWorksheetExecute(Sender: TObject);
   private
     { Private declarations }
     function LockDockAndDrop(): boolean;
@@ -84,7 +90,11 @@ type
     procedure LBWindowProc(var Message: TMessage);
     procedure AddFile(sFileName: string);
     procedure StartForm;
-
+    procedure UpdateDashboard;
+    procedure RenameFiles(sFile: string);
+    procedure StartImport(sFile: string);
+    procedure ProcessaCapa(sFile: String; iCliente, iTipo: Integer; bLojas: boolean);
+    procedure TerminateProc;
   public
     { Public declarations }
   end;
@@ -93,6 +103,7 @@ var
   view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress;
   OldLBWindowProc: TWndMethod;
   cFunctions : TSisGeFFunctions;
+  importws : Thread_ImportImportExpressWorksheet;
 
 implementation
 
@@ -102,6 +113,12 @@ uses Data.SisGeF;
 
 { Tview_SisGeFImportWorksheetExpress }
 
+procedure Tview_SisGeFImportWorksheetExpress.actionCancelImportExecute(Sender: TObject);
+begin
+  importws.Cancelar := True;
+  importws.Terminate;
+end;
+
 procedure Tview_SisGeFImportWorksheetExpress.actionCloseFormExecute(Sender: TObject);
 begin
   Close;
@@ -110,6 +127,11 @@ end;
 procedure Tview_SisGeFImportWorksheetExpress.actionDeleteSelectedFilesExecute(Sender: TObject);
 begin
   arquivoSelecionado.Clear;
+end;
+
+procedure Tview_SisGeFImportWorksheetExpress.actionImportWorksheetExecute(Sender: TObject);
+begin
+  StartImport(arquivoSelecionado.Text);
 end;
 
 procedure Tview_SisGeFImportWorksheetExpress.actionLocateFileExecute(Sender: TObject);
@@ -179,9 +201,71 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFImportWorksheetExpress.ProcessaCapa(sFile: String; iCliente, iTipo: Integer; bLojas: boolean);
+begin
+  log.Clear;
+  importws := Thread_ImportImportExpressWorksheet.Create(True);
+  importws.Arquivo := sFile;
+  importws.Cliente := iCliente;
+  importws.TipoProcesso := iTipo;
+  importws.Loja := bLojas;
+  importws.Priority := tpNormal;
+  Timer.Enabled := True;
+  panelDragandDrop.Enabled := False;
+  actionLocateFile.Enabled := False;
+  actionDeleteSelectedFiles.Enabled := False;
+  actionImportWorksheet.Enabled := False;
+  actionCancelImport.Enabled := True;
+  indicador.Active := True;
+  importws.Start;
+end;
+
+procedure Tview_SisGeFImportWorksheetExpress.RenameFiles(sFile: string);
+Var
+  sFileName: String;
+  sPath : String;
+  sFileFinal: String;
+begin
+  sPath := ExtractFilePath(sFile);
+  sFileName :=  ExtractFileName(sFile);
+  sFileFinal := sPath + 'OK_' + sFileName;
+  RenameFile(sFile,sFileFinal);
+end;
+
 procedure Tview_SisGeFImportWorksheetExpress.StartForm;
 begin
   Data_Sisgef.PopulaClientesEmpresa;
+end;
+
+procedure Tview_SisGeFImportWorksheetExpress.StartImport(sFile: string);
+var
+  iCliente, iTipo: integer;
+  bLojas: boolean;
+begin
+
+  if not ValidateProcess() then
+    Exit;
+
+  if Application.MessageBox(PChar('Confirma a importação do arquivo ' + sFile + ' ?'), 'Importar', MB_YESNO + MB_ICONQUESTION) = IDYES then
+  begin
+    iCliente := cliente.EditValue;
+    iTipo := tipoArquivo.ItemIndex;
+    bLojas := False;
+    ProcessaCapa(sFile, iCliente, iTipo, bLojas);
+  end;
+end;
+
+procedure Tview_SisGeFImportWorksheetExpress.TerminateProc;
+begin
+  if Assigned(importws) then
+  begin
+    importws.DisposeOf;
+  end;
+end;
+
+procedure Tview_SisGeFImportWorksheetExpress.TimerTimer(Sender: TObject);
+begin
+  UpdateDashboard;
 end;
 
 procedure Tview_SisGeFImportWorksheetExpress.tipoArquivoPropertiesChange(Sender: TObject);
@@ -190,6 +274,44 @@ begin
   actionLocateFile.Enabled := LockDockAndDrop;
 end;
 
+
+procedure Tview_SisGeFImportWorksheetExpress.UpdateDashboard;
+begin
+if not importws.Processo then
+  begin
+    Timer.Enabled := False;
+    log.Text := importws.Log;
+    actionLocateFile.Enabled := True;
+    panelDragandDrop.Enabled := True;
+    actionDeleteSelectedFiles.Enabled := True;
+    actionImportWorksheet.Enabled := True;
+    actionCancelImport.Enabled := False;
+    indicador.Active := False;
+    progressBar.Position := importws.Progresso;
+    totalRegistros.EditValue := importws.TotalRegistros;
+    registrosIgnorados.EditValue := importws.TotalInconsistencias;
+    registrosGravados.EditValue := importws.TotalGravados;
+    if importws.Cancelar then
+      Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION)
+    else
+      begin
+        Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+        RenameFiles(arquivoSelecionado.Text);
+      end;
+    arquivoSelecionado.Text := '';
+    progressBar.Position := 0;
+    log.Lines.Add('>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Término da importação!');
+    TerminateProc;
+  end
+  else
+  begin
+    log.Text := importws.Log;
+    progressBar.Position := importws.Progresso;
+    totalRegistros.EditValue := importws.TotalRegistros;
+    registrosIgnorados.EditValue := importws.TotalInconsistencias;
+    registrosGravados.EditValue := importws.TotalGravados;
+  end;
+end;
 
 procedure Tview_SisGeFImportWorksheetExpress.ValidateFile(sFile: string);
 begin

@@ -12062,26 +12062,26 @@ object Data_Sisgef: TData_Sisgef
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
-          393B2623393B2623393B093C7374796C6520747970653D22746578742F637373
-          2220786D6C3A73706163653D227072657365727665223E2E5265647B66696C6C
-          3A234431314331433B7D262331333B262331303B2623393B2E426C61636B7B66
-          696C6C3A233732373237323B7D262331333B262331303B2623393B2E426C7565
-          7B66696C6C3A233131373744373B7D262331333B262331303B2623393B2E4772
-          65656E7B66696C6C3A233033394332333B7D262331333B262331303B2623393B
-          2E59656C6C6F777B66696C6C3A234646423131353B7D262331333B262331303B
-          2623393B2E57686974657B66696C6C3A234646464646463B7D262331333B2623
-          31303B2623393B2E7374307B6F7061636974793A302E353B7D262331333B2623
-          31303B2623393B2E7374317B6F7061636974793A302E37353B7D262331333B26
-          2331303B2623393B2E7374327B6F7061636974793A302E32353B7D3C2F737479
-          6C653E0D0A093C672069643D22496D706F7274223E0D0A09093C706174682063
-          6C6173733D22426C61636B2220643D224D31302C31324836563668345631327A
-          204D32322C31377631763963302C302E362D302E342C312D312C314831632D30
-          2E362C302D312D302E342D312D31563763302D302E362C302E342D312C312D31
-          683376386831344C32322C31377A204D31382C3138483420202623393B262339
-          3B76366831345631387A222F3E0D0A09093C706F6C79676F6E20636C6173733D
-          22477265656E2220706F696E74733D2233302C362032322C362032322C322031
-          342C382032322C31342032322C31302033302C3130202623393B222F3E0D0A09
-          3C2F673E0D0A3C2F7376673E0D0A}
+          393B2623393B2623393B2623393B2623393B093C7374796C6520747970653D22
+          746578742F6373732220786D6C3A73706163653D227072657365727665223E2E
+          5265647B66696C6C3A234431314331433B7D262331333B262331303B2623393B
+          2E426C61636B7B66696C6C3A233732373237323B7D262331333B262331303B26
+          23393B2E426C75657B66696C6C3A233131373744373B7D262331333B26233130
+          3B2623393B2E477265656E7B66696C6C3A233033394332333B7D262331333B26
+          2331303B2623393B2E59656C6C6F777B66696C6C3A234646423131353B7D2623
+          31333B262331303B2623393B2E57686974657B66696C6C3A234646464646463B
+          7D262331333B262331303B2623393B2E7374307B6F7061636974793A302E353B
+          7D262331333B262331303B2623393B2E7374317B6F7061636974793A302E3735
+          3B7D262331333B262331303B2623393B2E7374327B6F7061636974793A302E32
+          353B7D3C2F7374796C653E0D0A093C672069643D22496D706F7274223E0D0A09
+          093C7061746820636C6173733D22426C61636B2220643D224D31302C31324836
+          563668345631327A204D32322C31377631763963302C302E362D302E342C312D
+          312C314831632D302E362C302D312D302E342D312D31563763302D302E362C30
+          2E342D312C312D31683376386831344C32322C31377A204D31382C3138483420
+          202623393B2623393B76366831345631387A222F3E0D0A09093C706F6C79676F
+          6E20636C6173733D22477265656E2220706F696E74733D2233302C362032322C
+          362032322C322031342C382032322C31342032322C31302033302C3130202623
+          393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -12194,16 +12194,16 @@ object Data_Sisgef: TData_Sisgef
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
           393B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
-          393B2623393B2623393B2623393B093C7374796C6520747970653D2274657874
-          2F6373732220786D6C3A73706163653D227072657365727665223E2E426C7565
-          7B66696C6C3A233131373744373B7D262331333B262331303B2623393B2E426C
-          61636B7B66696C6C3A233732373237323B7D262331333B262331303B2623393B
-          2E59656C6C6F777B66696C6C3A234646423131353B7D262331333B262331303B
-          2623393B2E5265647B66696C6C3A234431314331433B7D3C2F7374796C653E0D
-          0A093C672069643D224C696768746E696E67223E0D0A09093C706F6C79676F6E
-          20636C6173733D2259656C6C6F772220706F696E74733D2232322C322031342C
-          3220362C31362031342C313620382C33302032362C31322031362E332C313220
-          2623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          393B2623393B2623393B2623393B2623393B2623393B093C7374796C65207479
+          70653D22746578742F6373732220786D6C3A73706163653D2270726573657276
+          65223E2E426C75657B66696C6C3A233131373744373B7D262331333B26233130
+          3B2623393B2E426C61636B7B66696C6C3A233732373237323B7D262331333B26
+          2331303B2623393B2E59656C6C6F777B66696C6C3A234646423131353B7D2623
+          31333B262331303B2623393B2E5265647B66696C6C3A234431314331433B7D3C
+          2F7374796C653E0D0A093C672069643D224C696768746E696E67223E0D0A0909
+          3C706F6C79676F6E20636C6173733D2259656C6C6F772220706F696E74733D22
+          32322C322031342C3220362C31362031342C313620382C33302032362C313220
+          31362E332C3132202623393B222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxSmartImage'
@@ -16210,18 +16210,18 @@ object Data_Sisgef: TData_Sisgef
           22307078222076696577426F783D2230203020333220333222207374796C653D
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
-          303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B093C
-          7374796C6520747970653D22746578742F6373732220786D6C3A73706163653D
-          227072657365727665223E2E426C61636B7B66696C6C3A233732373237323B7D
-          262331333B262331303B2623393B2E5265647B66696C6C3A234431314331433B
-          7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A23464642
-          3131353B7D262331333B262331303B2623393B2E477265656E7B66696C6C3A23
-          3033394332333B7D3C2F7374796C653E0D0A093C672069643D22536563757269
-          7479223E0D0A09093C7061746820636C6173733D22477265656E2220643D224D
-          31362C324C342C3863302C302C302C302C302C3673352C31332E372C31322C31
-          3663372D322E332C31322D31302C31322D313673302D362C302D364C31362C32
-          7A204D31342C32326C2D362D366C322D326C342C346C382D386C322C324C3134
-          2C32327A222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
+          303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
+          393B2623393B093C7374796C6520747970653D22746578742F6373732220786D
+          6C3A73706163653D227072657365727665223E2E426C61636B7B66696C6C3A23
+          3732373237323B7D262331333B262331303B2623393B2E5265647B66696C6C3A
+          234431314331433B7D262331333B262331303B2623393B2E59656C6C6F777B66
+          696C6C3A234646423131353B7D262331333B262331303B2623393B2E47726565
+          6E7B66696C6C3A233033394332333B7D3C2F7374796C653E0D0A093C67206964
+          3D225365637572697479223E0D0A09093C7061746820636C6173733D22477265
+          656E2220643D224D31362C324C342C3863302C302C302C302C302C3673352C31
+          332E372C31322C313663372D322E332C31322D31302C31322D313673302D362C
+          302D364C31362C327A204D31342C32326C2D362D366C322D326C342C346C382D
+          386C322C324C31342C32327A222F3E0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -16249,17 +16249,17 @@ object Data_Sisgef: TData_Sisgef
           22307078222076696577426F783D2230203020333220333222207374796C653D
           22656E61626C652D6261636B67726F756E643A6E657720302030203332203332
           3B2220786D6C3A73706163653D227072657365727665223E262331333B262331
-          303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B093C
-          7374796C6520747970653D22746578742F6373732220786D6C3A73706163653D
-          227072657365727665223E2E426C75657B66696C6C3A233131373744373B7D26
-          2331333B262331303B2623393B2E426C61636B7B66696C6C3A23373237323732
-          3B7D262331333B262331303B2623393B2E59656C6C6F777B66696C6C3A234646
-          423131353B7D262331333B262331303B2623393B2E5265647B66696C6C3A2344
-          31314331433B7D3C2F7374796C653E0D0A093C672069643D224C696768746E69
-          6E67223E0D0A09093C706F6C79676F6E20636C6173733D2259656C6C6F772220
-          706F696E74733D2232322C322031342C3220362C31362031342C313620382C33
-          302032362C31322031362E332C3132202623393B222F3E0D0A093C2F673E0D0A
-          3C2F7376673E0D0A}
+          303B2623393B2623393B2623393B2623393B2623393B2623393B2623393B2623
+          393B2623393B093C7374796C6520747970653D22746578742F6373732220786D
+          6C3A73706163653D227072657365727665223E2E426C75657B66696C6C3A2331
+          31373744373B7D262331333B262331303B2623393B2E426C61636B7B66696C6C
+          3A233732373237323B7D262331333B262331303B2623393B2E59656C6C6F777B
+          66696C6C3A234646423131353B7D262331333B262331303B2623393B2E526564
+          7B66696C6C3A234431314331433B7D3C2F7374796C653E0D0A093C672069643D
+          224C696768746E696E67223E0D0A09093C706F6C79676F6E20636C6173733D22
+          59656C6C6F772220706F696E74733D2232322C322031342C3220362C31362031
+          342C313620382C33302032362C31322031362E332C3132202623393B222F3E0D
+          0A093C2F673E0D0A3C2F7376673E0D0A}
       end
       item
         ImageClass = 'TdxPNGImage'
@@ -16517,8 +16517,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckUpdatable = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 440
-    Top = 400
+    Left = 528
+    Top = 592
   end
   object openDialog: TOpenDialog
     Left = 624
@@ -16874,8 +16874,8 @@ object Data_Sisgef: TData_Sisgef
     DataDef.Separator = ';'
     DataDef.RecordFormat = rfCustom
     DataDef.WithFieldNames = True
-    Left = 440
-    Top = 344
+    Left = 40
+    Top = 592
   end
   object storedProcExtractExpress: TFDStoredProc
     Connection = FDConnectionMySQL
@@ -18113,8 +18113,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 360
-    Top = 616
+    Left = 688
+    Top = 608
     object memTableBIMERCPCampoEmpresa: TStringField
       DisplayWidth = 5
       FieldName = 'CampoEmpresa'
@@ -18309,8 +18309,8 @@ object Data_Sisgef: TData_Sisgef
     DataDef.Separator = ';'
     DataDef.RecordFormat = rfCustom
     DataDef.WithFieldNames = True
-    Left = 408
-    Top = 528
+    Left = 344
+    Top = 592
   end
   object memTableOMIE: TFDMemTable
     Indexes = <
@@ -18325,8 +18325,8 @@ object Data_Sisgef: TData_Sisgef
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 456
-    Top = 616
+    Left = 800
+    Top = 600
     object memTableOMIEcod_integracao: TStringField
       DisplayLabel = 'CodigoIntegracao'
       FieldName = 'cod_integracao'
@@ -18541,5 +18541,462 @@ object Data_Sisgef: TData_Sisgef
       FieldName = 'nom_departamento'
       Size = 50
     end
+  end
+  object textReaderEntregasDIRECT: TFDBatchMoveTextReader
+    DataDef.Fields = <
+      item
+        FieldName = 'REMESSA'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'PEDIDO'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'DATA_REGISTRO'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'HORA_REGISTRO'
+        DataType = atString
+        FieldSize = 5
+      end
+      item
+        FieldName = 'COD_EMBARCADOR'
+        DataType = atString
+        FieldSize = 50
+      end
+      item
+        FieldName = 'CLIENTE_EMBARCADOR'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'DESTINATARIO'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'MUNICIPIO'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'UF'
+        DataType = atString
+        FieldSize = 2
+      end
+      item
+        FieldName = 'CEP'
+        DataType = atString
+        FieldSize = 8
+      end
+      item
+        FieldName = 'BAIRRO'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'SITUACAO'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'DATA_ALTERACAO'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'HORA_ALTERACAO'
+        DataType = atString
+        FieldSize = 5
+      end
+      item
+        FieldName = 'QTDVOLUMES'
+        DataType = atString
+        FieldSize = 6
+      end
+      item
+        FieldName = 'TIPO'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'PACKING_LIST'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'NOTA_FISCAL'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'SERIE'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'EMISSAO'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'VALOR_TOTAL'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'CHAVE'
+        DataType = atString
+        FieldSize = 44
+      end
+      item
+        FieldName = 'OPERACAO'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'TOMADOR_NOME'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'TOMADOR_CNPJ'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'BASE'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'BASE_SIGLA'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'PESO_CUBADO'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'PESO_NOMINAL'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'VOLUME_TOTAL_REMESSA'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'VOLUME_TOTAL_REMESSA_INFORMADO'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'ULTIMO_MOTIVO_OCORRENCIA'
+        DataType = atString
+        FieldSize = 150
+      end
+      item
+        FieldName = 'QTDE_OCORRENCIA'
+        DataType = atString
+        FieldSize = 6
+      end
+      item
+        FieldName = 'DATA_AGENDAMENTO'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'DEVOLUCAO'
+        DataType = atString
+        FieldSize = 3
+      end
+      item
+        FieldName = 'ULTIMA_VIAGEM'
+        DataType = atString
+        FieldSize = 12
+      end
+      item
+        FieldName = 'ULTIMO_MOTORISTA'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'DESCRICAO_PRODUTO'
+        DataType = atString
+        FieldSize = 256
+      end
+      item
+        FieldName = 'AWB 1'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'AWB 2'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'DATA CHEGADA'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'HORA CHEGADA'
+        DataType = atString
+        FieldSize = 5
+      end
+      item
+        FieldName = 'DATA CHEGADA LM'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'HORA CHEGADA LM'
+        DataType = atString
+        FieldSize = 5
+      end
+      item
+        FieldName = 'LOCALIZACAO ATUAL'
+        DataType = atString
+        FieldSize = 50
+      end>
+    DataDef.Delimiter = '"'
+    DataDef.Separator = ';'
+    DataDef.RecordFormat = rfCustom
+    DataDef.WithFieldNames = True
+    Left = 160
+    Top = 592
+  end
+  object textReaderDIRECTBaixas: TFDBatchMoveTextReader
+    DataDef.Fields = <
+      item
+        FieldName = 'Numero Viagem'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Data Atualizacao'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'Documento'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Motorista'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'Base'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'Pedido'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Remessa'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Nota Fiscal'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Municipio'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'CEP'
+        DataType = atString
+        FieldSize = 8
+      end
+      item
+        FieldName = 'Volumes'
+        DataType = atString
+        FieldSize = 6
+      end
+      item
+        FieldName = 'Tipo'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'Data_Registro'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'Valor_Total'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Peso_Aferido'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Peso_Cubado'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Peso_Nominal'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Peso_CTE'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Operacao'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'Regiao'
+        DataType = atString
+        FieldSize = 70
+      end>
+    DataDef.Delimiter = '"'
+    DataDef.Separator = ';'
+    DataDef.RecordFormat = rfCustom
+    DataDef.WithFieldNames = True
+    Left = 256
+    Top = 592
+  end
+  object textReaderDIRECTLojas: TFDBatchMoveTextReader
+    DataDef.Fields = <
+      item
+        FieldName = 'Numero Viagem'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Data Atualizacao'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'Documento'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Motorista'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'Base'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'Pedido'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Remessa'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Nota Fiscal'
+        DataType = atString
+        FieldSize = 20
+      end
+      item
+        FieldName = 'Municipio'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'CEP'
+        DataType = atString
+        FieldSize = 8
+      end
+      item
+        FieldName = 'Volumes'
+        DataType = atString
+        FieldSize = 6
+      end
+      item
+        FieldName = 'Tipo'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'Data_Registro'
+        DataType = atString
+        FieldSize = 10
+      end
+      item
+        FieldName = 'Valor_Total'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Peso_Aferido'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Peso_Cubado'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Peso_Nominal'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Peso_CTE'
+        DataType = atString
+        FieldSize = 15
+      end
+      item
+        FieldName = 'Operacao'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'Regiao'
+        DataType = atString
+        FieldSize = 70
+      end
+      item
+        FieldName = 'Loja'
+        DataType = atString
+        FieldSize = 3
+      end>
+    DataDef.Delimiter = '"'
+    DataDef.Separator = ';'
+    DataDef.RecordFormat = rfCustom
+    DataDef.WithFieldNames = True
+    Left = 32
+    Top = 640
   end
 end
