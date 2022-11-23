@@ -186,6 +186,7 @@ end;
 function Tview_SisGeFImportWorksheetExpress.LockDockAndDrop: boolean;
 begin
   Result := False;
+  arquivoSelecionado.Clear;
   if (tipoArquivo.ItemIndex <= 0) or (cliente.Text = '') then
     Exit;
   Result := True;
