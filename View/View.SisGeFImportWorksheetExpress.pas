@@ -68,6 +68,7 @@ type
     dxLayoutItem5: TdxLayoutItem;
     progressBar: TcxProgressBar;
     dxLayoutItem16: TdxLayoutItem;
+    actionViewWorsheet: TAction;
     procedure tipoArquivoPropertiesChange(Sender: TObject);
     procedure clientePropertiesChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

@@ -567,6 +567,11 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       ImageIndex = 84
       OnExecute = actionCancelImportExecute
     end
+    object actionViewWorsheet: TAction
+      Caption = 'Visuslizar'
+      Hint = 'Visualizar planilha'
+      ImageIndex = 88
+    end
   end
   object Timer: TTimer
     Enabled = False

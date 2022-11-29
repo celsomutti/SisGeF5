@@ -621,12 +621,12 @@ begin
     comboBoxTipo.SetFocus;
     Exit;
   end;
-  if calcEditValor.Value = 0 then
-  begin
-    Application.MessageBox('Informe o valor do lançamento!', 'Atenção', MB_OK + MB_ICONWARNING);
-    calcEditValor.SetFocus;
-    Exit;
-  end;
+//  if calcEditValor.Value = 0 then
+//  begin
+//    Application.MessageBox('Informe o valor do lançamento!', 'Atenção', MB_OK + MB_ICONWARNING);
+//    calcEditValor.SetFocus;
+//    Exit;
+//  end;
   if FAcao = tacIncluir then
   begin
     if comboBoxProcessamento.ItemIndex = 0 then

@@ -31,16 +31,17 @@ end;
                    'VOLUME_TOTAL_REMESSA;VOLUME_TOTAL_REMESSA_INFORMADO;ULTIMO_MOTIVO_OCORRENCIA;QTDE_OCORRENCIA;' +
                    'DATA_AGENDAMENTO;DEVOLUCAO;ULTIMA_VIAGEM;ULTIMO_MOTORISTA;DESCRICAO_PRODUTO;AWB 1;AWB 2;' +
                    'DATA CHEGADA;HORA CHEGADA;DATA CHEGADA LM;HORA CHEGADA LM;LOCALIZACAO ATUAL';
-    ENTREGAENGLOBA = 'Código;N.º pedido;N.º do cliente;Romaneio do cliente;Notas fiscais;Serviço;Sub-serviço;Data pedido;' +
-                     'Data confirmação;Data expedicao;Data recebimento base;Data última rota;Data prevista;' +
-                     'Data prevista sem insucessos;Data entrega/finalização;No prazo;Informação no prazo;No prazo base;' +
-                     'Data primeira ocorrência;Data última ocorrência;Última ocorrência;Primeiro motivo de insucesso;' +
-                     'Último motivo de insucesso;Data do último motivo de insucesso;Situação;Remetente;Cidade do remetente;' +
-                     'Estado do remetente;Base destino;Empresa;Destinatário;Endereço;N.º;Complemento;Bairro;Cidade;' +
-                     'Tipo de região;CEP;Estado;Telefone 1;Edição;Qtde. itens;Qtde. volumes;Peso transportadora;Peso real;' +
-                     'Peso cubado;Peso taxado;Valor pedido;Produtos;Último motorista;Último romaneio da rota;Último manifesto;' +
-                     'Alíquota ICMS;Alíquota ISS;Taxa coleta;Taxa entrega;Taxa despacho;Taxa despacho;Ademe;Pedágio;' +
-                     'Taxa COD;TAS;TDA;TDE;Taxa rest. Trânsito TRT;Acréscimos;Descontos;Taxa emergencial;Valor manuseio';
+    ENTREGAENGLOBA = 'ï»¿CÃ³digo;N.Âº pedido;N.Âº do cliente;Romaneio do cliente;Notas fiscais;ServiÃ§o;Sub-serviÃ§o;' +
+                     'Data pedido;Data confirmaÃ§Ã£o;Data expedicao;Data recebimento base;Data Ãºltima rota;Data prevista;' +
+                     'Data prevista sem insucessos;Data entrega/finalizaÃ§Ã£o;No prazo;InformaÃ§Ã£o no prazo;No prazo base;' +
+                     'Data primeira ocorrÃªncia;Data Ãºltima ocorrÃªncia;Ãšltima ocorrÃªncia;Primeiro motivo de insucesso;' +
+                     'Ãšltimo motivo de insucesso;Data do Ãºltimo motivo de insucesso;SituaÃ§Ã£o;Remetente;Cidade do remetente;' +
+                     'Estado do remetente;Base destino;Empresa;DestinatÃ¡rio;EndereÃ§o;N.Âº;Complemento;Bairro;Cidade;' +
+                     'Tipo de regiÃ£o;CEP;Estado;Telefone 1;EdiÃ§Ã£o;Qtde. itens;Qtde. volumes;Peso transportadora;Peso real;' +
+                     'Peso cubado;Peso taxado;Valor pedido;Produtos;Ãšltimo motorista;Ãšltimo romaneio da rota;' +
+                     'Ãšltimo manifesto;AlÃ'#$00AD'quota ICMS;AlÃ'#$00AD'quota ISS;Taxa coleta;Taxa entrega;Taxa despacho;' +
+                     'Taxa despacho;Ademe;PedÃ¡gio;Taxa COD;TAS;TDA;TDE;Taxa rest. TrÃ¢nsito TRT;AcrÃ©scimos;Descontos;' +
+                     'Taxa emergencial;Valor manuseio';
     ENTREGASIMEXPRESS = 'Nr Rota;Rota;idMotorista;Motorista;Ordem Rota;NomeTransportadora;Embarcador;Destinatario;idPedido;' +
                         'Nr Entrega;Nr Nota Fiscal;Numero Pedido;Tipo Operacao;Qtde Volumes;Valor a Cobrar;Obs Entrega;' +
                         'Id Viagem;Data Entrega;Data Ocorrencia;Ocorrencia;Id Remessa;Endereco;Bairro;Municipio;CEP;' +
@@ -60,9 +61,8 @@ end;
                      'TIPO ENTREGA;ROTA;UNID. COLETA;ENDEREÃ‡O;BAIRRO;NUMERO;DESTINATÃ'#$0081'RIO;E-MAIL;FONE CLIENTE;' +
                      'FONE CLIENTE;FONE CLIENTE;OBS. ENTREGA;INFORMACAO ADICIONAL;NÂº SACA;DT AGENDADO;DT RE-AGENDADA;' +
                      'Passou no Sorter;;;;';
-    LOJAPLANCK = 'Numero Viagem;Data Atualização;Documento;Motorista;Base;Pedido;Remessa;Nota Fiscal;Municipio;CEP;Volumes;' +
-                 'Tipo;Data_Registro;Valor_Total;Peso_Aferido;Peso_Cubado;Peso_Nominal;Peso_CTE;Operação;Região;LOJA';
-
+    LOJAPLANCK = 'ï»¿Numero Viagem;Data AtualizaÃ§Ã£o;Documento;Motorista;Base;Pedido;Remessa;Nota Fiscal;Municipio;CEP;' +
+                 'Volumes;Tipo;Data_Registro;Valor_Total;Peso_Aferido;Peso_Cubado;Peso_Nominal;Peso_CTE;OperaÃ§Ã£o;RegiÃ£o;LOJA';
 
 implementation
 

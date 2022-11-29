@@ -11,7 +11,8 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGridBandedTableView,
-  cxGridDBBandedTableView, cxCheckBox, cxFilterControl, cxDBFilterControl, Vcl.FileCtrl, cxCalendar, Common.Utils;
+  cxGridDBBandedTableView, cxCheckBox, cxFilterControl, cxDBFilterControl, Vcl.FileCtrl, cxCalendar, Common.Utils,
+  FireDAC.Stan.Async, FireDAC.DApt, Control.Cadastro, System.DateUtils;
 
 type
   Tview_SisGeFRegisterContractors = class(TForm)
@@ -103,7 +104,6 @@ type
     memTableDocumentsdat_validade_cnh: TDateField;
     memTableDocumentscod_cnh: TStringField;
     memTableDocumentsdes_placa: TStringField;
-    memTableDocumentsano_exercicio_clrv: TStringField;
     memTableDocumentsnum_renavan: TStringField;
     dsDocuments: TDataSource;
     viewDocumentoscod_cadastro: TcxGridDBColumn;
@@ -127,7 +127,6 @@ type
     DateField1: TDateField;
     StringField8: TStringField;
     StringField9: TStringField;
-    StringField10: TStringField;
     StringField11: TStringField;
     memTableGRdat_gv: TDateField;
     dsGR: TDataSource;
@@ -171,6 +170,8 @@ type
     dxLayoutItem8: TdxLayoutItem;
     cxButton7: TcxButton;
     dxLayoutItem9: TdxLayoutItem;
+    memTableDocumentsano_exercicio_clrv: TIntegerField;
+    memTableGRano_exercicio_clrv: TIntegerField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionSetFilterExecute(Sender: TObject);
@@ -181,6 +182,7 @@ type
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure actionReturnGridExecute(Sender: TObject);
     procedure actionExportGridExecute(Sender: TObject);
+    procedure actionLocateRecordExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -192,6 +194,7 @@ type
     procedure SearchDocuments;
     Procedure SearchGR;
     procedure ExportGrid;
+    procedure LocateRegister(sFilterAux: String);
   public
     { Public declarations }
   end;
@@ -199,6 +202,7 @@ type
 var
   view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors;
   FSearch: integer;
+  FFilter: String;
 
 implementation
 
@@ -231,6 +235,11 @@ end;
 procedure Tview_SisGeFRegisterContractors.actionExportGridExecute(Sender: TObject);
 begin
   ExportGrid;
+end;
+
+procedure Tview_SisGeFRegisterContractors.actionLocateRecordExecute(Sender: TObject);
+begin
+  LocateRegister('');
 end;
 
 procedure Tview_SisGeFRegisterContractors.actionReturnGridExecute(Sender: TObject);
@@ -269,7 +278,9 @@ end;
 
 procedure Tview_SisGeFRegisterContractors.EndForm;
 begin
-  // ok
+  memTableRecords.Active := False;
+  memTableDocuments.Active := False;
+  memTableGR.Active := False;
 end;
 
 procedure Tview_SisGeFRegisterContractors.ExportGrid;
@@ -310,18 +321,76 @@ begin
   view_SisGeFRegisterContractors := nil;
 end;
 
-procedure Tview_SisGeFRegisterContractors.SearchDocuments;
+procedure Tview_SisGeFRegisterContractors.LocateRegister(sFilterAux: String);
+var
+  FCadastro : TCadastroControl;
 begin
-  gridCadastroLevel1.GridView := viewDocumentos;
-  dxLayoutGroup5.Visible := False;
-  FSearch := 1;
+  try
+    FCadastro := TCadastroControl.Create;
+    if FCadastro.SearchRegister(camposPesquisa.ItemIndex, parametroPesquisa.Text, sFilterAux, statusRegistro.Checked) then
+    begin
+      memTableRecords.Active := False;
+      memTableRecords.Active := True;
+      memTableRecords.CopyDataSet(FCadastro.Cadastro.Query);
+      FCadastro.Cadastro.Query.Connection.Connected := False;
+      viewCadastro.DataController.DataSource.DataSet.First;
+    end;
+  finally
+    FCadastro.DisposeOf;
+  end;
+end;
+
+procedure Tview_SisGeFRegisterContractors.SearchDocuments;
+var
+  FCadastro: TCadastroControl;
+  sFilterAux : String;
+begin
+  try
+    gridCadastroLevel1.GridView := viewDocumentos;
+    dxLayoutGroup5.Visible := False;
+    FSearch := 1;
+    FCadastro := TCadastroControl.Create;
+
+    sFilterAux := '(dat_validade_cnh <> ' + QuotedStr('1899-12-30') + ' and ano_exercicio_clrv <> 0) and ' +
+    '(dat_validade_cnh <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', IncDay(Now -7))) + ' or ' +
+    'ano_exercicio_clrv <= ' + IntToStr(YearOf(IncYear(Now, -1))) + ')';
+    if FCadastro.SearchRegister(0, '', sFilterAux, statusRegistro.Checked) then
+    begin
+      memTableDocuments.Active := False;
+      memTableDocuments.Active := True;
+      memTableDocuments.CopyDataSet(FCadastro.Cadastro.Query);
+      FCadastro.Cadastro.Query.Connection.Connected := False;
+      viewDocumentos.DataController.DataSource.DataSet.First;
+    end;
+  finally
+    FCadastro.DisposeOf;
+  end;
 end;
 
 procedure Tview_SisGeFRegisterContractors.SearchGR;
+var
+  FCadastro: TCadastroControl;
+  sFilterAux : String;
 begin
-  gridCadastroLevel1.GridView := viewGR;
-  dxLayoutGroup5.Visible := False;
-  FSearch := 2;
+  try
+    gridCadastroLevel1.GridView := viewGR;
+    dxLayoutGroup5.Visible := False;
+    FSearch := 2;
+    FCadastro := TCadastroControl.Create;
+    sFilterAux := '(dat_gv <> ' + QuotedStr('1899-12-30') + ' and ano_exercicio_clrv <> 0) and ' +
+    '(dat_gv <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', IncDay(Now -7))) + ')';
+    if FCadastro.SearchRegister(0, '', sFilterAux, statusRegistro.Checked) then
+    begin
+      memTableGR.Active := False;
+      memTableGR.Active := True;
+      memTableGR.CopyDataSet(FCadastro.Cadastro.Query);
+      FCadastro.Cadastro.Query.Connection.Connected := False;
+      viewGR.DataController.DataSource.DataSet.First;
+    end;
+  finally
+    FCadastro.DisposeOf;
+  end;
+
 end;
 
 procedure Tview_SisGeFRegisterContractors.SearchRecords;

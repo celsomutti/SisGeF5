@@ -19,6 +19,7 @@ type
     function ValidateData(): boolean;
     function SetupModel(FDCadastro: TFDQuery): Boolean;
     function SearchEmployee(iIndex: integer; sText, sFilter: String): boolean;
+    function SearchRegister(iIndex: integer; sText, sFilter: String; bFlagAtivo: boolean): boolean;
 
     property Cadastro: TCadastro read FCadastro write FCadastro;
 
@@ -66,6 +67,11 @@ end;
 function TCadastroControl.SearchEmployee(iIndex: integer; sText, sFilter: String): boolean;
 begin
   Result := FCadastro.SearchEmployee(iIndex, sText, sFilter);
+end;
+
+function TCadastroControl.SearchRegister(iIndex: integer; sText, sFilter: String; bFlagAtivo: boolean): boolean;
+begin
+  Result := FCadastro.SearchRegister(iIndex, sText, sFilter, bFlagAtivo);
 end;
 
 function TCadastroControl.SetupModel(FDCadastro: TFDQuery): Boolean;

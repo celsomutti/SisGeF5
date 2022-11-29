@@ -737,42 +737,46 @@ begin
       FTotalGravados := 0;
       FTotalInconsistencias := 0;
       FProgresso := 0;
-      FEntregas := TEntregasControl.Create;
       Data_Sisgef.memTableImport.First;
+      FEntregas := TEntregasControl.Create;
       While not Data_Sisgef.memTableImport.Eof do
       begin
         SetLength(aParam,3);
         aParam := ['NNCLIENTE', Data_Sisgef.memTableImport.Fields.Fields[6].asString, FCliente];
-        if FEntregas.LocalizarExata(aParam) then
+        if not FEntregas.LocalizarExata(aParam) then
+        begin
+          sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Entrega NN ' +
+                       Data_Sisgef.memTableImport.Fields.Fields[6].AsString + ' do entregador ' +
+                       Data_Sisgef.memTableImport.Fields.Fields[3].AsString + ' não encontrada no banco de dados !';
+          UpdateLog(sMensagem);
+          Inc(FTotalInconsistencias,1);
+        end
+        else
         begin
           if FEntregas.Entregas.Fechado = 'S' then
           begin
-            sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Remessa ' + FEntregas.Entregas.NN +
-                         ' já teve seu extrato fechado! Ignorando importação.';
-            UpdateLog(sMensagem);
-            FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
-                                           '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Remessa com o  ' +
-                                           'Extrato fechado. Ignorando importação - usuário ' + Global.Parametros.pUser_Name;
-            Inc(FTotalInconsistencias,1);
+              sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Remessa ' + FEntregas.Entregas.NN +
+                           ' já teve seu extrato fechado! Ignorando importação.';
+              UpdateLog(sMensagem);
+              FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
+                                             '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Remessa com o  ' +
+                                             'Extrato fechado. Ignorando importação - usuário ' + Global.Parametros.pUser_Name;
+              Inc(FTotalInconsistencias,1);
           end
           else
           begin
-            if (FEntregas.Entregas.Baixado = 'S') and (UpperCase(FEntregas.Entregas.TipoPeso) = 'LOJA') then
+              FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
+                                             '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Importando baixa do ' +
+                                             ' arquivo ' + Farquivo +' - usuário ' + Global.Parametros.pUser_Name;
+            if UpperCase(FEntregas.Entregas.TipoPeso) = 'LOJA' then
             begin
-                sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Remessa de LOJA ' + FEntregas.Entregas.NN +
-                             ' já foi baixada anteriormente, sobrepondo informações !';
+                sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Remessa ' + FEntregas.Entregas.NN +
+                             ' foi categorizada anteriormente como LOJA, sobrepondo informações !';
                 UpdateLog(sMensagem);
                 FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
-                                               '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Remessa de Loja baixada ' +
-                                               'anteriormnte. Arquivo ' + FArquivo + '. Sobrepondo dados  - usuário ' +
-                                               Global.Parametros.pUser_Name;
-            end
-            else
-            begin
-                FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
-                                               '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
-                                               ' - Importando baixa de Loja do ' +
-                                               ' arquivo ' + Farquivo +' - usuário ' + Global.Parametros.pUser_Name;
+                                               '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Remessa categorizada ' +
+                                               'anteriormnte como Loja. Sobrepondo informações do arquivo ' + FArquivo +
+                                               ' - usuário ' + Global.Parametros.pUser_Name;
             end;
             FEntregas.Entregas.Distribuidor := RetornaAgenteDocumento(Data_Sisgef.memTableImport.Fields.Fields[2].AsString);
             FEntregas.Entregas.Entregador := RetornaEntregadorDocumento(Data_Sisgef.memTableImport.Fields.Fields[2].AsString);
@@ -785,6 +789,8 @@ begin
             FEntregas.Entregas.PesoReal := StrToFloatDef(sPeso, 0);
             sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[14].AsString,'.',',');
             FEntregas.Entregas.PesoFranquia := StrToFloatDef(sPeso, 0);
+            FEntregas.Entregas.CodigoFeedback := 0;
+            FEntregas.Entregas.TipoPeso := 'Loja';
             Finalize(aParam);
             dPeso := 0;
             if FEntregas.Entregas.PesoCobrado > 0 then
@@ -802,10 +808,6 @@ begin
                        0,
                        0];
             FEntregas.Entregas.VerbaEntregador := RetornaVerba(aParam);
-            dVerba := FEntregas.Entregas.VerbaEntregador;
-            FEntregas.Entregas.VerbaEntregador := (dVerba / 2);
-            FEntregas.Entregas.CodigoFeedback := 0;
-            FEntregas.Entregas.TipoPeso := 'Loja';
             Finalize(aParam);
             if FEntregas.Entregas.VerbaEntregador = 0 then
             begin
@@ -813,6 +815,7 @@ begin
                            ' do entregador ' + Data_Sisgef.memTableImport.Fields.Fields[3].AsString + ' não encontrada !';
               UpdateLog(sMensagem);
             end;
+            FEntregas.Entregas.VerbaEntregador := (FEntregas.Entregas.VerbaEntregador / 2);
             FEntregas.Entregas.Acao := tacAlterar;
             if not FEntregas.Gravar() then
             begin
@@ -828,15 +831,19 @@ begin
           end;
         end;
         Finalize(aParam);
-        Inc(Ipos,1);
+        Inc(ipos,1);
         FProgresso := (iPos / FTotalRegistros) * 100;
-        if Self.Terminated then Abort;
-        FProcesso := False;
         Data_Sisgef.memTableImport.Next;
+        if Self.Terminated then
+        begin
+          Data_Sisgef.memTableImport.Active := False;
+          Abort;
+        end;
       end;
+      FProcesso := False;
     Except on E: Exception do
       begin
-        sMensagem := '>> ** ERROR BAIXA LOJA DIRECT **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
+        sMensagem := '>> ** ERROR BAIXA DIRECT **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
         UpdateLog(sMensagem);
         FProcesso := False;
         FCancelar := True;
@@ -851,7 +858,7 @@ end;
 procedure Thread_ImportImportExpressWorksheet.ProcessENGLOBA;
 var
   sChaveERP, sRastreio: String;
-  i, iStart, iStop: integer;
+  iStart, iStop: integer;
 begin
   try
     try
@@ -1019,9 +1026,13 @@ begin
         end;
         Data_Sisgef.memTableImport.Next;
         Finalize(aParam);
-        iPos := i;
+        Inc(iPos,1);
         FProgresso := (iPos / FTotalRegistros) * 100;
-        if Self.Terminated then Abort;
+        if Self.Terminated then
+        begin
+          Data_Sisgef.memTableImport.Active := False;
+          Abort;
+        end;
       end;
       FProcesso := False;
     Except on E: Exception do
@@ -1175,7 +1186,11 @@ begin
         Finalize(aParam);
         iPos := i;
         FProgresso := (iPos / FTotalRegistros) * 100;
-        if Self.Terminated then Abort;
+        if Self.Terminated then
+        begin
+          Data_Sisgef.memTableImport.Active := False;
+          Abort;
+        end;
       end;
       FProcesso := False;
     Except on E: Exception do
@@ -1327,7 +1342,11 @@ begin
         Finalize(aParam);
         iPos := i;
         FProgresso := (iPos / FTotalRegistros) * 100;
-        if Self.Terminated then Abort;
+        if Self.Terminated then
+        begin
+          Data_Sisgef.memTableImport.Active := False;
+          Abort;
+        end;
       end;
       FProcesso := False;
     Except on E: Exception do
@@ -1452,7 +1471,11 @@ begin
         Finalize(aParam);
         iPos := i;
         FProgresso := (iPos / FTotalRegistros) * 100;
-        if Self.Terminated then Abort;
+        if Self.Terminated then
+        begin
+          Data_Sisgef.memTableImport.Active := False;
+          Abort;
+        end;
       end;
       FProcesso := False;
     Except on E: Exception do
@@ -1694,7 +1717,11 @@ begin
       end;
       iPos := i;
       FProgresso := (iPos / FTotalRegistros) * 100;
-      if Self.Terminated then Abort;
+        if Self.Terminated then
+        begin
+          Data_Sisgef.memTableImport.Active := False;
+          Abort;
+        end;
       FProcesso := False;
     Except on E: Exception do
       begin
