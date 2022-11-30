@@ -485,10 +485,6 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Thread\Thread.SisGeFImportMisplacement.pas"/>
-        <DCCReference Include="View\View.ImportEDIClient.pas">
-            <Form>view_ImporEDIClient</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="View\View.ImportaCapaFinanceiroDIRECT.pas">
             <Form>view_ImportaCapaFinanceiroDIRECT</Form>
             <FormType>dfm</FormType>
@@ -659,8 +655,8 @@
         </DCCReference>
         <DCCReference Include="Thread\THread.SisGeFProcessExtractSO.pas"/>
         <DCCReference Include="Thread\THread.SisGeFCloseExtractSO.pas"/>
-        <DCCReference Include="View\View.CadastroGeral.pas">
-            <Form>view_CadastroGeral</Form>
+        <DCCReference Include="View\View.SisGeFContractedDetail.pas">
+            <Form>view_SisGeFContractedDetail</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\View.SisGeFPrintRunsImports.pas">
@@ -703,6 +699,10 @@
         </DCCReference>
         <DCCReference Include="Common\Common.SisGeFFunctions.pas"/>
         <DCCReference Include="Thread\Thread.EDIClient.pas"/>
+        <DCCReference Include="View\View.CadastroGeral.pas">
+            <Form>view_CadastroGeral</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

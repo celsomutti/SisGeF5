@@ -953,6 +953,10 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
     object cxTabSheet3: TcxTabSheet
       Caption = 'Pesquisa'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object grdPesquisa: TcxGrid
         Left = 0
         Top = 0

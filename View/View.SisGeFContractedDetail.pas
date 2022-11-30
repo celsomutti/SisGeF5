@@ -1,4 +1,4 @@
-unit View.CadastroGeral;
+unit View.SisGeFContractedDetail;
 
 interface
 
@@ -12,10 +12,11 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
   cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, System.Actions,
   Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Cadastro, Control.Estados,
-  Control.CadastroEnderecos, Control.CadastroContatos, System.DateUtils;
+  Control.CadastroEnderecos, Control.CadastroContatos, System.DateUtils, dxLayoutLookAndFeels, dxLayoutControlAdapters, Vcl.Menus,
+  Vcl.StdCtrls, cxButtons ;
 
 type
-  Tview_CadastroGeral = class(TForm)
+  Tview_SisGeFContractedDetail = class(TForm)
     layoutControlPadraoGroup_Root: TdxLayoutGroup;
     layoutControlPadrao: TdxLayoutControl;
     maskEditID: TcxMaskEdit;
@@ -203,9 +204,17 @@ type
     dbCheckBoxCorrespondencia: TcxDBCheckBox;
     layoutItemCorrespondencia: TdxLayoutItem;
     layoutGroupOptions: TdxLayoutGroup;
+    cxButton1: TcxButton;
+    dxLayoutItem1: TdxLayoutItem;
+    cxButton2: TcxButton;
+    dxLayoutItem2: TdxLayoutItem;
+    cxButton3: TcxButton;
+    dxLayoutItem3: TdxLayoutItem;
+    actionAnexarDocumentos: TAction;
     procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actionIncluirExecute(Sender: TObject);
+    procedure actionLocalizarExecute(Sender: TObject);
     procedure actionEditarExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCancelarExecute(Sender: TObject);
@@ -215,30 +224,26 @@ type
     procedure SetupFields(FCadastro: TCadastroControl);
     procedure PopulaBancos;
     procedure PopulaEstados;
+    procedure PesquisaCadastro;
     procedure PopulaEnderecos(iCadastro: Integer);
     procedure PopulaContatos(iCadastro: Integer);
     procedure Modo;
     function ValidaDados(): boolean;
-  private
-    FAcao: TAcao;
-    FID: integer;
-  published
   public
-    property Acao: TAcao read FAcao write FAcao;
-    property ID: integer read FID write FID;
+    { Public declarations }
   end;
 
 var
-  view_CadastroGeral: Tview_CadastroGeral;
+  view_SisGeFContractedDetail: Tview_SisGeFContractedDetail;
   FAcao : TAcao;
 
 implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses View.PesquisarPessoas, Data.SisGeF;
 
-procedure Tview_CadastroGeral.actionCancelarExecute(Sender: TObject);
+procedure Tview_SisGeFContractedDetail.actionCancelarExecute(Sender: TObject);
 begin
   if FAcao <> tacIndefinido then
   begin
@@ -247,21 +252,26 @@ begin
   end;
 end;
 
-procedure Tview_CadastroGeral.actionEditarExecute(Sender: TObject);
+procedure Tview_SisGeFContractedDetail.actionEditarExecute(Sender: TObject);
 begin
   Facao := tacAlterar;
   Modo;
   comboBoxTipoPessoa.SetFocus;
 end;
 
-procedure Tview_CadastroGeral.actionIncluirExecute(Sender: TObject);
+procedure Tview_SisGeFContractedDetail.actionIncluirExecute(Sender: TObject);
 begin
   FAcao := tacIncluir;
   Modo;
   comboBoxTipoPessoa.SetFocus;
 end;
 
-procedure Tview_CadastroGeral.ClearFields;
+procedure Tview_SisGeFContractedDetail.actionLocalizarExecute(Sender: TObject);
+begin
+  PesquisaCadastro;
+end;
+
+procedure Tview_SisGeFContractedDetail.ClearFields;
 begin
   maskEditID.EditValue := 0;
   comboBoxTipoPessoa.ItemIndex := 0;
@@ -307,7 +317,7 @@ begin
   memoObservacoes.Lines.Clear;
 end;
 
-procedure Tview_CadastroGeral.comboBoxTipoPessoaPropertiesChange(Sender: TObject);
+procedure Tview_SisGeFContractedDetail.comboBoxTipoPessoaPropertiesChange(Sender: TObject);
 begin
   if comboBoxTipoPessoa.ItemIndex = 1 then
   begin
@@ -339,15 +349,15 @@ begin
 
 end;
 
-procedure Tview_CadastroGeral.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure Tview_SisGeFContractedDetail.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if memTableEnderecos.Active then memTableEnderecos.Close;
   if memTableContatos.Active then memTableContatos.Close;
   Action := caFree;
-  view_CadastroGeral := nil;
+  view_SisGeFContractedDetail := nil;
 end;
 
-procedure Tview_CadastroGeral.FormShow(Sender: TObject);
+procedure Tview_SisGeFContractedDetail.FormShow(Sender: TObject);
 begin
   PopulaBancos;
   PopulaEstados;
@@ -355,7 +365,7 @@ begin
   Modo;
 end;
 
-procedure Tview_CadastroGeral.Modo;
+procedure Tview_SisGeFContractedDetail.Modo;
 begin
 
   if FAcao = tacIndefinido then
@@ -371,6 +381,7 @@ begin
     actionFichaDIRECT.Enabled := False;
     actionSolicitarGR.Enabled := False;
     actionContrato.Enabled := False;
+    actionAnexarDocumentos.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
     comboBoxTipoPessoa.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
@@ -426,6 +437,7 @@ begin
     actionFichaDIRECT.Enabled := False;
     actionSolicitarGR.Enabled := False;
     actionContrato.Enabled := False;
+    actionAnexarDocumentos.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
     comboBoxTipoPessoa.Properties.ReadOnly := False;
     maskEditCPCNPJ.Properties.ReadOnly := True;
@@ -480,6 +492,7 @@ begin
     actionFichaDIRECT.Enabled := False;
     actionSolicitarGR.Enabled := False;
     actionContrato.Enabled := False;
+    actionAnexarDocumentos.Enabled := True;
     maskEditID.Properties.ReadOnly := True;
     comboBoxTipoPessoa.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
@@ -534,6 +547,7 @@ begin
     actionFichaDIRECT.Enabled := True;
     actionSolicitarGR.Enabled := True;
     actionContrato.Enabled := True;
+    actionAnexarDocumentos.Enabled := True;
     maskEditID.Properties.ReadOnly := True;
     comboBoxTipoPessoa.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
@@ -578,7 +592,73 @@ begin
   end;
 end;
 
-procedure Tview_CadastroGeral.PopulaBancos;
+procedure Tview_SisGeFContractedDetail.PesquisaCadastro;
+var
+  sSQL: String;
+  sWhere: String;
+  aParam: array of variant;
+  sQuery: String;
+  cadastro : TCadastroControl;
+begin
+  try
+    sSQL := '';
+    sWhere := '';
+    cadastro := TCadastroControl.Create;
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
+    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
+
+
+    sSQL := 'select ' +
+            'num_cnpj as "CPF/CNPJ", cod_cadastro as ID, des_nome_razao as Nome, nom_fantasia as Alias, num_rg_ie as "RG/IE", ' +
+            'num_registro_cnh as "Registro CNH" ' +
+            'from ' + cadastro.Cadastro.NomeTabela + ';';
+
+    sWhere := 'where num_cpf_cnpj like "%param%" or cod_cadastro like "paraN" or ' +
+              'des_nome_razao like "%param%" or nom_fantasia like "%param%" or ' +
+              'num_registro_cnh like "%param%";';
+    View_PesquisarPessoas.sSQL := sSQL;
+    View_PesquisarPessoas.sWhere := sWhere;
+    View_PesquisarPessoas.bOpen := False;
+    View_PesquisarPessoas.Caption := 'Localizar Cadastros';
+    if View_PesquisarPessoas.ShowModal = mrOK then
+    begin
+      sQuery := 'cod_cadastro = ' + View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
+      SetLength(aParam,2);
+      aparam := ['FILTRO', sQuery];
+      if cadastro.Localizar(aParam) then
+      begin
+        if not cadastro.SetupModel(cadastro.Cadastro.Query) then
+        begin
+          Application.MessageBox('Ocorreu um problema ao exibir as informações!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          Exit;
+        end
+        else
+        begin
+          FAcao := tacPesquisa;
+          SetupFields(cadastro);
+          //Modo;
+        end;
+      end
+      else
+      begin
+        Application.MessageBox('Cadastro não localizado!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+      Finalize(aParam);
+    end;
+  finally
+    cadastro.Free;
+    View_PesquisarPessoas.qryPesquisa.Close;
+    View_PesquisarPessoas.tvPesquisa.ClearItems;
+    FreeAndNil(View_PesquisarPessoas);
+  end;
+end;
+
+procedure Tview_SisGeFContractedDetail.PopulaBancos;
 var
   FBancos : TBancosControl;
   aParam : array of variant;
@@ -604,7 +684,7 @@ begin
 
 end;
 
-procedure Tview_CadastroGeral.PopulaContatos(iCadastro: Integer);
+procedure Tview_SisGeFContractedDetail.PopulaContatos(iCadastro: Integer);
 var
   FContatos : TCadastroContatosControl;
   aParam: array of variant;
@@ -628,7 +708,7 @@ begin
   end;
 end;
 
-procedure Tview_CadastroGeral.PopulaEnderecos(iCadastro: Integer);
+procedure Tview_SisGeFContractedDetail.PopulaEnderecos(iCadastro: Integer);
 var
   FEnderecos : TCadastroEnderecosControl;
   aParam: array of variant;
@@ -652,7 +732,7 @@ begin
   end;
 end;
 
-procedure Tview_CadastroGeral.PopulaEstados;
+procedure Tview_SisGeFContractedDetail.PopulaEstados;
 var
   FEstados : TEstadosControl;
   aParam : array of variant;
@@ -677,7 +757,7 @@ begin
   end;
 end;
 
-procedure Tview_CadastroGeral.SetupFields(FCadastro: TCadastroControl);
+procedure Tview_SisGeFContractedDetail.SetupFields(FCadastro: TCadastroControl);
 begin
   maskEditID.EditValue := FCadastro.Cadastro.Cadastro;
   comboBoxTipoPessoa.Text := FCadastro.Cadastro.Doc;
@@ -724,7 +804,7 @@ begin
   PopulaContatos(FCadastro.Cadastro.Cadastro);
 end;
 
-function Tview_CadastroGeral.ValidaDados: boolean;
+function Tview_SisGeFContractedDetail.ValidaDados: boolean;
 var
   FCadastro : TCadastroControl;
 begin

@@ -469,25 +469,25 @@ begin
         sFiltro := sFiltro + 'cod_cadastro like ' + sText + ' or num_ie like ' + sText  + ' or num_renavan like ' + sText +
                    ' or num_cnh like ' + sText + ' or num_registro_cnh like ' + sText;
       end;
-    end;
-  end
-  else
-  begin
-    case iIndex of
-      1 : sFiltro := 'cod_cadastro like ' + sText;
-      2 : sFiltro := 'num_cnpj like ' + QuotedStr('%' +  sText + '%');
-      3 : sFiltro := 'num_ie like ' + sText;
-      4 : sFiltro := 'des_razao_social like ' + QuotedStr('%' +  sText + '%');
-      5 : sFiltro := 'nom_fantasia like ' + QuotedStr('%' +  sText + '%');
-      6 : sFiltro := 'num_cnh like ' + sText;
-      7 : sFiltro := 'num_registro_cnh like ' + sText;
-      8 : sFiltro := 'nom_razao_mei like ' + QuotedStr('%' +  sText + '%');
-      9 : sFiltro := 'nom_fantasia_mei like ' + QuotedStr('%' +  sText + '%');
-     10 : sFiltro := 'num_cnpj_mei like ' + QuotedStr('%' +  sText + '%');
-     11 : sFiltro := 'nom_favorecido like ' + QuotedStr('%' +  sText + '%');
-     12 : sFiltro := 'num_cpf_cnpj_favorecido like ' + QuotedStr('%' +  sText + '%');
-     13 : sFiltro := 'num_renavan like ' + sText;
-     14 : sFiltro := 'des_placa like ' + QuotedStr('%' +  sText + '%');
+    end
+    else
+    begin
+      case iIndex of
+        1 : sFiltro := 'cod_cadastro like ' + sText;
+        2 : sFiltro := 'num_cnpj like ' + QuotedStr('%' +  sText + '%');
+        3 : sFiltro := 'num_ie like ' + sText;
+        4 : sFiltro := 'des_razao_social like ' + QuotedStr('%' +  sText + '%');
+        5 : sFiltro := 'nom_fantasia like ' + QuotedStr('%' +  sText + '%');
+        6 : sFiltro := 'num_cnh like ' + sText;
+        7 : sFiltro := 'num_registro_cnh like ' + sText;
+        8 : sFiltro := 'nom_razao_mei like ' + QuotedStr('%' +  sText + '%');
+        9 : sFiltro := 'nom_fantasia_mei like ' + QuotedStr('%' +  sText + '%');
+       10 : sFiltro := 'num_cnpj_mei like ' + QuotedStr('%' +  sText + '%');
+       11 : sFiltro := 'nom_favorecido like ' + QuotedStr('%' +  sText + '%');
+       12 : sFiltro := 'num_cpf_cnpj_favorecido like ' + QuotedStr('%' +  sText + '%');
+       13 : sFiltro := 'num_renavan like ' + sText;
+       14 : sFiltro := 'des_placa like ' + QuotedStr('%' +  sText + '%');
+      end;
     end;
   end;
   fFuncoes.Free;

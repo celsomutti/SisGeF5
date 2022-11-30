@@ -29,7 +29,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object camposPesquisa: TcxComboBox
       Left = 71
-      Top = 46
+      Top = 26
       Hint = 'Pesquisar por estes campos'
       Properties.DropDownListStyle = lsFixedList
       Properties.Items.Strings = (
@@ -55,17 +55,17 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     end
     object parametroPesquisa: TcxTextEdit
       Left = 266
-      Top = 46
+      Top = 26
       Hint = 'Par'#226'metro'
       Style.HotTrack = False
       TabOrder = 1
-      Width = 454
+      Width = 373
     end
     object cxButton1: TcxButton
-      Left = 831
-      Top = 44
+      Left = 750
+      Top = 25
       Width = 75
-      Height = 25
+      Height = 23
       Cursor = crHandPoint
       Action = actionLocateRecord
       OptionsImage.ImageIndex = 100
@@ -74,11 +74,11 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     end
     object Panel1: TPanel
       Left = 24
-      Top = 75
+      Top = 55
       Width = 882
-      Height = 364
+      Height = 384
       BevelOuter = bvNone
-      TabOrder = 4
+      TabOrder = 5
       object Panel2: TPanel
         Left = 0
         Top = 0
@@ -138,11 +138,30 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
         Left = 0
         Top = 25
         Width = 882
-        Height = 339
+        Height = 359
         Align = alClient
         TabOrder = 1
+        ExplicitTop = 31
         object viewCadastro: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 91
+          Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 94
+          Navigator.Buttons.Next.ImageIndex = 93
+          Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 92
+          Navigator.Buttons.Insert.Visible = False
+          Navigator.Buttons.Delete.Visible = False
+          Navigator.Buttons.Edit.Visible = False
+          Navigator.Buttons.Post.Visible = False
+          Navigator.Buttons.Cancel.Visible = False
+          Navigator.Buttons.Refresh.Visible = False
+          Navigator.Buttons.SaveBookmark.Visible = False
+          Navigator.Buttons.GotoBookmark.Visible = False
+          Navigator.Buttons.Filter.ImageIndex = 96
+          Navigator.InfoPanel.Visible = True
+          Navigator.Visible = True
           DataController.DataSource = dsRecords
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
@@ -243,9 +262,50 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
             DataBinding.FieldName = 'nom_conta'
             HeaderAlignmentHorz = taCenter
           end
+          object viewCadastrodata_validade_cnh: TcxGridDBColumn
+            DataBinding.FieldName = 'data_validade_cnh'
+            HeaderAlignmentHorz = taCenter
+            Width = 80
+          end
+          object viewCadastrodat_gv: TcxGridDBColumn
+            DataBinding.FieldName = 'dat_gv'
+            HeaderAlignmentHorz = taCenter
+            Width = 86
+          end
+          object viewCadastronum_cnh: TcxGridDBColumn
+            DataBinding.FieldName = 'num_cnh'
+            HeaderAlignmentHorz = taCenter
+          end
+          object viewCadastronum_registro_cnh: TcxGridDBColumn
+            DataBinding.FieldName = 'num_registro_cnh'
+            HeaderAlignmentHorz = taCenter
+          end
+          object viewCadastrodes_categoria_cnh: TcxGridDBColumn
+            DataBinding.FieldName = 'des_categoria_cnh'
+            HeaderAlignmentHorz = taCenter
+            Width = 94
+          end
         end
         object viewDocumentos: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 91
+          Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 94
+          Navigator.Buttons.Next.ImageIndex = 93
+          Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 92
+          Navigator.Buttons.Insert.Visible = False
+          Navigator.Buttons.Delete.Visible = False
+          Navigator.Buttons.Edit.Visible = False
+          Navigator.Buttons.Post.Visible = False
+          Navigator.Buttons.Cancel.Visible = False
+          Navigator.Buttons.Refresh.Visible = False
+          Navigator.Buttons.SaveBookmark.Visible = False
+          Navigator.Buttons.GotoBookmark.Visible = False
+          Navigator.Buttons.Filter.ImageIndex = 96
+          Navigator.InfoPanel.Visible = True
+          Navigator.Visible = True
           DataController.DataSource = dsDocuments
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
@@ -345,6 +405,24 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
         end
         object viewGR: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 91
+          Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 94
+          Navigator.Buttons.Next.ImageIndex = 93
+          Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 92
+          Navigator.Buttons.Insert.Visible = False
+          Navigator.Buttons.Delete.Visible = False
+          Navigator.Buttons.Edit.Visible = False
+          Navigator.Buttons.Post.Visible = False
+          Navigator.Buttons.Cancel.Visible = False
+          Navigator.Buttons.Refresh.Visible = False
+          Navigator.Buttons.SaveBookmark.Visible = False
+          Navigator.Buttons.GotoBookmark.Visible = False
+          Navigator.Buttons.Filter.ImageIndex = 96
+          Navigator.InfoPanel.Visible = True
+          Navigator.Visible = True
           DataController.DataSource = dsGR
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
@@ -362,7 +440,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
             0B00000007000000430061006C006900620072006900000300FFFF0000000000
             2000000000200000000020000000002000000000200007000000470045004E00
             4500520041004C00000000000002000000000000000001060000003D004E004F
-            00570028002900010000003D00030000002D0000005400640078005300700072
+            00570028002900010000003D00050000002D0000005400640078005300700072
             006500610064005300680065006500740043006F006E0064006900740069006F
             006E0061006C0046006F0072006D0061007400740069006E006700520075006C
             006500430065006C006C00490073008F0000000A000000000000000A000000FF
@@ -431,8 +509,8 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       end
     end
     object statusRegistro: TcxCheckBox
-      Left = 726
-      Top = 46
+      Left = 645
+      Top = 26
       Hint = 'PEsquisar somenter por registros ativos'
       Caption = 'Somente Ativos'
       State = cbsChecked
@@ -443,7 +521,9 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       Left = 10000
       Top = 10000
       Width = 882
-      Height = 364
+      Height = 384
+      Color = clWhite
+      DataSet = queryRegister
       Items = <
         item
           Caption = 'C'#243'digo'
@@ -584,7 +664,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
         end>
       FilterOptions.DateTimeFormat = 'yyyy-mm-dd'
       LookAndFeel.SkinName = 'UserSkin'
-      TabOrder = 5
+      TabOrder = 6
       Visible = False
     end
     object cxButton5: TcxButton
@@ -596,32 +676,43 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       Action = actionReturnGrid
       OptionsImage.ImageIndex = 108
       OptionsImage.Images = Data_Sisgef.iml_16_16
-      TabOrder = 6
+      TabOrder = 7
       Visible = False
     end
     object cxButton6: TcxButton
       Left = 10000
       Top = 10000
-      Width = 106
+      Width = 130
       Height = 25
       Cursor = crHandPoint
       Action = actionSaveFilterParam
       OptionsImage.ImageIndex = 118
       OptionsImage.Images = Data_Sisgef.iml_16_16
-      TabOrder = 7
+      TabOrder = 8
       Visible = False
     end
     object cxButton7: TcxButton
       Left = 10000
       Top = 10000
-      Width = 106
+      Width = 138
       Height = 25
       Cursor = crHandPoint
       Action = actionLoadFilterParam
       OptionsImage.ImageIndex = 117
       OptionsImage.Images = Data_Sisgef.iml_16_16
-      TabOrder = 8
+      TabOrder = 9
       Visible = False
+    end
+    object cxButton8: TcxButton
+      Left = 831
+      Top = 24
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionClearSearch
+      OptionsImage.ImageIndex = 120
+      OptionsImage.Images = Data_Sisgef.iml_16_16
+      TabOrder = 4
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -639,6 +730,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       ButtonOptions.Buttons = <>
       LayoutDirection = ldTabbed
       ShowBorder = False
+      TabbedOptions.HideTabs = True
       Index = 0
     end
     object dxLayoutGroup3: TdxLayoutGroup
@@ -662,6 +754,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       Parent = dxLayoutGroup3
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 4
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -695,7 +788,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
-      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 3
@@ -776,7 +869,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       CaptionOptions.Visible = False
       Control = cxButton6
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 106
+      ControlOptions.OriginalWidth = 130
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -788,9 +881,21 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       CaptionOptions.Visible = False
       Control = cxButton7
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 106
+      ControlOptions.OriginalWidth = 138
       ControlOptions.ShowBorder = False
       Index = 2
+    end
+    object dxLayoutItem10: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton8'
+      CaptionOptions.Visible = False
+      Control = cxButton8
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 4
     end
   end
   object actionList: TActionList
@@ -847,14 +952,17 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     object actionExpandGrid: TAction
       Caption = 'Expandir'
       Hint = 'Expandir grid'
+      OnExecute = actionExpandGridExecute
     end
     object actionRetractGrid: TAction
       Caption = 'Retrair'
       Hint = 'Retrair grid'
+      OnExecute = actionRetractGridExecute
     end
     object actionGroupPanel: TAction
       Caption = 'Painel de Grupo'
       Hint = 'Exibir o painel de grupos'
+      OnExecute = actionGroupPanelExecute
     end
     object actionExportGrid: TAction
       Caption = 'E&xportar'
@@ -872,12 +980,17 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       OnExecute = actionReturnGridExecute
     end
     object actionSaveFilterParam: TAction
-      Caption = 'Salvar Filtro'
+      Caption = 'Salvar Par'#226'metros'
       Hint = 'Salvar os par'#226'metros do filtro'
     end
     object actionLoadFilterParam: TAction
-      Caption = 'Carregar Filtro'
+      Caption = 'Carregar Pr'#226'metros'
       Hint = 'Carregar par'#226'metros de filtro'
+    end
+    object actionClearSearch: TAction
+      Caption = 'Li&mpar'
+      Hint = 'Limpar a tela de pesquisa'
+      OnExecute = actionClearSearchExecute
     end
   end
   object barManager: TdxBarManager
@@ -1129,6 +1242,27 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       DisplayLabel = 'N'#186'. Conta'
       FieldName = 'nom_conta'
     end
+    object memTableRecordsdata_validade_cnh: TDateField
+      DisplayLabel = 'Validade CNH'
+      FieldName = 'data_validade_cnh'
+    end
+    object memTableRecordsdat_gv: TDateField
+      DisplayLabel = 'Vencimento GR'
+      FieldName = 'dat_gv'
+    end
+    object memTableRecordsnum_cnh: TStringField
+      DisplayLabel = 'N'#186'. CNH'
+      FieldName = 'num_cnh'
+    end
+    object memTableRecordsnum_registro_cnh: TStringField
+      DisplayLabel = 'Registro CNH'
+      FieldName = 'num_registro_cnh'
+    end
+    object memTableRecordsdes_categoria_cnh: TStringField
+      DisplayLabel = 'Categoria CNH'
+      FieldName = 'des_categoria_cnh'
+      Size = 5
+    end
   end
   object dsRecords: TDataSource
     AutoEdit = False
@@ -1273,5 +1407,165 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     DataSet = memTableGR
     Left = 304
     Top = 334
+  end
+  object queryRegister: TFDQuery
+    Connection = Data_Sisgef.FDConnectionMySQL
+    SQL.Strings = (
+      'select * from view_register_contracted')
+    Left = 264
+    Top = 185
+    object queryRegistercod_cadastro: TIntegerField
+      FieldName = 'cod_cadastro'
+      Origin = 'cod_cadastro'
+      Required = True
+    end
+    object queryRegisterdes_razao_social: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'des_razao_social'
+      Origin = 'des_razao_social'
+      Size = 70
+    end
+    object queryRegisternom_fantasia: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_fantasia'
+      Origin = 'nom_fantasia'
+      Size = 80
+    end
+    object queryRegisternum_cnpj: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_cnpj'
+      Origin = 'num_cnpj'
+    end
+    object queryRegisternum_ie: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_ie'
+      Origin = 'num_ie'
+    end
+    object queryRegisternom_favorecido: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_favorecido'
+      Origin = 'nom_favorecido'
+      Size = 70
+    end
+    object queryRegisternum_cpf_cnpj_favorecido: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_cpf_cnpj_favorecido'
+      Origin = 'num_cpf_cnpj_favorecido'
+    end
+    object queryRegisternom_razao_mei: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_razao_mei'
+      Origin = 'nom_razao_mei'
+      Size = 70
+    end
+    object queryRegisternom_fantasia_mei: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_fantasia_mei'
+      Origin = 'nom_fantasia_mei'
+      Size = 70
+    end
+    object queryRegisternum_cnpj_mei: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_cnpj_mei'
+      Origin = 'num_cnpj_mei'
+    end
+    object queryRegisterdes_placa: TStringField
+      FieldName = 'des_placa'
+      Origin = 'des_placa'
+      Size = 7
+    end
+    object queryRegisterdes_modelo: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'des_modelo'
+      Origin = 'des_modelo'
+      Size = 50
+    end
+    object queryRegisternum_renavan: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_renavan'
+      Origin = 'num_renavan'
+      Size = 25
+    end
+    object queryRegisterano_exercicio_clrv: TFMTBCDField
+      AutoGenerateValue = arDefault
+      FieldName = 'ano_exercicio_clrv'
+      Origin = 'ano_exercicio_clrv'
+      ProviderFlags = []
+      ReadOnly = True
+      Precision = 21
+      Size = 0
+    end
+    object queryRegisterdes_forma_pagamento: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'des_forma_pagamento'
+      Origin = 'des_forma_pagamento'
+      Size = 30
+    end
+    object queryRegisterdes_tipo_conta: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'des_tipo_conta'
+      Origin = 'des_tipo_conta'
+    end
+    object queryRegistercod_banco: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cod_banco'
+      Origin = 'cod_banco'
+      Size = 4
+    end
+    object queryRegisternom_banco: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nom_banco'
+      Origin = 'nom_banco'
+      Size = 50
+    end
+    object queryRegistercod_agencia: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cod_agencia'
+      Origin = 'cod_agencia'
+      Size = 10
+    end
+    object queryRegisternum_conta: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_conta'
+      Origin = 'num_conta'
+    end
+    object queryRegisternum_cnh: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_cnh'
+      Origin = 'num_cnh'
+      Size = 15
+    end
+    object queryRegisternum_registro_cnh: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'num_registro_cnh'
+      Origin = 'num_registro_cnh'
+      Size = 15
+    end
+    object queryRegisterdes_categoria: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'des_categoria'
+      Origin = 'des_categoria'
+      Size = 2
+    end
+    object queryRegisterdat_validade_cnh: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'dat_validade_cnh'
+      Origin = 'dat_validade_cnh'
+    end
+    object queryRegistercod_cnh: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cod_cnh'
+      Origin = 'cod_cnh'
+    end
+    object queryRegisterdat_gv: TDateField
+      AutoGenerateValue = arDefault
+      FieldName = 'dat_gv'
+      Origin = 'dat_gv'
+    end
+    object queryRegistercod_status: TIntegerField
+      AutoGenerateValue = arDefault
+      FieldName = 'cod_status'
+      Origin = 'cod_status'
+    end
   end
 end

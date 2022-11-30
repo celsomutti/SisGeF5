@@ -196,7 +196,6 @@ uses
   View.LancamentosExtratosExpressasPesquisa in 'View\View.LancamentosExtratosExpressasPesquisa.pas' {view_LancamentosExtratosExpressasPesquisa},
   View.FiltroGenerico in 'View\View.FiltroGenerico.pas' {view_FiltroGenerico},
   Thread.SisGeFImportMisplacement in 'Thread\Thread.SisGeFImportMisplacement.pas',
-  View.ImportEDIClient in 'View\View.ImportEDIClient.pas' {view_ImporEDIClient},
   View.ImportaCapaFinanceiroDIRECT in 'View\View.ImportaCapaFinanceiroDIRECT.pas' {view_ImportaCapaFinanceiroDIRECT},
   Model.FinanceiroPrazosExtratos in 'Model\Model.FinanceiroPrazosExtratos.pas',
   Control.FinanceiroPrazosExtratos in 'Control\Control.FinanceiroPrazosExtratos.pas',
@@ -285,7 +284,7 @@ uses
   View.SisGeFExtractSO in 'View\View.SisGeFExtractSO.pas' {view_SisGeFExtractSO},
   THread.SisGeFProcessExtractSO in 'Thread\THread.SisGeFProcessExtractSO.pas',
   THread.SisGeFCloseExtractSO in 'Thread\THread.SisGeFCloseExtractSO.pas',
-  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
+  View.SisGeFContractedDetail in 'View\View.SisGeFContractedDetail.pas' {view_SisGeFContractedDetail},
   View.SisGeFPrintRunsImports in 'View\View.SisGeFPrintRunsImports.pas' {view_SisGeFPrintRunsImports},
   Thread.PrintRunsImport in 'Thread\Thread.PrintRunsImport.pas',
   Model.SisGeFNFsFaturas in 'Model\Model.SisGeFNFsFaturas.pas',
@@ -301,7 +300,8 @@ uses
   View.SisGeFERPChooseWorksheet in 'View\View.SisGeFERPChooseWorksheet.pas' {SisGeFERPChooseWorksheet},
   View.SisGeFImportWorksheetExpress in 'View\View.SisGeFImportWorksheetExpress.pas' {view_SisGeFImportWorksheetExpress},
   Common.SisGeFFunctions in 'Common\Common.SisGeFFunctions.pas',
-  Thread.EDIClient in 'Thread\Thread.EDIClient.pas';
+  Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
+  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral};
 
 {$R *.res}
 

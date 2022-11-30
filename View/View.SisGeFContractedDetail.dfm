@@ -1,7 +1,7 @@
-object view_CadastroGeral: Tview_CadastroGeral
+object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
   Left = 0
   Top = 0
-  Caption = 'Cadastro de Contratados'
+  Caption = 'Cadastro Geral'
   ClientHeight = 534
   ClientWidth = 796
   Color = clBtnFace
@@ -575,7 +575,6 @@ object view_CadastroGeral: Tview_CadastroGeral
     Height = 534
     Align = alClient
     TabOrder = 0
-    LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     ExplicitTop = 24
     ExplicitHeight = 510
     object maskEditID: TcxMaskEdit
@@ -588,6 +587,8 @@ object view_CadastroGeral: Tview_CadastroGeral
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d'
       Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 0
       Text = '0'
@@ -603,7 +604,11 @@ object view_CadastroGeral: Tview_CadastroGeral
         'F'#237'sica'
         'Jur'#237'dica')
       Properties.OnChange = comboBoxTipoPessoaPropertiesChange
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 1
       Text = 'Selecione ...'
       Width = 91
@@ -615,6 +620,8 @@ object view_CadastroGeral: Tview_CadastroGeral
       Properties.IgnoreMaskBlank = True
       Properties.EditMask = '!000\.000\.000\-00;1; '
       Properties.MaxLength = 0
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 2
       Text = '   .   .   -  '
@@ -625,6 +632,8 @@ object view_CadastroGeral: Tview_CadastroGeral
       Top = 11
       Hint = 'Nome ou raz'#227'p social]'
       Properties.MaxLength = 70
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 3
       Width = 338
@@ -633,7 +642,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       Left = 26
       Top = 73
       Width = 744
-      Height = 181
+      Height = 188
       TabOrder = 4
       object textEditRG: TcxTextEdit
         Left = 104
@@ -941,7 +950,6 @@ object view_CadastroGeral: Tview_CadastroGeral
         AlignVert = avTop
         CaptionOptions.Text = 'Pessoa F'#237'sica'
         ButtonOptions.Buttons = <>
-        ItemIndex = 4
         Index = 0
       end
       object layoutItemRG: TdxLayoutItem
@@ -1270,7 +1278,7 @@ object view_CadastroGeral: Tview_CadastroGeral
     end
     object layoutControlComplemento: TdxLayoutControl
       Left = 26
-      Top = 260
+      Top = 267
       Width = 744
       Height = 210
       TabOrder = 5
@@ -1931,6 +1939,8 @@ object view_CadastroGeral: Tview_CadastroGeral
       Caption = 'GR Aprovado'
       Properties.ValueChecked = 'S'
       Properties.ValueUnchecked = 'N'
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 6
       Visible = False
@@ -1940,6 +1950,8 @@ object view_CadastroGeral: Tview_CadastroGeral
       Top = 10000
       Hint = 'Nome da empresa Gerenciadora de Risco'
       Properties.MaxLength = 50
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 7
       Visible = False
@@ -1949,7 +1961,11 @@ object view_CadastroGeral: Tview_CadastroGeral
       Left = 10000
       Top = 10000
       Hint = 'Data da validade do GR'
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 8
       Visible = False
       Width = 83
@@ -1958,6 +1974,8 @@ object view_CadastroGeral: Tview_CadastroGeral
       Left = 10000
       Top = 10000
       Properties.MaxLength = 20
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 9
       Visible = False
@@ -1966,19 +1984,53 @@ object view_CadastroGeral: Tview_CadastroGeral
     object memoObservacoes: TcxMemo
       Left = 10000
       Top = 10000
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 10
       Visible = False
       Height = 89
       Width = 744
     end
+    object cxButton1: TcxButton
+      Left = 501
+      Top = 498
+      Width = 98
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionAnexarDocumentos
+      OptionsImage.ImageIndex = 99
+      OptionsImage.Images = Data_Sisgef.iml_16_16
+      TabOrder = 11
+    end
+    object cxButton2: TcxButton
+      Left = 605
+      Top = 498
+      Width = 83
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionGravar
+      OptionsImage.ImageIndex = 85
+      OptionsImage.Images = Data_Sisgef.iml_16_16
+      TabOrder = 12
+    end
+    object cxButton3: TcxButton
+      Left = 694
+      Top = 498
+      Width = 91
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionCancelar
+      OptionsImage.ImageIndex = 84
+      OptionsImage.Images = Data_Sisgef.iml_16_16
+      TabOrder = 13
+    end
     object layoutControlPadraoGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
-      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
+      ItemIndex = 2
       ShowBorder = False
       Index = -1
     end
@@ -2063,7 +2115,6 @@ object view_CadastroGeral: Tview_CadastroGeral
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
-      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       LayoutDirection = ldTabbed
       ShowBorder = False
@@ -2157,8 +2208,49 @@ object view_CadastroGeral: Tview_CadastroGeral
     end
     object layoutGroupOptions: TdxLayoutGroup
       Parent = layoutControlPadraoGroup_Root
+      AlignHorz = ahClient
+      AlignVert = avBottom
       CaptionOptions.Text = 'New Group'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem1: TdxLayoutItem
+      Parent = layoutGroupOptions
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 98
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem2: TdxLayoutItem
+      Parent = layoutGroupOptions
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton2'
+      CaptionOptions.Visible = False
+      Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 83
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem3: TdxLayoutItem
+      Parent = layoutGroupOptions
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton3'
+      CaptionOptions.Visible = False
+      Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 91
+      ControlOptions.ShowBorder = False
       Index = 2
     end
   end
@@ -2170,8 +2262,7 @@ object view_CadastroGeral: Tview_CadastroGeral
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 352
-    Top = 304
+    Left = 504
     object memTableEnderecosid_cadastro: TIntegerField
       FieldName = 'id'
     end
@@ -2222,8 +2313,7 @@ object view_CadastroGeral: Tview_CadastroGeral
   object dsEnderecos: TDataSource
     AutoEdit = False
     DataSet = memTableEnderecos
-    Left = 320
-    Top = 304
+    Left = 464
   end
   object memTableContatos: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -2233,8 +2323,7 @@ object view_CadastroGeral: Tview_CadastroGeral
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 416
-    Top = 304
+    Left = 576
     object memTableContatosid: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id'
@@ -2263,8 +2352,7 @@ object view_CadastroGeral: Tview_CadastroGeral
   object dsContatos: TDataSource
     AutoEdit = False
     DataSet = memTableContatos
-    Left = 384
-    Top = 304
+    Left = 544
   end
   object actionListCadastro: TActionList
     Left = 640
@@ -2278,6 +2366,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       Caption = 'Localizar'
       Hint = 'Localizar cadastro'
       ShortCut = 119
+      OnExecute = actionLocalizarExecute
     end
     object actionEditar: TAction
       Caption = 'Editar'
@@ -2286,12 +2375,12 @@ object view_CadastroGeral: Tview_CadastroGeral
       OnExecute = actionEditarExecute
     end
     object actionCancelar: TAction
-      Caption = 'Cancelar'
+      Caption = '&Cancelar'
       Hint = 'Cancelar opera'#231#227'o'
       OnExecute = actionCancelarExecute
     end
     object actionGravar: TAction
-      Caption = 'Gravar'
+      Caption = '&Gravar'
       Hint = 'Gravar os dados'
       ShortCut = 116
     end
@@ -2319,6 +2408,10 @@ object view_CadastroGeral: Tview_CadastroGeral
       Caption = 'Fechar'
       Hint = 'Fechar a tela'
     end
+    object actionAnexarDocumentos: TAction
+      Caption = '&Anexos'
+      Hint = 'Anexar documentos'
+    end
   end
   object memTableEstados: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -2328,7 +2421,7 @@ object view_CadastroGeral: Tview_CadastroGeral
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 584
+    Left = 520
     Top = 54
     object memTableEstadosuf_estado: TStringField
       DisplayLabel = 'UF'
@@ -2365,7 +2458,7 @@ object view_CadastroGeral: Tview_CadastroGeral
   object dsEstados: TDataSource
     AutoEdit = False
     DataSet = memTableEstados
-    Left = 544
+    Left = 472
     Top = 54
   end
   object dsBancos: TDataSource

@@ -172,6 +172,47 @@ type
     dxLayoutItem9: TdxLayoutItem;
     memTableDocumentsano_exercicio_clrv: TIntegerField;
     memTableGRano_exercicio_clrv: TIntegerField;
+    queryRegister: TFDQuery;
+    queryRegistercod_cadastro: TIntegerField;
+    queryRegisterdes_razao_social: TStringField;
+    queryRegisternom_fantasia: TStringField;
+    queryRegisternum_cnpj: TStringField;
+    queryRegisternum_ie: TStringField;
+    queryRegisternom_favorecido: TStringField;
+    queryRegisternum_cpf_cnpj_favorecido: TStringField;
+    queryRegisternom_razao_mei: TStringField;
+    queryRegisternom_fantasia_mei: TStringField;
+    queryRegisternum_cnpj_mei: TStringField;
+    queryRegisterdes_placa: TStringField;
+    queryRegisterdes_modelo: TStringField;
+    queryRegisternum_renavan: TStringField;
+    queryRegisterano_exercicio_clrv: TFMTBCDField;
+    queryRegisterdes_forma_pagamento: TStringField;
+    queryRegisterdes_tipo_conta: TStringField;
+    queryRegistercod_banco: TStringField;
+    queryRegisternom_banco: TStringField;
+    queryRegistercod_agencia: TStringField;
+    queryRegisternum_conta: TStringField;
+    queryRegisternum_cnh: TStringField;
+    queryRegisternum_registro_cnh: TStringField;
+    queryRegisterdes_categoria: TStringField;
+    queryRegisterdat_validade_cnh: TDateField;
+    queryRegistercod_cnh: TStringField;
+    queryRegisterdat_gv: TDateField;
+    queryRegistercod_status: TIntegerField;
+    memTableRecordsdata_validade_cnh: TDateField;
+    memTableRecordsdat_gv: TDateField;
+    viewCadastrodata_validade_cnh: TcxGridDBColumn;
+    viewCadastrodat_gv: TcxGridDBColumn;
+    memTableRecordsnum_cnh: TStringField;
+    memTableRecordsnum_registro_cnh: TStringField;
+    memTableRecordsdes_categoria_cnh: TStringField;
+    viewCadastronum_cnh: TcxGridDBColumn;
+    viewCadastronum_registro_cnh: TcxGridDBColumn;
+    viewCadastrodes_categoria_cnh: TcxGridDBColumn;
+    actionClearSearch: TAction;
+    cxButton8: TcxButton;
+    dxLayoutItem10: TdxLayoutItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionSetFilterExecute(Sender: TObject);
@@ -183,6 +224,10 @@ type
     procedure actionReturnGridExecute(Sender: TObject);
     procedure actionExportGridExecute(Sender: TObject);
     procedure actionLocateRecordExecute(Sender: TObject);
+    procedure actionExpandGridExecute(Sender: TObject);
+    procedure actionRetractGridExecute(Sender: TObject);
+    procedure actionGroupPanelExecute(Sender: TObject);
+    procedure actionClearSearchExecute(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -195,6 +240,12 @@ type
     Procedure SearchGR;
     procedure ExportGrid;
     procedure LocateRegister(sFilterAux: String);
+    procedure ExpandGrid;
+    procedure CollapseGrid;
+    procedure PanelGroup;
+    procedure SaveFilter;
+    procedure LoadFilter;
+    procedure ClearSearch;
   public
     { Public declarations }
   end;
@@ -202,7 +253,6 @@ type
 var
   view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors;
   FSearch: integer;
-  FFilter: String;
 
 implementation
 
@@ -222,6 +272,11 @@ begin
   CancelFilter;
 end;
 
+procedure Tview_SisGeFRegisterContractors.actionClearSearchExecute(Sender: TObject);
+begin
+  ClearSearch;
+end;
+
 procedure Tview_SisGeFRegisterContractors.actionCloseFormExecute(Sender: TObject);
 begin
   Close;
@@ -232,14 +287,29 @@ begin
   SearchDocuments;
 end;
 
+procedure Tview_SisGeFRegisterContractors.actionExpandGridExecute(Sender: TObject);
+begin
+  ExpandGrid;
+end;
+
 procedure Tview_SisGeFRegisterContractors.actionExportGridExecute(Sender: TObject);
 begin
   ExportGrid;
 end;
 
+procedure Tview_SisGeFRegisterContractors.actionGroupPanelExecute(Sender: TObject);
+begin
+  PanelGroup;
+end;
+
 procedure Tview_SisGeFRegisterContractors.actionLocateRecordExecute(Sender: TObject);
 begin
   LocateRegister('');
+end;
+
+procedure Tview_SisGeFRegisterContractors.actionRetractGridExecute(Sender: TObject);
+begin
+  CollapseGrid;
 end;
 
 procedure Tview_SisGeFRegisterContractors.actionReturnGridExecute(Sender: TObject);
@@ -264,16 +334,63 @@ begin
  end;
 
 procedure Tview_SisGeFRegisterContractors.ApplyFilter;
+var
+  FFilter, FSQLOld: String;
 begin
-  FSearch := 0;
+  try
+    queryRegister.Active := False;
+    FFilter := filterControl.FilterText;
+    if FFilter.IsEmpty then
+      Exit;
+    FSQLOld := queryRegister.SQL.Text;
+    queryRegister.SQL.Text := FSQLOld + ' where ' + FFilter;
+    queryRegister.Active := True;
+    if not queryRegister.IsEmpty then
+    begin
+      memTableRecords.Active := False;
+      memTableRecords.Active := True;
+      memTableRecords.CopyDataSet(queryRegister);
+      dxLayoutGroup1.ItemIndex := 0;
+      viewCadastro.DataController.DataSource.DataSet.First;
+      gridCadastro.SetFocus;
+    end
+    else
+    begin
+      MessageDlg('Nenhum registro encontrado!', mtInformation, [mbOK], 0);
+    end;
+  finally
+    Data_Sisgef.FDConnectionMySQL.Connected := False;
+    queryRegister.SQL.Text := FSQLOld;
+  end;
 end;
 
 procedure Tview_SisGeFRegisterContractors.CancelFilter;
 begin
-  filterControl.Clear;
+  if not filterControl.FilterText.IsEmpty then
+  begin
+    Data_Sisgef.FDConnectionMySQL.Connected := False;
+    filterControl.Clear;
+    memTableRecords.Active := False;
+  end;
+end;
+
+procedure Tview_SisGeFRegisterContractors.ClearSearch;
+begin
+  camposPesquisa.ItemIndex := 0;
+  parametroPesquisa.Clear;
   memTableRecords.Active := False;
-  dxLayoutGroup1.ItemIndex := 0;
-  FSearch := 0;
+  statusRegistro.Checked := True;
+end;
+
+procedure Tview_SisGeFRegisterContractors.CollapseGrid;
+begin
+  case FSearch of
+    0 : viewCadastro.ViewData.Expand(True);
+    1 : viewDocumentos.ViewData.Expand(True);
+    2 : viewGR.ViewData.Expand(True);
+    else
+      Exit;
+  end;
 end;
 
 procedure Tview_SisGeFRegisterContractors.EndForm;
@@ -281,6 +398,17 @@ begin
   memTableRecords.Active := False;
   memTableDocuments.Active := False;
   memTableGR.Active := False;
+end;
+
+procedure Tview_SisGeFRegisterContractors.ExpandGrid;
+begin
+  case FSearch of
+    0 : viewCadastro.ViewData.Collapse(True);
+    1 : viewDocumentos.ViewData.Collapse(True);
+    2 : viewGR.ViewData.Collapse(True);
+    else
+      Exit;
+  end;
 end;
 
 procedure Tview_SisGeFRegisterContractors.ExportGrid;
@@ -321,6 +449,22 @@ begin
   view_SisGeFRegisterContractors := nil;
 end;
 
+procedure Tview_SisGeFRegisterContractors.LoadFilter;
+begin
+  with Data_SisGeF do
+  begin
+    if OpenDialog.Execute then
+    begin
+      if not FileExists(OpenDialog.FileName) then
+      begin
+          MessageDlg('Arquivo ' + OpenDialog.FileName + ' não foi encontrado', mtWarning, [mbCancel], 0);
+          Exit;
+      end;
+      filterControl.LoadFromFile(OpenDialog.FileName);
+    end;
+  end;
+end;
+
 procedure Tview_SisGeFRegisterContractors.LocateRegister(sFilterAux: String);
 var
   FCadastro : TCadastroControl;
@@ -334,9 +478,37 @@ begin
       memTableRecords.CopyDataSet(FCadastro.Cadastro.Query);
       FCadastro.Cadastro.Query.Connection.Connected := False;
       viewCadastro.DataController.DataSource.DataSet.First;
+      gridCadastro.SetFocus;
     end;
   finally
     FCadastro.DisposeOf;
+  end;
+end;
+
+procedure Tview_SisGeFRegisterContractors.PanelGroup;
+begin
+  case FSearch of
+    0 : viewCadastro.OptionsView.GroupByBox := (not viewCadastro.OptionsView.GroupByBox);
+    1 : viewDocumentos.OptionsView.GroupByBox := (not viewDocumentos.OptionsView.GroupByBox);
+    2 : viewGR.OptionsView.GroupByBox := (not viewGR.OptionsView.GroupByBox);
+    else
+      Exit;
+  end;
+end;
+
+procedure Tview_SisGeFRegisterContractors.SaveFilter;
+begin
+  with Data_SisGeF do
+  begin
+    if SaveDialog.Execute then
+    begin
+      if FileExists(SaveDialog.FileName) then
+      begin
+        if MessageDlg('Arquivo ' + SaveDialog.FileName + ' já existe. Sobrepor ?', mtConfirmation, [mbYes,mbNo], 0) = mrNo then
+          Exit;
+      end;
+      filterControl.SaveToFile(SaveDialog.FileName);
+    end;
   end;
 end;
 
@@ -349,6 +521,8 @@ begin
     gridCadastroLevel1.GridView := viewDocumentos;
     dxLayoutGroup5.Visible := False;
     FSearch := 1;
+    memTableGR.Active := False;
+    Data_Sisgef.FDConnectionMySQL.Connected := False;
     FCadastro := TCadastroControl.Create;
 
     sFilterAux := '(dat_validade_cnh <> ' + QuotedStr('1899-12-30') + ' and ano_exercicio_clrv <> 0) and ' +
@@ -361,6 +535,7 @@ begin
       memTableDocuments.CopyDataSet(FCadastro.Cadastro.Query);
       FCadastro.Cadastro.Query.Connection.Connected := False;
       viewDocumentos.DataController.DataSource.DataSet.First;
+      gridCadastro.SetFocus;
     end;
   finally
     FCadastro.DisposeOf;
@@ -376,8 +551,10 @@ begin
     gridCadastroLevel1.GridView := viewGR;
     dxLayoutGroup5.Visible := False;
     FSearch := 2;
+    memTableDocuments.Active := False;
+    Data_Sisgef.FDConnectionMySQL.Connected := False;
     FCadastro := TCadastroControl.Create;
-    sFilterAux := '(dat_gv <> ' + QuotedStr('1899-12-30') + ' and ano_exercicio_clrv <> 0) and ' +
+    sFilterAux := '(dat_gv > ' + QuotedStr('1899-12-30') + ') and ' +
     '(dat_gv <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', IncDay(Now -7))) + ')';
     if FCadastro.SearchRegister(0, '', sFilterAux, statusRegistro.Checked) then
     begin
@@ -386,6 +563,7 @@ begin
       memTableGR.CopyDataSet(FCadastro.Cadastro.Query);
       FCadastro.Cadastro.Query.Connection.Connected := False;
       viewGR.DataController.DataSource.DataSet.First;
+      gridCadastro.SetFocus;
     end;
   finally
     FCadastro.DisposeOf;
@@ -398,6 +576,9 @@ begin
   gridCadastroLevel1.GridView := viewCadastro;
   dxLayoutGroup5.Visible := True;
   FSearch := 0;
+  memTableGR.Active := False;
+  memTableDocuments.Active := False;
+  Data_Sisgef.FDConnectionMySQL.Connected := False;
 end;
 
 procedure Tview_SisGeFRegisterContractors.SetFilter;
