@@ -301,7 +301,8 @@ uses
   View.SisGeFImportWorksheetExpress in 'View\View.SisGeFImportWorksheetExpress.pas' {view_SisGeFImportWorksheetExpress},
   Common.SisGeFFunctions in 'Common\Common.SisGeFFunctions.pas',
   Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
-  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral};
+  View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
+  View.SisGeFContractEmission in 'View\View.SisGeFContractEmission.pas' {view_SisGeFContractEmission};
 
 {$R *.res}
 

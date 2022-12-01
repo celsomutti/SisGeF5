@@ -1,10 +1,10 @@
 object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
   Left = 0
   Top = 0
-  Caption = 'Cadastro Geral'
+  Caption = 'Cadastro de Contratados'
   ClientHeight = 534
   ClientWidth = 796
-  Color = clBtnFace
+  Color = clWhite
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -575,11 +575,9 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     Height = 534
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 24
-    ExplicitHeight = 510
     object maskEditID: TcxMaskEdit
       Left = 31
-      Top = 11
+      Top = 12
       Hint = 'ID do cadastro'
       TabStop = False
       Properties.Alignment.Horz = taRightJustify
@@ -592,11 +590,11 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.HotTrack = False
       TabOrder = 0
       Text = '0'
-      Width = 80
+      Width = 76
     end
     object comboBoxTipoPessoa: TcxComboBox
-      Left = 149
-      Top = 11
+      Left = 145
+      Top = 12
       Hint = 'Tipo de pessoa'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -611,38 +609,24 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 1
       Text = 'Selecione ...'
-      Width = 91
-    end
-    object maskEditCPCNPJ: TcxMaskEdit
-      Left = 274
-      Top = 11
-      Hint = 'CPF ou CNPJ'
-      Properties.IgnoreMaskBlank = True
-      Properties.EditMask = '!000\.000\.000\-00;1; '
-      Properties.MaxLength = 0
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 2
-      Text = '   .   .   -  '
-      Width = 128
+      Width = 87
     end
     object textEditNome: TcxTextEdit
-      Left = 447
-      Top = 11
+      Left = 461
+      Top = 12
       Hint = 'Nome ou raz'#227'p social]'
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 3
-      Width = 338
+      Width = 324
     end
     object layoutControlDados: TdxLayoutControl
       Left = 26
-      Top = 73
+      Top = 76
       Width = 744
-      Height = 188
+      Height = 185
       TabOrder = 4
       object textEditRG: TcxTextEdit
         Left = 104
@@ -1298,24 +1282,11 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 1
-        Width = 335
-      end
-      object dbMaskEditCEP: TcxDBMaskEdit
-        Left = 612
-        Top = 46
-        DataBinding.DataField = 'num_cep'
-        DataBinding.DataSource = dsEnderecos
-        Properties.IgnoreMaskBlank = True
-        Properties.EditMask = '00000\-999;1; '
-        Style.BorderColor = clWindowFrame
-        Style.BorderStyle = ebs3D
-        Style.HotTrack = False
-        TabOrder = 2
-        Width = 106
+        Width = 320
       end
       object dbTextEditEndereco: TcxDBTextEdit
         Left = 89
-        Top = 73
+        Top = 76
         Hint = 'Endere'#231'o'
         DataBinding.DataField = 'des_logradouro'
         DataBinding.DataSource = dsEnderecos
@@ -1328,7 +1299,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       end
       object dbTextEditNumero: TcxDBTextEdit
         Left = 377
-        Top = 73
+        Top = 76
         Hint = 'N'#250'mero do endere'#231'o'
         DataBinding.DataField = 'num_logradouro'
         DataBinding.DataSource = dsEnderecos
@@ -1340,7 +1311,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       end
       object dbTextEditComplemento: TcxDBTextEdit
         Left = 547
-        Top = 73
+        Top = 76
         DataBinding.DataField = 'des_complemento'
         DataBinding.DataSource = dsEnderecos
         Properties.MaxLength = 50
@@ -1352,7 +1323,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       end
       object dbTextEditBairro: TcxDBTextEdit
         Left = 89
-        Top = 100
+        Top = 103
         Hint = 'Bairro do endere'#231'o'
         DataBinding.DataField = 'nom_bairro'
         DataBinding.DataSource = dsEnderecos
@@ -1365,7 +1336,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       end
       object dbTextEditCidade: TcxDBTextEdit
         Left = 368
-        Top = 100
+        Top = 103
         Hint = 'Cidade do endere'#231'o'
         DataBinding.DataField = 'nom_cidade'
         DataBinding.DataSource = dsEnderecos
@@ -1378,7 +1349,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       end
       object dbLookupComboBoxUFEndereco: TcxDBLookupComboBox
         Left = 614
-        Top = 100
+        Top = 103
         DataBinding.DataField = 'uf_estado'
         DataBinding.DataSource = dsEnderecos
         Properties.KeyFieldNames = 'uf_estado'
@@ -1397,7 +1368,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       end
       object dbTextEditReferencia: TcxDBTextEdit
         Left = 89
-        Top = 127
+        Top = 130
         Hint = 'Refer'#234'ncia do endere'#231'o'
         DataBinding.DataField = 'des_referencia'
         DataBinding.DataSource = dsEnderecos
@@ -1410,13 +1381,22 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       object dbNavigatorEnderecos: TcxDBNavigator
         Left = 26
         Top = 159
-        Width = 232
+        Width = 192
         Height = 25
         Cursor = crHandPoint
         Buttons.CustomButtons = <>
+        Buttons.Images = Data_Sisgef.iml_16_16
+        Buttons.First.ImageIndex = 91
         Buttons.PriorPage.Visible = False
+        Buttons.Prior.ImageIndex = 94
+        Buttons.Next.ImageIndex = 93
         Buttons.NextPage.Visible = False
+        Buttons.Last.ImageIndex = 92
+        Buttons.Insert.ImageIndex = 97
+        Buttons.Delete.ImageIndex = 116
+        Buttons.Edit.ImageIndex = 95
         Buttons.Post.Visible = False
+        Buttons.Cancel.ImageIndex = 84
         Buttons.Refresh.Visible = False
         Buttons.SaveBookmark.Visible = False
         Buttons.GotoBookmark.Visible = False
@@ -1433,8 +1413,18 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Visible = False
         object gridContatosDBTableView1: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 91
           Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 94
+          Navigator.Buttons.Next.ImageIndex = 93
           Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 92
+          Navigator.Buttons.Insert.ImageIndex = 97
+          Navigator.Buttons.Delete.ImageIndex = 116
+          Navigator.Buttons.Edit.ImageIndex = 95
+          Navigator.Buttons.Post.ImageIndex = 85
+          Navigator.Buttons.Cancel.ImageIndex = 84
           Navigator.Buttons.Refresh.Visible = False
           Navigator.Buttons.SaveBookmark.Visible = False
           Navigator.Buttons.GotoBookmark.Visible = False
@@ -1611,6 +1601,192 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.HotTrack = False
         TabOrder = 0
       end
+      object gridVeiculos: TcxGrid
+        Left = 10000
+        Top = 10000
+        Width = 692
+        Height = 107
+        TabOrder = 20
+        Visible = False
+        object gridVeiculosDBTableView1: TcxGridDBTableView
+          Navigator.Buttons.CustomButtons = <>
+          Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+          Navigator.Buttons.First.ImageIndex = 91
+          Navigator.Buttons.PriorPage.Visible = False
+          Navigator.Buttons.Prior.ImageIndex = 94
+          Navigator.Buttons.Next.ImageIndex = 93
+          Navigator.Buttons.NextPage.Visible = False
+          Navigator.Buttons.Last.ImageIndex = 92
+          Navigator.Buttons.Insert.Visible = False
+          Navigator.Buttons.Delete.Visible = False
+          Navigator.Buttons.Edit.Visible = False
+          Navigator.Buttons.Post.Visible = False
+          Navigator.Buttons.Cancel.Visible = False
+          Navigator.Buttons.Refresh.Visible = False
+          Navigator.Buttons.SaveBookmark.Visible = False
+          Navigator.Buttons.GotoBookmark.Visible = False
+          Navigator.Buttons.Filter.Visible = False
+          Navigator.InfoPanel.Visible = True
+          Navigator.Visible = True
+          DataController.DataSource = dsVeiculos
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+          OptionsData.CancelOnExit = False
+          OptionsData.Deleting = False
+          OptionsData.DeletingConfirmation = False
+          OptionsData.Editing = False
+          OptionsData.Inserting = False
+          OptionsSelection.CellSelect = False
+          OptionsSelection.CheckBoxPosition = cbpIndicator
+          OptionsSelection.CheckBoxVisibility = [cbvDataRow, cbvColumnHeader]
+          OptionsView.GroupByBox = False
+          OptionsView.Indicator = True
+          object gridVeiculosDBTableView1COD_VEICULO: TcxGridDBColumn
+            DataBinding.FieldName = 'COD_VEICULO'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1NUM_CNPJ: TcxGridDBColumn
+            DataBinding.FieldName = 'NUM_CNPJ'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1NOM_PROPRIETARIO: TcxGridDBColumn
+            DataBinding.FieldName = 'NOM_PROPRIETARIO'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+            Width = 266
+          end
+          object gridVeiculosDBTableView1NUM_RG: TcxGridDBColumn
+            DataBinding.FieldName = 'NUM_RG'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1COD_ENTREGADOR: TcxGridDBColumn
+            DataBinding.FieldName = 'COD_ENTREGADOR'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1DES_RAZAO_SOCIAL: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_RAZAO_SOCIAL'
+            Visible = False
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1DES_MARCA: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_MARCA'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1DES_MODELO: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_MODELO'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1DES_PLACA: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_PLACA'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1DES_TIPO: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_TIPO'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1NUM_CHASSIS: TcxGridDBColumn
+            DataBinding.FieldName = 'NUM_CHASSIS'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1DES_ANO: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_ANO'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1DES_COR: TcxGridDBColumn
+            DataBinding.FieldName = 'DES_COR'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1NUM_RENAVAN: TcxGridDBColumn
+            DataBinding.FieldName = 'NUM_RENAVAN'
+            HeaderAlignmentHorz = taCenter
+          end
+          object gridVeiculosDBTableView1ANO_EXERCICIO_CLRV: TcxGridDBColumn
+            DataBinding.FieldName = 'ANO_EXERCICIO_CLRV'
+            HeaderAlignmentHorz = taCenter
+          end
+        end
+        object gridVeiculosLevel1: TcxGridLevel
+          GridView = gridVeiculosDBTableView1
+        end
+      end
+      object cxButton4: TcxButton
+        Left = 10000
+        Top = 10000
+        Width = 75
+        Height = 25
+        Cursor = crHandPoint
+        Action = actionNovoVeiculo
+        OptionsImage.ImageIndex = 97
+        OptionsImage.Images = Data_Sisgef.iml_16_16
+        TabOrder = 21
+        Visible = False
+      end
+      object cxButton5: TcxButton
+        Left = 10000
+        Top = 10000
+        Width = 75
+        Height = 25
+        Cursor = crHandPoint
+        Action = actionEditarVeiculo
+        OptionsImage.ImageIndex = 95
+        OptionsImage.Images = Data_Sisgef.iml_16_16
+        TabOrder = 22
+        Visible = False
+      end
+      object dbMaskEditCEP: TcxDBButtonEdit
+        Left = 597
+        Top = 46
+        Hint = 'CEP do endere'#231'o'
+        DataBinding.DataField = 'num_logradouro'
+        DataBinding.DataSource = dsEnderecos
+        Properties.Buttons = <
+          item
+            Action = actionPesquisaCEP
+            Default = True
+            Glyph.SourceDPI = 96
+            Glyph.Data = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              61000003084944415478DAA5936B48145114C7FF6776667676669FAE5BB9690F
+              D7283048A107A415194905620F90E801BA6410915644515156F425A2282BEA43
+              915051F4410A8A8AA8845E509165945256A8EDA699ABBBABEBAE3B33B7512C28
+              A32F1D38DC73B9F7FCF873CFFF12FE1185C57E29F035CCEB3CC0221DE0B36731
+              B1E460C2D8A9B1D07734958F0331C67E6BF2571EC0F9EA2AA31A8FD28DEB71FE
+              E4AE11E0B94F81FE9E249E2F16460206E3DAC7162CCB9A201B67B1BF292B6800
+              E2DDE09ECC83FE0B4044436B59C5FE61051EC19BE1F4C7C5096790EA00BE7E82
+              925F0871C9B6C7CDABDDF9A3B6D551C22CD230A0D2C83A83F01AFE4D07D8D9B5
+              55702CF2211A6A464EC1BAE36F032D15DCE8D1FD59E57B49152C921C6CAF7B7F
+              F7C5422D63964EE1FB807DFE20641A3A6E36E0437B2E9F9F55CF965DAA424F24
+              2A3EB872A4DF995B7CD55654B642499FA49978E849B3DDAC07BA4EB76E9EB291
+              22F761127DE91A51C2A2B685CEF0B256001E31D1027DA08FF7D68B79FEBC137B
+              66A479623B7849498A561B54AB532066AA8DACCC2CA1AEBB76509F6A490A428D
+              E40C979815438C31360D22E4ECC4D0C3B8FCD59A94EA898B8A8360512C769BF2
+              2E32357D7667C5E130355DF75B13E137DB5D8EC63D4A4A6F5C10C109126792DC
+              4235C6C6B72A73B733F3F85488B21D9C6C0529F6683F4939BDC1DE4F26BD9BA3
+              C81D5A1A08B2A31A615CCA1830C510A48133B57CF62ECE59D576FBCF112E3A74
+              23F74E43B41EED0962F74A19B5D53A4C29DEE49AD666B586D14032CD07F5D52D
+              3717EDB4B5149DFA3C79A8EBB40B3BC50DB8FC6C22D2BC1E3CAD5A0A5A500303
+              000ADE92F8487B52757BA563A1AEBECA60A30B9DAD56B8330CA748B667B18194
+              5559CB0BDB3CBE3E96B77B362497537FB9AF58FBA988BEDD04170A409F3C13E8
+              F882AD0F2FC899A25D53798BAADBDD4ED93AB5EC51CEF28C8B4083E1B573EC4F
+              E70E02D0FD0DF066129A5E311CAE1C051354ACA908C300207FEFF7E1ABEB8C3C
+              3BC2D6D46318C95900C41E01AD1FC1D5EE93F984C6687A5182591D32597D0BB5
+              E9FE392AB0E5AF3F96F09FF103BC1E2F460AC9B2350000000049454E44AE4260
+              82}
+            Kind = bkGlyph
+          end>
+        Properties.IgnoreMaskBlank = True
+        Properties.EditMask = '00000\-999;1; '
+        Style.BorderColor = clWindowFrame
+        Style.BorderStyle = ebs3D
+        Style.HotTrack = False
+        Style.ButtonStyle = bts3D
+        TabOrder = 2
+        Width = 121
+      end
       object layoutControlComplementoGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
         AlignVert = avClient
@@ -1636,6 +1812,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Parent = layoutControlComplementoGroup_Root
         CaptionOptions.Text = 'Dados Banc'#225'rios'
         ButtonOptions.Buttons = <>
+        ItemIndex = 3
         Index = 2
       end
       object layoutGroupEndereco1: TdxLayoutGroup
@@ -1666,16 +1843,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 1
-      end
-      object layoutItemCEP: TdxLayoutItem
-        Parent = layoutGroupEndereco1
-        AlignVert = avClient
-        CaptionOptions.Text = 'CEP:'
-        Control = dbMaskEditCEP
-        ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 106
-        ControlOptions.ShowBorder = False
-        Index = 2
       end
       object layoutItemEndereco: TdxLayoutItem
         Parent = LayoutGroupEndereco2
@@ -1780,7 +1947,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         CaptionOptions.Visible = False
         Control = dbNavigatorEnderecos
         ControlOptions.OriginalHeight = 25
-        ControlOptions.OriginalWidth = 232
+        ControlOptions.OriginalWidth = 192
         ControlOptions.ShowBorder = False
         Index = 4
       end
@@ -1925,11 +2092,83 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avClient
         CaptionOptions.Text = 'cxDBCheckBox1'
         CaptionOptions.Visible = False
+        Visible = False
         Control = dbCheckBoxCorrespondencia
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 112
         ControlOptions.ShowBorder = False
         Index = 0
+      end
+      object layoutGroupVeiculos: TdxLayoutGroup
+        Parent = layoutControlComplementoGroup_Root
+        CaptionOptions.Text = 'Ve'#237'culos'
+        ButtonOptions.Buttons = <>
+        Index = 3
+      end
+      object layoutGroupGridVeiculos: TdxLayoutGroup
+        Parent = layoutGroupVeiculos
+        AlignHorz = ahClient
+        AlignVert = avClient
+        CaptionOptions.Text = 'New Group'
+        ButtonOptions.Buttons = <>
+        ItemIndex = 1
+        ShowBorder = False
+        Index = 0
+      end
+      object dxLayoutItem4: TdxLayoutItem
+        Parent = layoutGroupGridVeiculos
+        AlignHorz = ahClient
+        AlignVert = avClient
+        CaptionOptions.Text = 'cxGrid1'
+        CaptionOptions.Visible = False
+        Control = gridVeiculos
+        ControlOptions.OriginalHeight = 97
+        ControlOptions.OriginalWidth = 250
+        ControlOptions.ShowBorder = False
+        Index = 0
+      end
+      object dxLayoutGroup1: TdxLayoutGroup
+        Parent = layoutGroupGridVeiculos
+        AlignHorz = ahClient
+        AlignVert = avBottom
+        CaptionOptions.Text = 'New Group'
+        ButtonOptions.Buttons = <>
+        LayoutDirection = ldHorizontal
+        ShowBorder = False
+        Index = 1
+      end
+      object dxLayoutItem5: TdxLayoutItem
+        Parent = dxLayoutGroup1
+        AlignHorz = ahLeft
+        AlignVert = avCenter
+        CaptionOptions.Text = 'cxButton4'
+        CaptionOptions.Visible = False
+        Control = cxButton4
+        ControlOptions.OriginalHeight = 25
+        ControlOptions.OriginalWidth = 75
+        ControlOptions.ShowBorder = False
+        Index = 0
+      end
+      object dxLayoutItem6: TdxLayoutItem
+        Parent = dxLayoutGroup1
+        AlignHorz = ahLeft
+        AlignVert = avCenter
+        CaptionOptions.Text = 'cxButton5'
+        CaptionOptions.Visible = False
+        Control = cxButton5
+        ControlOptions.OriginalHeight = 25
+        ControlOptions.OriginalWidth = 75
+        ControlOptions.ShowBorder = False
+        Index = 1
+      end
+      object dxLayoutItem13: TdxLayoutItem
+        Parent = layoutGroupEndereco1
+        CaptionOptions.Text = 'CEP:'
+        Control = dbMaskEditCEP
+        ControlOptions.OriginalHeight = 24
+        ControlOptions.OriginalWidth = 121
+        ControlOptions.ShowBorder = False
+        Index = 2
       end
     end
     object checkBoxStatusGR: TcxCheckBox
@@ -1987,9 +2226,9 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 10
+      TabOrder = 14
       Visible = False
-      Height = 89
+      Height = 223
       Width = 744
     end
     object cxButton1: TcxButton
@@ -2001,7 +2240,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Action = actionAnexarDocumentos
       OptionsImage.ImageIndex = 99
       OptionsImage.Images = Data_Sisgef.iml_16_16
-      TabOrder = 11
+      TabOrder = 17
     end
     object cxButton2: TcxButton
       Left = 605
@@ -2012,7 +2251,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Action = actionGravar
       OptionsImage.ImageIndex = 85
       OptionsImage.Images = Data_Sisgef.iml_16_16
-      TabOrder = 12
+      TabOrder = 18
     end
     object cxButton3: TcxButton
       Left = 694
@@ -2023,21 +2262,178 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Action = actionCancelar
       OptionsImage.ImageIndex = 84
       OptionsImage.Images = Data_Sisgef.iml_16_16
+      TabOrder = 19
+    end
+    object checkBoxStatus: TcxCheckBox
+      Left = 11
+      Top = 500
+      Hint = 'Cadastro ativo ou inativo'
+      Caption = 'ATIVO'
+      Properties.ValueChecked = '1'
+      Properties.ValueUnchecked = '2'
+      Properties.OnChange = checkBoxStatusPropertiesChange
+      State = cbsChecked
+      Style.HotTrack = False
+      TabOrder = 15
+    end
+    object textEditCodigoMEI: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Properties.MaxLength = 20
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 10
+      Visible = False
+      Width = 121
+    end
+    object buttonEditCNPJMEI: TcxButtonEdit
+      Left = 10000
+      Top = 10000
+      Properties.Buttons = <
+        item
+          Action = actionPesquisaCNPJMEI
+          Default = True
+          Glyph.SourceDPI = 96
+          Glyph.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            61000003214944415478DA6364C003166F3EC9CAC8C4F83FCEC7FCCFBFFFFFB1
+            AA61C4A579DEFA638C890196605D8C8C8C2CC7CEDDFE6B65A48A610A6356F372
+            8669B591608E63D204A6FDF30A408AFEAFD9759621D8D54804C8FE0934E0F3FF
+            FFFFC0F679E64C65D87FF406434F5930C86006C6FF484E8BAF5BC2B07BD13E06
+            963F97187AE6CCC898B5F270DEFBEFBF7F7FB8B57FD585836B565A4C5B7D9FFB
+            F2ABBFA79694215CD0B7E61003370313437A8803435ACB12B323072FE77DF9FE
+            D1CCC1C648414880F7DF81D357CF3D7FF4459F898B85B33ACB23F1C8993B4BD8
+            5959FE1A6ACB315CB87C8581D13F65129FA7B3BED69C75C7B2EF3E7C15F30D68
+            AA8A94E8665E6E16F3CF1FBF8BBD7CFFF19A202FDB293D0D2549051921F105EB
+            4FBEB1D0957F1BE965D267A4A77B8631A779F9BC3DA76F873F7FFE9E4B5549FC
+            B2102F27C3AFDF7FAEFF6762623B78FCBA123F3F8F90A385FA150E16A66F5B0E
+            5F0BFAF20F1816DF7E30C848087E30E2BA25CB583D713DF7D92367131FBEFC2C
+            999F1BB2B565F68EE54F9EBD939312137C1266AF304D5E5E9E67EAC203A5775E
+            BC6365E0606760FCFB87414759EA6B46AC67D5E1B593263116B4AF6098B6FA2F
+            03C3D74F0CD6965FE61FB8F030E13F1BCB5786DF7FB8D998987FF9DA6AB1682B
+            4BAEDA7EFCC6C70F5FBE3BF173727F76D213CA7DFCF4F9B16553AB10B1A0D3F4
+            983155E5BEF5967DE717EF397553819193E3F7FFBF7F1959FF33B0E8288A6F2E
+            89776CD252967CBE61D3964F0D15399FE1B10033A0AC76220397A0180337BFB0
+            D29AFDD7269DB976CFFB1F2BF32F86BFFFFE33FCFCC31EE26EBA4A5B5B31B221
+            D1FE1F4A42FA8F9644F543DA18DE9F9ECD256E99B1E2CC8D27BEA0B4EA68A4B2
+            FECE9E39715C021A5F6F5C5CFD1FAF016D7376307233FFFE2F2824CABD64DB99
+            F59C9CAC0CD19EA6815F3F7FF89A18E2843F2FB885973398D958337CFCC1C438
+            A9C4FBFFDE93377978B9D819CC7415BE34CCDECBF8EFE3CBFF0C9C7C0CCD39BE
+            B83353CF82DD0CF79EBE63985A15C670F5C91B06010E560669117E86EA299B19
+            94A485195282AC09E7C68A091B19405E63666662E2E66463F8F9EBCF3F2E205D
+            91E486A11600D2C14D2A3D80E1790000000049454E44AE426082}
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.EditMask = '!00\.000\.000\/0000\-00;1; '
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 11
+      Text = '  .   .   /    -  '
+      Visible = False
+      Width = 121
+    end
+    object textEditRazaoMEI: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Raz'#227'p social MEI'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 70
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 12
+      Visible = False
+      Width = 272
+    end
+    object textEditFantasiaMEI: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Nome Fantasia MEI'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 70
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
       TabOrder = 13
+      Visible = False
+      Width = 282
+    end
+    object maskEditCPCNPJ: TcxButtonEdit
+      Left = 295
+      Top = 11
+      Properties.Buttons = <
+        item
+          Action = actionPesquisaCNPJ
+          Default = True
+          Glyph.SourceDPI = 96
+          Glyph.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            61000003214944415478DA6364C003166F3EC9CAC8C4F83FCEC7FCCFBFFFFFB1
+            AA61C4A579DEFA638C890196605D8C8C8C2CC7CEDDFE6B65A48A610A6356F372
+            8669B591608E63D204A6FDF30A408AFEAFD9759621D8D54804C8FE0934E0F3FF
+            FFFFC0F679E64C65D87FF406434F5930C86006C6FF484E8BAF5BC2B07BD13E06
+            963F97187AE6CCC898B5F270DEFBEFBF7F7FB8B57FD585836B565A4C5B7D9FFB
+            F2ABBFA79694215CD0B7E61003370313437A8803435ACB12B323072FE77DF9FE
+            D1CCC1C648414880F7DF81D357CF3D7FF4459F898B85B33ACB23F1C8993B4BD8
+            5959FE1A6ACB315CB87C8581D13F65129FA7B3BED69C75C7B2EF3E7C15F30D68
+            AA8A94E8665E6E16F3CF1FBF8BBD7CFFF19A202FDB293D0D2549051921F105EB
+            4FBEB1D0957F1BE965D267A4A77B8631A779F9BC3DA76F873F7FFE9E4B5549FC
+            B2102F27C3AFDF7FAEFF6762623B78FCBA123F3F8F90A385FA150E16A66F5B0E
+            5F0BFAF20F1816DF7E30C848087E30E2BA25CB583D713DF7D92367131FBEFC2C
+            999F1BB2B565F68EE54F9EBD939312137C1266AF304D5E5E9E67EAC203A5775E
+            BC6365E0606760FCFB87414759EA6B46AC67D5E1B593263116B4AF6098B6FA2F
+            03C3D74F0CD6965FE61FB8F030E13F1BCB5786DF7FB8D998987FF9DA6AB1682B
+            4BAEDA7EFCC6C70F5FBE3BF173727F76D213CA7DFCF4F9B16553AB10B1A0D3F4
+            983155E5BEF5967DE717EF397553819193E3F7FFBF7F1959FF33B0E8288A6F2E
+            89776CD252967CBE61D3964F0D15399FE1B10033A0AC76220397A0180337BFB0
+            D29AFDD7269DB976CFFB1F2BF32F86BFFFFE33FCFCC31EE26EBA4A5B5B31B221
+            D1FE1F4A42FA8F9644F543DA18DE9F9ECD256E99B1E2CC8D27BEA0B4EA68A4B2
+            FECE9E39715C021A5F6F5C5CFD1FAF016D7376307233FFFE2F2824CABD64DB99
+            F59C9CAC0CD19EA6815F3F7FF89A18E2843F2FB885973398D958337CFCC1C438
+            A9C4FBFFDE93377978B9D819CC7415BE34CCDECBF8EFE3CBFF0C9C7C0CCD39BE
+            B83353CF82DD0CF79EBE63985A15C670F5C91B06010E560669117E86EA299B19
+            94A485195282AC09E7C68A091B19405E63666662E2E66463F8F9EBCF3F2E205D
+            91E486A11600D2C14D2A3D80E1790000000049454E44AE426082}
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.EditMask = '!000\.000\.000\-00;1; '
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 2
+      Text = '   .   .   -  '
+      Width = 121
+    end
+    object cxButton6: TcxButton
+      Left = 416
+      Top = 498
+      Width = 79
+      Height = 25
+      Cursor = crHandPoint
+      Action = actionContrato
+      OptionsImage.ImageIndex = 115
+      OptionsImage.Images = Data_Sisgef.iml_16_16
+      TabOrder = 16
     end
     object layoutControlPadraoGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 2
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end
     object layoutItemMaskID: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup1
       AlignHorz = ahClient
-      AlignVert = avTop
+      AlignVert = avCenter
       CaptionOptions.Text = 'ID:'
       Control = maskEditID
       ControlOptions.OriginalHeight = 21
@@ -2048,7 +2444,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     object layoutItemComboBoxTipoPessoa: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup1
       AlignHorz = ahClient
-      AlignVert = avTop
+      AlignVert = avCenter
       CaptionOptions.Text = 'Tipo:'
       Control = comboBoxTipoPessoa
       ControlOptions.OriginalHeight = 21
@@ -2063,21 +2459,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Index = 0
       AutoCreated = True
     end
-    object layoutItemCPFCNPJ: TdxLayoutItem
-      Parent = dxLayoutAutoCreatedGroup1
-      AlignHorz = ahClient
-      AlignVert = avTop
-      CaptionOptions.Text = 'CPF:'
-      Control = maskEditCPCNPJ
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 114
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
     object layoutItemTextEditNome: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup1
       AlignHorz = ahClient
-      AlignVert = avTop
+      AlignVert = avCenter
       CaptionOptions.Text = 'Nome:'
       Control = textEditNome
       ControlOptions.OriginalHeight = 21
@@ -2129,9 +2514,11 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     end
     object layoutGroupComplementos: TdxLayoutGroup
       Parent = layoutGroupMaster
-      CaptionOptions.Text = 'GR / Observa'#231#245'es'
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'GR  / MEI / Observa'#231#245'es'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 3
       Index = 1
     end
     object layoutGroupGR: TdxLayoutGroup
@@ -2160,6 +2547,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       AlignHorz = ahClient
       AlignVert = avTop
       CaptionOptions.Text = 'Empresa GR:'
+      Visible = False
       Control = textEditEmpresaGR
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 210
@@ -2182,6 +2570,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       AlignHorz = ahClient
       AlignVert = avTop
       CaptionOptions.Text = 'N'#186'. Consulta:'
+      Visible = False
       Control = textEditNumeroConsultaGR
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 121
@@ -2197,14 +2586,16 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Index = 1
     end
     object layoutItemObservacoes: TdxLayoutItem
-      Parent = layoutGroupObs
+      Parent = layoutGroupComplementos
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Observa'#231#245'es:'
       CaptionOptions.Layout = clTop
       Control = memoObservacoes
       ControlOptions.OriginalHeight = 89
       ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 3
     end
     object layoutGroupOptions: TdxLayoutGroup
       Parent = layoutControlPadraoGroup_Root
@@ -2227,7 +2618,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 98
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 2
     end
     object dxLayoutItem2: TdxLayoutItem
       Parent = layoutGroupOptions
@@ -2239,7 +2630,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 83
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 3
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = layoutGroupOptions
@@ -2251,7 +2642,112 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 91
       ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutItem7: TdxLayoutItem
+      Parent = layoutGroupOptions
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = checkBoxStatus
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 55
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object layoutGroupMEI: TdxLayoutGroup
+      Parent = layoutGroupComplementos
+      CaptionOptions.Text = 'MEI'
+      ButtonOptions.Buttons = <>
+      ItemIndex = 1
       Index = 2
+    end
+    object dxLayoutGroup2: TdxLayoutGroup
+      Parent = layoutGroupMEI
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem8: TdxLayoutItem
+      Parent = dxLayoutGroup2
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'C'#243'd. MEI:'
+      Control = textEditCodigoMEI
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem9: TdxLayoutItem
+      Parent = dxLayoutGroup2
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'CNPJ:'
+      Control = buttonEditCNPJMEI
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup3: TdxLayoutGroup
+      Parent = layoutGroupMEI
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem10: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Raz'#227'o Social:'
+      Control = textEditRazaoMEI
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem11: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Nome Fantasia:'
+      Control = textEditFantasiaMEI
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem12: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup1
+      AlignVert = avCenter
+      CaptionOptions.Text = 'CPF/CNPJ:'
+      Control = maskEditCPCNPJ
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem14: TdxLayoutItem
+      Parent = layoutGroupOptions
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton6'
+      CaptionOptions.Visible = False
+      Control = cxButton6
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 79
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object memTableEnderecos: TFDMemTable
@@ -2262,9 +2758,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 504
-    object memTableEnderecosid_cadastro: TIntegerField
-      FieldName = 'id'
+    Left = 456
+    Top = 200
+    object memTableEnderecoscod_entregador: TIntegerField
+      FieldName = 'cod_entregador'
     end
     object memTableEnderecosseq_endereco: TIntegerField
       FieldName = 'seq_endereco'
@@ -2313,7 +2810,8 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
   object dsEnderecos: TDataSource
     AutoEdit = False
     DataSet = memTableEnderecos
-    Left = 464
+    Left = 416
+    Top = 200
   end
   object memTableContatos: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -2323,10 +2821,11 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 576
-    object memTableContatosid: TIntegerField
+    Left = 528
+    Top = 200
+    object memTableContatoscod_entregador: TIntegerField
       DisplayLabel = 'ID'
-      FieldName = 'id'
+      FieldName = 'cod_entregador'
     end
     object memTableContatosseq_contato: TIntegerField
       DisplayLabel = 'Seq.'
@@ -2352,7 +2851,8 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
   object dsContatos: TDataSource
     AutoEdit = False
     DataSet = memTableContatos
-    Left = 544
+    Left = 496
+    Top = 200
   end
   object actionListCadastro: TActionList
     Left = 640
@@ -2412,6 +2912,30 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Caption = '&Anexos'
       Hint = 'Anexar documentos'
     end
+    object actionNovoVeiculo: TAction
+      Caption = 'Novo'
+      Hint = 'Novo ve'#237'culo'
+      OnExecute = actionNovoVeiculoExecute
+    end
+    object actionEditarVeiculo: TAction
+      Caption = 'Editar'
+      Hint = 'Editar ve'#237'culo'
+      OnExecute = actionEditarVeiculoExecute
+    end
+    object actionPesquisaCNPJ: TAction
+      Caption = 'Pesquisa CNPJ'
+      OnExecute = actionPesquisaCNPJExecute
+    end
+    object actionPesquisaCEP: TAction
+      Caption = 'Pesquisa CEP'
+      Hint = 'Pesquisa CEP'
+      OnExecute = actionPesquisaCEPExecute
+    end
+    object actionPesquisaCNPJMEI: TAction
+      Caption = 'Pesquisa CNPJ'
+      Hint = 'Pesquisa CNPJ'
+      OnExecute = actionPesquisaCNPJMEIExecute
+    end
   end
   object memTableEstados: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -2466,5 +2990,99 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     DataSet = memTableBancos
     Left = 616
     Top = 54
+  end
+  object dsVeiculos: TDataSource
+    AutoEdit = False
+    DataSet = memTableVeiculos
+    Left = 624
+    Top = 200
+  end
+  object memTableVeiculos: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 656
+    Top = 200
+    object memTableVeiculosCOD_VEICULO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'COD_VEICULO'
+    end
+    object memTableVeiculosNUM_CNPJ: TStringField
+      DisplayLabel = 'CPF/CNPJ'
+      FieldName = 'NUM_CNPJ'
+    end
+    object memTableVeiculosNOM_PROPRIETARIO: TStringField
+      DisplayLabel = 'Propriet'#225'rio'
+      FieldName = 'NOM_PROPRIETARIO'
+      Size = 70
+    end
+    object memTableVeiculosNUM_RG: TStringField
+      DisplayLabel = 'RG/IE'
+      FieldName = 'NUM_RG'
+    end
+    object memTableVeiculosCOD_ENTREGADOR: TIntegerField
+      DisplayLabel = 'Cadastro'
+      FieldName = 'COD_ENTREGADOR'
+    end
+    object memTableVeiculosDES_RAZAO_SOCIAL: TStringField
+      DisplayLabel = 'Nome Cadastro'
+      FieldName = 'DES_RAZAO_SOCIAL'
+      Size = 70
+    end
+    object memTableVeiculosDES_MARCA: TStringField
+      DisplayLabel = 'Marca'
+      FieldName = 'DES_MARCA'
+      Size = 50
+    end
+    object memTableVeiculosDES_MODELO: TStringField
+      DisplayLabel = 'Modelo'
+      FieldName = 'DES_MODELO'
+      Size = 50
+    end
+    object memTableVeiculosDES_PLACA: TStringField
+      DisplayLabel = 'Placa'
+      FieldName = 'DES_PLACA'
+      Size = 7
+    end
+    object memTableVeiculosDES_TIPO: TStringField
+      DisplayLabel = 'Tipo'
+      FieldName = 'DES_TIPO'
+    end
+    object memTableVeiculosNUM_CHASSIS: TStringField
+      DisplayLabel = 'Chassis'
+      FieldName = 'NUM_CHASSIS'
+      Size = 50
+    end
+    object memTableVeiculosDES_ANO: TStringField
+      DisplayLabel = 'Ano'
+      FieldName = 'DES_ANO'
+      Size = 4
+    end
+    object memTableVeiculosDES_COR: TStringField
+      DisplayLabel = 'Cor'
+      FieldName = 'DES_COR'
+    end
+    object memTableVeiculosNUM_RENAVAN: TStringField
+      DisplayLabel = 'RENAVAN'
+      FieldName = 'NUM_RENAVAN'
+      Size = 25
+    end
+    object memTableVeiculosANO_EXERCICIO_CLRV: TStringField
+      DisplayLabel = 'Licenciamento'
+      FieldName = 'ANO_EXERCICIO_CLRV'
+      Size = 4
+    end
   end
 end

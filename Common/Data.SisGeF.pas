@@ -700,6 +700,7 @@ type
     textReaderEntregasDIRECT: TFDBatchMoveTextReader;
     textReaderDIRECTBaixas: TFDBatchMoveTextReader;
     textReaderDIRECTLojas: TFDBatchMoveTextReader;
+    frxReport: TfrxReport;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
