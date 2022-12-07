@@ -617,15 +617,21 @@ begin
       raise Exception.Create('Informe o nome ou razão social!');
       Exit;
     end;
-    if FFantasia = '' then
-    begin
-      raise Exception.Create('Informe o alias ou nome fantasia!');
-      Exit;
-    end;
-    SetLength(aParam, 2);
     if FDoc = 'CPF' then
     begin
+      SetLength(aParam, 2);
       aParam :=['CPF',FCPFCNPJ];
+      if FAcao = tacIncluir then
+      begin
+        if Self.Localizar(aParam) then
+        begin
+          FQuery.Connection.Connected := False;
+          Finalize(aParam);
+          raise Exception.Create('CPf já cadastrado!');
+          Exit;
+        end;
+      end;
+      Finalize(aParam);
       if not FFunctions.CPF(FCPFCNPJ) then
       begin
         raise Exception.Create('CPf do cadastro incorreto!');
@@ -634,9 +640,27 @@ begin
     end
     else if FDOC = 'CNPJ' then
     begin
+      SetLength(aParam, 2);
+      aParam :=['CPF',FCPFCNPJ];
+      if FAcao = tacIncluir then
+      begin
+        if Self.Localizar(aParam) then
+        begin
+          FQuery.Connection.Connected := False;
+          Finalize(aParam);
+          raise Exception.Create('CNPJ já cadastrado!');
+          Exit;
+        end;
+      end;
+      Finalize(aParam);
       if not FFunctions.CNPJ(FCPFCNPJ) then
       begin
         raise Exception.Create('CNPJ do cadastro incorreto!');
+        Exit;
+      end;
+      if FFantasia = '' then
+      begin
+        raise Exception.Create('Informe o alias ou nome fantasia!');
         Exit;
       end;
     end;

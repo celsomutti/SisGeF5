@@ -10,9 +10,11 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
   ShowHint = True
+  Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
   PixelsPerInch = 96
@@ -141,8 +143,8 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
         Height = 359
         Align = alClient
         TabOrder = 1
-        ExplicitTop = 31
         object viewCadastro: TcxGridDBTableView
+          OnDblClick = viewCadastroDblClick
           Navigator.Buttons.CustomButtons = <>
           Navigator.Buttons.Images = Data_Sisgef.iml_16_16
           Navigator.Buttons.First.ImageIndex = 91
@@ -287,6 +289,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
           end
         end
         object viewDocumentos: TcxGridDBTableView
+          OnDblClick = viewDocumentosDblClick
           Navigator.Buttons.CustomButtons = <>
           Navigator.Buttons.Images = Data_Sisgef.iml_16_16
           Navigator.Buttons.First.ImageIndex = 91
@@ -404,6 +407,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
           end
         end
         object viewGR: TcxGridDBTableView
+          OnDblClick = viewGRDblClick
           Navigator.Buttons.CustomButtons = <>
           Navigator.Buttons.Images = Data_Sisgef.iml_16_16
           Navigator.Buttons.First.ImageIndex = 91
@@ -904,10 +908,12 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     object actionNewRegister: TAction
       Caption = '&Novo'
       Hint = 'Novo cadastro'
+      OnExecute = actionNewRegisterExecute
     end
     object actionEditRegister: TAction
       Caption = '&Editar'
       Hint = 'Editar cadastro'
+      OnExecute = actionEditRegisterExecute
     end
     object actionSetFilter: TAction
       Caption = '&Filtro'
@@ -1280,7 +1286,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     UpdateOptions.AutoCommitUpdates = True
     Left = 232
     Top = 278
-    object IntegerField1: TIntegerField
+    object memTableDocumentscod_cadastro: TIntegerField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'cod_cadastro'
     end
@@ -1347,7 +1353,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     UpdateOptions.AutoCommitUpdates = True
     Left = 232
     Top = 334
-    object IntegerField2: TIntegerField
+    object memtableGRcod_cadastro: TIntegerField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'cod_cadastro'
     end

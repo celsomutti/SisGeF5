@@ -29,6 +29,7 @@ type
     dxLayoutItem4: TdxLayoutItem;
     procedure actionEmitirExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -57,6 +58,11 @@ begin
     Exit;
   end;
   ModalResult := mrOk;
+end;
+
+procedure Tview_SisGeFContractEmission.FormShow(Sender: TObject);
+begin
+  dateContrato.Date := Now;
 end;
 
 end.

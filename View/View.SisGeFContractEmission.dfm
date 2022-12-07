@@ -13,7 +13,9 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  Position = poMainFormCenter
   ShowHint = True
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl

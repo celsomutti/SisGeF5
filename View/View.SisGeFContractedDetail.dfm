@@ -1,6 +1,7 @@
 object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Cadastro de Contratados'
   ClientHeight = 534
   ClientWidth = 796
@@ -637,10 +638,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 0
-        Width = 83
+        Width = 84
       end
       object textEditExpedidor: TcxTextEdit
-        Left = 254
+        Left = 255
         Top = 26
         Hint = 'Org'#227'o expedidor do RG'
         Properties.MaxLength = 20
@@ -651,7 +652,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Width = 98
       end
       object dateEditDataRG: TcxDateEdit
-        Left = 409
+        Left = 485
         Top = 26
         Hint = 'Data da emiss'#227'o do RG'
         Style.BorderColor = clWindowFrame
@@ -659,11 +660,11 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.HotTrack = False
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
-        TabOrder = 2
-        Width = 78
+        TabOrder = 3
+        Width = 79
       end
       object lookupComboBoxUFRG: TcxLookupComboBox
-        Left = 670
+        Left = 382
         Top = 26
         Properties.KeyFieldNames = 'uf_estado'
         Properties.ListColumns = <
@@ -676,11 +677,11 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.HotTrack = False
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
-        TabOrder = 4
-        Width = 48
+        TabOrder = 2
+        Width = 46
       end
       object dateEditNascimento: TcxDateEdit
-        Left = 562
+        Left = 639
         Top = 26
         Hint = 'Data do nascimento'
         Style.BorderColor = clWindowFrame
@@ -688,7 +689,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.HotTrack = False
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
-        TabOrder = 3
+        TabOrder = 4
         Width = 79
       end
       object textEditNomePai: TcxTextEdit
@@ -967,19 +968,17 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 75
         ControlOptions.ShowBorder = False
-        Index = 2
+        Index = 3
       end
       object layoutItemUFRG: TdxLayoutItem
         Parent = layoutGroupFisica1
-        AlignHorz = ahClient
-        AlignVert = avTop
         CaptionOptions.Hint = 'Sigla do estado emissor do RG'
         CaptionOptions.Text = 'UF:'
         Control = lookupComboBoxUFRG
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 46
         ControlOptions.ShowBorder = False
-        Index = 4
+        Index = 2
       end
       object layoutItemNascimento: TdxLayoutItem
         Parent = layoutGroupFisica1
@@ -990,7 +989,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 75
         ControlOptions.ShowBorder = False
-        Index = 3
+        Index = 4
       end
       object layoutGroupFisica1: TdxLayoutGroup
         Parent = layoutGroupPessoaFisica
@@ -999,6 +998,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
+        ItemIndex = 2
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 0
@@ -1270,7 +1270,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Left = 243
         Top = 46
         Hint = 'Tipo de endere'#231'o'
-        DataBinding.DataField = 'des_tipo_endereco'
+        DataBinding.DataField = 'des_tipo'
         DataBinding.DataSource = dsEnderecos
         Properties.Items.Strings = (
           'RESIDENCIAL'
@@ -1325,7 +1325,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Left = 89
         Top = 103
         Hint = 'Bairro do endere'#231'o'
-        DataBinding.DataField = 'nom_bairro'
+        DataBinding.DataField = 'des_bairro'
         DataBinding.DataSource = dsEnderecos
         Properties.MaxLength = 70
         Style.BorderColor = clWindowFrame
@@ -1450,15 +1450,18 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
           end
           object gridContatosDBTableView1des_contato: TcxGridDBColumn
             DataBinding.FieldName = 'des_contato'
-            Width = 240
+            Width = 238
           end
           object gridContatosDBTableView1num_telefone: TcxGridDBColumn
             DataBinding.FieldName = 'num_telefone'
-            Width = 96
+            PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
+            Properties.EditMask = '!\(99\)99999-9999;1; '
+            Width = 129
           end
           object gridContatosDBTableView1des_email: TcxGridDBColumn
             DataBinding.FieldName = 'des_email'
-            Width = 348
+            Width = 311
           end
         end
         object gridContatosLevel1: TcxGridLevel
@@ -1596,6 +1599,8 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Properties.DisplayChecked = '1'
         Properties.DisplayUnchecked = '0'
         Properties.NullStyle = nssUnchecked
+        Properties.ValueChecked = '1'
+        Properties.ValueUnchecked = '0'
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
@@ -1741,7 +1746,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Left = 597
         Top = 46
         Hint = 'CEP do endere'#231'o'
-        DataBinding.DataField = 'num_logradouro'
+        DataBinding.DataField = 'num_cep'
         DataBinding.DataSource = dsEnderecos
         Properties.Buttons = <
           item
@@ -2092,7 +2097,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avClient
         CaptionOptions.Text = 'cxDBCheckBox1'
         CaptionOptions.Visible = False
-        Visible = False
         Control = dbCheckBoxCorrespondencia
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 112
@@ -2259,8 +2263,8 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Width = 91
       Height = 25
       Cursor = crHandPoint
-      Action = actionCancelar
-      OptionsImage.ImageIndex = 84
+      Action = actionFechar
+      OptionsImage.ImageIndex = 98
       OptionsImage.Images = Data_Sisgef.iml_16_16
       TabOrder = 19
     end
@@ -2411,9 +2415,9 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Width = 121
     end
     object cxButton6: TcxButton
-      Left = 416
+      Left = 403
       Top = 498
-      Width = 79
+      Width = 92
       Height = 25
       Cursor = crHandPoint
       Action = actionContrato
@@ -2745,7 +2749,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       CaptionOptions.Visible = False
       Control = cxButton6
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 79
+      ControlOptions.OriginalWidth = 92
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -2839,7 +2843,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     object memTableContatosnum_telefone: TStringField
       DisplayLabel = 'Telefone'
       FieldName = 'num_telefone'
-      EditMask = '!\(99\)0000-0000;1; '
       Size = 15
     end
     object memTableContatosdes_email: TStringField
@@ -2856,11 +2859,11 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
   end
   object actionListCadastro: TActionList
     Left = 640
+    Top = 24
     object actionIncluir: TAction
       Caption = 'Incluir'
       Hint = 'Incluir novo cadastro'
       ShortCut = 113
-      OnExecute = actionIncluirExecute
     end
     object actionLocalizar: TAction
       Caption = 'Localizar'
@@ -2872,7 +2875,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Caption = 'Editar'
       Hint = 'Editar dados do cadastro'
       ShortCut = 114
-      OnExecute = actionEditarExecute
     end
     object actionCancelar: TAction
       Caption = '&Cancelar'
@@ -2883,6 +2885,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Caption = '&Gravar'
       Hint = 'Gravar os dados'
       ShortCut = 116
+      OnExecute = actionGravarExecute
     end
     object actionDocumentosVencidos: TAction
       Caption = 'Vencimento de Documentos'
@@ -2903,14 +2906,17 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     object actionContrato: TAction
       Caption = 'Contrato'
       Hint = 'Emitir contrato de servi'#231'o'
+      OnExecute = actionContratoExecute
     end
     object actionFechar: TAction
-      Caption = 'Fechar'
+      Caption = '&Fechar'
       Hint = 'Fechar a tela'
+      OnExecute = actionFecharExecute
     end
     object actionAnexarDocumentos: TAction
       Caption = '&Anexos'
       Hint = 'Anexar documentos'
+      OnExecute = actionAnexarDocumentosExecute
     end
     object actionNovoVeiculo: TAction
       Caption = 'Novo'

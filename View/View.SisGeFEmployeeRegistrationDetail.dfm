@@ -1007,7 +1007,7 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     Font.Style = []
   end
   object cxButton1: TcxButton
-    Left = 573
+    Left = 572
     Top = 427
     Width = 75
     Height = 25

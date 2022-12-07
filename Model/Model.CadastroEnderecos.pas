@@ -95,7 +95,7 @@ begin
     FDQuery := FConexao.ReturnQuery();
     sSQL := 'delete from ' + TABLENAME + ' ' +
             'where cod_entregador = :pcod_entregador;';
-    FDQuery.ExecSQL(sSQL,[Self.ID, Self.FTipo]);
+    FDQuery.ExecSQL(sSQL,[Self.ID]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -207,7 +207,7 @@ function TCadastroEnderecos.SaveBatch(memTable: TFDMemTable): Boolean;
   memTable.First;
   while not memTable.Eof do
   begin
-    Self.ID := memTable.FieldByName('cod_entregador').AsInteger;
+    Self.ID := FID;
     Self.Sequencia := GetID(memTable.FieldByName('cod_entregador').AsInteger);
     Self.Tipo := memTable.FieldByName('des_tipo').AsString;
     Self.Logradouro := memTable.FieldByName('des_logradouro').AsString;

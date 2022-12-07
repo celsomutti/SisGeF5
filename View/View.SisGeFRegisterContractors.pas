@@ -12,7 +12,7 @@ uses
   cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGridBandedTableView,
   cxGridDBBandedTableView, cxCheckBox, cxFilterControl, cxDBFilterControl, Vcl.FileCtrl, cxCalendar, Common.Utils,
-  FireDAC.Stan.Async, FireDAC.DApt, Control.Cadastro, System.DateUtils;
+  FireDAC.Stan.Async, FireDAC.DApt, Control.Cadastro, System.DateUtils, Common.ENum;
 
 type
   Tview_SisGeFRegisterContractors = class(TForm)
@@ -95,7 +95,7 @@ type
     dxBarLargeButton8: TdxBarLargeButton;
     dxBarLargeButton9: TdxBarLargeButton;
     memTableDocuments: TFDMemTable;
-    IntegerField1: TIntegerField;
+    memTableDocumentscod_cadastro: TIntegerField;
     StringField1: TStringField;
     StringField2: TStringField;
     memTableDocumentsnum_cnh: TStringField;
@@ -118,7 +118,7 @@ type
     viewDocumentosano_exercicio_clrv: TcxGridDBColumn;
     viewDocumentosnum_renavan: TcxGridDBColumn;
     memTableGR: TFDMemTable;
-    IntegerField2: TIntegerField;
+    memtableGRcod_cadastro: TIntegerField;
     StringField3: TStringField;
     StringField4: TStringField;
     StringField5: TStringField;
@@ -228,6 +228,11 @@ type
     procedure actionRetractGridExecute(Sender: TObject);
     procedure actionGroupPanelExecute(Sender: TObject);
     procedure actionClearSearchExecute(Sender: TObject);
+    procedure actionNewRegisterExecute(Sender: TObject);
+    procedure actionEditRegisterExecute(Sender: TObject);
+    procedure viewCadastroDblClick(Sender: TObject);
+    procedure viewDocumentosDblClick(Sender: TObject);
+    procedure viewGRDblClick(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -246,6 +251,8 @@ type
     procedure SaveFilter;
     procedure LoadFilter;
     procedure ClearSearch;
+    procedure NewRegister;
+    procedure EditRegister;
   public
     { Public declarations }
   end;
@@ -258,7 +265,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, View.SisGeFContractedDetail;
 
  { Tview_SisGeFRegisterContractors }
 
@@ -287,6 +294,11 @@ begin
   SearchDocuments;
 end;
 
+procedure Tview_SisGeFRegisterContractors.actionEditRegisterExecute(Sender: TObject);
+begin
+  EditRegister;
+end;
+
 procedure Tview_SisGeFRegisterContractors.actionExpandGridExecute(Sender: TObject);
 begin
   ExpandGrid;
@@ -305,6 +317,11 @@ end;
 procedure Tview_SisGeFRegisterContractors.actionLocateRecordExecute(Sender: TObject);
 begin
   LocateRegister('');
+end;
+
+procedure Tview_SisGeFRegisterContractors.actionNewRegisterExecute(Sender: TObject);
+begin
+  NewRegister;
 end;
 
 procedure Tview_SisGeFRegisterContractors.actionRetractGridExecute(Sender: TObject);
@@ -393,6 +410,29 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFRegisterContractors.EditRegister;
+var
+  iID : integer;
+begin
+  case FSearch of
+    0 : iID := memTableRecordscod_cadastro.AsInteger;
+    1 : iID := memTableDocumentscod_cadastro.AsInteger;
+    2 : iID := memtableGRcod_cadastro.AsInteger;
+    else
+      iID := 0;
+  end;
+  if iID = 0 then
+    Exit;
+  if not Assigned(view_SisGeFContractedDetail) then
+  begin
+    view_SisGeFContractedDetail := Tview_SisGeFContractedDetail.Create(Application);
+  end;
+  view_SisGeFContractedDetail.ID := iID;
+  view_SisGeFContractedDetail.Acao := tacAlterar;
+  view_SisGeFContractedDetail.ShowModal;
+  FreeAndNil(view_SisGeFContractedDetail);
+end;
+
 procedure Tview_SisGeFRegisterContractors.EndForm;
 begin
   memTableRecords.Active := False;
@@ -479,10 +519,26 @@ begin
       FCadastro.Cadastro.Query.Connection.Connected := False;
       viewCadastro.DataController.DataSource.DataSet.First;
       gridCadastro.SetFocus;
+    end
+    else
+    begin
+      MessageDlg('Nenhum registro encontrado!', mtWarning, [mbCancel], 0);
     end;
   finally
     FCadastro.DisposeOf;
   end;
+end;
+
+procedure Tview_SisGeFRegisterContractors.NewRegister;
+begin
+  if not Assigned(view_SisGeFContractedDetail) then
+  begin
+    view_SisGeFContractedDetail := Tview_SisGeFContractedDetail.Create(Application);
+  end;
+  view_SisGeFContractedDetail.ID := 0;
+  view_SisGeFContractedDetail.Acao := tacIncluir;
+  view_SisGeFContractedDetail.ShowModal;
+  FreeAndNil(view_SisGeFContractedDetail);
 end;
 
 procedure Tview_SisGeFRegisterContractors.PanelGroup;
@@ -590,6 +646,21 @@ end;
 procedure Tview_SisGeFRegisterContractors.StartForm;
 begin
   SearchRecords;
+end;
+
+procedure Tview_SisGeFRegisterContractors.viewCadastroDblClick(Sender: TObject);
+begin
+  EditRegister;
+end;
+
+procedure Tview_SisGeFRegisterContractors.viewDocumentosDblClick(Sender: TObject);
+begin
+  EditRegister;
+end;
+
+procedure Tview_SisGeFRegisterContractors.viewGRDblClick(Sender: TObject);
+begin
+  EditRegister;
 end;
 
 end.

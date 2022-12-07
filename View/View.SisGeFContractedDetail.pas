@@ -14,7 +14,7 @@ uses
   Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Cadastro, Control.Estados,
   Control.CadastroEnderecos, Control.CadastroContatos, System.DateUtils, dxLayoutLookAndFeels, dxLayoutControlAdapters, Vcl.Menus,
   Vcl.StdCtrls, cxButtons, FireDAC.Stan.StorageBin, Controller.SisGeFVehiclesRegistration, Controller.APICEP, Controller.APICNPJ,
-  System.StrUtils, cxButtonEdit;
+  System.StrUtils, cxButtonEdit, Global.Parametros;
 
 type
   Tview_SisGeFContractedDetail = class(TForm)
@@ -277,9 +277,7 @@ type
     dxLayoutItem14: TdxLayoutItem;
     procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure actionIncluirExecute(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
-    procedure actionEditarExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCancelarExecute(Sender: TObject);
     procedure actionEditarVeiculoExecute(Sender: TObject);
@@ -288,6 +286,10 @@ type
     procedure actionPesquisaCNPJExecute(Sender: TObject);
     procedure actionPesquisaCEPExecute(Sender: TObject);
     procedure actionPesquisaCNPJMEIExecute(Sender: TObject);
+    procedure actionGravarExecute(Sender: TObject);
+    procedure actionFecharExecute(Sender: TObject);
+    procedure actionAnexarDocumentosExecute(Sender: TObject);
+    procedure actionContratoExecute(Sender: TObject);
   private
     FAcao: TAcao;
     FID: integer;
@@ -297,7 +299,7 @@ type
     procedure SetupClassCadastro(FCadastro: TCadastroControl);
     procedure PopulaBancos;
     procedure PopulaEstados;
-    procedure PesquisaCadastro;
+    function PesquisaCadastro(): boolean;
     procedure PopulaEnderecos(iCadastro: Integer);
     procedure PopulaContatos(iCadastro: Integer);
     procedure PopulaVeiculos(iCadastro: integer);
@@ -312,6 +314,9 @@ type
     procedure ImprimeContratoPF(sData: String);
     procedure ImprimeContratoPJ(sData: String);
     procedure EmiteContrato;
+    procedure EditarCadastro;
+    Procedure NovoCadastro;
+    procedure AnexarDocumento;
   public
     property Acao: TAcao read FAcao write FAcao;
     property ID: integer read FID write FID;
@@ -328,6 +333,11 @@ implementation
 uses Data.SisGeF, View.SisaGeFAttachDocuments, View.SisGeFVehicleRegistrationDetail, View.ListaCEPs, View.ResultadoConsultaCNPJ,
      View.SisGeFContractEmission, View.Impressao;
 
+procedure Tview_SisGeFContractedDetail.actionAnexarDocumentosExecute(Sender: TObject);
+begin
+  AnexarDocumento;
+end;
+
 procedure Tview_SisGeFContractedDetail.actionCancelarExecute(Sender: TObject);
 begin
   if FAcao <> tacIndefinido then
@@ -337,10 +347,9 @@ begin
   end;
 end;
 
-procedure Tview_SisGeFContractedDetail.actionEditarExecute(Sender: TObject);
+procedure Tview_SisGeFContractedDetail.actionContratoExecute(Sender: TObject);
 begin
-  Modo;
-  comboBoxTipoPessoa.SetFocus;
+  EmiteContrato;
 end;
 
 procedure Tview_SisGeFContractedDetail.actionEditarVeiculoExecute(Sender: TObject);
@@ -349,10 +358,25 @@ if not memTableVeiculos.IsEmpty then
     EditarVeiculo(memTableVeiculosCOD_ENTREGADOR.AsInteger, memTableVeiculosCOD_VEICULO.AsInteger);
 end;
 
-procedure Tview_SisGeFContractedDetail.actionIncluirExecute(Sender: TObject);
+procedure Tview_SisGeFContractedDetail.actionFecharExecute(Sender: TObject);
 begin
-  Modo;
-  comboBoxTipoPessoa.SetFocus;
+  ModalResult := mrCancel;
+end;
+
+procedure Tview_SisGeFContractedDetail.actionGravarExecute(Sender: TObject);
+begin
+  if SalvarDados then
+  begin
+    if FAcao = tacIncluir then
+    begin
+      FAcao := tacAlterar;
+      Modo;
+    end
+    else
+    begin
+      ModalResult := mrOk;
+    end;
+  end;
 end;
 
 procedure Tview_SisGeFContractedDetail.actionLocalizarExecute(Sender: TObject);
@@ -378,6 +402,21 @@ end;
 procedure Tview_SisGeFContractedDetail.actionPesquisaCNPJMEIExecute(Sender: TObject);
 begin
   SearchCNPJMEI(buttonEditCNPJMEI.Text);
+end;
+
+procedure Tview_SisGeFContractedDetail.AnexarDocumento;
+var
+  sPast : string;
+  FFunctions: TUtils;
+begin
+  FFunctions := TUtils.Create;
+  Global.Parametros.pPasta := FFunctions.LeIni(ExtractFilePath(Application.ExeName) + 'database.ini', 'Database', 'Folder');
+  sPast := Global.Parametros.pPasta + '\' + maskEditID.Text;
+  if not Assigned(view_SisgeFAttachDocuments) then
+    view_SisgeFAttachDocuments := Tview_SisgeFAttachDocuments.Create(Application);
+  view_SisgeFAttachDocuments.FPasta := sPast;
+  view_SisgeFAttachDocuments.Show;
+  FFunctions.Free;
 end;
 
 procedure Tview_SisGeFContractedDetail.checkBoxStatusPropertiesChange(Sender: TObject);
@@ -466,6 +505,15 @@ begin
 
 end;
 
+procedure Tview_SisGeFContractedDetail.EditarCadastro;
+begin
+  if not PesquisaCadastro() then
+    ModalResult := mrOk;
+    Exit;
+  Modo;
+  comboBoxTipoPessoa.SetFocus;
+end;
+
 procedure Tview_SisGeFContractedDetail.EditarVeiculo(iCadastro, iVeiculo: integer);
 begin
   if not Assigned(view_SisGeFVehiclesRegistrationDetail) then
@@ -489,7 +537,7 @@ var
 begin
   try
     if not Assigned(view_SisGeFContractEmission) then begin
-      view_SisGeFContractEmission := Tview_SisGeFContractEmission(Application);
+      view_SisGeFContractEmission := Tview_SisGeFContractEmission.Create(Application);
     end;
     if view_SisGeFContractEmission.ShowModal = mrCancel Then
       Exit;
@@ -510,6 +558,8 @@ procedure Tview_SisGeFContractedDetail.FormClose(Sender: TObject; var Action: TC
 begin
   if memTableEnderecos.Active then memTableEnderecos.Close;
   if memTableContatos.Active then memTableContatos.Close;
+  memTableBancos.Active := False;
+  memTableEstados.Active := False;
   Action := caFree;
   view_SisGeFContractedDetail := nil;
 end;
@@ -520,8 +570,8 @@ begin
   PopulaEstados;
   Modo;
   case FAcao of
-    tacIncluir : actionIncluir.Execute;
-    tacAlterar : actionEditar.Execute;
+    tacIncluir : NovoCadastro;
+    tacAlterar : EditarCadastro;
     else
       Exit;
   end;
@@ -587,8 +637,8 @@ begin
     if not Assigned(view_Impressao) then begin
       view_Impressao := Tview_Impressao.Create(Application);
     end;
-    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - PESSOA FÍSICA';
-    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\Reports\frxContratoServico.fr3';
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - PESSOA JURÍDICA';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\frxContratoServico.fr3';
     if view_Impressao.ShowModal <> mrOk then
     begin
       FreeAndNil(view_Impressao);
@@ -716,7 +766,7 @@ begin
     actionEditarVeiculo.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
     comboBoxTipoPessoa.Properties.ReadOnly := False;
-    maskEditCPCNPJ.Properties.ReadOnly := True;
+    maskEditCPCNPJ.Properties.ReadOnly := False;
     textEditNome.Properties.ReadOnly := False;
     textEditRG.Properties.ReadOnly := False;
     textEditExpedidor.Properties.ReadOnly := False;
@@ -753,6 +803,8 @@ begin
     dateEditValidadeGR.Properties.ReadOnly := False;
     textEditNumeroConsultaGR.Properties.ReadOnly := False;
     memoObservacoes.Properties.ReadOnly := False;
+    memTableEnderecos.Active := True;
+    memTableContatos.Active := True;
     dsEnderecos.AutoEdit := True;
     dsContatos.AutoEdit := True;
   end
@@ -767,7 +819,7 @@ begin
     actionVencimentoGR.Enabled := False;
     actionFichaDIRECT.Enabled := False;
     actionSolicitarGR.Enabled := False;
-    actionContrato.Enabled := False;
+    actionContrato.Enabled := True;
     actionAnexarDocumentos.Enabled := True;
     actionNovoVeiculo.Enabled := True;
     actionEditarVeiculo.Enabled := True;
@@ -872,13 +924,20 @@ begin
   end;
 end;
 
-procedure Tview_SisGeFContractedDetail.PesquisaCadastro;
+procedure Tview_SisGeFContractedDetail.NovoCadastro;
+begin
+  Modo;
+  comboBoxTipoPessoa.SetFocus;
+end;
+
+function Tview_SisGeFContractedDetail.PesquisaCadastro: boolean;
 var
   aParam: array of variant;
   cadastro : TCadastroControl;
 begin
   try
     cadastro := TCadastroControl.Create;
+    Result := False;
     SetLength(aParam,2);
     aparam := ['CADASTRO', FID];
     if cadastro.Localizar(aParam) then
@@ -898,9 +957,10 @@ begin
       Application.MessageBox('Cadastro não localizado!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
       Exit;
     end;
-    Finalize(aParam);
+    Result := True;
   finally
-    cadastro.Free;
+    Finalize(aParam);
+    cadastro.DisposeOf;
   end;
 end;
 
@@ -947,8 +1007,9 @@ begin
     begin
       memTableContatos.CopyDataSet(FContatos.Contatos.Query);
     end;
-    FContatos.Contatos.Query.Close;
     FContatos.Contatos.Query.Connection.Close;
+    if not memTableContatos.Active then
+      memTableContatos.Active := True
   finally
     FContatos.Free;
   end;
@@ -971,8 +1032,9 @@ begin
     begin
       memTableEnderecos.CopyDataSet(Fenderecos.Enderecos.Query);
     end;
-    Fenderecos.Enderecos.Query.Close;
     Fenderecos.Enderecos.Query.Connection.Close;
+    if not memTableEnderecos.Active then
+      memTableEnderecos.Active := True;
   finally
     FEnderecos.Free;
   end;
@@ -1007,13 +1069,17 @@ procedure Tview_SisGeFContractedDetail.PopulaVeiculos(iCadastro: integer);
 var
   sMensagem: String;
   FVeiculos: TControllerSisGeFVehiclesRegistration;
+  aParam : array of variant;
 begin
   try
     memTableVeiculos.Active := False;
     FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
-    if FVeiculos.SearchVehicle(1, '', iCadastro.ToString) then
+    SetLength(aParam,2);
+    aParam := ['CADASTRO',iCadastro];
+    if FVeiculos.Search(aParam) then
     begin
-      memTableVeiculos.Data := FVeiculos.Veiculos.Query.Data;
+      memTableVeiculos.Active := True;
+      memTableVeiculos.CopyDataSet(FVeiculos.Veiculos.Query);
       FVeiculos.Veiculos.Query.Connection.Connected := False;
       if not memTableVeiculos.IsEmpty then
         gridVeiculosDBTableView1.DataController.DataSource.DataSet.First;
@@ -1040,6 +1106,8 @@ begin
     begin
       Exit;
     end;
+   if MessageDlg('Confirma salvar os dados ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+     Exit;
    SetupClassCadastro(FCadastro);
    FCadastro.Cadastro.Acao := FAcao;
    if not FCadastro.Gravar() then
@@ -1061,7 +1129,7 @@ begin
        Exit;
     end;
     fcontatos.Contatos.ID := FCadastro.Cadastro.Cadastro;
-    fcontatos.Contatos.Sequencia := 0;
+    fcontatos.Contatos.Sequencia := -1;
     fcontatos.Contatos.Acao := tacExcluir;
     if not fcontatos.Gravar then
     begin
@@ -1074,11 +1142,6 @@ begin
       Exit;
     end;
     MessageDlg('Dados gravados com sucesso.', mtInformation, [mbOK], 0);
-    if FAcao = tacIncluir then
-    begin
-      FAcao := tacAlterar;
-      Modo;
-    end;
     Result := True;
   finally
     FCadastro.DisposeOf;
@@ -1129,7 +1192,7 @@ begin
       memTableEnderecosnom_bairro.AsString := APICEP.APICEP.Enderecos.Bairro;
       memTableEnderecosnom_cidade.AsString := APICEP.APICEP.Enderecos.Cidade;
       memTableEnderecosuf_estado.AsString := APICEP.APICEP.Enderecos.UF;
-      memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
+      //memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
     end;
   finally
     APICEP.Free;
@@ -1247,7 +1310,10 @@ end;
 procedure Tview_SisGeFContractedDetail.SetupClassCadastro(FCadastro: TCadastroControl);
 begin
   FCadastro.Cadastro.Cadastro := maskEditID.EditValue;
-  FCadastro.Cadastro.Doc := comboBoxTipoPessoa.Text;
+  if comboBoxTipoPessoa.ItemIndex = 2 then
+    FCadastro.Cadastro.Doc := 'CNPJ'
+  else
+    FCadastro.Cadastro.Doc := 'CPF';
   FCadastro.Cadastro.CPFCNPJ := maskEditCPCNPJ.EditValue;
   FCadastro.Cadastro.Nome := textEditNome.Text;
   FCadastro.Cadastro.IERG := textEditRG.Text;
@@ -1267,7 +1333,15 @@ begin
   FCadastro.Cadastro.DataPrimeiraCNH := dateEditPrimeiraCNH.Date;
   FCadastro.Cadastro.UFCNH := lookupComboBoxUFCNH.EditValue;
   FCadastro.Cadastro.Fantasia := textEditNomeFantasia.Text;
-  FCadastro.Cadastro.IERG := textEditIE.Text;
+  if FCadastro.Cadastro.Doc = 'CNPJ' then
+  begin
+    FCadastro.Cadastro.IERG := textEditIE.Text;
+  end
+  else
+  begin
+    FCadastro.Cadastro.IERG := textEditRG.Text;
+    FCadastro.Cadastro.UFRG := lookupComboBoxUFRG.EditingText;
+  end;
   FCadastro.Cadastro.IEST := textEditIEST.Text;
   FCadastro.Cadastro.IM := textEditIM.Text;
   FCadastro.Cadastro.CNAE := textEditCNAE.Text;
@@ -1282,7 +1356,8 @@ begin
   FCadastro.Cadastro.Chave := textEditChavePIX.Text;
   FCadastro.Cadastro.GV := checkBoxStatusGR.EditValue;
   FCadastro.Cadastro.EmpresaGR := textEditEmpresaGR.Text;
-  FCadastro.Cadastro.DataGV := dateEditValidadeGR.Date;
+  if dateEditValidadeGR.Text <> '' then
+    FCadastro.Cadastro.DataGV := dateEditValidadeGR.Date;
   FCadastro.Cadastro.NumeroConsultaGR := textEditNumeroConsultaGR.Text;
   FCadastro.Cadastro.Obs := memoObservacoes.Text;
   FCadastro.Cadastro.Status := checkBoxStatus.EditValue;
@@ -1298,6 +1373,7 @@ begin
   textEditExpedidor.Text := FCadastro.Cadastro.EmissorRG;
   dateEditDataRG.Date := FCadastro.Cadastro.EMissaoRG;
   dateEditNascimento.Date := FCadastro.Cadastro.Nascimento;
+  lookupComboBoxUFRG.EditValue := FCadastro.Cadastro.UFRG;
   textEditNomePai.Text := FCadastro.Cadastro.Pai;
   textEditNomeMae.Text := FCadastro.Cadastro.Mae;
   textEditNaturalidade.Text := FCadastro.Cadastro.CidadeNascimento;
@@ -1316,6 +1392,10 @@ begin
   textEditIM.Text := FCadastro.Cadastro.IM;
   textEditCNAE.Text := FCadastro.Cadastro.CNAE;
   comboBoxCRT.ItemIndex := FCadastro.Cadastro.CRT;
+  textEditCodigoMEI.Text := FCadastro.Cadastro.MEI;
+  buttonEditCNPJMEI.Text := FCadastro.Cadastro.CNPJMEI;
+  textEditRazaoMEI.Text := FCadastro.Cadastro.RazaoMEI;
+  textEditFantasiaMEI.Text := FCadastro.Cadastro.FantasiaMEI;
   comboBoxFormaPagamento.Text := FCadastro.Cadastro.FormaPagamento;
   comboBoxTipoConta.Text := FCadastro.Cadastro.TipoConta;
   lookupComboBoxBanco.EditValue := FCadastro.Cadastro.Banco;
@@ -1389,7 +1469,8 @@ begin
         textEditNomeFantasia.SetFocus;
         Exit;
       end;
-      if maskEditCPFCNPJFavorecido.Text <> '' then
+
+      if Length(Trim(maskEditCPFCNPJFavorecido.Text)) = 14 then
       begin
         if not Common.Utils.TUtils.CPF(maskEditCPFCNPJFavorecido.Text) then
         begin
@@ -1397,7 +1478,17 @@ begin
           maskEditCPFCNPJFavorecido.SetFocus;
           Exit;
         end;
+      end
+      else if Length(Trim(maskEditCPFCNPJFavorecido.Text)) = 18 then
+      begin
+        if not Common.Utils.TUtils.CNPJ(maskEditCPFCNPJFavorecido.Text) then
+        begin
+          Application.MessageBox('CNPJ do Favorecido incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          maskEditCPFCNPJFavorecido.SetFocus;
+          Exit;
+        end;
       end;
+
     end;
     if comboBoxTipoPessoa.ItemIndex = 1 then
     begin
@@ -1423,7 +1514,7 @@ begin
             dateEditDataRG.SetFocus;
             Exit;
           end;
-          if lookupComboBoxUFRG.Text = '' then
+          if lookupComboBoxUFRG.EditText = '' then
           begin
             Application.MessageBox('Informe a UF do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
             lookupComboBoxUFRG.SetFocus;
@@ -1454,7 +1545,16 @@ begin
           end;
         end;
       end;
-      if maskEditCPFCNPJFavorecido.Text <> '' then
+      if Length(Trim(maskEditCPFCNPJFavorecido.Text)) = 14 then
+      begin
+        if not Common.Utils.TUtils.CPF(maskEditCPFCNPJFavorecido.Text) then
+        begin
+          Application.MessageBox('CPF do Favorecido incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          maskEditCPFCNPJFavorecido.SetFocus;
+          Exit;
+        end;
+      end
+      else if Length(Trim(maskEditCPFCNPJFavorecido.Text)) = 18 then
       begin
         if not Common.Utils.TUtils.CNPJ(maskEditCPFCNPJFavorecido.Text) then
         begin
