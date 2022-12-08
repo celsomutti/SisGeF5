@@ -20,6 +20,7 @@ type
     aParam: Array of variant;
     iPos : Integer;
     FTiragens : TControllerSisGeFTiragens;
+    FUltimaData: string;
     procedure UpdateLOG(sMensagem: String);
     procedure ImportPrintRuns;
     function ReturnDate(): String;
@@ -33,6 +34,7 @@ type
     property TotalRegistros: Integer read FTotalRegistros write FTotalRegistros;
     property TotalGravados: Integer read FTotalGravados write FTotalGravados;
     property TotalInconsistencias: Integer read FTotalInconsistencias write FTotalInconsistencias;
+    property UltimaData: string read FUltimaData write FUltimaData;
     property Cancelar: Boolean read FCancelar write FCancelar;
   end;
 
@@ -113,6 +115,15 @@ begin
         UpdateLog(sMensagem);
         FProcesso := False;
         FCancelar := True;
+        Abort;
+      end;
+      if StrToDate(sData) > (StrToDate(UltimaData) + 1) then
+      begin
+        sMensagem := 'Arquivo com data de tiragem maior que a esperada!';
+        UpdateLog(sMensagem);
+        FProcesso := False;
+        FCancelar := True;
+        Abort;
       end;
       Inc(IPOS,1);
       while not Data_Sisgef.memTableImport.Eof do

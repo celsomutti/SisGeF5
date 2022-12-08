@@ -2,32 +2,34 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
   Left = 0
   Top = 0
   Caption = 'Importa'#231#227'o de Tiragens'
-  ClientHeight = 346
+  ClientHeight = 371
   ClientWidth = 577
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+  Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
     Width = 577
-    Height = 346
+    Height = 371
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitHeight = 346
     object nomeArquivo: TcxButtonEdit
-      Left = 56
-      Top = 10
+      Left = 63
+      Top = 12
       Hint = 'Nome do arquivo da planilha a ser importada'
       Properties.Buttons = <
         item
@@ -38,11 +40,11 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
       Properties.Images = Data_Sisgef.iml_16_16
       Style.HotTrack = False
       TabOrder = 0
-      Width = 419
+      Width = 409
     end
     object cxButton1: TcxButton
-      Left = 481
-      Top = 10
+      Left = 479
+      Top = 12
       Width = 86
       Height = 25
       Cursor = crHandPoint
@@ -50,17 +52,17 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
       TabOrder = 1
     end
     object cxButton2: TcxButton
-      Left = 484
-      Top = 302
+      Left = 482
+      Top = 325
       Width = 83
       Height = 25
       Cursor = crHandPoint
       Action = actionClose
-      TabOrder = 7
+      TabOrder = 8
     end
     object registrosEncontrados: TcxMaskEdit
-      Left = 10
-      Top = 59
+      Left = 12
+      Top = 65
       Hint = 'Total de registros encontrados no arquivo'
       Properties.Alignment.Horz = taRightJustify
       Properties.IgnoreMaskBlank = True
@@ -69,11 +71,11 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
       Style.HotTrack = False
       TabOrder = 2
       Text = '0'
-      Width = 109
+      Width = 118
     end
     object registrosGravados: TcxMaskEdit
-      Left = 10
-      Top = 104
+      Left = 12
+      Top = 116
       Hint = 'Total de registros gravados'
       Properties.Alignment.Horz = taRightJustify
       Properties.IgnoreMaskBlank = True
@@ -82,11 +84,11 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
       Style.HotTrack = False
       TabOrder = 3
       Text = '0'
-      Width = 109
+      Width = 118
     end
     object registrosRejeitados: TcxMaskEdit
-      Left = 10
-      Top = 149
+      Left = 12
+      Top = 167
       Properties.Alignment.Horz = taRightJustify
       Properties.IgnoreMaskBlank = True
       Properties.MaskKind = emkRegExpr
@@ -94,31 +96,46 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
       Style.HotTrack = False
       TabOrder = 4
       Text = '0'
-      Width = 109
+      Width = 118
     end
     object memoLog: TcxMemo
-      Left = 10
-      Top = 194
+      Left = 12
+      Top = 220
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 5
-      Height = 93
-      Width = 557
+      TabOrder = 6
+      Height = 89
+      Width = 553
     end
     object indicator: TdxActivityIndicator
-      Left = 10
-      Top = 293
+      Left = 12
+      Top = 316
       Width = 41
       Height = 43
       PropertiesClassName = 'TdxActivityIndicatorCircularDotsProperties'
       Transparent = True
+    end
+    object ultimasTiragens: TcxListBox
+      Left = 228
+      Top = 65
+      Width = 121
+      Height = 127
+      ItemHeight = 15
+      ParentFont = False
+      Style.Font.Charset = ANSI_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Segoe UI'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      TabOrder = 5
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 2
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end
@@ -161,6 +178,8 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
+      LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
     end
@@ -172,7 +191,7 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -187,52 +206,44 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
       Index = 1
     end
     object dxLayoutItem4: TdxLayoutItem
-      Parent = dxLayoutGroup2
-      AlignHorz = ahLeft
-      AlignVert = avTop
+      Parent = dxLayoutGroup4
       CaptionOptions.Text = 'Registros encontrados'
       CaptionOptions.Layout = clTop
       Control = registrosEncontrados
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 109
       ControlOptions.ShowBorder = False
       Index = 0
     end
     object dxLayoutItem5: TdxLayoutItem
-      Parent = dxLayoutGroup2
-      AlignHorz = ahLeft
-      AlignVert = avTop
+      Parent = dxLayoutGroup4
       CaptionOptions.Text = 'Registros gravados'
       CaptionOptions.Layout = clTop
       Control = registrosGravados
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 109
       ControlOptions.ShowBorder = False
       Index = 1
     end
     object dxLayoutItem6: TdxLayoutItem
-      Parent = dxLayoutGroup2
-      AlignHorz = ahLeft
-      AlignVert = avTop
+      Parent = dxLayoutGroup4
       CaptionOptions.Text = 'Registros rejeitados'
       CaptionOptions.Layout = clTop
       Control = registrosRejeitados
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 109
       ControlOptions.ShowBorder = False
       Index = 2
     end
     object dxLayoutItem7: TdxLayoutItem
-      Parent = dxLayoutGroup2
-      AlignHorz = ahClient
-      AlignVert = avClient
+      Parent = dxLayoutGroup5
       CaptionOptions.Text = 'LOG:'
       CaptionOptions.Layout = clTop
       Control = memoLog
       ControlOptions.OriginalHeight = 89
       ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 0
     end
     object dxLayoutItem8: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -243,6 +254,45 @@ object view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports
       Control = indicator
       ControlOptions.OriginalHeight = 43
       ControlOptions.OriginalWidth = 41
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup4: TdxLayoutGroup
+      Parent = dxLayoutGroup2
+      AlignHorz = ahLeft
+      AlignVert = avClient
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ItemIndex = 2
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup5: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup6: TdxLayoutGroup
+      Parent = dxLayoutGroup2
+      AlignHorz = ahCenter
+      AlignVert = avClient
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      Padding.AssignedValues = [lpavLeft, lpavRight]
+      ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem9: TdxLayoutItem
+      Parent = dxLayoutGroup6
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = #217'ltimas Tiragens'
+      CaptionOptions.Layout = clTop
+      Control = ultimasTiragens
+      ControlOptions.OriginalHeight = 97
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end

@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore,
   dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxTextEdit,
   cxMaskEdit, cxButtonEdit, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, System.Actions, Vcl.ActnList, Vcl.ComCtrls,
-  dxCore, cxDateUtils, cxDropDownEdit, cxCalendar, cxMemo, Thread.PrintRunsImport, Vcl.ExtCtrls, dxActivityIndicator;
+  dxCore, cxDateUtils, cxDropDownEdit, cxCalendar, cxMemo, Thread.PrintRunsImport, Vcl.ExtCtrls, dxActivityIndicator, cxListView,
+  Controller.SisGeFTiragens, cxCustomListBox, cxListBox;
 
 type
   Tview_SisGeFPrintRunsImports = class(TForm)
@@ -38,11 +39,17 @@ type
     indicator: TdxActivityIndicator;
     dxLayoutItem8: TdxLayoutItem;
     OpenDialog: TOpenDialog;
+    dxLayoutGroup4: TdxLayoutGroup;
+    dxLayoutGroup5: TdxLayoutGroup;
+    dxLayoutGroup6: TdxLayoutGroup;
+    ultimasTiragens: TcxListBox;
+    dxLayoutItem9: TdxLayoutItem;
     procedure actionCloseExecute(Sender: TObject);
     procedure actionLocateFileExecute(Sender: TObject);
     procedure actionImportFileExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure TimerTimer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     procedure UpdateDashboard;
@@ -50,6 +57,7 @@ type
     procedure OpenFile;
     procedure TermineProcess;
     function Validate(): boolean;
+    procedure PopulateLastDates;
   public
     { Public declarations }
   end;
@@ -57,7 +65,7 @@ type
 var
   view_SisGeFPrintRunsImports: Tview_SisGeFPrintRunsImports;
   FTiragem : TThread_PrintRunsImport;
-  sFile: string;
+  sFile, sLastDate: string;
 
 implementation
 
@@ -88,11 +96,45 @@ begin
   view_SisGeFPrintRunsImports := nil;
 end;
 
+procedure Tview_SisGeFPrintRunsImports.FormShow(Sender: TObject);
+begin
+  PopulateLastDates;
+end;
+
 procedure Tview_SisGeFPrintRunsImports.OpenFile;
 begin
   if OpenDialog.Execute then
   begin
     nomeArquivo.Text := OpenDialog.FileName;
+  end;
+end;
+
+procedure Tview_SisGeFPrintRunsImports.PopulateLastDates;
+var
+  FTiragens : TControllerSisGeFTiragens;
+  aParam : array of variant;
+  sItem : string;
+begin
+  try
+    FTiragens := TControllerSisGeFTiragens.Create;
+    SetLength(aParam, 3);
+    aParam := ['APOIO', 'DISTINCT DAT_TIRAGEM', 'ORDER BY DAT_TIRAGEM DESC LIMIT 31'];
+    ultimasTiragens.Clear;
+    if FTiragens.Search(aParam) then
+    begin
+      FTiragens.Tiragens.Query.First;
+      while not FTiragens.Tiragens.Query.Eof do
+      begin
+        sItem := FormatDateTime('dd/mm/yyyy', FTiragens.Tiragens.Query.FieldByName('DAT_TIRAGEM').AsDateTime);
+        ultimasTiragens.Items.Add(sItem);
+        FTiragens.Tiragens.Query.Next;
+      end;
+      ultimasTiragens.ItemIndex := 0;
+      sLastDate := ultimasTiragens.Items[0];
+    end;
+    FTiragens.Tiragens.Query.Connection.Connected := False;
+  finally
+    FTiragens.DisposeOf;
   end;
 end;
 
@@ -103,6 +145,7 @@ begin
     Exit;
   memoLog.Clear;
   FTiragem.Arquivo := sFile;
+  FTiragem.UltimaData := sLastDate;
   FTiragem.Priority := tpNormal;
   Timer.Enabled := True;
   actionLocateFile.Enabled := False;
@@ -147,6 +190,7 @@ if not FTiragem.Processo then
 //    progressBar.Position := 0;
     memoLog.Lines.Add('>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Término da importação!');
     TermineProcess;
+    PopulateLastDates;
   end
   else
   begin
