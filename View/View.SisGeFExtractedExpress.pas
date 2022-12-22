@@ -170,7 +170,6 @@ type
     actionReopenExtract: TAction;
     cxButton18: TcxButton;
     dxLayoutItem37: TdxLayoutItem;
-    DataSource1: TDataSource;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionIncludeClientsExecute(Sender: TObject);
@@ -349,7 +348,7 @@ begin
   FItem := '';
   if view_PesquisaPessoasAgentes.ShowModal = mrOk then
   begin
-    if not view_PesquisaClientes.fdPesquisa.IsEmpty then
+    if not view_PesquisaPessoasAgentes.fdPesquisa.IsEmpty then
     begin
       FCode := view_PesquisaPessoasAgentes.fdPesquisacod_agente.AsString;
       FName := view_PesquisaPessoasAgentes.fdPesquisanom_fantasia.AsString;

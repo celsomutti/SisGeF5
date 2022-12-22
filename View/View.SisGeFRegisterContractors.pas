@@ -213,6 +213,27 @@ type
     actionClearSearch: TAction;
     cxButton8: TcxButton;
     dxLayoutItem10: TdxLayoutItem;
+    queryRegisternom_base: TStringField;
+    queryRegistercod_entregador: TIntegerField;
+    queryRegisternom_entregador: TStringField;
+    memTableRecordsnom_base: TStringField;
+    memTableRecordscod_entregador: TIntegerField;
+    memTableRecordsnom_entregador: TStringField;
+    memTableDocumentsnom_base: TStringField;
+    memTableDocumentscod_entregador: TIntegerField;
+    memTableDocumentsnom_entregador: TStringField;
+    memTableGRnom_base: TStringField;
+    memTableGRcod_entregador: TIntegerField;
+    memTableGRnom_entregador: TStringField;
+    viewCadastronom_base: TcxGridDBColumn;
+    viewCadastrocod_entregador: TcxGridDBColumn;
+    viewCadastronom_entregador: TcxGridDBColumn;
+    viewDocumentosnom_base: TcxGridDBColumn;
+    viewDocumentoscod_entregador: TcxGridDBColumn;
+    viewDocumentosnom_entregador: TcxGridDBColumn;
+    viewGRnom_base: TcxGridDBColumn;
+    viewGRcod_entregador: TcxGridDBColumn;
+    viewGRnom_entregador: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionSetFilterExecute(Sender: TObject);
@@ -368,6 +389,7 @@ begin
       memTableRecords.Active := True;
       memTableRecords.CopyDataSet(queryRegister);
       dxLayoutGroup1.ItemIndex := 0;
+      viewCadastro.ViewData.Expand(True);
       viewCadastro.DataController.DataSource.DataSet.First;
       gridCadastro.SetFocus;
     end
@@ -402,9 +424,9 @@ end;
 procedure Tview_SisGeFRegisterContractors.CollapseGrid;
 begin
   case FSearch of
-    0 : viewCadastro.ViewData.Expand(True);
-    1 : viewDocumentos.ViewData.Expand(True);
-    2 : viewGR.ViewData.Expand(True);
+    0 : viewCadastro.ViewData.Collapse(True);
+    1 : viewDocumentos.ViewData.Collapse(True);
+    2 : viewGR.ViewData.Collapse(True);
     else
       Exit;
   end;
@@ -443,9 +465,9 @@ end;
 procedure Tview_SisGeFRegisterContractors.ExpandGrid;
 begin
   case FSearch of
-    0 : viewCadastro.ViewData.Collapse(True);
-    1 : viewDocumentos.ViewData.Collapse(True);
-    2 : viewGR.ViewData.Collapse(True);
+    0 : viewCadastro.ViewData.Expand(True);
+    1 : viewDocumentos.ViewData.Expand(True);
+    2 : viewGR.ViewData.Expand(True);
     else
       Exit;
   end;
@@ -517,6 +539,7 @@ begin
       memTableRecords.Active := True;
       memTableRecords.CopyDataSet(FCadastro.Cadastro.Query);
       FCadastro.Cadastro.Query.Connection.Connected := False;
+      viewCadastro.ViewData.Expand(True);
       viewCadastro.DataController.DataSource.DataSet.First;
       gridCadastro.SetFocus;
     end
@@ -590,6 +613,7 @@ begin
       memTableDocuments.Active := True;
       memTableDocuments.CopyDataSet(FCadastro.Cadastro.Query);
       FCadastro.Cadastro.Query.Connection.Connected := False;
+      viewDocumentos.ViewData.Expand(True);
       viewDocumentos.DataController.DataSource.DataSet.First;
       gridCadastro.SetFocus;
     end;
@@ -618,6 +642,7 @@ begin
       memTableGR.Active := True;
       memTableGR.CopyDataSet(FCadastro.Cadastro.Query);
       FCadastro.Cadastro.Query.Connection.Connected := False;
+      viewGR.ViewData.Expand(True);
       viewGR.DataController.DataSource.DataSet.First;
       gridCadastro.SetFocus;
     end;

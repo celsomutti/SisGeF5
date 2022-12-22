@@ -62,22 +62,20 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Width = 113
     end
     object dataInicialPeriodo: TcxDateEdit
-      Left = 10000
-      Top = 10000
+      Left = 259
+      Top = 82
       Hint = 'Data inicial do per'#237'odo customizado'
       Style.HotTrack = False
       TabOrder = 3
-      Visible = False
-      Width = 96
+      Width = 170
     end
     object dataFinalPeriodo: TcxDateEdit
-      Left = 10000
-      Top = 10000
+      Left = 435
+      Top = 82
       Hint = 'Data final do per'#237'odo customizado'
       Style.HotTrack = False
       TabOrder = 4
-      Visible = False
-      Width = 97
+      Width = 171
     end
     object anoPeriodo: TcxComboBox
       Left = 10000
@@ -438,12 +436,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
             Column = gridExtratoDBTableView1val_total_expressa
           end
           item
-            Format = 'M'#233'dia: ,0.00; -,0.00'
-            Kind = skAverage
-            Position = spFooter
-            Column = gridExtratoDBTableView1val_verba
-          end
-          item
             Format = ',0.00; -,0.00'
             Kind = skSum
             Position = spFooter
@@ -509,11 +501,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
             Format = 'R$ ,0.00; - R$ ,0.00'
             Kind = skSum
             Column = gridExtratoDBTableView1val_total_expressa
-          end
-          item
-            Format = 'M'#233'dia: ,0.00; -,0.00'
-            Kind = skAverage
-            Column = gridExtratoDBTableView1val_verba
           end
           item
             Format = ',0.00; -,0.00'
@@ -913,20 +900,20 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       Parent = layoutGroupMain
       CaptionOptions.Text = 'Par'#226'metros'
       ButtonOptions.Buttons = <>
-      ItemIndex = 3
       Index = 0
     end
     object layoutGroupExtract: TdxLayoutGroup
       Parent = layoutGroupMain
       CaptionOptions.Text = 'Extrato'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = layoutGroupParameters
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -948,7 +935,6 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
       LayoutDirection = ldTabbed
       ShowBorder = False
       TabbedOptions.HideTabs = True
@@ -1707,11 +1693,5 @@ object view_SisGeFExtractedExpress: Tview_SisGeFExtractedExpress
     OnTimer = timerTimer
     Left = 720
     Top = 16
-  end
-  object DataSource1: TDataSource
-    AutoEdit = False
-    DataSet = Data_Sisgef.storedProcListExtractExpress
-    OnStateChange = dsExtractStateChange
-    Left = 480
   end
 end

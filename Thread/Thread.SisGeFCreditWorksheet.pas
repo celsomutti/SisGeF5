@@ -286,8 +286,9 @@ begin
         end
         else
         begin
-          sExtrato := FUtils.ExpressStatementNumber(memTableExtractsdat_inicio.AsDateTime, memTableExtractsdat_final.AsDateTime,
-          iBimer, '');
+          sExtrato := memTableExtractsnum_extrato.AsString;
+//          sExtrato := FUtils.ExpressStatementNumber(memTableExtractsdat_inicio.AsDateTime, memTableExtractsdat_final.AsDateTime,
+//          iBimer, '');
           memTableCreditWorksheet.Insert;
           memTableCreditWorksheetid_registro.AsInteger := 0;
           memTableCreditWorksheetcod_tipo_extrato.AsInteger := 1;

@@ -186,7 +186,15 @@ begin
     Reset(ArquivoCSV);
     Readln(ArquivoCSV, sLinha);
     sDetalhe.DelimitedText := sLinha;
-    if Trim(sLinha) <> BAIXAPLANCK then
+    if sDetalhe.Count = 20 then
+    begin
+      if Pos('Documento;Motorista;Base;Pedido;Remessa;Nota Fiscal', sLinha) = 0 then
+      begin
+        FMensagem := 'Arquivo informado não foi identificado como a Planilha de Baixas gerada no Planck!';
+        Exit;
+      end
+    end
+    else
     begin
       FMensagem := 'Arquivo informado não foi identificado como a Planilha de Baixas gerada no Planck!';
       Exit;
@@ -223,7 +231,15 @@ begin
     Readln(ArquivoCSV, sLinha);
     sDetalhe.DelimitedText := sLinha;
     sLinha := ReplaceStr(sLinha,'"','');
-    if Trim(sLinha) <> ENTREGAPLANCK then
+    if sDetalhe.Count = 45 then
+    begin
+      if Pos('REMESSA;PEDIDO;DATA_REGISTRO;HORA_REGISTRO;COD_EMBARCADOR;CLIENTE_EMBARCADOR;', sLinha) = 0 then
+      begin
+        FMensagem := 'Arquivo informado não foi identificado como a Planilha de Entrada gerada no Planck!';
+        Exit;
+      end
+    end
+    else
     begin
       FMensagem := 'Arquivo informado não foi identificado como a Planilha de Entrada gerada no Planck!';
       Exit;
@@ -259,9 +275,17 @@ begin
     Reset(ArquivoCSV);
     Readln(ArquivoCSV, sLinha);
     sDetalhe.DelimitedText := sLinha;
-    if Trim(sLinha) <> LOJAPLANCK then
+    if sDetalhe.Count = 21 then
     begin
-      FMensagem := 'Arquivo informado não foi identificado como a Planilha de Lojas gerada no Planck!';
+      if Pos(';LOJA', sLinha) = 0 then
+      begin
+        FMensagem := 'Arquivo informado não foi identificado como a Planilha de Baixas LOJAS gerada no Planck!';
+        Exit;
+      end
+    end
+    else
+    begin
+      FMensagem := 'Arquivo informado não foi identificado como a Planilha de Baixas LOJAS gerada no Planck!';
       Exit;
     end;
     Result := True;

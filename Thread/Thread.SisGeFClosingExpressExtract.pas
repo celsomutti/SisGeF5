@@ -96,21 +96,31 @@ begin
   with Data_Sisgef do
   begin
     FUtils := Common.Utils.TUtils.Create;
-    FExtract := FUtils.ExpressStatementNumber(StartDate, EndDate,0,'');
-    storedProcClosingExpress.Active := False;
-    storedProcClosingExpress.Filtered := False;
-    storedProcClosingExpress.Filter := '';
-    storedProcClosingExpress.Connection := FConnection.GetConn;
-    if FTipo = 0 then
-      storedProcClosingExpress.storedProcName := 'sp_close_delivery_losses'
-    else if FTipo = 1 then
-      storedProcClosingExpress.storedProcName := 'sp_reopen_delivery_losses';
-    storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
-    storedProcClosingExpress.Prepare;
-    storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
-    storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
-    storedProcClosingExpress.ParamByName('pType').AsInteger := FTipo;
-    storedProcClosingExpress.ExecProc;
+    memTableExtracts.First;
+    while not memTableExtracts.Eof do
+    begin
+      storedProcClosingExpress.Active := False;
+      storedProcClosingExpress.Filtered := False;
+      storedProcClosingExpress.Filter := '';
+      storedProcClosingExpress.Connection := FConnection.GetConn;
+      if FTipo = 0 then
+      begin
+        FExtract := FUtils.ExpressStatementNumber(StartDate, EndDate,memTableExtractscod_entregador.AsInteger,'');
+        storedProcClosingExpress.storedProcName := 'sp_close_delivery_losses'
+      end
+      else if FTipo = 1 then
+      begin
+        FExtract := memTableExtractsnum_extrato.AsString;
+        storedProcClosingExpress.storedProcName := 'sp_reopen_delivery_losses';
+      end;
+      storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
+      storedProcClosingExpress.Prepare;
+      storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
+      storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
+      storedProcClosingExpress.ParamByName('pType').AsInteger := FTipo;
+      storedProcClosingExpress.ExecProc;
+      memTableExtracts.Next;
+    end;
     storedProcClosingExpress.Connection.Connected := False;
     FUtils.Free;
   end;
@@ -132,24 +142,34 @@ begin
   with Data_Sisgef do
   begin
     FUtils := Common.Utils.TUtils.Create;
-    FExtract := FUtils.ExpressStatementNumber(StartDate, EndDate,0,'');
-    storedProcClosingExpress.Active := False;
-    storedProcClosingExpress.Filtered := False;
-    storedProcClosingExpress.Filter := '';
-    storedProcClosingExpress.Connection := FConnection.GetConn;
-    if FTipo = 0 then
-      storedProcClosingExpress.storedProcName := 'sp_closing_express_deliveries'
-    else if FTipo = 1 then
-      storedProcClosingExpress.storedProcName := 'sp_reopen_express_deliveries';
-    storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
-    storedProcClosingExpress.Prepare;
-    storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
-    storedProcClosingExpress.ParamByName('pCreditDate').AsDate := FCreditDate;
-    storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
-    storedProcClosingExpress.ParamByName('pInitialDate').AsDate := StartDate;
-    storedProcClosingExpress.ParamByName('pFinalDate').AsDate := EndDate;
-    storedProcClosingExpress.ParamByName('pType').AsInteger := FTipo;
-    storedProcClosingExpress.ExecProc;
+    memTableExtracts.First;
+    while not memTableExtracts.Eof do
+    begin
+      storedProcClosingExpress.Active := False;
+      storedProcClosingExpress.Filtered := False;
+      storedProcClosingExpress.Filter := '';
+      storedProcClosingExpress.Connection := FConnection.GetConn;
+      if FTipo = 0 then
+      begin
+        FExtract := FUtils.ExpressStatementNumber(FStartDate, FEndDate, memTableExtractscod_entregador.AsInteger, '');
+        storedProcClosingExpress.storedProcName := 'sp_closing_express_deliveries'
+      end
+      else if FTipo = 1 then
+      begin
+        FExtract := memTableExtractsnum_extrato.AsString;
+        storedProcClosingExpress.storedProcName := 'sp_reopen_express_deliveries';
+      end;
+      storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
+      storedProcClosingExpress.Prepare;
+      storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
+      storedProcClosingExpress.ParamByName('pCreditDate').AsDate := FCreditDate;
+      storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := memTableExtractscod_entregador.AsInteger;
+      storedProcClosingExpress.ParamByName('pInitialDate').AsDate := StartDate;
+      storedProcClosingExpress.ParamByName('pFinalDate').AsDate := EndDate;
+      storedProcClosingExpress.ParamByName('pType').AsInteger := FTipo;
+      storedProcClosingExpress.ExecProc;
+      memTableExtracts.Next;
+    end;
     FUtils.Free;
   end;
 end;
@@ -161,22 +181,33 @@ begin
   with Data_Sisgef do
   begin
     FUtils := Common.Utils.TUtils.Create;
-    FExtract := FUtils.ExpressStatementNumber(StartDate, EndDate,0,'');
-    storedProcClosingExpress.Active := False;
-    storedProcClosingExpress.Filtered := False;
-    storedProcClosingExpress.Filter := '';
-    if FTipo = 0 then
-      storedProcClosingExpress.storedProcName := 'sp_closing_express_financial_postings'
-    else if FTipo = 1 then
-      storedProcClosingExpress.storedProcName := 'sp_reopen_express_financial_postings';
-    storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
-    storedProcClosingExpress.Prepare;
-    storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
-    storedProcClosingExpress.ParamByName('pCreditDate').AsDate := FCreditDate;
-    storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
-    storedProcClosingExpress.ParamByName('pFinalDate').AsDate := EndDate;
-    storedProcClosingExpress.ParamByName('pType').AsInteger := FTipo;
-    storedProcClosingExpress.ExecProc;
+    memTableExtracts.First;
+    while not memTableExtracts.Eof do
+    begin
+      storedProcClosingExpress.Active := False;
+      storedProcClosingExpress.Filtered := False;
+      storedProcClosingExpress.Filter := '';
+      if FTipo = 0 then
+      begin
+        FExtract := FUtils.ExpressStatementNumber(FStartDate, FEndDate, memTableExtractscod_entregador.AsInteger, '');
+        storedProcClosingExpress.storedProcName := 'sp_closing_express_financial_postings'
+      end
+      else if FTipo = 1 then
+      begin
+        FExtract := memTableExtractsnum_extrato.AsString;
+        storedProcClosingExpress.storedProcName := 'sp_reopen_express_financial_postings';
+      end;
+      FDeliverymam := memTableExtractscod_entregador.AsInteger;
+      storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
+      storedProcClosingExpress.Prepare;
+      storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;
+      storedProcClosingExpress.ParamByName('pCreditDate').AsDate := FCreditDate;
+      storedProcClosingExpress.ParamByName('pDeliveryman').AsInteger := FDeliverymam;
+      storedProcClosingExpress.ParamByName('pFinalDate').AsDate := EndDate;
+      storedProcClosingExpress.ParamByName('pType').AsInteger := FTipo;
+      storedProcClosingExpress.ExecProc;
+      memTableExtracts.Next;
+    end;
     FUtils.Free;
   end;
 end;
@@ -241,12 +272,16 @@ begin
     end
     else if FTipo = 1 then
     begin
-      FUniqueExtract := FUtils.ExpressStatementNumber(FStartDate, FEndDate, 0, '');
-      storedProcClosingExpress.storedProcName := 'sp_clear_extract_express';
-      storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
-      storedProcClosingExpress.Prepare;
-      storedProcClosingExpress.ParamByName('pKey').Value := '%' + FUniqueExtract;
-      storedProcClosingExpress.ExecProc;
+      memTableExtracts.First;
+      while not memTableExtracts.Eof do
+      begin
+        storedProcClosingExpress.storedProcName := 'sp_clear_extract_express';
+        storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
+        storedProcClosingExpress.Prepare;
+        storedProcClosingExpress.ParamByName('pKey').Value := memTableExtractsnum_extrato.AsString;
+        storedProcClosingExpress.ExecProc;
+        memTableExtracts.Next;
+      end;
     end;
     ExecuteClosingExpressDeliverires;
     if FLancamentos <> 'X' then

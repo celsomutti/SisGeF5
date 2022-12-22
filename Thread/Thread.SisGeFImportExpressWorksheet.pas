@@ -155,8 +155,9 @@ begin
               FEntregas.Entregas.Status := 0;
               FEntregas.Entregas.Entrega := StrToDateDef(Data_Sisgef.memTableImport.Fields.Fields[1].AsString, Now);
               FEntregas.Entregas.TipoPeso := Data_Sisgef.memTableImport.Fields.Fields[11].AsString;
-              sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[19].AsString,'.',',');
-              FEntregas.Entregas.PesoReal :=  StrToFloatDef(sPeso, 0);
+              sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[16].AsString,'.',',');
+              if StrToFloatDef(sPeso,0) > 0 then
+                FEntregas.Entregas.PesoReal :=  StrToFloatDef(sPeso, 0);
               sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[14].AsString,'.',',');
               FEntregas.Entregas.PesoFranquia := StrToFloatDef(sPeso, 0);
               FEntregas.Entregas.PesoCobrado := 0;
@@ -173,12 +174,7 @@ begin
               FEntregas.Entregas.CodCliente := FCliente;
               Finalize(aParam);
               dPeso := 0;
-              if FEntregas.Entregas.PesoCobrado > 0 then
-                dPeso := FEntregas.Entregas.PesoCobrado
-              else if FEntregas.Entregas.PesoFranquia > 0 then
-                dPeso := FEntregas.Entregas.PesoFranquia
-              else
-                dPeso := FEntregas.Entregas.PesoReal;
+              dPeso := FEntregas.Entregas.PesoReal;
               SetLength(aParam,7);
               aParam := [FEntregas.Entregas.Distribuidor,
                          FEntregas.Entregas.Entregador,
@@ -267,20 +263,16 @@ begin
               FEntregas.Entregas.Status := 0;
               FEntregas.Entregas.Entrega := StrToDateDef(Data_Sisgef.memTableImport.Fields.Fields[1].AsString, Now);
               FEntregas.Entregas.Atraso := 0;
-              sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[19].AsString,'.',',');
-              FEntregas.Entregas.PesoReal := StrToFloatDef(sPeso, 0);
+              sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[16].AsString,'.',',');
+              if StrToFloatDef(sPeso,0) > 0 then
+                FEntregas.Entregas.PesoReal :=  StrToFloatDef(sPeso, 0);
               sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[14].AsString,'.',',');
               FEntregas.Entregas.PesoFranquia := StrToFloatDef(sPeso, 0);
               FEntregas.Entregas.CodigoFeedback := 0;
               FEntregas.Entregas.TipoPeso := 'Entrega';
               Finalize(aParam);
               dPeso := 0;
-              if FEntregas.Entregas.PesoCobrado > 0 then
-                dPeso := FEntregas.Entregas.PesoCobrado
-              else if FEntregas.Entregas.PesoFranquia > 0 then
-                dPeso := FEntregas.Entregas.PesoFranquia
-              else
-                dPeso := FEntregas.Entregas.PesoReal;
+              dPeso := FEntregas.Entregas.PesoReal;
               SetLength(aParam,7);
               aParam := [FEntregas.Entregas.Distribuidor,
                          FEntregas.Entregas.Entregador,
@@ -785,20 +777,16 @@ begin
             FEntregas.Entregas.Status := 0;
             FEntregas.Entregas.Entrega := StrToDateDef(Data_Sisgef.memTableImport.Fields.Fields[1].AsString, Now);
             FEntregas.Entregas.Atraso := 0;
-            sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[19].AsString,'.',',');
-            FEntregas.Entregas.PesoReal := StrToFloatDef(sPeso, 0);
+            sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[16].AsString,'.',',');
+            if StrToFloatDef(sPeso,0) > 0 then
+              FEntregas.Entregas.PesoReal :=  StrToFloatDef(sPeso, 0);
             sPeso := ReplaceStr(Data_Sisgef.memTableImport.Fields.Fields[14].AsString,'.',',');
             FEntregas.Entregas.PesoFranquia := StrToFloatDef(sPeso, 0);
             FEntregas.Entregas.CodigoFeedback := 0;
             FEntregas.Entregas.TipoPeso := 'Loja';
             Finalize(aParam);
             dPeso := 0;
-            if FEntregas.Entregas.PesoCobrado > 0 then
-              dPeso := FEntregas.Entregas.PesoCobrado
-            else if FEntregas.Entregas.PesoFranquia > 0 then
-              dPeso := FEntregas.Entregas.PesoFranquia
-            else
-              dPeso := FEntregas.Entregas.PesoReal;
+            dPeso := FEntregas.Entregas.PesoReal;
             SetLength(aParam,7);
             aParam := [FEntregas.Entregas.Distribuidor,
                        FEntregas.Entregas.Entregador,
