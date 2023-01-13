@@ -113,6 +113,7 @@ begin
         FExtract := memTableExtractsnum_extrato.AsString;
         storedProcClosingExpress.storedProcName := 'sp_reopen_delivery_losses';
       end;
+      FDeliverymam := memTableExtractscod_entregador.AsInteger;
       storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
       storedProcClosingExpress.Prepare;
       storedProcClosingExpress.ParamByName('pExtract').AsString := FExtract;

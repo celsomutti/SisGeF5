@@ -322,9 +322,17 @@ begin
     Readln(ArquivoCSV, sLinha);
     Readln(ArquivoCSV, sLinha);
     sDetalhe.DelimitedText := sLinha;
-    if Trim(sLinha) <> TRACKINGPLANCK then
+    if sDetalhe.Count = 50 then
     begin
-      FMensagem := 'Arquivo informado não foi identificado como a Planilha de Tracking da Direct!';
+      if Pos('REMESSA;REME;CID/EST;CEP;DATA;HORA;AGENDADA;PEDIDO;', sLinha) = 0 then
+      begin
+        FMensagem := 'Arquivo informado não foi identificado como a Planilha de Tracking gerada no Planck!';
+        Exit;
+      end
+    end
+    else
+    begin
+      FMensagem := 'Arquivo informado não foi identificado como a Planilha de Tracking gerada no Planck!';
       Exit;
     end;
     Result := True;
