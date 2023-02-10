@@ -497,7 +497,6 @@ type
     memTableImport: TFDMemTable;
     openDialog: TOpenDialog;
     textReaderEngloba: TFDBatchMoveTextReader;
-    dxLayoutCxLookAndFeel1: TdxLayoutCxLookAndFeel;
     storedProcExtractExpress: TFDStoredProc;
     storedProcExtractExpresscod_base: TIntegerField;
     storedProcExtractExpressnom_base: TStringField;
@@ -633,16 +632,8 @@ type
     memTableBIMERCPCampoConta: TStringField;
     memTableBIMERCPCampoBanco: TStringField;
     memTableBIMERCPCampoModalidade: TStringField;
-    dxLayoutCxLookAndFeel2: TdxLayoutCxLookAndFeel;
-    dxLayoutCxLookAndFeel3: TdxLayoutCxLookAndFeel;
-    dxLayoutCxLookAndFeel4: TdxLayoutCxLookAndFeel;
     memTableCreditWorksheetdes_observation: TStringField;
     memTableBIMERCPCampoObservacao: TStringField;
-    dxLayoutCxLookAndFeel5: TdxLayoutCxLookAndFeel;
-    dxLayoutCxLookAndFeel6: TdxLayoutCxLookAndFeel;
-    dxLayoutOfficeLookAndFeel1: TdxLayoutOfficeLookAndFeel;
-    dxLayoutStandardLookAndFeel1: TdxLayoutStandardLookAndFeel;
-    dxLayoutStandardLookAndFeel2: TdxLayoutStandardLookAndFeel;
     storedProcExtractSO: TFDStoredProc;
     memTableExtractSO: TFDMemTable;
     memTableExtractSOnum_os: TIntegerField;
@@ -656,6 +647,60 @@ type
     memTableExtractSOval_servico: TFloatField;
     memTableExtractSOdes_placa: TStringField;
     memTableExtractSOval_total: TFloatField;
+    textReaderTiragem: TFDBatchMoveTextReader;
+    memTableOMIE: TFDMemTable;
+    memTableOMIEcod_integracao: TStringField;
+    memTableOMIEnom_fornecedor: TStringField;
+    memTableOMIEdes_categoria: TStringField;
+    memTableOMIEnom_conta_corrente: TStringField;
+    memTableOMIEval_bruto: TCurrencyField;
+    memTableOMIEnom_vendedor: TStringField;
+    memTableOMIEnom_projeto: TStringField;
+    memTableOMIEdat_emissao: TDateField;
+    memTableOMIEdat_registro: TDateField;
+    memTableOMIEdat_vencimento: TDateField;
+    memTableOMIEdat_previsao: TDateField;
+    memTableOMIEdat_pagamento: TDateField;
+    memTableOMIEval_pagamento: TCurrencyField;
+    memTableOMIEval_juros: TCurrencyField;
+    memTableOMIEval_multa: TCurrencyField;
+    memTableOMIEval_desconto: TCurrencyField;
+    memTableOMIEdat_conciliacao: TDateField;
+    memTableOMIEdes_observacoes: TStringField;
+    memTableOMIEdes_tipo_documento: TStringField;
+    memTableOMIEnum_documento: TStringField;
+    memTableOMIEnum_parcela: TSmallintField;
+    memTableOMIEtot_parcelas: TSmallintField;
+    memTableOMIEnum_pedido: TStringField;
+    memTableOMIEnum_nota_fiscal: TStringField;
+    memTableOMIEnum_chave_nfe: TStringField;
+    memTableOMIEdes_forma_pagamento: TStringField;
+    memTableOMIEcod_barras_boleto: TStringField;
+    memTableOMIEval_percentual_juros_mes: TFloatField;
+    memTableOMIEval_percentual_multa_atraso: TFloatField;
+    memTableOMIEnom_banco_transferencia: TStringField;
+    memTableOMIEnum_agencia_transferencia: TStringField;
+    memTableOMIEnum_conta_transferencia: TStringField;
+    memTableOMIEnom_titular: TStringField;
+    memTableOMIEdes_finalidade_transferencia: TStringField;
+    memTableOMIEval_PIS: TCurrencyField;
+    memTableOMIEdes_reter_PIS: TStringField;
+    memTableOMIEval_COFINS: TCurrencyField;
+    memTableOMIEdes_reter_COFINS: TStringField;
+    memTableOMIEval_CSLL: TCurrencyField;
+    memTableOMIEdes_reter_CSLL: TStringField;
+    memTableOMIEval_IR: TCurrencyField;
+    memTableOMIEdes_reter_IR: TStringField;
+    memTableOMIEval_ISS: TCurrencyField;
+    memTableOMIEdes_reter_ISS: TStringField;
+    memTableOMIEval_INSS: TCurrencyField;
+    memTableOMIEdes_reter_INSS: TStringField;
+    memTableOMIEnom_departamento: TStringField;
+    memTableOMIEnum_CNPJ_CPF_titular: TStringField;
+    textReaderEntregasDIRECT: TFDBatchMoveTextReader;
+    textReaderDIRECTBaixas: TFDBatchMoveTextReader;
+    textReaderDIRECTLojas: TFDBatchMoveTextReader;
+    frxReport: TfrxReport;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
@@ -673,6 +718,10 @@ type
     procedure PopulaClientesEmpresa;
     procedure PopulaBases;
     function ImportEngloba(FFile: string): boolean;
+    function ImportPrintRuns(FFile: String): boolean;
+    function ImportDIRECTEntregas(FFile: string): boolean;
+    function ImportDIRECTBaixas(FFile: string): boolean;
+    function ImportDIRECTBaixasLojas(FFile: string): boolean;
   end;
 
 var
@@ -737,12 +786,76 @@ begin
                                         ';Password=' + Global.Parametros.pPBD;
 end;
 
+function TData_Sisgef.ImportDIRECTBaixas(FFile: String): boolean;
+begin
+  Result := False;
+  memTableImport.Active := False;
+  FDBatchMove.Reader := textReaderDIRECTBaixas;
+  textReaderDIRECTBaixas.FileName := FFile;
+  FDBDataSetWriter.DataSet := memTableImport;
+  FDBatchMove.Execute;
+  if memTableImport.IsEmpty then
+  begin
+    memTableImport.Active := False;
+    Exit;
+  end;
+  Result := True;
+end;
+
+function TData_Sisgef.ImportDIRECTBaixasLojas(FFile: string): boolean;
+begin
+  Result := False;
+  memTableImport.Active := False;
+  FDBatchMove.Reader := textReaderDIRECTLojas;
+  textReaderDIRECTLojas.FileName := FFile;
+  FDBDataSetWriter.DataSet := memTableImport;
+  FDBatchMove.Execute;
+  if memTableImport.IsEmpty then
+  begin
+    memTableImport.Active := False;
+    Exit;
+  end;
+  Result := True;
+end;
+
+function TData_Sisgef.ImportDIRECTEntregas(FFile: String): boolean;
+begin
+  Result := False;
+  memTableImport.Active := False;
+  FDBatchMove.Reader := textReaderEntregasDIRECT;
+  textReaderEntregasDIRECT.FileName := FFile;
+  FDBDataSetWriter.DataSet := memTableImport;
+  FDBatchMove.Execute;
+  if memTableImport.IsEmpty then
+  begin
+    memTableImport.Active := False;
+    Exit;
+  end;
+  Result := True;
+end;
+
 function TData_Sisgef.ImportEngloba(FFile: string): boolean;
 begin
   Result := False;
   memTableImport.Active := False;
   FDBatchMove.Reader := textReaderEngloba;
   textReaderEngloba.FileName := FFile;
+  FDBDataSetWriter.DataSet := memTableImport;
+  FDBatchMove.Execute;
+  if memTableImport.IsEmpty then
+  begin
+    memTableImport.Active := False;
+    Exit;
+  end;
+  Result := True;
+end;
+
+function TData_Sisgef.ImportPrintRuns(FFile: String): boolean;
+begin
+  Result := False;
+  memTableImport.Active := False;
+  FDBatchMove.Reader := textReaderTiragem;
+  textReaderTiragem.FileName := FFile;
   FDBDataSetWriter.DataSet := memTableImport;
   FDBatchMove.Execute;
   if memTableImport.IsEmpty then

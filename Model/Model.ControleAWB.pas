@@ -50,7 +50,7 @@ type
                 'values ' +
                 '(:id_awb, :num_remessa, :cod_awb1, :cod_awb2, :num_cep, :cod_operacao, :cod_tipo, :qtd_peso, :des_produto);';
     SQLUPDATE = 'update ' + TABLENAME + ' set num_remessa = :num_remessa, cod_awb1 = :cod_awb1, ' +
-                'cod_awb2 = cod_awb2, num_cep= :num_cep, cod_operacao = :cod_operacao, ' +
+                'cod_awb2 = :cod_awb2, num_cep= :num_cep, cod_operacao = :cod_operacao, ' +
                 'cod_tipo = :cod_tipo, qtd_peso = :qtd_peso, des_produto = :des_produto where id_awb = :id_awb;';
 
 implementation

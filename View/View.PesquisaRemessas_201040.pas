@@ -11,7 +11,7 @@ uses
   cxDBFilterControl, cxContainer, cxEdit, cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxMemo, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxCheckBox,
   cxCurrencyEdit, cxBlobEdit, cxDBLookupComboBox, cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGridCustomView, cxGrid, cxButtonEdit, cxCalendar;
+  cxGridCustomView, cxGrid, cxButtonEdit, cxCalendar, cxGridCustomPopupMenu, cxGridPopupMenu;
 
 type
   Tview_PesquisaRemessas = class(TForm)
@@ -175,6 +175,7 @@ type
     fdQueryBIdes_produto: TStringField;
     tvPesquisacod_awb: TcxGridDBColumn;
     tvPesquisades_produto: TcxGridDBColumn;
+    cxGridPopupMenu1: TcxGridPopupMenu;
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);

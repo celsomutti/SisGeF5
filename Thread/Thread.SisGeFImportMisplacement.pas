@@ -156,15 +156,15 @@ begin
       FTotalGravados := 0;
       FTotalInconsistencias := 0;
       FProgresso := 0;
-      for i := 0 to FTotalRegistros do
+      for i := 0 to FTotalRegistros - 1 do
       begin
         SetLength(aParam,3);
         aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].Remessa, FCliente];
         if not FEntregas.LocalizarExata(aParam) then
         begin
           FEntregas.Entregas.NN := FPlanilha.Planilha.Planilha[i].Remessa;
-          FEntregas.Entregas.Distribuidor := 0;
-          FEntregas.Entregas.Entregador := 0;
+          FEntregas.Entregas.Distribuidor := FAgente;
+          FEntregas.Entregas.Entregador := FEntregador;
           FEntregas.Entregas.Cliente := FPlanilha.Planilha.Planilha[i].CodigoEmbarcador;
           FEntregas.Entregas.NF := FPlanilha.Planilha.Planilha[i].NF;
           FEntregas.Entregas.Consumidor := FPlanilha.Planilha.Planilha[i].NomeConsumidor;
@@ -187,14 +187,7 @@ begin
           FEntregas.Entregas.Entrega := StrToDate('30/12/1899');
           FEntregas.Entregas.TipoPeso := FPlanilha.Planilha.Planilha[i].Tipo;
           dPeso := 0;
-          if FPlanilha.Planilha.Planilha[i].PesoCubado > FPlanilha.Planilha.Planilha[i].PesoNominal then
-          begin
-            FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoCubado;
-          end
-          else
-          begin
-            FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoNominal;
-          end;
+          FEntregas.Entregas.PesoReal := FPlanilha.Planilha.Planilha[i].PesoNominal;
           dPeso := FEntregas.Entregas.PesoReal;
           FEntregas.Entregas.PesoFranquia := 0;
           FEntregas.Entregas.Advalorem := 0;
@@ -209,7 +202,6 @@ begin
           FEntregas.Entregas.Recebido := 'N';
           FEntregas.Entregas.CTRC := 0;
           FEntregas.Entregas.Manifesto := 0;
-          FEntregas.Entregas.Rastreio := '';
           FEntregas.Entregas.VerbaFranquia := 0;
           FEntregas.Entregas.Lote := 0;
           FEntregas.Entregas.Retorno := FPlanilha.Planilha.Planilha[i].Chave;
@@ -226,7 +218,8 @@ begin
           FEntregas.Entregas.Pedido := FPlanilha.Planilha.Planilha[i].Pedido;
           FEntregas.Entregas.CodCliente := FCliente;
           FEntregas.Entregas.Status := 0;
-          FEntregas.Entregas.Rastreio := '';
+          FEntregas.Entregas.Rastreio := '> ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', Now) + 'Informe de sinistro em ' +
+                                         DateToStr(FData) + ' por ' + Global.Parametros.pUser_Name + ' (PLANILHA)';
           FEntregas.Entregas.Acao := tacIncluir;
           if not FEntregas.Gravar() then
           begin
@@ -266,21 +259,37 @@ begin
             end;
           end;
           Finalize(aParam);
+        end
+        else
+        begin
+          FEntregas.Entregas.Distribuidor := FAgente;
+          FEntregas.Entregas.Entregador := FEntregador;
+          FEntregas.Entregas.Rastreio := FEntregas.Entregas.Rastreio + #13 +
+                                         '> ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', Now) + 'Informe de sinistro em ' +
+                                         DateToStr(FData) + ' por ' + Global.Parametros.pUser_Name + ' (PLANILHA)';
+          FEntregas.Entregas.Acao := tacAlterar;
+          if not FEntregas.Gravar() then
+          begin
+            sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Erro ao gravar o NN ' + FEntregas.Entregas.NN + ' !';
+            UpdateLog(sMensagem);
+            Inc(FTotalInconsistencias,1);
+          end;
+          Finalize(aParam);
         end;
         SetLength(aParam,3);
-        aParam := ['NNCLIENTE', FCliente, FPlanilha.Planilha.Planilha[iPos].Remessa];
+        aParam := ['NNCLIENTE', FCliente, FPlanilha.Planilha.Planilha[i].Remessa];
         FExtravios.Extravios.Query := FExtravios.Extravios.Localizar(aParam);
         if FExtravios.Extravios.Query.IsEmpty then
         begin
           FExtravios.Extravios.ID := 0;
           FExtravios.Extravios.Descricao := FDescricao;
-          FExtravios.Extravios.NN := FPlanilha.Planilha.Planilha[iPos].Remessa;
+          FExtravios.Extravios.NN := FPlanilha.Planilha.Planilha[i].Remessa;
           FExtravios.Extravios.Agente := FAgente;
-          FExtravios.Extravios.ValorProduto := FPlanilha.Planilha.Planilha[iPos].Valor;
+          FExtravios.Extravios.ValorProduto := FPlanilha.Planilha.Planilha[i].Valor;
           FExtravios.Extravios.Data := FData;
           FExtravios.Extravios.Multa := 0;
           FExtravios.Extravios.Verba := 0;
-          FExtravios.Extravios.Total := FPlanilha.Planilha.Planilha[iPos].Valor;
+          FExtravios.Extravios.Total := FPlanilha.Planilha.Planilha[i].Valor;
           if FTipo = 1 then
           begin
             FExtravios.Extravios.Restricao := 'S';
@@ -305,8 +314,8 @@ begin
           FExtravios.Extravios.Manutencao := Now;
           FExtravios.Extravios.Sequencia := 0;
           FExtravios.Extravios.Cliente := FCliente;
-          FExtravios.Extravios.Produto := FPlanilha.Planilha.Planilha[iPos].Produto;
-          FExtravios.Extravios.AWB := FPlanilha.Planilha.Planilha[iPos].AWB1;
+          FExtravios.Extravios.Produto := FPlanilha.Planilha.Planilha[i].Produto;
+          FExtravios.Extravios.AWB := FPlanilha.Planilha.Planilha[i].AWB1;
           FExtravios.Extravios.NumeroExtrato := '';
           FExtravios.Extravios.Acao := tacIncluir;
           if FExtravios.Extravios.Gravar then
@@ -316,13 +325,14 @@ begin
         begin
           if FExtravios.Extravios.Restricao <> 'S' then
           begin
+            FExtravios.SetupClass;
             FExtravios.Extravios.Descricao := FDescricao;
             FExtravios.Extravios.Agente := FAgente;
-            FExtravios.Extravios.ValorProduto := FPlanilha.Planilha.Planilha[iPos].Valor;
+            FExtravios.Extravios.ValorProduto := FPlanilha.Planilha.Planilha[i].Valor;
             FExtravios.Extravios.Data := FData;
             FExtravios.Extravios.Multa := 0;
             FExtravios.Extravios.Verba := 0;
-            FExtravios.Extravios.Total := FPlanilha.Planilha.Planilha[iPos].Valor;
+            FExtravios.Extravios.Total := FPlanilha.Planilha.Planilha[i].Valor;
             if FTipo = 1 then
             begin
               FExtravios.Extravios.Restricao := 'S';
@@ -347,8 +357,8 @@ begin
             FExtravios.Extravios.Manutencao := Now;
             FExtravios.Extravios.Sequencia := 0;
             FExtravios.Extravios.Cliente := FCliente;
-            FExtravios.Extravios.Produto := FPlanilha.Planilha.Planilha[iPos].Produto;
-            FExtravios.Extravios.AWB := FPlanilha.Planilha.Planilha[iPos].AWB1;
+            FExtravios.Extravios.Produto := FPlanilha.Planilha.Planilha[i].Produto;
+            FExtravios.Extravios.AWB := FPlanilha.Planilha.Planilha[i].AWB1;
             FExtravios.Extravios.NumeroExtrato := '';
             FExtravios.Extravios.Acao := tacAlterar;
             if FExtravios.Extravios.Gravar then
@@ -356,7 +366,7 @@ begin
           end;
         end;
         iPos := i;
-        FProgresso := (iPos / FTotalRegistros) * 100;
+        FProgresso := (iPos / (FTotalRegistros - 1)) * 100;
         if Self.Terminated then Abort;
       end;
       FProcesso := False;

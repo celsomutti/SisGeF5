@@ -159,6 +159,7 @@ uses
       function SetupModel(FDCadastro: TFDQuery): Boolean;
       function ValidateData(): boolean;
       function SearchEmployee(iIndex: integer; sText, sFilter: String): boolean;
+      function SearchRegister(iIndex: integer; sText, sFilter: String; bFlagAtivo: boolean): boolean;
 
     end;
     const
@@ -441,6 +442,98 @@ begin
   Result := True;
 end;
 
+function TCadastro.SearchRegister(iIndex: integer; sText, sFilter: String; bFlagAtivo: boolean): boolean;
+var
+  sFiltro, sSQL: String;
+  fFuncoes : Common.Utils.TUtils;
+begin
+  Result := False;
+  sFiltro := '';
+  fFuncoes := Common.Utils.TUtils.Create;
+  if sText <> '' then
+  begin
+    if iIndex = 0 then
+    begin
+      sFiltro := 'num_cnpj like ' + QuotedStr('%' +  sText + '%')  + ' or des_razao_social like ' + QuotedStr('%' + sText + '%') +
+                  ' or NOM_FANTASIA like ' + QuotedStr('%' + sText + '%') +
+                  ' or nom_razao_mei like ' + QuotedStr('%' + sText + '%') + ' or nom_fantasia_mei like ' +
+                  QuotedStr('%' + sText + '%') + ' or num_cnpj_mei like ' + QuotedStr('%' + sText + '%') +
+                  ' or nom_favorecido like ' + QuotedStr('%' + sText + '%') + ' or num_cpf_cnpj_favorecido like ' +
+                  QuotedStr('%' + sText + '%') + ' or des_placa like ' + QuotedStr('%' + sText + '%');
+      if fFuncoes.ENumero(sText) then
+      begin
+        if sFiltro <> '' then
+        begin
+          sFiltro := sFiltro + ' or ';
+        end;
+        sFiltro := sFiltro + 'cod_cadastro like ' + sText + ' or num_ie like ' + sText  + ' or num_renavan like ' + sText +
+                   ' or num_cnh like ' + sText + ' or num_registro_cnh like ' + sText;
+      end;
+    end
+    else
+    begin
+      case iIndex of
+        1 : sFiltro := 'cod_cadastro like ' + sText;
+        2 : sFiltro := 'num_cnpj like ' + QuotedStr('%' +  sText + '%');
+        3 : sFiltro := 'num_ie like ' + sText;
+        4 : sFiltro := 'des_razao_social like ' + QuotedStr('%' +  sText + '%');
+        5 : sFiltro := 'nom_fantasia like ' + QuotedStr('%' +  sText + '%');
+        6 : sFiltro := 'num_cnh like ' + sText;
+        7 : sFiltro := 'num_registro_cnh like ' + sText;
+        8 : sFiltro := 'nom_razao_mei like ' + QuotedStr('%' +  sText + '%');
+        9 : sFiltro := 'nom_fantasia_mei like ' + QuotedStr('%' +  sText + '%');
+       10 : sFiltro := 'num_cnpj_mei like ' + QuotedStr('%' +  sText + '%');
+       11 : sFiltro := 'nom_favorecido like ' + QuotedStr('%' +  sText + '%');
+       12 : sFiltro := 'num_cpf_cnpj_favorecido like ' + QuotedStr('%' +  sText + '%');
+       13 : sFiltro := 'num_renavan like ' + sText;
+       14 : sFiltro := 'des_placa like ' + QuotedStr('%' +  sText + '%');
+      end;
+    end;
+  end;
+  fFuncoes.Free;
+  FQuery := FConexao.ReturnQuery;
+  sSQL := 'select * from view_register_contracted';
+  if sFiltro <> '' then
+  begin
+    ssQL := sSQL + ' where (' +  sFiltro + ')';
+  end;
+  if bFlagAtivo then
+  begin
+    if sFilter.IsEmpty then
+    begin
+      if sFiltro <> '' then
+        ssQL := sSQL + ' and (COD_STATUS IN (0,1,5))'
+      else
+        ssQL := sSQL + ' where (COD_STATUS IN (0,1,5))';
+    end
+    else
+    begin
+      if sFiltro <> '' then
+        ssQL := sSQL + ' and (COD_STATUS IN (0,1,5) and ' +  sFilter + ')'
+      else
+        ssQL := sSQL + ' where (COD_STATUS IN (0,1,5) and ' +  sFilter + ')';
+    end;
+  end
+  else
+  begin
+    if not sFilter.IsEmpty then
+    begin
+      if sFiltro <> '' then
+        ssQL := sSQL + ' and (COD_STATUS IN (0,1,5) and ' +  sFilter + ')'
+      else
+        ssQL := sSQL + ' where (COD_STATUS IN (0,1,5) and ' +  sFilter + ')';
+    end;
+  end;
+  FQuery.Open(sSQL);
+  if FQuery.IsEmpty then
+  begin
+    FQuery.Connection.Connected := False;
+    FQuery.Free;
+    Exit;
+  end;
+  Result := True;
+end;
+
 function TCadastro.SetupModel(FDCadastro: TFDQuery): Boolean;
 begin
   try
@@ -524,15 +617,21 @@ begin
       raise Exception.Create('Informe o nome ou razão social!');
       Exit;
     end;
-    if FFantasia = '' then
-    begin
-      raise Exception.Create('Informe o alias ou nome fantasia!');
-      Exit;
-    end;
-    SetLength(aParam, 2);
     if FDoc = 'CPF' then
     begin
+      SetLength(aParam, 2);
       aParam :=['CPF',FCPFCNPJ];
+      if FAcao = tacIncluir then
+      begin
+        if Self.Localizar(aParam) then
+        begin
+          FQuery.Connection.Connected := False;
+          Finalize(aParam);
+          raise Exception.Create('CPf já cadastrado!');
+          Exit;
+        end;
+      end;
+      Finalize(aParam);
       if not FFunctions.CPF(FCPFCNPJ) then
       begin
         raise Exception.Create('CPf do cadastro incorreto!');
@@ -541,9 +640,27 @@ begin
     end
     else if FDOC = 'CNPJ' then
     begin
+      SetLength(aParam, 2);
+      aParam :=['CPF',FCPFCNPJ];
+      if FAcao = tacIncluir then
+      begin
+        if Self.Localizar(aParam) then
+        begin
+          FQuery.Connection.Connected := False;
+          Finalize(aParam);
+          raise Exception.Create('CNPJ já cadastrado!');
+          Exit;
+        end;
+      end;
+      Finalize(aParam);
       if not FFunctions.CNPJ(FCPFCNPJ) then
       begin
         raise Exception.Create('CNPJ do cadastro incorreto!');
+        Exit;
+      end;
+      if FFantasia = '' then
+      begin
+        raise Exception.Create('Informe o alias ou nome fantasia!');
         Exit;
       end;
     end;

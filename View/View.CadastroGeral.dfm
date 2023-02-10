@@ -1,7 +1,7 @@
 object view_CadastroGeral: Tview_CadastroGeral
   Left = 0
   Top = 0
-  Caption = 'Cadastro Geral'
+  Caption = 'Cadastro de Contratados'
   ClientHeight = 534
   ClientWidth = 796
   Color = clBtnFace
@@ -570,11 +570,14 @@ object view_CadastroGeral: Tview_CadastroGeral
   TextHeight = 13
   object layoutControlPadrao: TdxLayoutControl
     Left = 0
-    Top = 22
+    Top = 0
     Width = 796
-    Height = 512
+    Height = 534
     Align = alClient
     TabOrder = 0
+    LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitTop = 24
+    ExplicitHeight = 510
     object maskEditID: TcxMaskEdit
       Left = 31
       Top = 11
@@ -585,8 +588,6 @@ object view_CadastroGeral: Tview_CadastroGeral
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d'
       Properties.ReadOnly = True
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 0
       Text = '0'
@@ -602,11 +603,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         'F'#237'sica'
         'Jur'#237'dica')
       Properties.OnChange = comboBoxTipoPessoaPropertiesChange
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 1
       Text = 'Selecione ...'
       Width = 91
@@ -618,8 +615,6 @@ object view_CadastroGeral: Tview_CadastroGeral
       Properties.IgnoreMaskBlank = True
       Properties.EditMask = '!000\.000\.000\-00;1; '
       Properties.MaxLength = 0
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 2
       Text = '   .   .   -  '
@@ -630,8 +625,6 @@ object view_CadastroGeral: Tview_CadastroGeral
       Top = 11
       Hint = 'Nome ou raz'#227'p social]'
       Properties.MaxLength = 70
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 3
       Width = 338
@@ -640,7 +633,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       Left = 26
       Top = 73
       Width = 744
-      Height = 197
+      Height = 181
       TabOrder = 4
       object textEditRG: TcxTextEdit
         Left = 104
@@ -948,6 +941,7 @@ object view_CadastroGeral: Tview_CadastroGeral
         AlignVert = avTop
         CaptionOptions.Text = 'Pessoa F'#237'sica'
         ButtonOptions.Buttons = <>
+        ItemIndex = 4
         Index = 0
       end
       object layoutItemRG: TdxLayoutItem
@@ -1276,7 +1270,7 @@ object view_CadastroGeral: Tview_CadastroGeral
     end
     object layoutControlComplemento: TdxLayoutControl
       Left = 26
-      Top = 276
+      Top = 260
       Width = 744
       Height = 210
       TabOrder = 5
@@ -1937,8 +1931,6 @@ object view_CadastroGeral: Tview_CadastroGeral
       Caption = 'GR Aprovado'
       Properties.ValueChecked = 'S'
       Properties.ValueUnchecked = 'N'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 6
       Visible = False
@@ -1948,8 +1940,6 @@ object view_CadastroGeral: Tview_CadastroGeral
       Top = 10000
       Hint = 'Nome da empresa Gerenciadora de Risco'
       Properties.MaxLength = 50
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 7
       Visible = False
@@ -1959,11 +1949,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       Left = 10000
       Top = 10000
       Hint = 'Data da validade do GR'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 8
       Visible = False
       Width = 83
@@ -1972,8 +1958,6 @@ object view_CadastroGeral: Tview_CadastroGeral
       Left = 10000
       Top = 10000
       Properties.MaxLength = 20
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 9
       Visible = False
@@ -1982,8 +1966,6 @@ object view_CadastroGeral: Tview_CadastroGeral
     object memoObservacoes: TcxMemo
       Left = 10000
       Top = 10000
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 10
       Visible = False
@@ -1993,6 +1975,7 @@ object view_CadastroGeral: Tview_CadastroGeral
     object layoutControlPadraoGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       Hidden = True
       ItemIndex = 1
@@ -2080,6 +2063,7 @@ object view_CadastroGeral: Tview_CadastroGeral
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       LayoutDirection = ldTabbed
       ShowBorder = False
@@ -2171,6 +2155,12 @@ object view_CadastroGeral: Tview_CadastroGeral
       ControlOptions.ShowBorder = False
       Index = 0
     end
+    object layoutGroupOptions: TdxLayoutGroup
+      Parent = layoutControlPadraoGroup_Root
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      Index = 2
+    end
   end
   object memTableEnderecos: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -2180,7 +2170,8 @@ object view_CadastroGeral: Tview_CadastroGeral
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 448
+    Left = 352
+    Top = 304
     object memTableEnderecosid_cadastro: TIntegerField
       FieldName = 'id'
     end
@@ -2231,7 +2222,8 @@ object view_CadastroGeral: Tview_CadastroGeral
   object dsEnderecos: TDataSource
     AutoEdit = False
     DataSet = memTableEnderecos
-    Left = 408
+    Left = 320
+    Top = 304
   end
   object memTableContatos: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -2241,7 +2233,8 @@ object view_CadastroGeral: Tview_CadastroGeral
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 576
+    Left = 416
+    Top = 304
     object memTableContatosid: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id'
@@ -2270,7 +2263,8 @@ object view_CadastroGeral: Tview_CadastroGeral
   object dsContatos: TDataSource
     AutoEdit = False
     DataSet = memTableContatos
-    Left = 544
+    Left = 384
+    Top = 304
   end
   object actionListCadastro: TActionList
     Left = 640
@@ -2284,7 +2278,6 @@ object view_CadastroGeral: Tview_CadastroGeral
       Caption = 'Localizar'
       Hint = 'Localizar cadastro'
       ShortCut = 119
-      OnExecute = actionLocalizarExecute
     end
     object actionEditar: TAction
       Caption = 'Editar'
@@ -2327,174 +2320,6 @@ object view_CadastroGeral: Tview_CadastroGeral
       Hint = 'Fechar a tela'
     end
   end
-  object barManagerCadastro: TdxBarManager
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    Categories.Strings = (
-      'Default')
-    Categories.ItemsVisibles = (
-      2)
-    Categories.Visibles = (
-      True)
-    MenuAnimations = maRandom
-    PopupMenuLinks = <>
-    UseSystemFont = False
-    Left = 712
-    PixelsPerInch = 96
-    DockControlHeights = (
-      0
-      0
-      22
-      0)
-    object barManagerCadastroBar1: TdxBar
-      AllowClose = False
-      AllowCustomizing = False
-      AllowQuickCustomizing = False
-      AllowReset = False
-      BorderStyle = bbsNone
-      Caption = 'Cadastro'
-      CaptionButtons = <>
-      DockedDockingStyle = dsTop
-      DockedLeft = 0
-      DockedTop = 0
-      DockingStyle = dsTop
-      FloatLeft = 824
-      FloatTop = 2
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarButton1'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton2'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton3'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton4'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton10'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarSubItem1'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton12'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton13'
-        end>
-      OneOnRow = True
-      RotateWhenVertical = False
-      Row = 0
-      ShowMark = False
-      SizeGrip = False
-      UseOwnFont = False
-      UseRecentItems = False
-      UseRestSpace = True
-      Visible = True
-      WholeRow = False
-    end
-    object dxBarButton1: TdxBarButton
-      Action = actionIncluir
-      Category = 0
-    end
-    object dxBarButton2: TdxBarButton
-      Action = actionLocalizar
-      Category = 0
-    end
-    object dxBarButton3: TdxBarButton
-      Action = actionEditar
-      Category = 0
-    end
-    object dxBarButton4: TdxBarButton
-      Action = actionCancelar
-      Category = 0
-    end
-    object dxBarButton5: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxBarSubItem1: TdxBarSubItem
-      Caption = 'Gerenciamento de Risco'
-      Category = 0
-      Visible = ivAlways
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarButton6'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton9'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton7'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton11'
-        end>
-    end
-    object dxBarSubItem2: TdxBarSubItem
-      Caption = 'New SubItem'
-      Category = 0
-      Visible = ivAlways
-      ItemLinks = <>
-    end
-    object dxBarButton6: TdxBarButton
-      Action = actionDocumentosVencidos
-      Category = 0
-    end
-    object dxBarButton7: TdxBarButton
-      Action = actionFichaDIRECT
-      Category = 0
-    end
-    object dxBarButton8: TdxBarButton
-      Caption = 'New Button'
-      Category = 0
-      Hint = 'New Button'
-      Visible = ivAlways
-    end
-    object dxBarButton9: TdxBarButton
-      Action = actionVencimentoGR
-      Category = 0
-    end
-    object dxBarButton10: TdxBarButton
-      Action = actionGravar
-      Category = 0
-    end
-    object dxBarButton11: TdxBarButton
-      Action = actionSolicitarGR
-      Category = 0
-    end
-    object dxBarButton12: TdxBarButton
-      Action = actionContrato
-      Category = 0
-    end
-    object dxBarButton13: TdxBarButton
-      Action = actionFechar
-      Align = iaRight
-      Category = 0
-    end
-  end
   object memTableEstados: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -2503,7 +2328,7 @@ object view_CadastroGeral: Tview_CadastroGeral
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 520
+    Left = 584
     Top = 54
     object memTableEstadosuf_estado: TStringField
       DisplayLabel = 'UF'
@@ -2540,7 +2365,7 @@ object view_CadastroGeral: Tview_CadastroGeral
   object dsEstados: TDataSource
     AutoEdit = False
     DataSet = memTableEstados
-    Left = 472
+    Left = 544
     Top = 54
   end
   object dsBancos: TDataSource

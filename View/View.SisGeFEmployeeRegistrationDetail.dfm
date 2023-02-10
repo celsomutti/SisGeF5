@@ -419,7 +419,7 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     Height = 179
     Align = alTop
     TabOrder = 3
-    Properties.ActivePage = cxTabSheet3
+    Properties.ActivePage = cxTabSheet5
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 175
     ClientRectLeft = 4
@@ -1007,7 +1007,7 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     Font.Style = []
   end
   object cxButton1: TcxButton
-    Left = 573
+    Left = 572
     Top = 427
     Width = 75
     Height = 25

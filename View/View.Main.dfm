@@ -1198,6 +1198,10 @@
           ItemName = 'dxBarLargeButton42'
         end
         item
+          Visible = True
+          ItemName = 'dxBarLargeButton71'
+        end
+        item
           BeginGroup = True
           Visible = True
           ItemName = 'dxBarLargeButton43'
@@ -1947,6 +1951,11 @@
       Category = 0
       LargeImageIndex = 36
     end
+    object dxBarLargeButton71: TdxBarLargeButton
+      Action = actFaturamentoRecebido
+      Category = 0
+      LargeImageIndex = 58
+    end
   end
   object aclMain: TActionList
     Left = 984
@@ -1987,8 +1996,8 @@
     object actImportacaoPedidos: TAction
       Tag = 201010
       Category = 'Expressas'
-      Caption = '&Importa'#231#227'o EDI'
-      Hint = 'Importa'#231#227'o de dados dos pedidos de entregas '
+      Caption = '&Importa'#231#227'o Planilhas'
+      Hint = 'Importa'#231#227'o de planilhas de expressas'
       OnExecute = actImportacaoPedidosExecute
     end
     object actImportarBaixasTFO: TAction
@@ -2062,6 +2071,7 @@
       Category = 'Peri'#243'dicos'
       Caption = '&Importa'#231#227'o de Tiragem'
       Hint = 'Importa'#231#227'o da tiragem do jornal'
+      OnExecute = actImportacaoTiragemExecute
     end
     object actAssinantesJornal: TAction
       Tag = 301020
@@ -2116,6 +2126,7 @@
       Category = 'Peri'#243'dicos'
       Caption = 'E&xtrato Tiragens'
       Hint = 'Gera'#231#227'o e emiss'#227'o do extrato de pagamentos dos enntregadores'
+      OnExecute = actExtratoPeriodicosExecute
     end
     object actVerbasPeriodicos: TAction
       Tag = 305010
@@ -2318,6 +2329,7 @@
     object actCadastroContratados: TAction
       Category = 'Cadastro'
       Caption = 'Contratados'
+      OnExecute = actCadastroContratadosExecute
     end
     object actAnaliseRoteirosExpressas: TAction
       Tag = 202077
@@ -2345,6 +2357,11 @@
       Caption = 'E&xtrato'
       Hint = 'Extrato de Ordens de Servi'#231'o'
       OnExecute = actionExtratoOSExecute
+    end
+    object actFaturamentoRecebido: TAction
+      Category = 'Financeiro'
+      Caption = 'Fa&turamento Recebido'
+      OnExecute = actFaturamentoRecebidoExecute
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager

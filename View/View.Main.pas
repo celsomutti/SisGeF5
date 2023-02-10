@@ -198,6 +198,8 @@ type
     actionExtratoOS: TAction;
     dxBarLargeButton69: TdxBarLargeButton;
     dxBarLargeButton70: TdxBarLargeButton;
+    dxBarLargeButton71: TdxBarLargeButton;
+    actFaturamentoRecebido: TAction;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -236,6 +238,10 @@ type
     procedure actPlanilhaCreditoExecute(Sender: TObject);
     procedure actOrdemServicoExecute(Sender: TObject);
     procedure actionExtratoOSExecute(Sender: TObject);
+    procedure actImportacaoTiragemExecute(Sender: TObject);
+    procedure actExtratoPeriodicosExecute(Sender: TObject);
+    procedure actCadastroContratadosExecute(Sender: TObject);
+    procedure actFaturamentoRecebidoExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -266,9 +272,11 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
   View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
-  View.LancamentosExtratosExpressasPesquisa, View.ImportEDIClient, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
+  View.LancamentosExtratosExpressasPesquisa, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
   View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
-  View.CadastroClientes, View.SisGeFExtractedExpress, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders;
+  View.CadastroClientes, View.SisGeFExtractedExpress, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
+  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals, View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
+  View.SisGeFImportWorksheetExpress;
 
 procedure Tview_Main.Acessos;
 var
@@ -384,6 +392,15 @@ begin
   view_CadastroClientes.Show;
 end;
 
+procedure Tview_Main.actCadastroContratadosExecute(Sender: TObject);
+begin
+  if not Assigned(view_SisGeFRegisterContractors) then
+  begin
+    view_SisGeFRegisterContractors := Tview_SisGeFRegisterContractors.Create(Application);
+  end;
+  view_SisGeFRegisterContractors.Show;
+end;
+
 procedure Tview_Main.actCadastroEmpresasExecute(Sender: TObject);
 begin
   if not Assigned(view_CadastroEmpresas) then
@@ -484,6 +501,15 @@ begin
 
 end;
 
+procedure Tview_Main.actExtratoPeriodicosExecute(Sender: TObject);
+begin
+  if not Assigned(view_SisGeFExtractPeriodicals) then
+  begin
+    view_SisGeFExtractPeriodicals := Tview_SisGeFExtractPeriodicals.Create(Application);
+  end;
+  view_SisGeFExtractPeriodicals.Show;
+end;
+
 procedure Tview_Main.actExtraviosExpressasExecute(Sender: TObject);
 begin
   if not Assigned(view_ExtraviosSinistrosMultas) then
@@ -493,13 +519,38 @@ begin
   view_ExtraviosSinistrosMultas.Show;
 end;
 
+procedure Tview_Main.actFaturamentoRecebidoExecute(Sender: TObject);
+begin
+  if not Assigned(view_SisGeFNFsFaturas) then
+  begin
+    view_SisGeFNFsFaturas := Tview_SisGeFNFsFaturas.Create(Application);
+  end;
+  view_SisGeFNFsFaturas.Show;
+end;
+
 procedure Tview_Main.actImportacaoPedidosExecute(Sender: TObject);
 begin
-  if not Assigned(view_ImporEDIClient) then
+//  if not Assigned(view_ImporEDIClient) then
+//  begin
+//    view_ImporEDIClient := Tview_ImporEDIClient.Create(Application);
+//  end;
+//  view_ImporEDIClient.Show;
+
+  if not Assigned(view_SisGeFImportWorksheetExpress) then
   begin
-    view_ImporEDIClient := Tview_ImporEDIClient.Create(Application);
+    view_SisGeFImportWorksheetExpress := Tview_SisGeFImportWorksheetExpress.Create(Application);
   end;
-  view_ImporEDIClient.Show;
+  view_SisGeFImportWorksheetExpress.Show;
+
+end;
+
+procedure Tview_Main.actImportacaoTiragemExecute(Sender: TObject);
+begin
+  if not Assigned(view_SisGeFPrintRunsImports) then
+  begin
+    view_SisGeFPrintRunsImports := Tview_SisGeFPrintRunsImports.Create(Application);
+  end;
+  view_SisGeFPrintRunsImports.Show;
 end;
 
 procedure Tview_Main.actImportarBaixasTFOExecute(Sender: TObject);

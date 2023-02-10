@@ -12,7 +12,7 @@ uses
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
   cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, System.Actions,
   Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Cadastro, Control.Estados,
-  Control.CadastroEnderecos, Control.CadastroContatos, System.DateUtils ;
+  Control.CadastroEnderecos, Control.CadastroContatos, System.DateUtils;
 
 type
   Tview_CadastroGeral = class(TForm)
@@ -179,23 +179,6 @@ type
     actionFichaDIRECT: TAction;
     actionSolicitarGR: TAction;
     actionContrato: TAction;
-    barManagerCadastro: TdxBarManager;
-    barManagerCadastroBar1: TdxBar;
-    dxBarButton1: TdxBarButton;
-    dxBarButton2: TdxBarButton;
-    dxBarButton3: TdxBarButton;
-    dxBarButton4: TdxBarButton;
-    dxBarButton5: TdxBarButton;
-    dxBarSubItem1: TdxBarSubItem;
-    dxBarSubItem2: TdxBarSubItem;
-    dxBarButton6: TdxBarButton;
-    dxBarButton7: TdxBarButton;
-    dxBarButton8: TdxBarButton;
-    dxBarButton9: TdxBarButton;
-    dxBarButton10: TdxBarButton;
-    dxBarButton11: TdxBarButton;
-    dxBarButton12: TdxBarButton;
-    dxBarButton13: TdxBarButton;
     layoutGroupComplementos: TdxLayoutGroup;
     layoutGroupGR: TdxLayoutGroup;
     checkBoxStatusGR: TcxCheckBox;
@@ -219,10 +202,10 @@ type
     dsBancos: TDataSource;
     dbCheckBoxCorrespondencia: TcxDBCheckBox;
     layoutItemCorrespondencia: TdxLayoutItem;
+    layoutGroupOptions: TdxLayoutGroup;
     procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actionIncluirExecute(Sender: TObject);
-    procedure actionLocalizarExecute(Sender: TObject);
     procedure actionEditarExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCancelarExecute(Sender: TObject);
@@ -232,13 +215,17 @@ type
     procedure SetupFields(FCadastro: TCadastroControl);
     procedure PopulaBancos;
     procedure PopulaEstados;
-    procedure PesquisaCadastro;
     procedure PopulaEnderecos(iCadastro: Integer);
     procedure PopulaContatos(iCadastro: Integer);
     procedure Modo;
     function ValidaDados(): boolean;
+  private
+    FAcao: TAcao;
+    FID: integer;
+  published
   public
-    { Public declarations }
+    property Acao: TAcao read FAcao write FAcao;
+    property ID: integer read FID write FID;
   end;
 
 var
@@ -249,7 +236,7 @@ implementation
 
 {$R *.dfm}
 
-uses View.PesquisarPessoas;
+uses Data.SisGeF;
 
 procedure Tview_CadastroGeral.actionCancelarExecute(Sender: TObject);
 begin
@@ -272,11 +259,6 @@ begin
   FAcao := tacIncluir;
   Modo;
   comboBoxTipoPessoa.SetFocus;
-end;
-
-procedure Tview_CadastroGeral.actionLocalizarExecute(Sender: TObject);
-begin
-  PesquisaCadastro;
 end;
 
 procedure Tview_CadastroGeral.ClearFields;
@@ -593,72 +575,6 @@ begin
     memoObservacoes.Properties.ReadOnly := True;
     dsEnderecos.AutoEdit := False;
     dsContatos.AutoEdit := False;
-  end;
-end;
-
-procedure Tview_CadastroGeral.PesquisaCadastro;
-var
-  sSQL: String;
-  sWhere: String;
-  aParam: array of variant;
-  sQuery: String;
-  cadastro : TCadastroControl;
-begin
-  try
-    sSQL := '';
-    sWhere := '';
-    cadastro := TCadastroControl.Create;
-    if not Assigned(View_PesquisarPessoas) then
-    begin
-      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
-    end;
-    View_PesquisarPessoas.dxLayoutItem1.Visible := True;
-    View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-
-
-    sSQL := 'select ' +
-            'num_cnpj as "CPF/CNPJ", cod_cadastro as ID, des_nome_razao as Nome, nom_fantasia as Alias, num_rg_ie as "RG/IE", ' +
-            'num_registro_cnh as "Registro CNH" ' +
-            'from ' + cadastro.Cadastro.NomeTabela + ';';
-
-    sWhere := 'where num_cpf_cnpj like "%param%" or cod_cadastro like "paraN" or ' +
-              'des_nome_razao like "%param%" or nom_fantasia like "%param%" or ' +
-              'num_registro_cnh like "%param%";';
-    View_PesquisarPessoas.sSQL := sSQL;
-    View_PesquisarPessoas.sWhere := sWhere;
-    View_PesquisarPessoas.bOpen := False;
-    View_PesquisarPessoas.Caption := 'Localizar Cadastros';
-    if View_PesquisarPessoas.ShowModal = mrOK then
-    begin
-      sQuery := 'cod_cadastro = ' + View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;
-      SetLength(aParam,2);
-      aparam := ['FILTRO', sQuery];
-      if cadastro.Localizar(aParam) then
-      begin
-        if not cadastro.SetupModel(cadastro.Cadastro.Query) then
-        begin
-          Application.MessageBox('Ocorreu um problema ao exibir as informações!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          Exit;
-        end
-        else
-        begin
-          FAcao := tacPesquisa;
-          SetupFields(cadastro);
-          //Modo;
-        end;
-      end
-      else
-      begin
-        Application.MessageBox('Cadastro não localizado!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-        Exit;
-      end;
-      Finalize(aParam);
-    end;
-  finally
-    cadastro.Free;
-    View_PesquisarPessoas.qryPesquisa.Close;
-    View_PesquisarPessoas.tvPesquisa.ClearItems;
-    FreeAndNil(View_PesquisarPessoas);
   end;
 end;
 

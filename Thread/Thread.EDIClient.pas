@@ -413,7 +413,7 @@ begin
       5 : ProcessSIM;
       6 : ProcessEngloba;
       7 : ProcessRF;
-      8 : ProcessEngloba;
+      8..13 : ProcessEngloba;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +

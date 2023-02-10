@@ -584,9 +584,8 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
     Properties.ShowButtonHints = True
     Properties.ShowTabHints = True
     OnChange = cxPageControl1Change
-    ClientRectBottom = 370
-    ClientRectLeft = 4
-    ClientRectRight = 917
+    ClientRectBottom = 374
+    ClientRectRight = 921
     ClientRectTop = 26
     object cxTabSheet1: TcxTabSheet
       Caption = 'Par'#226'metros'
@@ -594,8 +593,8 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
       object dbFilterControl: TcxDBFilterControl
         Left = 0
         Top = 0
-        Width = 913
-        Height = 344
+        Width = 921
+        Height = 348
         Align = alClient
         Color = clWhite
         DataSet = fdQueryBI
@@ -630,6 +629,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Caption = 'C'#243'd. Entregador'
             FieldName = 'COD_ENTREGADOR'
             PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
             Properties.MaskKind = emkRegExpr
             Properties.EditMask = '\d\d\d\d\d\d'
           end
@@ -642,6 +642,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Caption = 'C'#243'd. Embarcador'
             FieldName = 'COD_CLIENTE'
             PropertiesClassName = 'TcxMaskEditProperties'
+            Properties.IgnoreMaskBlank = True
             Properties.MaskKind = emkRegExpr
             Properties.EditMask = '\d\d\d\d\d\d'
           end
@@ -954,8 +955,8 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
       object grdPesquisa: TcxGrid
         Left = 0
         Top = 0
-        Width = 913
-        Height = 344
+        Width = 921
+        Height = 348
         Align = alClient
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -1018,6 +1019,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
           OptionsData.DeletingConfirmation = False
           OptionsData.Inserting = False
           OptionsView.CellAutoHeight = True
+          OptionsView.Footer = True
           OptionsView.GroupByBox = False
           OptionsView.Indicator = True
           object tvPesquisaNUM_NOSSONUMERO: TcxGridDBColumn
@@ -1924,5 +1926,11 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
     Title = 'Carregar Layout'
     Left = 828
     Top = 6
+  end
+  object cxGridPopupMenu1: TcxGridPopupMenu
+    Grid = grdPesquisa
+    PopupMenus = <>
+    Left = 688
+    Top = 168
   end
 end

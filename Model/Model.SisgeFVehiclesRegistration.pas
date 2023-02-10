@@ -282,6 +282,7 @@ begin
   FQuery.Open();
   if FQuery.IsEmpty then
   begin
+    FQuery.Connection.Connected := False;
     Exit;
   end;
   Result := True;
