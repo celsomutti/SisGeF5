@@ -591,10 +591,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.HotTrack = False
       TabOrder = 0
       Text = '0'
-      Width = 76
+      Width = 73
     end
     object comboBoxTipoPessoa: TcxComboBox
-      Left = 145
+      Left = 142
       Top = 12
       Hint = 'Tipo de pessoa'
       Properties.DropDownListStyle = lsEditFixedList
@@ -610,10 +610,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 1
       Text = 'Selecione ...'
-      Width = 87
+      Width = 83
     end
     object textEditNome: TcxTextEdit
-      Left = 461
+      Left = 471
       Top = 12
       Hint = 'Nome ou raz'#227'p social]'
       Properties.MaxLength = 70
@@ -621,7 +621,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 3
-      Width = 324
+      Width = 314
     end
     object layoutControlDados: TdxLayoutControl
       Left = 26
@@ -849,7 +849,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.HotTrack = False
         TabOrder = 17
         Visible = False
-        Width = 221
+        Width = 218
       end
       object textEditIE: TcxTextEdit
         Left = 10000
@@ -1223,7 +1223,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       object layoutItemIEST: TdxLayoutItem
         Parent = layoutGroupJuridica1
         AlignVert = avClient
-        CaptionOptions.Text = 'Ins. Estadual IE:'
+        CaptionOptions.Text = 'Ins. Estadual ST:'
         Control = textEditIEST
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 100
@@ -2367,7 +2367,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Width = 282
     end
     object maskEditCPCNPJ: TcxButtonEdit
-      Left = 295
+      Left = 288
       Top = 11
       Properties.Buttons = <
         item
@@ -2412,7 +2412,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.ButtonStyle = bts3D
       TabOrder = 2
       Text = '   .   .   -  '
-      Width = 121
+      Width = 138
     end
     object cxButton6: TcxButton
       Left = 403
@@ -2513,7 +2513,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Parent = layoutGroupMaster
       CaptionOptions.Text = 'Cadastro'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       Index = 0
     end
     object layoutGroupComplementos: TdxLayoutGroup
@@ -2737,7 +2736,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       CaptionOptions.Text = 'CPF/CNPJ:'
       Control = maskEditCPCNPJ
       ControlOptions.OriginalHeight = 24
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 138
       ControlOptions.ShowBorder = False
       Index = 2
     end

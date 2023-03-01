@@ -419,11 +419,10 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     Height = 179
     Align = alTop
     TabOrder = 3
-    Properties.ActivePage = cxTabSheet5
+    Properties.ActivePage = cxTabSheet1
     Properties.CustomButtons.Buttons = <>
-    ClientRectBottom = 175
-    ClientRectLeft = 4
-    ClientRectRight = 813
+    ClientRectBottom = 179
+    ClientRectRight = 817
     ClientRectTop = 24
     object cxTabSheet1: TcxTabSheet
       Caption = 'Endere'#231'o'
@@ -562,8 +561,8 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
       object gridContatos: TcxGrid
         Left = 0
         Top = 0
-        Width = 809
-        Height = 151
+        Width = 817
+        Height = 155
         Align = alClient
         TabOrder = 0
         object gridContatosDBTableView1: TcxGridDBTableView
@@ -774,8 +773,8 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
         Align = alClient
         Properties.ScrollBars = ssBoth
         TabOrder = 0
-        Height = 151
-        Width = 809
+        Height = 155
+        Width = 817
       end
     end
     object cxTabSheet5: TcxTabSheet
@@ -785,7 +784,7 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 803
+        Width = 811
         Height = 118
         Align = alTop
         TabOrder = 0

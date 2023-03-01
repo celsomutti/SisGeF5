@@ -1318,29 +1318,39 @@ begin
   FCadastro.Cadastro.Nome := textEditNome.Text;
   FCadastro.Cadastro.IERG := textEditRG.Text;
   FCadastro.Cadastro.EmissorRG := textEditExpedidor.Text;
-  FCadastro.Cadastro.EMissaoRG := dateEditDataRG.Date;
-  FCadastro.Cadastro.Nascimento := dateEditNascimento.Date;
+  if dateEditDataRG.Text = '' then
+    FCadastro.Cadastro.EMissaoRG := 0
+  else
+    FCadastro.Cadastro.EMissaoRG := dateEditDataRG.Date;
+  if dateEditNascimento.Text = '' then
+    FCadastro.Cadastro.Nascimento := 0
+  else
+    FCadastro.Cadastro.Nascimento := dateEditNascimento.Date;
   FCadastro.Cadastro.Pai := textEditNomePai.Text;
   FCadastro.Cadastro.Mae := textEditNomeMae.Text;
   FCadastro.Cadastro.CidadeNascimento := textEditNaturalidade.Text;
-  FCadastro.Cadastro.UFNascimento := lookupComboBoxNaturalidade.EditValue;
+  FCadastro.Cadastro.UFNascimento := lookupComboBoxNaturalidade.Text;
   FCadastro.Cadastro.CodigoCNH := textEditSegurancaCNH.Text;
   FCadastro.Cadastro.NumeroCNH := textEditNumeroCNH.Text;
   FCadastro.Cadastro.RegistroCNH := textEditRegistroCNH.Text;
   FCadastro.Cadastro.CategoriaCNH := textEditCategoriaCNH.Text;
-  FCadastro.Cadastro.EmissaoCNH := dateEditEmissaoCNH.Date;
-  FCadastro.Cadastro.ValidadeCNH := dateEditValidadeCNH.Date;
-  FCadastro.Cadastro.DataPrimeiraCNH := dateEditPrimeiraCNH.Date;
-  FCadastro.Cadastro.UFCNH := lookupComboBoxUFCNH.EditValue;
-  FCadastro.Cadastro.Fantasia := textEditNomeFantasia.Text;
-  if FCadastro.Cadastro.Doc = 'CNPJ' then
-  begin
-    FCadastro.Cadastro.IERG := textEditIE.Text;
-  end
+  if dateEditEmissaoCNH.Text = '' then
+    FCadastro.Cadastro.EmissaoCNH := 0
   else
+    FCadastro.Cadastro.EmissaoCNH := dateEditEmissaoCNH.Date;
+  if dateEditValidadeCNH.Text = '' then
+    FCadastro.Cadastro.ValidadeCNH := 0
+  else
+    FCadastro.Cadastro.ValidadeCNH := dateEditValidadeCNH.Date;
+  if dateEditPrimeiraCNH.Text = '' then
+    FCadastro.Cadastro.DataPrimeiraCNH := 0
+  else
+    FCadastro.Cadastro.DataPrimeiraCNH := dateEditPrimeiraCNH.Date;
+  FCadastro.Cadastro.UFCNH := lookupComboBoxUFCNH.Text;
+  FCadastro.Cadastro.Fantasia := textEditNomeFantasia.Text;
+  FCadastro.Cadastro.IERG := textEditIE.Text;
   begin
-    FCadastro.Cadastro.IERG := textEditRG.Text;
-    FCadastro.Cadastro.UFRG := lookupComboBoxUFRG.EditingText;
+    FCadastro.Cadastro.UFRG := lookupComboBoxUFRG.Text;
   end;
   FCadastro.Cadastro.IEST := textEditIEST.Text;
   FCadastro.Cadastro.IM := textEditIM.Text;
@@ -1348,7 +1358,8 @@ begin
   FCadastro.Cadastro.CRT := comboBoxCRT.ItemIndex;
   FCadastro.Cadastro.FormaPagamento := comboBoxFormaPagamento.Text;
   FCadastro.Cadastro.TipoConta := comboBoxTipoConta.Text;
-  FCadastro.Cadastro.Banco := lookupComboBoxBanco.EditValue;
+  if lookupComboBoxBanco.Text <> '' then
+    FCadastro.Cadastro.Banco := lookupComboBoxBanco.EditValue;
   FCadastro.Cadastro.AgenciaConta := textEditAgencia.Text;
   FCadastro.Cadastro.NumeroConta := textEditConta.Text;
   FCadastro.Cadastro.NomeFavorecido := textEditFavorecido.Text;
@@ -1356,16 +1367,29 @@ begin
   FCadastro.Cadastro.Chave := textEditChavePIX.Text;
   FCadastro.Cadastro.GV := checkBoxStatusGR.EditValue;
   FCadastro.Cadastro.EmpresaGR := textEditEmpresaGR.Text;
-  if dateEditValidadeGR.Text <> '' then
+  if dateEditValidadeGR.Text = '' then
+    FCadastro.Cadastro.DataGV := 0
+  else
     FCadastro.Cadastro.DataGV := dateEditValidadeGR.Date;
   FCadastro.Cadastro.NumeroConsultaGR := textEditNumeroConsultaGR.Text;
   FCadastro.Cadastro.Obs := memoObservacoes.Text;
   FCadastro.Cadastro.Status := checkBoxStatus.EditValue;
+  if FCadastro.Cadastro.Acao = tacIncluir then
+    FCadastro.Cadastro.DataCadastro := Now();
+  FCadastro.Cadastro.DataAlteracao := Now();
+  FCadastro.Cadastro.Executante := Global.Parametros.pUser_Name;
+  FCadastro.Cadastro.Usuario := Global.Parametros.pUser_ID;
 end;
 
 procedure Tview_SisGeFContractedDetail.SetupFields(FCadastro: TCadastroControl);
 begin
   maskEditID.EditValue := FCadastro.Cadastro.Cadastro;
+  if FCadastro.Cadastro.Doc = 'CPF' then
+    comboBoxTipoPessoa.ItemIndex := 1
+  else if FCadastro.Cadastro.Doc = 'CNPJ' then
+    comboBoxTipoPessoa.ItemIndex := 2
+  else
+    comboBoxTipoPessoa.ItemIndex := 0;
   comboBoxTipoPessoa.Text := FCadastro.Cadastro.Doc;
   maskEditCPCNPJ.EditValue := FCadastro.Cadastro.CPFCNPJ;
   textEditNome.Text := FCadastro.Cadastro.Nome;

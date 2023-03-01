@@ -886,7 +886,7 @@ begin
   FCadastro.Cadastro.AgenciaConta := agencia.Text;
   FCadastro.Cadastro.NumeroConta := numeroConta.Text;
   FCadastro.Cadastro.NomeFavorecido := nomeFavorecido.Text;
-  FCadastro.Cadastro.CPFCNPJFavorecido := cpfFavorecido.EditValue;
+  FCadastro.Cadastro.CPFCNPJFavorecido := cpfFavorecidO.Text;
   if observacoes.Lines.Count > 0 then
     FCadastro.Cadastro.Obs := observacoes.Text;
   FCadastro.Cadastro.Funcionario := 'F';
