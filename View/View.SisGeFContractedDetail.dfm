@@ -731,8 +731,9 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Properties.KeyFieldNames = 'uf_estado'
         Properties.ListColumns = <
           item
-            FieldName = 'nom_estado'
+            FieldName = 'uf_estado'
           end>
+        Properties.ListOptions.ShowHeader = False
         Properties.ListSource = dsEstados
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
@@ -1272,6 +1273,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Hint = 'Tipo de endere'#231'o'
         DataBinding.DataField = 'des_tipo'
         DataBinding.DataSource = dsEnderecos
+        Properties.IgnoreMaskBlank = True
         Properties.Items.Strings = (
           'RESIDENCIAL'
           'COMERCIAL'
@@ -1473,6 +1475,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Top = 10000
         Hint = 'Forma de pagamento'
         Properties.DropDownListStyle = lsEditFixedList
+        Properties.IgnoreMaskBlank = True
         Properties.Items.Strings = (
           'NENHUMA'
           'OBB PLUS'
@@ -1496,6 +1499,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Left = 10000
         Top = 10000
         Properties.DropDownListStyle = lsEditFixedList
+        Properties.IgnoreMaskBlank = True
         Properties.Items.Strings = (
           'NENHUM'
           'CONTA CORRENTE'
