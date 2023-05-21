@@ -22,7 +22,7 @@ uses
   IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, ScBridge, ScSSHClient,
   ScSFTPClient, Dialogs, ScSSHUtils, ScUtils, ScSFTPUtils, FireDAC.DApt, frxRich, System.DateUtils,
   frxExportBaseDialog, cxImageList, Control.Bases, Control.Sistema, REST.Types, REST.Client, REST.Response.Adapter,
-  Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes;
+  Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes, frxOLE;
 
 type
   TData_Sisgef = class(TDataModule)
@@ -700,6 +700,7 @@ type
     textReaderEntregasDIRECT: TFDBatchMoveTextReader;
     textReaderDIRECTBaixas: TFDBatchMoveTextReader;
     textReaderDIRECTLojas: TFDBatchMoveTextReader;
+    frxOLEObject1: TfrxOLEObject;
     frxReport: TfrxReport;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
