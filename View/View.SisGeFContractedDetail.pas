@@ -1374,6 +1374,7 @@ begin
   FCadastro.Cadastro.NumeroConsultaGR := textEditNumeroConsultaGR.Text;
   FCadastro.Cadastro.Obs := memoObservacoes.Text;
   FCadastro.Cadastro.Status := checkBoxStatus.EditValue;
+  FCadastro.Cadastro.MEI := textEditCodigoMEI.Text;
   if FCadastro.Cadastro.Acao = tacIncluir then
     FCadastro.Cadastro.DataCadastro := Now();
   FCadastro.Cadastro.DataAlteracao := Now();
