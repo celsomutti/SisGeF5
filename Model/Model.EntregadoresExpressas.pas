@@ -67,6 +67,7 @@ uses
     function LocalizarExato(aParam: array of variant): boolean;
     function Gravar(): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
+    function GetCode: integer;
     function EntregadorExiste(iTipo, iCliente, iEntregador: Integer; sERP: String): Boolean;
     function SetupModel(FDEntregadores: TFDQuery): Boolean;
     procedure ClearModel;
@@ -213,8 +214,10 @@ begin
   try
     Result := False;
     FDQuery := FConexao.ReturnQuery();
+    Self.Entregador := GetCode;
     FDQuery.ExecSQL(SQLINSERT, [Self.Cadastro, Self.Entregador, Self.Fantasia, Self.Agente, Self.Data, Self.Chave, Self.Grupo,
                     Self.Verba, Self.Executor, Self.Ativo, Self.Manutencao, Self.Tabela, Self.Cliente]);
+
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -481,6 +484,24 @@ end;
 procedure TEntregadoresExpressas.SetVerba(const value: Double);
 begin
   FVerba := value;
+end;
+
+function TEntregadoresExpressas.GetCode: integer;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    FDQuery := FConexao.ReturnQuery();
+    FDQuery.Open('select coalesce(max(ID_ENTREGADOR),0) + 1 from ' + TABLENAME);
+    try
+      Result := FDQuery.Fields[0].AsInteger;
+    finally
+      FDQuery.Close;
+    end;
+  finally
+    FDQuery.Connection.Close;
+    FDQuery.Free;
+  end;
 end;
 
 end.

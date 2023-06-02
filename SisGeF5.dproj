@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>SisGeF5.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -151,12 +151,12 @@
         <VerInfo_MajorVer>5</VerInfo_MajorVer>
         <VerInfo_MinorVer>2</VerInfo_MinorVer>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Alô Carioca Serviços de Entregas e Transportes Ltda.;FileDescription=$(MSBuildProjectName);FileVersion=5.2.0.52;InternalName=SisGeF5;LegalCopyright=2018 - 2022 © Alô Carioca;LegalTrademarks=Release;OriginalFilename=SisGeF;ProgramID=com.novorioexpress.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=5.2.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Alô Carioca Serviços de Entregas e Transportes Ltda.;FileDescription=$(MSBuildProjectName);FileVersion=5.2.0.54;InternalName=SisGeF5;LegalCopyright=2018 - 2022 © Alô Carioca;LegalTrademarks=Release;OriginalFilename=SisGeF;ProgramID=com.novorioexpress.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=5.2.0.0;Comments=</VerInfo_Keys>
         <Icon_MainIcon>Images\SisGeF.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>Images\SisGeF44X44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>Images\SisGeF150X150.png</UWP_DelphiLogo150>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
-        <VerInfo_Build>52</VerInfo_Build>
+        <VerInfo_Build>54</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>

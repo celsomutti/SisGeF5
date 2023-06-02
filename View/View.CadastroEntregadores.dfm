@@ -642,6 +642,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Properties.IgnoreMaskBlank = True
         Properties.MaskKind = emkRegExpr
         Properties.EditMask = '\d\d\d\d\d\d'
+        Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 1
         Text = '0'
@@ -658,7 +659,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object buttonEditCodigoAgente: TcxButtonEdit
         Left = 12
-        Top = 84
+        Top = 85
         Properties.Alignment.Horz = taRightJustify
         Properties.Buttons = <
           item
@@ -678,7 +679,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object textEditNomeAgente: TcxTextEdit
         Left = 110
-        Top = 84
+        Top = 85
         Hint = 'Nome do agente'
         TabStop = False
         Properties.ReadOnly = True
@@ -688,26 +689,26 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object textEditCodigoERP: TcxTextEdit
         Left = 494
-        Top = 84
-        Hint = 'C'#243'digo ERP'
+        Top = 85
+        Hint = 'C'#243'digo TMS'
         Style.HotTrack = False
         TabOrder = 7
         Width = 408
       end
       object currencyEditTicketMedio: TcxCurrencyEdit
-        Left = 665
-        Top = 186
-        Hint = 'Valot do Ticket M'#233'dio (Verba fixa)'
+        Left = 660
+        Top = 188
+        Hint = 'Valor da Remunera'#231#227'o (Verba Fixa)'
         EditValue = 0.000000000000000000
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;-,0.00'
         Style.HotTrack = False
         TabOrder = 12
-        Width = 139
+        Width = 144
       end
       object checkBoxAtivo: TcxCheckBox
         Left = 811
-        Top = 175
+        Top = 178
         Caption = 'APP Ativo'
         Properties.ValueChecked = '1'
         Properties.ValueUnchecked = '0'
@@ -717,7 +718,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object buttonEditCodigoTabela: TcxButtonEdit
         Left = 12
-        Top = 186
+        Top = 188
         Hint = 'C'#243'digo da tabela'
         Properties.Alignment.Horz = taRightJustify
         Properties.Buttons = <
@@ -734,21 +735,21 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 9
         Text = '0'
-        Width = 139
+        Width = 138
       end
       object textEditDescricaoTabela: TcxTextEdit
-        Left = 158
-        Top = 186
+        Left = 157
+        Top = 188
         Hint = 'Descricao da tabela'
         TabStop = False
         Properties.ReadOnly = True
         Style.HotTrack = False
         TabOrder = 10
-        Width = 354
+        Width = 351
       end
       object buttonEditCodigoFaixa: TcxButtonEdit
-        Left = 519
-        Top = 186
+        Left = 515
+        Top = 188
         Properties.Alignment.Horz = taRightJustify
         Properties.Buttons = <
           item
@@ -763,13 +764,13 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Style.HotTrack = False
         TabOrder = 11
         Text = '0'
-        Width = 139
+        Width = 138
       end
       object gridExtravios: TcxGrid
-        Left = 38
-        Top = 275
-        Width = 838
-        Height = 150
+        Left = 42
+        Top = 278
+        Width = 830
+        Height = 143
         TabOrder = 14
         object gridExtraviosDBTableViewExtravios: TcxGridDBTableView
           Navigator.Buttons.OnButtonClick = gridExtraviosDBTableViewExtraviosNavigatorButtonsButtonClick
@@ -1187,7 +1188,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       end
       object lookupComboBoxCliente: TcxLookupComboBox
         Left = 12
-        Top = 135
+        Top = 137
         Hint = 'Selecione o cliente'
         Properties.KeyFieldNames = 'cod_cliente'
         Properties.ListColumns = <
@@ -1216,7 +1217,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         CaptionOptions.Text = 'Pessoa'
         CaptionOptions.Layout = clTop
         Control = buttonEditPessoa
-        ControlOptions.OriginalHeight = 23
+        ControlOptions.OriginalHeight = 24
         ControlOptions.OriginalWidth = 70
         ControlOptions.ShowBorder = False
         Index = 3
@@ -1270,7 +1271,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         CaptionOptions.Text = 'Agente'
         CaptionOptions.Layout = clTop
         Control = buttonEditCodigoAgente
-        ControlOptions.OriginalHeight = 23
+        ControlOptions.OriginalHeight = 24
         ControlOptions.OriginalWidth = 76
         ControlOptions.ShowBorder = False
         Index = 0
@@ -1299,7 +1300,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Parent = dxLayoutAutoCreatedGroup2
         AlignHorz = ahClient
         AlignVert = avTop
-        CaptionOptions.Text = 'C'#243'digo ERP'
+        CaptionOptions.Text = 'C'#243'digo TMS'
         CaptionOptions.Layout = clTop
         Control = textEditCodigoERP
         ControlOptions.OriginalHeight = 23
@@ -1311,7 +1312,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Parent = dxLayoutAutoCreatedGroup3
         AlignHorz = ahClient
         AlignVert = avTop
-        CaptionOptions.Text = 'Ticket M'#233'dio'
+        CaptionOptions.Text = 'Remunera'#231#227'o'
         CaptionOptions.Layout = clTop
         Control = currencyEditTicketMedio
         ControlOptions.OriginalHeight = 23
@@ -1346,7 +1347,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         CaptionOptions.Text = 'Tabela'
         CaptionOptions.Layout = clTop
         Control = buttonEditCodigoTabela
-        ControlOptions.OriginalHeight = 23
+        ControlOptions.OriginalHeight = 24
         ControlOptions.OriginalWidth = 76
         ControlOptions.ShowBorder = False
         Index = 0
@@ -1371,7 +1372,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         CaptionOptions.Text = 'Faixa'
         CaptionOptions.Layout = clTop
         Control = buttonEditCodigoFaixa
-        ControlOptions.OriginalHeight = 23
+        ControlOptions.OriginalHeight = 24
         ControlOptions.OriginalWidth = 76
         ControlOptions.ShowBorder = False
         Index = 2
@@ -1465,7 +1466,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Height = 25
         Cursor = crHandPoint
         Action = actionGravar
-        TabOrder = 0
+        TabOrder = 1
       end
       object buttonFechar: TcxButton
         Left = 820
@@ -1474,7 +1475,16 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         Height = 25
         Cursor = crHandPoint
         Action = actionFechar
-        TabOrder = 1
+        TabOrder = 2
+      end
+      object cxButton1: TcxButton
+        Left = 12
+        Top = 12
+        Width = 91
+        Height = 25
+        Cursor = crHandPoint
+        Action = actionClonar
+        TabOrder = 0
       end
       object layoutControlFooterGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
@@ -1496,7 +1506,7 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 25
         ControlOptions.OriginalWidth = 82
         ControlOptions.ShowBorder = False
-        Index = 0
+        Index = 1
       end
       object layoutItemButtonFechar: TdxLayoutItem
         Parent = layoutControlFooterGroup_Root
@@ -1508,7 +1518,17 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
         ControlOptions.OriginalHeight = 25
         ControlOptions.OriginalWidth = 82
         ControlOptions.ShowBorder = False
-        Index = 1
+        Index = 2
+      end
+      object dxLayoutItem1: TdxLayoutItem
+        Parent = layoutControlFooterGroup_Root
+        CaptionOptions.Text = 'cxButton1'
+        CaptionOptions.Visible = False
+        Control = cxButton1
+        ControlOptions.OriginalHeight = 25
+        ControlOptions.OriginalWidth = 91
+        ControlOptions.ShowBorder = False
+        Index = 0
       end
     end
     object layoutControlPadraoGroup_Root: TdxLayoutGroup
@@ -1695,6 +1715,13 @@ object view_CadastroEntregadores: Tview_CadastroEntregadores
       ImageIndex = 13
       ShortCut = 116
       OnExecute = actionGravarExecute
+    end
+    object actionClonar: TAction
+      Category = 'Entregadores'
+      Caption = 'Clonar'
+      Hint = 'Clonar entregador para outro cliente'
+      ImageIndex = 121
+      OnExecute = actionClonarExecute
     end
   end
   object memTableExtravios: TFDMemTable
