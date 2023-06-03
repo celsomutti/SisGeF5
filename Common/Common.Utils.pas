@@ -46,11 +46,11 @@ type
     class function AsciiToInt(Caracter: Char): Integer;
     class Function Criptografa(texto:string;chave:integer):String;
     class Function DesCriptografa(texto:string;chave:integer):String;
+    class Function DesmontaCPFCNPJ(sValue: string): string;
     class Procedure ExportarDados(grdGrid: TcxGrid; sFile: String);
     class Procedure TocaErro;
     class Procedure CancelaTocaErro;
     class function GenerateUniqueKey(pPrefix: String = ''): String;
-    class Function DesmontaCPFCNPJ(sNum: String): String;
     class function GetNewID(Prefix:String):string;
     class function ExpressStatementNumber(initialDate, finalDate: TDate; idDeliveryMan: integer; sPosfix: string): string;
     class procedure NoRotine;
@@ -971,15 +971,13 @@ begin
   end;
 end;
 
-
-class function TUtils.DesmontaCPFCNPJ(sNum: String): String;
+class function TUtils.DesmontaCPFCNPJ(sValue: String): String;
 var
   numero: string;
 begin
-  numero := ReplaceStr(sNum, '.', '');
+  numero := ReplaceStr(sValue, '.', '');
   numero := ReplaceStr(numero, '-', '');
   numero := ReplaceStr(numero, ' ', '');
-  numero := ReplaceStr(numero, '_', '');
   numero := ReplaceStr(numero, '/', '');
   Result := numero;
 end;
