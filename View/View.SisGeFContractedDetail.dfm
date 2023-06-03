@@ -1573,13 +1573,15 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Left = 10000
         Top = 10000
         Properties.IgnoreMaskBlank = True
-        Properties.EditMask = '!000\.000\.000\-00;1; '
+        Properties.MaxLength = 20
+        Properties.OnValidate = maskEditCPFCNPJFavorecidoPropertiesValidate
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 18
-        Text = '   .   .   -  '
+        Text = '                    '
         Visible = False
+        OnEnter = maskEditCPFCNPJFavorecidoEnter
         Width = 195
       end
       object textEditChavePIX: TcxTextEdit

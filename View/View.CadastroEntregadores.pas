@@ -199,6 +199,9 @@ type
     lookupComboBoxCliente: TcxLookupComboBox;
     layoutItemCliente: TdxLayoutItem;
     memTableEntregadoresid_entregador: TIntegerField;
+    actionClonar: TAction;
+    cxButton1: TcxButton;
+    dxLayoutItem1: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -227,6 +230,7 @@ type
     procedure actionCancelarExecute(Sender: TObject);
     procedure actionGravarExecute(Sender: TObject);
     procedure fdqueryEntregadoresAfterClose(DataSet: TDataSet);
+    procedure actionClonarExecute(Sender: TObject);
   private
     { Private declarations }
     procedure PesquisaAgente;
@@ -247,6 +251,8 @@ type
     procedure EditData;
     procedure CloseForm;
     procedure StartForm;
+    procedure ClearForClone;
+    procedure CloneData;
     function RetornaNomeAgente(iCodigo: integer): String;
     function RetornaNomePessoa(iCodigo: integer): String;
     function RetornaDescricaoTabela(iCodigo: integer): string;
@@ -274,6 +280,11 @@ begin
   FAcao := tacIndefinido;
   LimpaCampos;
   Modo;
+end;
+
+procedure Tview_CadastroEntregadores.actionClonarExecute(Sender: TObject);
+begin
+  CloneData;
 end;
 
 procedure Tview_CadastroEntregadores.actionEditarExecute(Sender: TObject);
@@ -321,7 +332,7 @@ begin
   LimpaCampos;
   FAcao := tacIncluir;
   Modo;
-  maskEditCodigo.SetFocus;
+  textEditNomeFantasia.SetFocus;
 end;
 
 procedure Tview_CadastroEntregadores.actionPesquisarFaixasExecute(Sender: TObject);
@@ -359,6 +370,27 @@ begin
   begin
     textEditNomePessoa.Text := RetornaNomePessoa(StrToIntDef(buttonEditPessoa.Text,0));
   end;
+end;
+
+procedure Tview_CadastroEntregadores.ClearForClone;
+begin
+  textEditID.Text := '0';
+  maskEditCodigo.EditValue := 0;
+  dataCodigo := Now();
+  lookupComboBoxCliente.ItemIndex := -1;
+  checkBoxAtivo.EditValue := 1;
+end;
+
+procedure Tview_CadastroEntregadores.CloneData;
+begin
+  if Application.MessageBox('Confirma clonar este entregador para outro cliente ?', 'Atenção', MB_YESNO + MB_ICONQUESTION) = IDNO then
+  begin
+    Exit;
+  end;
+  ClearForClone;
+  FAcao := tacIncluir;
+  Modo;
+  lookupComboBoxCliente.SetFocus;
 end;
 
 procedure Tview_CadastroEntregadores.CloseForm;
@@ -479,7 +511,7 @@ begin
     end
     else
     begin
-      Application.MessageBox('Dados gravados com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+      Application.MessageBox(PChar('Dados gravados com sucesso! Entregador código ' + Entregadores.Entregadores.Entregador.ToString + ' cadastrado.'), 'Atenção', MB_OK + MB_ICONINFORMATION);
       FAcao := tacIndefinido;
       LimpaCampos;
       Modo;
@@ -519,7 +551,7 @@ begin
   LimpaCampos;
   FAcao := tacIncluir;
   Modo;
-  maskEditCodigo.SetFocus;
+  textEditNomeFantasia.SetFocus;
 end;
 
 procedure Tview_CadastroEntregadores.LimpaCampos;
@@ -561,6 +593,7 @@ begin
     actionLocalizar.Enabled := True;
     actionCancelar.Enabled := False;
     actionGravar.Enabled := False;
+    actionClonar.Enabled := False;
     maskEditCodigo.Properties.ReadOnly := True;
     actionLocalizarPessoas.Enabled := False;
     buttonEditPessoa.Properties.ReadOnly := True;
@@ -587,6 +620,7 @@ begin
     actionLocalizar.Enabled := False;
     actionCancelar.Enabled := True;
     actionGravar.Enabled := True;
+    actionClonar.Enabled := False;
     maskEditCodigo.Properties.ReadOnly := False;
     actionLocalizarPessoas.Enabled := True;
     buttonEditPessoa.Properties.ReadOnly := False;
@@ -609,6 +643,7 @@ begin
     actionLocalizar.Enabled := False;
     actionCancelar.Enabled := True;
     actionGravar.Enabled := True;
+    actionClonar.Enabled := True;
     maskEditCodigo.Properties.ReadOnly := True;
     actionLocalizarPessoas.Enabled := True;
     buttonEditPessoa.Properties.ReadOnly := False;
@@ -632,6 +667,7 @@ begin
     actionLocalizar.Enabled := True;
     actionCancelar.Enabled := True;
     actionGravar.Enabled := False;
+    actionClonar.Enabled := True;
     maskEditCodigo.Properties.ReadOnly := True;
     actionLocalizarPessoas.Enabled := False;
     buttonEditPessoa.Properties.ReadOnly := True;
@@ -1018,14 +1054,14 @@ begin
     entregadores := TEntregadoresExpressasControl.Create;
     tipos := TTiposVerbasExpressasControl.Create;
     verbas := TVerbasExpressasControl.Create;
-    if maskEditCodigo.EditValue = 0 then
-    begin
-      Application.MessageBox('Informe o código do entregador!', 'Atenção', MB_OK + MB_ICONWARNING);
-      Exit;
-    end;
+//    if maskEditCodigo.EditValue = 0 then
+//    begin
+//      Application.MessageBox('Informe o código do entregador!', 'Atenção', MB_OK + MB_ICONWARNING);
+//      Exit;
+//    end;
     if textEditNomeFantasia.Text = '' then
     begin
-      Application.MessageBox('Informe o noe Fantasia!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Application.MessageBox('Informe o nome Fantasia!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
     if buttonEditPessoa.EditValue = 0 then
@@ -1042,7 +1078,7 @@ begin
     end;
     if textEditCodigoERP.Text = '' then
     begin
-      Application.MessageBox('Informe o código ERP!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Application.MessageBox('Informe o código TMS!', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
     if lookupComboBoxCliente.ItemIndex = -1 then
@@ -1064,9 +1100,9 @@ begin
           Exit;
         end;
       end;
-      if entregadores.EntregadorExiste(2,maskEditCodigo.EditValue, 0, textEditCodigoERP.Text) then
+      if entregadores.EntregadorExiste(2,lookupComboBoxCliente.EditValue, 0, textEditCodigoERP.Text) then
       begin
-        Application.MessageBox('Código ERP já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Application.MessageBox('Este entregador, para este cliente, já foi cadastrado (TMS)!', 'Atenção', MB_OK + MB_ICONWARNING);
         Exit;
       end;
     end;

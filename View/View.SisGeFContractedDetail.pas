@@ -290,6 +290,9 @@ type
     procedure actionFecharExecute(Sender: TObject);
     procedure actionAnexarDocumentosExecute(Sender: TObject);
     procedure actionContratoExecute(Sender: TObject);
+    procedure maskEditCPFCNPJFavorecidoPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure maskEditCPFCNPJFavorecidoEnter(Sender: TObject);
   private
     FAcao: TAcao;
     FID: integer;
@@ -481,8 +484,6 @@ begin
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
     maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
     maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
-    maskEditCPFCNPJFavorecido.Properties.EditMask := '!000\.000\.000\-00;1; ';
-    maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
   end
   else if comboBoxTipoPessoa.ItemIndex = 2 then
   begin
@@ -490,8 +491,6 @@ begin
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
     maskEditCPCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;1; ';
     maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
-    maskEditCPFCNPJFavorecido.Properties.EditMask := '!000\.000\.000\-00;1; ';
-    maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
   end
   else
   begin
@@ -499,8 +498,6 @@ begin
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
     maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
-    maskEditCPFCNPJFavorecido.Properties.EditMask := '!000\.000\.000\-00;1; ';
-    maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
   end;
 
 end;
@@ -685,6 +682,34 @@ begin
     PopulaVeiculos(iCadastro);
   end;
   FreeAndNil(view_SisGeFVehiclesRegistrationDetail);
+end;
+
+procedure Tview_SisGeFContractedDetail.maskEditCPFCNPJFavorecidoEnter(
+  Sender: TObject);
+begin
+  maskEditCPFCNPJFavorecido.Properties.EditMask := '!00000000000000;1; ';
+  maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
+end;
+
+procedure Tview_SisGeFContractedDetail.maskEditCPFCNPJFavorecidoPropertiesValidate(
+  Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+begin
+  if Length(DisplayValue) = 11 then
+  begin
+    maskEditCPFCNPJFavorecido.Properties.EditMask := '!000\.000\.000\-00;1; ';
+    maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
+  end
+  else if Length(DisplayValue) = 14 then
+  begin
+    maskEditCPFCNPJFavorecido.Properties.EditMask := '!00\.000\.000\/0000\-00;1; ';
+    maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
+  end
+  else
+  begin
+    maskEditCPFCNPJFavorecido.Properties.EditMask := '!00000000000000;1; ';
+    maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
+  end
 end;
 
 procedure Tview_SisGeFContractedDetail.Modo;
@@ -1348,7 +1373,6 @@ begin
     FCadastro.Cadastro.DataPrimeiraCNH := dateEditPrimeiraCNH.Date;
   FCadastro.Cadastro.UFCNH := lookupComboBoxUFCNH.Text;
   FCadastro.Cadastro.Fantasia := textEditNomeFantasia.Text;
-  FCadastro.Cadastro.IERG := textEditIE.Text;
   begin
     FCadastro.Cadastro.UFRG := lookupComboBoxUFRG.Text;
   end;
@@ -1374,6 +1398,10 @@ begin
   FCadastro.Cadastro.NumeroConsultaGR := textEditNumeroConsultaGR.Text;
   FCadastro.Cadastro.Obs := memoObservacoes.Text;
   FCadastro.Cadastro.Status := checkBoxStatus.EditValue;
+  FCadastro.Cadastro.MEI := textEditCodigoMEI.Text;
+  FCadastro.Cadastro.CNPJMEI := buttonEditCNPJMEI.Text;
+  FCadastro.Cadastro.RazaoMEI := textEditRazaoMEI.Text;
+  FCadastro.Cadastro.FantasiaMEI := textEditFantasiaMEI.Text;
   if FCadastro.Cadastro.Acao = tacIncluir then
     FCadastro.Cadastro.DataCadastro := Now();
   FCadastro.Cadastro.DataAlteracao := Now();
