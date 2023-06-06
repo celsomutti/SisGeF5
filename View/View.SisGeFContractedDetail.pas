@@ -290,9 +290,6 @@ type
     procedure actionFecharExecute(Sender: TObject);
     procedure actionAnexarDocumentosExecute(Sender: TObject);
     procedure actionContratoExecute(Sender: TObject);
-    procedure maskEditCPFCNPJFavorecidoPropertiesValidate(Sender: TObject;
-      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
-    procedure maskEditCPFCNPJFavorecidoEnter(Sender: TObject);
   private
     FAcao: TAcao;
     FID: integer;
@@ -682,34 +679,6 @@ begin
     PopulaVeiculos(iCadastro);
   end;
   FreeAndNil(view_SisGeFVehiclesRegistrationDetail);
-end;
-
-procedure Tview_SisGeFContractedDetail.maskEditCPFCNPJFavorecidoEnter(
-  Sender: TObject);
-begin
-  maskEditCPFCNPJFavorecido.Properties.EditMask := '!00000000000000;1; ';
-  maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
-end;
-
-procedure Tview_SisGeFContractedDetail.maskEditCPFCNPJFavorecidoPropertiesValidate(
-  Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
-  var Error: Boolean);
-begin
-  if Length(DisplayValue) = 11 then
-  begin
-    maskEditCPFCNPJFavorecido.Properties.EditMask := '!000\.000\.000\-00;1; ';
-    maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
-  end
-  else if Length(DisplayValue) = 14 then
-  begin
-    maskEditCPFCNPJFavorecido.Properties.EditMask := '!00\.000\.000\/0000\-00;1; ';
-    maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
-  end
-  else
-  begin
-    maskEditCPFCNPJFavorecido.Properties.EditMask := '!00000000000000;1; ';
-    maskEditCPFCNPJFavorecido.Properties.IgnoreMaskBlank := True;
-  end
 end;
 
 procedure Tview_SisGeFContractedDetail.Modo;
@@ -1475,6 +1444,7 @@ end;
 function Tview_SisGeFContractedDetail.ValidaDados: boolean;
 var
   FCadastro : TCadastroControl;
+  sCPF: string;
 begin
   try
     Result := False;
@@ -1521,8 +1491,8 @@ begin
         textEditNomeFantasia.SetFocus;
         Exit;
       end;
-
-      if Length(Trim(maskEditCPFCNPJFavorecido.Text)) = 14 then
+      sCPF := Common.Utils.TUtils.DesmontaCPFCNPJ(maskEditCPFCNPJFavorecido.Text);
+      if Length(Trim(sCPF)) = 11 then
       begin
         if not Common.Utils.TUtils.CPF(maskEditCPFCNPJFavorecido.Text) then
         begin
@@ -1531,7 +1501,7 @@ begin
           Exit;
         end;
       end
-      else if Length(Trim(maskEditCPFCNPJFavorecido.Text)) = 18 then
+      else if Length(Trim(sCPF)) = 14 then
       begin
         if not Common.Utils.TUtils.CNPJ(maskEditCPFCNPJFavorecido.Text) then
         begin
@@ -1597,7 +1567,7 @@ begin
           end;
         end;
       end;
-      if Length(Trim(maskEditCPFCNPJFavorecido.Text)) = 14 then
+      if Length(Trim(sCPF)) = 11 then
       begin
         if not Common.Utils.TUtils.CPF(maskEditCPFCNPJFavorecido.Text) then
         begin
@@ -1606,7 +1576,7 @@ begin
           Exit;
         end;
       end
-      else if Length(Trim(maskEditCPFCNPJFavorecido.Text)) = 18 then
+      else if Length(Trim(sCPF)) = 14 then
       begin
         if not Common.Utils.TUtils.CNPJ(maskEditCPFCNPJFavorecido.Text) then
         begin

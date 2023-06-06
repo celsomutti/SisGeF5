@@ -95,7 +95,7 @@ begin
       6 : Result := ValidateENGLOBAEntregas(sArquivo);
       5 : Result := ValidateSIMExpressEntregas(sArquivo);
       7 : Result := ValidateSIMExpressEntregas(sArquivo);
-      8..9999 : Result := ValidateENGLOBAEntregas(sArquivo);
+      8..13 : Result := ValidateENGLOBAEntregas(sArquivo);
       else
         Result := NoRotine;
     end;
