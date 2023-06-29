@@ -88,37 +88,45 @@ begin
   if iTipo = 1 then
   begin
     case icliente of
-      1 : Result := ValidateTFOEntregas(sArquivo);
-      2 : Result := ValidateSIMExpressEntregas(sArquivo);
-      3 : Result := NoRotine; {Result := ValidadeSPLOGEntregas(sArquivo)}
-      4 : Result := ValidatePlanckEntregas(sArquivo);
-      6 : Result := ValidateENGLOBAEntregas(sArquivo);
-      5 : Result := ValidateSIMExpressEntregas(sArquivo);
-      7 : Result := ValidateSIMExpressEntregas(sArquivo);
-      8..9999 : Result := ValidateENGLOBAEntregas(sArquivo);
+      1 : Result := ValidatePlanckEntregas(sArquivo);
+      2 : Result := ValidateENGLOBAEntregas(sArquivo);
+      3 : Result := ValidateSIMExpressEntregas(sArquivo);
+      4 : Result := ValidateTFOEntregas(sArquivo);
       else
         Result := NoRotine;
     end;
+//      1 : Result := ValidateTFOEntregas(sArquivo);
+//      2 : Result := ValidateSIMExpressEntregas(sArquivo);
+//      3 : Result := NoRotine; {Result := ValidadeSPLOGEntregas(sArquivo)}
+//      4 : Result := ValidatePlanckEntregas(sArquivo);
+//      6 : Result := ValidateENGLOBAEntregas(sArquivo);
+//      5 : Result := ValidateSIMExpressEntregas(sArquivo);
+//      7 : Result := ValidateSIMExpressEntregas(sArquivo);
+//      8..9999 : Result := ValidateENGLOBAEntregas(sArquivo);
+//      else
+//        Result := NoRotine;
+//    end;
+
   end
   else if iTipo = 2 then
   begin
     case iCliente of
-      1 : Result := ValidateTFOBaixas(sArquivo);
-      4 : Result := ValidatePlanckBaixas(sArquivo);
+      1 : Result := ValidatePlanckBaixas(sArquivo);
+      4 : Result := ValidateTFOBaixas(sArquivo);
       else
         Result := NoRotine;
     end;
   end
   else if iTipo = 3 then
   begin
-    if icliente = 4 then
+    if icliente = 1 then
       Result := ValidatePlanckTracking(sArquivo)
     else
       Result := NoRotine;
   end
   else if iTipo = 4 then
   begin
-    if iCliente = 4 then
+    if iCliente = 1 then
       Result := ValidatePlanckLojas(sArquivo)
     else
     Result := NoRotine;

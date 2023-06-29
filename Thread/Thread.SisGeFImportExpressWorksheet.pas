@@ -49,6 +49,8 @@ type
     function RetornaAgente(iEntregador: integer): integer;
     function RetornaAgenteDocumento(sChave: String): integer;
     function RetornaEntregadorDocumento(SChave: string): integer;
+    function RetornaCodigoCliente(SChave: string): integer;
+    function RetornaChaveERP(SChave: string): String;
   protected
     procedure Execute; override;
   public
@@ -131,6 +133,7 @@ begin
       FProgresso := 0;
       Data_Sisgef.memTableImport.First;
       FEntregas := TEntregasControl.Create;
+      FCliente := 4;
       While not Data_Sisgef.memTableImport.Eof do
       begin
           SetLength(aParam,3);
@@ -435,17 +438,14 @@ begin
   if FTipoProcesso = 1 then
   begin
     case FCliente of
-      1 : ProcessTFO;
-      2 : ProcessSIM;
-      4 : ProcessDIRECT;
-      5 : ProcessSIM;
-      6 : ProcessEngloba;
-      7 : ProcessRF;
-      8..9999 : ProcessEngloba;
+      1 : ProcessDIRECT;
+      2 : ProcessEngloba;
+      3 : ProcessSIM;
+      4 : ProcessTFO;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
-                       ' - Rotina não implementada para este Cliente! Processamento cancelado.';
+                       ' - Rotina não implementada para este TMS! Processamento cancelado.';
           UpdateLOG(sMensagem);
           FCancelar := True;
         end;
@@ -454,12 +454,12 @@ begin
   else if FTipoProcesso = 2 then
   begin
     case FCliente of
-      1 : BaixaTFO;
-      4 : BaixaDIRECT;
+      1 : BaixaDIRECT;
+      4 : BaixaTFO;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
-                       ' - Rotina não implementada para este Cliente! Processamento cancelado.';
+                       ' - Rotina não implementada para este TMS! Processamento cancelado.';
           UpdateLOG(sMensagem);
           FCancelar := True;
         end;
@@ -468,11 +468,11 @@ begin
   else if FTipoProcesso = 3 then
   begin
     case FCliente of
-      4 : TrackingImport;
+      1 : TrackingImport;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
-                       ' - Rotina não implementada para este Cliente! Processamento cancelado.';
+                       ' - Rotina não implementada para este TMS! Processamento cancelado.';
           UpdateLOG(sMensagem);
           FCancelar := True;
         end;
@@ -481,11 +481,11 @@ begin
   else if FTipoProcesso = 4 then
   begin
     case FCliente of
-      4 : ProcessDIRECTLojas;
+      1 : ProcessDIRECTLojas;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
-                       ' - Rotina não implementada para este Cliente! Processamento cancelado.';
+                       ' - Rotina não implementada para este TMS! Processamento cancelado.';
           UpdateLOG(sMensagem);
           FCancelar := True;
         end;
@@ -530,6 +530,7 @@ begin
       FTotalInconsistencias := 0;
       FProgresso := 0;
       Data_Sisgef.memTableImport.First;
+      FCliente := 4;
       while not Data_Sisgef.memTableImport.Eof do
       begin
         SetLength(aParam,3);
@@ -893,12 +894,14 @@ begin
         if FEntregas.Entregas.Fechado <> 'S' then
         begin
           SetLength(aParam,3);
-          iStart := Pos('[',Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
-          iStop := Pos(']',Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
-          if iStop > 0 then
-            sChaveERP := Copy(Data_Sisgef.memTableImport.Fields.Fields[49].AsString,iStart + 1, ((iStop - 1) - iStart))
-          else
-            sChaveERP := '0';
+          FCliente := RetornaCodigoCliente(Data_Sisgef.memTableImport.Fields.Fields[5].AsString);
+          sChaveERP := RetornaChaveERP(Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
+//          iStart := Pos('[',Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
+//          iStop := Pos(']',Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
+//          if iStop > 0 then
+//            sChaveERP := Copy(Data_Sisgef.memTableImport.Fields.Fields[49].AsString,iStart + 1, ((iStop - 1) - iStart))
+//          else
+//            sChaveERP := '0';
           aParam := ['CHAVECLIENTE', sChaveERP, FCliente];
           if not FEntregadores.LocalizarExato(aParam) then
           begin
@@ -1379,6 +1382,7 @@ begin
       FTotalGravados := 0;
       FTotalInconsistencias := 0;
       FProgresso := 0;
+      FCliente := 1;
       for i := 0 to Pred(FTotalRegistros) do
       begin
         SetLength(aParam,3);
@@ -1519,6 +1523,36 @@ begin
     iRetorno := 1;
   end;
   Result := iRetorno;
+end;
+
+function Thread_ImportImportExpressWorksheet.RetornaChaveERP(
+  SChave: string): string;
+var
+  iStart, iStop: integer;
+  sCodigo: String;
+begin
+  iStart := Pos('[',sChave);
+  iStop := Pos(']',sChave);
+  if iStop > 0 then
+    sCodigo := Copy(sChave + 1, ((iStop - 1) - iStart))
+  else
+    sCodigo := '0';
+  Result := sCodigo;
+end;
+
+function Thread_ImportImportExpressWorksheet.RetornaCodigoCliente(
+  SChave: string): integer;
+var
+  iStart, iStop: integer;
+  sCodigo: String;
+begin
+  iStart := Pos('[',sChave);
+  iStop := Pos(']',sChave);
+  if iStop > 0 then
+    sCodigo := Copy(sChave + 1, ((iStop - 1) - iStart))
+  else
+    sCodigo := '0';
+  Result := StrToIntDef(sCodigo,0);
 end;
 
 function Thread_ImportImportExpressWorksheet.RetornaEntregadorDocumento(SChave: string): integer;

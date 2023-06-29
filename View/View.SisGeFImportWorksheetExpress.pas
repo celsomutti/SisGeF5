@@ -69,6 +69,8 @@ type
     progressBar: TcxProgressBar;
     dxLayoutItem16: TdxLayoutItem;
     actionViewWorsheet: TAction;
+    comboTMS: TcxComboBox;
+    dxLayoutItem17: TdxLayoutItem;
     procedure tipoArquivoPropertiesChange(Sender: TObject);
     procedure clientePropertiesChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -188,8 +190,10 @@ function Tview_SisGeFImportWorksheetExpress.LockDockAndDrop: boolean;
 begin
   Result := False;
   arquivoSelecionado.Clear;
-  if (tipoArquivo.ItemIndex <= 0) or (cliente.Text = '') then
+  if (tipoArquivo.ItemIndex <= 0) or (comboTMS.ItemIndex <= 1) then
     Exit;
+//  if (tipoArquivo.ItemIndex <= 0) or (cliente.Text = '') then
+//    Exit;
   Result := True;
 end;
 
@@ -241,7 +245,7 @@ end;
 
 procedure Tview_SisGeFImportWorksheetExpress.StartImport(sFile: string);
 var
-  iCliente, iTipo: integer;
+  iCliente, iTipo, iItem: integer;
   bLojas: boolean;
 begin
 
@@ -319,7 +323,7 @@ procedure Tview_SisGeFImportWorksheetExpress.ValidateFile(sFile: string);
 begin
   try
     cFunctions := TSisGeFFunctions.Create;
-    if cFunctions.ValidadeFile(tipoArquivo.ItemIndex, cliente.EditValue, sFile) then
+    if cFunctions.ValidadeFile(tipoArquivo.ItemIndex, comboTMS.ItemIndex, sFile) then
     begin
       AddFile(sFile)
     end
@@ -342,16 +346,16 @@ begin
       tipoArquivo.SetFocus;
       Exit;
     end;
-    if cliente.Text = '' then
+    if comboTMS.ItemIndex <= 0 then
     begin
-      MessageDlg('Informe Cliente.', mtWarning, [mbCancel], 0);
-      cliente.SetFocus;
+      MessageDlg('Informe o TMS que gerou o arquivo.', mtWarning, [mbCancel], 0);
+      comboTMS.SetFocus;
       Exit;
     end;
     if arquivoSelecionado.Text = '' then
     begin
-      MessageDlg('Nenhum arquivo selecionado.', mtWarning, [mbCancel], 0);
-      cliente.SetFocus;
+      MessageDlg('Nenhum arquivo informado.', mtWarning, [mbCancel], 0);
+      tipoArquivo.SetFocus;
       Exit;
     end;
   Result := True;

@@ -45,7 +45,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 3
     end
     object labelLocateFile1: TcxLabel
       Left = 13
@@ -64,7 +64,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
-      TabOrder = 4
+      TabOrder = 5
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlue
       Font.Height = -13
@@ -94,7 +94,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionCloseForm
-      TabOrder = 15
+      TabOrder = 16
     end
     object tipoArquivo: TcxComboBox
       Left = 116
@@ -136,7 +136,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Height = 25
       Cursor = crHandPoint
       Action = actionImportWorksheet
-      TabOrder = 7
+      TabOrder = 8
     end
     object cxButton6: TcxButton
       Left = 114
@@ -146,7 +146,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Cursor = crHandPoint
       Action = actionCancelImport
       Cancel = True
-      TabOrder = 8
+      TabOrder = 9
     end
     object totalRegistros: TcxMaskEdit
       Left = 13
@@ -158,7 +158,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Properties.EditMask = '\d\d\d\d\d\d'
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 9
+      TabOrder = 10
       Text = '0'
       Width = 121
     end
@@ -172,7 +172,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Properties.EditMask = '\d\d\d\d\d\d'
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 10
+      TabOrder = 11
       Text = '0'
       Width = 121
     end
@@ -185,7 +185,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Properties.EditMask = '\d\d\d\d\d\d'
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 11
+      TabOrder = 12
       Text = '0'
       Width = 121
     end
@@ -195,7 +195,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Properties.ReadOnly = True
       Properties.ScrollBars = ssBoth
       Style.HotTrack = False
-      TabOrder = 13
+      TabOrder = 14
       Height = 213
       Width = 725
     end
@@ -212,14 +212,28 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 6
+      TabOrder = 7
       Width = 725
     end
     object progressBar: TcxProgressBar
       Left = 13
       Top = 391
-      TabOrder = 12
+      TabOrder = 13
       Width = 121
+    end
+    object comboTMS: TcxComboBox
+      Left = 580
+      Top = 13
+      Properties.Items.Strings = (
+        'Selecione ...'
+        'PLANCK'
+        'ENGLOBA'
+        'SIM EXPRESS'
+        'STDCLIENTE')
+      Style.HotTrack = False
+      TabOrder = 2
+      Text = 'Selecione ...'
+      Width = 181
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -392,6 +406,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'Cliente:'
+      Visible = False
       Control = cliente
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 248
@@ -525,6 +540,15 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 3
+    end
+    object dxLayoutItem17: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      CaptionOptions.Text = 'TMS:'
+      Control = comboTMS
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 181
+      ControlOptions.ShowBorder = False
+      Index = 2
     end
   end
   object actionList: TActionList
