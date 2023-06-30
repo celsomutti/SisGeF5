@@ -355,6 +355,7 @@ begin
       FTotalGravados := 0;
       FTotalInconsistencias := 0;
       FProgresso := 0;
+      FCliente := 1;
       for i := 0 to Pred(FTotalRegistros) do
       begin
         SetLength(aParam,3);
@@ -534,6 +535,7 @@ begin
       while not Data_Sisgef.memTableImport.Eof do
       begin
         SetLength(aParam,3);
+        FCliente := 4;
         aParam := ['NNCLIENTE', Data_Sisgef.memTableImport.Fields.Fields[0].AsString, FCliente];
         if not FEntregas.LocalizarExata(aParam) then
         begin
@@ -735,6 +737,7 @@ begin
       While not Data_Sisgef.memTableImport.Eof do
       begin
         SetLength(aParam,3);
+        FCliente := 4;
         aParam := ['NNCLIENTE', Data_Sisgef.memTableImport.Fields.Fields[6].asString, FCliente];
         if not FEntregas.LocalizarExata(aParam) then
         begin
@@ -874,6 +877,7 @@ begin
       Data_Sisgef.memTableImport.First;
       while not Data_Sisgef.memTableImport.Eof do
       begin
+        FCliente := RetornaCodigoCliente(Data_Sisgef.memTableImport.Fields.Fields[5].AsString);
         SetLength(aParam,3);
         aParam := ['NNCLIENTE', Data_Sisgef.memTableImport.Fields.Fields[1].AsString, FCliente];
         if not FEntregas.LocalizarExata(aParam) then
@@ -894,7 +898,6 @@ begin
         if FEntregas.Entregas.Fechado <> 'S' then
         begin
           SetLength(aParam,3);
-          FCliente := RetornaCodigoCliente(Data_Sisgef.memTableImport.Fields.Fields[5].AsString);
           sChaveERP := RetornaChaveERP(Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
 //          iStart := Pos('[',Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
 //          iStop := Pos(']',Data_Sisgef.memTableImport.Fields.Fields[49].AsString);
@@ -1386,6 +1389,7 @@ begin
       for i := 0 to Pred(FTotalRegistros) do
       begin
         SetLength(aParam,3);
+        FCliente := 1;
         aParam := ['NNCLIENTE', FPlanilha.Planilha.Planilha[i].NossoNumero, FCliente];
         if not FEntregas.LocalizarExata(aParam) then
         begin
@@ -1534,7 +1538,7 @@ begin
   iStart := Pos('[',sChave);
   iStop := Pos(']',sChave);
   if iStop > 0 then
-    sCodigo := Copy(sChave + 1, ((iStop - 1) - iStart))
+    sCodigo := Copy(sChave, iStart + 1, ((iStop - 1) - iStart))
   else
     sCodigo := '0';
   Result := sCodigo;
@@ -1549,7 +1553,7 @@ begin
   iStart := Pos('[',sChave);
   iStop := Pos(']',sChave);
   if iStop > 0 then
-    sCodigo := Copy(sChave + 1, ((iStop - 1) - iStart))
+    sCodigo := Copy(sChave, iStart + 1, ((iStop - 1) - iStart))
   else
     sCodigo := '0';
   Result := StrToIntDef(sCodigo,0);

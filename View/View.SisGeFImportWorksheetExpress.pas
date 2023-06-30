@@ -83,6 +83,7 @@ type
     procedure actionCancelImportExecute(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
     procedure actionImportWorksheetExecute(Sender: TObject);
+    procedure comboTMSPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     function LockDockAndDrop(): boolean;
@@ -154,6 +155,12 @@ begin
   actionLocateFile.Enabled := LockDockAndDrop;
 end;
 
+procedure Tview_SisGeFImportWorksheetExpress.comboTMSPropertiesChange(Sender: TObject);
+begin
+  panelDragandDrop.Enabled := LockDockAndDrop;
+  actionLocateFile.Enabled := LockDockAndDrop;
+end;
+
 procedure Tview_SisGeFImportWorksheetExpress.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
@@ -190,7 +197,7 @@ function Tview_SisGeFImportWorksheetExpress.LockDockAndDrop: boolean;
 begin
   Result := False;
   arquivoSelecionado.Clear;
-  if (tipoArquivo.ItemIndex <= 0) or (comboTMS.ItemIndex <= 1) then
+  if (tipoArquivo.ItemIndex <= 0) or (comboTMS.ItemIndex <= 0) then
     Exit;
 //  if (tipoArquivo.ItemIndex <= 0) or (cliente.Text = '') then
 //    Exit;
@@ -254,7 +261,7 @@ begin
 
   if Application.MessageBox(PChar('Confirma a importação do arquivo ' + sFile + ' ?'), 'Importar', MB_YESNO + MB_ICONQUESTION) = IDYES then
   begin
-    iCliente := cliente.EditValue;
+    iCliente := comboTMS.ItemIndex;
     iTipo := tipoArquivo.ItemIndex;
     bLojas := False;
     ProcessaCapa(sFile, iCliente, iTipo, bLojas);

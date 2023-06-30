@@ -230,6 +230,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
         'ENGLOBA'
         'SIM EXPRESS'
         'STDCLIENTE')
+      Properties.OnChange = comboTMSPropertiesChange
       Style.HotTrack = False
       TabOrder = 2
       Text = 'Selecione ...'
