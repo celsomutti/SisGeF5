@@ -26,7 +26,6 @@ object view_SisGeFExtractSO: Tview_SisGeFExtractSO
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    LayoutLookAndFeel = Data_Sisgef.dxLayoutStandardLookAndFeel2
     object cxLabel1: TcxLabel
       Left = 10
       Top = 10

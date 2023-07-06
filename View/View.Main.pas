@@ -274,9 +274,9 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
   View.LancamentosExtratosExpressasPesquisa, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
   View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
-  View.CadastroClientes, View.SisGeFExtractedExpress, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
+  View.CadastroClientes, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals, View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
-  View.SisGeFImportWorksheetExpress;
+  View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract;
 
 procedure Tview_Main.Acessos;
 var
@@ -493,11 +493,16 @@ begin
 //    view_ExtratoExpressas := Tview_ExtratoExpressas.Create(Application);
 //  end;
 //  view_ExtratoExpressas.Show;
-  if not Assigned(view_SisGeFExtractedExpress) then
+//  if not Assigned(view_SisGeFExtractedExpress) then
+//  begin
+//    view_SisGeFExtractedExpress := Tview_SisGeFExtractedExpress.Create(Application);
+//  end;
+//  view_SisGeFExtractedExpress.Show;
+  if not Assigned(view_SisGeFExpressExtract) then
   begin
-    view_SisGeFExtractedExpress := Tview_SisGeFExtractedExpress.Create(Application);
+    view_SisGeFExpressExtract := Tview_SisGeFExpressExtract.Create(Application);
   end;
-  view_SisGeFExtractedExpress.Show;
+  view_SisGeFExpressExtract.Show;
 
 end;
 

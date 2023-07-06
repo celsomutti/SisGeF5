@@ -267,7 +267,7 @@ uses
   Controller.CRMContatosEmpresas in 'Control\Controller.CRMContatosEmpresas.pas',
   View.CadastroEmpresas in 'View\View.CadastroEmpresas.pas' {view_CadastroEmpresas},
   View.PesquisaEmpresas in 'View\View.PesquisaEmpresas.pas' {view_PesquisaEmpresas},
-  View.SisGeFExtractedExpress in 'View\View.SisGeFExtractedExpress.pas' {view_SisGeFExtractedExpress},
+  View.SisGeFExpressExtract in 'View\View.SisGeFExpressExtract.pas' {view_SisGeFExpressExtract},
   View.PesquisaPessoasCRM in 'View\View.PesquisaPessoasCRM.pas' {view_PesquisaPessoasCRM},
   Thread.SisGeFExpressExtract in 'Thread\Thread.SisGeFExpressExtract.pas',
   Thread.SisGeFClosingExpressExtract in 'Thread\Thread.SisGeFClosingExpressExtract.pas',
