@@ -302,7 +302,14 @@ uses
   Common.SisGeFFunctions in 'Common\Common.SisGeFFunctions.pas',
   Thread.EDIClient in 'Thread\Thread.EDIClient.pas',
   View.CadastroGeral in 'View\View.CadastroGeral.pas' {view_CadastroGeral},
-  View.SisGeFContractEmission in 'View\View.SisGeFContractEmission.pas' {view_SisGeFContractEmission};
+  View.SisGeFContractEmission in 'View\View.SisGeFContractEmission.pas' {view_SisGeFContractEmission},
+  Model.SisGeFOcorrenciasJornal in 'Model\Model.SisGeFOcorrenciasJornal.pas',
+  Controller.SisGeFOcorrenciasJornal in 'Control\Controller.SisGeFOcorrenciasJornal.pas',
+  Model.SisGeFProdutosJornal in 'Model\Model.SisGeFProdutosJornal.pas',
+  Controller.SisGeFProdutosJornal in 'Control\Controller.SisGeFProdutosJornal.pas',
+  Model.SisGeFTiposOcorrenciaJornal in 'Model\Model.SisGeFTiposOcorrenciaJornal.pas',
+  Controller.SisGeFTiposOcorrenciaJornal in 'Control\Controller.SisGeFTiposOcorrenciaJornal.pas',
+  View.SisGeFOcorrenciasJornal in 'View\View.SisGeFOcorrenciasJornal.pas' {viewSisGeFOcorrenciasJornal};
 
 {$R *.res}
 

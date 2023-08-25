@@ -201,7 +201,7 @@ begin
   FQuery.SQL.Add(SQLSELECT);
   if aParam[0] = 'ID' then
   begin
-    FQuery.SQL.Add('WHERE id_fatura :id_fatura');
+    FQuery.SQL.Add('WHERE id_fatura = :id_fatura');
     FQuery.ParamByName('id_fatura').AsInteger := aParam[1];
   end;
   if aParam[0] = 'CADASTRO' then
