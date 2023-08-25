@@ -611,8 +611,8 @@
             <Form>view_PesquisaEmpresas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="View\View.SisGeFExtractedExpress.pas">
-            <Form>view_SisGeFExtractedExpress</Form>
+        <DCCReference Include="View\View.SisGeFExpressExtract.pas">
+            <Form>view_SisGeFExpressExtract</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\View.PesquisaPessoasCRM.pas">
@@ -739,10 +739,10 @@
                     <Source Name="MainSource">SisGeF5.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k260.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp260.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k260.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp260.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">

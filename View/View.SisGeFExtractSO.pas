@@ -159,7 +159,7 @@ implementation
 {$R *.dfm}
 
 uses Data.SisGeF, Global.Parametros, View.PesquisaClientes, View.PesquisarPessoas, View.SisGeFCalendar, View.SisGeFConfirmPassword,
-  View.SisGeFExtractedExpress;
+View.SisGeFExpressExtract;
 
 procedure Tview_SisGeFExtractSO.actionClearClientsListExecute(Sender: TObject);
 begin
@@ -453,7 +453,7 @@ begin
     Result := '';
     if not Assigned(view_SisGeFCalendar) then
       view_SisGeFCalendar := Tview_SisGeFCalendar.Create(Application);
-    view_SisGeFExtractedExpress.Caption := 'Calendário - INFORME A DATA DE PAGAMENTO';
+    view_SisGeFExpressExtract.Caption := 'Calendário - INFORME A DATA DE PAGAMENTO';
     if view_SisGeFCalendar.ShowModal = mrCancel then
       Exit;
     sReturn := DateToStr(view_SisGeFCalendar.CalendarView1.Date);
