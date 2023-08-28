@@ -2084,6 +2084,7 @@
       Category = 'Peri'#243'dicos'
       Caption = '&Ocorr'#234'ncias'
       Hint = 'Registro de ocorr'#234'ncias'
+      OnExecute = actRegistroOcorrenciasExecute
     end
     object actEtiquetasProtocolos: TAction
       Tag = 302010

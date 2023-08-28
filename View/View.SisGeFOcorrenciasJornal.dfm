@@ -1,9 +1,9 @@
-object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
+﻿object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
   Left = 0
   Top = 0
   Caption = 'Ocorr'#234'ncias de Assinaturas'
   ClientHeight = 563
-  ClientWidth = 1080
+  ClientWidth = 1120
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,17 +21,13 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
   object lytMain: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 1080
+    Width = 1120
     Height = 563
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 112
-    ExplicitTop = 128
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object cboCamposPesquisa: TcxComboBox
-      Left = 92
-      Top = 30
+      Left = 80
+      Top = 12
       Hint = 'Selecione o campo de pesquisa'
       Properties.Items.Strings = (
         'Selecione ...'
@@ -46,81 +42,90 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       Width = 165
     end
     object datInicial: TcxDateEdit
-      Left = 321
-      Top = 30
+      Left = 309
+      Top = 12
       Hint = 'Data inicial'
       Style.HotTrack = False
       TabOrder = 1
       Width = 80
     end
     object datFinal: TcxDateEdit
-      Left = 460
-      Top = 30
+      Left = 448
+      Top = 12
       Hint = 'Data final'
       Style.HotTrack = False
       TabOrder = 2
       Width = 85
     end
     object mskCampo: TcxMaskEdit
-      Left = 589
-      Top = 30
+      Left = 577
+      Top = 12
       Style.HotTrack = False
       TabOrder = 3
       Width = 226
     end
     object btnPesquisar: TcxButton
-      Left = 902
-      Top = 28
+      Left = 1035
+      Top = 10
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actPesquisar
-      TabOrder = 4
+      TabOrder = 5
     end
     object btnSair: TcxButton
-      Left = 983
-      Top = 28
+      Left = 1035
+      Top = 528
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actSair
-      TabOrder = 5
+      TabOrder = 12
     end
-    object cxButton1: TcxButton
-      Left = 22
-      Top = 89
+    object btnIncluir: TcxButton
+      Left = 10
+      Top = 41
       Width = 83
       Height = 25
       Cursor = crHandPoint
       Action = actNovaOcorrencia
       TabOrder = 6
     end
-    object cxButton2: TcxButton
-      Left = 111
-      Top = 89
+    object btnExportar: TcxButton
+      Left = 261
+      Top = 41
       Width = 82
       Height = 25
       Cursor = crHandPoint
       Action = actExportar
-      TabOrder = 7
+      TabOrder = 9
     end
     object grdOcorrencias: TcxGrid
-      Left = 34
-      Top = 138
-      Width = 1012
-      Height = 355
-      TabOrder = 8
+      Left = 10
+      Top = 72
+      Width = 1100
+      Height = 450
+      TabOrder = 11
       object grdOcorrenciasDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = dsOcorrencias
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsSelection.CellSelect = False
+        OptionsSelection.CheckBoxPosition = cbpIndicator
+        OptionsSelection.CheckBoxVisibility = [cbvDataRow]
+        OptionsSelection.HideFocusRectOnExit = False
         OptionsView.CellAutoHeight = True
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
+        OptionsView.Indicator = True
         object grdOcorrenciasDBTableView1num_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'num_ocorrencia'
+          PropertiesClassName = 'TcxMaskEditProperties'
+          Properties.IgnoreMaskBlank = True
+          Properties.MaskKind = emkRegExpr
+          Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d'
           HeaderAlignmentHorz = taCenter
           SortIndex = 0
           SortOrder = soDescending
@@ -128,33 +133,46 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
         end
         object grdOcorrenciasDBTableView1dat_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'dat_ocorrencia'
+          PropertiesClassName = 'TcxDateEditProperties'
           HeaderAlignmentHorz = taCenter
           Width = 112
         end
         object grdOcorrenciasDBTableView1cod_assinatura: TcxGridDBColumn
           DataBinding.FieldName = 'cod_assinatura'
+          PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
         end
         object grdOcorrenciasDBTableView1nom_assinante: TcxGridDBColumn
           DataBinding.FieldName = 'nom_assinante'
+          PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
           Width = 255
         end
         object grdOcorrenciasDBTableView1des_roteiro: TcxGridDBColumn
           DataBinding.FieldName = 'des_roteiro'
+          PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
         end
         object grdOcorrenciasDBTableView1cod_entregador: TcxGridDBColumn
           DataBinding.FieldName = 'cod_entregador'
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.ListColumns = <>
           HeaderAlignmentHorz = taCenter
+          Width = 190
         end
         object grdOcorrenciasDBTableView1cod_produto: TcxGridDBColumn
           DataBinding.FieldName = 'cod_produto'
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.ListColumns = <>
           HeaderAlignmentHorz = taCenter
+          Width = 162
         end
         object grdOcorrenciasDBTableView1cod_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'cod_ocorrencia'
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.ListColumns = <>
           HeaderAlignmentHorz = taCenter
+          Width = 137
         end
         object grdOcorrenciasDBTableView1dom_reincidente: TcxGridDBColumn
           DataBinding.FieldName = 'dom_reincidente'
@@ -163,17 +181,23 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
         end
         object grdOcorrenciasDBTableView1des_descricao: TcxGridDBColumn
           DataBinding.FieldName = 'des_descricao'
+          PropertiesClassName = 'TcxBlobEditProperties'
+          Properties.BlobEditKind = bekMemo
           HeaderAlignmentHorz = taCenter
+          Width = 144
         end
         object grdOcorrenciasDBTableView1des_endereco: TcxGridDBColumn
           DataBinding.FieldName = 'des_endereco'
+          PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
           Width = 332
         end
         object grdOcorrenciasDBTableView1des_retorno: TcxGridDBColumn
           DataBinding.FieldName = 'des_retorno'
+          PropertiesClassName = 'TcxBlobEditProperties'
+          Properties.BlobEditKind = bekMemo
           HeaderAlignmentHorz = taCenter
-          Width = 213
+          Width = 154
         end
         object grdOcorrenciasDBTableView1cod_resultado: TcxGridDBColumn
           DataBinding.FieldName = 'cod_resultado'
@@ -187,6 +211,8 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
         end
         object grdOcorrenciasDBTableView1des_obs: TcxGridDBColumn
           DataBinding.FieldName = 'des_obs'
+          PropertiesClassName = 'TcxBlobEditProperties'
+          Properties.BlobEditKind = bekMemo
           HeaderAlignmentHorz = taCenter
           Width = 144
         end
@@ -202,17 +228,23 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
         end
         object grdOcorrenciasDBTableView1dom_processado: TcxGridDBColumn
           DataBinding.FieldName = 'dom_processado'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.ValueChecked = 'S'
+          Properties.ValueUnchecked = 'N'
           HeaderAlignmentHorz = taCenter
-          Width = 69
+          Width = 91
         end
         object grdOcorrenciasDBTableView1qtd_ocorrencias: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_ocorrencias'
+          PropertiesClassName = 'TcxSpinEditProperties'
           HeaderAlignmentHorz = taCenter
+          Width = 75
         end
         object grdOcorrenciasDBTableView1val_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'val_ocorrencia'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 74
+          Width = 93
         end
         object grdOcorrenciasDBTableView1dat_desconto: TcxGridDBColumn
           DataBinding.FieldName = 'dat_desconto'
@@ -221,8 +253,10 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
         end
         object grdOcorrenciasDBTableView1dom_impressao: TcxGridDBColumn
           DataBinding.FieldName = 'dom_impressao'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.ValueChecked = 'S'
           HeaderAlignmentHorz = taCenter
-          Width = 59
+          Width = 79
         end
         object grdOcorrenciasDBTableView1des_anexo: TcxGridDBColumn
           DataBinding.FieldName = 'des_anexo'
@@ -239,23 +273,61 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
         GridView = grdOcorrenciasDBTableView1
       end
     end
+    object chkExcluídos: TcxCheckBox
+      Left = 809
+      Top = 12
+      Action = actVisualizarExcluidos
+      Style.HotTrack = False
+      TabOrder = 4
+    end
+    object btnEditar: TcxButton
+      Left = 99
+      Top = 41
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Action = actEditarOcorrencia
+      TabOrder = 7
+    end
+    object btnExcluir: TcxButton
+      Left = 180
+      Top = 41
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Action = actExcluirOcorrencia
+      TabOrder = 8
+    end
+    object btnLimpar: TcxButton
+      Left = 349
+      Top = 41
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Action = actLimparGrid
+      TabOrder = 10
+    end
     object lytMainGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
+      ItemIndex = 2
       ShowBorder = False
       Index = -1
     end
     object lytFiltro: TdxLayoutGroup
       Parent = lytMainGroup_Root
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
+      Hidden = True
       ItemIndex = 3
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 0
     end
     object lytCamposPesquisa: TdxLayoutItem
@@ -327,10 +399,9 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       CaptionOptions.Text = 'Bot'#245'es'
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object lytBotaoPesquisa: TdxLayoutItem
       Parent = lytBotoesFormulario
@@ -345,8 +416,8 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       Index = 0
     end
     object lytBotalSair: TdxLayoutItem
-      Parent = lytBotoesFormulario
-      AlignHorz = ahClient
+      Parent = lytFooter
+      AlignHorz = ahRight
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
@@ -354,7 +425,7 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object lytBody: TdxLayoutGroup
       Parent = lytMainGroup_Root
@@ -363,7 +434,8 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       CaptionOptions.Text = 'Corpo'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      Hidden = True
+      ShowBorder = False
       Index = 1
     end
     object lytFooter: TdxLayoutGroup
@@ -373,7 +445,9 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       CaptionOptions.Text = 'Rodap'#233
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
+      Hidden = True
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 2
     end
     object lytBotoesEdicao: TdxLayoutGroup
@@ -383,6 +457,7 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       CaptionOptions.Text = 'Bot'#245'es Edi'#231#227'o'
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 3
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -393,7 +468,7 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       AlignVert = avCenter
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
-      Control = cxButton1
+      Control = btnIncluir
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 83
       ControlOptions.ShowBorder = False
@@ -401,15 +476,14 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
     end
     object lytBotalExportar: TdxLayoutItem
       Parent = lytBotoesEdicao
-      AlignHorz = ahLeft
-      AlignVert = avCenter
+      AlignVert = avClient
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
-      Control = cxButton2
+      Control = btnExportar
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 82
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 3
     end
     object lytGrid: TdxLayoutGroup
       Parent = lytBody
@@ -418,6 +492,8 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       CaptionOptions.Text = 'Grid'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
+      Hidden = True
+      ShowBorder = False
       Index = 1
     end
     object lytGridOcorrencias: TdxLayoutItem
@@ -433,34 +509,111 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
       ControlOptions.ShowBorder = False
       Index = 0
     end
+    object lytCheckExcluidos: TdxLayoutItem
+      Parent = lytFiltro
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = chkExcluídos
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 115
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object lytBotaoEditar: TdxLayoutItem
+      Parent = lytBotoesEdicao
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton3'
+      CaptionOptions.Visible = False
+      Control = btnEditar
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object lytBotaoExcluir: TdxLayoutItem
+      Parent = lytBotoesEdicao
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = btnExcluir
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object lytBotaoLimpar: TdxLayoutItem
+      Parent = lytBotoesEdicao
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = btnLimpar
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
   end
   object aclOcorrenciasJornal: TActionList
     Images = Data_Sisgef.iml_16_16
     Left = 984
-    Top = 64
+    Top = 16
     object actPesquisar: TAction
       Category = 'Formul'#225'rio'
       Caption = '&Pesquisar'
       Hint = 'Pesquisar ocorr'#234'ncias'
       ImageIndex = 86
+      OnExecute = actPesquisarExecute
     end
     object actSair: TAction
       Category = 'Formul'#225'rio'
       Caption = 'Sair'
       Hint = 'Sair da tela'
       ImageIndex = 98
+      OnExecute = actSairExecute
     end
     object actNovaOcorrencia: TAction
       Category = 'Edi'#231#227'o'
       Caption = '&Novo'
       Hint = 'Nova Ocorr'#234'ncia'
-      ImageIndex = 89
+      ImageIndex = 97
     end
     object actExportar: TAction
       Category = 'Edi'#231#227'o'
       Caption = 'Exportar'
       Hint = 'Exportar dados do grid'
       ImageIndex = 101
+      OnExecute = actExportarExecute
+    end
+    object actVisualizarExcluidos: TAction
+      Category = 'Formul'#225'rio'
+      Caption = 'Visualizar Exclu'#237'dos'
+      Hint = 'Visualizar registros exclu'#237'dos'
+      ImageIndex = 114
+      Visible = False
+    end
+    object actEditarOcorrencia: TAction
+      Category = 'Edi'#231#227'o'
+      Caption = '&Editar'
+      Hint = 'Editar ocorr'#234'ncia'
+      ImageIndex = 95
+    end
+    object actExcluirOcorrencia: TAction
+      Category = 'Edi'#231#227'o'
+      Caption = 'E&xcluir'
+      Hint = 'Excluir ocorr'#234'ncia'
+      ImageIndex = 84
+    end
+    object actLimparGrid: TAction
+      Category = 'Edi'#231#227'o'
+      Caption = 'Li&mpar'
+      Hint = 'Limpar dados do grid'
+      ImageIndex = 115
+      OnExecute = actLimparGridExecute
     end
   end
   object mtbOcorerncias: TFDMemTable
@@ -471,8 +624,8 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 776
-    Top = 72
+    Left = 832
+    Top = 16
     object mtbOcorernciasnum_ocorrencia: TIntegerField
       DisplayLabel = 'N'#250'mero'
       FieldName = 'num_ocorrencia'
@@ -586,7 +739,7 @@ object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
   object dsOcorrencias: TDataSource
     AutoEdit = False
     DataSet = mtbOcorerncias
-    Left = 832
-    Top = 72
+    Left = 888
+    Top = 16
   end
 end

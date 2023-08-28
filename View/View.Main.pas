@@ -242,6 +242,7 @@ type
     procedure actExtratoPeriodicosExecute(Sender: TObject);
     procedure actCadastroContratadosExecute(Sender: TObject);
     procedure actFaturamentoRecebidoExecute(Sender: TObject);
+    procedure actRegistroOcorrenciasExecute(Sender: TObject);
 
   private
     { Private declarations }
@@ -276,7 +277,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsua
   View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
   View.CadastroClientes, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals, View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
-  View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract;
+  View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract, View.SisGeFOcorrenciasJornal;
 
 procedure Tview_Main.Acessos;
 var
@@ -619,6 +620,15 @@ begin
     view_RecepcaoPedidos := Tview_RecepcaoPedidos.Create(Application);
   end;
   view_RecepcaoPedidos.Show;
+end;
+
+procedure Tview_Main.actRegistroOcorrenciasExecute(Sender: TObject);
+begin
+  if not Assigned(viewSisGeFOcorrenciasJornal) then
+  begin
+    viewSisGeFOcorrenciasJornal := TviewSisGeFOcorrenciasJornal.Create(Application);
+  end;
+  viewSisGeFOcorrenciasJornal.Show;
 end;
 
 procedure Tview_Main.actRoteirosExpressasExecute(Sender: TObject);

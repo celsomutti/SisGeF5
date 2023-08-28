@@ -11,7 +11,8 @@ uses
   cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxCheckBox, cxDBLookupComboBox, cxBlobEdit, cxSpinEdit, cxCurrencyEdit,
+  Controller.SisGeFTiposOcorrenciaJornal, Common.Utils;
 
 type
   TviewSisGeFOcorrenciasJornal = class(TForm)
@@ -41,9 +42,9 @@ type
     lytBotoesEdicao: TdxLayoutGroup;
     actNovaOcorrencia: TAction;
     actExportar: TAction;
-    cxButton1: TcxButton;
+    btnIncluir: TcxButton;
     lytBotaoNovo: TdxLayoutItem;
-    cxButton2: TcxButton;
+    btnExportar: TcxButton;
     lytBotalExportar: TdxLayoutItem;
     lytGrid: TdxLayoutGroup;
     grdOcorrenciasDBTableView1: TcxGridDBTableView;
@@ -100,23 +101,42 @@ type
     grdOcorrenciasDBTableView1dom_impressao: TcxGridDBColumn;
     grdOcorrenciasDBTableView1des_anexo: TcxGridDBColumn;
     grdOcorrenciasDBTableView1des_log: TcxGridDBColumn;
+    chkExcluídos: TcxCheckBox;
+    lytCheckExcluidos: TdxLayoutItem;
+    actVisualizarExcluidos: TAction;
+    btnEditar: TcxButton;
+    lytBotaoEditar: TdxLayoutItem;
+    actEditarOcorrencia: TAction;
+    actExcluirOcorrencia: TAction;
+    btnExcluir: TcxButton;
+    lytBotaoExcluir: TdxLayoutItem;
+    actLimparGrid: TAction;
+    btnLimpar: TcxButton;
+    lytBotaoLimpar: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure cboCamposPesquisaPropertiesChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actSairExecute(Sender: TObject);
+    procedure actLimparGridExecute(Sender: TObject);
+    procedure actExportarExecute(Sender: TObject);
+    procedure actPesquisarExecute(Sender: TObject);
   private
     { Private declarations }
     FOcorrencias: TControllerSisGeFOcorrenciasJornal;
+    FTiposOcorrencia: TControllerSisGeFTiposOcorrenciaJornal;
     procedure CreateFieldsList;
     procedure PrepareFields(iIndex: integer);
     procedure SetupResearch;
+    procedure CloseDB;
+    procedure ExportGrid;
     function ValidateSearch(): boolean;
   public
     { Public declarations }
   end;
 
 var
-  viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal;
   fFileds: TStringList;
+  FOcorrencias: TControllerSisGeFOcorrenciasJornal;
 
 implementation
 
@@ -124,9 +144,38 @@ implementation
 
 uses Data.SisGeF;
 
+procedure TviewSisGeFOcorrenciasJornal.actExportarExecute(Sender: TObject);
+begin
+  ExportGrid;
+end;
+
+procedure TviewSisGeFOcorrenciasJornal.actLimparGridExecute(Sender: TObject);
+begin
+  CloseDB;
+end;
+
+procedure TviewSisGeFOcorrenciasJornal.actPesquisarExecute(Sender: TObject);
+begin
+  if ValidateSearch then
+    SetupResearch;
+end;
+
+procedure TviewSisGeFOcorrenciasJornal.actSairExecute(Sender: TObject);
+begin
+  CloseDB;
+  Close;
+end;
+
 procedure TviewSisGeFOcorrenciasJornal.cboCamposPesquisaPropertiesChange(Sender: TObject);
 begin
   PrepareFields(cboCamposPesquisa.ItemIndex);
+end;
+
+procedure TviewSisGeFOcorrenciasJornal.CloseDB;
+begin
+  cboCamposPesquisa.ItemIndex := 0;
+  chkExcluídos.Checked := False;
+  mtbOcorerncias.Close;
 end;
 
 procedure TviewSisGeFOcorrenciasJornal.CreateFieldsList;
@@ -139,14 +188,44 @@ begin
   fFileds.Add('NOM_ASSINANTE');
 end;
 
+procedure TviewSisGeFOcorrenciasJornal.ExportGrid;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if grdOcorrenciasDBTableView1.ViewData.RowCount = 0 then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      fnUtil.ExportarDados(grdOcorrencias,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    fnUtil.Free;
+  end;
+end;
+
 procedure TviewSisGeFOcorrenciasJornal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FOcorrencias.Free;
+  FTiposOcorrencia.Free;
+  Action := caFree;
+  Self := Nil;
 end;
 
 procedure TviewSisGeFOcorrenciasJornal.FormShow(Sender: TObject);
 begin
   CreateFieldsList;
+  FTiposOcorrencia := TControllerSisGeFTiposOcorrenciaJornal.Create;
   FOcorrencias := TControllerSisGeFOcorrenciasJornal.Create;
 end;
 
@@ -200,6 +279,7 @@ procedure TviewSisGeFOcorrenciasJornal.SetupResearch;
 var
   sField, sSQL: string;
   iIndex : integer;
+  aParam: array of Variant;
 begin
   sSQL := '';
   iIndex := cboCamposPesquisa.ItemIndex;
@@ -210,8 +290,8 @@ begin
   end;
   if iIndex = 2 then
   begin
-    sSQL := sField + ' betwsee ' + FormatDateTime('aaaa-mm-dd', datInicial.Date) + ' and ' +
-            FormatDateTime('aaaa-mm-dd', datFinal.Date);
+    sSQL := sField + ' between ' + QuotedStr(FormatDateTime('aaaa-mm-dd', datInicial.Date)) + ' and ' +
+            QuotedStr(FormatDateTime('aaaa-mm-dd', datFinal.Date));
   end;
   if iIndex = 3 then
   begin
@@ -219,9 +299,21 @@ begin
   end;
   if iIndex = 4 then
   begin
-    sSQL := sField + ' like ' + QuotedStr(mskCampo.Text);
+    sSQL := sField + ' like ' + QuotedStr('%' + mskCampo.Text + '%');
   end;
-
+  SetLength(aParam,2);
+  aParam := ['FILTRO', sSQL];
+  if FOcorrencias.Search(aParam) then
+  begin
+    mtbOcorerncias.Close;
+    mtbOcorerncias.Data := FOcorrencias.Ocorencias.Query.Data;
+    mtbOcorerncias.First;
+  end
+  else
+  begin
+    MessageDlg('Nenhum registro encontrado!',mtWarning, [mbOK], 0);
+  end;
+  FOcorrencias.Ocorencias.Query.Connection.Connected := False;
 end;
 
 function TviewSisGeFOcorrenciasJornal.ValidateSearch: boolean;
