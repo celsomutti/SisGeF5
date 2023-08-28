@@ -15,7 +15,7 @@ uses
   Controller.SisGeFTiposOcorrenciaJornal, Common.Utils;
 
 type
-  TviewSisGeFOcorrenciasJornal = class(TForm)
+  Tview_SisGeFOcorrenciasJornal = class(TForm)
     lytMainGroup_Root: TdxLayoutGroup;
     lytMain: TdxLayoutControl;
     lytFiltro: TdxLayoutGroup;
@@ -135,6 +135,7 @@ type
   end;
 
 var
+  view_SisGeFOcorrenciasJornal: Tview_SisGeFOcorrenciasJornal;
   fFileds: TStringList;
   FOcorrencias: TControllerSisGeFOcorrenciasJornal;
 
@@ -144,41 +145,41 @@ implementation
 
 uses Data.SisGeF;
 
-procedure TviewSisGeFOcorrenciasJornal.actExportarExecute(Sender: TObject);
+procedure Tview_SisGeFOcorrenciasJornal.actExportarExecute(Sender: TObject);
 begin
   ExportGrid;
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.actLimparGridExecute(Sender: TObject);
+procedure Tview_SisGeFOcorrenciasJornal.actLimparGridExecute(Sender: TObject);
 begin
   CloseDB;
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.actPesquisarExecute(Sender: TObject);
+procedure Tview_SisGeFOcorrenciasJornal.actPesquisarExecute(Sender: TObject);
 begin
   if ValidateSearch then
     SetupResearch;
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.actSairExecute(Sender: TObject);
+procedure Tview_SisGeFOcorrenciasJornal.actSairExecute(Sender: TObject);
 begin
   CloseDB;
   Close;
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.cboCamposPesquisaPropertiesChange(Sender: TObject);
+procedure Tview_SisGeFOcorrenciasJornal.cboCamposPesquisaPropertiesChange(Sender: TObject);
 begin
   PrepareFields(cboCamposPesquisa.ItemIndex);
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.CloseDB;
+procedure Tview_SisGeFOcorrenciasJornal.CloseDB;
 begin
   cboCamposPesquisa.ItemIndex := 0;
   chkExcluídos.Checked := False;
   mtbOcorerncias.Close;
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.CreateFieldsList;
+procedure Tview_SisGeFOcorrenciasJornal.CreateFieldsList;
 begin
   fFileds := TStringList.Create;
   fFileds.Add('NONE');
@@ -188,7 +189,7 @@ begin
   fFileds.Add('NOM_ASSINANTE');
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.ExportGrid;
+procedure Tview_SisGeFOcorrenciasJornal.ExportGrid;
 var
   fnUtil : Common.Utils.TUtils;
   sMensagem: String;
@@ -214,22 +215,22 @@ begin
   end;
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure Tview_SisGeFOcorrenciasJornal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FOcorrencias.Free;
   FTiposOcorrencia.Free;
   Action := caFree;
-  Self := Nil;
+  view_SisGeFOcorrenciasJornal := Nil;
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.FormShow(Sender: TObject);
+procedure Tview_SisGeFOcorrenciasJornal.FormShow(Sender: TObject);
 begin
   CreateFieldsList;
   FTiposOcorrencia := TControllerSisGeFTiposOcorrenciaJornal.Create;
   FOcorrencias := TControllerSisGeFOcorrenciasJornal.Create;
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.PrepareFields(iIndex: integer);
+procedure Tview_SisGeFOcorrenciasJornal.PrepareFields(iIndex: integer);
 begin
   if iIndex = 1 then
   begin
@@ -275,7 +276,7 @@ begin
   end;
 end;
 
-procedure TviewSisGeFOcorrenciasJornal.SetupResearch;
+procedure Tview_SisGeFOcorrenciasJornal.SetupResearch;
 var
   sField, sSQL: string;
   iIndex : integer;
@@ -290,8 +291,8 @@ begin
   end;
   if iIndex = 2 then
   begin
-    sSQL := sField + ' between ' + QuotedStr(FormatDateTime('aaaa-mm-dd', datInicial.Date)) + ' and ' +
-            QuotedStr(FormatDateTime('aaaa-mm-dd', datFinal.Date));
+    sSQL := sField + ' between ' + QuotedStr(FormatDateTime('yyyy-mm-dd', datInicial.Date)) + ' and ' +
+            QuotedStr(FormatDateTime('yyyy-mm-dd', datFinal.Date));
   end;
   if iIndex = 3 then
   begin
@@ -316,7 +317,7 @@ begin
   FOcorrencias.Ocorencias.Query.Connection.Connected := False;
 end;
 
-function TviewSisGeFOcorrenciasJornal.ValidateSearch: boolean;
+function Tview_SisGeFOcorrenciasJornal.ValidateSearch: boolean;
 begin
   Result := False;
   if cboCamposPesquisa.ItemIndex <= 0 then

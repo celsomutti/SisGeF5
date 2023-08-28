@@ -48,7 +48,7 @@ end;
 
 function TControllerSisGeFOcorrenciasJornal.Search(aParam: array of variant): boolean;
 begin
-  Result := Search(aParam);
+  Result := FOcorrencias.Search(aParam);
 end;
 
 function TControllerSisGeFOcorrenciasJornal.SetupClass: boolean;

@@ -714,7 +714,7 @@
         <DCCReference Include="Model\Model.SisGeFTiposOcorrenciaJornal.pas"/>
         <DCCReference Include="Control\Controller.SisGeFTiposOcorrenciaJornal.pas"/>
         <DCCReference Include="View\View.SisGeFOcorrenciasJornal.pas">
-            <Form>viewSisGeFOcorrenciasJornal</Form>
+            <Form>view_SisGeFOcorrenciasJornal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="SisGeF5.todo"/>
@@ -772,9 +772,10 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Release\SisGeF5.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>SisGeF5.exe</RemoteName>
+                <DeployFile LocalName="Images\logo_150_150.png" Configuration="Release" Class="UWP_DelphiLogo150">
+                    <Platform Name="Win64">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo150x150.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -792,10 +793,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Images\logo_150_150.png" Configuration="Release" Class="UWP_DelphiLogo150">
-                    <Platform Name="Win64">
-                        <RemoteDir>Assets\</RemoteDir>
-                        <RemoteName>Logo150x150.png</RemoteName>
+                <DeployFile LocalName="Win32\Release\SisGeF5.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>SisGeF5.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

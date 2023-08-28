@@ -309,7 +309,7 @@ uses
   Controller.SisGeFProdutosJornal in 'Control\Controller.SisGeFProdutosJornal.pas',
   Model.SisGeFTiposOcorrenciaJornal in 'Model\Model.SisGeFTiposOcorrenciaJornal.pas',
   Controller.SisGeFTiposOcorrenciaJornal in 'Control\Controller.SisGeFTiposOcorrenciaJornal.pas',
-  View.SisGeFOcorrenciasJornal in 'View\View.SisGeFOcorrenciasJornal.pas' {viewSisGeFOcorrenciasJornal};
+  View.SisGeFOcorrenciasJornal in 'View\View.SisGeFOcorrenciasJornal.pas' {view_SisGeFOcorrenciasJornal};
 
 {$R *.res}
 

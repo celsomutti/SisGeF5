@@ -624,11 +624,11 @@ end;
 
 procedure Tview_Main.actRegistroOcorrenciasExecute(Sender: TObject);
 begin
-  if not Assigned(viewSisGeFOcorrenciasJornal) then
+  if not Assigned(view_SisGeFOcorrenciasJornal) then
   begin
-    viewSisGeFOcorrenciasJornal := TviewSisGeFOcorrenciasJornal.Create(Application);
+    view_SisGeFOcorrenciasJornal := Tview_SisGeFOcorrenciasJornal.Create(Application);
   end;
-  viewSisGeFOcorrenciasJornal.Show;
+  view_SisGeFOcorrenciasJornal.Show;
 end;
 
 procedure Tview_Main.actRoteirosExpressasExecute(Sender: TObject);

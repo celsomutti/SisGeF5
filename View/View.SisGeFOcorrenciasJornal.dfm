@@ -1,4 +1,4 @@
-﻿object viewSisGeFOcorrenciasJornal: TviewSisGeFOcorrenciasJornal
+﻿object view_SisGeFOcorrenciasJornal: Tview_SisGeFOcorrenciasJornal
   Left = 0
   Top = 0
   Caption = 'Ocorr'#234'ncias de Assinaturas'
