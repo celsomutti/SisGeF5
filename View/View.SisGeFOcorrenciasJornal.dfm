@@ -163,14 +163,26 @@
         object grdOcorrenciasDBTableView1cod_produto: TcxGridDBColumn
           DataBinding.FieldName = 'cod_produto'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.ListColumns = <>
+          Properties.KeyFieldNames = 'cod_produto'
+          Properties.ListColumns = <
+            item
+              FieldName = 'des_produto'
+            end>
+          Properties.ListOptions.ShowHeader = False
+          Properties.ListSource = dsProdutos
           HeaderAlignmentHorz = taCenter
           Width = 162
         end
         object grdOcorrenciasDBTableView1cod_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'cod_ocorrencia'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.ListColumns = <>
+          Properties.KeyFieldNames = 'cod_tipo_ocorrencia'
+          Properties.ListColumns = <
+            item
+              FieldName = 'des_tipo_ocorrencia'
+            end>
+          Properties.ListOptions.ShowHeader = False
+          Properties.ListSource = dsTiposOcorrencias
           HeaderAlignmentHorz = taCenter
           Width = 137
         end
@@ -181,10 +193,9 @@
         end
         object grdOcorrenciasDBTableView1des_descricao: TcxGridDBColumn
           DataBinding.FieldName = 'des_descricao'
-          PropertiesClassName = 'TcxBlobEditProperties'
-          Properties.BlobEditKind = bekMemo
+          PropertiesClassName = 'TcxMemoProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 144
+          Width = 198
         end
         object grdOcorrenciasDBTableView1des_endereco: TcxGridDBColumn
           DataBinding.FieldName = 'des_endereco'
@@ -194,8 +205,7 @@
         end
         object grdOcorrenciasDBTableView1des_retorno: TcxGridDBColumn
           DataBinding.FieldName = 'des_retorno'
-          PropertiesClassName = 'TcxBlobEditProperties'
-          Properties.BlobEditKind = bekMemo
+          PropertiesClassName = 'TcxMemoProperties'
           HeaderAlignmentHorz = taCenter
           Width = 154
         end
@@ -211,8 +221,7 @@
         end
         object grdOcorrenciasDBTableView1des_obs: TcxGridDBColumn
           DataBinding.FieldName = 'des_obs'
-          PropertiesClassName = 'TcxBlobEditProperties'
-          Properties.BlobEditKind = bekMemo
+          PropertiesClassName = 'TcxMemoProperties'
           HeaderAlignmentHorz = taCenter
           Width = 144
         end
@@ -616,7 +625,13 @@
       OnExecute = actLimparGridExecute
     end
   end
-  object mtbOcorerncias: TFDMemTable
+  object dsOcorrencias: TDataSource
+    AutoEdit = False
+    DataSet = Data_Sisgef.mtbOcorerncias
+    Left = 696
+    Top = 40
+  end
+  object mtbProdutos: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -624,122 +639,49 @@
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 832
-    Top = 16
-    object mtbOcorernciasnum_ocorrencia: TIntegerField
-      DisplayLabel = 'N'#250'mero'
-      FieldName = 'num_ocorrencia'
-    end
-    object mtbOcorernciasdat_ocorrencia: TDateField
-      DisplayLabel = 'Data'
-      FieldName = 'dat_ocorrencia'
-    end
-    object mtbOcorernciascod_assinatura: TStringField
-      DisplayLabel = 'C'#243'd. Assinatura'
-      FieldName = 'cod_assinatura'
-    end
-    object mtbOcorernciasnom_assinante: TStringField
-      DisplayLabel = 'Nome Assinante'
-      FieldName = 'nom_assinante'
-      Size = 70
-    end
-    object mtbOcorernciasdes_roteiro: TStringField
-      DisplayLabel = 'Roteiro'
-      FieldName = 'des_roteiro'
-      Size = 30
-    end
-    object mtbOcorernciascod_entregador: TIntegerField
-      DisplayLabel = 'Entregador'
-      FieldName = 'cod_entregador'
-    end
-    object mtbOcorernciascod_produto: TStringField
-      DisplayLabel = 'Produto'
+    Left = 488
+    Top = 40
+    object mtbProdutoscod_produto: TStringField
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'cod_produto'
       Size = 10
     end
-    object mtbOcorernciascod_ocorrencia: TIntegerField
-      DisplayLabel = 'Ocorr'#234'ncia'
-      FieldName = 'cod_ocorrencia'
-    end
-    object mtbOcorernciasdom_reincidente: TStringField
-      DisplayLabel = 'Reincidente'
-      FieldName = 'dom_reincidente'
-      Size = 1
-    end
-    object mtbOcorernciasdes_descricao: TMemoField
+    object mtbProdutosdes_produto: TStringField
       DisplayLabel = 'Descri'#231#227'o'
-      FieldName = 'des_descricao'
-      BlobType = ftMemo
-    end
-    object mtbOcorernciasdes_endereco: TStringField
-      DisplayLabel = 'Endere'#231'o'
-      FieldName = 'des_endereco'
-      Size = 256
-    end
-    object mtbOcorernciasdes_retorno: TMemoField
-      DisplayLabel = 'Retorno'
-      FieldName = 'des_retorno'
-      BlobType = ftMemo
-    end
-    object mtbOcorernciascod_resultado: TIntegerField
-      DisplayLabel = 'Resultado'
-      FieldName = 'cod_resultado'
-    end
-    object mtbOcorernciascod_origem: TIntegerField
-      DisplayLabel = 'Origem'
-      FieldName = 'cod_origem'
-    end
-    object mtbOcorernciasdes_obs: TMemoField
-      DisplayLabel = 'Observa'#231#245'es'
-      FieldName = 'des_obs'
-      BlobType = ftMemo
-    end
-    object mtbOcorernciascod_status: TIntegerField
-      DisplayLabel = 'Status'
-      FieldName = 'cod_status'
-    end
-    object mtbOcorernciasdes_apuracao: TMemoField
-      DisplayLabel = 'Apura'#231#227'o'
-      FieldName = 'des_apuracao'
-      BlobType = ftMemo
-    end
-    object mtbOcorernciasdom_processado: TStringField
-      DisplayLabel = 'Processado'
-      FieldName = 'dom_processado'
-      Size = 1
-    end
-    object mtbOcorernciasqtd_ocorrencias: TIntegerField
-      DisplayLabel = 'Qtde.'
-      FieldName = 'qtd_ocorrencias'
-    end
-    object mtbOcorernciasval_ocorrencia: TFloatField
-      DisplayLabel = 'Valor'
-      FieldName = 'val_ocorrencia'
-    end
-    object mtbOcorernciasdat_desconto: TDateField
-      DisplayLabel = 'Data Desconto'
-      FieldName = 'dat_desconto'
-    end
-    object mtbOcorernciasdom_impressao: TStringField
-      DisplayLabel = 'Impress'#227'o'
-      FieldName = 'dom_impressao'
-      Size = 1
-    end
-    object mtbOcorernciasdes_anexo: TStringField
-      DisplayLabel = 'Anexo'
-      FieldName = 'des_anexo'
+      FieldName = 'des_produto'
       Size = 70
     end
-    object mtbOcorernciasdes_log: TMemoField
-      DisplayLabel = 'LOG'
-      FieldName = 'des_log'
-      BlobType = ftMemo
+  end
+  object mtbTiposOcorrencias: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 592
+    Top = 40
+    object mtbTiposOcorrenciascod_tipo_ocorrencia: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'cod_tipo_ocorrencia'
+    end
+    object mtbTiposOcorrenciasdes_tipo_ocorrencia: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'des_tipo_ocorrencia'
+      Size = 70
     end
   end
-  object dsOcorrencias: TDataSource
+  object dsProdutos: TDataSource
     AutoEdit = False
-    DataSet = mtbOcorerncias
-    Left = 888
-    Top = 16
+    DataSet = mtbProdutos
+    Left = 528
+    Top = 40
+  end
+  object dsTiposOcorrencias: TDataSource
+    AutoEdit = False
+    DataSet = mtbTiposOcorrencias
+    Left = 632
+    Top = 40
   end
 end

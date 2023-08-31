@@ -9,6 +9,9 @@ type
     private
       FTipos: TModelSisGeFTiposOcorrenciaJornal;
     public
+
+      property Tipos: TModelSisGeFTiposOcorrenciaJornal read FTipos write FTipos;
+
       constructor Create;
       destructor Destroy; override;
       function Search(aParam: array of variant): boolean;

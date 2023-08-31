@@ -11,6 +11,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+    property Produtos: TModelSisGeFProdutosJornal read FProdutos write FProdutos;
     function Search(aParam: array of variant): boolean;
   end;
 

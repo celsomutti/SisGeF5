@@ -12,7 +12,7 @@ uses
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxCheckBox, cxDBLookupComboBox, cxBlobEdit, cxSpinEdit, cxCurrencyEdit,
-  Controller.SisGeFTiposOcorrenciaJornal, Common.Utils;
+  Controller.SisGeFTiposOcorrenciaJornal, Common.Utils, cxMemo, Controller.SisGeFProdutosJornal;
 
 type
   Tview_SisGeFOcorrenciasJornal = class(TForm)
@@ -51,31 +51,6 @@ type
     grdOcorrenciasLevel1: TcxGridLevel;
     grdOcorrencias: TcxGrid;
     lytGridOcorrencias: TdxLayoutItem;
-    mtbOcorerncias: TFDMemTable;
-    mtbOcorernciasnum_ocorrencia: TIntegerField;
-    mtbOcorernciasdat_ocorrencia: TDateField;
-    mtbOcorernciascod_assinatura: TStringField;
-    mtbOcorernciasnom_assinante: TStringField;
-    mtbOcorernciasdes_roteiro: TStringField;
-    mtbOcorernciascod_entregador: TIntegerField;
-    mtbOcorernciascod_produto: TStringField;
-    mtbOcorernciascod_ocorrencia: TIntegerField;
-    mtbOcorernciasdom_reincidente: TStringField;
-    mtbOcorernciasdes_descricao: TMemoField;
-    mtbOcorernciasdes_endereco: TStringField;
-    mtbOcorernciasdes_retorno: TMemoField;
-    mtbOcorernciascod_resultado: TIntegerField;
-    mtbOcorernciascod_origem: TIntegerField;
-    mtbOcorernciasdes_obs: TMemoField;
-    mtbOcorernciascod_status: TIntegerField;
-    mtbOcorernciasdes_apuracao: TMemoField;
-    mtbOcorernciasdom_processado: TStringField;
-    mtbOcorernciasqtd_ocorrencias: TIntegerField;
-    mtbOcorernciasval_ocorrencia: TFloatField;
-    mtbOcorernciasdat_desconto: TDateField;
-    mtbOcorernciasdom_impressao: TStringField;
-    mtbOcorernciasdes_anexo: TStringField;
-    mtbOcorernciasdes_log: TMemoField;
     dsOcorrencias: TDataSource;
     grdOcorrenciasDBTableView1num_ocorrencia: TcxGridDBColumn;
     grdOcorrenciasDBTableView1dat_ocorrencia: TcxGridDBColumn;
@@ -113,6 +88,14 @@ type
     actLimparGrid: TAction;
     btnLimpar: TcxButton;
     lytBotaoLimpar: TdxLayoutItem;
+    mtbProdutos: TFDMemTable;
+    mtbProdutoscod_produto: TStringField;
+    mtbProdutosdes_produto: TStringField;
+    mtbTiposOcorrencias: TFDMemTable;
+    dsProdutos: TDataSource;
+    dsTiposOcorrencias: TDataSource;
+    mtbTiposOcorrenciascod_tipo_ocorrencia: TIntegerField;
+    mtbTiposOcorrenciasdes_tipo_ocorrencia: TStringField;
     procedure FormShow(Sender: TObject);
     procedure cboCamposPesquisaPropertiesChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -129,6 +112,8 @@ type
     procedure SetupResearch;
     procedure CloseDB;
     procedure ExportGrid;
+    procedure PopulateProducts;
+    procedure PopulateOcoursType;
     function ValidateSearch(): boolean;
   public
     { Public declarations }
@@ -176,7 +161,7 @@ procedure Tview_SisGeFOcorrenciasJornal.CloseDB;
 begin
   cboCamposPesquisa.ItemIndex := 0;
   chkExcluídos.Checked := False;
-  mtbOcorerncias.Close;
+  Data_Sisgef.mtbOcorerncias.Close;
 end;
 
 procedure Tview_SisGeFOcorrenciasJornal.CreateFieldsList;
@@ -217,6 +202,9 @@ end;
 
 procedure Tview_SisGeFOcorrenciasJornal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  mtbProdutos.Active := False;
+  mtbTiposOcorrencias.Active := False;
+  Data_Sisgef.mtbOcorerncias.Active := False;
   FOcorrencias.Free;
   FTiposOcorrencia.Free;
   Action := caFree;
@@ -228,6 +216,48 @@ begin
   CreateFieldsList;
   FTiposOcorrencia := TControllerSisGeFTiposOcorrenciaJornal.Create;
   FOcorrencias := TControllerSisGeFOcorrenciasJornal.Create;
+  PopulateProducts;
+  PopulateOcoursType;
+end;
+
+procedure Tview_SisGeFOcorrenciasJornal.PopulateOcoursType;
+var
+  FTiposOcorrencia: TControllerSisGeFTiposOcorrenciaJornal;
+  aParam: Array of variant;
+begin
+  try
+    FTiposOcorrencia := TControllerSisGeFTiposOcorrenciaJornal.Create;
+    SetLength(aParam,2);
+    aParam := ['LISTA', 'COD_TIPO_OCORRENCIA, DES_TIPO_OCORRENCIA', ''];
+    if FTiposOcorrencia.Search(aParam) then
+    begin
+      mtbTiposOcorrencias.Active := False;
+      mtbTiposOcorrencias.Data := FTiposOcorrencia.Tipos.Query.Data;
+      Finalize(aParam);
+    end;
+  finally
+    FTiposOcorrencia.Free;
+  end;
+end;
+
+procedure Tview_SisGeFOcorrenciasJornal.PopulateProducts;
+var
+  FProdutos: TControllerSisGeFProdutosJornal;
+  aParam: Array of variant;
+begin
+  try
+    FProdutos := TControllerSisGeFProdutosJornal.Create;
+    SetLength(aParam,2);
+    aParam := ['LISTA', 'COD_PRODUTO, DES_PRODUTO', ''];
+    if FProdutos.Search(aParam) then
+    begin
+      mtbProdutos.Active := False;
+      mtbProdutos.Data := FProdutos.Produtos.Query.Data;
+      Finalize(aParam);
+    end;
+  finally
+    FProdutos.Free;
+  end;
 end;
 
 procedure Tview_SisGeFOcorrenciasJornal.PrepareFields(iIndex: integer);
@@ -306,14 +336,15 @@ begin
   aParam := ['FILTRO', sSQL];
   if FOcorrencias.Search(aParam) then
   begin
-    mtbOcorerncias.Close;
-    mtbOcorerncias.Data := FOcorrencias.Ocorencias.Query.Data;
-    mtbOcorerncias.First;
+    Data_Sisgef.mtbOcorerncias.Close;
+    Data_Sisgef.mtbOcorerncias.Data := FOcorrencias.Ocorencias.Query.Data;
+    Data_Sisgef.mtbOcorerncias.First;
   end
   else
   begin
     MessageDlg('Nenhum registro encontrado!',mtWarning, [mbOK], 0);
   end;
+  Finalize(aParam);
   FOcorrencias.Ocorencias.Query.Connection.Connected := False;
 end;
 
