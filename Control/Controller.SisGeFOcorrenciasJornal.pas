@@ -12,7 +12,7 @@ type
     constructor Create;
     Destructor Destroy; override;
 
-    property Ocorencias: TModelSisGeFOcorrenciasJotnal read FOcorrencias;
+    property Ocorrencias: TModelSisGeFOcorrenciasJotnal read FOcorrencias;
 
     function Search(aParam: array of variant): boolean;
     function Save(): boolean;

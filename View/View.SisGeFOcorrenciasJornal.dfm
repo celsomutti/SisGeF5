@@ -24,7 +24,9 @@
     Width = 1120
     Height = 563
     Align = alClient
+    ParentBackground = True
     TabOrder = 0
+    Transparent = True
     object cboCamposPesquisa: TcxComboBox
       Left = 80
       Top = 12
@@ -65,7 +67,7 @@
       Width = 226
     end
     object btnPesquisar: TcxButton
-      Left = 1035
+      Left = 930
       Top = 10
       Width = 75
       Height = 25
@@ -80,7 +82,7 @@
       Height = 25
       Cursor = crHandPoint
       Action = actSair
-      TabOrder = 12
+      TabOrder = 13
     end
     object btnIncluir: TcxButton
       Left = 10
@@ -112,7 +114,14 @@
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
-        OptionsSelection.CellSelect = False
+        EditForm.ItemHotTrack = True
+        EditForm.MasterRowDblClickAction = dcaShowEditForm
+        EditForm.DefaultStretch = fsClient
+        OptionsBehavior.FocusCellOnTab = True
+        OptionsBehavior.EditMode = emInplaceEditFormHideCurrentRow
+        OptionsBehavior.FocusCellOnCycle = True
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
         OptionsSelection.CheckBoxPosition = cbpIndicator
         OptionsSelection.CheckBoxVisibility = [cbvDataRow]
         OptionsSelection.HideFocusRectOnExit = False
@@ -120,9 +129,43 @@
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
+        ConditionalFormatting = {
+          010000000A000000310000005400640078005300700072006500610064005300
+          680065006500740043006F006E0064006900740069006F006E0061006C004600
+          6F0072006D0061007400740069006E006700520075006C006500450078007000
+          720065007300730069006F006E008D0000000000000000000000FFFFFF7FFFFF
+          FF7F0001FF0000000B00000007000000430061006C0069006200720069000000
+          0000000020000000200000000020000000002000000000200000000020000700
+          0000470045004E004500520041004C000000000000020000000000000000010C
+          0000003D005B005300740061007400750073005D003D002D00320000000000}
+        object grdOcorrenciasDBTableView1cod_status: TcxGridDBColumn
+          DataBinding.FieldName = 'cod_status'
+          PropertiesClassName = 'TcxImageComboBoxProperties'
+          Properties.Alignment.Horz = taLeftJustify
+          Properties.Images = Data_Sisgef.iml_16_16
+          Properties.Items = <
+            item
+              Description = 'ATIVO'
+              ImageIndex = 83
+              Value = 0
+            end
+            item
+              Description = 'INATIVO'
+              ImageIndex = 84
+              Value = 1
+            end
+            item
+              Description = 'EXCLU'#205'DO'
+              ImageIndex = 114
+              Value = -2
+            end>
+          HeaderAlignmentHorz = taCenter
+          Width = 98
+        end
         object grdOcorrenciasDBTableView1num_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'num_ocorrencia'
           PropertiesClassName = 'TcxMaskEditProperties'
+          Properties.Alignment.Horz = taRightJustify
           Properties.IgnoreMaskBlank = True
           Properties.MaskKind = emkRegExpr
           Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d'
@@ -156,7 +199,14 @@
         object grdOcorrenciasDBTableView1cod_entregador: TcxGridDBColumn
           DataBinding.FieldName = 'cod_entregador'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.ListColumns = <>
+          Properties.Alignment.Horz = taRightJustify
+          Properties.KeyFieldNames = 'cod_cadastro'
+          Properties.ListColumns = <
+            item
+              FieldName = 'des_razao_social'
+            end>
+          Properties.ListOptions.ShowHeader = False
+          Properties.ListSource = dsCadastro
           HeaderAlignmentHorz = taCenter
           Width = 190
         end
@@ -176,6 +226,7 @@
         object grdOcorrenciasDBTableView1cod_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'cod_ocorrencia'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.Alignment.Horz = taRightJustify
           Properties.KeyFieldNames = 'cod_tipo_ocorrencia'
           Properties.ListColumns = <
             item
@@ -225,11 +276,6 @@
           HeaderAlignmentHorz = taCenter
           Width = 144
         end
-        object grdOcorrenciasDBTableView1cod_status: TcxGridDBColumn
-          DataBinding.FieldName = 'cod_status'
-          Visible = False
-          HeaderAlignmentHorz = taCenter
-        end
         object grdOcorrenciasDBTableView1des_apuracao: TcxGridDBColumn
           DataBinding.FieldName = 'des_apuracao'
           Visible = False
@@ -246,12 +292,14 @@
         object grdOcorrenciasDBTableView1qtd_ocorrencias: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_ocorrencias'
           PropertiesClassName = 'TcxSpinEditProperties'
+          Properties.Alignment.Horz = taRightJustify
           HeaderAlignmentHorz = taCenter
           Width = 75
         end
         object grdOcorrenciasDBTableView1val_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'val_ocorrencia'
           PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.Alignment.Horz = taRightJustify
           HeaderAlignmentHorz = taCenter
           Width = 93
         end
@@ -285,7 +333,8 @@
     object chkExcluídos: TcxCheckBox
       Left = 809
       Top = 12
-      Action = actVisualizarExcluidos
+      Hint = 'Visualizar registros exclu'#237'dos'
+      Caption = 'Visualizar Exclu'#237'dos'
       Style.HotTrack = False
       TabOrder = 4
     end
@@ -316,6 +365,15 @@
       Action = actLimparGrid
       TabOrder = 10
     end
+    object btnDeclaracao: TcxButton
+      Left = 10
+      Top = 528
+      Width = 95
+      Height = 25
+      Cursor = crHandPoint
+      Action = actDeclaracao
+      TabOrder = 12
+    end
     object lytMainGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
@@ -334,7 +392,7 @@
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 3
+      ItemIndex = 4
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -403,7 +461,7 @@
     end
     object lytBotoesFormulario: TdxLayoutGroup
       Parent = lytFiltro
-      AlignHorz = ahRight
+      AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'Bot'#245'es'
       ButtonOptions.Buttons = <>
@@ -434,7 +492,7 @@
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object lytBody: TdxLayoutGroup
       Parent = lytMainGroup_Root
@@ -566,6 +624,16 @@
       ControlOptions.ShowBorder = False
       Index = 4
     end
+    object lytBotaoDeclaracao: TdxLayoutItem
+      Parent = lytFooter
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = btnDeclaracao
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 95
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
   end
   object aclOcorrenciasJornal: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -590,6 +658,7 @@
       Caption = '&Novo'
       Hint = 'Nova Ocorr'#234'ncia'
       ImageIndex = 97
+      OnExecute = actNovaOcorrenciaExecute
     end
     object actExportar: TAction
       Category = 'Edi'#231#227'o'
@@ -598,24 +667,19 @@
       ImageIndex = 101
       OnExecute = actExportarExecute
     end
-    object actVisualizarExcluidos: TAction
-      Category = 'Formul'#225'rio'
-      Caption = 'Visualizar Exclu'#237'dos'
-      Hint = 'Visualizar registros exclu'#237'dos'
-      ImageIndex = 114
-      Visible = False
-    end
     object actEditarOcorrencia: TAction
       Category = 'Edi'#231#227'o'
       Caption = '&Editar'
       Hint = 'Editar ocorr'#234'ncia'
       ImageIndex = 95
+      OnExecute = actEditarOcorrenciaExecute
     end
     object actExcluirOcorrencia: TAction
       Category = 'Edi'#231#227'o'
       Caption = 'E&xcluir'
       Hint = 'Excluir ocorr'#234'ncia'
       ImageIndex = 84
+      OnExecute = actExcluirOcorrenciaExecute
     end
     object actLimparGrid: TAction
       Category = 'Edi'#231#227'o'
@@ -624,10 +688,17 @@
       ImageIndex = 115
       OnExecute = actLimparGridExecute
     end
+    object actDeclaracao: TAction
+      Category = 'Formul'#225'rio'
+      Caption = '&Declara'#231#227'o'
+      Hint = 'Imprimir Declara'#231#227'o'
+      ImageIndex = 121
+      OnExecute = actDeclaracaoExecute
+    end
   end
   object dsOcorrencias: TDataSource
-    AutoEdit = False
-    DataSet = Data_Sisgef.mtbOcorerncias
+    DataSet = mtbOcorerncias
+    OnStateChange = dsOcorrenciasStateChange
     Left = 696
     Top = 40
   end
@@ -682,6 +753,154 @@
     AutoEdit = False
     DataSet = mtbTiposOcorrencias
     Left = 632
+    Top = 40
+  end
+  object mtbOcorerncias: TFDMemTable
+    BeforePost = mtbOcorernciasBeforePost
+    AfterPost = mtbOcorernciasAfterPost
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 752
+    Top = 41
+    object mtbOcorernciasnum_ocorrencia: TIntegerField
+      DisplayLabel = 'N'#250'mero'
+      FieldName = 'num_ocorrencia'
+    end
+    object mtbOcorernciasdat_ocorrencia: TDateField
+      DisplayLabel = 'Data'
+      FieldName = 'dat_ocorrencia'
+    end
+    object mtbOcorernciascod_assinatura: TStringField
+      DisplayLabel = 'C'#243'd. Assinatura'
+      FieldName = 'cod_assinatura'
+    end
+    object mtbOcorernciasnom_assinante: TStringField
+      DisplayLabel = 'Nome Assinante'
+      FieldName = 'nom_assinante'
+      Size = 70
+    end
+    object mtbOcorernciasdes_roteiro: TStringField
+      DisplayLabel = 'Roteiro'
+      FieldName = 'des_roteiro'
+      Size = 30
+    end
+    object mtbOcorernciascod_entregador: TIntegerField
+      DisplayLabel = 'Entregador'
+      FieldName = 'cod_entregador'
+    end
+    object mtbOcorernciascod_produto: TStringField
+      DisplayLabel = 'Produto'
+      FieldName = 'cod_produto'
+      Size = 10
+    end
+    object mtbOcorernciascod_ocorrencia: TIntegerField
+      DisplayLabel = 'Ocorr'#234'ncia'
+      FieldName = 'cod_ocorrencia'
+    end
+    object mtbOcorernciasdom_reincidente: TStringField
+      DisplayLabel = 'Reincidente'
+      FieldName = 'dom_reincidente'
+      Size = 1
+    end
+    object mtbOcorernciasdes_descricao: TMemoField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'des_descricao'
+      BlobType = ftMemo
+    end
+    object mtbOcorernciasdes_endereco: TStringField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'des_endereco'
+      Size = 256
+    end
+    object mtbOcorernciasdes_retorno: TMemoField
+      DisplayLabel = 'Retorno'
+      FieldName = 'des_retorno'
+      BlobType = ftMemo
+    end
+    object mtbOcorernciascod_resultado: TIntegerField
+      DisplayLabel = 'Resultado'
+      FieldName = 'cod_resultado'
+    end
+    object mtbOcorernciascod_origem: TIntegerField
+      DisplayLabel = 'Origem'
+      FieldName = 'cod_origem'
+    end
+    object mtbOcorernciasdes_obs: TMemoField
+      DisplayLabel = 'Observa'#231#245'es'
+      FieldName = 'des_obs'
+      BlobType = ftMemo
+    end
+    object mtbOcorernciascod_status: TIntegerField
+      DisplayLabel = 'Status'
+      FieldName = 'cod_status'
+    end
+    object mtbOcorernciasdes_apuracao: TMemoField
+      DisplayLabel = 'Apura'#231#227'o'
+      FieldName = 'des_apuracao'
+      BlobType = ftMemo
+    end
+    object mtbOcorernciasdom_processado: TStringField
+      DisplayLabel = 'Processado'
+      FieldName = 'dom_processado'
+      Size = 1
+    end
+    object mtbOcorernciasqtd_ocorrencias: TIntegerField
+      DisplayLabel = 'Qtde.'
+      FieldName = 'qtd_ocorrencias'
+    end
+    object mtbOcorernciasval_ocorrencia: TFloatField
+      DisplayLabel = 'Valor'
+      FieldName = 'val_ocorrencia'
+    end
+    object mtbOcorernciasdat_desconto: TDateField
+      DisplayLabel = 'Data Desconto'
+      FieldName = 'dat_desconto'
+    end
+    object mtbOcorernciasdom_impressao: TStringField
+      DisplayLabel = 'Impress'#227'o'
+      FieldName = 'dom_impressao'
+      Size = 1
+    end
+    object mtbOcorernciasdes_anexo: TStringField
+      DisplayLabel = 'Anexo'
+      FieldName = 'des_anexo'
+      Size = 70
+    end
+    object mtbOcorernciasdes_log: TMemoField
+      DisplayLabel = 'LOG'
+      FieldName = 'des_log'
+      BlobType = ftMemo
+    end
+  end
+  object mtbCadastro: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 832
+    Top = 40
+    object mtbCadastrocod_cadastro: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'cod_cadastro'
+    end
+    object mtbCadastrodes_razao_social: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'des_razao_social'
+      Size = 70
+    end
+  end
+  object dsCadastro: TDataSource
+    AutoEdit = False
+    DataSet = mtbCadastro
+    Left = 872
     Top = 40
   end
 end
