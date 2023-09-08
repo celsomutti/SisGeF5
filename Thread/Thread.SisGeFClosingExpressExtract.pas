@@ -231,11 +231,11 @@ begin
     storedProcClosingExpress.Connection := FConnection.GetConn;
     if FTipo = 0 then
     begin
+      storedProcClosingExpress.storedProcName := 'sp_insert_extract_express';
+      storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
+      storedProcClosingExpress.Prepare;
       while not memTableExtracts.Eof do
       begin
-        storedProcClosingExpress.storedProcName := 'sp_insert_extract_express';
-        storedProcClosingExpress.SchemaName := Global.Parametros.pDatabase;
-        storedProcClosingExpress.Prepare;
         for i := 0 to Pred(memTableExtracts.FieldCount) do
         begin
           if Pos(memTableExtracts.Fields[i].FieldName, 'nom_cliente, nom_base, nom_entregador,dat_baixa,id_extrato') = 0 then
