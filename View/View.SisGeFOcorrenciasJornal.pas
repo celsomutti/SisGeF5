@@ -12,7 +12,8 @@ uses
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxCheckBox, cxDBLookupComboBox, cxBlobEdit, cxSpinEdit, cxCurrencyEdit,
-  Controller.SisGeFTiposOcorrenciaJornal, Common.Utils, cxMemo, Controller.SisGeFProdutosJornal, cxImageComboBox;
+  Controller.SisGeFTiposOcorrenciaJornal, Common.Utils, cxMemo, Controller.SisGeFProdutosJornal, cxImageComboBox, Control.Cadastro,
+  frxClass;
 
 type
   Tview_SisGeFOcorrenciasJornal = class(TForm)
@@ -120,6 +121,13 @@ type
     mtbOcorernciasdom_impressao: TStringField;
     mtbOcorernciasdes_anexo: TStringField;
     mtbOcorernciasdes_log: TMemoField;
+    mtbCadastro: TFDMemTable;
+    mtbCadastrocod_cadastro: TIntegerField;
+    mtbCadastrodes_razao_social: TStringField;
+    dsCadastro: TDataSource;
+    actDeclaracao: TAction;
+    btnDeclaracao: TcxButton;
+    lytBotaoDeclaracao: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure cboCamposPesquisaPropertiesChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -127,9 +135,16 @@ type
     procedure actLimparGridExecute(Sender: TObject);
     procedure actExportarExecute(Sender: TObject);
     procedure actPesquisarExecute(Sender: TObject);
-    procedure actExcluirOcorrenciaExecute(Sender: TObject);
     procedure actNovaOcorrenciaExecute(Sender: TObject);
     procedure actEditarOcorrenciaExecute(Sender: TObject);
+    procedure actExcluirOcorrenciaExecute(Sender: TObject);
+    procedure mtbOcorernciasBeforePost(DataSet: TDataSet);
+    procedure mtbOcorernciasAfterPost(DataSet: TDataSet);
+    procedure actDeclaracaoExecute(Sender: TObject);
+    procedure mtbOcorernciasAfterInsert(DataSet: TDataSet);
+    procedure mtbOcorernciasAfterEdit(DataSet: TDataSet);
+    procedure mtbOcorernciasAfterOpen(DataSet: TDataSet);
+    procedure mtbOcorernciasAfterCancel(DataSet: TDataSet);
   private
     { Private declarations }
     FOcorrencias: TControllerSisGeFOcorrenciasJornal;
@@ -141,8 +156,10 @@ type
     procedure ExportGrid;
     procedure PopulateProducts;
     procedure PopulateOcoursType;
-    procedure Deleteoccurrence;
-    procedure SetupClassFromForm;
+    procedure PopulatgeRegisters;
+    procedure SetupClassOccors;
+    procedure DeleteOccours;
+    procedure PrintDeclaration;
     function ValidateSearch(): boolean;
   public
     { Public declarations }
@@ -152,35 +169,70 @@ var
   view_SisGeFOcorrenciasJornal: Tview_SisGeFOcorrenciasJornal;
   fFileds: TStringList;
   FOcorrencias: TControllerSisGeFOcorrenciasJornal;
+  bFlagSarch: boolean;
 
 implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, Common.ENum;
+uses Data.SisGeF, Common.ENum, View.Impressao, Global.Parametros;
+
+procedure Tview_SisGeFOcorrenciasJornal.actDeclaracaoExecute(Sender: TObject);
+begin
+  if not mtbOcorerncias.Active then
+    Exit;
+  if mtbOcorerncias.IsEmpty then
+    Exit;
+  PrintDeclaration;
+end;
 
 procedure Tview_SisGeFOcorrenciasJornal.actEditarOcorrenciaExecute(Sender: TObject);
 begin
+  if not mtbOcorerncias.Active then
+    Exit;
+  if mtbOcorerncias.IsEmpty then
+    Exit;
   mtbOcorerncias.Edit;
 end;
 
 procedure Tview_SisGeFOcorrenciasJornal.actExcluirOcorrenciaExecute(Sender: TObject);
 begin
-  Deleteoccurrence;
+  if not mtbOcorerncias.Active then
+    Exit;
+  if mtbOcorerncias.IsEmpty then
+    Exit;
+  if mtbOcorernciascod_status.AsInteger = -2 then
+  begin
+    MessageDlg('Ocorrência já está excluída!', mtWarning, [mbCancel], 0);
+    Exit;
+  end;
+  DeleteOccours;
 end;
 
 procedure Tview_SisGeFOcorrenciasJornal.actExportarExecute(Sender: TObject);
 begin
+  if not mtbOcorerncias.Active then
+    Exit;
+  if mtbOcorerncias.IsEmpty then
+    Exit;
   ExportGrid;
 end;
 
 procedure Tview_SisGeFOcorrenciasJornal.actLimparGridExecute(Sender: TObject);
 begin
+  if not mtbOcorerncias.Active then
+    Exit;
+  if mtbOcorerncias.IsEmpty then
+    Exit;
   CloseDB;
+  cboCamposPesquisa.ItemIndex := 0;
+  mtbOcorerncias.Open;
 end;
 
 procedure Tview_SisGeFOcorrenciasJornal.actNovaOcorrenciaExecute(Sender: TObject);
 begin
+  if not mtbOcorerncias.Active then
+    mtbOcorerncias.Open;
   mtbOcorerncias.Insert;
 end;
 
@@ -218,29 +270,25 @@ begin
   fFileds.Add('NOM_ASSINANTE');
 end;
 
-procedure Tview_SisGeFOcorrenciasJornal.Deleteoccurrence;
+procedure Tview_SisGeFOcorrenciasJornal.DeleteOccours;
 begin
   try
     if grdOcorrenciasDBTableView1.Controller.SelectedRowCount = 0 then
       Exit;
-    if MessageDlg('Confirma excluir a ocorrência número ' + mtbOcorernciasnum_ocorrencia.AsString + ' ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+    if MessageDlg('Confirma a exclusão desta ocorrência?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
       Exit;
-    FOcorrencias.Ocorrencias.Query.Data := mtbOcorerncias.Data;
-    SetupClassFromForm;
-
-    FOcorrencias.Ocorrencias.Status := -2;
+    SetupClassOccors;
     FOcorrencias.Ocorrencias.Acao := tacAlterar;
+    FOcorrencias.Ocorrencias.Status := -2;
     if not FOcorrencias.Save then
-    begin
-      MessageDlg('Erro ao excluir a ocorrência!', mtError, [mbCancel], 0);
-      Exit;
-    end;
+      MessageDlg('Ocorreu algum problema ao tntar excluir esta ocorrência!', mtError, [mbCancel], 0);
     SetupResearch;
-  finally
-    FOcorrencias.Ocorrencias.Query.Connection.Connected := False;
-  end;
 
+  finally
+
+  end;
 end;
+
 
 procedure Tview_SisGeFOcorrenciasJornal.ExportGrid;
 var
@@ -281,12 +329,63 @@ end;
 
 procedure Tview_SisGeFOcorrenciasJornal.FormShow(Sender: TObject);
 begin
+  bFlagSarch := False;
   CreateFieldsList;
   FTiposOcorrencia := TControllerSisGeFTiposOcorrenciaJornal.Create;
   FOcorrencias := TControllerSisGeFOcorrenciasJornal.Create;
   PopulateProducts;
   PopulateOcoursType;
-  mtbOcorerncias.Active := True;
+  PopulatgeRegisters;
+  mtbOcorerncias.Open;
+  PrepareFields(2);
+  SetupResearch;
+end;
+
+procedure Tview_SisGeFOcorrenciasJornal.mtbOcorernciasAfterCancel(DataSet: TDataSet);
+begin
+  FOcorrencias.Ocorrencias.Acao := tacIndefinido;
+end;
+
+procedure Tview_SisGeFOcorrenciasJornal.mtbOcorernciasAfterEdit(DataSet: TDataSet);
+begin
+  FOcorrencias.Ocorrencias.Acao := tacAlterar;
+end;
+
+procedure Tview_SisGeFOcorrenciasJornal.mtbOcorernciasAfterInsert(DataSet: TDataSet);
+begin
+  FOcorrencias.Ocorrencias.Acao := tacIncluir;
+  mtbOcorernciascod_status.AsInteger := 0;
+  mtbOcorernciasdat_ocorrencia.AsDateTime := Now;
+  mtbOcorernciasqtd_ocorrencias.AsInteger := 1;
+  mtbOcorernciasval_ocorrencia.AsFloat := 0;
+  mtbOcorernciasdom_reincidente.AsString := 'N';
+  mtbOcorernciasdom_processado.AsString := 'N';
+  mtbOcorernciasdom_impressao.AsString := 'N';
+end;
+
+procedure Tview_SisGeFOcorrenciasJornal.mtbOcorernciasAfterOpen(DataSet: TDataSet);
+begin
+  FOcorrencias.Ocorrencias.Acao := tacIndefinido;
+end;
+
+procedure Tview_SisGeFOcorrenciasJornal.mtbOcorernciasAfterPost(DataSet: TDataSet);
+begin
+  SetupClassOccors;
+  if not FOcorrencias.Save then
+  begin
+    MessageDlg('Ocorreu um problema ao gravar os dados !', mtError, [mbCancel], 0);
+    Exit;
+  end;
+  SetupResearch;
+end;
+
+procedure Tview_SisGeFOcorrenciasJornal.mtbOcorernciasBeforePost(DataSet: TDataSet);
+begin
+  if MessageDlg('Confirma gravar os dados ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+  begin
+    Abort;
+    Exit;
+  end;
 end;
 
 procedure Tview_SisGeFOcorrenciasJornal.PopulateOcoursType;
@@ -329,6 +428,26 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFOcorrenciasJornal.PopulatgeRegisters;
+var
+  FCadastro: TCadastroControl;
+  aParam: Array of variant;
+begin
+  try
+    FCadastro := TCadastroControl.Create;
+    SetLength(aParam,2);
+    aParam := ['APOIO', 'COD_CADASTRO, DES_RAZAO_SOCIAL', 'WHERE COD_STATUS = 1'];
+    if FCadastro.Localizar(aParam) then
+    begin
+      mtbCadastro.Active := False;
+      mtbCadastro.Data := FCadastro.Cadastro.Query.Data;
+      Finalize(aParam);
+    end;
+  finally
+    FCadastro.Free;
+  end;
+end;
+
 procedure Tview_SisGeFOcorrenciasJornal.PrepareFields(iIndex: integer);
 begin
   if iIndex = 1 then
@@ -365,7 +484,7 @@ begin
     mskCampo.Hint := 'Informe o nome do assinante';
     mskCampo.Properties.EditMask := '';
     mskcampo.Properties.MaxLength := 70;
-    mskCampo.EditValue := '';
+    mskCampo.EditValue := 0;
     mskCampo.SetFocus;
   end
   else
@@ -375,32 +494,81 @@ begin
   end;
 end;
 
-procedure Tview_SisGeFOcorrenciasJornal.SetupClassFromForm;
+procedure Tview_SisGeFOcorrenciasJornal.PrintDeclaration;
+var
+  sEndereco: String;
+  sOcorrencia: string;
+  sImpressao: string;
+  iIndex : integer;
+  iRow: integer;
 begin
-  FOcorrencias.Ocorrencias.DataDesconto :=  mtbOcorerncias.FieldByName('DAT_DESCONTO').AsDateTime;
-  FOcorrencias.Ocorrencias.DescricaoApuracao :=  mtbOcorerncias.FieldByName('DES_APURACAO').AsString;
-  FOcorrencias.Ocorrencias.EnderecoAssinatura :=  mtbOcorerncias.FieldByName('DES_ENDERECO').AsString;
-  FOcorrencias.Ocorrencias.CodigoResultado :=  mtbOcorerncias.FieldByName('COD_RESULTADO').AsInteger;
-  FOcorrencias.Ocorrencias.ValorOcorrencia :=  mtbOcorerncias.FieldByName('VAL_OCORRENCIA').AsFloat;
-  FOcorrencias.Ocorrencias.CodigoOrigem :=  mtbOcorerncias.FieldByName('COD_ORIGEM').AsInteger;
-  FOcorrencias.Ocorrencias.CodigoProduto :=  mtbOcorerncias.FieldByName('COD_PRODUTO').AsString;
-  FOcorrencias.Ocorrencias.DomProcessado :=  mtbOcorerncias.FieldByName('DOM_PROCESSADO').AsString;
-  FOcorrencias.Ocorrencias.DescricaoOcorrencia :=  mtbOcorerncias.FieldByName('DES_DESCRICAO').AsString;
-  FOcorrencias.Ocorrencias.DescricaoRoteiro :=  mtbOcorerncias.FieldByName('DES_ROTEIRO').AsString;
-  FOcorrencias.Ocorrencias.DescricaoRetorno :=  mtbOcorerncias.FieldByName('DES_RETORNO').AsString;
-  FOcorrencias.Ocorrencias.CodigoOcorrencia :=  mtbOcorerncias.FieldByName('COD_OCORRENCIA').AsInteger;
-  FOcorrencias.Ocorrencias.Id :=  mtbOcorerncias.FieldByName('NUM_OCORRENCIA').AsInteger;
-  FOcorrencias.Ocorrencias.CodigoAssinatura :=  mtbOcorerncias.FieldByName('COD_ASSINATURA').AsString;
-  FOcorrencias.Ocorrencias.Status :=  mtbOcorerncias.FieldByName('COD_STATUS').AsInteger;
-  FOcorrencias.Ocorrencias.NomeAssinante :=  mtbOcorerncias.FieldByName('NOM_ASSINANTE').AsString;
-  FOcorrencias.Ocorrencias.DomReincidente :=  mtbOcorerncias.FieldByName('DOM_REINCIDENTE').AsString;
-  FOcorrencias.Ocorrencias.Log :=  mtbOcorerncias.FieldByName('DES_LOG').AsString;
-  FOcorrencias.Ocorrencias.QuantidadeOcorrencia :=  mtbOcorerncias.FieldByName('QTD_OCORRENCIAS').AsInteger;
-  FOcorrencias.Ocorrencias.DescricaoAnexo :=  mtbOcorerncias.FieldByName('DES_ANEXO').AsString;
-  FOcorrencias.Ocorrencias.DomImpressao :=  mtbOcorerncias.FieldByName('DOM_IMPRESSAO').AsString;
-  FOcorrencias.Ocorrencias.CodigoEntregador :=  mtbOcorerncias.FieldByName('COD_ENTREGADOR').AsInteger;
-  FOcorrencias.Ocorrencias.Data :=  mtbOcorerncias.FieldByName('DAT_OCORRENCIA').AsDateTime;
-  FOcorrencias.Ocorrencias.Observacoes :=  mtbOcorerncias.FieldByName('DES_OBS').AsString;
+  sEndereco := '';
+  with Data_Sisgef.frxReport do begin
+    if not Assigned(view_Impressao) then begin
+      view_Impressao := Tview_Impressao.Create(Application);
+    end;
+    view_Impressao.cxLabel1.Caption := 'DECLARAÇÃO';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\frxDeclaracaoJornal.fr3';
+    if view_Impressao.ShowModal <> mrOk then
+    begin
+      FreeAndNil(view_Impressao);
+      Exit;
+    end
+    else begin
+      if (not FileExists(view_Impressao.cxArquivo.Text)) then begin
+        Application.MessageBox(PChar('Arquivo ' + view_Impressao.cxArquivo.Text +
+                               ' não foi encontrado!'), 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    iIndex := grdOcorrenciasDBTableView1.GetColumnByFieldName('cod_ocorrencia').Index;
+    iRow := grdOcorrenciasDBTableView1.DataController.RecNo - 1;
+    sOcorrencia := mtbOcorernciascod_ocorrencia.AsString + ' / ' + grdOcorrenciasDBTableView1cod_ocorrencia.DataBinding.DataController.GetDisplayText(iRow,iIndex);
+    sEndereco := mtbOcorernciasdes_endereco.AsString + ' Agente: ' + mtbOcorernciasdes_roteiro.AsString;
+    sImpressao := 'Impresso pelo ' + Application.Title + ' Versão ' + Common.Utils.TUtils.VersaoExe + ' por ' +
+                  global.Parametros.pUser_Name +
+                  ' em ' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now);
+    LoadFromFile(view_Impressao.cxArquivo.Text);
+    Variables.Items[Variables.IndexOf('parImpressao')].Value :=  QuotedStr(sImpressao);
+    Variables.Items[Variables.IndexOf('parEndereco')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('parOcorrencia')].Value :=  QuotedStr(sOcorrencia);
+    Variables.Items[Variables.IndexOf('parDescricao')].Value :=  QuotedStr(mtbOcorernciasdes_descricao.AsString);
+    Variables.Items[Variables.IndexOf('parData')].Value :=  QuotedStr(mtbOcorernciasdat_ocorrencia.AsString);
+    iIndex := grdOcorrenciasDBTableView1.GetColumnByFieldName('cod_produto').Index;
+    Variables.Items[Variables.IndexOf('parProduto')].Value :=  QuotedStr(grdOcorrenciasDBTableView1cod_ocorrencia.DataBinding.DataController.GetDisplayText(iRow,iIndex));
+    Variables.Items[Variables.IndexOf('parNomeAssinante')].Value :=  QuotedStr(mtbOcorernciasnom_assinante.AsString);
+    Variables.Items[Variables.IndexOf('parCodigoAssinatura')].Value :=  QuotedStr(mtbOcorernciascod_assinatura.AsString);
+
+    FreeAndNil(view_Impressao);
+    ShowReport(True);
+  end;
+end;
+
+procedure Tview_SisGeFOcorrenciasJornal.SetupClassOccors;
+begin
+  FOcorrencias.Ocorrencias.DataDesconto := mtbOcorernciasdat_desconto.AsDateTime;
+  FOcorrencias.Ocorrencias.DescricaoApuracao := mtbOcorernciasdes_apuracao.asString;
+  FOcorrencias.Ocorrencias.EnderecoAssinatura := mtbOcorernciasdes_endereco.AsString;
+  FOcorrencias.Ocorrencias.CodigoResultado := mtbOcorernciascod_resultado.AsInteger;
+  FOcorrencias.Ocorrencias.ValorOcorrencia := mtbOcorernciasval_ocorrencia.AsFloat;
+  FOcorrencias.Ocorrencias.CodigoOrigem := mtbOcorernciascod_origem.AsInteger;
+  FOcorrencias.Ocorrencias.CodigoProduto := mtbOcorernciascod_produto.AsString;
+  FOcorrencias.Ocorrencias.DomProcessado := mtbOcorernciasdom_processado.AsString;
+  FOcorrencias.Ocorrencias.DescricaoOcorrencia := mtbOcorernciasdes_descricao.AsString;
+  FOcorrencias.Ocorrencias.DescricaoRoteiro := mtbOcorernciasdes_roteiro.AsString;
+  FOcorrencias.Ocorrencias.DescricaoRetorno := mtbOcorernciasdes_retorno.AsString;
+  FOcorrencias.Ocorrencias.CodigoOcorrencia := mtbOcorernciascod_ocorrencia.AsInteger;
+  FOcorrencias.Ocorrencias.Id := mtbOcorernciasnum_ocorrencia.AsInteger;
+  FOcorrencias.Ocorrencias.CodigoAssinatura := mtbOcorernciascod_assinatura.AsString;
+  FOcorrencias.Ocorrencias.Status := mtbOcorernciascod_status.AsInteger;
+  FOcorrencias.Ocorrencias.NomeAssinante := mtbOcorernciasnom_assinante.AsString;
+  FOcorrencias.Ocorrencias.DomReincidente := mtbOcorernciasdom_reincidente.AsString;
+  FOcorrencias.Ocorrencias.Log := mtbOcorernciasdes_log.AsString;
+  FOcorrencias.Ocorrencias.QuantidadeOcorrencia := mtbOcorernciasqtd_ocorrencias.AsInteger;
+  FOcorrencias.Ocorrencias.DescricaoAnexo := mtbOcorernciasdes_anexo.AsString;
+  FOcorrencias.Ocorrencias.DomImpressao := mtbOcorernciasdom_impressao.AsString;
+  FOcorrencias.Ocorrencias.CodigoEntregador := mtbOcorernciascod_entregador.AsInteger;
+  FOcorrencias.Ocorrencias.Data := mtbOcorernciasdat_ocorrencia.AsDateTime;
 end;
 
 procedure Tview_SisGeFOcorrenciasJornal.SetupResearch;
@@ -430,9 +598,7 @@ begin
     sSQL := sField + ' like ' + QuotedStr('%' + mskCampo.Text + '%');
   end;
   if not chkExcluídos.Checked then
-  begin
     sSQL := sSQL + ' and cod_status > -2';
-  end;
   SetLength(aParam,2);
   aParam := ['FILTRO', sSQL];
   if FOcorrencias.Search(aParam) then
@@ -443,8 +609,10 @@ begin
   end
   else
   begin
-    MessageDlg('Nenhum registro encontrado!',mtWarning, [mbOK], 0);
+    if bFlagSarch then
+      MessageDlg('Nenhum registro encontrado!',mtWarning, [mbOK], 0);
   end;
+  bFlagSarch := True;
   Finalize(aParam);
   FOcorrencias.Ocorrencias.Query.Connection.Connected := False;
 end;

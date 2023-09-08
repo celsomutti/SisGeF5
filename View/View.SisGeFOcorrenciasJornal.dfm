@@ -4,7 +4,7 @@
   Caption = 'Ocorr'#234'ncias de Assinaturas'
   ClientHeight = 563
   ClientWidth = 1120
-  Color = clBtnFace
+  Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -27,7 +27,6 @@
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
     object cboCamposPesquisa: TcxComboBox
       Left = 80
       Top = 12
@@ -41,7 +40,7 @@
       Properties.OnChange = cboCamposPesquisaPropertiesChange
       Style.HotTrack = False
       TabOrder = 0
-      Text = 'Selecione ...'
+      Text = 'Data'
       Width = 165
     end
     object datInicial: TcxDateEdit
@@ -70,7 +69,7 @@
       Width = 226
     end
     object btnPesquisar: TcxButton
-      Left = 1035
+      Left = 930
       Top = 10
       Width = 75
       Height = 25
@@ -85,7 +84,7 @@
       Height = 25
       Cursor = crHandPoint
       Action = actSair
-      TabOrder = 12
+      TabOrder = 13
     end
     object btnIncluir: TcxButton
       Left = 10
@@ -127,30 +126,25 @@
         Navigator.Buttons.Cancel.Visible = False
         Navigator.Buttons.Refresh.Visible = False
         Navigator.Buttons.SaveBookmark.Visible = False
-        Navigator.Buttons.GotoBookmark.Enabled = False
         Navigator.Buttons.GotoBookmark.Visible = False
         Navigator.Buttons.Filter.ImageIndex = 96
-        Navigator.Buttons.Filter.Visible = True
         Navigator.InfoPanel.Visible = True
         Navigator.Visible = True
-        DataController.DataModeController.GridMode = True
         DataController.DataSource = dsOcorrencias
-        DataController.Filter.Active = True
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        EditForm.ItemHotTrack = True
+        EditForm.MasterRowDblClickAction = dcaShowEditForm
         EditForm.DefaultStretch = fsClient
         OptionsBehavior.FocusCellOnTab = True
         OptionsBehavior.FocusFirstCellOnNewRecord = True
-        OptionsBehavior.GoToNextCellOnEnter = True
         OptionsBehavior.EditMode = emInplaceEditFormHideCurrentRow
         OptionsBehavior.FocusCellOnCycle = True
-        OptionsCustomize.ColumnGrouping = False
         OptionsData.Deleting = False
         OptionsData.DeletingConfirmation = False
         OptionsSelection.CheckBoxPosition = cbpIndicator
         OptionsSelection.CheckBoxVisibility = [cbvDataRow]
-        OptionsSelection.ClearPersistentSelectionOnOutsideClick = True
         OptionsSelection.HideFocusRectOnExit = False
         OptionsView.CellAutoHeight = True
         OptionsView.Footer = True
@@ -161,10 +155,59 @@
           680065006500740043006F006E0064006900740069006F006E0061006C004600
           6F0072006D0061007400740069006E006700520075006C006500450078007000
           720065007300730069006F006E008D0000000000000000000000FFFFFF7FFFFF
-          FF7F0001FF0000000B00000007000000430061006C0069006200720069000008
+          FF7F0001FF0000000B00000007000000430061006C0069006200720069000002
           0000000020000000200000000020000000002000000000200000000020000700
           0000470045004E004500520041004C000000000000020000000000000000010C
           0000003D005B005300740061007400750073005D003D002D00320000000000}
+        object grdOcorrenciasDBTableView1cod_status: TcxGridDBColumn
+          DataBinding.FieldName = 'cod_status'
+          PropertiesClassName = 'TcxImageComboBoxProperties'
+          Properties.Alignment.Horz = taLeftJustify
+          Properties.Images = Data_Sisgef.iml_16_16
+          Properties.Items = <
+            item
+              Description = 'ABERTA'
+              ImageIndex = 122
+              Value = 0
+            end
+            item
+              Description = 'TRATADA'
+              ImageIndex = 123
+              Value = 1
+            end
+            item
+              Description = 'PENDENTE'
+              ImageIndex = 124
+              Value = 2
+            end
+            item
+              Description = 'FINALIZADA'
+              ImageIndex = 125
+              Value = 3
+            end
+            item
+              Description = 'CONTABILIZADA'
+              ImageIndex = 126
+              Value = 4
+            end
+            item
+              Description = 'CANCELADA'
+              ImageIndex = 84
+              Value = 5
+            end
+            item
+              Description = 'DESMEMBRADA'
+              ImageIndex = 127
+              Value = 6
+            end
+            item
+              Description = 'EXCLU'#205'DO'
+              ImageIndex = 114
+              Value = -2
+            end>
+          HeaderAlignmentHorz = taCenter
+          Width = 98
+        end
         object grdOcorrenciasDBTableView1num_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'num_ocorrencia'
           PropertiesClassName = 'TcxMaskEditProperties'
@@ -176,6 +219,7 @@
           HeaderAlignmentHorz = taCenter
           SortIndex = 0
           SortOrder = soDescending
+          VisibleForEditForm = bFalse
           Width = 78
         end
         object grdOcorrenciasDBTableView1dat_ocorrencia: TcxGridDBColumn
@@ -203,8 +247,15 @@
         object grdOcorrenciasDBTableView1cod_entregador: TcxGridDBColumn
           DataBinding.FieldName = 'cod_entregador'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.ListColumns = <>
+          Properties.Alignment.Horz = taLeftJustify
+          Properties.KeyFieldNames = 'cod_cadastro'
+          Properties.ListColumns = <
+            item
+              Caption = 'Nome'
+              FieldName = 'des_razao_social'
+            end>
+          Properties.ListOptions.ShowHeader = False
+          Properties.ListSource = dsCadastro
           HeaderAlignmentHorz = taCenter
           Width = 190
         end
@@ -224,7 +275,7 @@
         object grdOcorrenciasDBTableView1cod_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'cod_ocorrencia'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.Alignment.Horz = taRightJustify
+          Properties.Alignment.Horz = taLeftJustify
           Properties.KeyFieldNames = 'cod_tipo_ocorrencia'
           Properties.ListColumns = <
             item
@@ -274,30 +325,6 @@
           HeaderAlignmentHorz = taCenter
           Width = 144
         end
-        object grdOcorrenciasDBTableView1cod_status: TcxGridDBColumn
-          DataBinding.FieldName = 'cod_status'
-          PropertiesClassName = 'TcxImageComboBoxProperties'
-          Properties.Alignment.Horz = taRightJustify
-          Properties.Images = Data_Sisgef.iml_16_16
-          Properties.Items = <
-            item
-              Description = 'EXCLUIDO'
-              ImageIndex = 116
-              Value = -2
-            end
-            item
-              Description = 'ATIVO'
-              ImageIndex = 83
-              Value = 0
-            end
-            item
-              Description = 'INATIVO'
-              ImageIndex = 84
-              Value = 1
-            end>
-          HeaderAlignmentHorz = taCenter
-          Width = 99
-        end
         object grdOcorrenciasDBTableView1des_apuracao: TcxGridDBColumn
           DataBinding.FieldName = 'des_apuracao'
           Visible = False
@@ -306,11 +333,10 @@
         object grdOcorrenciasDBTableView1dom_processado: TcxGridDBColumn
           DataBinding.FieldName = 'dom_processado'
           PropertiesClassName = 'TcxCheckBoxProperties'
-          Properties.NullStyle = nssInactive
           Properties.ValueChecked = 'S'
-          Properties.ValueGrayed = 'N'
           Properties.ValueUnchecked = 'N'
           HeaderAlignmentHorz = taCenter
+          VisibleForEditForm = bFalse
           Width = 91
         end
         object grdOcorrenciasDBTableView1qtd_ocorrencias: TcxGridDBColumn
@@ -335,11 +361,11 @@
         object grdOcorrenciasDBTableView1dom_impressao: TcxGridDBColumn
           DataBinding.FieldName = 'dom_impressao'
           PropertiesClassName = 'TcxCheckBoxProperties'
-          Properties.NullStyle = nssInactive
           Properties.ValueChecked = 'S'
-          Properties.ValueGrayed = 'N'
           Properties.ValueUnchecked = 'N'
+          Visible = False
           HeaderAlignmentHorz = taCenter
+          VisibleForEditForm = bFalse
           Width = 79
         end
         object grdOcorrenciasDBTableView1des_anexo: TcxGridDBColumn
@@ -392,6 +418,15 @@
       Action = actLimparGrid
       TabOrder = 10
     end
+    object btnDeclaracao: TcxButton
+      Left = 10
+      Top = 528
+      Width = 95
+      Height = 25
+      Cursor = crHandPoint
+      Action = actDeclaracao
+      TabOrder = 12
+    end
     object lytMainGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
@@ -410,7 +445,7 @@
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 3
+      ItemIndex = 4
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -479,7 +514,7 @@
     end
     object lytBotoesFormulario: TdxLayoutGroup
       Parent = lytFiltro
-      AlignHorz = ahRight
+      AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'Bot'#245'es'
       ButtonOptions.Buttons = <>
@@ -510,7 +545,7 @@
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object lytBody: TdxLayoutGroup
       Parent = lytMainGroup_Root
@@ -529,7 +564,6 @@
       AlignVert = avBottom
       CaptionOptions.Text = 'Rodap'#233
       CaptionOptions.Visible = False
-      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       Hidden = True
       LayoutDirection = ldHorizontal
@@ -643,11 +677,21 @@
       ControlOptions.ShowBorder = False
       Index = 4
     end
+    object lytBotaoDeclaracao: TdxLayoutItem
+      Parent = lytFooter
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = btnDeclaracao
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 95
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
   end
   object aclOcorrenciasJornal: TActionList
     Images = Data_Sisgef.iml_16_16
     Left = 984
-    Top = 8
+    Top = 16
     object actPesquisar: TAction
       Category = 'Formul'#225'rio'
       Caption = '&Pesquisar'
@@ -697,9 +741,15 @@
       ImageIndex = 115
       OnExecute = actLimparGridExecute
     end
+    object actDeclaracao: TAction
+      Category = 'Formul'#225'rio'
+      Caption = '&Declara'#231#227'o'
+      Hint = 'Imprimir Declara'#231#227'o'
+      ImageIndex = 121
+      OnExecute = actDeclaracaoExecute
+    end
   end
   object dsOcorrencias: TDataSource
-    AutoEdit = False
     DataSet = mtbOcorerncias
     Left = 696
     Top = 40
@@ -758,6 +808,12 @@
     Top = 40
   end
   object mtbOcorerncias: TFDMemTable
+    AfterOpen = mtbOcorernciasAfterOpen
+    AfterInsert = mtbOcorernciasAfterInsert
+    AfterEdit = mtbOcorernciasAfterEdit
+    BeforePost = mtbOcorernciasBeforePost
+    AfterPost = mtbOcorernciasAfterPost
+    AfterCancel = mtbOcorernciasAfterCancel
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -765,8 +821,8 @@
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 744
-    Top = 40
+    Left = 752
+    Top = 41
     object mtbOcorernciasnum_ocorrencia: TIntegerField
       DisplayLabel = 'N'#250'mero'
       FieldName = 'num_ocorrencia'
@@ -876,5 +932,31 @@
       FieldName = 'des_log'
       BlobType = ftMemo
     end
+  end
+  object mtbCadastro: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 832
+    Top = 40
+    object mtbCadastrocod_cadastro: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'cod_cadastro'
+    end
+    object mtbCadastrodes_razao_social: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'des_razao_social'
+      Size = 70
+    end
+  end
+  object dsCadastro: TDataSource
+    AutoEdit = False
+    DataSet = mtbCadastro
+    Left = 872
+    Top = 40
   end
 end
