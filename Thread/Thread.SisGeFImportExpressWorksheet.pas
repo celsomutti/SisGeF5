@@ -634,11 +634,11 @@ begin
           Finalize(aParam);
           iTipo := 0;
           sOperacao := '';
-          if Pos('- TD -', Data_Sisgef.memTableImport.Fields.Fields[22].AsString) > 0 then
+          if Pos('TD', Data_Sisgef.memTableImport.Fields.Fields[22].AsString) > 0 then
           begin
             sOperacao := 'TD';
           end
-          else if Pos('- TC -', Data_Sisgef.memTableImport.Fields.Fields[22].AsString) > 0 then
+          else if Pos('TC', Data_Sisgef.memTableImport.Fields.Fields[22].AsString) > 0 then
           begin
             sOperacao := 'TC';
           end;
