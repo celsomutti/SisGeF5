@@ -8,7 +8,7 @@ type
   TModelSisGeFOcorrenciasJotnal = class
     private
       FAcao: TAcao;
-      FDataDesconto: TDate;
+      FDataDesconto: TDateTime;
       FDescricaoApuracao: string;
       FEnderecoAssinatura: string;
       FCodigoResultado: integer;
@@ -32,7 +32,7 @@ type
       FDescricaoAnexo: string;
       FDomImpressao: string;
       FCodigoEntregador: integer;
-      FData: TDate;
+      FData: TDateTime;
       FObservacoes: string;
       FConnection : TConexao;
       function Insert(): boolean;
@@ -40,7 +40,7 @@ type
       function Delete: boolean;
     public
       property Id: integer read FId write FId;
-      property Data: TDate read FData write FData;
+      property Data: TDateTime read FData write FData;
       property CodigoAssinatura: string read FCodigoAssinatura write FCodigoAssinatura;
       property NomeAssinante: string read FNomeAssinante write FNomeAssinante;
       property DescricaoRoteiro: string read FDescricaoRoteiro write FDescricaoRoteiro;
@@ -59,7 +59,7 @@ type
       property DomProcessado: string read FDomProcessado write FDomProcessado;
       property QuantidadeOcorrencia: integer read FQuantidadeOcorrencia write FQuantidadeOcorrencia;
       property ValorOcorrencia: Double read FValorOcorrencia write FValorOcorrencia;
-      property DataDesconto: TDate read FDataDesconto write FDataDesconto;
+      property DataDesconto: TDateTime read FDataDesconto write FDataDesconto;
       property DomImpressao: string read FDomImpressao write FDomImpressao;
       property DescricaoAnexo: string read FDescricaoAnexo write FDescricaoAnexo;
       property Log: string read FLog write Flog;
@@ -81,15 +81,15 @@ type
                 'COD_ORIGEM, DES_OBS, COD_STATUS, DES_APURACAO, DOM_PROCESSADO, QTD_OCORRENCIAS, VAL_OCORRENCIA, ' +
                 'DAT_DESCONTO, DOM_IMPRESSAO, DES_ANEXO, DES_LOG ' +
                 'FROM ' + TABLE;
-    SQLINSERT = 'INSERT INTO ' + TABLE + '(DAT_OCORRENCIA, COD_ASSINATURA, NOM_ASSINANTE, DES_ROTEIRO, ' +
+    SQLINSERT = 'INSERT INTO ' + TABLE + ' (DAT_OCORRENCIA, COD_ASSINATURA, NOM_ASSINANTE, DES_ROTEIRO, ' +
                 'COD_ENTREGADOR, COD_PRODUTO, COD_OCORRENCIA, DOM_REINCIDENTE, DES_DESCRICAO, DES_ENDERECO, DES_RETORNO, ' +
                 'COD_RESULTADO, COD_ORIGEM, DES_OBS, COD_STATUS, DES_APURACAO, DOM_PROCESSADO, QTD_OCORRENCIAS, VAL_OCORRENCIA, ' +
                 'DAT_DESCONTO, DOM_IMPRESSAO, DES_ANEXO, DES_LOG) ' +
                 'VALUES ' +
-                '(:NUM_OCORRENCIA, :DAT_OCORRENCIA, :COD_ASSINATURA, :NOM_ASSINANTE, :DES_ROTEIRO, ' +
+                '(:DAT_OCORRENCIA, :COD_ASSINATURA, :NOM_ASSINANTE, :DES_ROTEIRO, ' +
                 ':COD_ENTREGADOR, :COD_PRODUTO, :COD_OCORRENCIA, :DOM_REINCIDENTE, :DES_DESCRICAO, :DES_ENDERECO, :DES_RETORNO, ' +
                 ':COD_RESULTADO, :COD_ORIGEM, :DES_OBS, :COD_STATUS, :DES_APURACAO, :DOM_PROCESSADO, :QTD_OCORRENCIAS, ' +
-                ':VAL_OCORRENCIA, :DAT_DESCONTO, :DOM_IMPRESSAO, :DES_ANEXO, :DES_LOG';
+                ':VAL_OCORRENCIA, :DAT_DESCONTO, :DOM_IMPRESSAO, :DES_ANEXO, :DES_LOG)';
     SQLUPDATE = 'UPDATE ' + TABLE + ' SET DAT_OCORRENCIA = :DAT_OCORRENCIA, ' +
                 'COD_ASSINATURA = :COD_ASSINATURA, NOM_ASSINANTE = :NOM_ASSINANTE, DES_ROTEIRO = :DES_ROTEIRO, ' +
                 'COD_ENTREGADOR = :COD_ENTREGADOR, COD_PRODUTO = :COD_PRODUTO, COD_OCORRENCIA = :COD_OCORRENCIA, ' +
@@ -101,8 +101,6 @@ type
                 'WHERE NUM_OCORRENCIA = :NUM_OCORRENCIA';
     SQLDELETE = 'DELETE FROM ' + TABLE +
                 'WHERE NUM_OCORRENCIA = :NUM_OCORRENCIA';
-
-
 implementation
 
 { TModelSisGeFOcorrenciasJotnal }
@@ -118,7 +116,7 @@ begin
   try
     Result := False;
     FQuery := FConnection.ReturnQuery;
-    FQuery.ExecSQL(SQLDELETE, [FId]);
+    countReg := FQuery.ExecSQL(SQLDELETE, [FId]);
     if countReg > 0 then
       Result := True;
   finally
@@ -146,7 +144,6 @@ function TModelSisGeFOcorrenciasJotnal.Insert: boolean;
 var countReg: integer;
 begin
   try
-
     Result := False;
     FQuery := FConnection.ReturnQuery;
     countReg := FQuery.ExecSQL(SQLINSERT,
@@ -242,7 +239,7 @@ begin
   try
     Result := False;
     FQuery := FConnection.ReturnQuery;
-    FQuery.ExecSQL(SQLUPDATE,
+    countReg := FQuery.ExecSQL(SQLUPDATE,
                    [FData, FCodigoAssinatura, FNomeAssinante, FDescricaoRoteiro, FCodigoEntregador, FCodigoProduto,
                     FCodigoOcorrencia, FDomReincidente, FDescricaoOcorrencia, FEnderecoAssinatura, FDescricaoRetorno,
                     FCodigoResultado, FCodigoOrigem, FObservacoes, FStatus, FDescricaoApuracao, FDomProcessado,

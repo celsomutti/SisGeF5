@@ -40,7 +40,7 @@
       Properties.OnChange = cboCamposPesquisaPropertiesChange
       Style.HotTrack = False
       TabOrder = 0
-      Text = 'Selecione ...'
+      Text = 'Data'
       Width = 165
     end
     object datInicial: TcxDateEdit
@@ -62,6 +62,8 @@
     object mskCampo: TcxMaskEdit
       Left = 577
       Top = 12
+      Properties.IgnoreMaskBlank = True
+      Properties.MaskKind = emkRegExpr
       Style.HotTrack = False
       TabOrder = 3
       Width = 226
@@ -110,6 +112,24 @@
       TabOrder = 11
       object grdOcorrenciasDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
+        Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+        Navigator.Buttons.First.ImageIndex = 91
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.Prior.ImageIndex = 94
+        Navigator.Buttons.Next.ImageIndex = 93
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Last.ImageIndex = 92
+        Navigator.Buttons.Insert.Visible = False
+        Navigator.Buttons.Delete.Visible = False
+        Navigator.Buttons.Edit.Visible = False
+        Navigator.Buttons.Post.Visible = False
+        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.ImageIndex = 96
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
         DataController.DataSource = dsOcorrencias
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
@@ -118,6 +138,7 @@
         EditForm.MasterRowDblClickAction = dcaShowEditForm
         EditForm.DefaultStretch = fsClient
         OptionsBehavior.FocusCellOnTab = True
+        OptionsBehavior.FocusFirstCellOnNewRecord = True
         OptionsBehavior.EditMode = emInplaceEditFormHideCurrentRow
         OptionsBehavior.FocusCellOnCycle = True
         OptionsData.Deleting = False
@@ -134,7 +155,7 @@
           680065006500740043006F006E0064006900740069006F006E0061006C004600
           6F0072006D0061007400740069006E006700520075006C006500450078007000
           720065007300730069006F006E008D0000000000000000000000FFFFFF7FFFFF
-          FF7F0001FF0000000B00000007000000430061006C0069006200720069000000
+          FF7F0001FF0000000B00000007000000430061006C0069006200720069000002
           0000000020000000200000000020000000002000000000200000000020000700
           0000470045004E004500520041004C000000000000020000000000000000010C
           0000003D005B005300740061007400750073005D003D002D00320000000000}
@@ -145,14 +166,39 @@
           Properties.Images = Data_Sisgef.iml_16_16
           Properties.Items = <
             item
-              Description = 'ATIVO'
-              ImageIndex = 83
+              Description = 'ABERTA'
+              ImageIndex = 122
               Value = 0
             end
             item
-              Description = 'INATIVO'
-              ImageIndex = 84
+              Description = 'TRATADA'
+              ImageIndex = 123
               Value = 1
+            end
+            item
+              Description = 'PENDENTE'
+              ImageIndex = 124
+              Value = 2
+            end
+            item
+              Description = 'FINALIZADA'
+              ImageIndex = 125
+              Value = 3
+            end
+            item
+              Description = 'CONTABILIZADA'
+              ImageIndex = 126
+              Value = 4
+            end
+            item
+              Description = 'CANCELADA'
+              ImageIndex = 84
+              Value = 5
+            end
+            item
+              Description = 'DESMEMBRADA'
+              ImageIndex = 127
+              Value = 6
             end
             item
               Description = 'EXCLU'#205'DO'
@@ -169,9 +215,11 @@
           Properties.IgnoreMaskBlank = True
           Properties.MaskKind = emkRegExpr
           Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           SortIndex = 0
           SortOrder = soDescending
+          VisibleForEditForm = bFalse
           Width = 78
         end
         object grdOcorrenciasDBTableView1dat_ocorrencia: TcxGridDBColumn
@@ -199,10 +247,11 @@
         object grdOcorrenciasDBTableView1cod_entregador: TcxGridDBColumn
           DataBinding.FieldName = 'cod_entregador'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.Alignment.Horz = taRightJustify
+          Properties.Alignment.Horz = taLeftJustify
           Properties.KeyFieldNames = 'cod_cadastro'
           Properties.ListColumns = <
             item
+              Caption = 'Nome'
               FieldName = 'des_razao_social'
             end>
           Properties.ListOptions.ShowHeader = False
@@ -226,7 +275,7 @@
         object grdOcorrenciasDBTableView1cod_ocorrencia: TcxGridDBColumn
           DataBinding.FieldName = 'cod_ocorrencia'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.Alignment.Horz = taRightJustify
+          Properties.Alignment.Horz = taLeftJustify
           Properties.KeyFieldNames = 'cod_tipo_ocorrencia'
           Properties.ListColumns = <
             item
@@ -287,6 +336,7 @@
           Properties.ValueChecked = 'S'
           Properties.ValueUnchecked = 'N'
           HeaderAlignmentHorz = taCenter
+          VisibleForEditForm = bFalse
           Width = 91
         end
         object grdOcorrenciasDBTableView1qtd_ocorrencias: TcxGridDBColumn
@@ -312,7 +362,10 @@
           DataBinding.FieldName = 'dom_impressao'
           PropertiesClassName = 'TcxCheckBoxProperties'
           Properties.ValueChecked = 'S'
+          Properties.ValueUnchecked = 'N'
+          Visible = False
           HeaderAlignmentHorz = taCenter
+          VisibleForEditForm = bFalse
           Width = 79
         end
         object grdOcorrenciasDBTableView1des_anexo: TcxGridDBColumn
@@ -698,7 +751,6 @@
   end
   object dsOcorrencias: TDataSource
     DataSet = mtbOcorerncias
-    OnStateChange = dsOcorrenciasStateChange
     Left = 696
     Top = 40
   end
@@ -756,8 +808,12 @@
     Top = 40
   end
   object mtbOcorerncias: TFDMemTable
+    AfterOpen = mtbOcorernciasAfterOpen
+    AfterInsert = mtbOcorernciasAfterInsert
+    AfterEdit = mtbOcorernciasAfterEdit
     BeforePost = mtbOcorernciasBeforePost
     AfterPost = mtbOcorernciasAfterPost
+    AfterCancel = mtbOcorernciasAfterCancel
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
