@@ -108,6 +108,7 @@ procedure Thread_ImportImportExpressWorksheet.BaixaDIRECT;
 var
   sPeso: String;
   dPeso: double;
+  sNN: string;
 begin
   try
     try
@@ -136,13 +137,14 @@ begin
       FCliente := 4;
       While not Data_Sisgef.memTableImport.Eof do
       begin
+          sNN := FormatFloat ('00000000000000',Data_Sisgef.memTableImport.Fields.Fields[6].AsFloat);
           SetLength(aParam,3);
-          aParam := ['NNCLIENTE', Data_Sisgef.memTableImport.Fields.Fields[6].asString, FCliente];
+          aParam := ['NNCLIENTE', sNN, FCliente];
           if not FEntregas.LocalizarExata(aParam) then
           begin
             if UpperCase(Data_Sisgef.memTableImport.Fields.Fields[11].AsString) = 'REVERSA' then
             begin
-              FEntregas.Entregas.NN := Data_Sisgef.memTableImport.Fields.Fields[6].AsString;
+              FEntregas.Entregas.NN := sNN;
               FEntregas.Entregas.Distribuidor := RetornaAgenteDocumento(Data_Sisgef.memTableImport.Fields.Fields[2].AsString);
               FEntregas.Entregas.Entregador := RetornaEntregadorDocumento(Data_Sisgef.memTableImport.Fields.Fields[2].AsString);
               FEntregas.Entregas.NF := Data_Sisgef.memTableImport.Fields.Fields[7].AsString;
@@ -709,6 +711,7 @@ procedure Thread_ImportImportExpressWorksheet.ProcessDIRECTLojas;
 var
   sPeso: String;
   dPeso: double;
+  sNN: string;
 begin
   try
     try
@@ -736,9 +739,10 @@ begin
       FEntregas := TEntregasControl.Create;
       While not Data_Sisgef.memTableImport.Eof do
       begin
+        sNN := FormatFloat ('00000000000000',Data_Sisgef.memTableImport.Fields.Fields[6].AsFloat);
         SetLength(aParam,3);
         FCliente := 4;
-        aParam := ['NNCLIENTE', Data_Sisgef.memTableImport.Fields.Fields[6].asString, FCliente];
+        aParam := ['NNCLIENTE', sNN, FCliente];
         if not FEntregas.LocalizarExata(aParam) then
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Entrega NN ' +

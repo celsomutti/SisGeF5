@@ -200,7 +200,6 @@ uses
   Model.FinanceiroPrazosExtratos in 'Model\Model.FinanceiroPrazosExtratos.pas',
   Control.FinanceiroPrazosExtratos in 'Control\Control.FinanceiroPrazosExtratos.pas',
   View.ParametrosPrazosExtratos in 'View\View.ParametrosPrazosExtratos.pas' {view_ParametrosPrazosExtratos},
-  View.AtualizacaoSistema in 'View\View.AtualizacaoSistema.pas' {view_AtualizacaoSistema},
   Model.Bases in 'Model\Model.Bases.pas',
   Control.Bases in 'Control\Control.Bases.pas',
   Control.EnderecosBases in 'Control\Control.EnderecosBases.pas',

@@ -119,11 +119,7 @@ end;
 
 procedure Tview_AtualizacaoSistema.cxButton1Click(Sender: TObject);
 begin
-  BaixarAtualizacao;
-  DescompactarAtualizacao;
-  AtualizarNumeroVersao;
-  ShowMessage('O sistema foi atualizado com sucesso!');
-  ShellExecute(Handle, nil, PChar(Application.ExeName), '', nil, SW_SHOWNORMAL);
+  WINEXEC('SysUpdate.exe',SW_Show);
   Application.Terminate;
 end;
 
@@ -233,17 +229,17 @@ var
 begin
   // deleta o arquivo "VersaoFTP.ini" do computador, caso exista,
   // evitando erro de arquivo já existente
-  if FileExists(ObterDiretorioDoExecutavel + 'VersaoFTP.ini') then
-    DeleteFile(ObterDiretorioDoExecutavel + 'VersaoFTP.ini');
+  if FileExists(ObterDiretorioDoExecutavel + 'versionFTP.ini') then
+    DeleteFile(ObterDiretorioDoExecutavel + 'versionFTP.ini');
 
   // baixa o arquivo "VersaoFTP.ini" para o computador
-  IdFTP1.Get('Download/SisGeF5/VersaoFTP.ini', ObterDiretorioDoExecutavel + 'VersaoFTP.ini', True, True);
+  IdFTP1.Get('Download/SisGeF5/versionFTP.ini', ObterDiretorioDoExecutavel + 'versionFTP.ini', True, True);
 
   // abre o arquivo "VersaoFTP.ini"
-  oArquivoINI := TIniFile.Create(ObterDiretorioDoExecutavel + 'VersaoFTP.ini');
+  oArquivoINI := TIniFile.Create(ObterDiretorioDoExecutavel + 'versionFTP.ini');
   try
     // lê o número da versão
-    sNumeroVersao := oArquivoINI.ReadString('VersaoFTP', 'Numero', EmptyStr);
+    sNumeroVersao := oArquivoINI.ReadString('version', 'number', EmptyStr);
 
     // retira os pontos (exemplo: de "1.0.1" para "101")
     sNumeroVersao := StringReplace(sNumeroVersao, '.', EmptyStr, [rfReplaceAll]);
@@ -261,10 +257,10 @@ var
   oArquivoINI: TIniFile;
 begin
   // abre o arquivo "VersaoLocal.ini"
-  oArquivoINI := TIniFile.Create(ObterDiretorioDoExecutavel + 'VersaoLocal.ini');
+  oArquivoINI := TIniFile.Create(ObterDiretorioDoExecutavel + 'VersionLocal.ini');
   try
     // lê o número da versão
-    sNumeroVersao := oArquivoINI.ReadString('VersaoLocal', 'Numero', EmptyStr);
+    sNumeroVersao := oArquivoINI.ReadString('version', 'number', EmptyStr);
 
     // retira os pontos (exemplo: de "1.0.0" para "100")
     sNumeroVersao := StringReplace(sNumeroVersao, '.', EmptyStr, [rfReplaceAll]);

@@ -3,20 +3,36 @@ unit View.Main;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxRibbonSkins,
-  dxRibbonCustomizationForm, dxRibbon, cxClasses, dxBar, System.Actions, Vcl.ActnList,
-  dxStatusBar, dxRibbonStatusBar, dxRibbonColorGallery, cxPC, dxBarBuiltInMenu, dxTabbedMDI, Control.Sistema, dxSkinsCore,
-  dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
-  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky,
-  dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
-  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
-  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray, dxSkinOffice2013White,
-  dxSkinOffice2016Colorful, dxSkinOffice2016Dark, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
-  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
-  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
-  dxSkinXmas2008Blue, dxSkinsdxRibbonPainter, dxSkinsdxBarPainter, dxSkinscxPCPainter, Control.Usuarios, FireDAC.Comp.Client,
-  Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems, dxNavBarOfficeNavigationBar, View.SisGeFExtractSO;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, dxRibbonSkins,
+  dxRibbonCustomizationForm, dxRibbon, cxClasses, dxBar, System.Actions,
+  Vcl.ActnList,
+  dxStatusBar, dxRibbonStatusBar, dxRibbonColorGallery, cxPC, dxBarBuiltInMenu,
+  dxTabbedMDI, Control.Sistema, dxSkinsCore,
+  dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
+  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky,
+  dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark,
+  dxSkinMoneyTwins, dxSkinOffice2007Black,
+  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink,
+  dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
+  dxSkinOffice2013LightGray, dxSkinOffice2013White,
+  dxSkinOffice2016Colorful, dxSkinOffice2016Dark, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
+  dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
+  dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
+  dxSkinXmas2008Blue, dxSkinsdxRibbonPainter, dxSkinsdxBarPainter,
+  dxSkinscxPCPainter, Control.Usuarios, FireDAC.Comp.Client,
+  Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems,
+  dxNavBarOfficeNavigationBar, View.SisGeFExtractSO, XPAdBase,
+  XPAdAutoUpdate, Winapi.WinInet, IdBaseComponent, IdComponent,
+  IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, IdException, IniFiles, ShellAPI, idftpcommon;
 
 type
   Tview_Main = class(TForm)
@@ -245,7 +261,11 @@ type
     procedure actRegistroOcorrenciasExecute(Sender: TObject);
 
   private
-    { Private declarations }
+    FidFTP : TIdFTP;
+    function VerifyConnection(): boolean;
+    function ConnectFTPServer(): boolean;
+    function GetVersionFTP(): integer;
+    function GetVersionLocal(): integer;
     function Login(sLogin: String; sSenha: String): Boolean;
     procedure DadosUsuario;
     procedure Acessos;
@@ -268,21 +288,29 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils, View.CadastroUsuarios, View.CadastraSenha,
-  View.Calendario, View.VerbasExpressas, View.Acareacoes, View.ImportarPedidos, View.ImportarBaixasTFO,
-  View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas, View.EnvioRespostaCTNC,
-  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas, View.ImportaCapaFinanceiroDIRECT,
-  View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas, View.EntregadoresExpressasPesquisa,
-  View.LancamentosExtratosExpressasPesquisa, View.ParametrosPrazosExtratos, View.AtualizacaoSistema,
-  View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas, View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
+uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
+  View.CadastroUsuarios, View.CadastraSenha,
+  View.Calendario, View.VerbasExpressas, View.Acareacoes, View.ImportarPedidos,
+  View.ImportarBaixasTFO,
+  View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas,
+  View.EnvioRespostaCTNC,
+  View.RoteirosExpressas, View.ExtratoExpressas, View.CadastroEmpresas,
+  View.ImportaCapaFinanceiroDIRECT,
+  View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas,
+  View.EntregadoresExpressasPesquisa,
+  View.LancamentosExtratosExpressasPesquisa, View.ParametrosPrazosExtratos,
+  View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas,
+  View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
   View.CadastroClientes, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
-  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals, View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
-  View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract, View.SisGeFOcorrenciasJornal;
+  View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals,
+  View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
+  View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
+  View.SisGeFOcorrenciasJornal;
 
 procedure Tview_Main.Acessos;
 var
   FAcessos: TAcessosControl;
-  i : Integer;
+  i: Integer;
   iTag: Integer;
 begin
   try
@@ -295,7 +323,8 @@ begin
       begin
         if iTag > 0 then
         begin
-          TAction(aclMain.Actions[i]).Visible := FAcessos.VerificaLogin(iTag, Global.Parametros.pUser_ID);
+          TAction(aclMain.Actions[i]).Visible := FAcessos.VerificaLogin(iTag,
+            Global.Parametros.pUser_ID);
         end
         else
         begin
@@ -314,7 +343,8 @@ begin
       begin
         if iTag > 0 then
         begin
-          bmMain.Bars[i].Visible := FAcessos.VerificaModulo(iTag, Global.Parametros.pUser_ID);
+          bmMain.Bars[i].Visible := FAcessos.VerificaModulo(iTag,
+            Global.Parametros.pUser_ID);
         end
         else
         begin
@@ -331,7 +361,8 @@ begin
       iTag := dxRibbon1.Tabs[i].Tag;
       if Global.Parametros.pAdmin <> 'S' then
       begin
-        dxRibbon1.Tabs[i].Visible := FAcessos.VerificaSistema(iTag, Global.Parametros.pUser_ID);
+        dxRibbon1.Tabs[i].Visible := FAcessos.VerificaSistema(iTag,
+          Global.Parametros.pUser_ID);
       end
       else
       begin
@@ -354,11 +385,11 @@ end;
 
 procedure Tview_Main.actAcareacoesExpressasExecute(Sender: TObject);
 begin
-if not Assigned(view_Acareacoes) then
-    begin
-      view_Acareacoes := Tview_Acareacoes.Create(Application);
-    end;
-    view_Acareacoes.Show;
+  if not Assigned(view_Acareacoes) then
+  begin
+    view_Acareacoes := Tview_Acareacoes.Create(Application);
+  end;
+  view_Acareacoes.Show;
 end;
 
 procedure Tview_Main.actAlterarSenhaExecute(Sender: TObject);
@@ -370,7 +401,8 @@ procedure Tview_Main.actAnaliseRoteirosExpressasExecute(Sender: TObject);
 begin
   if not Assigned(view_AnaliseRoteirosExpressas) then
   begin
-    view_AnaliseRoteirosExpressas := Tview_AnaliseRoteirosExpressas.Create(Application);
+    view_AnaliseRoteirosExpressas := Tview_AnaliseRoteirosExpressas.Create
+      (Application);
   end;
   view_AnaliseRoteirosExpressas.Show;
 end;
@@ -379,7 +411,8 @@ procedure Tview_Main.actCadastroAbrangenciaExpressasExecute(Sender: TObject);
 begin
   if not Assigned(view_CadastroAbrangenciaExpressas) then
   begin
-    view_CadastroAbrangenciaExpressas := Tview_CadastroAbrangenciaExpressas.Create(Application);
+    view_CadastroAbrangenciaExpressas :=
+      Tview_CadastroAbrangenciaExpressas.Create(Application);
   end;
   view_CadastroAbrangenciaExpressas.Show;
 end;
@@ -397,7 +430,8 @@ procedure Tview_Main.actCadastroContratadosExecute(Sender: TObject);
 begin
   if not Assigned(view_SisGeFRegisterContractors) then
   begin
-    view_SisGeFRegisterContractors := Tview_SisGeFRegisterContractors.Create(Application);
+    view_SisGeFRegisterContractors := Tview_SisGeFRegisterContractors.Create
+      (Application);
   end;
   view_SisGeFRegisterContractors.Show;
 end;
@@ -415,7 +449,8 @@ procedure Tview_Main.actCadastroEntregadoresExecute(Sender: TObject);
 begin
   if not Assigned(view_EntregadoresExpressasPesquisa) then
   begin
-    view_EntregadoresExpressasPesquisa := Tview_EntregadoresExpressasPesquisa.Create(Application);
+    view_EntregadoresExpressasPesquisa :=
+      Tview_EntregadoresExpressasPesquisa.Create(Application);
   end;
   view_EntregadoresExpressasPesquisa.Show;
 end;
@@ -423,7 +458,8 @@ end;
 procedure Tview_Main.actCadastroFuncionariosExecute(Sender: TObject);
 begin
   if not Assigned(view_SisGeFEmployeeRegistration) then
-    view_SisGeFEmployeeRegistration := Tview_SisGeFEmployeeRegistration.Create(Application);
+    view_SisGeFEmployeeRegistration := Tview_SisGeFEmployeeRegistration.Create
+      (Application);
   view_SisGeFEmployeeRegistration.Show;
 end;
 
@@ -431,7 +467,8 @@ procedure Tview_Main.actCadastroVeículosExecute(Sender: TObject);
 begin
   if not Assigned(view_SisGeFVehicleRegistration) then
   begin
-    view_SisGeFVehicleRegistration := Tview_SisGeFVehicleRegistration.Create(Application);
+    view_SisGeFVehicleRegistration := Tview_SisGeFVehicleRegistration.Create
+      (Application);
   end;
   view_SisGeFVehicleRegistration.Show;
 end;
@@ -464,7 +501,8 @@ procedure Tview_Main.actDebitoCreditoExecute(Sender: TObject);
 begin
   if not Assigned(view_LancamentosExtratosExpressasPesquisa) then
   begin
-    view_LancamentosExtratosExpressasPesquisa := Tview_LancamentosExtratosExpressasPesquisa.Create(Application);
+    view_LancamentosExtratosExpressasPesquisa :=
+      Tview_LancamentosExtratosExpressasPesquisa.Create(Application);
   end;
   view_LancamentosExtratosExpressasPesquisa.Show;
 end;
@@ -480,7 +518,7 @@ end;
 
 procedure Tview_Main.actExpedicaoExpressasExecute(Sender: TObject);
 begin
-if not Assigned(view_ExpedicaoExpressas) then
+  if not Assigned(view_ExpedicaoExpressas) then
   begin
     view_ExpedicaoExpressas := Tview_ExpedicaoExpressas.Create(Application);
   end;
@@ -489,16 +527,16 @@ end;
 
 procedure Tview_Main.actExtratoEntregadoresExpressasExecute(Sender: TObject);
 begin
-//  if not Assigned(view_ExtratoExpressas) then
-//  begin
-//    view_ExtratoExpressas := Tview_ExtratoExpressas.Create(Application);
-//  end;
-//  view_ExtratoExpressas.Show;
-//  if not Assigned(view_SisGeFExtractedExpress) then
-//  begin
-//    view_SisGeFExtractedExpress := Tview_SisGeFExtractedExpress.Create(Application);
-//  end;
-//  view_SisGeFExtractedExpress.Show;
+  // if not Assigned(view_ExtratoExpressas) then
+  // begin
+  // view_ExtratoExpressas := Tview_ExtratoExpressas.Create(Application);
+  // end;
+  // view_ExtratoExpressas.Show;
+  // if not Assigned(view_SisGeFExtractedExpress) then
+  // begin
+  // view_SisGeFExtractedExpress := Tview_SisGeFExtractedExpress.Create(Application);
+  // end;
+  // view_SisGeFExtractedExpress.Show;
   if not Assigned(view_SisGeFExpressExtract) then
   begin
     view_SisGeFExpressExtract := Tview_SisGeFExpressExtract.Create(Application);
@@ -511,7 +549,8 @@ procedure Tview_Main.actExtratoPeriodicosExecute(Sender: TObject);
 begin
   if not Assigned(view_SisGeFExtractPeriodicals) then
   begin
-    view_SisGeFExtractPeriodicals := Tview_SisGeFExtractPeriodicals.Create(Application);
+    view_SisGeFExtractPeriodicals := Tview_SisGeFExtractPeriodicals.Create
+      (Application);
   end;
   view_SisGeFExtractPeriodicals.Show;
 end;
@@ -520,7 +559,8 @@ procedure Tview_Main.actExtraviosExpressasExecute(Sender: TObject);
 begin
   if not Assigned(view_ExtraviosSinistrosMultas) then
   begin
-    view_ExtraviosSinistrosMultas := Tview_ExtraviosSinistrosMultas.Create(Application);
+    view_ExtraviosSinistrosMultas := Tview_ExtraviosSinistrosMultas.Create
+      (Application);
   end;
   view_ExtraviosSinistrosMultas.Show;
 end;
@@ -536,15 +576,16 @@ end;
 
 procedure Tview_Main.actImportacaoPedidosExecute(Sender: TObject);
 begin
-//  if not Assigned(view_ImporEDIClient) then
-//  begin
-//    view_ImporEDIClient := Tview_ImporEDIClient.Create(Application);
-//  end;
-//  view_ImporEDIClient.Show;
+  // if not Assigned(view_ImporEDIClient) then
+  // begin
+  // view_ImporEDIClient := Tview_ImporEDIClient.Create(Application);
+  // end;
+  // view_ImporEDIClient.Show;
 
   if not Assigned(view_SisGeFImportWorksheetExpress) then
   begin
-    view_SisGeFImportWorksheetExpress := Tview_SisGeFImportWorksheetExpress.Create(Application);
+    view_SisGeFImportWorksheetExpress :=
+      Tview_SisGeFImportWorksheetExpress.Create(Application);
   end;
   view_SisGeFImportWorksheetExpress.Show;
 
@@ -554,7 +595,8 @@ procedure Tview_Main.actImportacaoTiragemExecute(Sender: TObject);
 begin
   if not Assigned(view_SisGeFPrintRunsImports) then
   begin
-    view_SisGeFPrintRunsImports := Tview_SisGeFPrintRunsImports.Create(Application);
+    view_SisGeFPrintRunsImports := Tview_SisGeFPrintRunsImports.Create
+      (Application);
   end;
   view_SisGeFPrintRunsImports.Show;
 end;
@@ -572,7 +614,8 @@ procedure Tview_Main.actImportarExtratoExecute(Sender: TObject);
 begin
   if not Assigned(view_ImportaCapaFinanceiroDIRECT) then
   begin
-    view_ImportaCapaFinanceiroDIRECT := Tview_ImportaCapaFinanceiroDIRECT.Create(Application);
+    view_ImportaCapaFinanceiroDIRECT := Tview_ImportaCapaFinanceiroDIRECT.Create
+      (Application);
   end;
   view_ImportaCapaFinanceiroDIRECT.Show;
 end;
@@ -590,7 +633,8 @@ procedure Tview_Main.actionParametrosPrazosExtratosExecute(Sender: TObject);
 begin
   if not Assigned(view_ParametrosPrazosExtratos) then
   begin
-    view_ParametrosPrazosExtratos := Tview_ParametrosPrazosExtratos.Create(Application);
+    view_ParametrosPrazosExtratos := Tview_ParametrosPrazosExtratos.Create
+      (Application);
   end;
   view_ParametrosPrazosExtratos.Show;
 end;
@@ -608,7 +652,8 @@ procedure Tview_Main.actPlanilhaCreditoExecute(Sender: TObject);
 begin
   if not Assigned(view_SisGeFCreditWorksheet) then
   begin
-    view_SisGeFCreditWorksheet := Tview_SisGeFCreditWorksheet.Create(Application);
+    view_SisGeFCreditWorksheet := Tview_SisGeFCreditWorksheet.Create
+      (Application);
   end;
   view_SisGeFCreditWorksheet.Show;
 end;
@@ -626,7 +671,8 @@ procedure Tview_Main.actRegistroOcorrenciasExecute(Sender: TObject);
 begin
   if not Assigned(view_SisGeFOcorrenciasJornal) then
   begin
-    view_SisGeFOcorrenciasJornal := Tview_SisGeFOcorrenciasJornal.Create(Application);
+    view_SisGeFOcorrenciasJornal := Tview_SisGeFOcorrenciasJornal.Create
+      (Application);
   end;
   view_SisGeFOcorrenciasJornal.Show;
 end;
@@ -670,7 +716,7 @@ end;
 
 procedure Tview_Main.AlteraPrimeiraSenha;
 var
-  Fusuarios : TUsuarioControl;
+  Fusuarios: TUsuarioControl;
 begin
   try
     Fusuarios := TUsuarioControl.Create;
@@ -684,15 +730,17 @@ begin
     if view_CadastraSenha.ShowModal = mrOk then
     begin
       Fusuarios.Usuarios.Senha := view_CadastraSenha.cxSenha.Text;
-      Fusuarios.Usuarios.PrimeiroAcesso := view_CadastraSenha.cxPrimeiroAcesso.EditValue;
+      Fusuarios.Usuarios.PrimeiroAcesso :=
+        view_CadastraSenha.cxPrimeiroAcesso.EditValue;
       Fusuarios.Usuarios.DataSenha := Now;
       Fusuarios.Usuarios.Executor := Global.Parametros.pUser_Name;
       Fusuarios.Usuarios.Manutencao := Now;
       Fusuarios.Usuarios.Codigo := Global.Parametros.pUser_ID;
       Fusuarios.Usuarios.PrimeiroAcesso := 'N';
-      if not FUsuarios.AlteraSenha(FUsuarios.Usuarios) then
+      if not Fusuarios.AlteraSenha(Fusuarios.Usuarios) then
       begin
-        Application.MessageBox('Erro ao alterar a senha!', 'Erro', MB_OK + MB_ICONERROR);
+        Application.MessageBox('Erro ao alterar a senha!', 'Erro',
+          MB_OK + MB_ICONERROR);
       end;
     end;
     FreeAndNil(view_CadastraSenha);
@@ -703,7 +751,7 @@ end;
 
 procedure Tview_Main.AlteraSenha;
 var
-  Fusuarios : TUsuarioControl;
+  Fusuarios: TUsuarioControl;
 begin
   try
     Fusuarios := TUsuarioControl.Create;
@@ -717,14 +765,16 @@ begin
     if view_CadastraSenha.ShowModal = mrOk then
     begin
       Fusuarios.Usuarios.Senha := view_CadastraSenha.cxSenha.Text;
-      Fusuarios.Usuarios.PrimeiroAcesso := view_CadastraSenha.cxPrimeiroAcesso.EditValue;
+      Fusuarios.Usuarios.PrimeiroAcesso :=
+        view_CadastraSenha.cxPrimeiroAcesso.EditValue;
       Fusuarios.Usuarios.DataSenha := Now;
       Fusuarios.Usuarios.Executor := Global.Parametros.pUser_Name;
       Fusuarios.Usuarios.Manutencao := Now;
       Fusuarios.Usuarios.Codigo := Global.Parametros.pUser_ID;
-      if not FUsuarios.AlteraSenha(FUsuarios.Usuarios) then
+      if not Fusuarios.AlteraSenha(Fusuarios.Usuarios) then
       begin
-        Application.MessageBox('Erro ao alterar a senha!', 'Erro', MB_OK + MB_ICONERROR);
+        Application.MessageBox('Erro ao alterar a senha!', 'Erro',
+          MB_OK + MB_ICONERROR);
       end;
     end;
     FreeAndNil(view_CadastraSenha);
@@ -733,10 +783,24 @@ begin
   end;
 end;
 
+function Tview_Main.ConnectFTPServer: boolean;
+begin
+  FidFTP := TIdFTP.Create(Self);
+  Result := False;
+  FidFTP.Username     := 'alocarioca.novorioexpress.com';
+  FidFTP.Password     := 'al0c@rioca';
+  FidFTP.Host         := 'ftp.novorioexpress.com';
+  FidFTP.Port         := 21;
+  FidFTP.Passive      := True;
+  FidFTP.TransferType := ftBinary;
+  FidFTP.Connect;
+  Result := FidFTP.Connected;
+end;
+
 procedure Tview_Main.DadosUsuario;
 var
-  FDQuery : TFDQuery;
-  usuarios: TUsuarioControl;
+  FDQuery: TFDQuery;
+  Usuarios: TUsuarioControl;
   pParam: array of variant;
   sPrimeiroAcesso: String;
   bExpira: Boolean;
@@ -744,10 +808,10 @@ var
 begin
   try
     FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    usuarios := TUsuarioControl.Create;
+    Usuarios := TUsuarioControl.Create;
     iDias := 0;
-    SetLength(pParam,2);
-    if Pos('@',Global.Parametros.pUser_Name) > 0 then
+    SetLength(pParam, 2);
+    if Pos('@', Global.Parametros.pUser_Name) > 0 then
     begin
       pParam[0] := 'EMAIL';
     end
@@ -756,18 +820,23 @@ begin
       pParam[0] := 'LOGIN';
     end;
     pParam[1] := Global.Parametros.pUser_Name;
-    FDQuery := usuarios.Localizar(pParam);
+    FDQuery := Usuarios.Localizar(pParam);
     if not FDQuery.IsEmpty then
     begin
-      Global.Parametros.pUser_ID := FDQuery.FieldByName('COD_USUARIO').AsInteger;
-      Global.Parametros.pNameUser := FDQuery.FieldByName('NOM_USUARIO').AsString;
+      Global.Parametros.pUser_ID := FDQuery.FieldByName('COD_USUARIO')
+        .AsInteger;
+      Global.Parametros.pNameUser := FDQuery.FieldByName('NOM_USUARIO')
+        .AsString;
       Global.Parametros.pnivel := FDQuery.FieldByName('COD_NIVEL').AsInteger;
-      Global.Parametros.pAdmin := FDQuery.FieldByName('DOM_PRIVILEGIO').AsString;
-      Global.Parametros.pEmailUsuario := FDQuery.FieldByName('DES_EMAIL').AsString;
+      Global.Parametros.pAdmin := FDQuery.FieldByName('DOM_PRIVILEGIO')
+        .AsString;
+      Global.Parametros.pEmailUsuario :=
+        FDQuery.FieldByName('DES_EMAIL').AsString;
       sPrimeiroAcesso := FDQuery.FieldByName('DOM_PRIMEIRO_ACESSO').AsString;
       bExpira := (FDQuery.FieldByName('DAT_SENHA').AsDateTime <= Now());
       iDias := FDQuery.FieldByName('QTD_DIAS_EXPIRA').AsInteger;
-      if sPrimeiroAcesso = 'S' then AlteraPrimeiraSenha;
+      if sPrimeiroAcesso = 'S' then
+        AlteraPrimeiraSenha;
       if FDQuery.FieldByName('DOM_EXPIRA').AsString = 'S' then
       begin
         if bExpira then
@@ -780,19 +849,23 @@ begin
       end;
     end;
   finally
-    usuarios.Free;
+    Usuarios.Free;
     FDQuery.Free;
   end;
 end;
 
 procedure Tview_Main.dxBarCombo1Change(Sender: TObject);
 begin
-  if not bFlag then Exit;
+  if not bFlag then
+    Exit;
   Data_SisGeF.skcmain.SkinName := dxBarCombo1.Text;
   dxRibbon1.ColorSchemeName := dxBarCombo1.Text;
-  if not TSistemaControl.GetInstance().SaveParamINI('Database','Skin', IntToStr(dxBarCombo1.ItemIndex)) then
+  if not TSistemaControl.GetInstance().SaveParamINI('Database', 'Skin',
+    IntToStr(dxBarCombo1.ItemIndex)) then
   begin
-    Application.MessageBox('Erro ao salvar a configuração (SKIN)! Informe ao suporte.', 'Erro', MB_OK + MB_ICONERROR);
+    Application.MessageBox
+      ('Erro ao salvar a configuração (SKIN)! Informe ao suporte.', 'Erro',
+      MB_OK + MB_ICONERROR);
   end;
 end;
 
@@ -813,7 +886,8 @@ end;
 
 procedure Tview_Main.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  CanClose := (Application.MessageBox('Confirma sair do sistema?', 'Sair do Sistema', MB_YESNO + MB_ICONQUESTION) = IDYES);
+  CanClose := (Application.MessageBox('Confirma sair do sistema?',
+    'Sair do Sistema', MB_YESNO + MB_ICONQUESTION) = IDYES);
 end;
 
 procedure Tview_Main.FormCreate(Sender: TObject);
@@ -821,7 +895,9 @@ begin
   TSistemaControl.GetInstance();
   if not TSistemaControl.GetInstance().Start then
   begin
-    Application.MessageBox('Arquivo de inicialização não foi encontrado! Entre em contato com o suporte.', 'Atenção', MB_ICONWARNING + MB_OK);
+    Application.MessageBox
+      ('Arquivo de inicialização não foi encontrado! Entre em contato com o suporte.',
+      'Atenção', MB_ICONWARNING + MB_OK);
     Application.Terminate;
   end;
 end;
@@ -834,8 +910,8 @@ begin
   Self.Caption := Application.Title;
   bFlag := False;
   dxBarCombo1.Items := TSistemaControl.GetInstance().LoadSkinsINI;
-  bflag := True;
-  dxBarCombo1.ItemIndex := StrToIntDef(Global.Parametros.pSkin,-1);
+  bFlag := True;
+  dxBarCombo1.ItemIndex := StrToIntDef(Global.Parametros.pSkin, -1);
   bLogin := False;
   for i := 1 to 3 do
   begin
@@ -852,14 +928,61 @@ begin
   else
   begin
     DadosUsuario;
-    Common.Utils.TUtils.GravaIni(Global.Parametros.pFileIni,'Login','LastUser',Global.Parametros.pUser_Name);
-    dxRibbonStatusBar1.Panels[0].Text := 'Versão ' + Common.Utils.TUtils.VersaoExe;
-    dxRibbonStatusBar1.Panels[1].Text := Global.Parametros.pServer + '/' + Global.Parametros.pDatabase;
+    Common.Utils.TUtils.GravaIni(Global.Parametros.pFileIni, 'Login',
+      'LastUser', Global.Parametros.pUser_Name);
+    Common.Utils.TUtils.GravaIni(ExtractFilePath(Application.ExeName) + 'versionLocal.ini', 'version',
+      'number', Common.Utils.TUtils.VersaoExe);
+    Common.Utils.TUtils.GravaIni(ExtractFilePath(Application.ExeName) + 'versionLocal.ini', 'version',
+      'internalname', Common.Utils.TUtils.Sistema('InternalName'));
+    dxRibbonStatusBar1.Panels[0].Text := 'Versão ' +
+      Common.Utils.TUtils.VersaoExe;
+    dxRibbonStatusBar1.Panels[1].Text := Global.Parametros.pServer + '/' +
+      Global.Parametros.pDatabase;
     dxRibbonStatusBar1.Panels[2].Text := Global.Parametros.pNameUser;
     Acessos;
   end;
   FreeAndNil(view_Login);
-//  VerificaVersao;
+  VerificaVersao;
+end;
+
+function Tview_Main.GetVersionFTP: integer;
+var
+  sNumeroVersao, sPath: string;
+  oArquivoINI: TIniFile;
+begin
+  sPath := ExtractFilePath(Application.ExeName);
+  if FileExists(sPath + 'versionFTP.ini') then
+    DeleteFile(sPath + 'versionFTP.ini');
+
+  FidFTP.Get('Download/SisGeF5/versionFTP.ini', sPath + 'versionFTP.ini', True, True);
+
+  oArquivoINI := TIniFile.Create(sPath + 'versionFTP.ini');
+  try
+    sNumeroVersao := oArquivoINI.ReadString('version', 'number', EmptyStr);
+
+    sNumeroVersao := StringReplace(sNumeroVersao, '.', EmptyStr, [rfReplaceAll]);
+    result := StrToIntDef(sNumeroVersao, 0);
+  finally
+    oArquivoINI.Free;
+  end;
+end;
+
+function Tview_Main.GetVersionLocal: integer;
+var
+  sNumeroVersao, sPath: string;
+  oArquivoINI: TIniFile;
+begin
+  sPath := ExtractFilePath(Application.ExeName);
+  oArquivoINI := TIniFile.Create(sPath + 'VersionLocal.ini');
+  try
+    sNumeroVersao := oArquivoINI.ReadString('version', 'number', EmptyStr);
+
+    sNumeroVersao := StringReplace(sNumeroVersao, '.', EmptyStr, [rfReplaceAll]);
+
+    result := StrToIntDef(sNumeroVersao, 0);
+  finally
+    FreeAndNil(oArquivoINI);
+  end;
 end;
 
 function Tview_Main.Logar: Boolean;
@@ -881,7 +1004,8 @@ begin
     begin
       if not Login(view_Login.txtLogin.Text, view_Login.txtSenha.Text) then
       begin
-        Application.MessageBox('Usuário e/ou senha incorretos!', 'Atenção', MB_OK + MB_ICONWARNING);
+        Application.MessageBox('Usuário e/ou senha incorretos!', 'Atenção',
+          MB_OK + MB_ICONWARNING);
         Exit;
       end;
       Global.Parametros.pUser_Name := view_Login.txtLogin.Text;
@@ -896,14 +1020,14 @@ end;
 
 function Tview_Main.Login(sLogin, sSenha: String): Boolean;
 var
-  usuarios : TUsuarioControl;
+  Usuarios: TUsuarioControl;
 begin
   try
-    usuarios := TUsuarioControl.Create;
+    Usuarios := TUsuarioControl.Create;
     Result := False;
-    Result := usuarios.ValidaLogin(sLogin, sSenha);
+    Result := Usuarios.ValidaLogin(sLogin, sSenha);
   finally
-    usuarios.Free;
+    Usuarios.Free;
   end;
 end;
 
@@ -918,7 +1042,7 @@ end;
 
 function Tview_Main.SenhaExpirada(iDias: Integer): Boolean;
 var
-  Fusuarios : TUsuarioControl;
+  Fusuarios: TUsuarioControl;
   dtData: TDate;
 begin
   try
@@ -940,9 +1064,10 @@ begin
       Fusuarios.Usuarios.Manutencao := Now();
       Fusuarios.Usuarios.Codigo := Global.Parametros.pUser_ID;
       Fusuarios.Usuarios.PrimeiroAcesso := 'N';
-      if not FUsuarios.AlteraSenha(FUsuarios.Usuarios) then
+      if not Fusuarios.AlteraSenha(Fusuarios.Usuarios) then
       begin
-        Application.MessageBox('Erro ao alterar a senha!', 'Erro', MB_OK + MB_ICONERROR);
+        Application.MessageBox('Erro ao alterar a senha!', 'Erro',
+          MB_OK + MB_ICONERROR);
         Exit;
       end;
     end;
@@ -955,30 +1080,36 @@ end;
 
 procedure Tview_Main.TimerTimer(Sender: TObject);
 begin
-  dxRibbonStatusBar1.Panels[3].Text := FormatDateTime('dddd, dd "de" mmmm "de" yyyy - hh:mm:ss', Now);
+  dxRibbonStatusBar1.Panels[3].Text :=
+    FormatDateTime('dddd, dd "de" mmmm "de" yyyy - hh:mm:ss', Now);
 end;
 
 procedure Tview_Main.TrocaUsuario;
 begin
-  if Application.MessageBox('Confirma trocar o usuário do atual do sistema?', 'Trocar Usuário', MB_YESNO + MB_ICONQUESTION) = idno then Exit;
+  if Application.MessageBox('Confirma trocar o usuário do atual do sistema?',
+    'Trocar Usuário', MB_YESNO + MB_ICONQUESTION) = idno then
+    Exit;
 
   if not Assigned(view_Login) then
   begin
     view_Login := Tview_Login.Create(Application);
   end;
   view_Login.txtLogin.Text := Global.Parametros.pLastUser;
-  view_Login.lblSistema.Caption := Application.Title + ' ' + 'Versão ' + Common.Utils.TUtils.VersaoExe;
+  view_Login.lblSistema.Caption := Application.Title + ' ' + 'Versão ' +
+    Common.Utils.TUtils.VersaoExe;
   if view_Login.ShowModal = mrOk then
   begin
     if not Login(view_Login.txtLogin.Text, view_Login.txtSenha.Text) then
     begin
-      Application.MessageBox('Usuário e/ou senha incorretos!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Application.MessageBox('Usuário e/ou senha incorretos!', 'Atenção',
+        MB_OK + MB_ICONWARNING);
       Application.Terminate;
     end;
     Global.Parametros.pUser_Name := view_Login.txtLogin.Text;
     Global.Parametros.pPassword := view_Login.txtSenha.Text;
     DadosUsuario;
-    Common.Utils.TUtils.GravaIni(Global.Parametros.pFileIni,'Login','LastUser',Global.Parametros.pUser_Name);
+    Common.Utils.TUtils.GravaIni(Global.Parametros.pFileIni, 'Login',
+      'LastUser', Global.Parametros.pUser_Name);
     dxRibbonStatusBar1.Panels[2].Text := Global.Parametros.pNameUser;
     Acessos;
   end;
@@ -986,12 +1117,30 @@ begin
 end;
 
 procedure Tview_Main.VerificaVersao;
+var
+  iVersionLocal, iVersionFTP: integer;
+  sMessage: string;
 begin
-  if not Assigned(view_AtualizacaoSistema) then
+  if not VerifyConnection then Exit;
+  if not ConnectFTPServer then Exit;
+  iVersionFTP := GetVersionFTP();
+  iVersionLocal := GetVersionLocal();
+  FidFTP.Disconnect;
+  FidFTP.Free;
+  if iVersionFTP > iVersionLocal then
   begin
-    view_AtualizacaoSistema := Tview_AtualizacaoSistema.Create(Application);
+    sMessage := 'Existe uma atualização disponível. Clique em OK para proceder com a atualização ou CANCEL para não atualizar.';
+    if MessageDlg(sMessage,mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then Exit;
+    WINEXEC('SysUpdate.exe',SW_Show);
+    Application.Terminate;
   end;
-  view_AtualizacaoSistema.Show;
+end;
+
+function Tview_Main.VerifyConnection(): boolean;
+var
+  nFlags: Cardinal;
+begin
+  result := InternetGetConnectedState(@nFlags, 0);
 end;
 
 end.

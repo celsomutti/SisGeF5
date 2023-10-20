@@ -87,7 +87,7 @@ object view_AtualizacaoSistema: Tview_AtualizacaoSistema
     OnWork = IdFTP1Work
     OnWorkBegin = IdFTP1WorkBegin
     IPVersion = Id_IPv4
-    Host = 'novorioexpress.com'
+    Host = 'ftp.novorioexpress.com'
     Passive = True
     ConnectTimeout = 0
     Password = 'al0c@rioca'
