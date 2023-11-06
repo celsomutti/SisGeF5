@@ -11,7 +11,7 @@ uses
   cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, cxCurrencyEdit, cxTimeEdit, cxDBLookupComboBox;
+  FireDAC.Comp.Client, cxCurrencyEdit, cxTimeEdit, cxDBLookupComboBox, cxButtonEdit, cxSpinEdit;
 
 type
   TPageTravelControl = class(TForm)
@@ -81,6 +81,64 @@ type
     LayoutButtonCancelTravel: TdxLayoutItem;
     ButtonEndTravel: TcxButton;
     LayoutButtonEndTravel: TdxLayoutItem;
+    LayoutEdit1: TdxLayoutGroup;
+    maskEditTravelID: TcxMaskEdit;
+    LayoutTravelID: TdxLayoutItem;
+    DateEditTravelDate: TcxDateEdit;
+    LayoutTravelDate: TdxLayoutItem;
+    ComboBoxTravelOperation: TcxComboBox;
+    LayoutTravelOperation: TdxLayoutItem;
+    ButtonEdittravelCodeTaker: TcxButtonEdit;
+    LayoutTravelCodeTaker: TdxLayoutItem;
+    TextEditTravelNameTaker: TcxTextEdit;
+    LayoutTravelNameTaker: TdxLayoutItem;
+    LayoutEdit2: TdxLayoutGroup;
+    ButtonEditTravelDriverCode: TcxButtonEdit;
+    LayoutTravelDriverCode: TdxLayoutItem;
+    TextEditTravelDriverName: TcxTextEdit;
+    LayoutTravelDriverName: TdxLayoutItem;
+    ButtonEditTavelVehicle: TcxButtonEdit;
+    LayouttravelVehicle: TdxLayoutItem;
+    CurrencyEditTravelInitialKM: TcxCurrencyEdit;
+    LayoutTravelInitialKM: TdxLayoutItem;
+    TimeEditTravelDepartureTime: TcxTimeEdit;
+    LayoutTravelDepartureTime: TdxLayoutItem;
+    LayoutGroupEdit1: TdxLayoutGroup;
+    LayoutGridDestinations: TdxLayoutGroup;
+    GridTravelDestinationsDBTableView1: TcxGridDBTableView;
+    GridTravelDestinationsLevel1: TcxGridLevel;
+    GridTravelDestinations: TcxGrid;
+    LayoutITravelDestinations: TdxLayoutItem;
+    LayoutTravelFuelSupplies: TdxLayoutGroup;
+    LayoutTravelInputs: TdxLayoutGroup;
+    MemTableTravelDestination: TFDMemTable;
+    MemTableTravelDestinationcod_destino: TIntegerField;
+    MemTableTravelDestinationdes_destino: TStringField;
+    MemTableTravelDestinationcod_agente: TIntegerField;
+    dataSourceTravelDestinations: TDataSource;
+    GridTravelDestinationsDBTableView1cod_destino: TcxGridDBColumn;
+    GridTravelDestinationsDBTableView1des_destino: TcxGridDBColumn;
+    GridTravelDestinationsDBTableView1cod_agente: TcxGridDBColumn;
+    MemTableTravelInputs: TFDMemTable;
+    MemTableTravelInputsid_consumo: TIntegerField;
+    MemTableTravelInputsid_insumo: TIntegerField;
+    MemTableTravelInputsid_controle: TIntegerField;
+    MemTableTravelInputsqtd_km_consumo: TFloatField;
+    DataSourceTravelInputs: TDataSource;
+    MemTableFuelSupplies: TFDMemTable;
+    MemTableFuelSuppliesnum_cupom: TStringField;
+    MemTableFuelSuppliesqtd_abastecimento: TFloatField;
+    MemTableFuelSuppliesval_unitario: TFloatField;
+    MemTableFuelSuppliesval_total: TFloatField;
+    DataSourceFuelSupplies: TDataSource;
+    GridFuelSuppliesDBTableView1: TcxGridDBTableView;
+    GridFuelSuppliesLevel1: TcxGridLevel;
+    GridFuelSupplies: TcxGrid;
+    LayoutFuelSupplies: TdxLayoutItem;
+    GridFuelSuppliesDBTableView1num_cupom: TcxGridDBColumn;
+    GridFuelSuppliesDBTableView1qtd_abastecimento: TcxGridDBColumn;
+    GridFuelSuppliesDBTableView1val_unitario: TcxGridDBColumn;
+    GridFuelSuppliesDBTableView1val_total: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionExitPageExecute(Sender: TObject);
