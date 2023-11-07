@@ -11,7 +11,7 @@ uses
   cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, cxCurrencyEdit, cxTimeEdit, cxDBLookupComboBox, cxButtonEdit, cxSpinEdit;
+  FireDAC.Comp.Client, cxCurrencyEdit, cxTimeEdit, cxDBLookupComboBox, cxButtonEdit, cxSpinEdit, cxMemo;
 
 type
   TPageTravelControl = class(TForm)
@@ -36,7 +36,7 @@ type
     LayoutEdit: TdxLayoutGroup;
     dateEditFinalDate: TcxDateEdit;
     LayoutFinalDate: TdxLayoutItem;
-    action1Search: TAction;
+    actionSearch: TAction;
     ButtonSearch: TcxButton;
     LayoutButtonSearch: TdxLayoutItem;
     gridTravelsDBTableView1: TcxGridDBTableView;
@@ -103,7 +103,7 @@ type
     LayoutTravelInitialKM: TdxLayoutItem;
     TimeEditTravelDepartureTime: TcxTimeEdit;
     LayoutTravelDepartureTime: TdxLayoutItem;
-    LayoutGroupEdit1: TdxLayoutGroup;
+    LayoutGroupEditGrids: TdxLayoutGroup;
     LayoutGridDestinations: TdxLayoutGroup;
     GridTravelDestinationsDBTableView1: TcxGridDBTableView;
     GridTravelDestinationsLevel1: TcxGridLevel;
@@ -139,9 +139,46 @@ type
     GridFuelSuppliesDBTableView1qtd_abastecimento: TcxGridDBColumn;
     GridFuelSuppliesDBTableView1val_unitario: TcxGridDBColumn;
     GridFuelSuppliesDBTableView1val_total: TcxGridDBColumn;
+    GridInputsDBTableView1: TcxGridDBTableView;
+    GridInputsLevel1: TcxGridLevel;
+    GridInputs: TcxGrid;
+    LayoutInputs: TdxLayoutItem;
+    GridInputsDBTableView1id_consumo: TcxGridDBColumn;
+    GridInputsDBTableView1id_insumo: TcxGridDBColumn;
+    GridInputsDBTableView1id_controle: TcxGridDBColumn;
+    GridInputsDBTableView1qtd_km_consumo: TcxGridDBColumn;
+    MemTableTravelInputsqtd_consumo: TFloatField;
+    GridInputsDBTableView1qtd_consumo: TcxGridDBColumn;
+    MemTableInputs: TFDMemTable;
+    MemTableInputsid_insumo: TIntegerField;
+    MemTableInputsdes_insumo: TStringField;
+    DataSourceInputs: TDataSource;
+    LayoutGroupEdit: TdxLayoutGroup;
+    LayoutEditFinal: TdxLayoutGroup;
+    LayoutMemo: TdxLayoutGroup;
+    MemoObs: TcxMemo;
+    LayoutMemoObs: TdxLayoutItem;
+    LayoutOptionsFinal: TdxLayoutGroup;
+    ComboBoxStatus: TcxComboBox;
+    LayoutComboBoxStatus: TdxLayoutItem;
+    LayoutDataFinal: TdxLayoutGroup;
+    CurrencyEditFinalKM: TcxCurrencyEdit;
+    LayoutCurrencyEditFinalKM: TdxLayoutItem;
+    TimeEditreturnTime: TcxTimeEdit;
+    LayoutReturnTime: TdxLayoutItem;
+    LayoutButtons: TdxLayoutGroup;
+    actionPriorPage: TAction;
+    actionSaveTravel: TAction;
+    ButtonReturn: TcxButton;
+    LayoutButtonReturn: TdxLayoutItem;
+    ButtonSaveTravel: TcxButton;
+    LayoutButtonSaveTravel: TdxLayoutItem;
+    ButtonFinalizeTravel: TcxButton;
+    LayoutButtonFinalizeTravel: TdxLayoutItem;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionExitPageExecute(Sender: TObject);
+    procedure actionPriorPageExecute(Sender: TObject);
   private
     { Private declarations }
     procedure BuildPageLabel;
@@ -164,6 +201,11 @@ uses Data.SisGeF;
 procedure TPageTravelControl.actionExitPageExecute(Sender: TObject);
 begin
   ClosePage;
+end;
+
+procedure TPageTravelControl.actionPriorPageExecute(Sender: TObject);
+begin
+  LayoutBody.ItemIndex := 0;
 end;
 
 procedure TPageTravelControl.BuildPageLabel;

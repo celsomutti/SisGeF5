@@ -281,8 +281,8 @@ uses
   View.PesquisarGeral in 'src\View\View.PesquisarGeral.pas' {View_PesquisarGeral},
   View.SisGeFGeneralSearch in 'src\View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch},
   View.SisGeFExtractSO in 'src\View\View.SisGeFExtractSO.pas' {view_SisGeFExtractSO},
-  THread.SisGeFProcessExtractSO in 'src\Thread\Thread.SisGeFProcessExtractSO.pas',
-  THread.SisGeFCloseExtractSO in 'src\Thread\Thread.SisGeFCloseExtractSO.pas',
+  Thread.SisGeFProcessExtractSO in 'src\Thread\Thread.SisGeFProcessExtractSO.pas',
+  Thread.SisGeFCloseExtractSO in 'src\Thread\Thread.SisGeFCloseExtractSO.pas',
   View.SisGeFContractedDetail in 'src\View\View.SisGeFContractedDetail.pas' {view_SisGeFContractedDetail},
   View.SisGeFPrintRunsImports in 'src\View\View.SisGeFPrintRunsImports.pas' {view_SisGeFPrintRunsImports},
   Thread.PrintRunsImport in 'src\Thread\Thread.PrintRunsImport.pas',
@@ -309,7 +309,9 @@ uses
   Model.SisGeFTiposOcorrenciaJornal in 'src\Model\Model.SisGeFTiposOcorrenciaJornal.pas',
   Controller.SisGeFTiposOcorrenciaJornal in 'src\Control\Controller.SisGeFTiposOcorrenciaJornal.pas',
   View.SisGeFOcorrenciasJornal in 'src\View\View.SisGeFOcorrenciasJornal.pas' {view_SisGeFOcorrenciasJornal},
-  View.SiseFTravelControl in 'src\View\View.SiseFTravelControl.pas' {PageTravelControl};
+  View.SiseFTravelControl in 'src\View\View.SiseFTravelControl.pas' {PageTravelControl},
+  Model.SisGeFFuelSupplies in 'src\Model\Model.SisGeFFuelSupplies.pas',
+  Controller.SisGeFFuelSupplies in 'src\Control\Controller.SisGeFFuelSupplies.pas';
 
 {$R *.res}
 
