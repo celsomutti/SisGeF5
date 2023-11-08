@@ -2,7 +2,8 @@ unit Model.SisGeFFuelSupplies;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Common.Utils, System.DateUtils;
+uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils,
+  Common.Utils, System.DateUtils;
 
 type
   TFuelSupplies = class
@@ -27,6 +28,7 @@ type
     FQuantidade: double;
     FPlaca: string;
     FData: tdate;
+    FAcao: TAcao;
     FQuery: TFDQuery;
     FInsertFields: array of variant;
     FUpdateFields: array of variant;
@@ -54,6 +56,7 @@ type
     property DataBase: tdate read FDataBase write FDataBase;
     property NomeEntregador: string read FNomeEntregador write FNomeEntregador;
     property Viagem: integer read FViagem write FViagem;
+    property Acao: TAcao read FAction write FAction;
     property Query: TFDQuery read FQuery write FQuery;
 
     constructor Create;
@@ -81,9 +84,8 @@ type
                  'VAL_DESCONTO = :VAL_DESCONTO, DAT_BASE = :DAT_BASE, NOM_ENTREGADOR = :NOM_ENTREGADOR, ' +
                  'ID_CONTROLE = :ID_CONTROLE' +
                  'WHERE NUM_ABASTECIMENTO = :NUM_ABASTECIMENTO ';
-    CRUDDELETE = 'DETELE FROM ' + TABLENAME + ' WHERE ID_CONTROLE = :ID_CONTROLE';
+    CRUDDELETE = 'DETELE FROM ' + TABLENAME + ' WHERE NUM_ABASTECIMENTO = :NUM_ABASTECIMENTO';
     CRUDGETID  = 'select coalesce(max(NUM_ABASTECIMENTO),0) + 1 from ' + TABLENAME;
-
 
 implementation
 
@@ -135,7 +137,7 @@ var
   FDQuery: TFDQuery;
   iRecords: integer;
 begin
-  REsult := false;
+  Result := false;
   try
     FDQuery := FConn.ReturnQuery;
     iRecords := FDQuery.ExecSQL(CRUDINSERT,FInsertFields);
@@ -151,7 +153,7 @@ begin
   case FAction of
     tacIncluir : Result := Insert();
     tacAlterar : Result := Update();
-    tacExcluir : result := Delete();
+    tacExcluir : Result := Delete();
     else
       Exit;
   end;
@@ -193,7 +195,7 @@ var
   FDQuery: TFDQuery;
   iRecords: integer;
 begin
-  REsult := false;
+  Result := false;
   try
     FDQuery := FConn.ReturnQuery;
     iRecords := FDQuery.ExecSQL(CRUDUPDATE,FUpdateFields);

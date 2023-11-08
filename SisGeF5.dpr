@@ -311,7 +311,10 @@ uses
   View.SisGeFOcorrenciasJornal in 'src\View\View.SisGeFOcorrenciasJornal.pas' {view_SisGeFOcorrenciasJornal},
   View.SiseFTravelControl in 'src\View\View.SiseFTravelControl.pas' {PageTravelControl},
   Model.SisGeFFuelSupplies in 'src\Model\Model.SisGeFFuelSupplies.pas',
-  Controller.SisGeFFuelSupplies in 'src\Control\Controller.SisGeFFuelSupplies.pas';
+  Controller.SisGeFFuelSupplies in 'src\Control\Controller.SisGeFFuelSupplies.pas',
+  Model.SisGeFTravelControl in 'src\Model\Model.SisGeFTravelControl.pas',
+  Controller.SisGeFTravelControl in 'src\Control\Controller.SisGeFTravelControl.pas',
+  Model.SisGeFConsumptionInputs in 'src\Model\Model.SisGeFConsumptionInputs.pas';
 
 {$R *.res}
 
