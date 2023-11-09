@@ -314,7 +314,13 @@ uses
   Controller.SisGeFFuelSupplies in 'src\Control\Controller.SisGeFFuelSupplies.pas',
   Model.SisGeFTravelControl in 'src\Model\Model.SisGeFTravelControl.pas',
   Controller.SisGeFTravelControl in 'src\Control\Controller.SisGeFTravelControl.pas',
-  Model.SisGeFConsumptionInputs in 'src\Model\Model.SisGeFConsumptionInputs.pas';
+  Model.SisGeFConsumptionInputs in 'src\Model\Model.SisGeFConsumptionInputs.pas',
+  DAO.SisGeFCRUDRoutines in 'src\DAO\DAO.SisGeFCRUDRoutines.pas',
+  Controller.SisGeFConsumptionInputs in 'src\Control\Controller.SisGeFConsumptionInputs.pas',
+  Model.SisGeFTransportInputs in 'src\Model\Model.SisGeFTransportInputs.pas',
+  Controller.SisGeFTransportInputs in 'src\Control\Controller.SisGeFTransportInputs.pas',
+  Model.SisGeFDestinationTravel in 'src\Model\Model.SisGeFDestinationTravel.pas',
+  Controller.SisGeFDestinationTravel in 'src\Control\Controller.SisGeFDestinationTravel.pas';
 
 {$R *.res}
 

@@ -8,7 +8,7 @@ uses System.Classes, Model.SisGeFFuelSupplies, Common.ENum, System.Sysutils, Dia
     TControllerFuelSupplies = class
     private
       FFuel : TFuelSupplies;
-      FFieldsQuery: TStringlist;
+      FFieldsQuery: array of variant;
     public
       constructor Create;
       destructor Destroy;
@@ -28,7 +28,6 @@ implementation
 
 constructor TControllerFuelSupplies.Create;
 begin
-  FFieldsQuery := TStringList.Create;
   FFieldsQuery := ['NUM_ABASTECIMENTO', 'NUM_CUPOM', 'COD_ENTREGADOR', 'DES_PLACA', 'DAT_ABASTECIMENTO', 'DES_PRODUTO',
   'QTD_ABASTECIMENTO', 'VAL_UNITARIO', 'VAL_TOTAL', 'NOM_EXECUTANTE', 'DAT_MANUTENCAO', 'DOM_DESCONTO', 'NUM_EXTRATO',
   'VAL_VERBA_COMBUSTIVEL', 'VAL_DESCONTO', 'DAT_BASE', 'NOM_ENTREGADOR', 'ID_CONTROLE'];
@@ -41,29 +40,35 @@ begin
 end;
 
 function TControllerFuelSupplies.GetFieldsParam(var aParam: array of variant): boolean;
+var
+  i: integer;
 begin
-  try
-    aParam[0] := FFuel.Query.FieldByName(FFieldsQuery[0]).Value;
-    aParam[1] := FFuel.Query.FieldByName(FFieldsQuery[1]).Value;
-    aParam[2] := FFuel.Query.FieldByName(FFieldsQuery[2]).Value;
-    aParam[3] := FFuel.Query.FieldByName(FFieldsQuery[3]).Value;
-    aParam[4] := FFuel.Query.FieldByName(FFieldsQuery[4]).Value;
-    aParam[5] := FFuel.Query.FieldByName(FFieldsQuery[5]).Value;
-    aParam[6] := FFuel.Query.FieldByName(FFieldsQuery[6]).Value;
-    aParam[7] := FFuel.Query.FieldByName(FFieldsQuery[7]).Value;
-    aParam[8] := FFuel.Query.FieldByName(FFieldsQuery[8]).Value;
-    aParam[9] := FFuel.Query.FieldByName(FFieldsQuery[9]).Value;
-    aParam[10] := FFuel.Query.FieldByName(FFieldsQuery[10]).Value;
-    aParam[11] := FFuel.Query.FieldByName(FFieldsQuery[11]).Value;
-    aParam[12] := FFuel.Query.FieldByName(FFieldsQuery[12]).Value;
-    aParam[13] := FFuel.Query.FieldByName(FFieldsQuery[13]).Value;
-    aParam[14] := FFuel.Query.FieldByName(FFieldsQuery[14]).Value;
-    aParam[15] := FFuel.Query.FieldByName(FFieldsQuery[15]).Value;
-    aParam[16] := FFuel.Query.FieldByName(FFieldsQuery[16]).Value;
-    aParam[17] := FFuel.Query.FieldByName(FFieldsQuery[17]).Value;
-  except on E: Exception do
-    ShowMessage(E.Message);
-  end;
+    for i := 0 to Pred(FFuel.Query.FieldCount) do
+    begin
+      aParam[i] := FFuel.Query.FieldByName(FFieldsQuery[i]).Value;
+    end;
+//  try
+//    aParam[0] := FFuel.Query.FieldByName(FFieldsQuery[0]).Value;
+//    aParam[1] := FFuel.Query.FieldByName(FFieldsQuery[1]).Value;
+//    aParam[2] := FFuel.Query.FieldByName(FFieldsQuery[2]).Value;
+//    aParam[3] := FFuel.Query.FieldByName(FFieldsQuery[3]).Value;
+//    aParam[4] := FFuel.Query.FieldByName(FFieldsQuery[4]).Value;
+//    aParam[5] := FFuel.Query.FieldByName(FFieldsQuery[5]).Value;
+//    aParam[6] := FFuel.Query.FieldByName(FFieldsQuery[6]).Value;
+//    aParam[7] := FFuel.Query.FieldByName(FFieldsQuery[7]).Value;
+//    aParam[8] := FFuel.Query.FieldByName(FFieldsQuery[8]).Value;
+//    aParam[9] := FFuel.Query.FieldByName(FFieldsQuery[9]).Value;
+//    aParam[10] := FFuel.Query.FieldByName(FFieldsQuery[10]).Value;
+//    aParam[11] := FFuel.Query.FieldByName(FFieldsQuery[11]).Value;
+//    aParam[12] := FFuel.Query.FieldByName(FFieldsQuery[12]).Value;
+//    aParam[13] := FFuel.Query.FieldByName(FFieldsQuery[13]).Value;
+//    aParam[14] := FFuel.Query.FieldByName(FFieldsQuery[14]).Value;
+//    aParam[15] := FFuel.Query.FieldByName(FFieldsQuery[15]).Value;
+//    aParam[16] := FFuel.Query.FieldByName(FFieldsQuery[16]).Value;
+//    aParam[17] := FFuel.Query.FieldByName(FFieldsQuery[17]).Value;
+//  except on E: Exception do
+//    ShowMessage(E.Message);
+//  end;
 end;
 
 function TControllerFuelSupplies.Save: boolean;

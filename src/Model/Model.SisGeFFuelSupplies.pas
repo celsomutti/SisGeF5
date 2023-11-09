@@ -3,13 +3,13 @@ unit Model.SisGeFFuelSupplies;
 interface
 
 uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils,
-  Common.Utils, System.DateUtils;
+  Common.Utils, System.DateUtils, DAO.SisGeFCRUDRoutines;
 
 type
   TFuelSupplies = class
   private
+    FCRUD: TDAOCRUDRoutines;
     FAction: TAcao;
-    FConn : TConexao;
     FProduto: string;
     FViagem: integer;
     FValorDesconto: double;
@@ -97,53 +97,41 @@ begin
   FDataManutencao, FFlagDesconto, FNumeroExtrato, FValorVerba, FValorDesconto, FDataBase, FNomeEntregador, FViagem];
   FUpdateFields := [FCupom, FEntregador, FPlaca, FData, FProduto, FQuantidade, FValorUnitario, FValorTotal, FExecutante,
   FDataManutencao, FFlagDesconto, FNumeroExtrato, FValorVerba, FValorDesconto, FDataBase, FNomeEntregador, FViagem, FID];
-  FConn := TConexao.Create;
 end;
 
 function TFuelSupplies.Delete: boolean;
-var
-  FDQuery : TFDQuery;
-  iRecords: integer;
 begin
+  Result := False;
   try
-    FDQuery := FConn.ReturnQuery;
-    iRecords := FDQuery.ExecSQL(CRUDDELETE,[FID]);
-    Result := (iRecords > 0);
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDDELETE;
+    Result := FCRUD.UpdateExec([FID]);
   finally
-    FDQuery.Connection.Connected := False;
+    FCRUD.free;
   end;
 end;
 
 function TFuelSupplies.GetId: integer;
-var
-  FDQuery: TFDQuery;
 begin
+  Result := 0;
   try
-    FDQuery := FConn.ReturnQuery();
-    FDQuery.Open(CRUDGETID);
-    try
-      Result := FDQuery.Fields[0].AsInteger;
-    finally
-      FDQuery.Close;
-    end;
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDGETID;
+    Result := FCRUD.GetId;
   finally
-    FDQuery.Connection.Close;
-    FDQuery.Free;
+    FCRUD.free;
   end;
 end;
 
 function TFuelSupplies.Insert: boolean;
-var
-  FDQuery: TFDQuery;
-  iRecords: integer;
 begin
-  Result := false;
+  Result := False;
   try
-    FDQuery := FConn.ReturnQuery;
-    iRecords := FDQuery.ExecSQL(CRUDINSERT,FInsertFields);
-    Result := (iRecords > 0);
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDINSERT;
+    Result := FCRUD.UpdateExec(FInsertFields);
   finally
-    FDQuery.Connection.Connected := False;
+    FCRUD.free;
   end;
 end;
 
@@ -162,24 +150,23 @@ end;
 function TFuelSupplies.Search(aParam: array of variant): boolean;
 begin
   Result := False;
-  FQuery := FConn.ReturnQuery();
-  FQuery.SQL.Clear;
-  FQuery.SQL.Add(CRUDSELECT);
-  if aParam[0] = 'FILTRO' then
-  begin
-    FQuery.SQL.Add('where ' + aParam[1]);
+  try
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDSELECT;
+    FCRUD.TableName := TABLENAME;
+    FQuery.Active := False;
+    if FCRUD.Search(aParam) then
+    begin
+      if not FCRUD.Query.IsEmpty then
+      begin
+        FQuery := FCRUD.Query;
+        FCRUD.Query.Connection.Connected := False;
+        Result := True;
+      end;
+    end;
+  finally
+    FCRUD.free;
   end;
-  if aParam[0] = 'APOIO' then
-  begin
-    FQuery.SQL.Clear;
-    FQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
-  end;
-  FQuery.Open();
-  if FQuery.IsEmpty then
-  begin
-    Exit;
-  end;
-  Result := True;
 end;
 
 procedure TFuelSupplies.SetID(const Value: integer);
@@ -191,17 +178,14 @@ begin
 end;
 
 function TFuelSupplies.Update: boolean;
-var
-  FDQuery: TFDQuery;
-  iRecords: integer;
 begin
-  Result := false;
+  Result := False;
   try
-    FDQuery := FConn.ReturnQuery;
-    iRecords := FDQuery.ExecSQL(CRUDUPDATE,FUpdateFields);
-    Result := (iRecords > 0);
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDUPDATE;
+    Result := FCRUD.UpdateExec(FUpdateFields);
   finally
-    FDQuery.Connection.Connected := False;
+    FCRUD.free;
   end;
 end;
 

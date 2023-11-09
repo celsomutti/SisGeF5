@@ -9,7 +9,7 @@ type
   TControllerTravelControl = class
   private
     FTravel: TTravelControl;
-    FFieldsQuery: TStringlist;
+    FFieldsQuery: array of variant;
   public
     constructor Create;
     destructor Destroy;
@@ -29,7 +29,6 @@ implementation
 
 constructor TControllerTravelControl.Create;
 begin
-  FFieldsQuery := TStringlist.Create;
   FFieldsQuery := ['ID_CONTROLE', 'NUM_SM', 'DAT_TRANSPORTE', 'COD_CLIENTE',
     'DES_OPERACAO', 'DES_PLACA', 'COD_MOTORISTA', 'QTD_KM_SAIDA', 'HOR_SAIDA',
     'QTD_KM_RETORNO', 'HOR_RETORNO', 'QTD_KM_RODADO', 'DES_SERVICO', 'DES_OBS',
@@ -44,27 +43,12 @@ end;
 
 function TControllerTravelControl.GetFieldsParam
   (var aParam: array of variant): boolean;
+var
+  i: integer;
 begin
-try
-    aParam[0] := FTravel.Query.FieldByName(FFieldsQuery[0]).Value;
-    aParam[1] := FTravel.Query.FieldByName(FFieldsQuery[1]).Value;
-    aParam[2] := FTravel.Query.FieldByName(FFieldsQuery[2]).Value;
-    aParam[3] := FTravel.Query.FieldByName(FFieldsQuery[3]).Value;
-    aParam[4] := FTravel.Query.FieldByName(FFieldsQuery[4]).Value;
-    aParam[5] := FTravel.Query.FieldByName(FFieldsQuery[5]).Value;
-    aParam[6] := FTravel.Query.FieldByName(FFieldsQuery[6]).Value;
-    aParam[7] := FTravel.Query.FieldByName(FFieldsQuery[7]).Value;
-    aParam[8] := FTravel.Query.FieldByName(FFieldsQuery[8]).Value;
-    aParam[9] := FTravel.Query.FieldByName(FFieldsQuery[9]).Value;
-    aParam[10] := FTravel.Query.FieldByName(FFieldsQuery[10]).Value;
-    aParam[11] := FTravel.Query.FieldByName(FFieldsQuery[11]).Value;
-    aParam[12] := FTravel.Query.FieldByName(FFieldsQuery[12]).Value;
-    aParam[13] := FTravel.Query.FieldByName(FFieldsQuery[13]).Value;
-    aParam[14] := FTravel.Query.FieldByName(FFieldsQuery[14]).Value;
-    aParam[15] := FTravel.Query.FieldByName(FFieldsQuery[15]).Value;
-    aParam[16] := FTravel.Query.FieldByName(FFieldsQuery[16]).Value;
-  except on E: Exception do
-    ShowMessage(E.Message);
+  for i := 0 to Pred(FTravel.Query.FieldCount) do
+  begin
+    aParam[i] := FTravel.Query.FieldByName(FFieldsQuery[i]).Value;
   end;
 end;
 
@@ -75,7 +59,7 @@ end;
 
 function TControllerTravelControl.Search(aParam: array of variant): boolean;
 begin
-  Result = FTravel.Search(aPAram);
+  Result := FTravel.Search(aPAram);
 end;
 
 function TControllerTravelControl.SetupFieldsClass
@@ -109,7 +93,7 @@ if (FTravel.Acao = tacIncluir) or (FTravel.Acao = tacAlterar)  then
     FTravel.Cliente := FTravel.Query.FieldByName(FFieldsQuery[3]).Value;
     FTravel.Operacao := FTravel.Query.FieldByName(FFieldsQuery[4]).Value;
     FTravel.PlacaVeiculo := FTravel.Query.FieldByName(FFieldsQuery[5]).Value;
-    FTravel.Motorista := FTravel.Query.FieldByName(FFieldsQuery[6]).Value;).Value;
+    FTravel.Motorista := FTravel.Query.FieldByName(FFieldsQuery[6]).Value;
     FTravel.KMSaida := FTravel.Query.FieldByName(FFieldsQuery[7]).Value;
     FTravel.HoraSaida := FTravel.Query.FieldByName(FFieldsQuery[8]).Value;
     FTravel.KMRetorno := FTravel.Query.FieldByName(FFieldsQuery[9]).Value;

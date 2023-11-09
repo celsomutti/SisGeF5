@@ -2,13 +2,13 @@ unit Model.SisGeFTravelControl;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils,
-  Common.Utils, System.DateUtils;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils,
+  Common.Utils, System.DateUtils, DAO.SisGeFCRUDRoutines;
 
 type
   TTravelControl = class
   private
-    Fconn: TConexao;
+    FCRUD: TDAOCRUDRoutines;
     FAction: TAcao;
     FHoraSaida: ttime;
     FKMSaida: double;
@@ -89,35 +89,29 @@ begin
   FKMRetorno, FHoraRetorno, FKMRodado, FServico, FObservacao, FValorServico, FStatus, FLog];
   FUpdateFields := [FSM, FData, FCliente, FOperacao, FPlacaVeiculo, FMotorista, FKMSaida, FHoraSaida,
   FKMRetorno, FHoraRetorno, FKMRodado, FServico, FObservacao, FValorServico, FStatus, FLog, FID];
-  FConn := TConexao.Create;
 end;
 
 function TTravelControl.Delete: boolean;
-var
-  FDQuery : TFDQuery;
-  iRecords: integer;
 begin
+  Result := False;
   try
-    FDQuery := FConn.ReturnQuery;
-    iRecords := FDQuery.ExecSQL(CRUDDELETE,[FID]);
-    Result := (iRecords > 0);
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDDELETE;
+    Result := FCRUD.UpdateExec([FID]);
   finally
-    FDQuery.Connection.Connected := False;
+    FCRUD.free;
   end;
 end;
 
 function TTravelControl.Insert: boolean;
-var
-  FDQuery: TFDQuery;
-  iRecords: integer;
 begin
-  Result := false;
+  Result := False;
   try
-    FDQuery := FConn.ReturnQuery;
-    iRecords := FDQuery.ExecSQL(CRUDINSERT,FInsertFields);
-    Result := (iRecords > 0);
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDINSERT;
+    Result := FCRUD.UpdateExec(FInsertFields);
   finally
-    FDQuery.Connection.Connected := False;
+    FCRUD.free;
   end;
 end;
 
@@ -136,38 +130,38 @@ end;
 function TTravelControl.Search(aParam: array of variant): boolean;
 begin
   Result := False;
-  FQuery := FConn.ReturnQuery();
-  FQuery.SQL.Clear;
-  FQuery.SQL.Add(CRUDSELECT);
-  if aParam[0] = 'FILTRO' then
-  begin
-    FQuery.SQL.Add('where ' + aParam[1]);
+  try
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDSELECT;
+    FCRUD.TableName := TABLENAME;
+    FQuery.Active := False;
+    if FCRUD.Search(aParam) then
+    begin
+      if not FCRUD.Query.IsEmpty then
+      begin
+        FQuery := FCRUD.Query;
+        FCRUD.Query.Connection.Connected := False;
+        Result := True;
+      end
+      else
+      begin
+        Result := False;
+      end;
+    end;
+  finally
+    FCRUD.free;
   end;
-  if aParam[0] = 'APOIO' then
-  begin
-    FQuery.SQL.Clear;
-    FQuery.SQL.Add('select  ' + aParam[1] + ' from ' + TABLENAME + ' ' + aParam[2]);
-  end;
-  FQuery.Open();
-  if FQuery.IsEmpty then
-  begin
-    Exit;
-  end;
-  Result := True;
 end;
 
 function TTravelControl.Update: boolean;
-var
-  FDQuery: TFDQuery;
-  iRecords: integer;
 begin
-  Result := false;
+  Result := False;
   try
-    FDQuery := FConn.ReturnQuery;
-    iRecords := FDQuery.ExecSQL(CRUDUPDATE,FUpdateFields);
-    Result := (iRecords > 0);
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDUPDATE;
+    Result := FCRUD.UpdateExec(FUpdateFields);
   finally
-    FDQuery.Connection.Connected := False;
+    FCRUD.free;
   end;
 end;
 

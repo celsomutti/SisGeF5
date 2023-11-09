@@ -3,14 +3,13 @@ unit Model.SisGeFConsumptionInputs;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils,
-  Common.Utils, System.DateUtils;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils,
+  Common.Utils, System.DateUtils, DAO.SisGeFCRUDRoutines;
 
   type
     TConsumptionInputs = class
     private
-      FConn: TConexao;
-
+      FCRUD : TDAOCRUDRoutines;
       FViagem: integer;
       FID: integer;
       FFlagEstoque: string;
@@ -49,7 +48,7 @@ uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils,
       function Search(aParam: array of variant): boolean;
     end;
 
-    const
+  const
     TABLENAME = 'tbconsumoinsumos';
     CRUDSELECT = 'SELECT ID_CONSUMO, ID_INSUMO, DES_PLACA, DAT_CONSUMO, QTD_KM_CONSUMO, ID_CONTROLE, QTD_CONSUMO, VAL_CONSUMO, ' +
                  'DOM_ESTOQUE, DES_LOG ' +
@@ -71,44 +70,98 @@ implementation
 
 function TConsumptionInputs.Update: boolean;
 begin
-
+  Result := False;
+  try
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDUPDATE;
+    Result := FCRUD.UpdateExec(FUpdateFields);
+  finally
+    FCRUD.free;
+  end;
 end;
 
 constructor TConsumptionInputs.Create;
 begin
   FInsertFields := [FID, FIDInsumo, FPlacaVeiculo, FData, FKMConsumo, FViagem, FQuantidade, FValorConsumo, FFlagEstoque, FLog];
-  FUpdateFields := [FID, FIDInsumo, FPlacaVeiculo, FData, FKMConsumo, FViagem, FQuantidade, FValorConsumo, FFlagEstoque, FLog];
-  FConn := TConexao.Create;
+  FUpdateFields := [FIDInsumo, FPlacaVeiculo, FData, FKMConsumo, FViagem, FQuantidade, FValorConsumo, FFlagEstoque, FLog, FID];
 end;
 
 function TConsumptionInputs.Delete: boolean;
 begin
-
+  Result := False;
+  try
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDDELETE;
+    Result := FCRUD.UpdateExec([FID]);
+  finally
+    FCRUD.free;
+  end;
 end;
 
 function TConsumptionInputs.GetId: integer;
 begin
-
+  Result := 0;
+  try
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDGETID;
+    Result := FCRUD.GetId;
+  finally
+    FCRUD.free;
+  end;
 end;
 
 function TConsumptionInputs.Insert: boolean;
 begin
-
+  Result := False;
+  try
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDINSERT;
+    Result := FCRUD.UpdateExec(FInsertFields);
+  finally
+    FCRUD.free;
+  end;
 end;
 
 function TConsumptionInputs.Save: boolean;
 begin
-
+  Result := false;
+  case FAction of
+    tacIncluir : Result := Insert();
+    tacAlterar : Result := Update();
+    tacExcluir : Result := Delete();
+    else
+      Exit;
+  end;
 end;
 
 function TConsumptionInputs.Search(aParam: array of variant): boolean;
 begin
-
+  Result := False;
+  try
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDSELECT;
+    FCRUD.TableName := TABLENAME;
+    FQuery.Active := False;
+    if FCRUD.Search(aParam) then
+    begin
+      if not FCRUD.Query.IsEmpty then
+      begin
+        FQuery := FCRUD.Query;
+        FCRUD.Query.Connection.Connected := False;
+        Result := True;
+      end;
+    end;
+  finally
+    FCRUD.free;
+  end;
 end;
 
 procedure TConsumptionInputs.SetID(const Value: integer);
 begin
-  FID := Value;
+  if FAction = tacIncluir then
+    FID := Self.GetId
+  else
+    FID := Value;
 end;
 
 end.
