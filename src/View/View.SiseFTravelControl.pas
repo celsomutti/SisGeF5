@@ -3,15 +3,25 @@ unit View.SiseFTravelControl;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore,
-  dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxLabel,
-  dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, System.Actions, Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, dxCore,
-  cxDateUtils, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage,
-  cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel,
-  cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, cxCurrencyEdit, cxTimeEdit, cxDBLookupComboBox, cxButtonEdit, cxSpinEdit, cxMemo;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, dxSkinsCore,
+  dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl,
+  cxContainer, cxEdit, dxLayoutcxEditAdapters, cxLabel,
+  dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, System.Actions,
+  Vcl.ActnList, Vcl.ExtCtrls, Vcl.ComCtrls, dxCore,
+  cxDateUtils, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxStyles,
+  cxCustomData, cxFilter, cxData, cxDataStorage,
+  cxNavigator, dxDateRanges,
+  cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
+  cxGridLevel,
+  cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
+  cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, cxCurrencyEdit, cxTimeEdit, cxDBLookupComboBox,
+  cxButtonEdit, cxSpinEdit, cxMemo, cxImageComboBox, System.DateUtils;
 
 type
   TPageTravelControl = class(TForm)
@@ -179,10 +189,14 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionExitPageExecute(Sender: TObject);
     procedure actionPriorPageExecute(Sender: TObject);
+    procedure actionSearchExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     procedure BuildPageLabel;
     procedure ClosePage;
+    procedure BuildInitialList;
+    procedure SearchPeriod;
   public
     { Public declarations }
   end;
@@ -194,7 +208,10 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, Controller.SisGeFConsumptionInputs,
+  Controller.SisGeFDestinationTravel, Controller.SisGeFFuelSupplies,
+  Controller.SisGeFTravelControl, Controller.SisGeFVehiclesRegistration,
+  Services.SisGeFDAORoutines;
 
 { TPageTravelControl }
 
@@ -208,6 +225,18 @@ begin
   LayoutBody.ItemIndex := 0;
 end;
 
+procedure TPageTravelControl.actionSearchExecute(Sender: TObject);
+begin
+  SearchPeriod;
+end;
+
+procedure TPageTravelControl.BuildInitialList;
+begin
+  dateEditInicial.Date :=  IncDay(Now,-15);
+  dateEditFinalDate.Date := IncDay(Now,-1);
+  SearchPeriod;
+end;
+
 procedure TPageTravelControl.BuildPageLabel;
 begin
   LabelPageTitle.Caption := Self.Caption;
@@ -218,7 +247,8 @@ begin
   Self.Close;
 end;
 
-procedure TPageTravelControl.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TPageTravelControl.FormClose(Sender: TObject;
+  var Action: TCloseAction);
 begin
   Action := caFree;
   PageTravelControl := Nil;
@@ -227,6 +257,40 @@ end;
 procedure TPageTravelControl.FormCreate(Sender: TObject);
 begin
   BuildPageLabel;
+end;
+
+procedure TPageTravelControl.FormShow(Sender: TObject);
+begin
+  BuildInitialList;
+end;
+
+procedure TPageTravelControl.SearchPeriod;
+var
+  FTravelList: TServicesDAORoutines;
+  sSentence: string;
+  aParam: array of variant;
+begin
+  try
+    if dateEditInicial.Date > dateEditFinalDate.Date then
+    begin
+      MessageDlg('Data inicial menor que data final. Verifique.', mtWarning, [mbOK], 0);
+      dateEditInicial.SetFocus;
+      Exit;
+    end;
+    FTravelList := TServicesDAORoutines.Create;
+    sSentence := 'select * from view_listTravel where dat_transporte between ' +
+      QuotedStr(FormatDateTime('yyyy-mm-dd', dateEditInicial.Date)) + ' and ' +
+      QuotedStr(FormatDateTime('yyyy-mm-dd', dateEditFinalDate.Date));
+    aParam := ['SQL', sSentence];
+    memTableTravels.Active := False;
+    if FTravelList.ExecSentence(aParam) then
+    begin
+      memTableTravels.CopyDataSet(FTravelList.Query);
+      FTravelList.Query.Connection.Connected := False;
+    end;
+  finally
+    FTravelList.Free;
+  end;
 end;
 
 end.

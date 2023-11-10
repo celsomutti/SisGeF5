@@ -66,6 +66,11 @@ begin
     FQuery.SQL.Clear;
     FQuery.SQL.Add('select  ' + FValuesParam[1] + ' from ' + FTableName + ' ' + FValuesParam[2]);
   end;
+  if FValuesParam[0] = 'SQL' then
+  begin
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add(FValuesParam[1]);
+  end;
   FQuery.Open();
   if FQuery.IsEmpty then
   begin

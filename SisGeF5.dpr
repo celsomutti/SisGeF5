@@ -320,7 +320,8 @@ uses
   Model.SisGeFTransportInputs in 'src\Model\Model.SisGeFTransportInputs.pas',
   Controller.SisGeFTransportInputs in 'src\Control\Controller.SisGeFTransportInputs.pas',
   Model.SisGeFDestinationTravel in 'src\Model\Model.SisGeFDestinationTravel.pas',
-  Controller.SisGeFDestinationTravel in 'src\Control\Controller.SisGeFDestinationTravel.pas';
+  Controller.SisGeFDestinationTravel in 'src\Control\Controller.SisGeFDestinationTravel.pas',
+  Services.SisGeFDAORoutines in 'src\Services\Services.SisGeFDAORoutines.pas';
 
 {$R *.res}
 
