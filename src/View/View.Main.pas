@@ -306,7 +306,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals,
   View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
-  View.SisGeFOcorrenciasJornal, View.SiseFTravelControl;
+  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl;
 
 procedure Tview_Main.Acessos;
 var

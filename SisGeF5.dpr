@@ -309,7 +309,7 @@ uses
   Model.SisGeFTiposOcorrenciaJornal in 'src\Model\Model.SisGeFTiposOcorrenciaJornal.pas',
   Controller.SisGeFTiposOcorrenciaJornal in 'src\Control\Controller.SisGeFTiposOcorrenciaJornal.pas',
   View.SisGeFOcorrenciasJornal in 'src\View\View.SisGeFOcorrenciasJornal.pas' {view_SisGeFOcorrenciasJornal},
-  View.SiseFTravelControl in 'src\View\View.SiseFTravelControl.pas' {PageTravelControl},
+  View.SisGeFTravelControl in 'src\View\View.SisGeFTravelControl.pas' {PageTravelControl},
   Model.SisGeFFuelSupplies in 'src\Model\Model.SisGeFFuelSupplies.pas',
   Controller.SisGeFFuelSupplies in 'src\Control\Controller.SisGeFFuelSupplies.pas',
   Model.SisGeFTravelControl in 'src\Model\Model.SisGeFTravelControl.pas',

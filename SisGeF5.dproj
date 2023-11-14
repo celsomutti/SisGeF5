@@ -605,7 +605,7 @@
         <DCCReference Include="src\View\View.SisGeFOcorrenciasJornal.pas">
             <Form>view_SisGeFOcorrenciasJornal</Form>
         </DCCReference>
-        <DCCReference Include="src\View\View.SiseFTravelControl.pas">
+        <DCCReference Include="src\View\View.SisGeFTravelControl.pas">
             <Form>PageTravelControl</Form>
         </DCCReference>
         <DCCReference Include="src\Model\Model.SisGeFFuelSupplies.pas"/>

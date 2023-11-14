@@ -30,6 +30,7 @@ type
     FUpdateFields: array of variant;
     FHoraRetorno: ttime;
     FLog: string;
+    FMessage: string;
     function Insert(): boolean;
     function Update(): boolean;
     function Delete(): boolean;
@@ -53,6 +54,7 @@ type
     property Log: string read FLog write FLog;
     property Acao: TAcao read FAction write FAction;
     property Query: TFDQuery read FQuery write FQuery;
+    property Mensagem: string write FMessage;
 
     constructor Create;
     function Save(): boolean;
