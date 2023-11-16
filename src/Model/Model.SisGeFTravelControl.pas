@@ -8,6 +8,7 @@ uses Common.ENum, FireDAC.Comp.Client, System.SysUtils,
 type
   TTravelControl = class
   private
+    FFieldsQuery: array of variant;
     FCRUD: TDAOCRUDRoutines;
     FAction: TAcao;
     FHoraSaida: ttime;
@@ -59,6 +60,7 @@ type
     constructor Create;
     function Save(): boolean;
     function Search(aParam: array of variant): boolean;
+    function SetupFieldsClass(): boolean;
   end;
 
   const
@@ -87,6 +89,10 @@ implementation
 
 constructor TTravelControl.Create;
 begin
+  FFieldsQuery := ['ID_CONTROLE', 'NUM_SM', 'DAT_TRANSPORTE', 'COD_CLIENTE',
+    'DES_OPERACAO', 'DES_PLACA', 'COD_MOTORISTA', 'QTD_KM_SAIDA', 'HOR_SAIDA',
+    'QTD_KM_RETORNO', 'HOR_RETORNO', 'QTD_KM_RODADO', 'DES_SERVICO', 'DES_OBS',
+    'VAL_SERVICO', 'COD_STATUS', 'DES_LOG'];
   FInsertFields := [FSM, FData, FCliente, FOperacao, FPlacaVeiculo, FMotorista, FKMSaida, FHoraSaida,
   FKMRetorno, FHoraRetorno, FKMRodado, FServico, FObservacao, FValorServico, FStatus, FLog];
   FUpdateFields := [FSM, FData, FCliente, FOperacao, FPlacaVeiculo, FMotorista, FKMSaida, FHoraSaida,
@@ -136,13 +142,13 @@ begin
     FCRUD := TDAOCRUDRoutines.Create;
     FCRUD.CRUDSentence := CRUDSELECT;
     FCRUD.TableName := TABLENAME;
-    FQuery.Active := False;
+
     if FCRUD.Search(aParam) then
     begin
       if not FCRUD.Query.IsEmpty then
       begin
         FQuery := FCRUD.Query;
-        FCRUD.Query.Connection.Connected := False;
+//        FCRUD.Query.Connection.Connected := False;
         Result := True;
       end
       else
@@ -153,6 +159,29 @@ begin
   finally
     FCRUD.free;
   end;
+end;
+
+function TTravelControl.SetupFieldsClass: boolean;
+begin
+  Result := False;
+  FID := FQuery.FieldByName(FFieldsQuery[0]).Value;
+  FSM := FQuery.FieldByName(FFieldsQuery[1]).Value;
+  FData := FQuery.FieldByName(FFieldsQuery[2]).Value;
+  FCliente := FQuery.FieldByName(FFieldsQuery[3]).Value;
+  FOperacao := FQuery.FieldByName(FFieldsQuery[4]).Value;
+  FPlacaVeiculo := FQuery.FieldByName(FFieldsQuery[5]).Value;
+  FMotorista := FQuery.FieldByName(FFieldsQuery[6]).Value;
+  FKMSaida := FQuery.FieldByName(FFieldsQuery[7]).Value;
+  FHoraSaida := FQuery.FieldByName(FFieldsQuery[8]).Value;
+  FKMRetorno := FQuery.FieldByName(FFieldsQuery[9]).Value;
+  FHoraRetorno := FQuery.FieldByName(FFieldsQuery[10]).Value;
+  FKMRodado := FQuery.FieldByName(FFieldsQuery[11]).Value;
+  FServico := FQuery.FieldByName(FFieldsQuery[12]).Value;
+  FObservacao := FQuery.FieldByName(FFieldsQuery[13]).Value;
+  FValorServico := FQuery.FieldByName(FFieldsQuery[14]).Value;
+  FStatus := FQuery.FieldByName(FFieldsQuery[15]).Value;
+  FLog := FQuery.FieldByName(FFieldsQuery[16]).Value;
+  Result := True;
 end;
 
 function TTravelControl.Update: boolean;

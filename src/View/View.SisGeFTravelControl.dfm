@@ -122,6 +122,7 @@ object PageTravelControl: TPageTravelControl
         Navigator.Buttons.Filter.ImageIndex = 96
         Navigator.InfoPanel.Visible = True
         Navigator.Visible = True
+        OnCellDblClick = gridTravelsDBTableView1CellDblClick
         DataController.DataSource = dataSourceTravels
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
@@ -628,6 +629,7 @@ object PageTravelControl: TPageTravelControl
     object CurrencyEditFinalKM: TcxCurrencyEdit
       Left = 659
       Top = 483
+      Properties.DisplayFormat = ',0.;-,0.'
       Style.HotTrack = False
       TabOrder = 26
       Width = 121
@@ -1266,6 +1268,7 @@ object PageTravelControl: TPageTravelControl
       Caption = '&Editar'
       Hint = 'Editar viagem'
       ImageIndex = 95
+      OnExecute = actionEditTravelExecute
     end
     object actionCancelTravel: TAction
       Category = 'Page'

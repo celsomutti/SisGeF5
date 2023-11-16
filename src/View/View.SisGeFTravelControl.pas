@@ -21,7 +21,11 @@ uses
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, cxCurrencyEdit, cxTimeEdit, cxDBLookupComboBox,
-  cxButtonEdit, cxSpinEdit, cxMemo, cxImageComboBox, System.DateUtils;
+  cxButtonEdit, cxSpinEdit, cxMemo, cxImageComboBox, System.DateUtils,
+  Controller.SisGeFConsumptionInputs,
+  Controller.SisGeFDestinationTravel, Controller.SisGeFFuelSupplies,
+  Controller.SisGeFTravelControl, Controller.SisGeFVehiclesRegistration,
+  Services.SisGeFDAORoutines, Common.Utils;
 
 type
   TPageTravelControl = class(TForm)
@@ -193,6 +197,9 @@ type
     procedure FormShow(Sender: TObject);
     procedure actionExportExecute(Sender: TObject);
     procedure LayoutBodyTabChanged(Sender: TObject);
+    procedure actionEditTravelExecute(Sender: TObject);
+    procedure gridTravelsDBTableView1CellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+      AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
   private
     { Private declarations }
     procedure BuildPageLabel;
@@ -201,6 +208,8 @@ type
     procedure SearchPeriod;
     procedure ExportGrid;
     procedure ClearForm;
+    procedure SetupFormFields(FTravel: TControllerTravelControl);
+    procedure SearchTravel;
   public
     { Public declarations }
   end;
@@ -212,12 +221,16 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, Controller.SisGeFConsumptionInputs,
-  Controller.SisGeFDestinationTravel, Controller.SisGeFFuelSupplies,
-  Controller.SisGeFTravelControl, Controller.SisGeFVehiclesRegistration,
-  Services.SisGeFDAORoutines, Common.Utils;
+uses Data.SisGeF;
 
 { TPageTravelControl }
+
+procedure TPageTravelControl.actionEditTravelExecute(Sender: TObject);
+begin
+  if memTableTravels.IsEmpty then
+    Exit;
+  SearchTravel;
+end;
 
 procedure TPageTravelControl.actionExitPageExecute(Sender: TObject);
 begin
@@ -327,6 +340,14 @@ begin
   BuildInitialList;
 end;
 
+procedure TPageTravelControl.gridTravelsDBTableView1CellDblClick(Sender: TcxCustomGridTableView;
+  ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  if memTableTravels.IsEmpty then
+    Exit;
+  SearchTravel();
+end;
+
 procedure TPageTravelControl.LayoutBodyTabChanged(Sender: TObject);
 begin
   if LayoutBody.ItemIndex = 1 then
@@ -362,6 +383,76 @@ begin
   finally
     FTravelList.Free;
   end;
+end;
+
+procedure TPageTravelControl.SearchTravel;
+var
+  FTravelList: TControllerTravelControl;
+  sSentence: string;
+  aParam: array of variant;
+begin
+  try
+    FTravelList := TControllerTravelControl.Create;
+    sSentence := 'id_controle = ' + memTableTravelsid_controle.AsString;
+    aParam := ['FILTRO', sSentence];
+    memTableTravels.Active := False;
+    if FTravelList.Search(aParam) then
+    begin
+      if FTravelList.SetupFieldsClass then
+      begin
+        SetupFormFields(FTravelList);
+        LayoutBody.ItemIndex := 1;
+      end;
+      FTravelList.Travel.Query.Connection.Connected := False;
+    end;
+  finally
+    FTravelList.Free;
+  end;
+end;
+
+procedure TPageTravelControl.SetupFormFields(FTravel : TControllerTravelControl);
+begin
+  maskEditTravelID.EditValue := FTravel.Travel.ID;
+  DateEditTravelDate.EditValue := FTravel.Travel.Data;
+  ComboBoxTravelOperation.Text := FTravel.Travel.Operacao;
+  ButtonEdittravelCodeTaker.EditValue := FTravel.Travel.Cliente;
+//  TextEditTravelNameTaker.Text := '';
+  ButtonEditTravelDriverCode.EditValue := FTravel.Travel.Motorista;
+//  TextEditTravelDriverName.Text := '';
+  ButtonEditTavelVehicle.EditValue := FTravel.Travel.PlacaVeiculo;
+  CurrencyEditTravelInitialKM.Value := FTravel.Travel.KMSaida;
+  TimeEditTravelDepartureTime.EditValue := FTravel.Travel.HoraSaida;
+//  MemTableTravelDestination.Active := False;
+//  MemTableTravelDestination.Active := True;
+//  MemTableFuelSupplies.Active := False;
+//  MemTableFuelSupplies.Active := True;
+//  MemTableInputs.Active := False;
+//  MemTableInputs.Active := True;
+  MemoObs.Text := FTravel.Travel.Observacao;
+  ComboBoxStatus.EditValue := FTravel.Travel.Status;
+  CurrencyEditFinalKM.Value := FTravel.Travel.KMRetorno;
+  TimeEditreturnTime.EditValue := FTravel.Travel.HoraRetorno;
+
+  //    maskEditTravelID.EditValue := aParam[0];
+//    DateEditTravelDate.EditValue := aParam[2];
+//    ComboBoxTravelOperation.ItemIndex := aParam[4];
+//    ButtonEdittravelCodeTaker.EditValue := aParam[3];
+//    TextEditTravelNameTaker.Text := '';
+//    ButtonEditTravelDriverCode.EditValue := aParam[6];
+//    TextEditTravelDriverName.Text := '';
+//    ButtonEditTavelVehicle.EditValue := aParam[5];
+//    CurrencyEditTravelInitialKM.Value := aParam[7];
+//    TimeEditTravelDepartureTime.EditValue := aParam[8];
+//    MemTableTravelDestination.Active := False;
+//    MemTableTravelDestination.Active := True;
+//    MemTableFuelSupplies.Active := False;
+//    MemTableFuelSupplies.Active := True;
+//    MemTableInputs.Active := False;
+//    MemTableInputs.Active := True;
+//    MemoObs.Text := aParam[13];
+//    ComboBoxStatus.EditValue := aParam[15];
+//    CurrencyEditFinalKM.Value := aParam[9];
+//    TimeEditreturnTime.EditValue := aParam[10];
 end;
 
 end.
