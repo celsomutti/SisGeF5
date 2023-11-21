@@ -141,14 +141,17 @@ begin
     FCRUD := TDAOCRUDRoutines.Create;
     FCRUD.CRUDSentence := CRUDSELECT;
     FCRUD.TableName := TABLENAME;
-    FQuery.Active := False;
+
     if FCRUD.Search(aParam) then
     begin
       if not FCRUD.Query.IsEmpty then
       begin
         FQuery := FCRUD.Query;
-        FCRUD.Query.Connection.Connected := False;
         Result := True;
+      end
+      else
+      begin
+        Result := false;
       end;
     end;
   finally

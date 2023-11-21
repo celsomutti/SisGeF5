@@ -61,6 +61,7 @@ type
     function Save(): boolean;
     function Search(aParam: array of variant): boolean;
     function SetupFieldsClass(): boolean;
+    function GetValueField(aParam: array of variant): string;
   end;
 
   const
@@ -111,6 +112,25 @@ begin
   end;
 end;
 
+function TTravelControl.GetValueField(aParam: array of variant): string;
+begin
+ Result := '';
+  try
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.TableName := TABLENAME;
+
+    if FCRUD.Search(aParam) then
+    begin
+      if not FCRUD.Query.IsEmpty then
+      begin
+        Result := FCRUD.Query.FieldByName(aParam[1]).asString;
+      end;
+    end;
+  finally
+    FCRUD.free;
+  end;
+end;
+
 function TTravelControl.Insert: boolean;
 begin
   Result := False;
@@ -148,7 +168,6 @@ begin
       if not FCRUD.Query.IsEmpty then
       begin
         FQuery := FCRUD.Query;
-//        FCRUD.Query.Connection.Connected := False;
         Result := True;
       end
       else

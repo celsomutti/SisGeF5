@@ -40,7 +40,7 @@ type
 
   const
     TABLENAME = 'trs_destinos';
-    CRUDSELECT = 'SELECT ICOD_DESTINO, DES_DESTINO, COD_AGENTE, DES_LOG, ID_CONTROLE ' +
+    CRUDSELECT = 'SELECT COD_DESTINO, DES_DESTINO, COD_AGENTE, DES_LOG, ID_CONTROLE ' +
                  'FROM ' + TABLENAME;
     CRUDINSERT = 'INSERT INTO ' + TABLENAME + ' (COD_DESTINO, DES_DESTINO, COD_AGENTE, DES_LOG, ID_CONTROLE) ' +
                  'VALUES (:COD_DESTINO, :DES_DESTINO, :COD_AGENTE, :DES_LOG, :ID_CONTROLE)';
@@ -116,14 +116,17 @@ begin
     FCRUD := TDAOCRUDRoutines.Create;
     FCRUD.CRUDSentence := CRUDSELECT;
     FCRUD.TableName := TABLENAME;
-    FQuery.Active := False;
+
     if FCRUD.Search(aParam) then
     begin
       if not FCRUD.Query.IsEmpty then
       begin
         FQuery := FCRUD.Query;
-        FCRUD.Query.Connection.Connected := False;
         Result := True;
+      end
+      else
+      begin
+        Result := false;
       end;
     end;
   finally
