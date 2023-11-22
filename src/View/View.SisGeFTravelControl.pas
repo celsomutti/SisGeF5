@@ -170,8 +170,6 @@ type
     MemoObs: TcxMemo;
     LayoutMemoObs: TdxLayoutItem;
     LayoutOptionsFinal: TdxLayoutGroup;
-    ComboBoxStatus: TcxComboBox;
-    LayoutComboBoxStatus: TdxLayoutItem;
     LayoutDataFinal: TdxLayoutGroup;
     CurrencyEditFinalKM: TcxCurrencyEdit;
     LayoutCurrencyEditFinalKM: TdxLayoutItem;
@@ -189,6 +187,12 @@ type
     CurrencyEditTotalKM: TcxCurrencyEdit;
     LayoutTotalKM: TdxLayoutItem;
     cxGridPopupMenu1: TcxGridPopupMenu;
+    ImageComboBox1Status: TcxImageComboBox;
+    LayoutImageComboStatus: TdxLayoutItem;
+    actionSearchTaker: TAction;
+    actionSearchDrivers: TAction;
+    actionSearchVehicles: TAction;
+    actionSearchBases: TAction;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionExitPageExecute(Sender: TObject);
@@ -215,8 +219,12 @@ type
     procedure PoputateTravelInputs(iId: integer);
     procedure PopulateInputs;
     procedure CloseMemTable;
-    function GetNameTaker(): string;
-    function GetDriverName(): string;
+    function GetNameTaker(iId: integer): string;
+    function GetDriverName(iId: integer): string;
+    procedure SearchTaker;
+    procedure SearchDriver;
+    procedure SearchVEhicle;
+    procedure SearchBase;
   public
     { Public declarations }
   end;
@@ -228,7 +236,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, View.SisGeFGeneralSearch;
 
 { TPageTravelControl }
 
@@ -291,7 +299,7 @@ begin
   MemTableInputs.Active := False;
   MemTableInputs.Active := True;
   MemoObs.Clear;
-  ComboBoxStatus.EditValue := 0;
+  ImageComboBox1Status.EditValue := 0;
   CurrencyEditFinalKM.Value := 0;
   TimeEditreturnTime.EditValue := 0;
   CurrencyEditTotalKM.Value := 0;
@@ -360,20 +368,20 @@ begin
   BuildInitialList;
 end;
 
-function TPageTravelControl.GetDriverName: string;
+function TPageTravelControl.GetDriverName(iId: integer): string;
 var
   FCadastro : TCadastroControl;
 begin
   FCadastro := TCadastroControl.Create;
   Result := '';
   try
-    Result := FCadastro.GetField('des_razao_social','cod_cadastro',ButtonEditTravelDriverCode.Text);
+    Result := FCadastro.GetField('des_razao_social','cod_cadastro', iId.ToString);
   finally
     FCadastro.Free;
   end;
 end;
 
-function TPageTravelControl.GetNameTaker: string;
+function TPageTravelControl.GetNameTaker(iId: integer): string;
 var
   FService : TServicesDAORoutines;
   aParam : array of variant;
@@ -384,7 +392,7 @@ begin
   try
     FService.TableName := '';
     FService.CRUDSentence := '';
-    sQuery := 'select nom_cliente from view_listClientsCompat where cod_cliente = ' +  ButtonEdittravelCodeTaker.Text;
+    sQuery := 'select nom_cliente from view_listClientsCompat where cod_cliente = ' +  iId.ToString;
     aParam := ['SQL', sQuery];
     if FService.ExecSentence(aParam) then
       Result := FService.Query.FieldByName('nom_cliente').AsString
@@ -514,6 +522,51 @@ begin
   end;
 end;
 
+procedure TPageTravelControl.SearchBase;
+var
+  sQuery, sName: string;
+  iId: integer;
+begin
+  sQuery := 'select cod_agente as "Código", nom_fantasia as Nome from tbagentes ';
+
+  if not Assigned(view_SisGefGeneralSearch) then
+    view_SisGefGeneralSearch := Tview_SisGefGeneralSearch.Create(Application);
+  view_SisGefGeneralSearch.sSQL := sQuery;
+  view_SisGefGeneralSearch.bOpen := True;
+  if view_SisGefGeneralSearch.ShowModal = mrOk then
+  begin
+    iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].value;
+    sName := GetDriverName(iId);
+    if (MemTableTravelDestination.State = dsEdit) or (MemTableTravelDestination.State = dsInsert) then
+    begin
+      MemTableTravelDestinationdes_destino.Value := sName;
+      MemTableTravelDestinationcod_agente.Value := iId;
+    end;
+  end;
+  FreeAndNil(view_SisGefGeneralSearch);
+end;
+
+procedure TPageTravelControl.SearchDriver;
+var
+  sQuery, sName: string;
+  iId: integer;
+begin
+  sQuery := 'select cod_cadastro as "Código", des_razao_social as Nome from tbentregadores ';
+
+  if not Assigned(view_SisGefGeneralSearch) then
+    view_SisGefGeneralSearch := Tview_SisGefGeneralSearch.Create(Application);
+  view_SisGefGeneralSearch.sSQL := sQuery;
+  view_SisGefGeneralSearch.bOpen := True;
+  if view_SisGefGeneralSearch.ShowModal = mrOk then
+  begin
+    iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].value;
+    sName := GetDriverName(iId);
+    ButtonEditTravelDriverCode.EditValue := iId;
+    TextEditTravelDriverName.Text:= sName;
+  end;
+  FreeAndNil(view_SisGefGeneralSearch);
+end;
+
 procedure TPageTravelControl.SearchPeriod;
 var
   FTravel: TServicesDAORoutines;
@@ -536,6 +589,27 @@ begin
     Finalize(aParam);
     FTravel.Free;
   end;
+end;
+
+procedure TPageTravelControl.SearchTaker;
+var
+  sQuery, sName: string;
+  iId: integer;
+begin
+  sQuery := 'select cod_cliente as "Código", nom_cliente as Nome from view_listclientscompat ';
+
+  if not Assigned(view_SisGefGeneralSearch) then
+    view_SisGefGeneralSearch := Tview_SisGefGeneralSearch.Create(Application);
+  view_SisGefGeneralSearch.sSQL := sQuery;
+  view_SisGefGeneralSearch.bOpen := True;
+  if view_SisGefGeneralSearch.ShowModal = mrOk then
+  begin
+    iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].value;
+    sName := GetNameTaker(iId);
+    ButtonEdittravelCodeTaker.EditValue := iId;
+    TextEditTravelNameTaker.Text:= sName;
+  end;
+  FreeAndNil(view_SisGefGeneralSearch);
 end;
 
 procedure TPageTravelControl.SearchTravel;
@@ -563,15 +637,32 @@ begin
   end;
 end;
 
+procedure TPageTravelControl.SearchVEhicle;
+var
+  sQuery, sPlaca: string;
+begin
+  sQuery := 'select des_placa as Placa, des_modelo as Modelo from tbveiculos ';
+
+  if not Assigned(view_SisGefGeneralSearch) then
+    view_SisGefGeneralSearch := Tview_SisGefGeneralSearch.Create(Application);
+  view_SisGefGeneralSearch.sSQL := sQuery;
+  view_SisGefGeneralSearch.bOpen := True;
+  if view_SisGefGeneralSearch.ShowModal = mrOk then
+  begin
+    sPlaca := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].value;
+    ButtonEditTavelVehicle.EditValue := sPlaca;
+  end;
+  FreeAndNil(view_SisGefGeneralSearch);end;
+
 procedure TPageTravelControl.SetupFormFields(FTravel : TControllerTravelControl);
 begin
   maskEditTravelID.EditValue := FTravel.Travel.ID;
   DateEditTravelDate.EditValue := FTravel.Travel.Data;
   ComboBoxTravelOperation.Text := FTravel.Travel.Operacao;
   ButtonEdittravelCodeTaker.EditValue := FTravel.Travel.Cliente;
-  TextEditTravelNameTaker.Text := GetNameTaker;
+  TextEditTravelNameTaker.Text := GetNameTaker(FTravel.Travel.Cliente);
   ButtonEditTravelDriverCode.EditValue := FTravel.Travel.Motorista;
-  TextEditTravelDriverName.Text := GetDriverName;
+  TextEditTravelDriverName.Text := GetDriverName(FTravel.Travel.Motorista);
   ButtonEditTavelVehicle.EditValue := FTravel.Travel.PlacaVeiculo;
   CurrencyEditTravelInitialKM.Value := FTravel.Travel.KMSaida;
   TimeEditTravelDepartureTime.EditValue := FTravel.Travel.HoraSaida;
@@ -579,7 +670,7 @@ begin
   PoputateFuelSuplies(FTravel.Travel.ID);
   PoputateTravelInputs(FTravel.Travel.ID);
   MemoObs.Text := FTravel.Travel.Observacao;
-  ComboBoxStatus.ItemIndex := FTravel.Travel.Status;
+  ImageComboBox1Status.EditValue := FTravel.Travel.Status;
   CurrencyEditFinalKM.Value := FTravel.Travel.KMRetorno;
   TimeEditreturnTime.EditValue := FTravel.Travel.HoraRetorno;
   CurrencyEditTotalKM.Value := FTravel.Travel.KMRodado;

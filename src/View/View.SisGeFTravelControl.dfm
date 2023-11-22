@@ -2,7 +2,7 @@ object PageTravelControl: TPageTravelControl
   Left = 0
   Top = 0
   Caption = 'Controle de Viagens'
-  ClientHeight = 630
+  ClientHeight = 497
   ClientWidth = 1041
   Color = clWhite
   Font.Charset = ANSI_CHARSET
@@ -23,11 +23,12 @@ object PageTravelControl: TPageTravelControl
     Left = 0
     Top = 0
     Width = 1041
-    Height = 630
+    Height = 497
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
+    ExplicitHeight = 630
     object LabelPageTitle: TcxLabel
       AlignWithMargins = True
       Left = 11
@@ -92,7 +93,7 @@ object PageTravelControl: TPageTravelControl
       Left = 10000
       Top = 10000
       Width = 989
-      Height = 451
+      Height = 350
       TabOrder = 9
       Visible = False
       object gridTravelsDBTableView1: TcxGridDBTableView
@@ -266,8 +267,8 @@ object PageTravelControl: TPageTravelControl
       Visible = False
     end
     object maskEditTravelID: TcxMaskEdit
-      Left = 74
-      Top = 79
+      Left = 61
+      Top = 60
       Hint = 'ID da viagem'
       TabStop = False
       Properties.Alignment.Horz = taRightJustify
@@ -281,16 +282,16 @@ object PageTravelControl: TPageTravelControl
       Width = 60
     end
     object DateEditTravelDate: TcxDateEdit
-      Left = 181
-      Top = 79
+      Left = 168
+      Top = 60
       Hint = 'Data da viagem'
       Style.HotTrack = False
       TabOrder = 11
       Width = 100
     end
     object ComboBoxTravelOperation: TcxComboBox
-      Left = 359
-      Top = 79
+      Left = 346
+      Top = 60
       Hint = 'Tipo de opera'#231#227'o'
       Properties.Items.Strings = (
         'Selecione ...'
@@ -304,14 +305,14 @@ object PageTravelControl: TPageTravelControl
       Width = 121
     end
     object ButtonEdittravelCodeTaker: TcxButtonEdit
-      Left = 552
-      Top = 78
+      Left = 539
+      Top = 59
       Hint = 'C'#243'digo do tomador do servi'#231'o'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
+          Action = actionSearchTaker
           Default = True
-          ImageIndex = 86
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
@@ -323,24 +324,24 @@ object PageTravelControl: TPageTravelControl
       Width = 93
     end
     object TextEditTravelNameTaker: TcxTextEdit
-      Left = 651
-      Top = 79
+      Left = 638
+      Top = 60
       Hint = 'Nome do tomador do servi'#231'o'
       TabStop = False
       Properties.ReadOnly = True
       Style.HotTrack = False
       TabOrder = 14
-      Width = 351
+      Width = 377
     end
     object ButtonEditTravelDriverCode: TcxButtonEdit
-      Left = 109
-      Top = 108
+      Left = 96
+      Top = 89
       Hint = 'C'#243'digo do motorista'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
+          Action = actionSearchDrivers
           Default = True
-          ImageIndex = 86
           Kind = bkGlyph
         end>
       Properties.IgnoreMaskBlank = True
@@ -350,55 +351,55 @@ object PageTravelControl: TPageTravelControl
       Style.HotTrack = False
       TabOrder = 15
       Text = '0'
-      Width = 106
+      Width = 111
     end
     object TextEditTravelDriverName: TcxTextEdit
-      Left = 221
-      Top = 109
+      Left = 213
+      Top = 90
       TabStop = False
       Properties.ReadOnly = True
       Style.HotTrack = False
       TabOrder = 16
-      Width = 248
+      Width = 254
     end
     object ButtonEditTavelVehicle: TcxButtonEdit
-      Left = 530
-      Top = 108
+      Left = 528
+      Top = 89
       Hint = 'Placa do ve'#237'culo'
       Properties.Buttons = <
         item
+          Action = actionSearchVehicles
           Default = True
-          ImageIndex = 86
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
       Style.HotTrack = False
       TabOrder = 17
-      Width = 115
+      Width = 120
     end
     object CurrencyEditTravelInitialKM: TcxCurrencyEdit
-      Left = 715
-      Top = 109
+      Left = 718
+      Top = 90
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DecimalPlaces = 0
       Properties.DisplayFormat = ',0.;-,0.'
       Style.HotTrack = False
       TabOrder = 18
-      Width = 105
+      Width = 110
     end
     object TimeEditTravelDepartureTime: TcxTimeEdit
-      Left = 906
-      Top = 109
+      Left = 914
+      Top = 90
       Properties.TimeFormat = tfHourMin
       Style.HotTrack = False
       TabOrder = 19
-      Width = 96
+      Width = 101
     end
     object GridTravelDestinations: TcxGrid
-      Left = 39
-      Top = 190
-      Width = 317
+      Left = 26
+      Top = 139
+      Width = 326
       Height = 200
       TabOrder = 20
       object GridTravelDestinationsDBTableView1: TcxGridDBTableView
@@ -438,8 +439,8 @@ object PageTravelControl: TPageTravelControl
           PropertiesClassName = 'TcxButtonEditProperties'
           Properties.Buttons = <
             item
+              Action = actionSearchBases
               Default = True
-              ImageIndex = 86
               Kind = bkGlyph
             end>
           Properties.Images = Data_Sisgef.iml_16_16
@@ -455,9 +456,9 @@ object PageTravelControl: TPageTravelControl
       end
     end
     object GridFuelSupplies: TcxGrid
-      Left = 362
-      Top = 190
-      Width = 317
+      Left = 358
+      Top = 139
+      Width = 325
       Height = 200
       TabOrder = 21
       object GridFuelSuppliesDBTableView1: TcxGridDBTableView
@@ -523,9 +524,9 @@ object PageTravelControl: TPageTravelControl
       end
     end
     object GridInputs: TcxGrid
-      Left = 685
-      Top = 190
-      Width = 317
+      Left = 689
+      Top = 139
+      Width = 326
       Height = 200
       TabOrder = 22
       object GridInputsDBTableView1: TcxGridDBTableView
@@ -588,41 +589,25 @@ object PageTravelControl: TPageTravelControl
       end
     end
     object MemoObs: TcxMemo
-      Left = 39
-      Top = 448
+      Left = 26
+      Top = 365
       Properties.ScrollBars = ssVertical
       Style.HotTrack = False
       TabOrder = 23
       Height = 50
-      Width = 361
-    end
-    object ComboBoxStatus: TcxComboBox
-      Left = 458
-      Top = 448
-      Hint = 'Status da viagem'
-      TabStop = False
-      Properties.DropDownListStyle = lsFixedList
-      Properties.Items.Strings = (
-        'EM ANDAMENTO'
-        'FINALIZADA'
-        'CANCELADA')
-      Properties.ReadOnly = True
-      Style.HotTrack = False
-      TabOrder = 24
-      Text = 'EM ANDAMENTO'
-      Width = 544
+      Width = 387
     end
     object CurrencyEditFinalKM: TcxCurrencyEdit
-      Left = 468
-      Top = 476
+      Left = 481
+      Top = 393
       Properties.DisplayFormat = ',0.;-,0.'
       Style.HotTrack = False
       TabOrder = 25
       Width = 121
     end
     object TimeEditreturnTime: TcxTimeEdit
-      Left = 690
-      Top = 476
+      Left = 703
+      Top = 393
       Properties.TimeFormat = tfHourMin
       Style.HotTrack = False
       TabOrder = 26
@@ -630,7 +615,7 @@ object PageTravelControl: TPageTravelControl
     end
     object ButtonReturn: TcxButton
       Left = 26
-      Top = 579
+      Top = 446
       Width = 90
       Height = 25
       Cursor = crHandPoint
@@ -639,7 +624,7 @@ object PageTravelControl: TPageTravelControl
     end
     object ButtonSaveTravel: TcxButton
       Left = 122
-      Top = 579
+      Top = 446
       Width = 90
       Height = 25
       Cursor = crHandPoint
@@ -648,7 +633,7 @@ object PageTravelControl: TPageTravelControl
     end
     object ButtonFinalizeTravel: TcxButton
       Left = 218
-      Top = 579
+      Top = 446
       Width = 90
       Height = 25
       Cursor = crHandPoint
@@ -656,13 +641,38 @@ object PageTravelControl: TPageTravelControl
       TabOrder = 30
     end
     object CurrencyEditTotalKM: TcxCurrencyEdit
-      Left = 881
-      Top = 476
+      Left = 894
+      Top = 393
       Hint = 'KM total'
       Properties.DisplayFormat = ',0.;-,0.'
       Style.HotTrack = False
       TabOrder = 27
       Width = 121
+    end
+    object ImageComboBox1Status: TcxImageComboBox
+      Left = 471
+      Top = 365
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.Items = <
+        item
+          Description = 'EM ANDAMENTO'
+          ImageIndex = 122
+          Value = 0
+        end
+        item
+          Description = 'FINALIZADA'
+          ImageIndex = 83
+          Value = 1
+        end
+        item
+          Description = 'CANCELADA'
+          ImageIndex = 84
+          Value = 2
+        end>
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      TabOrder = 24
+      Width = 544
     end
     object LayoutContainerGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -721,6 +731,7 @@ object PageTravelControl: TPageTravelControl
       ButtonOptions.Buttons = <>
       ItemIndex = 1
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 0
     end
     object LayoutInitialDate: TdxLayoutItem
@@ -997,6 +1008,7 @@ object PageTravelControl: TPageTravelControl
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 1
     end
     object LayoutGridDestinations: TdxLayoutGroup
@@ -1069,6 +1081,7 @@ object PageTravelControl: TPageTravelControl
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
+      ShowBorder = False
       Index = 0
     end
     object LayoutEditFinal: TdxLayoutGroup
@@ -1081,6 +1094,7 @@ object PageTravelControl: TPageTravelControl
       ItemControlAreaAlignment = catNone
       ItemIndex = 1
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 2
     end
     object LayoutMemo: TdxLayoutGroup
@@ -1113,20 +1127,8 @@ object PageTravelControl: TPageTravelControl
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
-      ItemIndex = 1
       ShowBorder = False
       Index = 1
-    end
-    object LayoutComboBoxStatus: TdxLayoutItem
-      Parent = LayoutOptionsFinal
-      AlignHorz = ahClient
-      AlignVert = avBottom
-      CaptionOptions.Text = 'Status:'
-      Control = ComboBoxStatus
-      ControlOptions.OriginalHeight = 22
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 0
     end
     object LayoutDataFinal: TdxLayoutGroup
       Parent = LayoutOptionsFinal
@@ -1143,6 +1145,7 @@ object PageTravelControl: TPageTravelControl
     object LayoutCurrencyEditFinalKM: TdxLayoutItem
       Parent = LayoutDataFinal
       AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'KM Final:'
       Control = CurrencyEditFinalKM
       ControlOptions.OriginalHeight = 22
@@ -1216,6 +1219,17 @@ object PageTravelControl: TPageTravelControl
       ControlOptions.ShowBorder = False
       Index = 2
     end
+    object LayoutImageComboStatus: TdxLayoutItem
+      Parent = LayoutOptionsFinal
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      CaptionOptions.Text = 'Status:'
+      Control = ImageComboBox1Status
+      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
   end
   object actionList: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -1280,6 +1294,30 @@ object PageTravelControl: TPageTravelControl
       Caption = '&Salvar'
       Hint = 'Salvar a viagem'
       ImageIndex = 85
+    end
+    object actionSearchTaker: TAction
+      Category = 'Form'
+      Caption = 'Tomadores'
+      Hint = 'Localizar Tomadores'
+      ImageIndex = 86
+    end
+    object actionSearchDrivers: TAction
+      Category = 'Form'
+      Caption = 'Motoristas'
+      Hint = 'Localizar Motoristas'
+      ImageIndex = 86
+    end
+    object actionSearchVehicles: TAction
+      Category = 'Form'
+      Caption = 'Ve'#237'culos'
+      Hint = 'Localizar Ve'#237'culos'
+      ImageIndex = 86
+    end
+    object actionSearchBases: TAction
+      Category = 'Form'
+      Caption = 'Bases'
+      Hint = 'Localizar Bases'
+      ImageIndex = 86
     end
   end
   object memTableTravels: TFDMemTable
@@ -1476,7 +1514,7 @@ object PageTravelControl: TPageTravelControl
   object cxGridPopupMenu1: TcxGridPopupMenu
     Grid = gridTravels
     PopupMenus = <>
-    Left = 752
-    Top = 88
+    Left = 704
+    Top = 8
   end
 end
