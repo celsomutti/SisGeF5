@@ -188,6 +188,10 @@ begin
       if not memTablePesquisa.IsEmpty then memtablePesquisa.First;
       tvPesquisa.ClearItems;
       tvPesquisa.DataController.CreateAllItems;
+      if tvPesquisa.ColumnCount <= 3 then
+        tvPesquisa.OptionsView.ColumnAutoWidth := True
+      else
+        tvPesquisa.OptionsView.ColumnAutoWidth := False;
       grdPesquisa.SetFocus;
     end;
   finally

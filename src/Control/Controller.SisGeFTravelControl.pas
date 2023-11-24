@@ -21,6 +21,8 @@ type
     function SetupFieldsClass: boolean;
     function GetFieldsParam(var aParam: array of variant): boolean;
     function GetValueField(aParam: array of variant): string;
+    function SetupFieldsData(aParam: array of variant): boolean;
+    function ValidateData(): boolean;
   end;
 
 implementation
@@ -39,13 +41,8 @@ end;
 
 function TControllerTravelControl.GetFieldsParam
   (var aParam: array of variant): boolean;
-var
-  i: integer;
 begin
-  for i := 0 to Pred(FTravel.Query.FieldCount) do
-  begin
-    aParam[i] := FTravel.Query.FieldByName(FFieldsQuery[i]).Value;
-  end;
+  Result := FTravel.GetFieldsParam(aParam);
 end;
 
 function TControllerTravelControl.GetValueField(aParam: array of variant): string;
@@ -68,5 +65,14 @@ begin
   Result := FTravel.SetupFieldsClass;
 end;
 
+function TControllerTravelControl.SetupFieldsData(aParam: array of variant): boolean;
+begin
+  Result := FTravel.SetupFieldsData(aParam);
+end;
+
+function TControllerTravelControl.ValidateData: boolean;
+begin
+  Result := FTravel.ValidateData;
+end;
 
 end.

@@ -26,7 +26,9 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
     Width = 769
     Height = 455
     Align = alClient
+    ParentBackground = True
     TabOrder = 0
+    Transparent = True
     object grdPesquisa: TcxGrid
       Left = 10
       Top = 68
