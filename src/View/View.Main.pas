@@ -30,7 +30,8 @@ uses
   dxSkinXmas2008Blue, dxSkinsdxRibbonPainter, dxSkinsdxBarPainter,
   dxSkinscxPCPainter, Control.Usuarios, FireDAC.Comp.Client,
   Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems,
-  dxNavBarOfficeNavigationBar, View.SisGeFExtractSO, Winapi.WinInet, IdBaseComponent, IdComponent,
+  dxNavBarOfficeNavigationBar, View.SisGeFExtractSO, XPAdBase,
+  XPAdAutoUpdate, Winapi.WinInet, IdBaseComponent, IdComponent,
   IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, IdException, IniFiles, ShellAPI, idftpcommon;
 
 type

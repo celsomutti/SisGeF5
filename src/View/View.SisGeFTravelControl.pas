@@ -26,7 +26,7 @@ uses
   Controller.SisGeFDestinationTravel, Controller.SisGeFFuelSupplies,
   Controller.SisGeFTravelControl, Controller.SisGeFVehiclesRegistration,
   Services.SisGeFDAORoutines, Common.Utils, Control.Cadastro, Control.Bases, dxBarBuiltInMenu, cxGridCustomPopupMenu,
-  cxGridPopupMenu, Common.ENum;
+  cxGridPopupMenu, Common.ENum, cxCalc;
 
 type
   TPageTravelControl = class(TForm)
@@ -529,7 +529,22 @@ procedure TPageTravelControl.Mode;
 begin
   if FAction = tacIndefinido then
   begin
-  //  dataSourceTravelDestinations
+    MemTableTravelDestination.UpdateOptions.ReadOnly := true;
+    MemTableFuelSupplies.UpdateOptions.ReadOnly := true;
+    MemTableTravelInputs.UpdateOptions.ReadOnly := true;
+    actionCancelTravel.Enabled := false;
+    actionEndTravel.Enabled := false;
+    actionSaveTravel.Enabled := false;
+    DateEditTravelDate.Properties.ReadOnly := true;
+    ComboBoxTravelOperation.Properties.ReadOnly := true;
+    ButtonEdittravelCodeTaker.Properties.ReadOnly := true;
+    ButtonEditTravelDriverCode.Properties.ReadOnly := true;
+    ButtonEditTavelVehicle.Properties.ReadOnly := true;
+    CurrencyEditTravelInitialKM.Properties.ReadOnly := true;
+    TimeEditTravelDepartureTime.Properties.ReadOnly := true;
+    MemoObs.Properties.ReadOnly := true;
+    CurrencyEditFinalKM.Properties.ReadOnly := true;
+    TimeEditreturnTime.Properties.ReadOnly := true;
   end;
 end;
 

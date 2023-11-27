@@ -12,12 +12,10 @@ uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils,
       FCRUDSentence: string;
       FQuery: TFDQuery;
       FTableName: string;
-      FKey: integer;
     public
       property Query: TFDQuery read FQuery write FQuery;
       property CRUDSentence: string read FCRUDSentence write FCRUDSentence;
       property TableName: string read FTableName write FTableName;
-      property Key: integer read FKey;
 
       constructor Create;
 
@@ -90,7 +88,6 @@ begin
   try
     FDQuery := FConn.ReturnQuery;
     iRecords := FDQuery.ExecSQL(FCRUDSentence, FValuesParam);
-    FKey := FDQuery.Fields[0].Value;
     Result := (iRecords > 0);
   finally
     FDQuery.Connection.Connected := False;

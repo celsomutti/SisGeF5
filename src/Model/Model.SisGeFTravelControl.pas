@@ -3,13 +3,13 @@ unit Model.SisGeFTravelControl;
 interface
 
 uses Common.ENum, FireDAC.Comp.Client, System.SysUtils,
-  Common.Utils, System.DateUtils, DAO.Conexao;
+  Common.Utils, System.DateUtils, DAO.SisGeFCRUDRoutines;
 
 type
   TTravelControl = class
   private
     FFieldsQuery: array of variant;
-    FConexao : TConexao;
+    FCRUD: TDAOCRUDRoutines;
     FAction: TAcao;
     FHoraSaida: ttime;
     FKMSaida: double;
@@ -61,10 +61,10 @@ type
     function Save(): boolean;
     function Search(aParam: array of variant): boolean;
     function SetupFieldsClass(): boolean;
-    function SetupFieldsData(aParam: array of variant): boolean;
-    function GetValueField(sField, sKey, sKeyValue: String): String;
+    function GetValueField(aParam: array of variant): string;
     function ValidateData(): boolean;
-    function GetFieldsParam(var aParam: array of variant): boolean;
+    function SetupFieldsData(aParam: array of variant): boolean;
+    function ValidateFinalization(): boolean;
   end;
 
 const
@@ -95,70 +95,55 @@ implementation
 
 constructor TTravelControl.Create;
 begin
-  FConexao := TConexao.Create;
   FFieldsQuery := ['ID_CONTROLE', 'NUM_SM', 'DAT_TRANSPORTE', 'COD_CLIENTE',
     'DES_OPERACAO', 'DES_PLACA', 'COD_MOTORISTA', 'QTD_KM_SAIDA', 'HOR_SAIDA',
     'QTD_KM_RETORNO', 'HOR_RETORNO', 'QTD_KM_RODADO', 'DES_SERVICO', 'DES_OBS',
     'VAL_SERVICO', 'COD_STATUS', 'DES_LOG'];
+  FInsertFields := [FSM, FData, FCliente, FOperacao, FPlacaVeiculo, FMotorista,
+    FKMSaida, FHoraSaida, FKMRetorno, FHoraRetorno, FKMRodado, FServico,
+    FObservacao, FValorServico, FStatus, FLog];
 end;
 
 function TTravelControl.Delete: boolean;
-var
-  iRecords : integer;
 begin
   Result := False;
-  iRecords := 0;
   try
-    FQuery := FConexao.ReturnQuery;
-    iRecords := FQuery.ExecSQL(CRUDDELETE, [FID]);
-    Result := (iRecords > 0);
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDDELETE;
+    Result := FCRUD.UpdateExec([FID]);
   finally
-    FQuery.Connection.Connected := false;
+    FCRUD.free;
   end;
 end;
 
-function TTravelControl.GetFieldsParam(var aParam: array of variant): boolean;
-var
-  i: integer;
+function TTravelControl.GetValueField(aParam: array of variant): string;
 begin
-  Result := False;
-  for i := 0 to Pred(FQuery.FieldCount) do
-  begin
-    aParam[i] := FQuery.FieldByName(FFieldsQuery[i]).Value;
-  end;
-  Result := True;
-end;
-
-function TTravelControl.GetValueField(sField, sKey, sKeyValue: String): String;
-begin
+  Result := '';
   try
-    Result := '';
-    FQuery := FConexao.ReturnQuery();
-    if not sKeyValue.IsEmpty then
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.TABLENAME := TABLENAME;
+
+    if FCRUD.Search(aParam) then
     begin
-      FQuery.SQL.Text := 'select ' + sField + ' from ' + TABLENAME + ' where ' + sKey + ' = ' + sKeyValue;
-      FQuery.Open();
-      if not FQuery.IsEmpty then Result := FQuery.FieldByName(sField).AsString;
+      if not FCRUD.Query.IsEmpty then
+      begin
+        Result := FCRUD.Query.FieldByName(aParam[1]).asString;
+      end;
     end;
   finally
-    FQuery.Connection.Connected := False;
+    FCRUD.free;
   end;
 end;
 
 function TTravelControl.Insert: boolean;
-var
-  iRecords : integer;
 begin
   Result := False;
-  iRecords := 0;
   try
-    FQuery := FConexao.ReturnQuery;
-    iRecords := FQuery.ExecSQL(CRUDINSERT,[FSM, FData, FCliente, FOperacao, FPlacaVeiculo,
-      FMotorista, FKMSaida, FHoraSaida, FKMRetorno, FHoraRetorno, FKMRodado,
-      FServico, FObservacao, FValorServico, FStatus, FLog]);
-    Result := (iRecords > 0);
+    FCRUD := TDAOCRUDRoutines.Create;
+    FCRUD.CRUDSentence := CRUDINSERT;
+    Result := FCRUD.UpdateExec(FInsertFields);
   finally
-    FQuery.Connection.Connected := false;
+    FCRUD.free;
   end;
 end;
 
@@ -245,6 +230,10 @@ begin
   FValorServico := aParam[14];
   FStatus := aParam[15];
   FLog := aParam[16];
+  FUpdateFields := [FSM, FloatToDateTime(FData), FCliente, FOperacao,
+    FPlacaVeiculo, FMotorista, FKMSaida, FloatToDateTime(FHoraSaida),
+    FKMRetorno, FloatToDateTime(FHoraRetorno), FKMRodado, FServico, FObservacao,
+    FValorServico, FStatus, FLog, FID];
   Result := True;
 end;
 
@@ -254,9 +243,7 @@ begin
   try
     FCRUD := TDAOCRUDRoutines.Create;
     FCRUD.CRUDSentence := CRUDUPDATE;
-    Result := FCRUD.UpdateExec([FSM, FData, FCliente, FOperacao, FPlacaVeiculo, FMotorista,
-    FKMSaida, FHoraSaida, FKMRetorno, FHoraRetorno, FKMRodado, FServico,
-    FObservacao, FValorServico, FStatus, FLog, FID]);
+    Result := FCRUD.UpdateExec(FUpdateFields);
   finally
     FCRUD.free;
   end;
@@ -290,7 +277,49 @@ begin
     FMessage := 'Informe o veículo.';
     Exit;
   end;
+  if FKMRetorno > 0 then
+  begin
+    if FKMRetorno < FKMSaida then
+    begin
+      FMessage := 'KM Final menor que KM inicial.';
+      Exit;
+    end;
+  end;
   Result := True;
+end;
+
+function TTravelControl.ValidateFinalization: boolean;
+begin
+  Result := false;
+  if FHoraSaida = 0 then
+  begin
+    FMessage := 'Informe a hora de saída.';
+    Exit;
+  end;
+  if FHoraRetorno = 0 then
+  begin
+    FMessage := 'Informe a hora de retorno.';
+    Exit;
+  end;
+  if FHoraRetorno < FHoraSaida then
+  begin
+    FMessage := 'Hora de retorno menor que hora de saída.';
+    Exit;
+  end;
+
+  if KMSaida = 0 then
+  begin
+    FMessage := 'Informe KM de saída.';
+    Exit;
+  end;
+  if KMRetorno = 0 then
+  begin
+    FMessage := 'Informe KM de chegada.';
+    Exit;
+  end;
+  KMRodado := KMRetorno - KMSaida;
+  Result := true;
+
 end;
 
 end.
