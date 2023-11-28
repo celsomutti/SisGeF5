@@ -3,7 +3,7 @@ unit Model.SisGeFDestinationTravel;
 interface
 
 uses Common.ENum, FireDAC.Comp.Client, System.SysUtils,
-  Common.Utils, System.DateUtils, DAO.SisGeFCRUDRoutines;
+  Common.Utils, System.DateUtils, DAO.SisGeFCRUDRoutines, System.Variants;
 
 type
   TDestinationTravel = class
@@ -18,14 +18,14 @@ type
     FQuery: TFDQuery;
     FInsertFields: array of variant;
     FUpdateFields: array of variant;
+    FFieldsQuery: array of variant;
 
     function GetId(): integer;
     function Insert(): boolean;
     function Update(): boolean;
     function Delete(): boolean;
-    procedure SetId(const Value: integer);
   public
-    property ID: integer read FID write SetId;
+    property ID: integer read FID write FID;
     property Descricao: string read FDescricao write FDescricao;
     property Base: integer read FBase write FBase;
     property Log: string read FLog write FLog;
@@ -36,6 +36,8 @@ type
     constructor Create;
     function Save(): boolean;
     function Search(aParam: array of variant): boolean;
+    function SetupFieldsData(aParam: array of variant): boolean;
+    function SetupFieldsClass(): boolean;
   end;
 
   const
@@ -47,7 +49,7 @@ type
     CRUDUPDATE = 'UPDATE ' + TABLENAME  + ' SET DES_DESTINO = :DES_DESTINO, COD_AGENTE = :COD_AGENTE, DES_LOG = :DES_LOG,' +
                  'ID_CONTROLE = :ID_CONTROLE ' +
                  'WHERE COD_DESTINO = :COD_DESTINO ';
-    CRUDDELETE = 'DETELE FROM ' + TABLENAME + ' WHERE COD_DESTINO = :COD_DESTINO';
+    CRUDDELETE = 'DELETE FROM ' + TABLENAME;
     CRUDGETID  = 'select coalesce(max(COD_DESTINO),0) + 1 from ' + TABLENAME;
 
 
@@ -57,8 +59,7 @@ type
 
 constructor TDestinationTravel.Create;
 begin
-  FInsertFields := [FID, FDescricao, FBase, Log, Viagem];
-  FUpdateFields := [FDescricao, FBase, Log, Viagem, FID];
+  FFieldsQuery := ['COD_DESTINO', 'DES_DESTINO', 'COD_AGENTE', 'DES_LOG', 'ID_CONTROLE'];
 end;
 
 function TDestinationTravel.Delete: boolean;
@@ -66,7 +67,10 @@ begin
   Result := False;
   try
     FCRUD := TDAOCRUDRoutines.Create;
-    FCRUD.CRUDSentence := CRUDDELETE;
+    if FID = -1 then
+      FCRUD.CRUDSentence := CRUDDELETE + ' WHERE ID_CONTROLE = ' + FViagem.ToString
+    else
+      FCRUD.CRUDSentence := CRUDDELETE + ' WHERE COD_DESTINO = ' + FID.ToString;
     Result := FCRUD.UpdateExec([FID]);
   finally
     FCRUD.free;
@@ -134,9 +138,33 @@ begin
   end;
 end;
 
-procedure TDestinationTravel.SetId(const Value: integer);
+function TDestinationTravel.SetupFieldsClass: boolean;
 begin
-  FID := Value;
+  Result := False;
+  FID := FQuery.FieldByName(FFieldsQuery[0]).Value;
+  FDescricao := FQuery.FieldByName(FFieldsQuery[1]).Value;
+  FBase := FQuery.FieldByName(FFieldsQuery[2]).Value;
+  FLog := FQuery.FieldByName(FFieldsQuery[3]).Value;
+  FViagem := FQuery.FieldByName(FFieldsQuery[4]).Value;
+  Result := True;
+end;
+
+function TDestinationTravel.SetupFieldsData(aParam: array of variant): boolean;
+begin
+  FID := aParam[0];
+  FDescricao := aParam[1];
+  FBase := aParam[2];
+  FLog := aParam[3];
+  FViagem := aParam[4];
+  if FAction = tacIncluir then
+  begin
+    FID := GetId;
+    FInsertFields := [FID, FDescricao, FBase, Log, Viagem]
+  end
+  else if FAction = tacAlterar then
+  begin
+    FUpdateFields := [FDescricao, FBase, Log, Viagem, FID];
+  end;
 end;
 
 function TDestinationTravel.Update: boolean;

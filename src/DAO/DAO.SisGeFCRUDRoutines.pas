@@ -3,7 +3,7 @@ unit DAO.SisGeFCRUDRoutines;
 interface
 
 uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils,
-  Common.Utils, System.DateUtils;
+  Common.Utils, System.DateUtils, Global.Parametros;
 
   type
     TDAOCRUDRoutines = class
@@ -39,7 +39,10 @@ var
 begin
   try
     FDQuery := FConn.ReturnQuery();
-    FDQuery.Open(FCRUDSentence);
+    if Pos('table_schema', FCRUDSentence) > 0 then
+      FDQuery.Open(FCRUDSentence + '"' +  Global.Parametros.pDatabase + '"')
+    else
+      FDQuery.Open(FCRUDSentence);
     try
       Result := FDQuery.Fields[0].AsInteger;
     finally

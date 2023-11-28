@@ -713,7 +713,6 @@
     Panels = <
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        PanelStyle.Alignment = taCenter
         PanelStyle.ImageIndex = 29
         Fixed = False
         MinWidth = 10

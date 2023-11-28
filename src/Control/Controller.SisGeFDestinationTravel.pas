@@ -19,6 +19,7 @@ uses System.Classes, Common.ENum, System.Sysutils, Dialogs, Model.SisGeFDestinat
       function Search(aParam: array of variant): boolean;
       function SetupFieldsClass(aParam: array of variant): boolean;
       function GetFieldsParam(var aParam: array of variant): boolean;
+      function SetupFieldsData(aParam: array of variant): boolean;
 
     end;
 
@@ -59,22 +60,12 @@ end;
 
 function TControllerDestinationTravel.SetupFieldsClass(aParam: array of variant): boolean;
 begin
-  if (FDestination.Acao = tacIncluir) or (FDestination.Acao = tacAlterar)  then
-  begin
-    FDestination.ID := aParam[0];
-    FDestination.Descricao := aParam[1];
-    FDestination.Base := aParam[2];
-    FDestination.Log := aParam[3];
-    FDestination.Viagem := aParam[4];
-  end
-  else
-  begin
-    FDestination.ID := FDestination.Query.FieldByName(FFieldsQuery[0]).Value;
-    FDestination.Descricao := FDestination.Query.FieldByName(FFieldsQuery[1]).Value;
-    FDestination.Base := FDestination.Query.FieldByName(FFieldsQuery[2]).Value;
-    FDestination.Log := FDestination.Query.FieldByName(FFieldsQuery[3]).Value;
-    FDestination.Viagem := FDestination.Query.FieldByName(FFieldsQuery[4]).Value;
-  end;
+  Result := FDestination.SetupFieldsData(aParam);
+end;
+
+function TControllerDestinationTravel.SetupFieldsData(aParam: array of variant): boolean;
+begin
+  Result := FDestination.SetupFieldsData(aParam);
 end;
 
 end.

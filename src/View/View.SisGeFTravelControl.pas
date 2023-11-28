@@ -1,5 +1,5 @@
 unit View.SisGeFTravelControl;
-
+
 interface
 
 uses
@@ -25,8 +25,9 @@ uses
   Controller.SisGeFConsumptionInputs,
   Controller.SisGeFDestinationTravel, Controller.SisGeFFuelSupplies,
   Controller.SisGeFTravelControl, Controller.SisGeFVehiclesRegistration,
-  Services.SisGeFDAORoutines, Common.Utils, Control.Cadastro, Control.Bases, dxBarBuiltInMenu, cxGridCustomPopupMenu,
-  cxGridPopupMenu, Common.ENum, cxCalc;
+  Services.SisGeFDAORoutines, Common.Utils, Control.Cadastro, Control.Bases,
+  dxBarBuiltInMenu, cxGridCustomPopupMenu,
+  cxGridPopupMenu, Common.ENum, cxCalc, cxCheckBox;
 
 type
   TPageTravelControl = class(TForm)
@@ -194,6 +195,8 @@ type
     LayoutButtonCancelTravel: TdxLayoutItem;
     MemTableTravelDestinationnum_destination: TAutoIncField;
     GridTravelDestinationsDBTableView1num_destination: TcxGridDBColumn;
+    ImageComboBoxFilterStatus: TcxImageComboBox;
+    LayoutFilterStatus: TdxLayoutItem;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionExitPageExecute(Sender: TObject);
@@ -203,23 +206,25 @@ type
     procedure actionExportExecute(Sender: TObject);
     procedure LayoutBodyTabChanged(Sender: TObject);
     procedure actionEditTravelExecute(Sender: TObject);
-    procedure gridTravelsDBTableView1CellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
-      AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+    procedure gridTravelsDBTableView1CellDblClick
+      (Sender: TcxCustomGridTableView;
+      ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
+      AShift: TShiftState; var AHandled: Boolean);
     procedure actionSearchTakerExecute(Sender: TObject);
     procedure actionSearchDriversExecute(Sender: TObject);
     procedure actionSearchVehiclesExecute(Sender: TObject);
     procedure actionSearchBasesExecute(Sender: TObject);
     procedure actionNewTravelExecute(Sender: TObject);
     procedure actionSaveTravelExecute(Sender: TObject);
-    procedure ButtonEdittravelCodeTakerPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
-      var Error: Boolean);
-    procedure ButtonEditTravelDriverCodePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
-      var Error: Boolean);
+    procedure ButtonEdittravelCodeTakerPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure ButtonEditTravelDriverCodePropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure ButtonEditTravelDriverCodePropertiesChange(Sender: TObject);
     procedure ButtonEdittravelCodeTakerPropertiesChange(Sender: TObject);
   private
     { Private declarations }
-    FAction : TAcao;
+    FAction: TAcao;
     procedure BuildPageLabel;
     procedure ClosePage;
     procedure BuildInitialList;
@@ -241,6 +246,7 @@ type
     procedure SearchVEhicle;
     procedure SearchBase;
     procedure InsertTravel;
+    procedure EditTravel;
     procedure Save;
     procedure SaveDestinations;
     procedure SaveFuelSuplies;
@@ -252,7 +258,7 @@ type
 
 var
   PageTravelControl: TPageTravelControl;
-  aParam : array of variant;
+  aParam: array of Variant;
 
 implementation
 
@@ -264,10 +270,7 @@ uses Data.SisGeF, View.SisGeFGeneralSearch;
 
 procedure TPageTravelControl.actionEditTravelExecute(Sender: TObject);
 begin
-  if memTableTravels.IsEmpty then
-    Exit;
-  FAction := tacAlterar;
-  SearchTravel;
+  EditTravel;
 end;
 
 procedure TPageTravelControl.actionExitPageExecute(Sender: TObject);
@@ -324,7 +327,7 @@ end;
 
 procedure TPageTravelControl.BuildInitialList;
 begin
-  dateEditInicial.Date :=  IncDay(Now,-15);
+  dateEditInicial.Date := IncDay(Now, -15);
   dateEditFinalDate.Date := Now;
   SearchPeriod;
 end;
@@ -334,13 +337,15 @@ begin
   LabelPageTitle.Caption := Self.Caption;
 end;
 
-procedure TPageTravelControl.ButtonEdittravelCodeTakerPropertiesChange(Sender: TObject);
+procedure TPageTravelControl.ButtonEdittravelCodeTakerPropertiesChange
+  (Sender: TObject);
 begin
   TextEditTravelNameTaker.Clear;
 end;
 
-procedure TPageTravelControl.ButtonEdittravelCodeTakerPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
-  var ErrorText: TCaption; var Error: Boolean);
+procedure TPageTravelControl.ButtonEdittravelCodeTakerPropertiesValidate
+  (Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
 begin
   if DisplayValue = '' then
   begin
@@ -355,13 +360,15 @@ begin
   end;
 end;
 
-procedure TPageTravelControl.ButtonEditTravelDriverCodePropertiesChange(Sender: TObject);
+procedure TPageTravelControl.ButtonEditTravelDriverCodePropertiesChange
+  (Sender: TObject);
 begin
   TextEditTravelDriverName.Clear;
 end;
 
-procedure TPageTravelControl.ButtonEditTravelDriverCodePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
-  var ErrorText: TCaption; var Error: Boolean);
+procedure TPageTravelControl.ButtonEditTravelDriverCodePropertiesValidate
+  (Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
 begin
   if DisplayValue = '' then
   begin
@@ -393,8 +400,8 @@ begin
   MemTableTravelDestination.Active := True;
   MemTableFuelSupplies.Active := False;
   MemTableFuelSupplies.Active := True;
-  MemTableInputs.Active := False;
-  MemTableInputs.Active := True;
+  MemTableTravelInputs.Active := False;
+  MemTableTravelInputs.Active := True;
   MemoObs.Clear;
   ImageComboBox1Status.EditValue := 0;
   CurrencyEditFinalKM.Value := 0;
@@ -404,11 +411,11 @@ end;
 
 procedure TPageTravelControl.CloseMemTable;
 begin
-  memTableTravels.Active := false;
-  MemTableFuelSupplies.Active := false;
-  MemTableTravelInputs.Active := false;
-  MemTableTravelDestination.Active := false;
-  MemTableInputs.Active := false;
+  memTableTravels.Active := False;
+  MemTableFuelSupplies.Active := False;
+  MemTableTravelInputs.Active := False;
+  MemTableTravelDestination.Active := False;
+  MemTableInputs.Active := False;
 end;
 
 procedure TPageTravelControl.ClosePage;
@@ -416,9 +423,17 @@ begin
   Self.Close;
 end;
 
+procedure TPageTravelControl.EditTravel;
+begin
+  if memTableTravels.IsEmpty then
+    Exit;
+  FAction := tacAlterar;
+  SearchTravel;
+end;
+
 procedure TPageTravelControl.ExportGrid;
 var
-  fnUtil : Common.Utils.TUtils;
+  fnUtil: Common.Utils.TUtils;
   sMensagem: String;
 begin
   try
@@ -428,17 +443,21 @@ begin
 
     fnUtil := Common.Utils.TUtils.Create;
 
-    if gridTravelsDBTableView1.ViewData.RowCount = 0 then Exit;
+    if gridTravelsDBTableView1.ViewData.RowCount = 0 then
+      Exit;
 
     if Data_Sisgef.SaveDialog.Execute() then
     begin
       if FileExists(Data_Sisgef.SaveDialog.FileName) then
       begin
-        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
-        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName +
+          ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor',
+          MB_YESNO + MB_ICONQUESTION) = IDNO then
+          Exit
       end;
 
-      fnUtil.ExportarDados(gridTravels,Data_Sisgef.SaveDialog.FileName);
+      fnUtil.ExportarDados(gridTravels, Data_Sisgef.SaveDialog.FileName);
 
     end;
   finally
@@ -468,12 +487,13 @@ end;
 
 function TPageTravelControl.GetDriverName(iId: integer): string;
 var
-  FCadastro : TCadastroControl;
+  FCadastro: TCadastroControl;
 begin
   FCadastro := TCadastroControl.Create;
   Result := '';
   try
-    Result := FCadastro.GetField('des_razao_social','cod_cadastro', iId.ToString);
+    Result := FCadastro.GetField('des_razao_social', 'cod_cadastro',
+      iId.ToString);
   finally
     FCadastro.Free;
   end;
@@ -481,8 +501,8 @@ end;
 
 function TPageTravelControl.GetNameTaker(iId: integer): string;
 var
-  FService : TServicesDAORoutines;
-  aParam : array of variant;
+  FService: TServicesDAORoutines;
+  aParam: array of Variant;
   sQuery: string;
 begin
   FService := TServicesDAORoutines.Create;
@@ -490,7 +510,8 @@ begin
   try
     FService.TableName := '';
     FService.CRUDSentence := '';
-    sQuery := 'select nom_cliente from view_listClientsCompat where cod_cliente = ' +  iId.ToString;
+    sQuery := 'select nom_cliente from view_listClientsCompat where cod_cliente = '
+      + iId.ToString;
     aParam := ['SQL', sQuery];
     if FService.ExecSentence(aParam) then
       Result := FService.Query.FieldByName('nom_cliente').AsString
@@ -502,8 +523,9 @@ begin
   end;
 end;
 
-procedure TPageTravelControl.gridTravelsDBTableView1CellDblClick(Sender: TcxCustomGridTableView;
-  ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+procedure TPageTravelControl.gridTravelsDBTableView1CellDblClick
+  (Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+  AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
 begin
   actionEditTravelExecute(Sender);
 end;
@@ -512,6 +534,7 @@ procedure TPageTravelControl.InsertTravel;
 begin
   ClearForm;
   FAction := tacIncluir;
+  Mode;
   LayoutBody.ItemIndex := 1;
   DateEditTravelDate.Date := Now;
   DateEditTravelDate.SetFocus;
@@ -529,40 +552,60 @@ procedure TPageTravelControl.Mode;
 begin
   if FAction = tacIndefinido then
   begin
-    MemTableTravelDestination.UpdateOptions.ReadOnly := true;
-    MemTableFuelSupplies.UpdateOptions.ReadOnly := true;
-    MemTableTravelInputs.UpdateOptions.ReadOnly := true;
-    actionCancelTravel.Enabled := false;
-    actionEndTravel.Enabled := false;
-    actionSaveTravel.Enabled := false;
-    DateEditTravelDate.Properties.ReadOnly := true;
-    ComboBoxTravelOperation.Properties.ReadOnly := true;
-    ButtonEdittravelCodeTaker.Properties.ReadOnly := true;
-    ButtonEditTravelDriverCode.Properties.ReadOnly := true;
-    ButtonEditTavelVehicle.Properties.ReadOnly := true;
-    CurrencyEditTravelInitialKM.Properties.ReadOnly := true;
-    TimeEditTravelDepartureTime.Properties.ReadOnly := true;
-    MemoObs.Properties.ReadOnly := true;
-    CurrencyEditFinalKM.Properties.ReadOnly := true;
-    TimeEditreturnTime.Properties.ReadOnly := true;
+    MemTableTravelDestination.UpdateOptions.ReadOnly := True;
+    MemTableFuelSupplies.UpdateOptions.ReadOnly := True;
+    MemTableTravelInputs.UpdateOptions.ReadOnly := True;
+    actionCancelTravel.Enabled := False;
+    actionEndTravel.Enabled := False;
+    actionSaveTravel.Enabled := False;
+    DateEditTravelDate.Properties.ReadOnly := True;
+    ComboBoxTravelOperation.Properties.ReadOnly := True;
+    ButtonEdittravelCodeTaker.Properties.ReadOnly := True;
+    ButtonEditTravelDriverCode.Properties.ReadOnly := True;
+    ButtonEditTavelVehicle.Properties.ReadOnly := True;
+    CurrencyEditTravelInitialKM.Properties.ReadOnly := True;
+    TimeEditTravelDepartureTime.Properties.ReadOnly := True;
+    MemoObs.Properties.ReadOnly := True;
+    CurrencyEditFinalKM.Properties.ReadOnly := True;
+    TimeEditreturnTime.Properties.ReadOnly := True;
   end;
+  if FAction = tacAlterar then
+  begin
+    MemTableTravelDestination.UpdateOptions.ReadOnly := false;
+    MemTableFuelSupplies.UpdateOptions.ReadOnly := false;
+    MemTableTravelInputs.UpdateOptions.ReadOnly := false;
+    actionCancelTravel.Enabled := true;
+    actionEndTravel.Enabled := true;
+    actionSaveTravel.Enabled := True;
+    DateEditTravelDate.Properties.ReadOnly := false;
+    ComboBoxTravelOperation.Properties.ReadOnly := false;
+    ButtonEdittravelCodeTaker.Properties.ReadOnly := false;
+    ButtonEditTravelDriverCode.Properties.ReadOnly := false;
+    ButtonEditTavelVehicle.Properties.ReadOnly := false;
+    CurrencyEditTravelInitialKM.Properties.ReadOnly := false;
+    TimeEditTravelDepartureTime.Properties.ReadOnly := false;
+    MemoObs.Properties.ReadOnly := false;
+    CurrencyEditFinalKM.Properties.ReadOnly := false;
+    TimeEditreturnTime.Properties.ReadOnly := false;
+  end;
+
 end;
 
 procedure TPageTravelControl.PopulateInputs;
 var
-  FInputs : TServicesDAORoutines;
+  FInputs: TServicesDAORoutines;
   sSentence: string;
-  aParam: array of variant;
+  aParam: array of Variant;
 begin
   FInputs := TServicesDAORoutines.Create;
   try
     sSentence := 'select * from tbinsumostransportes';
     aParam := ['SQL', sSentence];
-    MemTableInputs.Active := false;
+    MemTableInputs.Active := False;
     if FInputs.ExecSentence(aParam) then
     begin
       MemTableInputs.CopyDataSet(FInputs.Query);
-      FInputs.Query.Connection.Connected := false;
+      FInputs.Query.Connection.Connected := False;
       if not MemTableInputs.IsEmpty then
         MemTableInputs.First;
     end
@@ -576,24 +619,25 @@ end;
 
 procedure TPageTravelControl.PoputateDestinations(iId: integer);
 var
-  FDestinations : TControllerDestinationTravel;
+  FDestinations: TControllerDestinationTravel;
   sSentence: string;
-  aParam: array of variant;
+  aParam: array of Variant;
 begin
   FDestinations := TControllerDestinationTravel.Create;
   try
-    sSentence := 'select * from trs_destinos where id_controle = '  + iId.ToString;
+    sSentence := 'select * from trs_destinos where id_controle = ' +
+      iId.ToString;
     aParam := ['SQL', sSentence];
-    memTableTravelDestination.Active := false;
+    MemTableTravelDestination.Active := False;
     if FDestinations.Search(aParam) then
     begin
-      memTableTravelDestination.CopyDataSet(FDestinations.Destination.Query);
-      FDestinations.Destination.Query.Connection.Connected := false;
-      if not memTableTravelDestination.IsEmpty then
-        memTableTravelDestination.First;
+      MemTableTravelDestination.CopyDataSet(FDestinations.Destination.Query);
+      FDestinations.Destination.Query.Connection.Connected := False;
+      if not MemTableTravelDestination.IsEmpty then
+        MemTableTravelDestination.First;
     end
     else
-      memTableTravelDestination.Active := True;
+      MemTableTravelDestination.Active := True;
   finally
     Finalize(aParam);
     FDestinations.Free;
@@ -602,24 +646,25 @@ end;
 
 procedure TPageTravelControl.PoputateFuelSuplies(iId: integer);
 var
-  FFuel : TControllerFuelSupplies;
+  FFuel: TControllerFuelSupplies;
   sSentence: string;
-  aParam: array of variant;
+  aParam: array of Variant;
 begin
   FFuel := TControllerFuelSupplies.Create;
   try
-    sSentence := 'select * from tbabastecimento where id_controle = '  + iId.ToString;
+    sSentence := 'select * from tbabastecimento where id_controle = ' +
+      iId.ToString;
     aParam := ['SQL', sSentence];
-    MemTableFuelSupplies.Active := false;
+    MemTableFuelSupplies.Active := False;
     if FFuel.Search(aParam) then
     begin
       MemTableFuelSupplies.CopyDataSet(FFuel.FuelSuplies.Query);
-      FFuel.FuelSuplies.Query.Connection.Connected := false;
+      FFuel.FuelSuplies.Query.Connection.Connected := False;
       if not MemTableFuelSupplies.IsEmpty then
         MemTableFuelSupplies.First;
     end
     else
-      MemTableFuelSupplies.Active := true;
+      MemTableFuelSupplies.Active := True;
   finally
     Finalize(aParam);
     FFuel.Free;
@@ -628,24 +673,25 @@ end;
 
 procedure TPageTravelControl.PoputateTravelInputs(iId: integer);
 var
-  FInputs : TControllerConsumptionInputs;
+  FInputs: TControllerConsumptionInputs;
   sSentence: string;
-  aParam: array of variant;
+  aParam: array of Variant;
 begin
   FInputs := TControllerConsumptionInputs.Create;
   try
-    sSentence := 'select * from tbconsumoinsumos where id_controle = '  + iId.ToString;
+    sSentence := 'select * from tbconsumoinsumos where id_controle = ' +
+      iId.ToString;
     aParam := ['SQL', sSentence];
-    MemTableTravelInputs.Active := false;
+    MemTableTravelInputs.Active := False;
     if FInputs.Search(aParam) then
     begin
       MemTableTravelInputs.CopyDataSet(FInputs.Inputs.Query);
-      FInputs.Inputs.Query.Connection.Connected := false;
+      FInputs.Inputs.Query.Connection.Connected := False;
       if not MemTableTravelInputs.IsEmpty then
         MemTableFuelSupplies.First;
     end
     else
-      MemTableTravelInputs.Active := true;
+      MemTableTravelInputs.Active := True;
   finally
     Finalize(aParam);
     FInputs.Free;
@@ -654,26 +700,32 @@ end;
 
 procedure TPageTravelControl.Save;
 var
-  FTravel : TControllerTravelControl;
+  FTravel: TControllerTravelControl;
 begin
   FTravel := TControllerTravelControl.Create;
   try
     SetupClassFields;
-    FTravel.SetupFieldsData(aParam);
     FTravel.Travel.Acao := FAction;
+    FTravel.SetupFieldsData(aParam);
     if not FTravel.ValidateData then
     begin
       MessageDlg(FTravel.Travel.Mensagem, mtWarning, [mbOK], 0);
       Exit;
     end;
-    if MessageDlg('Confirma gravar os dados?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
+    if MessageDlg('Confirma gravar os dados?', mtConfirmation, [mbYes, mbNo], 0)
+      = mrNo then
       Exit;
     FTravel.Travel.Acao := FAction;
     if FTravel.Save then
-      begin
-        MessageDlg('Dados gravados com sucesso.', mtInformation, [mbOK], 0);
-        SearchPeriod;
-      end;
+    begin
+      if FAction = tacIncluir then
+        maskEditTravelID.EditValue := FTravel.Travel.ID;
+      SaveDestinations;
+      SaveFuelSuplies;
+      SaveTravelInputs;
+      MessageDlg('Dados gravados com sucesso.', mtInformation, [mbOK], 0);
+      SearchPeriod;
+    end;
   finally
     FTravel.Free;
   end;
@@ -682,21 +734,34 @@ end;
 procedure TPageTravelControl.SaveDestinations;
 var
   FDestinations: TControllerDestinationTravel;
+  aParam: array of variant;
 begin
   FDestinations := TControllerDestinationTravel.Create;
   try
     if MemTableTravelDestination.IsEmpty then
       Exit;
-    FDestinations.Destination.Viagem := maskEditTravelID.EditValue;
-    FDestinations.Destination.Acao := tacExcluir;
-    FDestinations.Save;
+    SetLength(aParam, 5);
+    if FAction = tacAlterar then
+    begin
+      aParam[0] := -1;
+      aParam[1] := '';
+      aParam[2] := 0;
+      aParam[3] := '';
+      aParam[4] := maskEditTravelID.EditValue;
+      FDestinations.SetupFieldsData(aParam);
+      FDestinations.Destination.Acao := tacExcluir;
+      FDestinations.Save;
+    end;
     FDestinations.Destination.Acao := tacIncluir;
     MemTableTravelDestination.First;
     while not MemTableTravelDestination.Eof do
     begin
-      FDestinations.Destination.Descricao :=  MemTableTravelDestinationdes_destino.AsString;
-      FDestinations.Destination.Base :=  MemTableTravelDestinationcod_agente.AsInteger;
-      FDestinations.Destination.Log :=  FormatDateTime('dd/mm/aaaa hh:mm:ss', Now);
+      aParam[0] := 0;
+      aParam[1] := MemTableTravelDestinationdes_destino.AsString;
+      aParam[2] := MemTableTravelDestinationcod_agente.AsInteger;
+      aParam[3] := FormatDateTime('dd/mm/aaaa hh:mm:ss', Now);
+      aParam[4] := maskEditTravelID.EditValue;
+      FDestinations.SetupFieldsData(aParam);
       if not FDestinations.Save then
       begin
         MessageDlg('Erro ao gravar o destino!', mtError, [mbOK], 0);
@@ -706,6 +771,7 @@ begin
     end;
     MemTableTravelDestination.First;
   finally
+    Finalize(aParam);
     FDestinations.Free;
   end;
 end;
@@ -725,15 +791,17 @@ begin
     MemTableFuelSupplies.First;
     while not MemTableFuelSupplies.Eof do
     begin
-      FFuel.FuelSuplies.Cupom :=  MemTableFuelSuppliesnum_cupom.AsString;
-      FFuel.FuelSuplies.Entregador :=  ButtonEditTravelDriverCode.EditValue;
+      FFuel.FuelSuplies.Cupom := MemTableFuelSuppliesnum_cupom.AsString;
+      FFuel.FuelSuplies.Entregador := ButtonEditTravelDriverCode.EditValue;
       FFuel.FuelSuplies.Placa := ButtonEditTavelVehicle.Text;
       FFuel.FuelSuplies.Data := DateEditTravelDate.Date;
       FFuel.FuelSuplies.Produto := 'COMBUSTIVEL';
-      FFuel.FuelSuplies.Quantidade := MemTableFuelSuppliesqtd_abastecimento.AsFloat;
-      FFuel.FuelSuplies.ValorUnitario := MemTableFuelSuppliesval_unitario.AsFloat;
+      FFuel.FuelSuplies.Quantidade :=
+        MemTableFuelSuppliesqtd_abastecimento.AsFloat;
+      FFuel.FuelSuplies.ValorUnitario :=
+        MemTableFuelSuppliesval_unitario.AsFloat;
       FFuel.FuelSuplies.ValorTotal := MemTableFuelSuppliesval_total.AsFloat;
-      FFuel.FuelSuplies.DataManutencao :=  Now;
+      FFuel.FuelSuplies.DataManutencao := Now;
       if not FFuel.Save then
       begin
         MessageDlg('Erro ao gravar o abastecimento!', mtError, [mbOK], 0);
@@ -762,9 +830,9 @@ begin
     MemTableTravelInputs.First;
     while not MemTableTravelInputs.Eof do
     begin
-      FInputs.Inputs.IDInsumo :=  MemTableTravelInputsid_insumo.AsInteger;
-      FInputs.Inputs.PlacaVeiculo :=  ButtonEditTavelVehicle.Text;
-      FInputs.Inputs.Log :=  FormatDateTime('dd/mm/aaaa hh:mm:ss', Now);
+      FInputs.Inputs.IDInsumo := MemTableTravelInputsid_insumo.AsInteger;
+      FInputs.Inputs.PlacaVeiculo := ButtonEditTavelVehicle.Text;
+      FInputs.Inputs.Log := FormatDateTime('dd/mm/aaaa hh:mm:ss', Now);
       FInputs.Inputs.KMConsumo := MemTableTravelInputsqtd_km_consumo.AsFloat;
       FInputs.Inputs.Data := DateEditTravelDate.Date;
       if not FInputs.Save then
@@ -793,9 +861,10 @@ begin
   view_SisGefGeneralSearch.bOpen := True;
   if view_SisGefGeneralSearch.ShowModal = mrOk then
   begin
-    iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].value;
-    sName := view_SisGefGeneralSearch.memTablePesquisa.Fields[1].value;
-    if (MemTableTravelDestination.State = dsEdit) or (MemTableTravelDestination.State = dsInsert) then
+    iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].Value;
+    sName := view_SisGefGeneralSearch.memTablePesquisa.Fields[1].Value;
+    if (MemTableTravelDestination.State = dsEdit) or
+      (MemTableTravelDestination.State = dsInsert) then
     begin
       MemTableTravelDestinationdes_destino.Value := sName;
       MemTableTravelDestinationcod_agente.Value := iId;
@@ -817,10 +886,10 @@ begin
   view_SisGefGeneralSearch.bOpen := True;
   if view_SisGefGeneralSearch.ShowModal = mrOk then
   begin
-    iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].value;
+    iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].Value;
     sName := GetDriverName(iId);
     ButtonEditTravelDriverCode.EditValue := iId;
-    TextEditTravelDriverName.Text:= sName;
+    TextEditTravelDriverName.Text := sName;
   end;
   FreeAndNil(view_SisGefGeneralSearch);
 end;
@@ -829,20 +898,25 @@ procedure TPageTravelControl.SearchPeriod;
 var
   FTravel: TServicesDAORoutines;
   sSentence: string;
-  aParam: array of variant;
+  aParam: array of Variant;
 begin
   try
     FTravel := TServicesDAORoutines.Create;
     sSentence := 'select * from view_listTravel where dat_transporte between ' +
       QuotedStr(FormatDateTime('yyyy-mm-dd', dateEditInicial.Date)) + ' and ' +
       QuotedStr(FormatDateTime('yyyy-mm-dd', dateEditFinalDate.Date));
+    if ImageComboBoxFilterStatus.EditValue >= 0 then
+    begin
+      sSentence := sSentence  + ' and cod_status = ' + VartoStr(ImageComboBoxFilterStatus.EditValue);
+    end;
+    sSentence := sSentence + ' order by id_controle desc';
     aParam := ['SQL', sSentence];
     memTableTravels.Active := False;
     if FTravel.ExecSentence(aParam) then
     begin
       memTableTravels.CopyDataSet(FTravel.Query);
       if not memTableTravels.IsEmpty then
-        memTableTravels.Last;
+        memTableTravels.First;
       FTravel.Query.Connection.Connected := False;
     end;
   finally
@@ -864,10 +938,10 @@ begin
   view_SisGefGeneralSearch.bOpen := True;
   if view_SisGefGeneralSearch.ShowModal = mrOk then
   begin
-    iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].value;
+    iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].Value;
     sName := GetNameTaker(iId);
     ButtonEdittravelCodeTaker.EditValue := iId;
-    TextEditTravelNameTaker.Text:= sName;
+    TextEditTravelNameTaker.Text := sName;
   end;
   FreeAndNil(view_SisGefGeneralSearch);
 end;
@@ -876,7 +950,7 @@ procedure TPageTravelControl.SearchTravel;
 var
   FTravelList: TControllerTravelControl;
   sSentence: string;
-  aParam: array of variant;
+  aParam: array of Variant;
 begin
   try
     FTravelList := TControllerTravelControl.Create;
@@ -887,6 +961,11 @@ begin
       if FTravelList.SetupFieldsClass then
       begin
         SetupFormFields(FTravelList);
+        if FTravelList.Travel.Status <> 0 then
+        begin
+          FAction := tacIndefinido;
+          Mode;
+        end;
         LayoutBody.ItemIndex := 1;
       end;
       FTravelList.Travel.Query.Connection.Connected := False;
@@ -909,10 +988,11 @@ begin
   view_SisGefGeneralSearch.bOpen := True;
   if view_SisGefGeneralSearch.ShowModal = mrOk then
   begin
-    sPlaca := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].value;
+    sPlaca := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].Value;
     ButtonEditTavelVehicle.EditValue := sPlaca;
   end;
-  FreeAndNil(view_SisGefGeneralSearch);end;
+  FreeAndNil(view_SisGefGeneralSearch);
+end;
 
 procedure TPageTravelControl.SetupClassFields;
 begin
@@ -936,7 +1016,7 @@ begin
   aParam[16] := '';
 end;
 
-procedure TPageTravelControl.SetupFormFields(FTravel : TControllerTravelControl);
+procedure TPageTravelControl.SetupFormFields(FTravel: TControllerTravelControl);
 begin
   maskEditTravelID.EditValue := FTravel.Travel.ID;
   DateEditTravelDate.EditValue := FTravel.Travel.Data;
@@ -959,3 +1039,4 @@ begin
 end;
 
 end.
+
