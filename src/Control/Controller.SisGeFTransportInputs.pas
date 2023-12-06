@@ -18,8 +18,10 @@ type
 
     function Save(): boolean;
     function Search(aParam: array of variant): boolean;
-    function SetupFieldsClass(aParam: array of variant): boolean;
+    function SetupFieldsClass: boolean;
     function GetFieldsParam(var aParam: array of variant): boolean;
+    function SetupFieldsData(aParam: array of variant): boolean;
+
   end;
 
 implementation
@@ -28,7 +30,6 @@ implementation
 
 constructor TControllerTransportInputs.Create;
 begin
-  FFieldsQuery := ['ID_INSUMO', 'DES_INSUMO', 'DES_UNIDADE', 'DES_LOG'];
   FInputs := TTransportInputs.Create;
 end;
 
@@ -41,7 +42,7 @@ function TControllerTransportInputs.GetFieldsParam(var aParam: array of variant)
 var
   i: integer;
 begin
-  for i := 0 to Pred(Inputs.Query.FieldCount) do
+  for i := 0 to Pred(FInputs.Query.FieldCount) do
   begin
     aParam[i] := FInputs.Query.FieldByName(FFieldsQuery[i]).Value;
   end;
@@ -54,25 +55,16 @@ end;
 
 function TControllerTransportInputs.Search(aParam: array of variant): boolean;
 begin
-  Result := Search(aParam);
+  Result := FInputs.Search(aParam);
 end;
 
-function TControllerTransportInputs.SetupFieldsClass(aParam: array of variant): boolean;
+function TControllerTransportInputs.SetupFieldsClass: boolean;
 begin
-  if (FInputs.Acao = tacIncluir) or (FInputs.Acao = tacAlterar)  then
-  begin
-    FInputs.ID := aParam[0];
-    FInputs.Descricao := aParam[1];
-    FInputs.Unidade := aParam[2];
-    FInputs.Log := aParam[3];
-  end
-  else
-  begin
-    FInputs.ID := FInputs.Query.FieldByName(FFieldsQuery[0]).Value;
-    FInputs.Descricao := FInputs.Query.FieldByName(FFieldsQuery[1]).Value;
-    FInputs.Unidade := FInputs.Query.FieldByName(FFieldsQuery[2]).Value;
-    FInputs.Log := FInputs.Query.FieldByName(FFieldsQuery[3]).Value;
-  end;
+  Result := FInputs.SetupFieldsClass;
+end;
+
+function TControllerTransportInputs.SetupFieldsData(aParam: array of variant): boolean;
+begin
 
 end;
 

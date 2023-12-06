@@ -89,7 +89,7 @@ const
     + 'DES_OBS = :DES_OBS, VAL_SERVICO = :VAL_SERVICO, COD_STATUS = :COD_STATUS, DES_LOG = :DES_LOG '
     + 'WHERE ID_CONTROLE = :ID_CONTROLE ';
   CRUDDELETE = 'DETELE FROM ' + TABLENAME + ' WHERE ID_CONTROLE = :ID_CONTROLE';
-  CRUDGETID  = 'select auto_increment from information_schema.tables where table_name = "' + TABLENAME + '" and table_schema = ';
+  CRUDGETID  = 'select coalesce(max(ID_CONTROLE),0) + 1 from ' + TABLENAME;
 
 
 implementation

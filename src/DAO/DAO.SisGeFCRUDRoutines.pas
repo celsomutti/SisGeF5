@@ -39,10 +39,7 @@ var
 begin
   try
     FDQuery := FConn.ReturnQuery();
-    if Pos('table_schema', FCRUDSentence) > 0 then
-      FDQuery.Open(FCRUDSentence + '"' +  Global.Parametros.pDatabase + '"')
-    else
-      FDQuery.Open(FCRUDSentence);
+    FDQuery.Open(FCRUDSentence);
     try
       Result := FDQuery.Fields[0].AsInteger;
     finally

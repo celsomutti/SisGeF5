@@ -27,7 +27,7 @@ uses
   Controller.SisGeFTravelControl, Controller.SisGeFVehiclesRegistration,
   Services.SisGeFDAORoutines, Common.Utils, Control.Cadastro, Control.Bases,
   dxBarBuiltInMenu, cxGridCustomPopupMenu,
-  cxGridPopupMenu, Common.ENum, cxCalc, cxCheckBox;
+  cxGridPopupMenu, Common.ENum, cxCalc, cxCheckBox, Global.Parametros;
 
 type
   TPageTravelControl = class(TForm)
@@ -197,6 +197,8 @@ type
     GridTravelDestinationsDBTableView1num_destination: TcxGridDBColumn;
     ImageComboBoxFilterStatus: TcxImageComboBox;
     LayoutFilterStatus: TdxLayoutItem;
+    LabelInform: TcxLabel;
+    LayoutLabemInform: TdxLayoutItem;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionExitPageExecute(Sender: TObject);
@@ -222,6 +224,7 @@ type
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure ButtonEditTravelDriverCodePropertiesChange(Sender: TObject);
     procedure ButtonEdittravelCodeTakerPropertiesChange(Sender: TObject);
+    procedure MemTableFuelSuppliesval_unitarioValidate(Sender: TField);
   private
     { Private declarations }
     FAction: TAcao;
@@ -548,6 +551,20 @@ begin
   end;
 end;
 
+procedure TPageTravelControl.MemTableFuelSuppliesval_unitarioValidate
+  (Sender: TField);
+begin
+  if MemTableFuelSuppliesqtd_abastecimento.AsFloat = 0 then
+    Exit;
+  if MemTableFuelSuppliesval_unitario.AsFloat = 0 then
+    Exit;
+  if MemTableFuelSuppliesval_total.AsFloat > 0 then
+    Exit;
+  MemTableFuelSuppliesval_total.AsFloat :=
+    MemTableFuelSuppliesqtd_abastecimento.AsFloat *
+    MemTableFuelSuppliesval_unitario.AsFloat;
+end;
+
 procedure TPageTravelControl.Mode;
 begin
   if FAction = tacIndefinido then
@@ -571,22 +588,22 @@ begin
   end;
   if FAction = tacAlterar then
   begin
-    MemTableTravelDestination.UpdateOptions.ReadOnly := false;
-    MemTableFuelSupplies.UpdateOptions.ReadOnly := false;
-    MemTableTravelInputs.UpdateOptions.ReadOnly := false;
-    actionCancelTravel.Enabled := true;
-    actionEndTravel.Enabled := true;
+    MemTableTravelDestination.UpdateOptions.ReadOnly := False;
+    MemTableFuelSupplies.UpdateOptions.ReadOnly := False;
+    MemTableTravelInputs.UpdateOptions.ReadOnly := False;
+    actionCancelTravel.Enabled := True;
+    actionEndTravel.Enabled := True;
     actionSaveTravel.Enabled := True;
-    DateEditTravelDate.Properties.ReadOnly := false;
-    ComboBoxTravelOperation.Properties.ReadOnly := false;
-    ButtonEdittravelCodeTaker.Properties.ReadOnly := false;
-    ButtonEditTravelDriverCode.Properties.ReadOnly := false;
-    ButtonEditTavelVehicle.Properties.ReadOnly := false;
-    CurrencyEditTravelInitialKM.Properties.ReadOnly := false;
-    TimeEditTravelDepartureTime.Properties.ReadOnly := false;
-    MemoObs.Properties.ReadOnly := false;
-    CurrencyEditFinalKM.Properties.ReadOnly := false;
-    TimeEditreturnTime.Properties.ReadOnly := false;
+    DateEditTravelDate.Properties.ReadOnly := False;
+    ComboBoxTravelOperation.Properties.ReadOnly := False;
+    ButtonEdittravelCodeTaker.Properties.ReadOnly := False;
+    ButtonEditTravelDriverCode.Properties.ReadOnly := False;
+    ButtonEditTavelVehicle.Properties.ReadOnly := False;
+    CurrencyEditTravelInitialKM.Properties.ReadOnly := False;
+    TimeEditTravelDepartureTime.Properties.ReadOnly := False;
+    MemoObs.Properties.ReadOnly := False;
+    CurrencyEditFinalKM.Properties.ReadOnly := False;
+    TimeEditreturnTime.Properties.ReadOnly := False;
   end;
 
 end;
@@ -719,7 +736,10 @@ begin
     if FTravel.Save then
     begin
       if FAction = tacIncluir then
+      begin
         maskEditTravelID.EditValue := FTravel.Travel.ID;
+        maskEditTravelID.Refresh;
+      end;
       SaveDestinations;
       SaveFuelSuplies;
       SaveTravelInputs;
@@ -734,7 +754,7 @@ end;
 procedure TPageTravelControl.SaveDestinations;
 var
   FDestinations: TControllerDestinationTravel;
-  aParam: array of variant;
+  aParam: array of Variant;
 begin
   FDestinations := TControllerDestinationTravel.Create;
   try
@@ -784,24 +804,52 @@ begin
   try
     if MemTableFuelSupplies.IsEmpty then
       Exit;
-    FFuel.FuelSuplies.Viagem := maskEditTravelID.EditValue;
+    SetLength(aParam, 18);
+    aParam[0] := -1;
+    aParam[1] := '';
+    aParam[2] := 0;
+    aParam[3] := '';
+    aParam[4] := 0;
+    aParam[5] := '';
+    aParam[6] := 0;
+    aParam[7] := 0;
+    aParam[8] := 0;
+    aParam[9] := '';
+    aParam[10] := 0;
+    aParam[11] := '';
+    aParam[12] := '';
+    aParam[13] := 0;
+    aParam[14] := 0;
+    aParam[15] := 0;
+    aParam[16] := '';
+    aParam[17] := maskEditTravelID.EditValue;;
+    FFuel.SetupFieldsData(aParam);
     FFuel.FuelSuplies.Acao := tacExcluir;
+    FFuel.SetupFieldsData(aParam);
     FFuel.Save;
     FFuel.FuelSuplies.Acao := tacIncluir;
     MemTableFuelSupplies.First;
     while not MemTableFuelSupplies.Eof do
     begin
-      FFuel.FuelSuplies.Cupom := MemTableFuelSuppliesnum_cupom.AsString;
-      FFuel.FuelSuplies.Entregador := ButtonEditTravelDriverCode.EditValue;
-      FFuel.FuelSuplies.Placa := ButtonEditTavelVehicle.Text;
-      FFuel.FuelSuplies.Data := DateEditTravelDate.Date;
-      FFuel.FuelSuplies.Produto := 'COMBUSTIVEL';
-      FFuel.FuelSuplies.Quantidade :=
-        MemTableFuelSuppliesqtd_abastecimento.AsFloat;
-      FFuel.FuelSuplies.ValorUnitario :=
-        MemTableFuelSuppliesval_unitario.AsFloat;
-      FFuel.FuelSuplies.ValorTotal := MemTableFuelSuppliesval_total.AsFloat;
-      FFuel.FuelSuplies.DataManutencao := Now;
+      aParam[0] := 0;
+      aParam[1] := MemTableFuelSuppliesnum_cupom.AsString;;
+      aParam[2] := ButtonEditTravelDriverCode.EditValue;;
+      aParam[3] := ButtonEditTavelVehicle.Text;
+      aParam[4] := DateEditTravelDate.Date;
+      aParam[5] := 'COMBUSTIVEL';
+      aParam[6] := MemTableFuelSuppliesqtd_abastecimento.AsFloat;
+      aParam[7] := MemTableFuelSuppliesval_unitario.AsFloat;
+      aParam[8] := MemTableFuelSuppliesval_total.AsFloat;;
+      aParam[9] := Global.Parametros.pUser_Name;
+      aParam[10] := Now;
+      aParam[11] := 'N';
+      aParam[12] := '0';
+      aParam[13] := 0;
+      aParam[14] := 0;
+      aParam[15] := 0;
+      aParam[16] := '';
+      aParam[17] := maskEditTravelID.EditValue;
+      FFuel.SetupFieldsData(aParam);
       if not FFuel.Save then
       begin
         MessageDlg('Erro ao gravar o abastecimento!', mtError, [mbOK], 0);
@@ -811,6 +859,7 @@ begin
     end;
     MemTableFuelSupplies.First;
   finally
+    Finalize(aParam);
     FFuel.Free;
   end;
 end;
@@ -823,18 +872,36 @@ begin
   try
     if MemTableTravelInputs.IsEmpty then
       Exit;
-    FInputs.Inputs.Viagem := maskEditTravelID.EditValue;
+    SetLength(aParam, 9);
+    aParam[0] := -1;
+    aParam[1] := 0;
+    aParam[2] := '';
+    aParam[3] := 0;
+    aParam[4] := 0;
+    aParam[5] := maskEditTravelID.EditValue;
+    aParam[6] := 0;
+    aParam[7] := 0;
+    aParam[8] := '';
+    aParam[9] := '';
     FInputs.Inputs.Acao := tacExcluir;
+    FInputs.SetupFieldsData(aParam);
     FInputs.Save;
     FInputs.Inputs.Acao := tacIncluir;
     MemTableTravelInputs.First;
     while not MemTableTravelInputs.Eof do
     begin
-      FInputs.Inputs.IDInsumo := MemTableTravelInputsid_insumo.AsInteger;
-      FInputs.Inputs.PlacaVeiculo := ButtonEditTavelVehicle.Text;
-      FInputs.Inputs.Log := FormatDateTime('dd/mm/aaaa hh:mm:ss', Now);
-      FInputs.Inputs.KMConsumo := MemTableTravelInputsqtd_km_consumo.AsFloat;
-      FInputs.Inputs.Data := DateEditTravelDate.Date;
+      aParam[0] := 0;
+      aParam[1] := MemTableTravelInputsid_insumo.AsInteger;
+      aParam[2] := ButtonEditTavelVehicle.Text;
+      aParam[3] := DateEditTravelDate.Date;
+      aParam[4] := MemTableTravelInputsqtd_km_consumo.AsFloat;
+      aParam[5] := maskEditTravelID.EditValue;
+      aParam[6] := MemTableTravelInputsqtd_consumo.asFloat;
+      aParam[7] := 0;
+      aParam[8] := 'N';
+      aParam[6] := FormatDateTime('dd/mm/aaaa hh:mm:ss', Now);
+      FInputs.Inputs.Acao := tacIncluir;
+      FInputs.SetupFieldsData(aParam);
       if not FInputs.Save then
       begin
         MessageDlg('Erro ao gravar os insumos!', mtError, [mbOK], 0);
@@ -907,7 +974,8 @@ begin
       QuotedStr(FormatDateTime('yyyy-mm-dd', dateEditFinalDate.Date));
     if ImageComboBoxFilterStatus.EditValue >= 0 then
     begin
-      sSentence := sSentence  + ' and cod_status = ' + VartoStr(ImageComboBoxFilterStatus.EditValue);
+      sSentence := sSentence + ' and cod_status = ' +
+        VartoStr(ImageComboBoxFilterStatus.EditValue);
     end;
     sSentence := sSentence + ' order by id_controle desc';
     aParam := ['SQL', sSentence];

@@ -760,6 +760,20 @@ object PageTravelControl: TPageTravelControl
       TabOrder = 4
       Width = 202
     end
+    object LabelInform: TcxLabel
+      Left = 10000
+      Top = 10000
+      Caption = 'Aguarde ...'
+      ParentFont = False
+      Style.Font.Charset = ANSI_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Verdana'
+      Style.Font.Style = [fsBold, fsItalic]
+      Style.HotTrack = False
+      Style.IsFontAssigned = True
+      Visible = False
+    end
     object LayoutContainerGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
@@ -1331,6 +1345,19 @@ object PageTravelControl: TPageTravelControl
       ControlOptions.ShowBorder = False
       Index = 2
     end
+    object LayoutLabemInform: TdxLayoutItem
+      Parent = LayoutButtons
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxLabel1'
+      CaptionOptions.Visible = False
+      Visible = False
+      Control = LabelInform
+      ControlOptions.OriginalHeight = 18
+      ControlOptions.OriginalWidth = 76
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
   end
   object actionList: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -1583,6 +1610,7 @@ object PageTravelControl: TPageTravelControl
     object MemTableFuelSuppliesval_unitario: TFloatField
       DisplayLabel = 'Unit'#225'rio'
       FieldName = 'val_unitario'
+      OnValidate = MemTableFuelSuppliesval_unitarioValidate
     end
     object MemTableFuelSuppliesval_total: TFloatField
       DisplayLabel = 'Total'

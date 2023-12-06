@@ -68,10 +68,15 @@ begin
   try
     FCRUD := TDAOCRUDRoutines.Create;
     if FID = -1 then
-      FCRUD.CRUDSentence := CRUDDELETE + ' WHERE ID_CONTROLE = ' + FViagem.ToString
+    begin
+      FCRUD.CRUDSentence := CRUDDELETE + ' WHERE ID_CONTROLE = :ID_CONTROLE';
+      Result := FCRUD.UpdateExec([FViagem]);
+    end
     else
-      FCRUD.CRUDSentence := CRUDDELETE + ' WHERE COD_DESTINO = ' + FID.ToString;
-    Result := FCRUD.UpdateExec([FID]);
+    begin
+      FCRUD.CRUDSentence := CRUDDELETE + ' WHERE COD_DESTINO = :COD_DESTINO';
+      Result := FCRUD.UpdateExec([FID]);
+    end;
   finally
     FCRUD.free;
   end;

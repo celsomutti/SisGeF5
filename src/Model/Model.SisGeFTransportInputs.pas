@@ -17,6 +17,7 @@ uses Common.ENum, FireDAC.Comp.Client, System.SysUtils,
       FUpdateFields: array of variant;
       FAction: TAcao;
       FQuery: TFDQuery;
+      FFieldsQuery: array of variant;
 
       function GetId(): integer;
       function Insert(): boolean;
@@ -35,6 +36,9 @@ uses Common.ENum, FireDAC.Comp.Client, System.SysUtils,
       constructor Create;
       function Save(): boolean;
       function Search(aParam: array of variant): boolean;
+      function SetupFieldsData(aParam: array of variant): boolean;
+      function SetupFieldsClass(): boolean;
+
     end;
 
   const
@@ -53,8 +57,7 @@ implementation
 
 constructor TTransportInputs.Create;
 begin
-  FInsertFields := [FID, FDescricao, FUnidade, FLog];
-  FUpdateFields := [FDescricao, FUnidade, FLog, FID];
+  FFieldsQuery := ['ID_INSUMO', 'DES_INSUMO', 'DES_UNIDADE', 'DES_LOG'];
 end;
 
 function TTransportInputs.Delete: boolean;
@@ -133,6 +136,32 @@ begin
     FID := Self.GetId
   else
     FID := Value;
+end;
+
+function TTransportInputs.SetupFieldsClass: boolean;
+begin
+  FID :=FQuery.FieldByName(FFieldsQuery[0]).Value;;
+  FDescricao := FQuery.FieldByName(FFieldsQuery[1]).Value;;
+  FUnidade := FQuery.FieldByName(FFieldsQuery[2]).Value;;
+  FLog := FQuery.FieldByName(FFieldsQuery[3]).Value;;
+end;
+
+function TTransportInputs.SetupFieldsData(aParam: array of variant): boolean;
+begin
+  FID := aParam[0];
+  FDescricao := aParam[1];
+  FUnidade := aParam[2];
+  FLog := aParam[3];
+  if FAction = tacIncluir then
+  begin
+    FID := GetId;
+    FInsertFields := [FID, FDescricao, FUnidade, FLog];
+  end
+  else if FAction = tacAlterar then
+  begin
+    FUpdateFields := [FDescricao, FUnidade, FLog, FID];
+  end;
+
 end;
 
 function TTransportInputs.Update: boolean;
