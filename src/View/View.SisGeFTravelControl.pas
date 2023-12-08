@@ -225,6 +225,8 @@ type
     procedure ButtonEditTravelDriverCodePropertiesChange(Sender: TObject);
     procedure ButtonEdittravelCodeTakerPropertiesChange(Sender: TObject);
     procedure MemTableFuelSuppliesval_unitarioValidate(Sender: TField);
+    procedure actionCancelTravelExecute(Sender: TObject);
+    procedure actionEndTravelExecute(Sender: TObject);
   private
     { Private declarations }
     FAction: TAcao;
@@ -254,6 +256,8 @@ type
     procedure SaveDestinations;
     procedure SaveFuelSuplies;
     procedure SaveTravelInputs;
+    procedure FinalizeTravel;
+    procedure CancelTravel;
     procedure Mode;
   public
     { Public declarations }
@@ -271,9 +275,19 @@ uses Data.SisGeF, View.SisGeFGeneralSearch;
 
 { TPageTravelControl }
 
+procedure TPageTravelControl.actionCancelTravelExecute(Sender: TObject);
+begin
+  CancelTravel;
+end;
+
 procedure TPageTravelControl.actionEditTravelExecute(Sender: TObject);
 begin
   EditTravel;
+end;
+
+procedure TPageTravelControl.actionEndTravelExecute(Sender: TObject);
+begin
+  FinalizeTravel;
 end;
 
 procedure TPageTravelControl.actionExitPageExecute(Sender: TObject);
@@ -387,6 +401,31 @@ begin
   end;
 end;
 
+procedure TPageTravelControl.CancelTravel;
+var
+  FTravel: TControllerTravelControl;
+begin
+  FTravel := TControllerTravelControl.Create;
+  try
+    if MessageDlg('Confirma Cancelar esta viagem?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
+      Exit;
+    ImageComboBox1Status.EditValue := 2;
+    SetupClassFields;
+    FTravel.Travel.Acao := tacAlterar;
+    FTravel.SetupFieldsData(aParam);
+    if FTravel.Save then
+    begin
+      MessageDlg('Viagem cancelada com sucesso.', mtInformation, [mbOK], 0);
+      Mode;
+      LayoutBody.ItemIndex := 0;
+      SearchPeriod;
+    end;
+
+  finally
+    FTravel.Free;
+  end;
+end;
+
 procedure TPageTravelControl.ClearForm;
 begin
   maskEditTravelID.EditValue := 0;
@@ -465,6 +504,42 @@ begin
     end;
   finally
     fnUtil.Free;
+  end;
+end;
+
+procedure TPageTravelControl.FinalizeTravel;
+var
+  FTravel: TControllerTravelControl;
+begin
+  FTravel := TControllerTravelControl.Create;
+  try
+    SetupClassFields;
+    FTravel.Travel.Acao := tacAlterar;
+    FTravel.SetupFieldsData(aParam);
+    if not FTravel.ValidateFinalization then
+      begin
+      MessageDlg(FTravel.Travel.Mensagem, mtWarning, [mbOK], 0);
+      Exit;
+    end;
+    if MessageDlg('Confirma Finalizar esta viagem?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
+      Exit;
+    ImageComboBox1Status.EditValue := 1;
+    if CurrencyEditTotalKM.Value = 0 then
+    begin
+      CurrencyEditTotalKM.Value := CurrencyEditFinalKM.Value - CurrencyEditTravelInitialKM.Value;
+    end;
+    SetupClassFields;
+    FTravel.Travel.Acao := tacAlterar;
+    FTravel.SetupFieldsData(aParam);
+    if FTravel.Save then
+    begin
+      MessageDlg('Viagem finalizada com sucesso.', mtInformation, [mbOK], 0);
+      Mode;
+      SearchPeriod;
+    end;
+
+  finally
+    FTravel.Free;
   end;
 end;
 
@@ -729,8 +804,7 @@ begin
       MessageDlg(FTravel.Travel.Mensagem, mtWarning, [mbOK], 0);
       Exit;
     end;
-    if MessageDlg('Confirma gravar os dados?', mtConfirmation, [mbYes, mbNo], 0)
-      = mrNo then
+    if MessageDlg('Confirma gravar os dados?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
       Exit;
     FTravel.Travel.Acao := FAction;
     if FTravel.Save then
@@ -779,7 +853,7 @@ begin
       aParam[0] := 0;
       aParam[1] := MemTableTravelDestinationdes_destino.AsString;
       aParam[2] := MemTableTravelDestinationcod_agente.AsInteger;
-      aParam[3] := FormatDateTime('dd/mm/aaaa hh:mm:ss', Now);
+      aParam[3] := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now);
       aParam[4] := maskEditTravelID.EditValue;
       FDestinations.SetupFieldsData(aParam);
       if not FDestinations.Save then
@@ -899,7 +973,7 @@ begin
       aParam[6] := MemTableTravelInputsqtd_consumo.asFloat;
       aParam[7] := 0;
       aParam[8] := 'N';
-      aParam[6] := FormatDateTime('dd/mm/aaaa hh:mm:ss', Now);
+      aParam[6] := FormatDateTime('yyyy/mm/dd hh:mm:ss', Now);
       FInputs.Inputs.Acao := tacIncluir;
       FInputs.SetupFieldsData(aParam);
       if not FInputs.Save then
@@ -1066,7 +1140,7 @@ procedure TPageTravelControl.SetupClassFields;
 begin
   SetLength(aParam, 17);
   aParam[0] := maskEditTravelID.EditValue;
-  aParam[1] := '';
+  aParam[1] := '0';
   aParam[2] := DateEditTravelDate.EditValue;
   aParam[3] := ButtonEdittravelCodeTaker.EditValue;
   aParam[4] := ComboBoxTravelOperation.Text;

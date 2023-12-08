@@ -22,6 +22,7 @@ type
     function GetFieldsParam(var aParam: array of variant): boolean;
     function GetValueField(aParam: array of variant): string;
     function ValidateData(): boolean;
+    function ValidateFinalization(): boolean;
     function SetupFieldsData(aParam: array of variant): boolean;
 
   end;
@@ -80,6 +81,11 @@ end;
 function TControllerTravelControl.ValidateData: boolean;
 begin
   Result := FTravel.ValidateData;
+end;
+
+function TControllerTravelControl.ValidateFinalization: boolean;
+begin
+  Result := FTravel.ValidateFinalization;
 end;
 
 end.

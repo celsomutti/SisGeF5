@@ -1403,12 +1403,14 @@ object PageTravelControl: TPageTravelControl
       Caption = '&Cancelar Viagem'
       Hint = 'Cancelar viagem'
       ImageIndex = 84
+      OnExecute = actionCancelTravelExecute
     end
     object actionEndTravel: TAction
       Category = 'Page'
       Caption = '&Finalizar'
       Hint = 'Finalizar viagem'
       ImageIndex = 83
+      OnExecute = actionEndTravelExecute
     end
     object actionPriorPage: TAction
       Category = 'Page'

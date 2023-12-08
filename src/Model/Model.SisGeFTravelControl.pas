@@ -332,7 +332,6 @@ begin
     FMessage := 'Hora de retorno menor que hora de saída.';
     Exit;
   end;
-
   if KMSaida = 0 then
   begin
     FMessage := 'Informe KM de saída.';
@@ -341,6 +340,11 @@ begin
   if KMRetorno = 0 then
   begin
     FMessage := 'Informe KM de chegada.';
+    Exit;
+  end;
+  if KMRetorno < KMSaida then
+  begin
+    FMessage := 'KM de chegada menor que KM de saída.';
     Exit;
   end;
   KMRodado := KMRetorno - KMSaida;
