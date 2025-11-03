@@ -10,7 +10,7 @@ uses
   dxRibbonCustomizationForm, dxRibbon, cxClasses, dxBar, System.Actions,
   Vcl.ActnList,
   dxStatusBar, dxRibbonStatusBar, dxRibbonColorGallery, cxPC, dxBarBuiltInMenu,
-  dxTabbedMDI, Control.Sistema, dxSkinsCore,
+  dxTabbedMDI, dxSkinsCore,
   dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee,
   dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
   dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
@@ -30,9 +30,9 @@ uses
   dxSkinXmas2008Blue, dxSkinsdxRibbonPainter, dxSkinsdxBarPainter,
   dxSkinscxPCPainter, Control.Usuarios, FireDAC.Comp.Client,
   Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems,
-  dxNavBarOfficeNavigationBar, View.SisGeFExtractSO, XPAdBase,
-  XPAdAutoUpdate, Winapi.WinInet, IdBaseComponent, IdComponent,
-  IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, IdException, IniFiles, ShellAPI, idftpcommon;
+  dxNavBarOfficeNavigationBar, View.SisGeFExtractSO, Winapi.WinInet, IdBaseComponent, IdComponent,
+  IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, IdException, IniFiles, ShellAPI, idftpcommon, service.sistem,
+  service.connectionMySQL;
 
 type
   Tview_Main = class(TForm)
@@ -263,6 +263,8 @@ type
 
   private
     FidFTP : TIdFTP;
+    FSistem : TSistem;
+    FConn : TConnectionMySQL;
     function VerifyConnection(): boolean;
     function ConnectFTPServer(): boolean;
     function GetVersionFTP(): integer;
@@ -817,11 +819,12 @@ var
   iDias: Integer;
 begin
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FConn := TConnectionMySQL.Create();
+    FDQuery := FConn.GetQuery();
     Usuarios := TUsuarioControl.Create;
     iDias := 0;
     SetLength(pParam, 2);
-    if Pos('@', Global.Parametros.pUser_Name) > 0 then
+    if Pos('@', FSistem.CurrentLogin) > 0 then
     begin
       pParam[0] := 'EMAIL';
     end
@@ -829,19 +832,19 @@ begin
     begin
       pParam[0] := 'LOGIN';
     end;
-    pParam[1] := Global.Parametros.pUser_Name;
+    pParam[1] := FSistem.CurrentUserName;
     FDQuery := Usuarios.Localizar(pParam);
     if not FDQuery.IsEmpty then
     begin
-      Global.Parametros.pUser_ID := FDQuery.FieldByName('COD_USUARIO')
-        .AsInteger;
-      Global.Parametros.pNameUser := FDQuery.FieldByName('NOM_USUARIO')
-        .AsString;
+      FSistem.CurrentUserID := FDQuery.FieldByName('COD_USUARIO').AsString;
+      FSistem.CurrentUserName := FDQuery.FieldByName('NOM_USUARIO').AsString;
+      FSistem.CurrentLogin := FDQuery.FieldByName('DES_LOGIN').AsString;
+      Global.Parametros.pUser_Name := FDQuery.FieldByName('DES_LOGIN').AsString;
+      Global.Parametros.pNameUser := FDQuery.FieldByName('NOM_USUARIO').AsString;
+      Global.Parametros.pUser_ID := FDQuery.FieldByName('COD_USUARIO').AsInteger;
       Global.Parametros.pnivel := FDQuery.FieldByName('COD_NIVEL').AsInteger;
-      Global.Parametros.pAdmin := FDQuery.FieldByName('DOM_PRIVILEGIO')
-        .AsString;
-      Global.Parametros.pEmailUsuario :=
-        FDQuery.FieldByName('DES_EMAIL').AsString;
+      Global.Parametros.pAdmin := FDQuery.FieldByName('DOM_PRIVILEGIO').AsString;
+      Global.Parametros.pEmailUsuario := FDQuery.FieldByName('DES_EMAIL').AsString;
       sPrimeiroAcesso := FDQuery.FieldByName('DOM_PRIMEIRO_ACESSO').AsString;
       bExpira := (FDQuery.FieldByName('DAT_SENHA').AsDateTime <= Now());
       iDias := FDQuery.FieldByName('QTD_DIAS_EXPIRA').AsInteger;
@@ -858,6 +861,7 @@ begin
         end;
       end;
     end;
+    TSistem.SaveAuth();
   finally
     Usuarios.Free;
     FDQuery.Free;
@@ -870,8 +874,8 @@ begin
     Exit;
   Data_SisGeF.skcmain.SkinName := dxBarCombo1.Text;
   dxRibbon1.ColorSchemeName := dxBarCombo1.Text;
-  if not TSistemaControl.GetInstance().SaveParamINI('Database', 'Skin',
-    IntToStr(dxBarCombo1.ItemIndex)) then
+  FSistem.Skin := IntToStr(dxBarCombo1.ItemIndex);
+  FSistem.SaveSkin;
   begin
     Application.MessageBox
       ('Erro ao salvar a configuração (SKIN)! Informe ao suporte.', 'Erro',
@@ -902,8 +906,8 @@ end;
 
 procedure Tview_Main.FormCreate(Sender: TObject);
 begin
-  TSistemaControl.GetInstance();
-  if not TSistemaControl.GetInstance().Start then
+  FSistem := TSistem.GetInstance();
+  if not FSistem.Start then
   begin
     Application.MessageBox
       ('Arquivo de inicialização não foi encontrado! Entre em contato com o suporte.',
@@ -919,9 +923,9 @@ var
 begin
   Self.Caption := Application.Title;
   bFlag := False;
-  dxBarCombo1.Items := TSistemaControl.GetInstance().LoadSkinsINI;
+  dxBarCombo1.Items := FSistem.LoadSkinsINI;
   bFlag := True;
-  dxBarCombo1.ItemIndex := StrToIntDef(Global.Parametros.pSkin, -1);
+  dxBarCombo1.ItemIndex := FSistem.Skin;
   bLogin := False;
   for i := 1 to 3 do
   begin
@@ -938,8 +942,6 @@ begin
   else
   begin
     DadosUsuario;
-    Common.Utils.TUtils.GravaIni(Global.Parametros.pFileIni, 'Login',
-      'LastUser', Global.Parametros.pUser_Name);
     Common.Utils.TUtils.GravaIni(ExtractFilePath(Application.ExeName) + 'versionLocal.ini', 'version',
       'number', Common.Utils.TUtils.VersaoExe);
     Common.Utils.TUtils.GravaIni(ExtractFilePath(Application.ExeName) + 'versionLocal.ini', 'version',
@@ -952,7 +954,7 @@ begin
     Acessos;
   end;
   FreeAndNil(view_Login);
-  VerificaVersao;
+  //VerificaVersao;
 end;
 
 function Tview_Main.GetVersionFTP: integer;
@@ -1004,7 +1006,7 @@ begin
       view_Login := Tview_Login.Create(Application);
     end;
     view_Login.Caption := Application.Title;
-    view_Login.txtLogin.Text := Global.Parametros.pLastUser;
+    view_Login.txtLogin.Text := FSistem.CurrentLogin;
     view_Login.lblSistema.Caption := 'Versão ' + Common.Utils.TUtils.VersaoExe;
     if view_Login.ShowModal = mrCancel then
     begin

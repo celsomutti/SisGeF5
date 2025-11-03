@@ -1,0 +1,11 @@
+{
+	"name": "SisGeF5",
+	"description": "",
+	"version": "5.0.0",
+	"homepage": "",
+	"mainsrc": "./src",
+	"projects": [],
+	"dependencies": {
+		"github.com/code4delphi/c4d-version": "^v1.1.0"
+	}
+}

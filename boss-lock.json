@@ -1,0 +1,14 @@
+{
+	"hash": "d41d8cd98f00b204e9800998ecf8427e",
+	"updated": "2025-11-03T15:48:29.644361-03:00",
+	"installedModules": {
+		"github.com/code4delphi/c4d-version": {
+			"name": "c4d-version",
+			"version": "v1.1.0",
+			"hash": "9e043587e4b794178371ef7e39e314d7",
+			"artifacts": {},
+			"failed": false,
+			"changed": false
+		}
+	}
+}

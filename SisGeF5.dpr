@@ -321,7 +321,12 @@ uses
   Controller.SisGeFTransportInputs in 'src\Control\Controller.SisGeFTransportInputs.pas',
   Model.SisGeFDestinationTravel in 'src\Model\Model.SisGeFDestinationTravel.pas',
   Controller.SisGeFDestinationTravel in 'src\Control\Controller.SisGeFDestinationTravel.pas',
-  Services.SisGeFDAORoutines in 'src\Services\Services.SisGeFDAORoutines.pas';
+  Services.SisGeFDAORoutines in 'src\Services\Services.SisGeFDAORoutines.pas',
+  LocalCache4D.Compression in 'src\asserts\localcache4d\src\LocalCache4D.Compression.pas',
+  LocalCache4D.Interfaces in 'src\asserts\localcache4d\src\LocalCache4D.Interfaces.pas',
+  LocalCache4D in 'src\asserts\localcache4d\src\LocalCache4D.pas',
+  service.sistem in 'src\Services\service.sistem.pas',
+  service.connectionMySQL in 'src\Services\service.connectionMySQL.pas';
 
 {$R *.res}
 
