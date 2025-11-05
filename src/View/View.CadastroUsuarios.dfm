@@ -42,8 +42,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Transparent = True
     end
     object mskCodigo: TcxMaskEdit
-      Left = 96
-      Top = 50
+      Left = 99
+      Top = 53
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
       Properties.IgnoreMaskBlank = True
@@ -62,8 +62,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Width = 65
     end
     object txtNome: TcxTextEdit
-      Left = 96
-      Top = 77
+      Left = 99
+      Top = 80
       Hint = 'Nome do entregador'
       ParentFont = False
       Properties.MaxLength = 80
@@ -75,11 +75,11 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 2
-      Width = 518
+      Width = 949
     end
     object txtEMail: TcxTextEdit
-      Left = 96
-      Top = 131
+      Left = 99
+      Top = 134
       Hint = 'E-Mail do usu'#225'rio'
       ParentFont = False
       Properties.CharCase = ecLowerCase
@@ -92,11 +92,11 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 4
-      Width = 121
+      Width = 949
     end
     object txtLogin: TcxTextEdit
-      Left = 96
-      Top = 104
+      Left = 99
+      Top = 107
       Hint = 'Login do usu'#225'rio'
       ParentFont = False
       Properties.CharCase = ecLowerCase
@@ -109,11 +109,11 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 3
-      Width = 121
+      Width = 949
     end
     object edtGrupo: TcxButtonEdit
-      Left = 96
-      Top = 158
+      Left = 99
+      Top = 161
       Hint = 'C'#243'digo do grupo de usu'#225'rios'
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -140,8 +140,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Width = 65
     end
     object txtDescricaoGrupo: TcxTextEdit
-      Left = 167
-      Top = 158
+      Left = 170
+      Top = 161
       ParentFont = False
       Properties.ReadOnly = True
       Style.Font.Charset = DEFAULT_CHARSET
@@ -152,11 +152,11 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 6
-      Width = 121
+      Width = 878
     end
     object chkSenhaExpira: TcxCheckBox
-      Left = 193
-      Top = 185
+      Left = 198
+      Top = 191
       Hint = 'Marque aqui se a senha do usu'#225'rio ir'#225' expirar'
       ParentFont = False
       Properties.ValueChecked = 'S'
@@ -173,8 +173,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       OnClick = chkSenhaExpiraClick
     end
     object chkAdministrador: TcxCheckBox
-      Left = 96
-      Top = 185
+      Left = 99
+      Top = 191
       Hint = 
         'Marque esta op'#231#227'o para que o usu'#225'rio seja o administrador do sis' +
         'tema'
@@ -192,8 +192,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Transparent = True
     end
     object speDias: TcxSpinEdit
-      Left = 293
-      Top = 185
+      Left = 300
+      Top = 191
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
@@ -208,8 +208,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Width = 51
     end
     object chkAtivo: TcxCheckBox
-      Left = 423
-      Top = 185
+      Left = 430
+      Top = 191
       Hint = 'Marque para ativar o usu'#225'rio'
       ParentFont = False
       Properties.NullStyle = nssUnchecked
@@ -227,8 +227,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Transparent = True
     end
     object cboNivel: TcxComboBox
-      Left = 480
-      Top = 185
+      Left = 489
+      Top = 191
       Hint = 'N'#237'vel do usu'#225'rio'
       ParentFont = False
       Properties.Items.Strings = (
@@ -249,10 +249,10 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Width = 111
     end
     object grdAcessos: TcxGrid
-      Left = 21
-      Top = 230
-      Width = 250
-      Height = 200
+      Left = 24
+      Top = 236
+      Width = 1024
+      Height = 248
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -341,41 +341,42 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
           PropertiesClassName = 'TcxCheckBoxProperties'
           Properties.Alignment = taCenter
           Properties.NullStyle = nssUnchecked
+          HeaderGlyph.SourceDPI = 96
           HeaderGlyph.Data = {
-            36040000424D3604000000000000360000002800000010000000100000000100
-            2000000000000004000000000000000000000000000000000000000000000000
-            00000000000000000002000000070000000C0000001000000012000000110000
-            000E000000080000000200000000000000000000000000000000000000000000
-            000100000004000101120D2A1D79184E36C6216B4BFF216B4BFF216C4BFF1A53
-            3AD20F2F21840001011500000005000000010000000000000000000000000000
-            0005050F0A351C5B40DC24805CFF29AC7EFF2CC592FF2DC894FF2DC693FF2AAE
-            80FF258560FF1A563DD405110C3D00000007000000010000000000000003040E
-            0A31206548ED299D74FF2FC896FF2EC996FF56D4ACFF68DAB5FF3BCD9DFF30C9
-            96FF32CA99FF2BA479FF227050F805110C3D00000005000000000000000A1A57
-            3DD02EA57CFF33CA99FF2EC896FF4CD2A8FF20835CFF00673BFF45BE96FF31CB
-            99FF31CB98FF34CC9CFF31AD83FF1B5C41D300010113000000020B23185E2E8A
-            66FF3BCD9EFF30CA97FF4BD3A9FF349571FF87AF9DFFB1CFC1FF238A60FF45D3
-            A8FF36CF9FFF33CD9BFF3ED0A3FF319470FF0F32237F00000007184D37B63DB3
-            8CFF39CD9FFF4BD5A9FF43A382FF699782FFF8F1EEFFF9F3EEFF357F5DFF56C4
-            A1FF43D5A8FF3ED3A4FF3CD1A4FF41BC95FF1B5C43CD0000000B1C6446DF4BCA
-            A4FF44D2A8FF4FB392FF4E826AFFF0E9E6FFC0C3B5FFEFE3DDFFCEDDD4FF1B75
-            4FFF60DCB8FF48D8ACFF47D6AAFF51D4ACFF247A58F80000000E217050F266D9
-            B8FF46D3A8FF0B6741FFD2D2CBFF6A8F77FF116B43FF73967EFFF1E8E3FF72A2
-            8BFF46A685FF5EDFBAFF4CD9AFFF6BE2C2FF278460FF020604191E684ADC78D9
-            BEFF52DAB1FF3DBA92FF096941FF2F9C76FF57DEB8FF2D9973FF73967EFFF0EA
-            E7FF4F886CFF5ABB9AFF5BDEB9FF7FE2C7FF27835FF80000000C19523BAB77C8
-            B0FF62E0BCFF56DDB7FF59DFBAFF5CE1BDFF5EE2BEFF5FE4C1FF288C67FF698E
-            76FFE6E1DCFF176B47FF5FD8B4FF83D5BDFF1E674CC60000000909201747439C
-            7BFF95ECD6FF5ADFBAFF5EE2BDFF61E4BFFF64E6C1FF67E6C5FF67E8C7FF39A1
-            7EFF1F6D4AFF288B64FF98EFD9FF4DAC8CFF1036286D00000004000000041C5F
-            46B578C6ADFF9AEED9FF65E5C0FF64E7C3FF69E7C6FF6BE8C8FF6CE9C9FF6BEA
-            C9FF5ED6B6FF97EDD7FF86D3BBFF237759D20102010C0000000100000001030A
-            0718247B5BDA70C1A8FFB5F2E3FF98F0DAFF85EDD4FF75EBCEFF88EFD6FF9CF2
-            DDFFBAF4E7FF78CDB3FF2A906DEA0615102E0000000200000000000000000000
-            0001030A07171E694FB844AB87FF85D2BBFFA8E6D6FFC5F4EBFFABE9D8FF89D8
-            C1FF4BB692FF237F60CB05130E27000000030000000000000000000000000000
-            000000000001000000030A241B411B60489D258464CF2C9D77EE258867CF1F71
-            56B00E3226560000000600000002000000000000000000000000}
+            424D360400000000000036000000280000001000000010000000010020000000
+            000000000000C40E0000C40E0000000000000000000000000000000000000000
+            000000000002000000070000000C0000001000000012000000110000000E0000
+            0008000000020000000000000000000000000000000000000000000000010000
+            0004000101120D2A1D79184E36C6216B4BFF216B4BFF216C4BFF1A533AD20F2F
+            218400010115000000050000000100000000000000000000000000000005050F
+            0A351C5B40DC24805CFF29AC7EFF2CC592FF2DC894FF2DC693FF2AAE80FF2585
+            60FF1A563DD405110C3D00000007000000010000000000000003040E0A312065
+            48ED299D74FF2FC896FF2EC996FF56D4ACFF68DAB5FF3BCD9DFF30C996FF32CA
+            99FF2BA479FF227050F805110C3D00000005000000000000000A1A573DD02EA5
+            7CFF33CA99FF2EC896FF4CD2A8FF20835CFF00673BFF45BE96FF31CB99FF31CB
+            98FF34CC9CFF31AD83FF1B5C41D300010113000000020B23185E2E8A66FF3BCD
+            9EFF30CA97FF4BD3A9FF349571FF87AF9DFFB1CFC1FF238A60FF45D3A8FF36CF
+            9FFF33CD9BFF3ED0A3FF319470FF0F32237F00000007184D37B63DB38CFF39CD
+            9FFF4BD5A9FF43A382FF699782FFF8F1EEFFF9F3EEFF357F5DFF56C4A1FF43D5
+            A8FF3ED3A4FF3CD1A4FF41BC95FF1B5C43CD0000000B1C6446DF4BCAA4FF44D2
+            A8FF4FB392FF4E826AFFF0E9E6FFC0C3B5FFEFE3DDFFCEDDD4FF1B754FFF60DC
+            B8FF48D8ACFF47D6AAFF51D4ACFF247A58F80000000E217050F266D9B8FF46D3
+            A8FF0B6741FFD2D2CBFF6A8F77FF116B43FF73967EFFF1E8E3FF72A28BFF46A6
+            85FF5EDFBAFF4CD9AFFF6BE2C2FF278460FF020604191E684ADC78D9BEFF52DA
+            B1FF3DBA92FF096941FF2F9C76FF57DEB8FF2D9973FF73967EFFF0EAE7FF4F88
+            6CFF5ABB9AFF5BDEB9FF7FE2C7FF27835FF80000000C19523BAB77C8B0FF62E0
+            BCFF56DDB7FF59DFBAFF5CE1BDFF5EE2BEFF5FE4C1FF288C67FF698E76FFE6E1
+            DCFF176B47FF5FD8B4FF83D5BDFF1E674CC60000000909201747439C7BFF95EC
+            D6FF5ADFBAFF5EE2BDFF61E4BFFF64E6C1FF67E6C5FF67E8C7FF39A17EFF1F6D
+            4AFF288B64FF98EFD9FF4DAC8CFF1036286D00000004000000041C5F46B578C6
+            ADFF9AEED9FF65E5C0FF64E7C3FF69E7C6FF6BE8C8FF6CE9C9FF6BEAC9FF5ED6
+            B6FF97EDD7FF86D3BBFF237759D20102010C0000000100000001030A0718247B
+            5BDA70C1A8FFB5F2E3FF98F0DAFF85EDD4FF75EBCEFF88EFD6FF9CF2DDFFBAF4
+            E7FF78CDB3FF2A906DEA0615102E00000002000000000000000000000001030A
+            07171E694FB844AB87FF85D2BBFFA8E6D6FFC5F4EBFFABE9D8FF89D8C1FF4BB6
+            92FF237F60CB05130E2700000003000000000000000000000000000000000000
+            0001000000030A241B411B60489D258464CF2C9D77EE258867CF1F7156B00E32
+            26560000000600000002000000000000000000000000}
           HeaderGlyphAlignmentHorz = taCenter
           Width = 25
           IsCaptionAssigned = True
@@ -471,8 +472,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Visible = False
     end
     object cxButton2: TcxButton
-      Left = 21
-      Top = 493
+      Left = 24
+      Top = 490
       Width = 107
       Height = 25
       Cursor = crHandPoint
@@ -480,8 +481,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       TabOrder = 13
     end
     object cxButton3: TcxButton
-      Left = 134
-      Top = 493
+      Left = 137
+      Top = 490
       Width = 106
       Height = 25
       Cursor = crHandPoint
@@ -489,8 +490,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       TabOrder = 14
     end
     object cxButton4: TcxButton
-      Left = 246
-      Top = 493
+      Left = 249
+      Top = 490
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -498,8 +499,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       TabOrder = 15
     end
     object cxButton9: TcxButton
-      Left = 327
-      Top = 493
+      Left = 330
+      Top = 490
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -507,8 +508,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       TabOrder = 16
     end
     object cxButton5: TcxButton
-      Left = 408
-      Top = 493
+      Left = 411
+      Top = 490
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -517,8 +518,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       TabOrder = 17
     end
     object cxButton6: TcxButton
-      Left = 489
-      Top = 493
+      Left = 492
+      Top = 490
       Width = 104
       Height = 25
       Cursor = crHandPoint
@@ -526,8 +527,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       TabOrder = 18
     end
     object cxButton8: TcxButton
-      Left = 599
-      Top = 493
+      Left = 602
+      Top = 490
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -535,8 +536,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       TabOrder = 19
     end
     object cxButton7: TcxButton
-      Left = 680
-      Top = 493
+      Left = 683
+      Top = 490
       Width = 115
       Height = 25
       Cursor = crHandPoint
@@ -544,8 +545,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       TabOrder = 20
     end
     object cxButton1: TcxButton
-      Left = 976
-      Top = 493
+      Left = 973
+      Top = 490
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -592,6 +593,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxLabel1'
       CaptionOptions.Visible = False
       Control = cxLabel1
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -601,6 +604,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       AlignVert = avTop
       CaptionOptions.Text = 'C'#243'digo:'
       Control = mskCodigo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 65
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -609,6 +614,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       AlignVert = avTop
       CaptionOptions.Text = 'Nome:'
       Control = txtNome
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 518
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -616,6 +623,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Parent = dxLayoutGroup2
       CaptionOptions.Text = 'E-Mail:'
       Control = txtEMail
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -623,6 +632,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Parent = dxLayoutGroup2
       CaptionOptions.Text = 'Login:'
       Control = txtLogin
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -631,6 +642,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       AlignHorz = ahLeft
       CaptionOptions.Text = 'Grupo:'
       Control = edtGrupo
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 65
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -640,6 +653,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'Descri'#231#227'o do Grupo:'
       CaptionOptions.Visible = False
       Control = txtDescricaoGrupo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -653,6 +668,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Parent = dxLayoutAutoCreatedGroup2
       CaptionOptions.Text = 'Senha Expira:'
       Control = chkSenhaExpira
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 21
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -668,6 +685,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       AlignVert = avClient
       CaptionOptions.Text = 'Administrador:'
       Control = chkAdministrador
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 21
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -676,6 +695,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       AlignVert = avClient
       CaptionOptions.Text = 'Dias a Expirar:'
       Control = speDias
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 51
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -683,6 +704,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Parent = dxLayoutAutoCreatedGroup2
       CaptionOptions.Text = 'Usu'#225'rio Ativo:'
       Control = chkAtivo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 21
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -690,6 +713,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       Parent = dxLayoutAutoCreatedGroup2
       CaptionOptions.Text = 'N'#237'vel:'
       Control = cboNivel
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 111
       ControlOptions.ShowBorder = False
       Index = 4
     end
@@ -699,6 +724,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'Acessos'
       CaptionOptions.Layout = clTop
       Control = grdAcessos
+      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
       Index = 6
     end
@@ -709,6 +736,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'Pesquisa'
       CaptionOptions.Layout = clTop
       Control = grdPesquisa
+      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -717,6 +746,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       AlignHorz = ahClient
       CaptionOptions.Text = 'Par'#226'metro:'
       Control = txtParametro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -726,6 +757,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton10'
       CaptionOptions.Visible = False
       Control = cxButton10
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -743,6 +776,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Visible = False
       CaptionOptions.Layout = clTop
       Control = cxButton11
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -753,6 +788,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton12'
       CaptionOptions.Visible = False
       Control = cxButton12
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -776,6 +813,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 107
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -785,6 +824,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 106
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -793,6 +834,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton4'
       CaptionOptions.Visible = False
       Control = cxButton4
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -802,6 +845,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton9'
       CaptionOptions.Visible = False
       Control = cxButton9
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -810,6 +855,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton5'
       CaptionOptions.Visible = False
       Control = cxButton5
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 4
     end
@@ -818,6 +865,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton6'
       CaptionOptions.Visible = False
       Control = cxButton6
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 104
       ControlOptions.ShowBorder = False
       Index = 5
     end
@@ -826,6 +875,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton8'
       CaptionOptions.Visible = False
       Control = cxButton8
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 6
     end
@@ -834,6 +885,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton7'
       CaptionOptions.Visible = False
       Control = cxButton7
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 115
       ControlOptions.ShowBorder = False
       Index = 7
     end
@@ -843,6 +896,8 @@ object view_CadastroUsuarios: Tview_CadastroUsuarios
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
       Index = 8
     end

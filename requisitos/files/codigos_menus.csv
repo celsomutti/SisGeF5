@@ -1,0 +1,62 @@
+SISTEMA;MODULO;MENU;DESCRICAO
+10;10;101010;Cadastro de Empresas
+10;10;202050;Cadastro de Distribuidores (Bases)
+10;10;101030;Cadastro de Candidatos
+10;10;101040;Cadastro de Clientes
+10;10;501040;Cadastro de Veiculos
+10;10;601020;Cadastro de fornecedores
+10;10;202050;Cadastro de Embarcadores
+10;10;101035;Cadastro de Funcionarios
+10;10;202055;Cadaastro de Entregadores
+10;10;101045;Cadastro de Contratados
+10;20;201010;Importacao de Planilhas de Expressas
+10;20;201020;Importacao de Baixas de Protocolos da Transfolha
+10;20;201040;Consulta de Pedidos Importados
+10;20;201050;Cadastro e Controle de Acareacoes de Entregas
+10;20;201060;Extravios de Entregas
+10;20;202010;Conttrole de Lacres para Devolucao
+10;20;202020;Controle de Devolucao de pedidos
+10;20;202030;Recepcao de Containers de Devolucao
+10;20;203010;Extrato de Entregadores de Expressas
+10;20;203020;Demonstrativo Individual de Entregadores de Expressas
+10;20;204010;Cadastro de Verbas de Entregadores de Expressas
+10;20;202040;Controle de Expressas
+10;20;202060;Recepcao de Pedidos do Cliente
+10;20;202070;Expedicao de Expressas
+10;20;201070;Envio de E-Mail de Respostas CTNC TFO
+10;20;202075;Cadastro e Manutencao de Roteiros de Expressas
+10;20;202077;Analise de Roteiros de Expressas
+10;60;601010;Importacao de Extrato da Franquia gerado pela Transfolha
+10;60;601030;Cadastro de Centros de Custo
+10;60;601040;Registro e Controle de Creditos e Debitos para os Colaboradores
+10;60;601050;Registro e Controle de Contas a Receber
+10;60;601060;Registro e Controle de Contas a Pagar
+10;60;601070;Controle de Caixa Pequeno
+10;60;601080;Emissao de planilha de Credito
+10;60;601085;Faturamento Recebido
+10;30;301010;Importacao da Tiragem do Jornal
+10;30;301020;Cadastro de Assinantes do Jornal
+10;30;301030;Registro de ocorrencias
+10;30;302010;Importacao e Emissao de Etiquetas e Protocolos
+10;30;302020;Cadastro de Assinantes de Revista
+10;30;303010;Cadastro e Atribuicao de Roteiros
+10;30;303020;Criacao e Emissao de Recados para Entregadores Assinaturas
+10;30;303030;Controle Operacional de Entregadores Assinaturas
+10;30;303040;Geracao e Emissao de Atribuicoes de Periodicos
+10;30;304010;Geracao e Emissao do Extrato de Pagamentos Entregadores Assinaturas
+10;30;305010;Cadastro de Verbas de Entregadores Assinaturas'
+10;40;401010;Cadastro de Servicos
+10;40;401020;Emissao de Ordens de Servicos
+10;40;401030;Controle de Malotes Selecoes
+10;40;401040;Extrato de Ordens de Servico
+10;70;701010;Cadastro de Usuarios
+10;70;701020;Alterar a Senha do Usuario
+10;70;701030;Trocar o Usuario do Sistema'
+10;70;702010;Cadastro de Abrangencias de Expressas
+10;70;702020;Parametros de Prazos de Extratos
+10;50;501010;Registro e Controle de KM dos Veiculos
+10;50;501020;Controle de Viagens
+10;50;501030;Registro e Controle de Manutencao dos Veiculos
+10;50;502010;Cadastro de Insumos de Manutencao de Veiculos
+10;50;502020;Registro e Controle de Abastecimentos de Veiculos
+10;50;502030;Controle de Estoques de Insumos
