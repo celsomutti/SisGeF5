@@ -832,7 +832,7 @@ begin
     begin
       pParam[0] := 'LOGIN';
     end;
-    pParam[1] := FSistem.CurrentUserName;
+    pParam[1] := Global.Parametros.pUser_Name;
     FDQuery := Usuarios.Localizar(pParam);
     if not FDQuery.IsEmpty then
     begin
@@ -861,7 +861,7 @@ begin
         end;
       end;
     end;
-    TSistem.SaveAuth();
+    FSistem.SaveAuth();
   finally
     Usuarios.Free;
     FDQuery.Free;
@@ -875,7 +875,7 @@ begin
   Data_SisGeF.skcmain.SkinName := dxBarCombo1.Text;
   dxRibbon1.ColorSchemeName := dxBarCombo1.Text;
   FSistem.Skin := IntToStr(dxBarCombo1.ItemIndex);
-  FSistem.SaveSkin;
+  if not FSistem.SaveSkin then
   begin
     Application.MessageBox
       ('Erro ao salvar a configuração (SKIN)! Informe ao suporte.', 'Erro',
@@ -925,7 +925,7 @@ begin
   bFlag := False;
   dxBarCombo1.Items := FSistem.LoadSkinsINI;
   bFlag := True;
-  dxBarCombo1.ItemIndex := FSistem.Skin;
+  dxBarCombo1.ItemIndex := StrToIntDef(FSistem.Skin,30);
   bLogin := False;
   for i := 1 to 3 do
   begin

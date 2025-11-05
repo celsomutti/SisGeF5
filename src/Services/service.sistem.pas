@@ -57,7 +57,7 @@ type
       property DocLicence: string read FDocLicence write FDocLicence;
       property ValidadeLicence: string read FValidadeLicence write FValidadeLicence;
       function LoadSkinsINI(): TStringList;
-      procedure SaveSkin();
+      function SaveSkin(): boolean;
       procedure SaveAuth();
       class function GetInstance: TSistem;
   end;
@@ -120,11 +120,13 @@ begin
   LocalCache.SaveToStorage('.env');
 end;
 
-procedure TSistem.SaveSkin;
+function TSistem.SaveSkin: boolean;
 begin
+  Result := False;
   LocalCache.LoadDatabase('.env');
   LocalCache.Instance('section').SetItem('skin', FSkin);
   LocalCache.SaveToStorage('.env');
+  Result := True;
 end;
 
 procedure TSistem.SetupAuth;
@@ -163,6 +165,7 @@ begin
     FDriverId := LocalCache.Instance('database').GetItem('driverid');
     FHostname := LocalCache.Instance('database').GetItem('hostname');
     FDatabase := LocalCache.Instance('database').GetItem('database');
+    FPort := LocalCache.Instance('database').GetItem('port');
     FUsername := LocalCache.Instance('database').GetItem('username');
     FPassword := LocalCache.Instance('database').GetItem('password');
     FStart := True;

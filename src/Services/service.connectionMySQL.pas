@@ -62,7 +62,6 @@ begin
                             ';Port=' + FSistem.Port +
                             ';User_name=' + FSistem.Username +
                             ';Password=' + FSistem.Password;
-  FSistem.Free;
 end;
 
 end.
