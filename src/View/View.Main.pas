@@ -308,7 +308,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals,
   View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
-  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl;
+  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios;
 
 procedure Tview_Main.Acessos;
 var
@@ -710,11 +710,16 @@ end;
 
 procedure Tview_Main.actUsuariosExecute(Sender: TObject);
 begin
-  if not Assigned(view_CadastroUsuarios) then
+//  if not Assigned(view_CadastroUsuarios) then
+//  begin
+//    view_CadastroUsuarios := Tview_CadastroUsuarios.Create(Application);
+//  end;
+//  view_CadastroUsuarios.Show;
+  if not Assigned(viewSisGefCadastroUsuarios) then
   begin
-    view_CadastroUsuarios := Tview_CadastroUsuarios.Create(Application);
+    viewSisGefCadastroUsuarios := TviewSisGefCadastroUsuarios.Create(Application);
   end;
-  view_CadastroUsuarios.Show;
+  viewSisGefCadastroUsuarios.Show;
 end;
 
 procedure Tview_Main.actVerbasExpressasExecute(Sender: TObject);

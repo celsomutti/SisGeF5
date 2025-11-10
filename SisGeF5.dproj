@@ -655,6 +655,10 @@
         <DCCReference Include="src\asserts\localcache4d\src\LocalCache4D.pas"/>
         <DCCReference Include="src\Services\service.sistem.pas"/>
         <DCCReference Include="src\Services\service.connectionMySQL.pas"/>
+        <DCCReference Include="src\View\View.SisGeFCadastroUsuarios.pas">
+            <Form>viewSisGefCadastroUsuarios</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -326,7 +326,8 @@ uses
   LocalCache4D.Interfaces in 'src\asserts\localcache4d\src\LocalCache4D.Interfaces.pas',
   LocalCache4D in 'src\asserts\localcache4d\src\LocalCache4D.pas',
   service.sistem in 'src\Services\service.sistem.pas',
-  service.connectionMySQL in 'src\Services\service.connectionMySQL.pas';
+  service.connectionMySQL in 'src\Services\service.connectionMySQL.pas',
+  View.SisGeFCadastroUsuarios in 'src\View\View.SisGeFCadastroUsuarios.pas' {viewSisGefCadastroUsuarios};
 
 {$R *.res}
 

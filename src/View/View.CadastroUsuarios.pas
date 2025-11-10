@@ -5,7 +5,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Control.Acessos, Control.Menus, Control.Modulos, Control.Sistema,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Control.Acessos, Control.Menus, Control.Modulos,
   Control.Sistemas, Control.Usuarios, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore, dxSkinBlack,
   dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
   dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky,
@@ -19,7 +19,8 @@ uses
   dxLayoutcxEditAdapters, cxLabel, cxTextEdit, cxMaskEdit, cxButtonEdit, cxCheckBox, cxSpinEdit, cxDropDownEdit, System.Actions,
   Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, Data.DB, dxmdaset, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxNavigator, cxDBData, cxDBLookupComboBox, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGridLevel, cxGridCustomView, cxGrid, FireDAC.Comp.Client, System.DateUtils;
+  cxGridLevel, cxGridCustomView, cxGrid, FireDAC.Comp.Client, System.DateUtils, service.sistem, dxDateRanges,
+  cxDataControllerConditionalFormattingRulesManagerDialog, service.connectionMySQL;
 
 type
   Tview_CadastroUsuarios = class(TForm)
@@ -159,6 +160,8 @@ type
     procedure actConsistirGrupoExecute(Sender: TObject);
   private
     { Private declarations }
+    FSistem : TSistem;
+    FConn : TConnectionMySQL;
     procedure PopulaApoio;
     procedure MarcaTodos(bFlag: Boolean);
     procedure Modo;
@@ -410,6 +413,7 @@ end;
 
 procedure Tview_CadastroUsuarios.FormShow(Sender: TObject);
 begin
+  FConn := TConnectionMySQL.Create;
   sSenha := '';
   sProximoAcesso := 'N';
   PopulaApoio;
@@ -593,7 +597,7 @@ var
 begin
   try
     Result := 'NONE';
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := FConn.GetQuery;
     SetLength(aParam,2);
     aParam[0] := 'CODIGO';
     aParam[1] := FUsuarios.Usuarios.Grupo;
@@ -615,7 +619,7 @@ var
   FDQuery : TFDQuery;
 begin
   try
-    if not Assigned(FDQuery) then FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    if not Assigned(FDQuery) then FDQuery := FConn.GetQuery;
     SetLength(aParam,3);
     aParam[0] := 'APOIO';
     aParam[1] := 'COD_USUARIO as Código, NOM_USUARIO as Nome';
@@ -651,7 +655,7 @@ var
   FDQuery : TFDQuery;
 begin
   try
-    if not Assigned(FDQuery) then FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    if not Assigned(FDQuery) then FDQuery := FConn.GetQuery;
     tvPesquisa.ClearItems;
     tvPesquisa.DataController.CreateAllItems;
     if mtbPesquisa.Active then mtbPesquisa.Close;
@@ -740,7 +744,7 @@ begin
     mtbModulos.Open;
     mtbMenus.Open;
     i := 0;
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := Fconn.GetQuery;
     SetLength(aParam,3);
     aParam[0] := 'APOIO';
     aParam[1] := '*';
@@ -751,7 +755,7 @@ begin
     mtbSistemas.LoadFromDataSet(FDQuery);
     FDQuery.Close;
     FDQuery.Connection.Close;
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := Fconn.GetQuery;
     mtbModulos.Open;
     FDQuery := FModulos.Localizar(aParam);
     mtbModulos.CreateFieldsFromDataSet(FDQuery);
@@ -759,7 +763,7 @@ begin
     FDQuery.Close;
     FDQuery.Connection.Close;
     mtbMenus.Open;
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := Fconn.GetQuery;
     FDQuery := FMenus.Localizar(aParam);
     mtbMenus.CreateFieldsFromDataSet(FDQuery);
     mtbMenus.LoadFromDataSet(FDQuery);
@@ -809,7 +813,7 @@ var
   aParam: Array of variant;
 begin
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := FConn.GetQuery;
     SetLength(aParam,2);
     aParam[0] := 'CODIGO';
     aParam[1] := FUsuarios.Usuarios.Codigo;
