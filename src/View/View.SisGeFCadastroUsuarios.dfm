@@ -27,8 +27,6 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitWidth = 765
-    ExplicitHeight = 501
     object cboParametros: TcxComboBox
       Left = 10000
       Top = 10000
@@ -60,7 +58,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 75
       Height = 25
       Action = actSair
-      TabOrder = 11
+      TabOrder = 27
     end
     object txeValor: TcxTextEdit
       Left = 10000
@@ -69,7 +67,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Style.HotTrack = False
       TabOrder = 1
       Visible = False
-      Width = 422
+      Width = 398
     end
     object cxButton3: TcxButton
       Left = 10000
@@ -92,8 +90,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
     object grdUsuarios: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 692
-      Height = 309
+      Width = 668
+      Height = 219
       TabOrder = 3
       Visible = False
       object grdUsuariosDBTableView1: TcxGridDBTableView
@@ -154,8 +152,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Top = 10000
       Width = 75
       Height = 25
-      Action = actStatus
-      TabOrder = 6
+      Action = actGRupos
+      TabOrder = 7
       Visible = False
     end
     object cxButton6: TcxButton
@@ -164,44 +162,235 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 75
       Height = 25
       Action = actExportar
-      TabOrder = 7
+      TabOrder = 6
       Visible = False
     end
     object speCodigo: TcxSpinEdit
-      Left = 44
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'ID do usu'#225'rio'
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
       Properties.SpinButtons.Visible = False
       Style.HotTrack = False
       TabOrder = 8
+      Visible = False
       Width = 59
     end
     object mskCPF: TcxMaskEdit
-      Left = 137
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'CPF do usu'#225'rio'
       Properties.EditMask = '!000\.000\.000\-00;1; '
       Style.HotTrack = False
       TabOrder = 9
       Text = '   .   .   -  '
+      Visible = False
       Width = 100
     end
     object txeNome: TcxTextEdit
-      Left = 279
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'Nome do usu'#225'rio'
+      Properties.MaxLength = 80
       Style.HotTrack = False
       TabOrder = 10
-      Width = 437
+      Visible = False
+      Width = 413
+    end
+    object txeLogin: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Login do usu'#225'rio'
+      Properties.CharCase = ecLowerCase
+      Properties.MaxLength = 30
+      Style.HotTrack = False
+      TabOrder = 11
+      Visible = False
+      Width = 191
+    end
+    object cbxNivel: TcxComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#237'vel do usu'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.Items.Strings = (
+        'Master'
+        'User'
+        'Guest'
+        'Custom'
+        'External')
+      Style.HotTrack = False
+      TabOrder = 17
+      Text = 'USER'
+      Visible = False
+      Width = 177
+    end
+    object txeEMail: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'E-mail do usu'#225'rio'
+      Properties.MaxLength = 150
+      Style.HotTrack = False
+      TabOrder = 12
+      Visible = False
+      Width = 312
+    end
+    object ckbAdministrador: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Marque para atribuir permiss'#245'es de administraddor'
+      Properties.Alignment = taRightJustify
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.HotTrack = False
+      TabOrder = 16
+      Transparent = True
+      Visible = False
+    end
+    object txeSenha: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Senha de acesso do usu'#225'rio'
+      Properties.EchoMode = eemPassword
+      Style.HotTrack = False
+      TabOrder = 13
+      Visible = False
+      Width = 191
+    end
+    object ckbSenhaExpira: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Marque para indicar que a senha expira'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.HotTrack = False
+      TabOrder = 18
+      Transparent = True
+      Visible = False
+    end
+    object txeConfirmacaoSenha: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Confirma'#231#227'o da senha'
+      Properties.EchoMode = eemPassword
+      Style.HotTrack = False
+      TabOrder = 14
+      Visible = False
+      Width = 191
+    end
+    object speDiasExpira: TcxSpinEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Quantidade de dias a expirar a senha'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.MaxValue = 365.000000000000000000
+      Properties.MinValue = 7.000000000000000000
+      Style.HotTrack = False
+      TabOrder = 19
+      Value = 7
+      Visible = False
+      Width = 51
+    end
+    object ckbPrimeiroAcesso: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Marque para o usu'#225'rio alterar a senha no primeiro acesso'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.HotTrack = False
+      TabOrder = 20
+      Transparent = True
+      Visible = False
+    end
+    object lcbGrupoUsuario: TcxLookupComboBox
+      Left = 10000
+      Top = 10000
+      Properties.ListColumns = <>
+      Style.HotTrack = False
+      TabOrder = 15
+      Visible = False
+      Width = 360
+    end
+    object ckbStatus: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Status do usu'#225'rio'
+      Caption = 'INATIVO'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      Properties.OnChange = ckbStatusPropertiesChange
+      Style.HotTrack = False
+      TabOrder = 21
+      Visible = False
+    end
+    object cxButton7: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 75
+      Height = 25
+      Action = actCancelar
+      Cancel = True
+      TabOrder = 22
+      Visible = False
+    end
+    object cxButton8: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 75
+      Height = 25
+      Action = actGravar
+      TabOrder = 23
+      Visible = False
+    end
+    object lcbGrupos: TcxLookupComboBox
+      Left = 74
+      Top = 64
+      Hint = 'Selecione o grupo'
+      Properties.KeyFieldNames = 'cod_usuario'
+      Properties.ListColumns = <
+        item
+          FieldName = 'nom_usuario'
+        end>
+      Properties.ListOptions.ShowHeader = False
+      Properties.ListSource = dsGrupos
+      Style.HotTrack = False
+      TabOrder = 24
+      Width = 468
+    end
+    object cxButton9: TcxButton
+      Left = 629
+      Top = 62
+      Width = 75
+      Height = 25
+      Action = actNovoGrupo
+      TabOrder = 26
+    end
+    object cxButton10: TcxButton
+      Left = 548
+      Top = 62
+      Width = 75
+      Height = 25
+      Action = actListarAcessos
+      TabOrder = 25
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+      SizeOptions.AssignedValues = [sovSizableHorz, sovSizableVert]
+      SizeOptions.SizableHorz = False
+      SizeOptions.SizableVert = False
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemControlAreaAlignment = catNone
       ShowBorder = False
       Index = -1
     end
@@ -211,7 +400,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 2
       LayoutDirection = ldTabbed
       ShowBorder = False
       Index = 0
@@ -232,19 +421,17 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 2
       Index = 0
     end
     object lgpParameters: TdxLayoutGroup
       Parent = lgpPesquisa
       AlignHorz = ahClient
       AlignVert = avTop
-      CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
       ItemIndex = 1
       LayoutDirection = ldHorizontal
-      ShowBorder = False
       Index = 0
     end
     object dxLayoutItem1: TdxLayoutItem
@@ -296,17 +483,14 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Parent = lgpPesquisa
       AlignHorz = ahClient
       AlignVert = avClient
-      CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ShowBorder = False
       Index = 1
     end
     object lgpButtons: TdxLayoutGroup
       Parent = lgpPesquisa
-      CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 3
       LayoutDirection = ldHorizontal
-      ShowBorder = False
       Index = 2
     end
     object dxLayoutItem5: TdxLayoutItem
@@ -343,18 +527,22 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
     end
     object dxLayoutItem8: TdxLayoutItem
       Parent = lgpButtons
+      AlignVert = avClient
       CaptionOptions.Text = 'cxButton5'
       CaptionOptions.Visible = False
       Control = cxButton5
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object lgpCadastro: TdxLayoutGroup
       Parent = lgpTabbed
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       Index = 1
     end
     object dxLayoutItem9: TdxLayoutItem
@@ -367,14 +555,12 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 2
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = lgpCadastro
-      CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
-      ShowBorder = False
       Index = 0
     end
     object dxLayoutItem10: TdxLayoutItem
@@ -409,6 +595,233 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
+    end
+    object dxLayoutGroup2: TdxLayoutGroup
+      Parent = lgpCadastro
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
+      ItemIndex = 1
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 1
+    end
+    object lgpLogin: TdxLayoutGroup
+      Parent = dxLayoutGroup2
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'Login'
+      ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
+      Index = 0
+    end
+    object lgpConfig: TdxLayoutGroup
+      Parent = dxLayoutGroup2
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'Configura'#231#227'o'
+      ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
+      ItemIndex = 1
+      Index = 1
+    end
+    object dxLayoutItem13: TdxLayoutItem
+      Parent = lgpLogin
+      AlignHorz = ahLeft
+      AlignVert = avTop
+      CaptionOptions.Text = 'Login:'
+      Control = txeLogin
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 191
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem14: TdxLayoutItem
+      Parent = lgpConfig
+      AlignHorz = ahLeft
+      AlignVert = avTop
+      CaptionOptions.Text = 'N'#237'vel:'
+      Control = cbxNivel
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 177
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem15: TdxLayoutItem
+      Parent = lgpLogin
+      AlignHorz = ahLeft
+      AlignVert = avTop
+      CaptionOptions.Text = 'E-Mail:'
+      Control = txeEMail
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 312
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem16: TdxLayoutItem
+      Parent = lgpConfig
+      AlignHorz = ahLeft
+      AlignVert = avTop
+      CaptionOptions.Text = 'Administrador:'
+      Control = ckbAdministrador
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 21
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem17: TdxLayoutItem
+      Parent = lgpLogin
+      AlignHorz = ahLeft
+      AlignVert = avTop
+      CaptionOptions.Text = 'Senha:'
+      Control = txeSenha
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 191
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem18: TdxLayoutItem
+      Parent = lgpConfig
+      CaptionOptions.Text = 'Senha Expira:'
+      Control = ckbSenhaExpira
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 88
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem19: TdxLayoutItem
+      Parent = lgpLogin
+      AlignHorz = ahLeft
+      AlignVert = avTop
+      CaptionOptions.Text = 'Confirmar Senha:'
+      Control = txeConfirmacaoSenha
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 191
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem20: TdxLayoutItem
+      Parent = lgpConfig
+      AlignHorz = ahLeft
+      AlignVert = avTop
+      CaptionOptions.Text = 'Dias para Expirar:'
+      Control = speDiasExpira
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 51
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem21: TdxLayoutItem
+      Parent = lgpConfig
+      AlignHorz = ahLeft
+      AlignVert = avTop
+      CaptionOptions.Text = 'Alterar senha no primeiro acesso:'
+      Control = ckbPrimeiroAcesso
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 21
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutItem22: TdxLayoutItem
+      Parent = lgpLogin
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'Grupo:'
+      Control = lcbGrupoUsuario
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutGroup3: TdxLayoutGroup
+      Parent = lgpCadastro
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      Index = 2
+    end
+    object dxLayoutItem23: TdxLayoutItem
+      Parent = lgpConfig
+      CaptionOptions.Text = 'Status:'
+      Control = ckbStatus
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 88
+      ControlOptions.ShowBorder = False
+      Index = 5
+    end
+    object dxLayoutItem24: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton7'
+      CaptionOptions.Visible = False
+      Control = cxButton7
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem25: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton8'
+      CaptionOptions.Visible = False
+      Control = cxButton8
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object lgpGrupos: TdxLayoutGroup
+      Parent = lgpTabbed
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      Index = 2
+    end
+    object dxLayoutGroup4: TdxLayoutGroup
+      Parent = lgpGrupos
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      Index = 0
+    end
+    object dxLayoutItem26: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Grupo:'
+      Control = lcbGrupos
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem27: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton9'
+      CaptionOptions.Visible = False
+      Control = cxButton9
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem28: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton10'
+      CaptionOptions.Visible = False
+      Control = cxButton10
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object mtbUsuartios: TFDMemTable
@@ -466,13 +879,13 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Hint = 'Editar dados de usu'#225'rio'
       ImageIndex = 95
     end
-    object actStatus: TAction
-      Caption = 'Stat&us'
-      Hint = 'Alterar status do usu'#225'rio'
-      ImageIndex = 71
+    object actGRupos: TAction
+      Caption = 'Grupos'
+      Hint = 'Cadastro de grupos'
+      ImageIndex = 60
     end
     object actGravar: TAction
-      Caption = 'actGravar'
+      Caption = '&Gravar'
       Hint = 'Gravar os dados'
       ImageIndex = 85
     end
@@ -498,6 +911,91 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Hint = 'Pesquisar'
       ImageIndex = 86
       OnExecute = actPesquisaExecute
+    end
+    object actNovoGrupo: TAction
+      Caption = 'No&vo'
+      Hint = 'Criar novo grupo'
+      ImageIndex = 115
+    end
+    object actGravarGrupo: TAction
+      Caption = 'Grava&r'
+      Hint = 'Gravar dados do grupo'
+      ImageIndex = 85
+    end
+    object actListarAcessos: TAction
+      Caption = 'L&istar'
+      Hint = 'Listar acessos do grupo'
+      ImageIndex = 127
+    end
+  end
+  object mtbGrupos: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 416
+    Top = 8
+    object mtbGruposcod_usuario: TIntegerField
+      FieldName = 'cod_usuario'
+    end
+    object mtbGruposnom_usuario: TStringField
+      FieldName = 'nom_usuario'
+      Size = 80
+    end
+  end
+  object dsGrupos: TDataSource
+    AutoEdit = False
+    DataSet = mtbGrupos
+    Left = 472
+    Top = 8
+  end
+  object mtbAcessos: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 312
+    Top = 8
+    object mtbAcessoscod_user: TIntegerField
+      DisplayLabel = 'C'#243'd. Usu'#225'rio'
+      FieldName = 'cod_user'
+    end
+    object mtbAcessoscod_sistema: TIntegerField
+      DisplayLabel = 'C'#243'd. Sistema'
+      FieldName = 'cod_sistema'
+    end
+    object mtbAcessosdes_sistema: TStringField
+      DisplayLabel = 'Sistema'
+      FieldName = 'des_sistema'
+      Size = 50
+    end
+    object mtbAcessoscod_modulo: TIntegerField
+      DisplayLabel = 'C'#243'd. M'#243'dulo'
+      FieldName = 'cod_modulo'
+    end
+    object mtbAcessosdes_modulo: TStringField
+      DisplayLabel = 'M'#243'dulo'
+      FieldName = 'des_modulo'
+      Size = 150
+    end
+    object mtbAcessoscod_menu: TIntegerField
+      DisplayLabel = 'C'#243'd. Menu'
+      FieldName = 'cod_menu'
+    end
+    object mtbAcessosdes_menu: TStringField
+      DisplayLabel = 'Menu'
+      FieldName = 'des_menu'
+      Size = 150
+    end
+    object mtbAcessosdom_acesso: TBooleanField
+      DisplayLabel = 'Acesso'
+      FieldName = 'dom_acesso'
     end
   end
 end
