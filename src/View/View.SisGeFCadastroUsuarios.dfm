@@ -58,7 +58,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 75
       Height = 25
       Action = actSair
-      TabOrder = 27
+      TabOrder = 32
     end
     object txeValor: TcxTextEdit
       Left = 10000
@@ -354,6 +354,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Left = 74
       Top = 64
       Hint = 'Selecione o grupo'
+      Properties.DropDownListStyle = lsEditList
       Properties.KeyFieldNames = 'cod_usuario'
       Properties.ListColumns = <
         item
@@ -380,6 +381,97 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Height = 25
       Action = actListarAcessos
       TabOrder = 25
+    end
+    object gridAcessos: TcxGrid
+      Left = 36
+      Top = 154
+      Width = 668
+      Height = 188
+      TabOrder = 29
+      object gridAcessosDBTableView1: TcxGridDBTableView
+        Navigator.Buttons.CustomButtons = <>
+        DataController.DataSource = dsAcessos
+        DataController.Summary.DefaultGroupSummaryItems = <>
+        DataController.Summary.FooterSummaryItems = <>
+        DataController.Summary.SummaryGroups = <>
+        OptionsView.ColumnAutoWidth = True
+        OptionsView.GroupByBox = False
+        object gridAcessosDBTableView1dom_acesso: TcxGridDBColumn
+          DataBinding.FieldName = 'dom_acesso'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.Alignment = taRightJustify
+          Properties.NullStyle = nssUnchecked
+          Properties.ValueChecked = '1'
+          Properties.ValueUnchecked = '0'
+          Width = 43
+        end
+        object gridAcessosDBTableView1cod_sistema: TcxGridDBColumn
+          DataBinding.FieldName = 'cod_sistema'
+          Visible = False
+          VisibleForCustomization = False
+        end
+        object gridAcessosDBTableView1des_sistema: TcxGridDBColumn
+          DataBinding.FieldName = 'des_sistema'
+          Visible = False
+          GroupIndex = 0
+        end
+        object gridAcessosDBTableView1cod_modulo: TcxGridDBColumn
+          DataBinding.FieldName = 'cod_modulo'
+          Visible = False
+          VisibleForCustomization = False
+        end
+        object gridAcessosDBTableView1des_modulo: TcxGridDBColumn
+          DataBinding.FieldName = 'des_modulo'
+          Visible = False
+          GroupIndex = 1
+        end
+        object gridAcessosDBTableView1cod_menu: TcxGridDBColumn
+          DataBinding.FieldName = 'cod_menu'
+          Visible = False
+          VisibleForCustomization = False
+        end
+        object gridAcessosDBTableView1des_menu: TcxGridDBColumn
+          DataBinding.FieldName = 'des_menu'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Width = 593
+        end
+      end
+      object gridAcessosLevel1: TcxGridLevel
+        GridView = gridAcessosDBTableView1
+      end
+    end
+    object cxButton11: TcxButton
+      Left = 36
+      Top = 378
+      Width = 85
+      Height = 25
+      Action = actUsuarios
+      TabOrder = 30
+    end
+    object cxButton12: TcxButton
+      Left = 127
+      Top = 378
+      Width = 75
+      Height = 25
+      Action = actGravarGrupo
+      TabOrder = 31
+    end
+    object cxButton13: TcxButton
+      Left = 36
+      Top = 123
+      Width = 117
+      Height = 25
+      Action = actSelecionarTudo
+      TabOrder = 27
+    end
+    object cxButton14: TcxButton
+      Left = 159
+      Top = 123
+      Width = 114
+      Height = 25
+      Action = actLimparRegistros
+      TabOrder = 28
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -780,6 +872,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Parent = lgpTabbed
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       Index = 2
     end
     object dxLayoutGroup4: TdxLayoutGroup
@@ -820,6 +913,87 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Control = cxButton10
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup5: TdxLayoutGroup
+      Parent = lgpGrupos
+      AlignHorz = ahClient
+      AlignVert = avClient
+      ButtonOptions.Buttons = <>
+      Index = 1
+    end
+    object dxLayoutItem29: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxGrid1'
+      CaptionOptions.Visible = False
+      Control = gridAcessos
+      ControlOptions.OriginalHeight = 200
+      ControlOptions.OriginalWidth = 250
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup6: TdxLayoutGroup
+      Parent = lgpGrupos
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      Index = 2
+    end
+    object dxLayoutItem30: TdxLayoutItem
+      Parent = dxLayoutGroup6
+      CaptionOptions.Text = 'cxButton11'
+      CaptionOptions.Visible = False
+      Control = cxButton11
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 85
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem31: TdxLayoutItem
+      Parent = dxLayoutGroup6
+      CaptionOptions.Text = 'cxButton12'
+      CaptionOptions.Visible = False
+      Control = cxButton12
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup7: TdxLayoutGroup
+      Parent = dxLayoutGroup5
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem32: TdxLayoutItem
+      Parent = dxLayoutGroup7
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton13'
+      CaptionOptions.Visible = False
+      Control = cxButton13
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 117
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem33: TdxLayoutItem
+      Parent = dxLayoutGroup7
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxButton14'
+      CaptionOptions.Visible = False
+      Control = cxButton14
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 114
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -883,6 +1057,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Caption = 'Grupos'
       Hint = 'Cadastro de grupos'
       ImageIndex = 60
+      OnExecute = actGRuposExecute
     end
     object actGravar: TAction
       Caption = '&Gravar'
@@ -916,6 +1091,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Caption = 'No&vo'
       Hint = 'Criar novo grupo'
       ImageIndex = 115
+      OnExecute = actNovoGrupoExecute
     end
     object actGravarGrupo: TAction
       Caption = 'Grava&r'
@@ -926,6 +1102,25 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Caption = 'L&istar'
       Hint = 'Listar acessos do grupo'
       ImageIndex = 127
+      OnExecute = actListarAcessosExecute
+    end
+    object actUsuarios: TAction
+      Caption = '&Usu'#225'rios'
+      Hint = 'Cadastro de usu'#225'rios'
+      ImageIndex = 52
+      OnExecute = actUsuariosExecute
+    end
+    object actSelecionarTudo: TAction
+      Caption = 'Selecionar Todos'
+      Hint = 'Selecionar todos os registros'
+      ImageIndex = 71
+      OnExecute = actSelecionarTudoExecute
+    end
+    object actLimparRegistros: TAction
+      Caption = 'Limpar Sele'#231#227'o'
+      Hint = 'Limpar sele'#231#227'o de registros'
+      ImageIndex = 72
+      OnExecute = actLimparRegistrosExecute
     end
   end
   object mtbGrupos: TFDMemTable
@@ -962,9 +1157,9 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
     UpdateOptions.AutoCommitUpdates = True
     Left = 312
     Top = 8
-    object mtbAcessoscod_user: TIntegerField
-      DisplayLabel = 'C'#243'd. Usu'#225'rio'
-      FieldName = 'cod_user'
+    object mtbAcessosdom_acesso: TIntegerField
+      DisplayLabel = 'Acesso'
+      FieldName = 'dom_acesso'
     end
     object mtbAcessoscod_sistema: TIntegerField
       DisplayLabel = 'C'#243'd. Sistema'
@@ -993,9 +1188,10 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       FieldName = 'des_menu'
       Size = 150
     end
-    object mtbAcessosdom_acesso: TBooleanField
-      DisplayLabel = 'Acesso'
-      FieldName = 'dom_acesso'
-    end
+  end
+  object dsAcessos: TDataSource
+    DataSet = mtbAcessos
+    Left = 368
+    Top = 8
   end
 end

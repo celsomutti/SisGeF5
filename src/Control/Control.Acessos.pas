@@ -14,6 +14,7 @@ type
     property Acessos: TAcessos read FAcessos write FAcessos;
     function ValidaCampos(): Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarView(aParam: array of variant): TFDQuery;
     function VerificaLogin(iMenu: Integer; iUsuario: Integer): Boolean;
     function VerificaModulo(iModulo: Integer; iUsuario: Integer): Boolean;
     function VerificaSistema(iSistema: Integer; iUsuario: Integer): Boolean;
@@ -44,6 +45,11 @@ end;
 function TAcessosControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FAcessos.Localizar(aParam);
+end;
+
+function TAcessosControl.LocalizarView(aParam: array of variant): TFDQuery;
+begin
+  Result := FAcessos.LocalizarView(aParam);
 end;
 
 function TAcessosControl.ValidaCampos: Boolean;

@@ -14,6 +14,7 @@ type
     function Inserir(AAcessos: TAcessos): Boolean;
     function Excluir(AAcessos: TAcessos): Boolean;
     function Pesquisar(aParam: array of variant): TFDQuery;
+    function PesquisarView(aParam: array of variant): TFDQuery;
     function AcessoExiste(aParam: array of variant): Boolean;
     function VerificaAcesso(iMenu: Integer; iUsuario: Integer): Boolean;
     function VerificaModulo(iModulo: Integer; iUsuario: Integer): Boolean;
@@ -21,6 +22,7 @@ type
   end;
 const
   TABLENAME = 'usuarios_acessos';
+  VIEWNAME = 'view_acessos';
 
 implementation
 
@@ -151,6 +153,20 @@ begin
   begin
     FDQuery.SQL.Add('WHERE ' + aParam[1]);
   end;
+  FDQuery.Open();
+  Result := FDQuery;
+end;
+
+function TAcessosDAO.PesquisarView(aParam: array of variant): TFDQuery;
+var
+  FDQuery: TFDQuery;
+begin
+  FDQuery := FConexao.ReturnQuery();
+  if Length(aParam) < 2 then Exit;
+  FDQuery.SQL.Clear;
+
+  FDQuery.SQL.Add('select * from ' + VIEWNAME);
+  FDQuery.SQL.Add('WHERE ' + aParam[1]);
   FDQuery.Open();
   Result := FDQuery;
 end;

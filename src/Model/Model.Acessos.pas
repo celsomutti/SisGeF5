@@ -23,6 +23,7 @@ type
     property Acao: TAcao read FAcao write FAcao;
 
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarView(aParam: array of variant): TFDQuery;
     function AcessoExiste(aParam: array of variant): Boolean;
     function Gravar(): Boolean;
     function VerificaLogin(iMenu: Integer; iUsuario: Integer): Boolean;
@@ -72,6 +73,18 @@ begin
   try
     acessosDAO := TAcessosDAO.Create;
     Result := acessosDAO.Pesquisar(aParam);
+  finally
+    acessosDAO.Free;
+  end;
+end;
+
+function TAcessos.LocalizarView(aParam: array of variant): TFDQuery;
+var
+  acessosDAO : TAcessosDAO;
+begin
+  try
+    acessosDAO := TAcessosDAO.Create;
+    Result := acessosDAO.PesquisarView(aParam);
   finally
     acessosDAO.Free;
   end;

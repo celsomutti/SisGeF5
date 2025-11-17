@@ -327,7 +327,8 @@ uses
   LocalCache4D in 'src\asserts\localcache4d\src\LocalCache4D.pas',
   service.sistem in 'src\Services\service.sistem.pas',
   service.connectionMySQL in 'src\Services\service.connectionMySQL.pas',
-  View.SisGeFCadastroUsuarios in 'src\View\View.SisGeFCadastroUsuarios.pas' {viewSisGefCadastroUsuarios};
+  View.SisGeFCadastroUsuarios in 'src\View\View.SisGeFCadastroUsuarios.pas' {viewSisGefCadastroUsuarios},
+  View.SisGeFNomeGrupo in 'src\View\View.SisGeFNomeGrupo.pas' {viewSisGeFNomeGrupo};
 
 {$R *.res}
 

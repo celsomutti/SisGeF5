@@ -11,7 +11,7 @@ uses
   cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxCheckBox, cxSpinEdit, Control.Usuarios, Data.SisGeF, System.Actions, Vcl.ActnList,
-  Common.Utils, service.sistem, service.connectionMySQL, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox;
+  Common.Utils, service.sistem, service.connectionMySQL, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Control.Acessos;
 
 type
   TviewSisGefCadastroUsuarios = class(TForm)
@@ -118,28 +118,65 @@ type
     cxButton10: TcxButton;
     dxLayoutItem28: TdxLayoutItem;
     mtbAcessos: TFDMemTable;
-    mtbAcessoscod_user: TIntegerField;
     mtbAcessoscod_sistema: TIntegerField;
     mtbAcessosdes_sistema: TStringField;
     mtbAcessoscod_modulo: TIntegerField;
     mtbAcessosdes_modulo: TStringField;
     mtbAcessoscod_menu: TIntegerField;
     mtbAcessosdes_menu: TStringField;
-    mtbAcessosdom_acesso: TBooleanField;
+    dxLayoutGroup5: TdxLayoutGroup;
+    gridAcessosDBTableView1: TcxGridDBTableView;
+    gridAcessosLevel1: TcxGridLevel;
+    gridAcessos: TcxGrid;
+    dxLayoutItem29: TdxLayoutItem;
+    dxLayoutGroup6: TdxLayoutGroup;
+    dsAcessos: TDataSource;
+    gridAcessosDBTableView1dom_acesso: TcxGridDBColumn;
+    gridAcessosDBTableView1cod_sistema: TcxGridDBColumn;
+    gridAcessosDBTableView1des_sistema: TcxGridDBColumn;
+    gridAcessosDBTableView1cod_modulo: TcxGridDBColumn;
+    gridAcessosDBTableView1des_modulo: TcxGridDBColumn;
+    gridAcessosDBTableView1cod_menu: TcxGridDBColumn;
+    gridAcessosDBTableView1des_menu: TcxGridDBColumn;
+    actUsuarios: TAction;
+    cxButton11: TcxButton;
+    dxLayoutItem30: TdxLayoutItem;
+    cxButton12: TcxButton;
+    dxLayoutItem31: TdxLayoutItem;
+    mtbAcessosdom_acesso: TIntegerField;
+    actSelecionarTudo: TAction;
+    actLimparRegistros: TAction;
+    dxLayoutGroup7: TdxLayoutGroup;
+    cxButton13: TcxButton;
+    dxLayoutItem32: TdxLayoutItem;
+    cxButton14: TcxButton;
+    dxLayoutItem33: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actSairExecute(Sender: TObject);
     procedure actPesquisaExecute(Sender: TObject);
     procedure actExportarExecute(Sender: TObject);
     procedure ckbStatusPropertiesChange(Sender: TObject);
+    procedure actGRuposExecute(Sender: TObject);
+    procedure actUsuariosExecute(Sender: TObject);
+    procedure actListarAcessosExecute(Sender: TObject);
+    procedure actNovoGrupoExecute(Sender: TObject);
+    procedure actSelecionarTudoExecute(Sender: TObject);
+    procedure actLimparRegistrosExecute(Sender: TObject);
   private
     { Private declarations }
     FConn : TConnectionMySQL;
     FUsuarios : TUsuarioControl;
     Fsistem : TSistem;
+    FAcessos : TAcessosControl;
     procedure Pesquisar;
     procedure Exportar;
     procedure PopularGrupos;
+    procedure NovoGrupo;
+    procedure ListaAcessos(iUser: integer);
+    procedure SelecaoTodosAcessos(iTag: integer);
+
+    function ProcuraNomeGrupo(sGrupo: string): boolean;
   public
     { Public declarations }
   end;
@@ -151,9 +188,32 @@ implementation
 
 {$R *.dfm}
 
+uses View.SisGeFNomeGrupo;
+
 procedure TviewSisGefCadastroUsuarios.actExportarExecute(Sender: TObject);
 begin
   Exportar;
+end;
+
+procedure TviewSisGefCadastroUsuarios.actGRuposExecute(Sender: TObject);
+begin
+  lgpTabbed.ItemIndex := 2
+end;
+
+procedure TviewSisGefCadastroUsuarios.actLimparRegistrosExecute(Sender: TObject);
+begin
+  SelecaoTodosAcessos(0);
+end;
+
+procedure TviewSisGefCadastroUsuarios.actListarAcessosExecute(Sender: TObject);
+begin
+  if lcbGrupoUsuario.Text <> '' then
+    ListaAcessos(lcbGrupoUsuario.EditValue);
+end;
+
+procedure TviewSisGefCadastroUsuarios.actNovoGrupoExecute(Sender: TObject);
+begin
+  NovoGrupo;
 end;
 
 procedure TviewSisGefCadastroUsuarios.actPesquisaExecute(Sender: TObject);
@@ -166,8 +226,19 @@ begin
   Close;
 end;
 
+procedure TviewSisGefCadastroUsuarios.actSelecionarTudoExecute(Sender: TObject);
+begin
+  SelecaoTodosAcessos(1);
+end;
+
+procedure TviewSisGefCadastroUsuarios.actUsuariosExecute(Sender: TObject);
+begin
+  lgpTabbed.ItemIndex := 0;
+end;
+
 procedure TviewSisGefCadastroUsuarios.ckbStatusPropertiesChange(Sender: TObject);
 begin
+
   if ckbStatus.Checked then
   begin
     ckbStatus.Caption := 'ATIVO';
@@ -208,6 +279,7 @@ end;
 procedure TviewSisGefCadastroUsuarios.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FUsuarios.Free;
+  FAcessos.Free;
   FConn.Free;
   mtbUsuartios.Active := False;
   Action := caFree;
@@ -219,7 +291,70 @@ begin
   FSistem := TSistem.GetInstance;
   FConn := TConnectionMySQL.Create;
   Fusuarios := TUsuarioControl.Create;
+  FAcessos := TAcessosControl.Create;
   PopularGrupos;
+end;
+
+procedure TviewSisGefCadastroUsuarios.ListaAcessos(iUser: integer);
+var
+  aParam: array of variant;
+  FQuery : TFDQuery;
+begin
+  try
+    FQuery := FConn.GetQuery;
+    SetLength(aParam,2);
+    aParam[0] := 'FILTRO';
+    if iUser = -1 then
+      aParam[1] := 'true'
+    else
+      aParam[1] := ' WHERE cod_user = ' + iUser.ToString;
+    FQuery := FConn.GetQuery;
+    FQuery := FAcessos.LocalizarView(aParam);
+    mtbAcessos.Active := False;
+    if not FQuery.IsEmpty then
+    begin
+      mtbAcessos.Data := FQuery.Data;
+    end;
+    if not mtbAcessos.IsEmpty then
+      gridAcessosDBTableView1.ViewData.Expand(True);
+  finally
+    FQuery.Connection.Connected := False;
+  end;
+
+end;
+
+procedure TviewSisGefCadastroUsuarios.NovoGrupo;
+var
+  sGrupo : String;
+begin
+  if not Assigned(viewSisGeFNomeGrupo) then
+  begin
+    viewSisGeFNomeGrupo := TviewSisGeFNomeGrupo.Create(Application);
+  end;
+  try
+    if viewSisGeFNomeGrupo.ShowModal = mrCancel then
+      Exit;
+    sGrupo := viewSisGeFNomeGrupo.txeGrupo.Text;
+    if ProcuraNomeGrupo(sGrupo) then
+    begin
+      Application.MessageBox('Nome de Grupo já cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end
+    else
+    begin
+      if not mtbGrupos.Active then mtbGrupos.Active := True;
+
+      mtbGrupos.Insert;
+      mtbGruposcod_usuario.AsInteger := -1;
+      mtbGruposnom_usuario.AsString := sGrupo;
+      mtbGrupos.Post;
+      lcbGrupoUsuario.Refresh;
+      lcbGrupos.EditValue := -1;
+      ListaAcessos(mtbGruposcod_usuario.AsInteger);
+    end;
+  finally
+    FreeAndNil(viewSisGeFNomeGrupo);
+  end;
 end;
 
 procedure TviewSisGefCadastroUsuarios.Pesquisar;
@@ -303,6 +438,28 @@ begin
   finally
     FQuery.Connection.Connected := False;
   end;
+end;
+
+function TviewSisGefCadastroUsuarios.ProcuraNomeGrupo(sGrupo: string): boolean;
+begin
+  Result := False;
+  if not mtbGrupos.Active then Exit;
+  Result := mtbGrupos.Locate('nom_usuario', sGrupo,[]);
+end;
+
+procedure TviewSisGefCadastroUsuarios.SelecaoTodosAcessos(iTag: integer);
+begin
+  if not mtbAcessos.Active then Exit;
+  if mtbAcessos.IsEmpty then Exit;
+  mtbAcessos.First;
+  while not mtbAcessos.eof do
+  begin
+    mtbAcessos.Edit;
+    mtbAcessosdom_acesso.AsInteger := iTag;
+    mtbAcessos.Post;
+    mtbAcessos.Next;
+  end;
+  mtbAcessos.First;
 end;
 
 end.
