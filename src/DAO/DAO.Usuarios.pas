@@ -141,14 +141,14 @@ begin
     Result := False;
     FDQuery := FConexao.ReturnQuery;
     FDQuery.ExecSQL('INSERT INTO ' + TABLENAME + ' '+
-                    '(NOM_USUARIO, DES_LOGIN, DES_EMAIL, DES_SENHA, COD_GRUPO, DOM_PRIVILEGIO, ' +
+                    '(COD_USUARIO, NOM_USUARIO, DES_LOGIN, DES_EMAIL, DES_SENHA, COD_GRUPO, DOM_PRIVILEGIO, ' +
                     'DOM_EXPIRA, QTD_DIAS_EXPIRA, DOM_PRIMEIRO_ACESSO, DOM_ATIVO, DAT_SENHA, COD_NIVEL, ' +
                     'NOM_EXECUTOR, DAT_MANUTENCAO) ' +
                     'VALUES ' +
-                    '(:pNOM_USUARIO, :pDES_LOGIN, :pDES_EMAIL, AES_ENCRYPT(:pDES_SENHA,' + QuotedStr(CHAVE) + '), ' +
+                    '(:pCOD_USUARIO, :pNOM_USUARIO, :pDES_LOGIN, :pDES_EMAIL, AES_ENCRYPT(:pDES_SENHA,' + QuotedStr(CHAVE) + '), ' +
                     ':pCOD_GRUPO, :pDOM_PRIVILEGIO, :pDOM_EXPIRA, :pQTD_DIAS_EXPIRA, :pDOM_PRIMEIRO_ACESSO, ' +
                     ':pDOM_ATIVO, :pDAT_SENHA, :pCOD_NIVEL, :pNOM_EXECUTOR, :pDAT_MANUTENCAO);' ,
-                    [aUsuarios.Nome, aUsuarios.Login, aUsuarios.EMail, aUsuarios.Senha,
+                    [aUsuarios.Codigo, aUsuarios.Nome, aUsuarios.Login, aUsuarios.EMail, aUsuarios.Senha,
                     aUsuarios.Grupo, aUsuarios.Privilegio, aUsuarios.Expira, aUsuarios.DiasExpira, aUsuarios.PrimeiroAcesso,
                     aUsuarios.Ativo, FloatToDateTime(aUsuarios.DataSenha), aUsuarios.Nivel, aUsuarios.Executor, aUsuarios.Manutencao]);
     Result := True;

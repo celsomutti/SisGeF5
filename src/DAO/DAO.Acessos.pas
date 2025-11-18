@@ -22,7 +22,7 @@ type
   end;
 const
   TABLENAME = 'usuarios_acessos';
-  VIEWNAME = 'view_acessos';
+  VIEWNAME = 'sp_acessos';
 
 implementation
 
@@ -165,8 +165,7 @@ begin
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
 
-  FDQuery.SQL.Add('select * from ' + VIEWNAME);
-  FDQuery.SQL.Add('WHERE ' + aParam[1]);
+  FDQuery.SQL.Add('call ' + VIEWNAME + '(' + aParam[1] + ')');
   FDQuery.Open();
   Result := FDQuery;
 end;

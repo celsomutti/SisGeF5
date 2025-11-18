@@ -28,8 +28,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
     TabOrder = 0
     Transparent = True
     object cboParametros: TcxComboBox
-      Left = 10000
-      Top = 10000
+      Left = 95
+      Top = 64
       Properties.Items.Strings = (
         'Todos'
         'ID'
@@ -40,17 +40,15 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Style.HotTrack = False
       TabOrder = 0
       Text = 'Todos'
-      Visible = False
       Width = 82
     end
     object cxButton1: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 620
+      Top = 62
       Width = 84
       Height = 25
       Action = actPesquisa
       TabOrder = 2
-      Visible = False
     end
     object cxButton2: TcxButton
       Left = 655
@@ -61,39 +59,35 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       TabOrder = 32
     end
     object txeValor: TcxTextEdit
-      Left = 10000
-      Top = 10000
+      Left = 216
+      Top = 64
       Hint = 'Informe o que pesquisar'
       Style.HotTrack = False
       TabOrder = 1
-      Visible = False
       Width = 398
     end
     object cxButton3: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 36
+      Top = 378
       Width = 75
       Height = 25
       Action = actNovo
       TabOrder = 4
-      Visible = False
     end
     object cxButton4: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 117
+      Top = 378
       Width = 75
       Height = 25
       Action = actEditar
       TabOrder = 5
-      Visible = False
     end
     object grdUsuarios: TcxGrid
-      Left = 10000
-      Top = 10000
+      Left = 36
+      Top = 123
       Width = 668
       Height = 219
       TabOrder = 3
-      Visible = False
       object grdUsuariosDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = dsUsuarios
@@ -148,22 +142,20 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       end
     end
     object cxButton5: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 279
+      Top = 378
       Width = 75
       Height = 25
       Action = actGRupos
       TabOrder = 7
-      Visible = False
     end
     object cxButton6: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 198
+      Top = 378
       Width = 75
       Height = 25
       Action = actExportar
       TabOrder = 6
-      Visible = False
     end
     object speCodigo: TcxSpinEdit
       Left = 10000
@@ -351,8 +343,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Visible = False
     end
     object lcbGrupos: TcxLookupComboBox
-      Left = 74
-      Top = 64
+      Left = 10000
+      Top = 10000
       Hint = 'Selecione o grupo'
       Properties.DropDownListStyle = lsEditList
       Properties.KeyFieldNames = 'cod_usuario'
@@ -364,30 +356,34 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Properties.ListSource = dsGrupos
       Style.HotTrack = False
       TabOrder = 24
+      Visible = False
       Width = 468
     end
     object cxButton9: TcxButton
-      Left = 629
-      Top = 62
+      Left = 10000
+      Top = 10000
       Width = 75
       Height = 25
       Action = actNovoGrupo
       TabOrder = 26
+      Visible = False
     end
     object cxButton10: TcxButton
-      Left = 548
-      Top = 62
+      Left = 10000
+      Top = 10000
       Width = 75
       Height = 25
       Action = actListarAcessos
       TabOrder = 25
+      Visible = False
     end
     object gridAcessos: TcxGrid
-      Left = 36
-      Top = 154
+      Left = 10000
+      Top = 10000
       Width = 668
       Height = 188
       TabOrder = 29
+      Visible = False
       object gridAcessosDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = dsAcessos
@@ -442,36 +438,40 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       end
     end
     object cxButton11: TcxButton
-      Left = 36
-      Top = 378
+      Left = 10000
+      Top = 10000
       Width = 85
       Height = 25
       Action = actUsuarios
       TabOrder = 30
+      Visible = False
     end
     object cxButton12: TcxButton
-      Left = 127
-      Top = 378
+      Left = 10000
+      Top = 10000
       Width = 75
       Height = 25
       Action = actGravarGrupo
       TabOrder = 31
+      Visible = False
     end
     object cxButton13: TcxButton
-      Left = 36
-      Top = 123
+      Left = 10000
+      Top = 10000
       Width = 117
       Height = 25
       Action = actSelecionarTudo
       TabOrder = 27
+      Visible = False
     end
     object cxButton14: TcxButton
-      Left = 159
-      Top = 123
+      Left = 10000
+      Top = 10000
       Width = 114
       Height = 25
       Action = actLimparRegistros
       TabOrder = 28
+      Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -492,7 +492,6 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
       LayoutDirection = ldTabbed
       ShowBorder = False
       Index = 0
@@ -1097,6 +1096,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Caption = 'Grava&r'
       Hint = 'Gravar dados do grupo'
       ImageIndex = 85
+      OnExecute = actGravarGrupoExecute
     end
     object actListarAcessos: TAction
       Caption = 'L&istar'
@@ -1187,6 +1187,9 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       DisplayLabel = 'Menu'
       FieldName = 'des_menu'
       Size = 150
+    end
+    object mtbAcessoscod_user: TIntegerField
+      FieldName = 'cod_user'
     end
   end
   object dsAcessos: TDataSource
