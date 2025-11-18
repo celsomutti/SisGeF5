@@ -927,6 +927,8 @@ var
   bLogin: Boolean;
 begin
   Self.Caption := Application.Title;
+  FSistem.GetInstance();
+  Fsistem.SetupAuth;
   bFlag := False;
   dxBarCombo1.Items := FSistem.LoadSkinsINI;
   bFlag := True;

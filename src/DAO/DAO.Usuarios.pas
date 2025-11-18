@@ -43,11 +43,12 @@ begin
                     'DES_SENHA = AES_ENCRYPT(:pDES_SENHA,' + QuotedStr(CHAVE) + '), COD_GRUPO = :pCOD_GRUPO, ' +
                     'DOM_PRIVILEGIO = :pDOM_PRIVILEGIO, DOM_EXPIRA = :pDOM_EXPIRA, QTD_DIAS_EXPIRA = :pQTD_DIAS_EXPIRA, ' +
                     'DOM_PRIMEIRO_ACESSO = :pDOM_PRIMEIRO_ACESSO, DOM_ATIVO = :pDOM_ATIVO, ' +
-                    'DAT_SENHA = :pDAT_SENHA, COD_NIVEL = :pCOD_NIVEL, NOM_EXECUTOR = :pNOM_EXECUTOR, ' +
+                    'DAT_SENHA = :pDAT_SENHA, COD_NIVEL = :pCOD_NIVEL,NOM_EXECUTOR = :pNOM_EXECUTOR,NUM_CPF_CNPJ = :PNUM_CPF_CNPJ' +
                     'DAT_MANUTENCAO = :pDAT_MANUTENCAO ' +
                     'WHERE COD_USUARIO = :pCOD_USUARIO;', [aUsuarios.Nome, aUsuarios.Login, aUsuarios.EMail, aUsuarios.Senha,
                     aUsuarios.Grupo, aUsuarios.Privilegio, aUsuarios.Expira, aUsuarios.DiasExpira, aUsuarios.PrimeiroAcesso,
-                    aUsuarios.Ativo, FloatToDateTime(aUsuarios.DataSenha), aUsuarios.Nivel, aUsuarios.Executor, aUsuarios.Manutencao,
+                    aUsuarios.Ativo, FloatToDateTime(aUsuarios.DataSenha), aUsuarios.Nivel, aUsuarios.Executor,
+                    aUsuarios.cpf, aUsuarios.Manutencao,
                     aUsuarios.Codigo]);
     Result := True;
   finally
@@ -143,14 +144,15 @@ begin
     FDQuery.ExecSQL('INSERT INTO ' + TABLENAME + ' '+
                     '(COD_USUARIO, NOM_USUARIO, DES_LOGIN, DES_EMAIL, DES_SENHA, COD_GRUPO, DOM_PRIVILEGIO, ' +
                     'DOM_EXPIRA, QTD_DIAS_EXPIRA, DOM_PRIMEIRO_ACESSO, DOM_ATIVO, DAT_SENHA, COD_NIVEL, ' +
-                    'NOM_EXECUTOR, DAT_MANUTENCAO) ' +
+                    'NOM_EXECUTOR, NUM_CPF_CNPJ, DAT_MANUTENCAO) ' +
                     'VALUES ' +
                     '(:pCOD_USUARIO, :pNOM_USUARIO, :pDES_LOGIN, :pDES_EMAIL, AES_ENCRYPT(:pDES_SENHA,' + QuotedStr(CHAVE) + '), ' +
                     ':pCOD_GRUPO, :pDOM_PRIVILEGIO, :pDOM_EXPIRA, :pQTD_DIAS_EXPIRA, :pDOM_PRIMEIRO_ACESSO, ' +
-                    ':pDOM_ATIVO, :pDAT_SENHA, :pCOD_NIVEL, :pNOM_EXECUTOR, :pDAT_MANUTENCAO);' ,
+                    ':pDOM_ATIVO, :pDAT_SENHA, :pCOD_NIVEL, :pNOM_EXECUTOR, :pNUM_CPF_CNPJ, :pDAT_MANUTENCAO);' ,
                     [aUsuarios.Codigo, aUsuarios.Nome, aUsuarios.Login, aUsuarios.EMail, aUsuarios.Senha,
                     aUsuarios.Grupo, aUsuarios.Privilegio, aUsuarios.Expira, aUsuarios.DiasExpira, aUsuarios.PrimeiroAcesso,
-                    aUsuarios.Ativo, FloatToDateTime(aUsuarios.DataSenha), aUsuarios.Nivel, aUsuarios.Executor, aUsuarios.Manutencao]);
+                    aUsuarios.Ativo, FloatToDateTime(aUsuarios.DataSenha), aUsuarios.Nivel, aUsuarios.Executor,
+                    aUsuarios.cpf, aUsuarios.Manutencao]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -188,7 +190,7 @@ begin
   FDQuery.SQL.Add('SELECT COD_USUARIO, NOM_USUARIO, DES_LOGIN, DES_EMAIL, DES_SENHA, AES_DECRYPT(DES_SENHA, ' + QuotedStr(CHAVE) +
                   ') as PWD, '+
                   'COD_GRUPO, DOM_PRIVILEGIO, DOM_EXPIRA, QTD_DIAS_EXPIRA, DOM_PRIMEIRO_ACESSO, DOM_ATIVO, DAT_SENHA, ' +
-                  'COD_NIVEL, NOM_EXECUTOR, DAT_MANUTENCAO FROM ' + TABLENAME);
+                  'COD_NIVEL, NOM_EXECUTOR, NUM_CPF_CNPJ, DAT_MANUTENCAO FROM ' + TABLENAME);
   if aParam[0] = 'CODIGO' then
   begin
     FDQuery.SQL.Add('WHERE COD_USUARIO = :COD_USUARIO');

@@ -23,6 +23,8 @@ type
     function LoginExiste(sLogin: String): Boolean;
     function EMailExiste(sEMail: String): Boolean;
     function ValidaLoginEMail(sEMail: String; sSenha: String): Boolean;
+    procedure ClearFields;
+    procedure SetupFields(FQuery: TFDQuery);
   end;
 
 implementation
@@ -38,6 +40,11 @@ begin
     Exit;
   end;
   Result := FUsuarios.AlteraSenha(AUsuarios);
+end;
+
+procedure TUsuarioControl.ClearFields;
+begin
+  FUsuarios.ClearFields;
 end;
 
 constructor TUsuarioControl.Create;
@@ -76,6 +83,11 @@ end;
 function TUsuarioControl.LoginExiste(sLogin: String): Boolean;
 begin
   Result := FUsuarios.LoginExiste(sLogin);
+end;
+
+procedure TUsuarioControl.SetupFields(FQuery: TFDQuery);
+begin
+  FUsuarios.SetupFields(FQuery);
 end;
 
 function TUsuarioControl.ValidaCampos: Boolean;

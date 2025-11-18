@@ -5,7 +5,7 @@ object view_CadastraSenha: Tview_CadastraSenha
   Caption = 'Senha do Usu'#225'rio'
   ClientHeight = 194
   ClientWidth = 333
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -22,6 +22,7 @@ object view_CadastraSenha: Tview_CadastraSenha
     Align = alClient
     PanelStyle.Active = True
     TabOrder = 0
+    Transparent = True
     Height = 194
     Width = 333
     object cxLabel1: TcxLabel
