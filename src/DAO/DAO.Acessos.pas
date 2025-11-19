@@ -22,7 +22,7 @@ type
   end;
 const
   TABLENAME = 'usuarios_acessos';
-  VIEWNAME = 'sp_acessos';
+  VIEWNAME = 'view_acessos_padrao';
 
 implementation
 
@@ -162,10 +162,10 @@ var
   FDQuery: TFDQuery;
 begin
   FDQuery := FConexao.ReturnQuery();
-  if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
-
-  FDQuery.SQL.Add('call ' + VIEWNAME + '(' + aParam[1] + ')');
+  FDQuery.SQL.Add('select * from ' + VIEWNAME);
+  if Length(aParam) < 1 then Exit;
+  FDQuery.SQL.Add('where ' + aParam[0]);
   FDQuery.Open();
   Result := FDQuery;
 end;

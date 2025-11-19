@@ -109,6 +109,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
         Navigator.Buttons.Filter.ImageIndex = 96
         Navigator.InfoPanel.Visible = True
         Navigator.Visible = True
+        OnCellDblClick = grdUsuariosDBTableView1CellDblClick
         DataController.DataSource = dsUsuarios
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
@@ -121,6 +122,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
         OptionsSelection.UnselectFocusedRecordOnExit = False
         OptionsView.ColumnAutoWidth = True
         OptionsView.Footer = True
+        OptionsView.GroupByBox = False
         OptionsView.Indicator = True
         object grdUsuariosDBTableView1cod_usuario: TcxGridDBColumn
           DataBinding.FieldName = 'cod_usuario'
@@ -362,6 +364,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
         end>
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsGrupos
+      Properties.OnChange = lcbGruposPropertiesChange
       Style.HotTrack = False
       TabOrder = 25
       Visible = False
@@ -389,11 +392,29 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Left = 10000
       Top = 10000
       Width = 668
-      Height = 188
+      Height = 208
       TabOrder = 30
       Visible = False
       object gridAcessosDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
+        Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+        Navigator.Buttons.First.ImageIndex = 91
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.Prior.ImageIndex = 94
+        Navigator.Buttons.Next.ImageIndex = 93
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Last.ImageIndex = 92
+        Navigator.Buttons.Insert.Visible = False
+        Navigator.Buttons.Delete.Visible = False
+        Navigator.Buttons.Edit.Visible = False
+        Navigator.Buttons.Post.Visible = False
+        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.Visible = False
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
         DataController.DataSource = dsAcessos
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
@@ -1270,13 +1291,32 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       FieldName = 'des_menu'
       Size = 150
     end
-    object mtbAcessoscod_user: TIntegerField
-      FieldName = 'cod_user'
-    end
   end
   object dsAcessos: TDataSource
     DataSet = mtbAcessos
     Left = 368
     Top = 8
+  end
+  object mtbAcessosUsuario: TFDMemTable
+    Indexes = <
+      item
+        Active = True
+        Fields = 'cod_menu'
+      end>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 240
+    Top = 8
+    object mtbAcessosUsuariocod_menu: TIntegerField
+      FieldName = 'cod_menu'
+    end
+    object mtbAcessosUsuariocod_usuario: TIntegerField
+      FieldName = 'cod_usuario'
+    end
   end
 end

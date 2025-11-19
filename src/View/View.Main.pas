@@ -32,7 +32,7 @@ uses
   Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems,
   dxNavBarOfficeNavigationBar, View.SisGeFExtractSO, Winapi.WinInet, IdBaseComponent, IdComponent,
   IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, IdException, IniFiles, ShellAPI, idftpcommon, service.sistem,
-  service.connectionMySQL;
+  service.connectionMySQL, cxContainer, cxEdit, cxImage, dxGDIPlusClasses;
 
 type
   Tview_Main = class(TForm)
@@ -216,6 +216,8 @@ type
     dxBarLargeButton70: TdxBarLargeButton;
     dxBarLargeButton71: TdxBarLargeButton;
     actFaturamentoRecebido: TAction;
+    Panel1: TPanel;
+    imgLogo: TcxImage;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -315,10 +317,12 @@ var
   FAcessos: TAcessosControl;
   i: Integer;
   iTag: Integer;
+  iGroup: integer;
 begin
   try
     iTag := 0;
     FAcessos := TAcessosControl.Create;
+    iGroup := StrToIntDef(FSistem.CurrentGroup,0);
     for i := 0 to aclMain.ActionCount - 1 do
     begin
       iTag := TAction(aclMain.Actions[i]).Tag;
@@ -326,61 +330,57 @@ begin
       begin
         if iTag > 0 then
         begin
-          TAction(aclMain.Actions[i]).Visible := FAcessos.VerificaLogin(iTag,
-            Global.Parametros.pUser_ID);
+          TAction(aclMain.Actions[i]).Enabled := FAcessos.VerificaLogin(iTag, iGroup);
         end
         else
         begin
-          TAction(aclMain.Actions[i]).Visible := True;
+          TAction(aclMain.Actions[i]).Enabled := True;
         end;
       end
       else
       begin
-        TAction(aclMain.Actions[i]).Visible := True;
+        TAction(aclMain.Actions[i]).Enabled := True;
       end;
     end;
-    for i := 0 to bmMain.Bars.Count - 1 do
-    begin
-      iTag := bmMain.Bars[i].Tag;
-      if Global.Parametros.pAdmin <> 'S' then
-      begin
-        if iTag > 0 then
-        begin
-          bmMain.Bars[i].Visible := FAcessos.VerificaModulo(iTag,
-            Global.Parametros.pUser_ID);
-        end
-        else
-        begin
-          bmMain.Bars[i].Visible := True;
-        end;
-      end
-      else
-      begin
-        bmMain.Bars[i].Visible := True;
-      end;
-    end;
-    for i := 0 to dxRibbon1.Tabs.Count - 1 do
-    begin
-      iTag := dxRibbon1.Tabs[i].Tag;
-      if Global.Parametros.pAdmin <> 'S' then
-      begin
-        dxRibbon1.Tabs[i].Visible := FAcessos.VerificaSistema(iTag,
-          Global.Parametros.pUser_ID);
-      end
-      else
-      begin
-        dxRibbon1.Tabs[i].Visible := True;
-      end;
-    end;
-    for i := 0 to dxRibbon1.Tabs.Count - 1 do
-    begin
-      if dxRibbon1.Tabs[i].Visible then
-      begin
-        dxRibbon1.Tabs[i].Active := True;
-        Break;
-      end;
-    end;
-
+//    for i := 0 to bmMain.Bars.Count - 1 do
+//    begin
+//      iTag := bmMain.Bars[i].Tag;
+//      if Global.Parametros.pAdmin <> 'S' then
+//      begin
+//        if iTag > 0 then
+//        begin
+//          bmMain.Bars[i].Visible := FAcessos.VerificaModulo(iTag, iGroup);
+//        end
+//        else
+//        begin
+//          bmMain.Bars[i].Visible := True;
+//        end;
+//      end
+//      else
+//      begin
+//        bmMain.Bars[i].Visible := True;
+//      end;
+//    end;
+//    for i := 0 to dxRibbon1.Tabs.Count - 1 do
+//    begin
+//      iTag := dxRibbon1.Tabs[i].Tag;
+//      if Global.Parametros.pAdmin <> 'S' then
+//      begin
+//        dxRibbon1.Tabs[i].Visible := FAcessos.VerificaSistema(iTag, iGroup);
+//      end
+//      else
+//      begin
+//        dxRibbon1.Tabs[i].Visible := True;
+//      end;
+//    end;
+//    for i := 0 to dxRibbon1.Tabs.Count - 1 do
+//    begin
+//      if dxRibbon1.Tabs[i].Visible then
+//      begin
+//        dxRibbon1.Tabs[i].Active := True;
+//        Break;
+//      end;
+//    end;
   finally
     FAcessos.Free;
   end;
@@ -844,6 +844,7 @@ begin
       FSistem.CurrentUserID := FDQuery.FieldByName('COD_USUARIO').AsString;
       FSistem.CurrentUserName := FDQuery.FieldByName('NOM_USUARIO').AsString;
       FSistem.CurrentLogin := FDQuery.FieldByName('DES_LOGIN').AsString;
+      FSistem.CurrentGroup := FDQuery.FieldByName('COD_GRUPO').AsString;
       Global.Parametros.pUser_Name := FDQuery.FieldByName('DES_LOGIN').AsString;
       Global.Parametros.pNameUser := FDQuery.FieldByName('NOM_USUARIO').AsString;
       Global.Parametros.pUser_ID := FDQuery.FieldByName('COD_USUARIO').AsInteger;
@@ -927,6 +928,10 @@ var
   bLogin: Boolean;
 begin
   Self.Caption := Application.Title;
+  Self.Top := Screen.WorkAreaTop;
+  Self.Left := Screen.WorkAreaLeft;
+  Self.Width := Screen.WorkAreaWidth;
+  Self.Height := Screen.WorkAreaHeight;
   FSistem.GetInstance();
   Fsistem.SetupAuth;
   bFlag := False;

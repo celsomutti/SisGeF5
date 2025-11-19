@@ -17,6 +17,7 @@ type
       FCurrentUserId: string;
       FCurrentUserLogin: string;
       FCurrentUserName: string;
+      FCurrentGroup: string;
       FAliasLicence: string;
       FDocLicence: string;
       FNameLicence: string;
@@ -51,6 +52,7 @@ type
       property CurrentUserID: string read FCurrentUserID write FCurrentUserId;
       property CurrentUserName: string read FCurrentUserName write FCurrentUserName;
       property CurrentLogin: string read FCurrentUserLogin write FCurrentUserLogin;
+      property CurrentGroup: string read FCurrentGroup write FCurrentGroup;
       property Skin: string read FSkin write FSkin;
       property AliasLicence: string read FAliasLicence write FAliasLicence;
       Property NameLicence: string read FNameLicence write FNameLicence;
