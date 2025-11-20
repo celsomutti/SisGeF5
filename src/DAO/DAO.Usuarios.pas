@@ -232,13 +232,14 @@ begin
     Result := False;
     FDquery := FConexao.ReturnQuery;
     FDQuery.SQL.Clear;
-    FDQuery.SQL.Add('SELECT AES_DECRYPT(DES_SENHA,:pCHAVE) AS SENHA FROM ' + TABLENAME);
+    FDQuery.SQL.Add('SELECT AES_DECRYPT(DES_SENHA,:pCHAVE) AS SENHA, DOM_ATIVO FROM ' + TABLENAME);
     FDQuery.SQL.Add(' WHERE DES_LOGIN = :pDES_LOGIN');
     FDQuery.ParamByName('pDES_LOGIN').AsString := sLogin;
     FDQuery.ParamByName('pCHAVE').AsString := CHAVE;
     FDQuery.Open();
     if FDquery.IsEmpty then Exit;
     if not FDquery.FieldByName('SENHA').AsString.Equals(sSenha) then Exit;
+    if not FDquery.FieldByName('DOM_ATIVO').AsString.Equals('S') then Exit;
     Result  :=  True;
   finally
     FDquery.Connection.Close;

@@ -28,8 +28,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
     TabOrder = 0
     Transparent = True
     object cboParametros: TcxComboBox
-      Left = 95
-      Top = 44
+      Left = 83
+      Top = 26
       Properties.Items.Strings = (
         'Todos'
         'ID'
@@ -43,11 +43,14 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 82
     end
     object cxButton1: TcxButton
-      Left = 620
-      Top = 42
+      Left = 632
+      Top = 24
       Width = 84
       Height = 25
       Action = actPesquisa
+      Default = True
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 3
     end
     object cxButton2: TcxButton
@@ -56,37 +59,43 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 75
       Height = 25
       Action = actSair
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 33
     end
     object txeValor: TcxTextEdit
-      Left = 216
-      Top = 44
+      Left = 204
+      Top = 26
       Hint = 'Informe o que pesquisar'
       Style.HotTrack = False
       TabOrder = 1
-      Width = 280
+      Width = 304
     end
     object cxButton3: TcxButton
-      Left = 36
-      Top = 378
+      Left = 24
+      Top = 390
       Width = 75
       Height = 25
       Action = actNovo
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 5
     end
     object cxButton4: TcxButton
-      Left = 117
-      Top = 378
+      Left = 105
+      Top = 390
       Width = 75
       Height = 25
       Action = actEditar
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 6
     end
     object grdUsuarios: TcxGrid
-      Left = 36
-      Top = 103
-      Width = 668
-      Height = 239
+      Left = 24
+      Top = 55
+      Width = 692
+      Height = 329
       TabOrder = 4
       object grdUsuariosDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
@@ -117,7 +126,6 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
         OptionsSelection.CellSelect = False
         OptionsSelection.MultiSelect = True
         OptionsSelection.CheckBoxPosition = cbpIndicator
-        OptionsSelection.CheckBoxVisibility = [cbvDataRow, cbvColumnHeader]
         OptionsSelection.ClearPersistentSelectionOnOutsideClick = True
         OptionsSelection.UnselectFocusedRecordOnExit = False
         OptionsView.ColumnAutoWidth = True
@@ -163,19 +171,23 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       end
     end
     object cxButton5: TcxButton
-      Left = 279
-      Top = 378
+      Left = 267
+      Top = 390
       Width = 75
       Height = 25
       Action = actGRupos
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 8
     end
     object cxButton6: TcxButton
-      Left = 198
-      Top = 378
+      Left = 186
+      Top = 390
       Width = 75
       Height = 25
       Action = actExportar
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 7
     end
     object speCodigo: TcxSpinEdit
@@ -209,7 +221,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Style.HotTrack = False
       TabOrder = 11
       Visible = False
-      Width = 413
+      Width = 437
     end
     object txeLogin: TcxTextEdit
       Left = 10000
@@ -340,6 +352,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Height = 25
       Action = actCancelar
       Cancel = True
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 23
       Visible = False
     end
@@ -349,6 +363,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 75
       Height = 25
       Action = actGravar
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 24
       Visible = False
     end
@@ -368,7 +384,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Style.HotTrack = False
       TabOrder = 25
       Visible = False
-      Width = 468
+      Width = 492
     end
     object cxButton9: TcxButton
       Left = 10000
@@ -376,6 +392,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 75
       Height = 25
       Action = actNovoGrupo
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 27
       Visible = False
     end
@@ -385,14 +403,16 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 75
       Height = 25
       Action = actListarAcessos
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 26
       Visible = False
     end
     object gridAcessos: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 668
-      Height = 208
+      Width = 692
+      Height = 298
       TabOrder = 30
       Visible = False
       object gridAcessosDBTableView1: TcxGridDBTableView
@@ -472,6 +492,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 85
       Height = 25
       Action = actUsuarios
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 31
       Visible = False
     end
@@ -481,6 +503,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 75
       Height = 25
       Action = actGravarGrupo
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 32
       Visible = False
     end
@@ -490,6 +514,8 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 117
       Height = 25
       Action = actSelecionarTudo
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 28
       Visible = False
     end
@@ -499,12 +525,14 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Width = 114
       Height = 25
       Action = actLimparRegistros
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Transparent = True
       TabOrder = 29
       Visible = False
     end
     object cboStatus: TcxComboBox
-      Left = 538
-      Top = 44
+      Left = 550
+      Top = 26
       Hint = 'Selecione o status a ser listado'
       Properties.Items.Strings = (
         'TODOS'
@@ -567,6 +595,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       LayoutDirection = ldTabbed
       ShowBorder = False
@@ -578,6 +607,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignHorz = ahClient
       AlignVert = avBottom
       CaptionOptions.Text = 'New Group'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
@@ -588,7 +618,9 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       Index = 0
     end
     object lgpParameters: TdxLayoutGroup
@@ -596,9 +628,11 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignHorz = ahClient
       AlignVert = avTop
       CaptionOptions.Visible = False
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       ItemIndex = 1
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 0
     end
     object dxLayoutItem1: TdxLayoutItem
@@ -650,14 +684,18 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Parent = lgpPesquisa
       AlignHorz = ahClient
       AlignVert = avClient
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
+      ShowBorder = False
       Index = 1
     end
     object lgpButtons: TdxLayoutGroup
       Parent = lgpPesquisa
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       ItemIndex = 3
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 2
     end
     object dxLayoutItem5: TdxLayoutItem
@@ -708,8 +746,9 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 2
       Index = 1
     end
     object dxLayoutItem9: TdxLayoutItem
@@ -726,8 +765,10 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = lgpCadastro
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 0
     end
     object dxLayoutItem10: TdxLayoutItem
@@ -768,8 +809,10 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignHorz = ahClient
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -779,6 +822,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'Login'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
       ItemIndex = 3
@@ -789,6 +833,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'Configura'#231#227'o'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
       ItemIndex = 1
@@ -884,8 +929,10 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Parent = lgpCadastro
       AlignHorz = ahClient
       AlignVert = avBottom
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 2
     end
     object dxLayoutItem23: TdxLayoutItem
@@ -924,14 +971,17 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
     object lgpGrupos: TdxLayoutGroup
       Parent = lgpTabbed
       CaptionOptions.Text = 'New Group'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 2
       Index = 2
     end
     object dxLayoutGroup4: TdxLayoutGroup
       Parent = lgpGrupos
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 0
     end
     object dxLayoutItem26: TdxLayoutItem
@@ -973,7 +1023,9 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Parent = lgpGrupos
       AlignHorz = ahClient
       AlignVert = avClient
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
+      ShowBorder = False
       Index = 1
     end
     object dxLayoutItem29: TdxLayoutItem
@@ -992,8 +1044,10 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Parent = lgpGrupos
       AlignHorz = ahClient
       AlignVert = avBottom
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 2
     end
     object dxLayoutItem30: TdxLayoutItem
@@ -1021,6 +1075,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       AlignHorz = ahClient
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
+      LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
@@ -1142,7 +1197,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       OnExecute = actEditarExecute
     end
     object actGRupos: TAction
-      Caption = 'Grupos'
+      Caption = '&Grupos'
       Hint = 'Cadastro de grupos'
       ImageIndex = 60
       OnExecute = actGRuposExecute
@@ -1166,7 +1221,7 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       OnExecute = actExportarExecute
     end
     object actSair: TAction
-      Caption = 'Sair'
+      Caption = '&Sair'
       Hint = 'Sair do sistema'
       ImageIndex = 98
       OnExecute = actSairExecute
@@ -1205,12 +1260,14 @@ object viewSisGefCadastroUsuarios: TviewSisGefCadastroUsuarios
       Caption = 'Selecionar Todos'
       Hint = 'Selecionar todos os registros'
       ImageIndex = 71
+      ShortCut = 16468
       OnExecute = actSelecionarTudoExecute
     end
     object actLimparRegistros: TAction
       Caption = 'Limpar Sele'#231#227'o'
       Hint = 'Limpar sele'#231#227'o de registros'
       ImageIndex = 72
+      ShortCut = 16457
       OnExecute = actLimparRegistrosExecute
     end
     object actMostrarSenha: TAction

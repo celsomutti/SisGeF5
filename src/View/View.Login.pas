@@ -48,8 +48,10 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure txtSenhaEnter(Sender: TObject);
     procedure txtSenhaExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
+    procedure GetLogoLogin;
   public
     { Public declarations }
   end;
@@ -79,6 +81,23 @@ begin
   begin
     Key := #0;
     Perform(Wm_NextDlgCtl, 0, 0);
+  end;
+end;
+
+procedure Tview_Login.FormShow(Sender: TObject);
+begin
+  GetLogoLogin;
+end;
+
+procedure Tview_Login.GetLogoLogin;
+var
+  sFileImg: string;
+begin
+  sFileImg := '.\logo\logoClient.png';
+  if FileExists(sFileImg) then
+  begin
+    imageLogoSisGeF.Picture.LoadFromFile(sFileImg);
+    imageLogoSisGeF.Properties.FitMode := ifmFit;
   end;
 end;
 

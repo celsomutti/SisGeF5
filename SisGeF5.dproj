@@ -94,7 +94,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=;CFBundleName=</VerInfo_Keys>
         <DCC_DcuOutput>.\lib</DCC_DcuOutput>
         <DCC_ExeOutput>.\bin</DCC_ExeOutput>
-        <DCC_UnitSearchPath>$(DCC_UnitSearchPath);modules\.dcp;modules\.dcu;modules;modules\c4d-version\Src</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>modules\.dcp;modules\.dcu;modules;modules\c4d-version\Src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
@@ -198,9 +198,6 @@
         <DCCReference Include="src\Control\Control.Acessos.pas"/>
         <DCCReference Include="src\Model\Model.CadastroRH.pas"/>
         <DCCReference Include="src\Control\Control.CadastroRH.pas"/>
-        <DCCReference Include="src\View\View.CadastroUsuarios.pas">
-            <Form>view_CadastroUsuarios</Form>
-        </DCCReference>
         <DCCReference Include="src\View\View.CadastraSenha.pas">
             <Form>view_CadastraSenha</Form>
         </DCCReference>
@@ -597,9 +594,6 @@
         <DCCReference Include="src\View\View.SisGeFExtractPeriodicals.pas">
             <Form>view_SisGeFExtractPeriodicals</Form>
         </DCCReference>
-        <DCCReference Include="src\View\View.SisGeFRegisterContractors.pas">
-            <Form>view_SisGeFRegisterContractors</Form>
-        </DCCReference>
         <DCCReference Include="src\Model\Model.SisGeFTiragens.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFTiragens.pas"/>
         <DCCReference Include="src\View\View.SisGeFNFsFaturas.pas">
@@ -661,6 +655,14 @@
         </DCCReference>
         <DCCReference Include="src\View\View.SisGeFNomeGrupo.pas">
             <Form>viewSisGeFNomeGrupo</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\View\View.SisGeFRegisterContractors.pas">
+            <Form>view_SisGeFRegisterContractors</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\View\View.SisGeFCadastroPadrao.pas">
+            <Form>viewCadastroPadrao</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Debug">

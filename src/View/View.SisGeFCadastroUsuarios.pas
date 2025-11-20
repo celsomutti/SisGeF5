@@ -251,6 +251,7 @@ end;
 
 procedure TviewSisGefCadastroUsuarios.actGRuposExecute(Sender: TObject);
 begin
+  PopularGrupos;
   lgpTabbed.ItemIndex := 2
 end;
 

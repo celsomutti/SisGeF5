@@ -32,7 +32,7 @@ uses
   Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems,
   dxNavBarOfficeNavigationBar, View.SisGeFExtractSO, Winapi.WinInet, IdBaseComponent, IdComponent,
   IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, IdException, IniFiles, ShellAPI, idftpcommon, service.sistem,
-  service.connectionMySQL, cxContainer, cxEdit, cxImage, dxGDIPlusClasses;
+  service.connectionMySQL, cxContainer, cxEdit, cxImage, dxGDIPlusClasses, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxLabel;
 
 type
   Tview_Main = class(TForm)
@@ -216,8 +216,13 @@ type
     dxBarLargeButton70: TdxBarLargeButton;
     dxBarLargeButton71: TdxBarLargeButton;
     actFaturamentoRecebido: TAction;
-    Panel1: TPanel;
+    pnlMainHeader: TPanel;
     imgLogo: TcxImage;
+    pnlSystemButtons: TPanel;
+    btnCloseForm: TcxButton;
+    btnMinimieForm: TcxButton;
+    lblNomeFantasia: TcxLabel;
+    lblRazaoSocial: TcxLabel;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -262,6 +267,8 @@ type
     procedure actFaturamentoRecebidoExecute(Sender: TObject);
     procedure actRegistroOcorrenciasExecute(Sender: TObject);
     procedure actControleViagensExecute(Sender: TObject);
+    procedure btnCloseFormClick(Sender: TObject);
+    procedure btnMinimieFormClick(Sender: TObject);
 
   private
     FidFTP : TIdFTP;
@@ -281,6 +288,8 @@ type
     function Logar(): Boolean;
     function SenhaExpirada(iDias: Integer): Boolean;
     procedure VerificaVersao;
+    procedure GetLogo;
+    procedure GetCompany;
   public
     { Public declarations }
   end;
@@ -294,7 +303,7 @@ implementation
 {$R *.dfm}
 
 uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
-  View.CadastroUsuarios, View.CadastraSenha,
+  View.CadastraSenha,
   View.Calendario, View.VerbasExpressas, View.Acareacoes, View.ImportarPedidos,
   View.ImportarBaixasTFO,
   View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas,
@@ -325,6 +334,10 @@ begin
     iGroup := StrToIntDef(FSistem.CurrentGroup,0);
     for i := 0 to aclMain.ActionCount - 1 do
     begin
+      if Global.Parametros.pAdmin = 'S' then
+        dxBarCombo1.Visible := ivAlways
+      else
+        dxBarCombo1.Visible := ivNever;
       iTag := TAction(aclMain.Actions[i]).Tag;
       if Global.Parametros.pAdmin <> 'S' then
       begin
@@ -800,6 +813,16 @@ begin
   end;
 end;
 
+procedure Tview_Main.btnCloseFormClick(Sender: TObject);
+begin
+  actSairSistemaExecute(Sender);
+end;
+
+procedure Tview_Main.btnMinimieFormClick(Sender: TObject);
+begin
+  Application.Minimize;
+end;
+
 function Tview_Main.ConnectFTPServer: boolean;
 begin
   FidFTP := TIdFTP.Create(Self);
@@ -932,6 +955,8 @@ begin
   Self.Left := Screen.WorkAreaLeft;
   Self.Width := Screen.WorkAreaWidth;
   Self.Height := Screen.WorkAreaHeight;
+  GetLogo;
+  GetCompany;
   FSistem.GetInstance();
   Fsistem.SetupAuth;
   bFlag := False;
@@ -967,6 +992,24 @@ begin
   end;
   FreeAndNil(view_Login);
   //VerificaVersao;
+end;
+
+procedure Tview_Main.GetCompany;
+begin
+  Self.lblNomeFantasia.Caption := FSistem.AliasLicence;
+  Self.lblRazaoSocial.Caption := FSistem.NameLicence;
+end;
+
+procedure Tview_Main.GetLogo;
+var
+  sFileImg: string;
+begin
+  sFileImg := '.\logo\logo.png';
+  if FileExists(sFileImg) then
+  begin
+    imgLogo.Picture.LoadFromFile(sFileImg);
+    imgLogo.Properties.FitMode := ifmFit;
+  end;
 end;
 
 function Tview_Main.GetVersionFTP: integer;
@@ -1028,7 +1071,7 @@ begin
     begin
       if not Login(view_Login.txtLogin.Text, view_Login.txtSenha.Text) then
       begin
-        Application.MessageBox('Usuário e/ou senha incorretos!', 'Atenção',
+        Application.MessageBox('Usuário e/ou senha incorretos ou usuário inativo!', 'Atenção',
           MB_OK + MB_ICONWARNING);
         Exit;
       end;

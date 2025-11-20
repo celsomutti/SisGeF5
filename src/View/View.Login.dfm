@@ -17,6 +17,7 @@ object view_Login: Tview_Login
   Position = poMainFormCenter
   ShowHint = True
   OnKeyPress = FormKeyPress
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 17
   object dxLayoutControl1: TdxLayoutControl
@@ -101,7 +102,7 @@ object view_Login: Tview_Login
     end
     object lblSistema: TcxLabel
       Left = 50
-      Top = 120
+      Top = 122
       Caption = 'Sistema'
       ParentFont = False
       Style.Font.Charset = ANSI_CHARSET
@@ -116,11 +117,11 @@ object view_Login: Tview_Login
       Properties.Alignment.Vert = taVCenter
       Transparent = True
       AnchorX = 77
-      AnchorY = 131
+      AnchorY = 133
     end
     object imageLogoSisGeF: TcxImage
       Left = 14
-      Top = 13
+      Top = 14
       TabStop = False
       Picture.Data = {
         0B546478504E47496D61676589504E470D0A1A0A0000000D49484452000001AA
@@ -2199,14 +2200,13 @@ object view_Login: Tview_Login
         D0D0D0B0ADD1125543434343C3B6464B540D0D0D0D0DDB1829FD7FC8C57A3FF2
         B86D2A0000000049454E44AE426082}
       Properties.ReadOnly = True
-      Style.BorderColor = clNone
-      Style.BorderStyle = ebsNone
+      Style.BorderStyle = ebsOffice11
       Style.Edges = []
       Style.HotTrack = False
       Style.LookAndFeel.Kind = lfStandard
       Style.LookAndFeel.NativeStyle = False
       Style.Shadow = False
-      Style.TransparentBorder = False
+      Style.TransparentBorder = True
       StyleDisabled.LookAndFeel.Kind = lfStandard
       StyleDisabled.LookAndFeel.NativeStyle = False
       StyleFocused.LookAndFeel.Kind = lfStandard
@@ -2458,7 +2458,6 @@ object view_Login: Tview_Login
       Control = imageLogoSisGeF
       ControlOptions.OriginalHeight = 100
       ControlOptions.OriginalWidth = 125
-      ControlOptions.ShowBorder = False
       Index = 0
     end
     object dxLayoutGroup3: TdxLayoutGroup

@@ -25,7 +25,6 @@ uses
   Control.Acessos in 'src\Control\Control.Acessos.pas',
   Model.CadastroRH in 'src\Model\Model.CadastroRH.pas',
   Control.CadastroRH in 'src\Control\Control.CadastroRH.pas',
-  View.CadastroUsuarios in 'src\View\View.CadastroUsuarios.pas' {view_CadastroUsuarios},
   View.CadastraSenha in 'src\View\View.CadastraSenha.pas' {view_CadastraSenha},
   Model.CadastroEnderecos in 'src\Model\Model.CadastroEnderecos.pas',
   Control.CadastroEnderecos in 'src\Control\Control.CadastroEnderecos.pas',
@@ -289,7 +288,6 @@ uses
   Model.SisGeFNFsFaturas in 'src\Model\Model.SisGeFNFsFaturas.pas',
   Controller.SisGeFNFsFaturas in 'src\Control\Controller.SisGeFNFsFaturas.pas',
   View.SisGeFExtractPeriodicals in 'src\View\View.SisGeFExtractPeriodicals.pas' {view_SisGeFExtractPeriodicals},
-  View.SisGeFRegisterContractors in 'src\View\View.SisGeFRegisterContractors.pas' {view_SisGeFRegisterContractors},
   Model.SisGeFTiragens in 'src\Model\Model.SisGeFTiragens.pas',
   Controller.SisGeFTiragens in 'src\Control\Controller.SisGeFTiragens.pas',
   View.SisGeFNFsFaturas in 'src\View\View.SisGeFNFsFaturas.pas' {view_SisGeFNFsFaturas},
@@ -328,7 +326,9 @@ uses
   service.sistem in 'src\Services\service.sistem.pas',
   service.connectionMySQL in 'src\Services\service.connectionMySQL.pas',
   View.SisGeFCadastroUsuarios in 'src\View\View.SisGeFCadastroUsuarios.pas' {viewSisGefCadastroUsuarios},
-  View.SisGeFNomeGrupo in 'src\View\View.SisGeFNomeGrupo.pas' {viewSisGeFNomeGrupo};
+  View.SisGeFNomeGrupo in 'src\View\View.SisGeFNomeGrupo.pas' {viewSisGeFNomeGrupo},
+  View.SisGeFRegisterContractors in 'src\View\View.SisGeFRegisterContractors.pas' {view_SisGeFRegisterContractors},
+  View.SisGeFCadastroPadrao in 'src\View\View.SisGeFCadastroPadrao.pas' {viewCadastroPadrao};
 
 {$R *.res}
 
