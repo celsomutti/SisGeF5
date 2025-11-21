@@ -1,4 +1,4 @@
-object viewCadastroPadrao: TviewCadastroPadrao
+object viewCadastroEmpresas: TviewCadastroEmpresas
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
@@ -350,7 +350,7 @@ object viewCadastroPadrao: TviewCadastroPadrao
       OnExecute = actLimparExecute
     end
   end
-  object memTableCadastro: TFDMemTable
+  object ntbEmpresas: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -359,161 +359,158 @@ object viewCadastroPadrao: TviewCadastroPadrao
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     Left = 392
-    object memTableCadastroid_cadastro: TIntegerField
+    object ntbEmpresasid_cadastro: TIntegerField
       DisplayLabel = 'ID'
-      FieldName = 'id_cadastro'
+      FieldName = 'cod_empresa'
     end
-    object memTableCadastrocod_tipo_cadastro: TIntegerField
-      DisplayLabel = 'Tipo'
-      FieldName = 'cod_tipo_cadastro'
-    end
-    object memTableCadastrocod_pessoa: TSmallintField
-      DisplayLabel = 'Pessoa'
-      FieldName = 'cod_pessoa'
-    end
-    object memTableCadastronom_nome_razao: TStringField
+    object ntbEmpresasdes_nome_razao: TStringField
       DisplayLabel = 'Nome'
-      FieldName = 'nom_nome_razao'
+      FieldName = 'des_nome_razao'
       Size = 70
     end
-    object memTableCadastronom_fantasia: TStringField
+    object ntbEmpresasnom_fantasia: TStringField
       DisplayLabel = 'Alias'
       FieldName = 'nom_fantasia'
       Size = 70
     end
-    object memTableCadastronum_cpf_cnpj: TStringField
-      DisplayLabel = 'CNPJ/CPF'
-      FieldName = 'num_cpf_cnpj'
+    object ntbEmpresasdes_tipo_doc: TStringField
+      DisplayLabel = 'Pessoa'
+      FieldName = 'des_tipo_doc'
+      Size = 4
     end
-    object memTableCadastronum_rg_ie: TStringField
+    object ntbEmpresasnum_cnpj: TStringField
+      DisplayLabel = 'CNPJ'
+      FieldName = 'num_cnpj'
+    end
+    object ntbEmpresasnum_rg_ie: TStringField
       DisplayLabel = 'Ins. Estadual / RG'
       FieldName = 'num_rg_ie'
     end
-    object memTableCadastrodes_expedidor: TStringField
+    object ntbEmpresasdes_expedidor: TStringField
       DisplayLabel = 'Expedidor RG'
       FieldName = 'des_expedidor'
       Size = 70
     end
-    object memTableCadastrodat_emissao_rg: TDateField
+    object ntbEmpresasdat_emissao_rg: TDateField
       DisplayLabel = 'Data Emiss'#227'o RG'
       FieldName = 'dat_emissao_rg'
     end
-    object memTableCadastrouf_expedidor_rg: TStringField
+    object ntbEmpresasuf_expedidor_rg: TStringField
       DisplayLabel = 'UF RG'
       FieldName = 'uf_expedidor_rg'
       Size = 2
     end
-    object memTableCadastrodat_nascimento: TDateField
+    object ntbEmpresasdat_nascimento: TDateField
       DisplayLabel = 'Nascimento'
       FieldName = 'dat_nascimento'
     end
-    object memTableCadastronom_pai: TStringField
+    object ntbEmpresasnom_pai: TStringField
       DisplayLabel = 'Nome do Pai'
       FieldName = 'nom_pai'
       Size = 70
     end
-    object memTableCadastronom_mae: TStringField
+    object ntbEmpresasnom_mae: TStringField
       DisplayLabel = 'Nome da M'#227'e'
       FieldName = 'nom_mae'
       Size = 70
     end
-    object memTableCadastrodes_nacionalidade: TStringField
+    object ntbEmpresasdes_nacionalidade: TStringField
       DisplayLabel = 'Nacionalidade'
       FieldName = 'des_nacionalidade'
       Size = 50
     end
-    object memTableCadastrodes_naturalidade: TStringField
+    object ntbEmpresasdes_naturalidade: TStringField
       DisplayLabel = 'Naturalidade'
       FieldName = 'des_naturalidade'
       Size = 70
     end
-    object memTableCadastrouf_naturalidade: TStringField
+    object ntbEmpresasuf_naturalidade: TStringField
       DisplayLabel = 'UF'
       FieldName = 'uf_naturalidade'
       Size = 2
     end
-    object memTableCadastronum_suframa: TStringField
+    object ntbEmpresasnum_suframa: TStringField
       DisplayLabel = 'SUFRAMA'
       FieldName = 'num_suframa'
     end
-    object memTableCadastronum_cnae: TStringField
+    object ntbEmpresasnum_cnae: TStringField
       DisplayLabel = 'CNAE'
       FieldName = 'num_cnae'
     end
-    object memTableCadastronum_crt: TIntegerField
+    object ntbEmpresasnum_crt: TIntegerField
       DisplayLabel = 'CRT'
       FieldName = 'num_crt'
     end
-    object memTableCadastrocod_seguranca_cnh: TStringField
+    object ntbEmpresascod_seguranca_cnh: TStringField
       DisplayLabel = 'C'#243'd. Seg. CNH'
       FieldName = 'cod_seguranca_cnh'
     end
-    object memTableCadastrocod_cnh: TStringField
+    object ntbEmpresascod_cnh: TStringField
       DisplayLabel = 'C'#243'd. CNH'
       FieldName = 'cod_cnh'
     end
-    object memTableCadastronum_registro_cnh: TStringField
+    object ntbEmpresasnum_registro_cnh: TStringField
       DisplayLabel = 'Registro CNH'
       FieldName = 'num_registro_cnh'
     end
-    object memTableCadastrodat_validade_cnh: TDateField
+    object ntbEmpresasdat_validade_cnh: TDateField
       DisplayLabel = 'Validade CNH'
       FieldName = 'dat_validade_cnh'
     end
-    object memTableCadastrodes_categoria: TStringField
+    object ntbEmpresasdes_categoria: TStringField
       DisplayLabel = 'Categoria CNH'
       FieldName = 'des_categoria'
       Size = 2
     end
-    object memTableCadastrodat_emissao_cnh: TDateField
+    object ntbEmpresasdat_emissao_cnh: TDateField
       DisplayLabel = 'Data Emiss'#227'o CNH'
       FieldName = 'dat_emissao_cnh'
     end
-    object memTableCadastrodat_primeira_cnh: TDateField
+    object ntbEmpresasdat_primeira_cnh: TDateField
       DisplayLabel = 'Data Primeira CNH'
       FieldName = 'dat_primeira_cnh'
     end
-    object memTableCadastrouf_cnh: TStringField
+    object ntbEmpresasuf_cnh: TStringField
       DisplayLabel = 'UF CNH'
       FieldName = 'uf_cnh'
       Size = 2
     end
-    object memTableCadastrocod_sexo: TSmallintField
+    object ntbEmpresascod_sexo: TSmallintField
       DisplayLabel = 'Sexo'
       FieldName = 'cod_sexo'
     end
-    object memTableCadastrodes_estado_civil: TStringField
+    object ntbEmpresasdes_estado_civil: TStringField
       DisplayLabel = 'Estado Civil'
       FieldName = 'des_estado_civil'
       Size = 30
     end
-    object memTableCadastrodat_cadastro: TDateField
+    object ntbEmpresasdat_cadastro: TDateField
       DisplayLabel = 'Data Cadastro'
       FieldName = 'dat_cadastro'
     end
-    object memTableCadastrocod_usuario: TIntegerField
+    object ntbEmpresascod_usuario: TIntegerField
       DisplayLabel = 'C'#243'd. Usu'#225'rio'
       FieldName = 'cod_usuario'
     end
-    object memTableCadastrodes_imagem: TStringField
+    object ntbEmpresasdes_imagem: TStringField
       DisplayLabel = 'Foto'
       FieldName = 'des_imagem'
       Size = 100
     end
-    object memTableCadastroid_status: TIntegerField
+    object ntbEmpresasid_status: TIntegerField
       DisplayLabel = 'Status'
       FieldName = 'id_status'
     end
-    object memTableCadastrodes_obs: TMemoField
+    object ntbEmpresasdes_obs: TMemoField
       DisplayLabel = 'Observa'#231#245'es'
       FieldName = 'des_obs'
       BlobType = ftMemo
     end
-    object memTableCadastronum_im: TStringField
+    object ntbEmpresasnum_im: TStringField
       DisplayLabel = 'Ins. Municipal'
       FieldName = 'num_im'
     end
-    object memTableCadastronum_iest: TStringField
+    object ntbEmpresasnum_iest: TStringField
       DisplayLabel = 'Ins. Estadual ST'
       FieldName = 'num_iest'
     end

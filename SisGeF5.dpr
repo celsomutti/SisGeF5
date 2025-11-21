@@ -327,8 +327,7 @@ uses
   service.connectionMySQL in 'src\Services\service.connectionMySQL.pas',
   View.SisGeFCadastroUsuarios in 'src\View\View.SisGeFCadastroUsuarios.pas' {viewSisGefCadastroUsuarios},
   View.SisGeFNomeGrupo in 'src\View\View.SisGeFNomeGrupo.pas' {viewSisGeFNomeGrupo},
-  View.SisGeFRegisterContractors in 'src\View\View.SisGeFRegisterContractors.pas' {view_SisGeFRegisterContractors},
-  View.SisGeFCadastroPadrao in 'src\View\View.SisGeFCadastroPadrao.pas' {viewCadastroPadrao};
+  View.SisGeFRegisterContractors in 'src\View\View.SisGeFRegisterContractors.pas' {view_SisGeFRegisterContractors};
 
 {$R *.res}
 

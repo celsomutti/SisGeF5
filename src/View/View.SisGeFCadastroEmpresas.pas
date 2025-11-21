@@ -1,4 +1,4 @@
-unit View.SisGeFCadastroPadrao;
+unit View.SisGeFCadastroEmpresas;
 
 interface
 
@@ -13,7 +13,7 @@ uses
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
-  TviewCadastroPadrao = class(TForm)
+  TviewCadastroEmpresas = class(TForm)
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
     aclCadastro: TActionList;
@@ -50,43 +50,42 @@ type
     cxButton5: TcxButton;
     dxLayoutItem7: TdxLayoutItem;
     dxLayoutGroup1: TdxLayoutGroup;
-    memTableCadastro: TFDMemTable;
-    memTableCadastroid_cadastro: TIntegerField;
-    memTableCadastrocod_tipo_cadastro: TIntegerField;
-    memTableCadastrocod_pessoa: TSmallintField;
-    memTableCadastronom_nome_razao: TStringField;
-    memTableCadastronom_fantasia: TStringField;
-    memTableCadastronum_cpf_cnpj: TStringField;
-    memTableCadastronum_rg_ie: TStringField;
-    memTableCadastrodes_expedidor: TStringField;
-    memTableCadastrodat_emissao_rg: TDateField;
-    memTableCadastrouf_expedidor_rg: TStringField;
-    memTableCadastrodat_nascimento: TDateField;
-    memTableCadastronom_pai: TStringField;
-    memTableCadastronom_mae: TStringField;
-    memTableCadastrodes_nacionalidade: TStringField;
-    memTableCadastrodes_naturalidade: TStringField;
-    memTableCadastrouf_naturalidade: TStringField;
-    memTableCadastronum_suframa: TStringField;
-    memTableCadastronum_cnae: TStringField;
-    memTableCadastronum_crt: TIntegerField;
-    memTableCadastrocod_seguranca_cnh: TStringField;
-    memTableCadastrocod_cnh: TStringField;
-    memTableCadastronum_registro_cnh: TStringField;
-    memTableCadastrodat_validade_cnh: TDateField;
-    memTableCadastrodes_categoria: TStringField;
-    memTableCadastrodat_emissao_cnh: TDateField;
-    memTableCadastrodat_primeira_cnh: TDateField;
-    memTableCadastrouf_cnh: TStringField;
-    memTableCadastrocod_sexo: TSmallintField;
-    memTableCadastrodes_estado_civil: TStringField;
-    memTableCadastrodat_cadastro: TDateField;
-    memTableCadastrocod_usuario: TIntegerField;
-    memTableCadastrodes_imagem: TStringField;
-    memTableCadastroid_status: TIntegerField;
-    memTableCadastrodes_obs: TMemoField;
-    memTableCadastronum_im: TStringField;
-    memTableCadastronum_iest: TStringField;
+    ntbEmpresas: TFDMemTable;
+    ntbEmpresasid_cadastro: TIntegerField;
+    ntbEmpresasdes_nome_razao: TStringField;
+    ntbEmpresasnom_fantasia: TStringField;
+    ntbEmpresasnum_cnpj: TStringField;
+    ntbEmpresasnum_rg_ie: TStringField;
+    ntbEmpresasdes_expedidor: TStringField;
+    ntbEmpresasdat_emissao_rg: TDateField;
+    ntbEmpresasuf_expedidor_rg: TStringField;
+    ntbEmpresasdat_nascimento: TDateField;
+    ntbEmpresasnom_pai: TStringField;
+    ntbEmpresasnom_mae: TStringField;
+    ntbEmpresasdes_nacionalidade: TStringField;
+    ntbEmpresasdes_naturalidade: TStringField;
+    ntbEmpresasuf_naturalidade: TStringField;
+    ntbEmpresasnum_suframa: TStringField;
+    ntbEmpresasnum_cnae: TStringField;
+    ntbEmpresasnum_crt: TIntegerField;
+    ntbEmpresascod_seguranca_cnh: TStringField;
+    ntbEmpresascod_cnh: TStringField;
+    ntbEmpresasnum_registro_cnh: TStringField;
+    ntbEmpresasdat_validade_cnh: TDateField;
+    ntbEmpresasdes_categoria: TStringField;
+    ntbEmpresasdat_emissao_cnh: TDateField;
+    ntbEmpresasdat_primeira_cnh: TDateField;
+    ntbEmpresasuf_cnh: TStringField;
+    ntbEmpresascod_sexo: TSmallintField;
+    ntbEmpresasdes_estado_civil: TStringField;
+    ntbEmpresasdat_cadastro: TDateField;
+    ntbEmpresascod_usuario: TIntegerField;
+    ntbEmpresasdes_imagem: TStringField;
+    ntbEmpresasid_status: TIntegerField;
+    ntbEmpresasdes_obs: TMemoField;
+    ntbEmpresasnum_im: TStringField;
+    ntbEmpresasnum_iest: TStringField;
+    ntbEmpresasdes_tipo_doc: TStringField;
     procedure actLimparExecute(Sender: TObject);
     procedure actSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -97,23 +96,23 @@ type
   end;
 
 var
-  viewCadastroPadrao: TviewCadastroPadrao;
+  viewCadastroEmpresas: TviewCadastroEmpresas;
 
 implementation
 
 {$R *.dfm}
 
-procedure TviewCadastroPadrao.actLimparExecute(Sender: TObject);
+procedure TviewCadastroEmpresas.actLimparExecute(Sender: TObject);
 begin
   btePesquisar.Clear;
 end;
 
-procedure TviewCadastroPadrao.actSairExecute(Sender: TObject);
+procedure TviewCadastroEmpresas.actSairExecute(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TviewCadastroPadrao.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TviewCadastroEmpresas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
   Self := nil;
