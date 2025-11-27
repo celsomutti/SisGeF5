@@ -609,7 +609,6 @@ begin
     memTableBancos.Data := FBancos.Bancos.Query.Data;
   end;
   Finalize(aParam);
-  FBancos.Bancos.Query.Connection.Connected := False;
   FBancos.Free;
 end;
 
@@ -667,7 +666,6 @@ begin
   ufCNH.Properties.Items := lEstados;
   ufLogradouro.Properties.Items := lEstados;
   Finalize(aParam);
-  FEstados.Estados.Query.Connection.Connected := False;
   FEstados.Free;
 end;
 
@@ -714,7 +712,6 @@ begin
   begin
     memTableFuncoes.Data := FFuncoes.Funcoes.Query.Data;
   end;
-  FFuncoes.Funcoes.Query.Connection.Connected := False;
   FFuncoes.Free;
 end;
 

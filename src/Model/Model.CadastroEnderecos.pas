@@ -2,7 +2,7 @@ unit Model.CadastroEnderecos;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, Dialogs, Control.Sistema, DAO.Conexao, System.SysUtils, Data.DB;
+uses Common.ENum, FireDAC.Comp.Client, Dialogs, Control.Sistema, System.SysUtils, Data.DB, service.connectionMySQL;
 
   type
     TCadastroEnderecos = class
@@ -17,7 +17,7 @@ uses Common.ENum, FireDAC.Comp.Client, Dialogs, Control.Sistema, DAO.Conexao, Sy
       FCidade: String;
       FUF: String;
       FAcao: TAcao;
-      Fconexao : TConexao;
+      Fconexao : TConnectionMySQL;
       FQuery: TFDQuery;
       FSequencia: Integer;
       FCorrespondencia: Integer;
@@ -81,7 +81,7 @@ end;
 
 constructor TCadastroEnderecos.Create;
 begin
-  FConexao := TConexao.Create;
+  FConexao := TConnectionMySQL.Create;
 end;
 
 function TCadastroEnderecos.Delete: Boolean;
@@ -92,7 +92,7 @@ begin
   try
     Result := False;
     sSQL := '';
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     sSQL := 'delete from ' + TABLENAME + ' ' +
             'where cod_entregador = :pcod_entregador;';
     FDQuery.ExecSQL(sSQL,[Self.ID]);
@@ -108,7 +108,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.Open('select coalesce(max(seq_endereco),0) + 1 from ' + TABLENAME + ' where cod_entregador = ' + iID.toString);
     Result := FDQuery.Fields[0].AsInteger;
   finally
@@ -133,7 +133,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery;
+    FDQuery := FConexao.GetQuery;
     Self.Sequencia := GetID(Self.ID);
     sSQL := 'insert into ' + TABLENAME + ' (' +
     'cod_entregador, seq_endereco, des_tipo, des_logradouro, num_logradouro, des_complemento, ' +
@@ -152,7 +152,7 @@ begin
 function TCadastroEnderecos.Localizar(aParam: array of variant): Boolean;
 begin
   Result := False;
-  FQuery := FConexao.ReturnQuery();
+  FQuery := FConexao.GetQuery();
   if Length(aParam) < 2 then Exit;
   FQuery.SQL.Clear;
 
@@ -254,7 +254,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery;
+    FDQuery := FConexao.GetQuery;
     sSQL := 'update '  + TABLENAME + ' set ' +
     'des_tipo = :des_tipo, des_logradouro = :des_logradouro, num_logradouro = :num_logradouro, des_complemento = :des_complemento, ' +
     'dom_correspondencia = :dom_correspondencia, des_bairro = :des_bairro, nom_cidade = :nom_cidade, uf_estado = :uf_estado, ' +

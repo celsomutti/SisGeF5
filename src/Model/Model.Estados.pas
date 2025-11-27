@@ -2,7 +2,7 @@ unit Model.Estados;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao;
+uses Common.ENum, FireDAC.Comp.Client, service.connectionMySQL;
 
 
 type
@@ -12,7 +12,7 @@ type
     FUF: String;
     FNome: String;
     FQuery: TFDQuery;
-    FConexao: TConexao;
+    FConexao: TConnectionMySQL;
   public
     property UF: String read FUF write FUF;
     property Nome: String read FNome write FNome;
@@ -44,7 +44,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('update ' + TABLENAME + 'set nom_estado = :pnom_estado' +
     'where uf_estado = :puf_estado;', [FNome, FUF]);
     Result := True;
@@ -56,7 +56,7 @@ end;
 
 constructor TEstados.Create;
 begin
-  FConexao := TConexao.Create;
+  FConexao := TConnectionMySQL.Create;
 end;
 
 destructor TEstados.Destroy;
@@ -70,7 +70,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('select * from ' + TABLENAME +
     'where uf_estado = :puf_estado;', [FUF]);
     if FDQuery.IsEmpty then Exit;
@@ -87,7 +87,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('delete from ' + TABLENAME +
     'where uf_estado = :puf_estado;', [FUF]);
     Result := True;
@@ -113,7 +113,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('insert into ' + TABLENAME + '(uf_estado, nom_estado) values' +
     '(:puf_estado, :pnom_estado);',
     [FUF, FNome]);
@@ -128,7 +128,7 @@ function TEstados.Pesquisar(aParam: array of variant): TFDQuery;
 var
   FDQuery : TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery;
+  FDQuery := FConexao.GetQuery;
   FDQuery.SQL.Add('select * from ' + TABLENAME);
   if aParam[0] = 'UF' then
   begin
@@ -155,7 +155,7 @@ var
   FDQuery : TFDQuery;
 begin
   Result := False;
-  FDQuery := FConexao.ReturnQuery;
+  FDQuery := FConexao.GetQuery;
   FDQuery.SQL.Add('select * from ' + TABLENAME);
   if aParam[0] = 'UF' then
   begin

@@ -2,15 +2,15 @@ unit Model.Bancos;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Control.Sistema,
-System.Variants;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, Control.Sistema,
+System.Variants, service.connectionMySQL;
 
 type
   TBancos = class
   private
     FCodigo: String;
     FNome: String;
-    FConexao: TConexao;
+    FConexao: TConnectionMySQL;
     FAcao: TAcao;
     FQuery: TFDQuery;
     function Inserir(): Boolean;
@@ -47,7 +47,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL(SQLUPDATE, [Nome, Codigo]);
     Result := True;
   finally
@@ -58,7 +58,7 @@ end;
 
 constructor TBancos.Create;
 begin
-  FConexao := TConexao.Create;
+  FConexao := TConnectionMySQL.Create;
 end;
 
 function TBancos.Excluir: Boolean;
@@ -67,7 +67,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('delete from ' + TABLENAME + ' where cod_banco = :pcod_banco', [Codigo]);
     Result := True;
   finally
@@ -81,7 +81,7 @@ var
 begin
   try
     Result := '';
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.SQL.Text := 'select ' + sField + ' from ' + TABLENAME + ' where ' + sKey + ' = ' + sKeyValue;
     FDQuery.Open();
     if not FDQuery.IsEmpty then Result := FDQuery.FieldByName(sField).AsString;
@@ -106,7 +106,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL(SQLINSERT, [Codigo, Nome]);
     Result := True;
   finally
@@ -119,7 +119,7 @@ function TBancos.Localizar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery();
+  FDQuery := FConexao.GetQuery();
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
 
@@ -152,7 +152,7 @@ var
   FDQuery: TFDQuery;
 begin
   Result := False;
-  FDQuery := FConexao.ReturnQuery();
+  FDQuery := FConexao.GetQuery();
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
 

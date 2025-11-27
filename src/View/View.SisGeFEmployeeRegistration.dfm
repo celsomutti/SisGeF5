@@ -31,10 +31,9 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
     Properties.CustomButtons.Buttons = <>
     Properties.HideTabs = True
     OnChange = pageControlPesquisaChange
-    ClientRectBottom = 394
-    ClientRectLeft = 4
-    ClientRectRight = 825
-    ClientRectTop = 4
+    ClientRectBottom = 398
+    ClientRectRight = 829
+    ClientRectTop = 0
     object tabResultado: TcxTabSheet
       Caption = 'Resultado'
       ImageIndex = 0
@@ -42,8 +41,8 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
         AlignWithMargins = True
         Left = 3
         Top = 36
-        Width = 815
-        Height = 351
+        Width = 823
+        Height = 359
         Align = alClient
         TabOrder = 0
         object gridEmployeesDBTableView1: TcxGridDBTableView
@@ -188,7 +187,7 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 815
+        Width = 823
         Height = 27
         Align = alTop
         BevelOuter = bvNone
@@ -196,7 +195,7 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
         ShowCaption = False
         TabOrder = 1
         DesignSize = (
-          815
+          823
           27)
         object cxLabel1: TcxLabel
           Left = 2
@@ -210,10 +209,10 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
           Hint = 'Par'#226'metro a pesquisasr'
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 1
-          Width = 349
+          Width = 357
         end
         object cxButton1: TcxButton
-          Left = 420
+          Left = 428
           Top = 1
           Width = 81
           Height = 25
@@ -233,14 +232,14 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
           TabOrder = 2
         end
         object cxLabel2: TcxLabel
-          Left = 507
+          Left = 515
           Top = 5
           Anchors = [akTop, akRight]
           Caption = 'Campos:'
           Transparent = True
         end
         object comboBoxCampos: TcxComboBox
-          Left = 559
+          Left = 567
           Top = 4
           Anchors = [akTop, akRight]
           Properties.Items.Strings = (
@@ -254,11 +253,12 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
           Width = 151
         end
         object checkBoxGrupo: TcxCheckBox
-          Left = 716
+          Left = 724
           Top = 3
           Action = actionPainelGrupos
           Anchors = [akTop, akRight]
           TabOrder = 5
+          Transparent = True
         end
       end
     end
@@ -268,8 +268,8 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
       object panelFooterFiltro: TPanel
         AlignWithMargins = True
         Left = 3
-        Top = 349
-        Width = 815
+        Top = 357
+        Width = 823
         Height = 38
         Align = alBottom
         BevelOuter = bvNone
@@ -280,8 +280,8 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
       object filtroVeiculos: TcxDBFilterControl
         Left = 0
         Top = 0
-        Width = 821
-        Height = 346
+        Width = 829
+        Height = 354
         Align = alClient
         DataSet = memTableEmployees
         Items = <
@@ -645,7 +645,7 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
     AutoEdit = False
     DataSet = memTableEmployees
     OnStateChange = dsEmployeesStateChange
-    Left = 688
+    Left = 640
   end
   object memTableEmployees: TFDMemTable
     Active = True
@@ -721,10 +721,10 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 743
-    Top = 5
+    Left = 703
+    Top = 65533
     Content = {
-      414442530F009944D4050000FF00010001FF02FF03040016000000460044004D
+      414442530F00CA3CD4050000FF00010001FF02FF03040016000000460044004D
       0065006D005400610062006C006500310005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B04001800000043004F
       0044005F0043004100440041005300540052004F0005001800000043004F0044

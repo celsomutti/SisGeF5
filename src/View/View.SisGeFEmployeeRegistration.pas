@@ -90,7 +90,6 @@ type
     procedure actionFecharExecute(Sender: TObject);
     procedure actionPainelGruposExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure actionPesquisarExecute(Sender: TObject);
     procedure actionFiltroExecute(Sender: TObject);
     procedure actionFiltrarExecute(Sender: TObject);
     procedure actionLimparFiltroExecute(Sender: TObject);
@@ -106,6 +105,7 @@ type
     procedure pageControlPesquisaChange(Sender: TObject);
     procedure gridVeiculosDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
     procedure memTableEmployeesAfterClose(DataSet: TDataSet);
+    procedure actionPesquisarExecute(Sender: TObject);
   private
     { Private declarations }
     function Formulafilro(iIndex: integer; sTexto: string): boolean;
@@ -189,6 +189,7 @@ begin
   begin
     Application.MessageBox('Nenhum registro encontrado!', 'Atenção', MB_OK + MB_ICONWARNING);
   end;
+
 end;
 
 procedure Tview_SisGeFEmployeeRegistration.CancelaFiltro;

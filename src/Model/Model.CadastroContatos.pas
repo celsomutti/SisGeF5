@@ -2,7 +2,7 @@ unit Model.CadastroContatos;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, service.connectionMySQL;
 
   type
     TCadastroContatos = class
@@ -13,7 +13,7 @@ uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao;
       FTelefone: String;
       FEMail: String;
       FAcao: TAcao;
-      FConexao : TConexao;
+      FConexao : TConnectionMySQL;
       FQuery: TFDQuery;
 
       function Insert(): Boolean;
@@ -57,7 +57,7 @@ end;
 
 constructor TCadastroContatos.Create;
 begin
-  FConexao := TConexao.Create;
+  FConexao := TConnectionMySQL.Create;
 end;
 
 function TCadastroContatos.Delete: Boolean;
@@ -67,7 +67,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery;
+    FDQuery := FConexao.GetQuery;
     if Self.Sequencia = -1 then
     begin
       sSQL := 'delete from ' + TABLENAME + ' ' +
@@ -92,7 +92,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.Open('select coalesce(max(seq_contato),0) + 1 from ' + TABLENAME + ' where cod_entregador = ' + iID.toString);
     Result := FDQuery.Fields[0].AsInteger;
   finally
@@ -117,7 +117,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery;
+    FDQuery := FConexao.GetQuery;
     Self.Sequencia := GetID(Self.ID);
     sSQL := 'insert into ' + TABLENAME + '(' +
             'cod_entregador, seq_contato, des_contato, num_telefone, des_email) ' +
@@ -134,7 +134,7 @@ end;
 function TCadastroContatos.Localizar(aParam: array of variant): Boolean;
 begin
   Result := False;
-  FQuery := FConexao.ReturnQuery();
+  FQuery := FConexao.GetQuery();
   if Length(aParam) < 2 then
     Exit;
   FQuery.SQL.Clear;
@@ -227,7 +227,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery;
+    FDQuery := FConexao.GetQuery;
     sSQL := 'update ' + TABLENAME + ' set ' +
             'des_contato = :pdes_contato,num_telefone = :pnum_telefone, des_email = :pdes_email ' +
             'where cod_entregador = :pcod_entregador and seq_contato = :pseq_contato;';

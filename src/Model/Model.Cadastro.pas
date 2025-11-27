@@ -3,7 +3,8 @@ unit Model.Cadastro;
 interface
 
 uses
-    Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Common.Utils, System.StrUtils;
+    Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, Common.Utils, System.StrUtils, service.sistem,
+  service.connectionMySQL;
 
     type
     TCadastro = class
@@ -67,7 +68,7 @@ uses
       FRazaoMEI: String;
       FFantasiaMEI: String;
       FCNPJMEI: String;
-      FConexao : TConexao;
+      FConexao : TConnectionMySQL;
 
       FAcao: TAcao;
       FEmissorRG: String;
@@ -77,6 +78,7 @@ uses
       FEmpresaGR: String;
       FQuery: TFDQuery;
       FNomeTabela: String;
+      FSistem: TSistem;
 
     public
 
@@ -169,7 +171,6 @@ implementation
 
 { TCadastro }
 
-uses Control.Sistema;
 
 function TCadastro.Alterar: Boolean;
 var
@@ -177,7 +178,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('UPDATE ' + TABLENAME + ' SET DOM_FUNCIONARIO = :DOM_FUNCIONARIO, COD_ENTREGADOR = :COD_ENTREGADOR, ' +
                     'DES_TIPO_DOC = :DES_TIPO_DOC, DES_RAZAO_SOCIAL = :DES_RAZAO_SOCIAL, NOM_FANTASIA = :NOM_FANTASIA, ' +
                     'NUM_CNPJ = :NUM_CNPJ, NUM_IE = :NUM_IE, DAT_NASCIMENTO = :DAT_NASCIMENTO, UF_RG = :UF_RG, ' +
@@ -217,7 +218,8 @@ end;
 
 constructor TCadastro.Create;
 begin
-  FConexao := TSistemaControl.GetInstance().Conexao;
+  FSistem := TSistem.GetInstance();
+  FConexao := TConnectionMySQL.Create;
   FNomeTabela := TABLENAME;
 end;
 
@@ -227,7 +229,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('delete from ' + TABLENAME + ' where WHERE COD_CADASTRO = :COD_CADASTRO',
                     [FCadastro]);
     Result := True;
@@ -242,7 +244,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.SQL.Text := 'select ' + sField + ' from ' + TABLENAME + ' where ' + sKey + ' = ' + sKeyValue;
     FDQuery.Open();
     if not FDQuery.IsEmpty then Result := FDQuery.FieldByName(sField).AsString;
@@ -257,7 +259,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.Open('select coalesce(max(COD_CADASTRO),0) + 1 from ' + TABLENAME);
     try
       Result := FDQuery.Fields[0].AsInteger;
@@ -286,7 +288,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     Fcadastro := GetID();
     FDQuery.ExecSQL('INSERT INTO ' + TABLENAME + '(COD_CADASTRO, DOM_FUNCIONARIO, COD_ENTREGADOR, DES_TIPO_DOC, ' +
                     'DES_RAZAO_SOCIAL, NOM_FANTASIA, NUM_CNPJ, NUM_IE, DAT_NASCIMENTO, UF_RG, DAT_EMISSAO_RG, NOM_EMISSOR_RG, ' +
@@ -326,7 +328,7 @@ end;
 function TCadastro.Localizar(aParam: array of variant): Boolean;
 begin
   Result := False;
-  FQuery := FConexao.ReturnQuery();
+  FQuery := FConexao.GetQuery();
   if Length(aParam) < 2 then Exit;
   FQuery.SQL.Clear;
   FQuery.SQL.Add('select * from ' + TABLENAME);
@@ -426,7 +428,7 @@ begin
     end;
   end;
   fFuncoes.Free;
-  FQuery := FConexao.ReturnQuery;
+  FQuery := FConexao.GetQuery;
   sSQL := 'select * from view_pesquisafuncionariosv1';
   if sFiltro <> '' then
   begin
@@ -491,7 +493,7 @@ begin
     end;
   end;
   fFuncoes.Free;
-  FQuery := FConexao.ReturnQuery;
+  FQuery := FConexao.GetQuery;
   sSQL := 'select * from view_register_contracted';
   if sFiltro <> '' then
   begin

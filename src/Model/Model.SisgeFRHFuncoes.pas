@@ -2,7 +2,7 @@ unit Model.SisgeFRHFuncoes;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, service.connectionMySQL;
 
 type
   TRHFuncoes = class
@@ -11,7 +11,7 @@ type
     FDescricao: string;
     FCodigo: integer;
     FQuery: TFDQuery;
-    FConexao : TConexao;
+    FConexao : TConnectionMySQL;
 
     function Insert(): boolean;
     function Update(): boolean;
@@ -41,14 +41,14 @@ implementation
 
 constructor TRHFuncoes.Create;
 begin
-  FConexao := TConexao.Create;
+  FConexao := TConnectionMySQL.Create;
 end;
 
 function TRHFuncoes.Delete: boolean;
 begin
   try
     Result := False;
-    FQuery := FConexao.ReturnQuery;
+    FQuery := FConexao.GetQuery;
     FQuery.ExecSQL(SQLDELETE, [FCodigo]);
     Result := True;
   finally
@@ -61,7 +61,7 @@ function TRHFuncoes.Update: boolean;
 begin
   try
     Result := False;
-    FQuery := FConexao.ReturnQuery;
+    FQuery := FConexao.GetQuery;
     FQuery.ExecSQL(SQLUPDATE, [FCodigo]);
     Result := True;
   finally
@@ -74,7 +74,7 @@ function TRHFuncoes.Insert: boolean;
 begin
   try
     Result := False;
-    FQuery := FConexao.ReturnQuery;
+    FQuery := FConexao.GetQuery;
     FQuery.ExecSQL(SQLINSERT, [FCodigo, FDescricao]);
     Result := True;
   finally
@@ -99,7 +99,7 @@ begin
   Result := False;
   if Length(aParam) = 0 then
     Exit;
-  FQuery := FConexao.ReturnQuery;
+  FQuery := FConexao.GetQuery;
   FQuery.SQL.Text := SQLSELECT;
   if aParam[0] = 'ID' then
   begin
