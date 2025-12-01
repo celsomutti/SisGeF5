@@ -265,6 +265,8 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
     object tabFiltro: TcxTabSheet
       Caption = 'Filtro'
       ImageIndex = 1
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object panelFooterFiltro: TPanel
         AlignWithMargins = True
         Left = 3
@@ -724,7 +726,7 @@ object view_SisGeFEmployeeRegistration: Tview_SisGeFEmployeeRegistration
     Left = 703
     Top = 65533
     Content = {
-      414442530F00CA3CD4050000FF00010001FF02FF03040016000000460044004D
+      414442530F008B34D4050000FF00010001FF02FF03040016000000460044004D
       0065006D005400610062006C006500310005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B04001800000043004F
       0044005F0043004100440041005300540052004F0005001800000043004F0044

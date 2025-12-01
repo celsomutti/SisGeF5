@@ -319,7 +319,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals,
   View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
-  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios;
+  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios, View.SisGeFCadastroFuncionarios;
 
 procedure Tview_Main.Acessos;
 var
@@ -473,10 +473,13 @@ end;
 
 procedure Tview_Main.actCadastroFuncionariosExecute(Sender: TObject);
 begin
-  if not Assigned(view_SisGeFEmployeeRegistration) then
-    view_SisGeFEmployeeRegistration := Tview_SisGeFEmployeeRegistration.Create
-      (Application);
-  view_SisGeFEmployeeRegistration.Show;
+//  if not Assigned(view_SisGeFEmployeeRegistration) then
+//    view_SisGeFEmployeeRegistration := Tview_SisGeFEmployeeRegistration.Create
+//      (Application);
+//  view_SisGeFEmployeeRegistration.Show;
+  if not Assigned(viewCadastroFuncionarios) then
+    viewCadastroFuncionarios := TviewCadastroFuncionarios.Create(Application);
+  viewCadastroFuncionarios.Show;
 end;
 
 procedure Tview_Main.actCadastroVeículosExecute(Sender: TObject);
@@ -942,6 +945,13 @@ begin
       ('Arquivo de inicialização não foi encontrado! Entre em contato com o suporte.',
       'Atenção', MB_ICONWARNING + MB_OK);
     Application.Terminate;
+  end;
+  with Data_Sisgef.FDConnectionMySQL.Params do begin
+    Clear;
+    Add('DriverID=' + FSistem.DriverId);
+    Add('Database=' + FSistem.Database);
+    Add('User_Name=' + FSistem.Username);
+    Add('Password=' + FSistem.Password);
   end;
 end;
 
