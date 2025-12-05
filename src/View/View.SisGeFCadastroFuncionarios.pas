@@ -11,7 +11,7 @@ uses
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, System.Actions, Vcl.ActnList, cxMaskEdit, cxButtonEdit, Vcl.Mask, Vcl.DBCtrls,
-  cxDBEdit, cxDropDownEdit, cxImageComboBox, cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox;
+  cxDBEdit, cxDropDownEdit, cxImageComboBox, cxCalendar, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxMemo;
 
 type
   TviewCadastroFuncionarios = class(TForm)
@@ -130,13 +130,102 @@ type
     dxLayoutItem20: TdxLayoutItem;
     nacionalidade: TcxDBTextEdit;
     dxLayoutItem21: TdxLayoutItem;
+    dxLayoutGroup4: TdxLayoutGroup;
+    naturalidade: TcxDBTextEdit;
+    dxLayoutItem22: TdxLayoutItem;
+    ufNaturalidade: TcxDBLookupComboBox;
+    dxLayoutItem23: TdxLayoutItem;
+    nomePai: TcxDBTextEdit;
+    dxLayoutItem24: TdxLayoutItem;
+    nomeMae: TcxDBTextEdit;
+    dxLayoutItem25: TdxLayoutItem;
+    dxLayoutGroup5: TdxLayoutGroup;
+    numeroCNH: TcxDBTextEdit;
+    dxLayoutItem26: TdxLayoutItem;
+    registroCNH: TcxDBTextEdit;
+    dxLayoutItem27: TdxLayoutItem;
+    categoriaCNH: TcxDBTextEdit;
+    dxLayoutItem28: TdxLayoutItem;
+    emissaoCNH: TcxDBDateEdit;
+    dxLayoutItem29: TdxLayoutItem;
+    validadeCNH: TcxDBDateEdit;
+    dxLayoutItem30: TdxLayoutItem;
+    primeiraCNH: TcxDBDateEdit;
+    dxLayoutItem31: TdxLayoutItem;
+    ufCNH: TcxDBLookupComboBox;
+    dxLayoutItem32: TdxLayoutItem;
+    dsDepartamentos: TDataSource;
+    dsFuncoes: TDataSource;
+    dxLayoutGroup6: TdxLayoutGroup;
+    admissao: TcxDBDateEdit;
+    dxLayoutItem33: TdxLayoutItem;
+    departamento: TcxDBLookupComboBox;
+    dxLayoutItem34: TdxLayoutItem;
+    funcao: TcxDBLookupComboBox;
+    dxLayoutItem35: TdxLayoutItem;
+    status: TcxDBImageComboBox;
+    dxLayoutItem36: TdxLayoutItem;
+    demissao: TcxDBDateEdit;
+    dxLayoutItem37: TdxLayoutItem;
+    lpgEnderecoFinanceiro: TdxLayoutGroup;
+    lpgAcoesCadastro: TdxLayoutGroup;
+    lpgEndereco: TdxLayoutGroup;
+    dsEndereco: TDataSource;
+    dxLayoutGroup7: TdxLayoutGroup;
+    cep: TcxDBButtonEdit;
+    dxLayoutItem38: TdxLayoutItem;
+    logradouro: TcxDBTextEdit;
+    dxLayoutItem39: TdxLayoutItem;
+    numero: TcxDBTextEdit;
+    dxLayoutItem40: TdxLayoutItem;
+    complemento: TcxDBTextEdit;
+    dxLayoutItem41: TdxLayoutItem;
+    dxLayoutGroup8: TdxLayoutGroup;
+    bairro: TcxDBTextEdit;
+    dxLayoutItem42: TdxLayoutItem;
+    cidade: TcxDBTextEdit;
+    dxLayoutItem43: TdxLayoutItem;
+    ufEndereco: TcxDBLookupComboBox;
+    dxLayoutItem44: TdxLayoutItem;
+    dxLayoutGroup9: TdxLayoutGroup;
+    referencia: TcxDBTextEdit;
+    dxLayoutItem45: TdxLayoutItem;
+    lpgFinanceiro: TdxLayoutGroup;
+    formaPagameneto: TcxDBComboBox;
+    dxLayoutItem46: TdxLayoutItem;
+    tipoConta: TcxDBComboBox;
+    dxLayoutItem47: TdxLayoutItem;
+    dsBancos: TDataSource;
+    banco: TcxDBLookupComboBox;
+    dxLayoutItem48: TdxLayoutItem;
+    agencia: TcxDBTextEdit;
+    dxLayoutItem49: TdxLayoutItem;
+    conta: TcxDBTextEdit;
+    dxLayoutItem50: TdxLayoutItem;
+    chavePIX: TcxDBTextEdit;
+    dxLayoutItem51: TdxLayoutItem;
+    dxLayoutGroup10: TdxLayoutGroup;
+    observacao: TcxDBMemo;
+    dxLayoutItem52: TdxLayoutItem;
     procedure actSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actPesquisarExecute(Sender: TObject);
     procedure textPesquisaPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
+    procedure actNovoExecute(Sender: TObject);
+    procedure actionEditarExecute(Sender: TObject);
+    procedure actCancelarExecute(Sender: TObject);
+    procedure actGravarExecute(Sender: TObject);
+    procedure actExportarExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
+    procedure OnShowForm;
     procedure OnCloseForm;
     procedure Pesquisar;
+    procedure Novo;
+    procedure Editar;
+    procedure Cancelar;
+    procedure Gravar;
+    procedure Exportar;
   public
     { Public declarations }
   end;
@@ -150,6 +239,31 @@ implementation
 
 uses Data.SisGeF, Common.Utils;
 
+procedure TviewCadastroFuncionarios.actCancelarExecute(Sender: TObject);
+begin
+  Cancelar;
+end;
+
+procedure TviewCadastroFuncionarios.actExportarExecute(Sender: TObject);
+begin
+  Exportar;
+end;
+
+procedure TviewCadastroFuncionarios.actGravarExecute(Sender: TObject);
+begin
+  Gravar;
+end;
+
+procedure TviewCadastroFuncionarios.actionEditarExecute(Sender: TObject);
+begin
+  Editar;
+end;
+
+procedure TviewCadastroFuncionarios.actNovoExecute(Sender: TObject);
+begin
+ Novo;
+end;
+
 procedure TviewCadastroFuncionarios.actPesquisarExecute(Sender: TObject);
 begin
   Pesquisar;
@@ -160,16 +274,89 @@ begin
   Close;
 end;
 
+procedure TviewCadastroFuncionarios.Cancelar;
+begin
+  Data_Sisgef.queryFuncionarios.Cancel;
+  lbgTabbed.ItemIndex := 0;
+end;
+
+procedure TviewCadastroFuncionarios.Editar;
+begin
+  Data_Sisgef.queryFuncionarios.Edit;
+  lbgTabbed.ItemIndex := 1;
+end;
+
+procedure TviewCadastroFuncionarios.Exportar;
+var
+  fnUtil : Common.Utils.TUtils;
+  sMensagem: String;
+begin
+  try
+    fnUtil := Common.Utils.TUtils.Create;
+
+    if Data_Sisgef.queryFuncionarios.IsEmpty then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if MessageDlg(sMensagem, mtConfirmation, [mbYes,mbNo], 0) = mrNo then Exit
+      end;
+      fnUtil.ExportarDados(gridPesquisa,Data_Sisgef.SaveDialog.FileName);
+    end;
+  finally
+    fnUtil.Free;
+  end;
+end;
+
 procedure TviewCadastroFuncionarios.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
   OnCloseForm;
 end;
 
+procedure TviewCadastroFuncionarios.FormShow(Sender: TObject);
+begin
+  OnShowForm;
+end;
+
+procedure TviewCadastroFuncionarios.Gravar;
+begin
+  if Application.MessageBox('Confirma gravar os dados?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = mrNo then
+  begin
+    Cancelar;
+  end;
+  Data_Sisgef.queryFuncionarios.Post;
+  lbgTabbed.ItemIndex := 0;
+end;
+
+procedure TviewCadastroFuncionarios.Novo;
+begin
+  Data_Sisgef.queryFuncionarios.Insert;
+  lbgTabbed.ItemIndex := 1;
+end;
+
 procedure TviewCadastroFuncionarios.OnCloseForm;
 begin
-  Data_Sisgef.queryFuncionarios.Active := False;
+  with Data_Sisgef do
+  begin
+    FDConnectionMySQL.Connected := False;
+  end;
   viewCadastroFuncionarios := nil;
+end;
+
+procedure TviewCadastroFuncionarios.OnShowForm;
+begin
+  with Data_Sisgef do
+  begin
+    queryFuncionarios.ExecSQL;
+    queryFuncionariosEnderecos.Open();
+    queryBancos.Open();
+    queryDepartamentos.Open();
+    queryEstados.Open();
+    queryFuncoesRH.Open();
+  end;
 end;
 
 procedure TviewCadastroFuncionarios.Pesquisar;

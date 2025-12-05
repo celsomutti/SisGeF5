@@ -946,13 +946,6 @@ begin
       'Atenção', MB_ICONWARNING + MB_OK);
     Application.Terminate;
   end;
-  with Data_Sisgef.FDConnectionMySQL.Params do begin
-    Clear;
-    Add('DriverID=' + FSistem.DriverId);
-    Add('Database=' + FSistem.Database);
-    Add('User_Name=' + FSistem.Username);
-    Add('Password=' + FSistem.Password);
-  end;
 end;
 
 procedure Tview_Main.FormShow(Sender: TObject);

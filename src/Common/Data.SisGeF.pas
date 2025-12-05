@@ -22,7 +22,7 @@ uses
   IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, ScBridge, ScSSHClient,
   ScSFTPClient, Dialogs, ScSSHUtils, ScUtils, ScSFTPUtils, FireDAC.DApt, frxRich, System.DateUtils,
   frxExportBaseDialog, cxImageList, Control.Bases, Control.Sistema, REST.Types, REST.Client, REST.Response.Adapter,
-  Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes, frxOLE;
+  Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes, frxOLE, service.sistem;
 
 type
   TData_Sisgef = class(TDataModule)
@@ -769,7 +769,7 @@ type
     queryFuncionariosFinanceirocod_agencia: TStringField;
     queryFuncionariosFinanceironum_conta: TStringField;
     queryFuncionariosFinanceirocod_pix: TStringField;
-    queryContatos: TFDQuery;
+    queryFuncionariosContatos: TFDQuery;
     queryDepartamentos: TFDQuery;
     queryDepartamentosid: TFDAutoIncField;
     queryDepartamentosdes_departamento: TStringField;
@@ -789,12 +789,13 @@ type
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
     procedure mtbExtratosExpressasCalcFields(DataSet: TDataSet);
-    procedure FDConnectionMySQLBeforeConnect(Sender: TObject);
     procedure memTableResumoRoteirosCalcFields(DataSet: TDataSet);
     procedure memTableExtractsCalcFields(DataSet: TDataSet);
     procedure memTableExtractSOCalcFields(DataSet: TDataSet);
+    procedure FDConnectionMySQLAfterConnect(Sender: TObject);
   private
     { Private declarations }
+    FSistem : TSistem;
     procedure DoServerKeyValidate(FileStorage: TScFileStorage;  const HostKeyName: string; NewServerKey: TScKey;
                                   var Accept: Boolean);
   public
@@ -821,7 +822,8 @@ uses Global.Parametros;
 
 procedure TData_Sisgef.DataModuleCreate(Sender: TObject);
 begin
-    if FileExists(ExtractFilePath(Application.ExeName)+'\devtrans.ini') then
+  Fsistem := TSistem.GetInstance;
+  if FileExists(ExtractFilePath(Application.ExeName)+'\devtrans.ini') then
   begin
     cxLocalizer.LoadFromFile(ExtractFilePath(Application.ExeName)+ '\devtrans.ini');
     cxLocalizer.LanguageIndex := 1; // MUDA DE LINGUAGEM
@@ -860,14 +862,16 @@ begin
 end;
 
 
-procedure TData_Sisgef.FDConnectionMySQLBeforeConnect(Sender: TObject);
+procedure TData_Sisgef.FDConnectionMySQLAfterConnect(Sender: TObject);
 begin
-  FDConnectionMySQL.ConnectionString := 'DriverID=' + Global.Parametros.pDriverID +
-                                        ';Server=' + Global.Parametros.pServer +
-                                        ';Database=' + Global.Parametros.pDatabase +
-                                        ';Port=' + Global.Parametros.pPort +
-                                        ';User_name=' + Global.Parametros.pUBD +
-                                        ';Password=' + Global.Parametros.pPBD;
+  with Data_Sisgef.FDConnectionMySQL.Params do begin
+    Clear;
+    Add('DriverID=' + FSistem.DriverId);
+    Add('Database=' + FSistem.Database);
+    Add('User_Name=' + FSistem.Username);
+    Add('Password=' + FSistem.Password);
+  end;
+  Data_Sisgef.FDPhysMySQLDriverLink.VendorLib := '.\libmysql.dll';
 end;
 
 function TData_Sisgef.ImportDIRECTBaixas(FFile: String): boolean;
