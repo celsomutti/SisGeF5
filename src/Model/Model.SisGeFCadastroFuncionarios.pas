@@ -41,7 +41,7 @@ interface
       num_conta               : string[20];
       nom_favorecido          : string[70];
       num_cpf_cnpj_favorecido : string[20];
-      cod_pix                 : string[256];
+      cod_pix                 : string[255];
       cod_gr                  : string[20];
       dat_gr                  : TDate;
       cod_mei                 : string[12];

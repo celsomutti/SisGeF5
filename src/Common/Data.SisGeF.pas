@@ -42,7 +42,6 @@ type
     frxGIFExport1: TfrxGIFExport;
     frxSimpleTextExport1: TfrxSimpleTextExport;
     frxCSVExport1: TfrxCSVExport;
-    frxBarCodeObject1: TfrxBarCodeObject;
     memTableCadastro: TFDMemTable;
     memTableCadastroid_cadastro: TIntegerField;
     memTableCadastrocod_tipo_cadastro: TIntegerField;
@@ -701,7 +700,6 @@ type
     textReaderDIRECTBaixas: TFDBatchMoveTextReader;
     textReaderDIRECTLojas: TFDBatchMoveTextReader;
     frxOLEObject1: TfrxOLEObject;
-    frxReport: TfrxReport;
     queryFuncionarios: TFDQuery;
     queryFuncionarioscod_cadastro: TIntegerField;
     queryFuncionariosdom_pessoa: TStringField;
@@ -785,6 +783,8 @@ type
     queryBancoscod_isbn: TIntegerField;
     queryBancoscod_modalidade: TStringField;
     queryBancoscod_modalidade_cp: TStringField;
+    frxBarCodeObject1: TfrxBarCodeObject;
+    frxReport: TfrxReport;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

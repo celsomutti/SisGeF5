@@ -2378,6 +2378,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         item
           Action = actionPesquisaCNPJ
           Default = True
+          Enabled = False
           Glyph.SourceDPI = 96
           Glyph.Data = {
             89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
@@ -2626,6 +2627,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 98
       ControlOptions.ShowBorder = False
+      Enabled = False
       Index = 2
     end
     object dxLayoutItem2: TdxLayoutItem
@@ -2919,6 +2921,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     end
     object actionAnexarDocumentos: TAction
       Caption = '&Anexos'
+      Enabled = False
       Hint = 'Anexar documentos'
       OnExecute = actionAnexarDocumentosExecute
     end

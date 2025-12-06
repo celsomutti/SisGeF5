@@ -311,7 +311,7 @@ type
     procedure SearchCEP(sCEP: String);
     procedure SearchCNPJ(sCNPJ: string);
     procedure SearchCNPJMEI(sCNPJ: string);
-    procedure ImprimeContratoPF(sData: String);
+    procedure ImprimeContratoPF(sData, sValor, sAtividade, sFuncao: String);
     procedure ImprimeContratoPJ(sData: String);
     procedure EmiteContrato;
     procedure EditarCadastro;
@@ -481,6 +481,7 @@ begin
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
     maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
     maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
+    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
   end
   else if comboBoxTipoPessoa.ItemIndex = 2 then
   begin
@@ -488,6 +489,7 @@ begin
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
     maskEditCPCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;1; ';
     maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
+    maskEditCPCNPJ.Properties.Buttons[0].Enabled := True;
   end
   else
   begin
@@ -495,6 +497,7 @@ begin
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
     maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
+    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
   end;
 
 end;
@@ -527,7 +530,7 @@ end;
 procedure Tview_SisGeFContractedDetail.EmiteContrato;
 var
   iTipo: integer;
-  sData: String;
+  sData, sValor, sAtividade, sFuncao: String;
 begin
   try
     if not Assigned(view_SisGeFContractEmission) then begin
@@ -537,8 +540,11 @@ begin
       Exit;
     iTipo := view_SisGeFContractEmission.radioGroup.ItemIndex;
     sData := view_SisGeFContractEmission.dateContrato.Text;
+    sValor := view_SisGeFContractEmission.curValorContrato.Text;
+    sAtividade := view_SisGeFContractEmission.memoAtividades.Text;
+    sFuncao := view_SisGeFContractEmission.cboFuncoes.Text;
     case iTipo of
-      0 : ImprimeContratoPF(sData);
+      0 : ImprimeContratoPF(sData,sValor, sAtividade, sFuncao);
       1 : ImprimeContratoPJ(sData);
       else
         Exit;
@@ -571,12 +577,15 @@ begin
   end;
 end;
 
-procedure Tview_SisGeFContractedDetail.ImprimeContratoPF(sData: String);
+procedure Tview_SisGeFContractedDetail.ImprimeContratoPF(sData, sValor, sAtividade, sFuncao: String);
 var
   sEndereco: String;
   sDataExtenso: String;
   dtData: TDate;
+  sExtenco: String;
+  FFuncao: TUtils;
 begin
+  FFuncao := TUtils.Create;;
   sEndereco := '';
   dtData := StrToDateDef(sData,0);
   sDataExtenso := FormatDateTime('dd "de" mmmm "de" yyyy', dtData);
@@ -584,8 +593,8 @@ begin
     if not Assigned(view_Impressao) then begin
       view_Impressao := Tview_Impressao.Create(Application);
     end;
-    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - PESSOA FÍSICA';
-    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\frxContratoServicopf.fr3';
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - COLABORADOR';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoColaborador.fr3';
     if view_Impressao.ShowModal <> mrOk then
     begin
       FreeAndNil(view_Impressao);
@@ -598,21 +607,29 @@ begin
         Exit;
       end;
     end;
+    sExtenco := FFuncao.valorPorExtenso(StrToFloatDef(ReplaceStr(sValor,'.',''),0));
     sEndereco := dbTextEditEndereco.Text + ', ' + dbTextEditNumero.Text;
     if dbTextEditComplemento.Text = '' then
     begin
       sEndereco := sEndereco + ', ' + dbTextEditComplemento.Text;
     end;
-    sEndereco := sEndereco + ', ' + dbTextEditBairro.Text;
-    sEndereco := sEndereco + ', ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
+    sEndereco := sEndereco + ', bairro ' + dbTextEditBairro.Text;
+    sEndereco := sEndereco + ', cidade ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
-    Variables.Items[Variables.IndexOf('parNome')].Value :=  QuotedStr(textEditNome.Text);
-    Variables.Items[Variables.IndexOf('parIdentidade')].Value :=  QuotedStr(textEditRG.Text);
-    Variables.Items[Variables.IndexOf('parCPF')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
-    Variables.Items[Variables.IndexOf('parEndereco')].Value :=  QuotedStr(sEndereco);
-    Variables.Items[Variables.IndexOf('parRazaoSocial')].Value :=  QuotedStr(textEditRazaoMEI.Text);
-    Variables.Items[Variables.IndexOf('parCNPJ')].Value :=  QuotedStr(buttonEditCNPJMEI.Text);
-    Variables.Items[Variables.IndexOf('parData')].Value :=  QuotedStr(sDataExtenso);
+    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditRazaoMEI.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(buttonEditCNPJMEI.Text);
+    Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(textEditNome.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pFuncao')].Value :=  QuotedStr(sFuncao);
+    Variables.Items[Variables.IndexOf('pAtividades')].Value :=  QuotedStr(sAtividade);
+    Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
+    Variables.Items[Variables.IndexOf('pValorNumeral')].Value :=  QuotedStr(sValor);
+    Variables.Items[Variables.IndexOf('pValorExtencao')].Value :=  QuotedStr(sExtenco);
+    Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+
+    FFuncao.Free;
     FreeAndNil(view_Impressao);
     ShowReport(True);
   end;
@@ -699,7 +716,7 @@ begin
     actionContrato.Enabled := False;
     actionNovoVeiculo.Enabled := False;
     actionEditarVeiculo.Enabled := False;
-    actionAnexarDocumentos.Enabled := False;
+  //  actionAnexarDocumentos.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
     comboBoxTipoPessoa.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
@@ -755,7 +772,7 @@ begin
     actionFichaDIRECT.Enabled := False;
     actionSolicitarGR.Enabled := False;
     actionContrato.Enabled := False;
-    actionAnexarDocumentos.Enabled := False;
+//    actionAnexarDocumentos.Enabled := False;
     actionNovoVeiculo.Enabled := False;
     actionEditarVeiculo.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
@@ -814,7 +831,7 @@ begin
     actionFichaDIRECT.Enabled := False;
     actionSolicitarGR.Enabled := False;
     actionContrato.Enabled := True;
-    actionAnexarDocumentos.Enabled := True;
+//    actionAnexarDocumentos.Enabled := True;
     actionNovoVeiculo.Enabled := True;
     actionEditarVeiculo.Enabled := True;
     maskEditID.Properties.ReadOnly := True;
@@ -871,7 +888,7 @@ begin
     actionFichaDIRECT.Enabled := True;
     actionSolicitarGR.Enabled := True;
     actionContrato.Enabled := True;
-    actionAnexarDocumentos.Enabled := False;
+//    actionAnexarDocumentos.Enabled := False;
     actionNovoVeiculo.Enabled := False;
     actionEditarVeiculo.Enabled := False;
     maskEditID.Properties.ReadOnly := True;

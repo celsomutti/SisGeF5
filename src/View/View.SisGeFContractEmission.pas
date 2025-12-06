@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore,
   dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit, dxLayoutcxEditAdapters, cxGroupBox,
   cxRadioGroup, Vcl.ComCtrls, dxCore, cxDateUtils, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, Common.Utils,
-  Global.Parametros, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons;
+  Global.Parametros, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxCurrencyEdit,
+  cxMemo;
 
 type
   Tview_SisGeFContractEmission = class(TForm)
@@ -27,9 +28,17 @@ type
     dxLayoutItem3: TdxLayoutItem;
     cxButton2: TcxButton;
     dxLayoutItem4: TdxLayoutItem;
+    cboFuncoes: TcxComboBox;
+    dxLayoutItem5: TdxLayoutItem;
+    curValorContrato: TcxCurrencyEdit;
+    dxLayoutItem6: TdxLayoutItem;
+    dxLayoutGroup4: TdxLayoutGroup;
+    memoAtividades: TcxMemo;
+    dxLayoutItem7: TdxLayoutItem;
     procedure actionEmitirExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure radioGroupPropertiesChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,6 +72,28 @@ end;
 procedure Tview_SisGeFContractEmission.FormShow(Sender: TObject);
 begin
   dateContrato.Date := Now;
+end;
+
+procedure Tview_SisGeFContractEmission.radioGroupPropertiesChange(Sender: TObject);
+begin
+  if radioGroup.ItemIndex = 1 then
+  begin
+    dxLayoutItem5.Visible := False;
+    dxLayoutItem6.Visible := False;
+    dxLayoutItem7.Visible := False;
+  end
+  else if radioGroup.ItemIndex = 0 then
+  begin
+    dxLayoutItem5.Visible := True;
+    dxLayoutItem6.Visible := True;
+    dxLayoutItem7.Visible := True;
+  end
+  else
+  begin
+    dxLayoutItem5.Visible := False;
+    dxLayoutItem6.Visible := False;
+    dxLayoutItem7.Visible := False;
+  end;
 end;
 
 end.
