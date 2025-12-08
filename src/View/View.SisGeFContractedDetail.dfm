@@ -569,6 +569,18 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Image2: TImage
+    Left = 0
+    Top = 22
+    Width = 701
+    Height = 105
+  end
+  object Image1: TImage
+    Left = 0
+    Top = 44
+    Width = 701
+    Height = 105
+  end
   object layoutControlPadrao: TdxLayoutControl
     Left = 0
     Top = 0
@@ -591,29 +603,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.HotTrack = False
       TabOrder = 0
       Text = '0'
-      Width = 73
-    end
-    object comboBoxTipoPessoa: TcxComboBox
-      Left = 142
-      Top = 12
-      Hint = 'Tipo de pessoa'
-      Properties.DropDownListStyle = lsEditFixedList
-      Properties.Items.Strings = (
-        'Selecione ...'
-        'F'#237'sica'
-        'Jur'#237'dica')
-      Properties.OnChange = comboBoxTipoPessoaPropertiesChange
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 1
-      Text = 'Selecione ...'
-      Width = 83
+      Width = 72
     end
     object textEditNome: TcxTextEdit
-      Left = 471
+      Left = 477
       Top = 12
       Hint = 'Nome ou raz'#227'p social]'
       Properties.MaxLength = 70
@@ -621,7 +614,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 3
-      Width = 314
+      Width = 308
     end
     object layoutControlDados: TdxLayoutControl
       Left = 26
@@ -1268,7 +1261,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Height = 210
       TabOrder = 5
       object dbComboBoxTipoEndereco: TcxDBComboBox
-        Left = 243
+        Left = 242
         Top = 46
         Hint = 'Tipo de endere'#231'o'
         DataBinding.DataField = 'des_tipo'
@@ -1284,7 +1277,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 1
-        Width = 320
+        Width = 321
       end
       object dbTextEditEndereco: TcxDBTextEdit
         Left = 89
@@ -1493,7 +1486,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         TabOrder = 12
         Text = 'NENHUMA'
         Visible = False
-        Width = 253
+        Width = 254
       end
       object comboBoxTipoConta: TcxComboBox
         Left = 10000
@@ -2235,9 +2228,9 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 14
+      TabOrder = 17
       Visible = False
-      Height = 223
+      Height = 164
       Width = 744
     end
     object cxButton1: TcxButton
@@ -2249,7 +2242,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Action = actionAnexarDocumentos
       OptionsImage.ImageIndex = 99
       OptionsImage.Images = Data_Sisgef.iml_16_16
-      TabOrder = 17
+      TabOrder = 20
     end
     object cxButton2: TcxButton
       Left = 605
@@ -2260,7 +2253,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Action = actionGravar
       OptionsImage.ImageIndex = 85
       OptionsImage.Images = Data_Sisgef.iml_16_16
-      TabOrder = 18
+      TabOrder = 21
     end
     object cxButton3: TcxButton
       Left = 694
@@ -2271,7 +2264,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Action = actionFechar
       OptionsImage.ImageIndex = 98
       OptionsImage.Images = Data_Sisgef.iml_16_16
-      TabOrder = 19
+      TabOrder = 22
     end
     object checkBoxStatus: TcxCheckBox
       Left = 11
@@ -2283,7 +2276,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Properties.OnChange = checkBoxStatusPropertiesChange
       State = cbsChecked
       Style.HotTrack = False
-      TabOrder = 15
+      TabOrder = 18
     end
     object textEditCodigoMEI: TcxTextEdit
       Left = 10000
@@ -2292,7 +2285,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 10
+      TabOrder = 13
       Visible = False
       Width = 121
     end
@@ -2340,7 +2333,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 11
+      TabOrder = 14
       Text = '  .   .   /    -  '
       Visible = False
       Width = 121
@@ -2354,7 +2347,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 12
+      TabOrder = 15
       Visible = False
       Width = 272
     end
@@ -2367,12 +2360,12 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 13
+      TabOrder = 16
       Visible = False
       Width = 282
     end
     object maskEditCPCNPJ: TcxButtonEdit
-      Left = 288
+      Left = 294
       Top = 11
       Properties.Buttons = <
         item
@@ -2429,7 +2422,173 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Action = actionContrato
       OptionsImage.ImageIndex = 115
       OptionsImage.Images = Data_Sisgef.iml_16_16
-      TabOrder = 16
+      TabOrder = 19
+    end
+    object icbSexo: TcxImageComboBox
+      Left = 142
+      Top = 11
+      Hint = 'Selecione o sexo'
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.Items = <
+        item
+          Description = 'MACULINO'
+          ImageIndex = 52
+          Value = 'M'
+        end
+        item
+          Description = 'FEMININO'
+          ImageIndex = 53
+          Value = 'F'
+        end
+        item
+          Description = 'INDEFINIDO'
+          ImageIndex = 54
+          Value = 'I'
+        end
+        item
+          Description = 'N'#195'O SE APLICA'
+          ImageIndex = 128
+          Value = 'N'
+        end>
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 1
+      Width = 89
+    end
+    object cedSalario: TcxCurrencyEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Informa o sal'#225'rio base'
+      Properties.DisplayFormat = ',0.00;-,0.00'
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 10
+      Visible = False
+      Width = 121
+    end
+    object cboBase: TcxComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Base'
+      Properties.Items.Strings = (
+        'Selecione'
+        'ABAR'#201
+        'ANCHIETA'
+        'ARACRUZ'
+        'CARIACICA'
+        'CARINHANHA'
+        'EUN'#193'POLIS'
+        'JEROMOABO'
+        'MATRIZ '
+        'P.AFONSO'
+        'PORTO '
+        'RIBEIRA '
+        'ARRAIL'
+        'TRANCOSO'
+        'LINE HAUL')
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 11
+      Text = 'Selecione'
+      Visible = False
+      Width = 121
+    end
+    object icbFuncao: TcxImageComboBox
+      Left = 10000
+      Top = 10000
+      EditValue = 0
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.Items = <
+        item
+          Description = 'Selecione'
+          ImageIndex = 93
+          Value = 0
+        end
+        item
+          Description = 'ANALISTA'
+          ImageIndex = 93
+          Value = 16
+        end
+        item
+          Description = 'AUXILIAR EXPEDI'#199#195'O'
+          ImageIndex = 93
+          Value = 17
+        end
+        item
+          Description = 'AJUDANTE DE MOTORISTA'
+          ImageIndex = 93
+          Value = 18
+        end
+        item
+          Description = 'COORDENADOR(A)'
+          ImageIndex = 93
+          Value = 19
+        end
+        item
+          Description = 'ASG'
+          ImageIndex = 93
+          Value = 20
+        end
+        item
+          Description = 'SUPERVISOR(A)'
+          ImageIndex = 93
+          Value = 21
+        end
+        item
+          Description = 'AUXILIAR EXPEDI'#199#195'O II'
+          ImageIndex = 93
+          Value = 22
+        end
+        item
+          Description = 'ASSISTENTE FINANCEIRO'
+          ImageIndex = 93
+          Value = 23
+        end
+        item
+          Description = 'CAPTA'#199#195'O'
+          ImageIndex = 93
+          Value = 24
+        end
+        item
+          Description = 'FINANCEIRO'
+          ImageIndex = 93
+          Value = 25
+        end
+        item
+          Description = 'GERENTE'
+          ImageIndex = 93
+          Value = 26
+        end
+        item
+          Description = 'LIDER DE EXPEDI'#199#195'O'
+          ImageIndex = 93
+          Value = 27
+        end
+        item
+          Description = 'MONITORAMENTO'
+          ImageIndex = 93
+          Value = 28
+        end
+        item
+          Description = 'MOTORISTA'
+          ImageIndex = 93
+          Value = 29
+        end>
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 12
+      Visible = False
+      Width = 159
     end
     object layoutControlPadraoGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -2450,17 +2609,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       ControlOptions.OriginalWidth = 71
       ControlOptions.ShowBorder = False
       Index = 0
-    end
-    object layoutItemComboBoxTipoPessoa: TdxLayoutItem
-      Parent = dxLayoutAutoCreatedGroup1
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'Tipo:'
-      Control = comboBoxTipoPessoa
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 81
-      ControlOptions.ShowBorder = False
-      Index = 1
     end
     object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
       Parent = layoutControlPadraoGroup_Root
@@ -2525,9 +2673,9 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Parent = layoutGroupMaster
       AlignHorz = ahClient
       AlignVert = avClient
-      CaptionOptions.Text = 'GR  / MEI / Observa'#231#245'es'
+      CaptionOptions.Text = 'GR  / RH / MEI / Observa'#231#245'es'
       ButtonOptions.Buttons = <>
-      ItemIndex = 3
+      ItemIndex = 1
       Index = 1
     end
     object layoutGroupGR: TdxLayoutGroup
@@ -2592,7 +2740,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
       ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object layoutItemObservacoes: TdxLayoutItem
       Parent = layoutGroupComplementos
@@ -2604,7 +2752,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       ControlOptions.OriginalHeight = 89
       ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object layoutGroupOptions: TdxLayoutGroup
       Parent = layoutControlPadraoGroup_Root
@@ -2662,7 +2810,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       CaptionOptions.Visible = False
       Control = checkBoxStatus
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 55
+      ControlOptions.OriginalWidth = 54
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -2670,8 +2818,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Parent = layoutGroupComplementos
       CaptionOptions.Text = 'MEI'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
-      Index = 2
+      Index = 3
     end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = layoutGroupMEI
@@ -2758,6 +2905,58 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       ControlOptions.OriginalWidth = 92
       ControlOptions.ShowBorder = False
       Index = 1
+    end
+    object dxLayoutItem15: TdxLayoutItem
+      Parent = dxLayoutAutoCreatedGroup1
+      CaptionOptions.Text = 'Sexo:'
+      Control = icbSexo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 89
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup4: TdxLayoutGroup
+      Parent = layoutGroupComplementos
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'RH'
+      ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
+      LayoutDirection = ldHorizontal
+      Index = 1
+    end
+    object dxLayoutItem16: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Sal'#225'rio Base:'
+      Control = cedSalario
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem17: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Base:'
+      Control = cboBase
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem18: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Fun'#231#227'o:'
+      Control = icbFuncao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 159
+      ControlOptions.ShowBorder = False
+      Index = 2
     end
   end
   object memTableEnderecos: TFDMemTable

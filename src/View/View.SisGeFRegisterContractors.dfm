@@ -145,7 +145,6 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
         TabOrder = 1
         LookAndFeel.NativeStyle = True
         LookAndFeel.SkinName = 'UserSkin'
-        ExplicitTop = 31
         object viewCadastro: TcxGridDBTableView
           OnDblClick = viewCadastroDblClick
           Navigator.Buttons.CustomButtons = <>
@@ -199,25 +198,35 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
           end
           object viewCadastrocod_entregador: TcxGridDBColumn
             DataBinding.FieldName = 'cod_entregador'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 139
           end
           object viewCadastronom_entregador: TcxGridDBColumn
             DataBinding.FieldName = 'nom_entregador'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
           end
           object viewCadastronum_ie: TcxGridDBColumn
             DataBinding.FieldName = 'num_ie'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
           end
           object viewCadastronom_favorecido: TcxGridDBColumn
             DataBinding.FieldName = 'nom_favorecido'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 288
           end
           object viewCadastronum_cpf_cnpj_favorecido: TcxGridDBColumn
             DataBinding.FieldName = 'num_cpf_cnpj_favorecido'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
           end
           object viewCadastronom_razao_mei: TcxGridDBColumn
             DataBinding.FieldName = 'nom_razao_mei'
@@ -235,74 +244,103 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
           end
           object viewCadastrodes_placa: TcxGridDBColumn
             DataBinding.FieldName = 'des_placa'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 76
           end
           object viewCadastrodes_modelo: TcxGridDBColumn
             DataBinding.FieldName = 'des_modelo'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 247
           end
           object viewCadastronum_renavan: TcxGridDBColumn
             DataBinding.FieldName = 'num_renavan'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 119
           end
           object viewCadastrodes_forma_pagamento: TcxGridDBColumn
             DataBinding.FieldName = 'des_forma_pagamento'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
           end
           object viewCadastrodes_tipo_conta: TcxGridDBColumn
             DataBinding.FieldName = 'des_tipo_conta'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 191
           end
           object viewCadastrocod_banco: TcxGridDBColumn
             DataBinding.FieldName = 'cod_banco'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 116
           end
           object viewCadastronom_banco: TcxGridDBColumn
             DataBinding.FieldName = 'nom_banco'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 236
           end
           object viewCadastrocod_agencia: TcxGridDBColumn
             DataBinding.FieldName = 'cod_agencia'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 91
           end
           object viewCadastronom_conta: TcxGridDBColumn
             DataBinding.FieldName = 'nom_conta'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
           end
           object viewCadastrodata_validade_cnh: TcxGridDBColumn
             DataBinding.FieldName = 'data_validade_cnh'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 80
           end
           object viewCadastrodat_gv: TcxGridDBColumn
             DataBinding.FieldName = 'dat_gv'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 86
           end
           object viewCadastronum_cnh: TcxGridDBColumn
             DataBinding.FieldName = 'num_cnh'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
           end
           object viewCadastronum_registro_cnh: TcxGridDBColumn
             DataBinding.FieldName = 'num_registro_cnh'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
           end
           object viewCadastrodes_categoria_cnh: TcxGridDBColumn
             DataBinding.FieldName = 'des_categoria_cnh'
+            Visible = False
             HeaderAlignmentHorz = taCenter
+            VisibleForCustomization = False
             Width = 94
           end
           object viewCadastronom_base: TcxGridDBColumn
             DataBinding.FieldName = 'nom_base'
             Visible = False
             GroupIndex = 0
+            VisibleForCustomization = False
           end
         end
         object viewDocumentos: TcxGridDBTableView

@@ -14,7 +14,7 @@ uses
   Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Cadastro, Control.Estados,
   Control.CadastroEnderecos, Control.CadastroContatos, System.DateUtils, dxLayoutLookAndFeels, dxLayoutControlAdapters, Vcl.Menus,
   Vcl.StdCtrls, cxButtons, FireDAC.Stan.StorageBin, Controller.SisGeFVehiclesRegistration, Controller.APICEP, Controller.APICNPJ,
-  System.StrUtils, cxButtonEdit, Global.Parametros;
+  System.StrUtils, cxButtonEdit, Global.Parametros, cxImageComboBox, cxCurrencyEdit, Vcl.ExtCtrls;
 
 type
   Tview_SisGeFContractedDetail = class(TForm)
@@ -22,8 +22,6 @@ type
     layoutControlPadrao: TdxLayoutControl;
     maskEditID: TcxMaskEdit;
     layoutItemMaskID: TdxLayoutItem;
-    comboBoxTipoPessoa: TcxComboBox;
-    layoutItemComboBoxTipoPessoa: TdxLayoutItem;
     dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     textEditNome: TcxTextEdit;
     layoutItemTextEditNome: TdxLayoutItem;
@@ -275,7 +273,18 @@ type
     actionPesquisaCNPJMEI: TAction;
     cxButton6: TcxButton;
     dxLayoutItem14: TdxLayoutItem;
-    procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
+    icbSexo: TcxImageComboBox;
+    dxLayoutItem15: TdxLayoutItem;
+    dxLayoutGroup4: TdxLayoutGroup;
+    cedSalario: TcxCurrencyEdit;
+    dxLayoutItem16: TdxLayoutItem;
+    cboBase: TcxComboBox;
+    dxLayoutItem17: TdxLayoutItem;
+    Image1: TImage;
+    Image2: TImage;
+    icbFuncao: TcxImageComboBox;
+    dxLayoutItem18: TdxLayoutItem;
+    //procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -430,7 +439,6 @@ end;
 procedure Tview_SisGeFContractedDetail.ClearFields;
 begin
   maskEditID.EditValue := 0;
-  comboBoxTipoPessoa.ItemIndex := 0;
   maskEditCPCNPJ.Clear;
   textEditNome.Clear;
   textEditRG.Clear;
@@ -473,34 +481,34 @@ begin
   memoObservacoes.Lines.Clear;
 end;
 
-procedure Tview_SisGeFContractedDetail.comboBoxTipoPessoaPropertiesChange(Sender: TObject);
-begin
-  if comboBoxTipoPessoa.ItemIndex = 1 then
-  begin
-    layoutGroupPessoaFisica.MakeVisible;
-    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
-    maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
-    maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
-    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
-  end
-  else if comboBoxTipoPessoa.ItemIndex = 2 then
-  begin
-    layoutGroupPessoaJuridica.MakeVisible;
-    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
-    maskEditCPCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;1; ';
-    maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
-    maskEditCPCNPJ.Properties.Buttons[0].Enabled := True;
-  end
-  else
-  begin
-    layoutGroupPessoaFisica.MakeVisible;
-    maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
-    maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
-    maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
-    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
-  end;
+//procedure Tview_SisGeFContractedDetail.comboBoxTipoPessoaPropertiesChange(Sender: TObject);
+//begin
+//  if comboBoxTipoPessoa.ItemIndex = 1 then
+//  begin
+//    layoutGroupPessoaFisica.MakeVisible;
+//    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
+//    maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
+//    maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
+//    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
+//  end
+//  else if comboBoxTipoPessoa.ItemIndex = 2 then
+//  begin
+//    layoutGroupPessoaJuridica.MakeVisible;
+//    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
+//    maskEditCPCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;1; ';
+//    maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
+//    maskEditCPCNPJ.Properties.Buttons[0].Enabled := True;
+//  end
+//  else
+//  begin
+//    layoutGroupPessoaFisica.MakeVisible;
+//    maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
+//    maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
+//    maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
+//    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
+//  end;
 
-end;
+//end;
 
 procedure Tview_SisGeFContractedDetail.EditarCadastro;
 begin
@@ -508,7 +516,7 @@ begin
     ModalResult := mrOk;
     Exit;
   Modo;
-  comboBoxTipoPessoa.SetFocus;
+  //comboBoxTipoPessoa.SetFocus;
 end;
 
 procedure Tview_SisGeFContractedDetail.EditarVeiculo(iCadastro, iVeiculo: integer);
@@ -649,7 +657,7 @@ begin
       view_Impressao := Tview_Impressao.Create(Application);
     end;
     view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - PESSOA JURÍDICA';
-    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\frxContratoServico.fr3';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoMotorista.fr3';
     if view_Impressao.ShowModal <> mrOk then
     begin
       FreeAndNil(view_Impressao);
@@ -670,13 +678,14 @@ begin
     sEndereco := sEndereco + ', ' + dbTextEditBairro.Text;
     sEndereco := sEndereco + ', ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
-    Variables.Items[Variables.IndexOf('parNome')].Value :=  QuotedStr(textEditNome.Text);
-    Variables.Items[Variables.IndexOf('parIdentidade')].Value :=  QuotedStr(textEditRG.Text);
-    Variables.Items[Variables.IndexOf('parCPF')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
-    Variables.Items[Variables.IndexOf('parEndereco')].Value :=  QuotedStr(sEndereco);
-    Variables.Items[Variables.IndexOf('parRazaoSocial')].Value :=  QuotedStr(textEditRazaoMEI.Text);
-    Variables.Items[Variables.IndexOf('parCNPJ')].Value :=  QuotedStr(buttonEditCNPJMEI.Text);
-    Variables.Items[Variables.IndexOf('parData')].Value :=  QuotedStr(sDataExtenso);
+   Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditRazaoMEI.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(buttonEditCNPJMEI.Text);
+    Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(textEditNome.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
+    Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
     FreeAndNil(view_Impressao);
     ShowReport(True);
   end;
@@ -718,7 +727,7 @@ begin
     actionEditarVeiculo.Enabled := False;
   //  actionAnexarDocumentos.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
-    comboBoxTipoPessoa.Properties.ReadOnly := True;
+    icbSexo.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
     textEditNome.Properties.ReadOnly := True;
     textEditRG.Properties.ReadOnly := True;
@@ -776,7 +785,7 @@ begin
     actionNovoVeiculo.Enabled := False;
     actionEditarVeiculo.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
-    comboBoxTipoPessoa.Properties.ReadOnly := False;
+    icbSexo.Properties.ReadOnly := False;
     maskEditCPCNPJ.Properties.ReadOnly := False;
     textEditNome.Properties.ReadOnly := False;
     textEditRG.Properties.ReadOnly := False;
@@ -835,7 +844,7 @@ begin
     actionNovoVeiculo.Enabled := True;
     actionEditarVeiculo.Enabled := True;
     maskEditID.Properties.ReadOnly := True;
-    comboBoxTipoPessoa.Properties.ReadOnly := True;
+    icbSexo.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
     textEditNome.Properties.ReadOnly := False;
     textEditRG.Properties.ReadOnly := False;
@@ -892,7 +901,7 @@ begin
     actionNovoVeiculo.Enabled := False;
     actionEditarVeiculo.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
-    comboBoxTipoPessoa.Properties.ReadOnly := True;
+    icbSexo.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
     textEditNome.Properties.ReadOnly := True;
     textEditRG.Properties.ReadOnly := True;
@@ -938,7 +947,7 @@ end;
 procedure Tview_SisGeFContractedDetail.NovoCadastro;
 begin
   Modo;
-  comboBoxTipoPessoa.SetFocus;
+  icbSexo.SetFocus;
 end;
 
 function Tview_SisGeFContractedDetail.PesquisaCadastro: boolean;
@@ -1320,11 +1329,7 @@ end;
 
 procedure Tview_SisGeFContractedDetail.SetupClassCadastro(FCadastro: TCadastroControl);
 begin
-  FCadastro.Cadastro.Cadastro := maskEditID.EditValue;
-  if comboBoxTipoPessoa.ItemIndex = 2 then
-    FCadastro.Cadastro.Doc := 'CNPJ'
-  else
-    FCadastro.Cadastro.Doc := 'CPF';
+  FCadastro.Cadastro.Funcionario := icbSexo.EditValue;
   FCadastro.Cadastro.CPFCNPJ := maskEditCPCNPJ.EditValue;
   FCadastro.Cadastro.Nome := textEditNome.Text;
   FCadastro.Cadastro.IERG := textEditRG.Text;
@@ -1393,18 +1398,15 @@ begin
   FCadastro.Cadastro.DataAlteracao := Now();
   FCadastro.Cadastro.Executante := Global.Parametros.pUser_Name;
   FCadastro.Cadastro.Usuario := Global.Parametros.pUser_ID;
+  FCadastro.Cadastro.Verba := cedSalario.Value;
+  FCadastro.Cadastro.Agente := cboBase.ItemIndex;
+  FCadastro.Cadastro.Entregador := icbFuncao.EditValue;
 end;
 
 procedure Tview_SisGeFContractedDetail.SetupFields(FCadastro: TCadastroControl);
 begin
   maskEditID.EditValue := FCadastro.Cadastro.Cadastro;
-  if FCadastro.Cadastro.Doc = 'CPF' then
-    comboBoxTipoPessoa.ItemIndex := 1
-  else if FCadastro.Cadastro.Doc = 'CNPJ' then
-    comboBoxTipoPessoa.ItemIndex := 2
-  else
-    comboBoxTipoPessoa.ItemIndex := 0;
-  comboBoxTipoPessoa.Text := FCadastro.Cadastro.Doc;
+  icbSexo.EditValue := FCadastro.Cadastro.Funcionario;
   maskEditCPCNPJ.EditValue := FCadastro.Cadastro.CPFCNPJ;
   textEditNome.Text := FCadastro.Cadastro.Nome;
   textEditRG.Text := FCadastro.Cadastro.IERG;
@@ -1447,6 +1449,9 @@ begin
   dateEditValidadeGR.Date := FCadastro.Cadastro.DataGV;
   textEditNumeroConsultaGR.Text := FCadastro.Cadastro.NumeroConsultaGR;
   memoObservacoes.Text := FCadastro.Cadastro.Obs;
+  cedSalario.Value := FCadastro.Cadastro.Verba;
+  cboBase.ItemIndex := FCadastro.Cadastro.Agente;
+  icbFuncao.EditValue := FCadastro.Cadastro.Entregador;
   if (FCadastro.Cadastro.Status = 0) or (FCadastro.Cadastro.Status = 1) or (FCadastro.Cadastro.Status = 5)then
     checkBoxStatus.Checked := True
   else
@@ -1468,28 +1473,10 @@ begin
     FCadastro := TCadastroControl.Create;
     if FAcao = tacIncluir then
     begin
-      if comboBoxTipoPessoa.ItemIndex = 1 then
+      if not Common.Utils.TUtils.CPF(maskEditCPCNPJ.Text) then
       begin
-        if not Common.Utils.TUtils.CPF(maskEditCPCNPJ.Text) then
-        begin
-          Application.MessageBox('CPF incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-          maskEditCPCNPJ.SetFocus;
-          Exit;
-        end;
-      end
-      else if comboBoxTipoPessoa.ItemIndex = 2 then
-      begin
-        if not Common.Utils.TUtils.CNPJ(maskEditCPCNPJ.Text) then
-        begin
-          Application.MessageBox('CNPJ incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-          maskEditCPCNPJ.SetFocus;
-          Exit;
-        end;
-      end
-      else
-      begin
-        Application.MessageBox('Informe o tipo de pessoa!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-        comboBoxTipoPessoa.SetFocus;
+        Application.MessageBox('CPF incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        maskEditCPCNPJ.SetFocus;
         Exit;
       end;
     end;
@@ -1500,37 +1487,37 @@ begin
       textEditNome.SetFocus;
       Exit;
     end;
-    if comboBoxTipoPessoa.ItemIndex = 2 then
-    begin
-      if textEditNomeFantasia.Text = '' then
-      begin
-        Application.MessageBox('Informe o nome fantasia!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-        textEditNomeFantasia.SetFocus;
-        Exit;
-      end;
-      sCPF := Common.Utils.TUtils.DesmontaCPFCNPJ(maskEditCPFCNPJFavorecido.Text);
-      if Length(Trim(sCPF)) = 11 then
-      begin
-        if not Common.Utils.TUtils.CPF(maskEditCPFCNPJFavorecido.Text) then
-        begin
-          Application.MessageBox('CPF do Favorecido incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-          maskEditCPFCNPJFavorecido.SetFocus;
-          Exit;
-        end;
-      end
-      else if Length(Trim(sCPF)) = 14 then
-      begin
-        if not Common.Utils.TUtils.CNPJ(maskEditCPFCNPJFavorecido.Text) then
-        begin
-          Application.MessageBox('CNPJ do Favorecido incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
-          maskEditCPFCNPJFavorecido.SetFocus;
-          Exit;
-        end;
-      end;
+//    if comboBoxTipoPessoa.ItemIndex = 2 then
+//    begin
+//      if textEditNomeFantasia.Text = '' then
+//      begin
+//        Application.MessageBox('Informe o nome fantasia!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+//        textEditNomeFantasia.SetFocus;
+//        Exit;
+//      end;
+//      sCPF := Common.Utils.TUtils.DesmontaCPFCNPJ(maskEditCPFCNPJFavorecido.Text);
+//      if Length(Trim(sCPF)) = 11 then
+//      begin
+//        if not Common.Utils.TUtils.CPF(maskEditCPFCNPJFavorecido.Text) then
+//        begin
+//          Application.MessageBox('CPF do Favorecido incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+//          maskEditCPFCNPJFavorecido.SetFocus;
+//          Exit;
+//        end;
+//      end
+//      else if Length(Trim(sCPF)) = 14 then
+//      begin
+//        if not Common.Utils.TUtils.CNPJ(maskEditCPFCNPJFavorecido.Text) then
+//        begin
+//          Application.MessageBox('CNPJ do Favorecido incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+//          maskEditCPFCNPJFavorecido.SetFocus;
+//          Exit;
+//        end;
+//      end;
 
-    end;
-    if comboBoxTipoPessoa.ItemIndex = 1 then
-    begin
+//    end;
+//    if comboBoxTipoPessoa.ItemIndex = 1 then
+//    begin
       if Facao = tacIncluir then
       begin
         if textEditRG.Text <> '' then
@@ -1667,18 +1654,18 @@ begin
           dateEditPrimeiraCNH.SetFocus;
           Exit;
         end;
-      end
-      else
-      begin
-        textEditSegurancaCNH.Clear;
-        textEditNumeroCNH.Clear;
-        textEditRegistroCNH.Clear;
-        textEditCategoriaCNH.Clear;
-        dateEditEmissaoCNH.Clear;
-        dateEditValidadeCNH.Clear;
-        dateEditPrimeiraCNH.Clear;
-        lookupComboBoxUFCNH.Clear;
-      end;
+//      end
+//      else
+//      begin
+//        textEditSegurancaCNH.Clear;
+//        textEditNumeroCNH.Clear;
+//        textEditRegistroCNH.Clear;
+//        textEditCategoriaCNH.Clear;
+//        dateEditEmissaoCNH.Clear;
+//        dateEditValidadeCNH.Clear;
+//        dateEditPrimeiraCNH.Clear;
+//        lookupComboBoxUFCNH.Clear;
+//      end;
     end;
     Result := True;
   finally
