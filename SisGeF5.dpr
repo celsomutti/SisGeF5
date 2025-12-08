@@ -329,7 +329,9 @@ uses
   View.SisGeFNomeGrupo in 'src\View\View.SisGeFNomeGrupo.pas' {viewSisGeFNomeGrupo},
   View.SisGeFRegisterContractors in 'src\View\View.SisGeFRegisterContractors.pas' {view_SisGeFRegisterContractors},
   View.SisGeFCadastroFuncionarios in 'src\View\View.SisGeFCadastroFuncionarios.pas' {viewCadastroFuncionarios},
-  Model.SisGeFCadastroFuncionarios in 'src\Model\Model.SisGeFCadastroFuncionarios.pas';
+  Model.SisGeFCadastroFuncionarios in 'src\Model\Model.SisGeFCadastroFuncionarios.pas',
+  Model.SisGeFCadastroFuncoesRH in 'src\Model\Model.SisGeFCadastroFuncoesRH.pas',
+  Controller.SisGeFFuncoesRH in 'src\Control\Controller.SisGeFFuncoesRH.pas';
 
 {$R *.res}
 
