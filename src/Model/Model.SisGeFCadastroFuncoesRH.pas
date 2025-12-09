@@ -144,10 +144,10 @@ begin
   if Length(aParams) >= 2 then
   begin
     FQuery.SQL.Add('where');
-    case Aparams[0] of
-      'ID'  : FQuery.SQL.Add('id_funcao = ' + aParams[1]);
-      'NOME': FQuery.SQL.Add('des_funcao like "%' + aParams[1] + '%"');
-    end;
+    if aParams[0] = 'ID' then
+      FQuery.SQL.Add('id_funcao = ' + aParams[1])
+    else if aParams[0] = 'NOME' then
+      FQuery.SQL.Add('des_funcao like "%' + aParams[1] + '%"');
   end;
   if FQuery.IsEmpty then
   begin

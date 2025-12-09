@@ -1011,7 +1011,7 @@ begin
   if FileExists(sFileImg) then
   begin
     imgLogo.Picture.LoadFromFile(sFileImg);
-    imgLogo.Properties.FitMode := ifmFit;
+    //imgLogo.Properties.FitMode := ifmFit;
   end;
 end;
 

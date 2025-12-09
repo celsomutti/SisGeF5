@@ -672,6 +672,10 @@
         <DCCReference Include="src\Model\Model.SisGeFCadastroFuncionarios.pas"/>
         <DCCReference Include="src\Model\Model.SisGeFCadastroFuncoesRH.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFFuncoesRH.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFCadastroContratados.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFCadastroContratados.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFContratadosCNAE.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFContratadosCNAE.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

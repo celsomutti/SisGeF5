@@ -331,7 +331,11 @@ uses
   View.SisGeFCadastroFuncionarios in 'src\View\View.SisGeFCadastroFuncionarios.pas' {viewCadastroFuncionarios},
   Model.SisGeFCadastroFuncionarios in 'src\Model\Model.SisGeFCadastroFuncionarios.pas',
   Model.SisGeFCadastroFuncoesRH in 'src\Model\Model.SisGeFCadastroFuncoesRH.pas',
-  Controller.SisGeFFuncoesRH in 'src\Control\Controller.SisGeFFuncoesRH.pas';
+  Controller.SisGeFFuncoesRH in 'src\Control\Controller.SisGeFFuncoesRH.pas',
+  Model.SisGeFCadastroContratados in 'src\Model\Model.SisGeFCadastroContratados.pas',
+  Controller.SisGeFCadastroContratados in 'src\Control\Controller.SisGeFCadastroContratados.pas',
+  Model.SisGeFContratadosCNAE in 'src\Model\Model.SisGeFContratadosCNAE.pas',
+  Controller.SisGeFContratadosCNAE in 'src\Control\Controller.SisGeFContratadosCNAE.pas';
 
 {$R *.res}
 
