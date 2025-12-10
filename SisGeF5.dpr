@@ -335,7 +335,17 @@ uses
   Model.SisGeFCadastroContratados in 'src\Model\Model.SisGeFCadastroContratados.pas',
   Controller.SisGeFCadastroContratados in 'src\Control\Controller.SisGeFCadastroContratados.pas',
   Model.SisGeFContratadosCNAE in 'src\Model\Model.SisGeFContratadosCNAE.pas',
-  Controller.SisGeFContratadosCNAE in 'src\Control\Controller.SisGeFContratadosCNAE.pas';
+  Controller.SisGeFContratadosCNAE in 'src\Control\Controller.SisGeFContratadosCNAE.pas',
+  Model.SisGeFContratadosContatos in 'src\Model\Model.SisGeFContratadosContatos.pas',
+  Controller.SisGeFContratadosContatos in 'src\Control\Controller.SisGeFContratadosContatos.pas',
+  Model.SisGeFContratadosEnderecos in 'src\Model\Model.SisGeFContratadosEnderecos.pas',
+  Controller.SisGeFContratadosEnderecos in 'src\Control\Controller.SisGeFContratadosEnderecos.pas',
+  Model.SisGeFContratadosFinanceiro in 'src\Model\Model.SisGeFContratadosFinanceiro.pas',
+  Controller.SisGeFContratadosFinanceiro in 'src\Control\Controller.SisGeFContratadosFinanceiro.pas',
+  Model.SisGeFContratadosGR in 'src\Model\Model.SisGeFContratadosGR.pas',
+  Controller.SisGeFContratadosGR in 'src\Control\Controller.SisGeFContratadosGR.pas',
+  Model.SisGeFContratadosRepresentantes in 'src\Model\Model.SisGeFContratadosRepresentantes.pas',
+  Controller.SisGeFContratadosRepresentantes in 'src\Control\Controller.SisGeFContratadosRepresentantes.pas';
 
 {$R *.res}
 

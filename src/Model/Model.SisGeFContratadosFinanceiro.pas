@@ -1,19 +1,21 @@
-unit Model.SisGeFContratadosCNAE;
+unit Model.SisGeFContratadosFinanceiro;
 
 interface
 
 uses Common.ENum, FireDAC.Comp.Client, service.connectionMySQL, service.sistem;
 
 type
-  TCNAE = record
-    id_cnae         : integer;
-    id_contratados  : integer;
-    cod_tipo_cnae   : integer;
-    cod_cnae        : string[20];
-    des_cnae        : string[132];
+  TFinanceiro = record
+    id_financeiro       : integer;
+    id_contratados      : integer;
+    cod_banco           : string[4];
+    cod_agencia         : string[10];
+    num_conta           : string[20];
+    chave_pix           : string[125];
+    des_forma_pagamento : string[20];
   end;
 
-  type TContratadosCNAEModel = class
+  type TContratadosFinanceiroModel = class
     private
         FAcao     : TAcao;
         FMensagem : string;
@@ -24,7 +26,7 @@ type
         function Alterar  ()  : boolean;
 
       public
-        ARecord   : TCNAE;
+        ARecord   : TFinanceiro;
 
         Constructor Create();
         function    GetNextID   (sIdName: string)         : Integer;
@@ -39,46 +41,45 @@ type
       protected
   end;
   const
-      TABLENAME = 'crm_contratados_cnae';
+      TABLENAME = 'crm_contratados_financeiro';
       SQLINSERT = 'insert into ' + TABLENAME +
-                  '(id_cnae, id_contratados, cod_tipo_cnae, cod_cnae, des_cnae) ' +
+                  '(id_financeiro, id_contratados, cod_banco, cod_agencia, num_conta, chave_pix, des_forma_pagamento) ' +
                   'VALUES '  +
-                  '(:id_cnae, :id_contratados, :cod_tipo_cnae, :cod_cnae, :des_cnae)';
+                  '(:id_financeiro, :id_contratados, :cod_banco, :cod_agencia, :num_conta, :chave_pix, :des_forma_pagamento)';
       SQLUPDATE = 'update ' + TABLENAME +
                   ' set ' +
-                  'id_contratados = :id_contratados, cod_tipo_cnae = :cod_tipo_cnae, cod_cnae = :cod_cnae, ' +
-                  'des_cnae  = :des_cnae ' +
+                  'id_contratados = :id_contratados, cod_banco = :cod_banco, cod_agencia = :cod_agencia, num_conta = :num_conta, ' +
+                  'chave_pix = :chave_pix, des_forma_pagamento = :des_forma_pagamento ' +
                   'where ' +
-                  'id_cnae = :id_cnae';
-      SQLSELECT = 'select id_cnae, id_contratados, cod_tipo_cnae, cod_cnae, des_cnae ' +
+                  'id_financeiro = :id_financeiro';
+      SQLSELECT = 'select id_financeiro, id_contratados, cod_banco, cod_agencia, num_conta, chave_pix, des_forma_pagamento ' +
                   'from ' +
                   TABLENAME;
 
 
 implementation
 
-{ TContratadosCNAEModel }
+{ TContratadosFinanceiroModel }
 
-function TContratadosCNAEModel.Alterar: boolean;
+function TContratadosFinanceiroModel.Alterar: boolean;
 begin
-  Result := False;
   try
-    FQuery := FConn.GetQuery;
+  FQuery := FConn.GetQuery;
     FQuery.ExecSQL(SQLUPDATE,
-                  [ARecord.id_contratados, ARecord.cod_tipo_cnae, ARecord.cod_cnae,
-                  ARecord.des_cnae, ARecord.id_cnae]);
+                  [ARecord.id_financeiro, ARecord.id_contratados, ARecord.cod_banco, ARecord.cod_agencia, ARecord.num_conta,
+                  ARecord.chave_pix, ARecord.des_forma_pagamento]);
     Result := True;
   finally
     FQuery.Connection.Close;
   end;
 end;
 
-constructor TContratadosCNAEModel.Create;
+constructor TContratadosFinanceiroModel.Create;
 begin
-  FConn := TConnectionMySQL.Create;
+  FConn := TConnectionMySQL.Create();
 end;
 
-function TContratadosCNAEModel.CustomSearch(aParams: array of string): boolean;
+function TContratadosFinanceiroModel.CustomSearch(aParams: array of string): boolean;
 var
   sSource : string;
 begin
@@ -106,7 +107,7 @@ begin
   Result := True;
 end;
 
-function TContratadosCNAEModel.GetNextID(sIdName: string): Integer;
+function TContratadosFinanceiroModel.GetNextID(sIdName: string): Integer;
 begin
   try
     FQuery := FConn.GetQuery;
@@ -122,30 +123,30 @@ begin
   end;
 end;
 
-function TContratadosCNAEModel.Inserir: boolean;
+function TContratadosFinanceiroModel.Inserir: boolean;
 begin
   Result := False;
   try
-    ARecord.id_cnae := GetNextID('id_cnae');
+    ARecord.id_financeiro := GetNextID('id_financeiro');
     FQuery := FConn.GetQuery();
     FQuery.ExecSQL(SQLINSERT,
-                  [ARecord.id_cnae, ARecord.id_contratados, ARecord.cod_tipo_cnae, ARecord.cod_cnae,
-                  ARecord.des_cnae]);
+                  [ARecord.id_financeiro, ARecord.id_contratados, ARecord.cod_banco, ARecord.cod_agencia, ARecord.num_conta,
+                  ARecord.chave_pix, ARecord.des_forma_pagamento]);
     Result := True;
   finally
     FQuery.Connection.Close;
   end;
 end;
 
-function TContratadosCNAEModel.SaveRecord: boolean;
+function TContratadosFinanceiroModel.SaveRecord: boolean;
 begin
- case FAcao of
+   case FAcao of
     tacIncluir: Result := Inserir();
     tacAlterar: Result := Alterar();
   end;
 end;
 
-function TContratadosCNAEModel.Search(aParams: array of string): boolean;
+function TContratadosFinanceiroModel.Search(aParams: array of string): boolean;
 begin
   Result := False;
   FQuery := FConn.GetQuery;
@@ -154,13 +155,13 @@ begin
   begin
     FQuery.SQL.Add('where');
     if aParams[0] = 'ID' then
-      FQuery.SQL.Add('id_cnae = ' + aParams[1])
+      FQuery.SQL.Add('id_financeiro = ' + aParams[1])
     else if aParams[0] = 'CONTRATADO' then
       FQuery.SQL.Add('id_contradados = ' + aParams[1])
-    else if aParams[0] = 'CNAE' then
-      FQuery.SQL.Add('cod_cnae like "%' + aParams[1] + '%"')
-    else if aParams[0] = 'NOME' then
-      FQuery.SQL.Add('des_cnae like "%' + aParams[1] + '%"')
+    else if aParams[0] = 'BANCO' then
+      FQuery.SQL.Add('cod_banco like "%' + aParams[1] + '%"')
+    else if aParams[0] = 'PIX' then
+      FQuery.SQL.Add('chave_pix like "%' + aParams[1] + '%"')
     else
       FQuery.SQL.Add(aParams[1]);
   end;
@@ -173,16 +174,18 @@ begin
   Result := True;
 end;
 
-function TContratadosCNAEModel.SetupRecords: boolean;
+function TContratadosFinanceiroModel.SetupRecords: boolean;
 begin
   Result := False;
   if FQuery.IsEmpty then
     Exit;
-  ARecord.id_cnae         :=  FQuery.FieldByName('id_cnae').AsInteger;
-  ARecord.id_contratados  :=  FQuery.FieldByName('id_contratados').AsInteger;
-  ARecord.cod_tipo_cnae   :=  FQuery.FieldByName('cod_tipo_cnae').AsInteger;
-  ARecord.cod_cnae        :=  FQuery.FieldByName('des_cnae').AsString;
-  ARecord.des_cnae        :=  FQuery.FieldByName('des_cnae').AsString;
+  ARecord.id_financeiro       :=  FQuery.FieldByName('id_endereco').AsInteger;
+  ARecord.id_contratados      :=  FQuery.FieldByName('id_contratados').AsInteger;
+  ARecord.cod_banco           :=  FQuery.FieldByName('cod_banco').AsString;
+  ARecord.cod_agencia         :=  FQuery.FieldByName('cod_agencia').AsString;
+  Arecord.num_conta           :=  FQuery.FieldByName('num_conta').AsString;
+  ARecord.chave_pix           :=  FQuery.FieldByName('chave_pix').AsString;
+  ARecord.des_forma_pagamento :=  FQuery.FieldByName('des_forma_pagamento').AsString;
   Result := True;
 end;
 

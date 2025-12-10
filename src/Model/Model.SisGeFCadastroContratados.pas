@@ -15,6 +15,7 @@ interface
       nom_fantasia_alias      : string[70];
       num_cpf_cnpj            : string[20];
       num_rg_ie               : string[20];
+      num_im                  : string[30];
       dat_emissao_rg          : TDate;
       nom_emissor_rg          : string[20];
       uf_emissor_rg           : string[2];
@@ -66,13 +67,13 @@ interface
       TABLENAME = 'crm_contratdos';
       SQLINSERT = 'insert into ' + TABLENAME +
                   '(id, cod_erp_contratados, id_categoria, cod_pessoa, des_tipo_doc, nom_razao_social, ' +
-                  'nom_fantasia_alias, num_cpf_cnpj, num_rg_ie, dat_emissao_rg, nom_emissor_rg, uf_emissor_rg, ' +
+                  'nom_fantasia_alias, num_cpf_cnpj, num_rg_ie, num_im, dat_emissao_rg, nom_emissor_rg, uf_emissor_rg, ' +
                   'dat_nascimento, des_nacionalidade, des_naturalidade, uf_naturalidade, nom_pai, nom_mae, cod_crt, ' +
                   'num_cnh, num_registro_cnh, des_categoria_cnh, dat_validade_cnh, dat_emissao_cnh, uf_cnh, ' +
                   'dat_primeira_cnh, cod_status, dat_cadastro, des_obs) ' +
                   'VALUES '  +
                   '(:id, :cod_erp_contratados, :id_categoria, :cod_pessoa, :des_tipo_doc, :nom_razao_social, ' +
-                  ':nom_fantasia_alias, :num_cpf_cnpj, :num_rg_ie, :dat_emissao_rg, :nom_emissor_rg, :uf_emissor_rg, ' +
+                  ':nom_fantasia_alias, :num_cpf_cnpj, :num_rg_ie, :num_im, :dat_emissao_rg, :nom_emissor_rg, :uf_emissor_rg, ' +
                   ':dat_nascimento, :des_nacionalidade, :des_naturalidade, :uf_naturalidade, :nom_pai, :nom_mae, ' +
                   ':cod_crt, :num_cnh, :num_registro_cnh, :des_categoria_cnh, :dat_validade_cnh, :dat_emissao_cnh, ' +
                   ':uf_cnh, :dat_primeira_cnh, :cod_status, :dat_cadastro, :des_obs)';
@@ -80,7 +81,7 @@ interface
                   ' set ' +
                   'cod_erp_contratados = :cod_erp_contratados, id_categoria = :id_categoria, cod_pessoa = :cod_pessoa, ' +
                   'des_tipo_doc = :des_tipo_doc, nom_razao_social = :nom_razao_social, nom_fantasia_alias = :nom_fantasia_alias, ' +
-                  'num_cpf_cnpj = :num_cpf_cnpj, num_rg_ie = :num_rg_ie, dat_emissao_rg = :dat_emissao_rg, ' +
+                  'num_cpf_cnpj = :num_cpf_cnpj, num_rg_ie = :num_rg_ie, num_im = :num_im, dat_emissao_rg = :dat_emissao_rg, ' +
                   'nom_emissor_rg = :nom_emissor_rg, uf_emissor_rg = :uf_emissor_rg, dat_nascimento = :dat_nascimento, ' +
                   'des_nacionalidade = :des_nacionalidade, des_naturalidade = :des_naturalidade, ' +
                   'uf_naturalidade = :uf_naturalidade, nom_pai = :nom_pai, nom_mae = :nom_mae, cod_crt = :cod_crt, ' +
@@ -91,7 +92,7 @@ interface
                   'where ' +
                   'id = :id';
       SQLSELECT = 'select id, cod_erp_contratados, id_categoria, cod_pessoa, des_tipo_doc, nom_razao_social, ' +
-                  'nom_fantasia_alias, num_cpf_cnpj, num_rg_ie, dat_emissao_rg, nom_emissor_rg, uf_emissor_rg, ' +
+                  'nom_fantasia_alias, num_cpf_cnpj, num_rg_ie, num_im, dat_emissao_rg, nom_emissor_rg, uf_emissor_rg, ' +
                   'dat_nascimento, des_nacionalidade, des_naturalidade, uf_naturalidade, nom_pai, nom_mae, cod_crt, ' +
                   'num_cnh, num_registro_cnh, des_categoria_cnh, dat_validade_cnh, dat_emissao_cnh, uf_cnh, ' +
                   'dat_primeira_cnh, cod_status, dat_cadastro, des_obs ' +
@@ -109,7 +110,7 @@ begin
     FQuery.ExecSQL(SQLUPDATE,
                   [ARecord.cod_erp_contratados, ARecord.id_categoria, ARecord.cod_pessoa, ARecord.des_tipo_doc,
                   ARecord.nom_razao_social, ARecord.nom_fantasia_alias, ARecord.num_cpf_cnpj, ARecord.num_rg_ie,
-                  ARecord.dat_emissao_rg, ARecord.nom_emissor_rg, ARecord.uf_emissor_rg, ARecord.dat_nascimento,
+                  ARecord.num_im, ARecord.dat_emissao_rg, ARecord.nom_emissor_rg, ARecord.uf_emissor_rg, ARecord.dat_nascimento,
                   ARecord.des_nacionalidade, ARecord.des_naturalidade, ARecord.uf_naturalidade, ARecord.nom_pai,
                   ARecord.nom_mae, ARecord.cod_crt, ARecord.num_cnh, ARecord.num_registro_cnh, ARecord.des_categoria_cnh,
                   ARecord.dat_validade_cnh, ARecord.dat_emissao_cnh, ARecord.uf_cnh, ARecord.dat_primeira_cnh,
@@ -177,7 +178,7 @@ begin
     FQuery := FConn.GetQuery();
     FQuery.ExecSQL(SQLINSERT,
                   [ARecord.id, ARecord.cod_erp_contratados, ARecord.id_categoria, ARecord.cod_pessoa, ARecord.des_tipo_doc,
-                  ARecord.nom_razao_social, ARecord.nom_fantasia_alias, ARecord.num_cpf_cnpj, ARecord.num_rg_ie,
+                  ARecord.nom_razao_social, ARecord.nom_fantasia_alias, ARecord.num_cpf_cnpj, ARecord.num_rg_ie, ARecord.num_im,
                   ARecord.dat_emissao_rg, ARecord.nom_emissor_rg, ARecord.uf_emissor_rg, ARecord.dat_nascimento,
                   ARecord.des_nacionalidade, ARecord.des_naturalidade, ARecord.uf_naturalidade, ARecord.nom_pai,
                   ARecord.nom_mae, ARecord.cod_crt, ARecord.num_cnh, ARecord.num_registro_cnh, ARecord.des_categoria_cnh,
@@ -242,9 +243,10 @@ begin
   ARecord.cod_pessoa          :=  FQuery.FieldByName('cod_pessoa').AsInteger;
   ARecord.des_tipo_doc        :=  FQuery.FieldByName('des_tipo_doc').AsString;
   ARecord.nom_razao_social    :=  FQuery.FieldByName('nom_razao_social').AsString;
-  ARecord.nom_fantasia_alias  :=  FQuery.FieldByName('');
+  ARecord.nom_fantasia_alias  :=  FQuery.FieldByName('nom_fantasia_alias').AsString;
   ARecord.num_cpf_cnpj        :=  FQuery.FieldByName('nom_fantasia_alias').AsString;
   ARecord.num_rg_ie           :=  FQuery.FieldByName('num_rg_ie').AsString;
+  ARecord.num_im              :=  FQuery.FieldByName('num_im').AsString;
   ARecord.dat_emissao_rg      :=  FQuery.FieldByName('dat_emissao_rg').AsDateTime;
   ARecord.nom_emissor_rg      :=  FQuery.FieldByName('nom_emissor_rg').AsString;
   ARecord.uf_emissor_rg       :=  FQuery.FieldByName('uf_emissor_rg').AsString;

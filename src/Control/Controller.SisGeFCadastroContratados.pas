@@ -23,7 +23,7 @@ implementation
 
 constructor TCadastroContratadosController.Create;
 begin
-  FContratados := TCadastroContratadosController.Create;
+  FContratados := TCadastroContratadosModel.Create;
 end;
 
 function TCadastroContratadosController.CustomSearch(aParams: array of string): boolean;

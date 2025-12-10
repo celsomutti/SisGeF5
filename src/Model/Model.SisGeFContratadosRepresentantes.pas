@@ -1,19 +1,18 @@
-unit Model.SisGeFContratadosCNAE;
+unit Model.SisGeFContratadosRepresentantes;
 
 interface
 
 uses Common.ENum, FireDAC.Comp.Client, service.connectionMySQL, service.sistem;
 
 type
-  TCNAE = record
-    id_cnae         : integer;
-    id_contratados  : integer;
-    cod_tipo_cnae   : integer;
-    cod_cnae        : string[20];
-    des_cnae        : string[132];
+  TRepresentantes = record
+    id_representante  : integer;
+    id_contratados    : integer;
+    nom_representante : string[70];
+    cpf_representante : string[20];
   end;
 
-  type TContratadosCNAEModel = class
+  type TContratadosRepresentantesModel = class
     private
         FAcao     : TAcao;
         FMensagem : string;
@@ -24,7 +23,7 @@ type
         function Alterar  ()  : boolean;
 
       public
-        ARecord   : TCNAE;
+        ARecord   : TRepresentantes;
 
         Constructor Create();
         function    GetNextID   (sIdName: string)         : Integer;
@@ -39,46 +38,44 @@ type
       protected
   end;
   const
-      TABLENAME = 'crm_contratados_cnae';
+      TABLENAME = 'crm_contratados_gr';
       SQLINSERT = 'insert into ' + TABLENAME +
-                  '(id_cnae, id_contratados, cod_tipo_cnae, cod_cnae, des_cnae) ' +
+                  '(id_representante, id_contratados, nom_representante, cpf_representante) ' +
                   'VALUES '  +
-                  '(:id_cnae, :id_contratados, :cod_tipo_cnae, :cod_cnae, :des_cnae)';
+                  '(:id_representante, :id_contratados, :nom_representante, :cpf_representante)';
       SQLUPDATE = 'update ' + TABLENAME +
                   ' set ' +
-                  'id_contratados = :id_contratados, cod_tipo_cnae = :cod_tipo_cnae, cod_cnae = :cod_cnae, ' +
-                  'des_cnae  = :des_cnae ' +
+                  'id_contratados = :id_contratados, nom_representante = :nom_representante, ' +
+                  'cpf_representante = :cpf_representante ' +
                   'where ' +
-                  'id_cnae = :id_cnae';
-      SQLSELECT = 'select id_cnae, id_contratados, cod_tipo_cnae, cod_cnae, des_cnae ' +
+                  'id_representante = :id_representante';
+      SQLSELECT = 'select id_representante, id_contratados, nom_representante, cpf_representante ' +
                   'from ' +
                   TABLENAME;
 
-
 implementation
 
-{ TContratadosCNAEModel }
+{ TContratadosRepresentantesModel }
 
-function TContratadosCNAEModel.Alterar: boolean;
+function TContratadosRepresentantesModel.Alterar: boolean;
 begin
   Result := False;
   try
     FQuery := FConn.GetQuery;
     FQuery.ExecSQL(SQLUPDATE,
-                  [ARecord.id_contratados, ARecord.cod_tipo_cnae, ARecord.cod_cnae,
-                  ARecord.des_cnae, ARecord.id_cnae]);
+                  [ARecord.id_contratados, ARecord.nom_representante, ARecord.cpf_representante, ARecord.id_representante]);
     Result := True;
   finally
     FQuery.Connection.Close;
   end;
 end;
 
-constructor TContratadosCNAEModel.Create;
+constructor TContratadosRepresentantesModel.Create;
 begin
   FConn := TConnectionMySQL.Create;
 end;
 
-function TContratadosCNAEModel.CustomSearch(aParams: array of string): boolean;
+function TContratadosRepresentantesModel.CustomSearch(aParams: array of string): boolean;
 var
   sSource : string;
 begin
@@ -106,7 +103,7 @@ begin
   Result := True;
 end;
 
-function TContratadosCNAEModel.GetNextID(sIdName: string): Integer;
+function TContratadosRepresentantesModel.GetNextID(sIdName: string): Integer;
 begin
   try
     FQuery := FConn.GetQuery;
@@ -122,30 +119,29 @@ begin
   end;
 end;
 
-function TContratadosCNAEModel.Inserir: boolean;
+function TContratadosRepresentantesModel.Inserir: boolean;
 begin
   Result := False;
   try
-    ARecord.id_cnae := GetNextID('id_cnae');
+    ARecord.id_representante := 0;
     FQuery := FConn.GetQuery();
     FQuery.ExecSQL(SQLINSERT,
-                  [ARecord.id_cnae, ARecord.id_contratados, ARecord.cod_tipo_cnae, ARecord.cod_cnae,
-                  ARecord.des_cnae]);
+                  [ARecord.id_representante, ARecord.id_contratados, ARecord.nom_representante, ARecord.cpf_representante]);
     Result := True;
   finally
     FQuery.Connection.Close;
   end;
 end;
 
-function TContratadosCNAEModel.SaveRecord: boolean;
+function TContratadosRepresentantesModel.SaveRecord: boolean;
 begin
- case FAcao of
+  case FAcao of
     tacIncluir: Result := Inserir();
     tacAlterar: Result := Alterar();
   end;
 end;
 
-function TContratadosCNAEModel.Search(aParams: array of string): boolean;
+function TContratadosRepresentantesModel.Search(aParams: array of string): boolean;
 begin
   Result := False;
   FQuery := FConn.GetQuery;
@@ -154,13 +150,13 @@ begin
   begin
     FQuery.SQL.Add('where');
     if aParams[0] = 'ID' then
-      FQuery.SQL.Add('id_cnae = ' + aParams[1])
+      FQuery.SQL.Add('id_representante = ' + aParams[1])
     else if aParams[0] = 'CONTRATADO' then
       FQuery.SQL.Add('id_contradados = ' + aParams[1])
-    else if aParams[0] = 'CNAE' then
-      FQuery.SQL.Add('cod_cnae like "%' + aParams[1] + '%"')
     else if aParams[0] = 'NOME' then
-      FQuery.SQL.Add('des_cnae like "%' + aParams[1] + '%"')
+      FQuery.SQL.Add('nom_representante = "%' +  aParams[1] + '%"')
+    else if aParams[0] = 'CPF' then
+      FQuery.SQL.Add('cpf_representante = "' + aParams[1] + '"')
     else
       FQuery.SQL.Add(aParams[1]);
   end;
@@ -173,16 +169,15 @@ begin
   Result := True;
 end;
 
-function TContratadosCNAEModel.SetupRecords: boolean;
+function TContratadosRepresentantesModel.SetupRecords: boolean;
 begin
   Result := False;
   if FQuery.IsEmpty then
     Exit;
-  ARecord.id_cnae         :=  FQuery.FieldByName('id_cnae').AsInteger;
-  ARecord.id_contratados  :=  FQuery.FieldByName('id_contratados').AsInteger;
-  ARecord.cod_tipo_cnae   :=  FQuery.FieldByName('cod_tipo_cnae').AsInteger;
-  ARecord.cod_cnae        :=  FQuery.FieldByName('des_cnae').AsString;
-  ARecord.des_cnae        :=  FQuery.FieldByName('des_cnae').AsString;
+  ARecord.id_representante  :=  FQuery.FieldByName('id_gr').AsInteger;
+  ARecord.id_contratados    :=  FQuery.FieldByName('id_contratados').AsInteger;
+  ARecord.nom_representante :=  FQuery.FieldByName('nom_representante').AsString;
+  ARecord.cpf_representante :=  FQuery.FieldByName('cpf_representante').AsString;
   Result := True;
 end;
 
