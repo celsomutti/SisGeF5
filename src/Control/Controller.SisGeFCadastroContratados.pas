@@ -7,14 +7,15 @@ interface
   type
     TCadastroContratadosController = class
     private
-      FContratados : TCadastroContratadosModel;
     public
+      FContratados : TCadastroContratadosModel;
       Constructor Create();
       function    GetNextID   (sIdName: string)         : Integer;
       function    Search      (aParams: array of string): boolean;
       function    CustomSearch(aParams: array of string): boolean;
       function    SaveRecord  ()                        : boolean;
       function    SetupRecord ()                        : boolean;
+
     end;
 
 implementation

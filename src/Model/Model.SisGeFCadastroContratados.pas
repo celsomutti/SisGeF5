@@ -59,12 +59,15 @@ interface
         function    SetupRecords()                        : boolean;
 
 
-        property Acao     : TAcao   read  FAcao     write FAcao;
-        property Mensagem : string  read  FMensagem write FMensagem;
+        property Acao     : TAcao     read  FAcao     write FAcao;
+        property Mensagem : string    read  FMensagem write FMensagem;
+        property Query    : TFDQuery  read  FQuery    write FQuery;
+
       protected
     end;
     const
       TABLENAME = 'crm_contratdos';
+      VIEWNAME  = 'view_register_contracted';
       SQLINSERT = 'insert into ' + TABLENAME +
                   '(id, cod_erp_contratados, id_categoria, cod_pessoa, des_tipo_doc, nom_razao_social, ' +
                   'nom_fantasia_alias, num_cpf_cnpj, num_rg_ie, num_im, dat_emissao_rg, nom_emissor_rg, uf_emissor_rg, ' +
@@ -96,8 +99,7 @@ interface
                   'dat_nascimento, des_nacionalidade, des_naturalidade, uf_naturalidade, nom_pai, nom_mae, cod_crt, ' +
                   'num_cnh, num_registro_cnh, des_categoria_cnh, dat_validade_cnh, dat_emissao_cnh, uf_cnh, ' +
                   'dat_primeira_cnh, cod_status, dat_cadastro, des_obs ' +
-                  'from ' +
-                  TABLENAME;
+                  'from ';
 implementation
 
 { TCadastroContratadosModel }
@@ -130,8 +132,8 @@ function TCadastroContratadosModel.CustomSearch(aParams: array of string): boole
 var
   sSource : string;
 begin
-Result := False;
-  if Length(aParams) < 2 then
+  Result := False;
+  if Length(aParams) < 3 then
   begin
     FMensagem := 'Quantidade de parâmetros incorreta!';
     Exit
@@ -139,11 +141,13 @@ Result := False;
   FQuery := FConn.GetQuery;
   FQuery.SQL.Clear;
   FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
-  if aParams[2] = '' then
+  if aParams[1] = 'VIEW' then
+    sSource := VIEWNAME;
+  if aParams[1] = '' then
     sSource := TABLENAME;
-  FQuery.MacroByName('colums').AsRaw := aParams[1];
+  FQuery.MacroByName('colums').AsRaw := aParams[0];
   FQuery.MacroByName('table').AsRaw := sSource;
-  FQuery.MacroByName('where').AsRaw := aParams[3];
+  FQuery.MacroByName('where').AsRaw := aParams[2];
   FQuery.Open();
   if FQuery.IsEmpty then
   begin
@@ -202,7 +206,7 @@ function TCadastroContratadosModel.Search(aParams: array of string): boolean;
 begin
   Result := False;
   FQuery := FConn.GetQuery;
-  FQuery.SQL.Add(SQLSELECT);
+  FQuery.SQL.Add(SQLSELECT + VIEWNAME);
   if Length(aParams) >= 2 then
   begin
     FQuery.SQL.Add('where');
@@ -212,7 +216,7 @@ begin
       FQuery.SQL.Add('nom_razao_social like "%' + aParams[1] + '%"')
     else if aParams[0] = 'ALIAS' then
       FQuery.SQL.Add('nom_fantasia_alias like "%' + aParams[1] + '%"')
-    else if aParams[0] = 'ALIAS' then
+    else if aParams[0] = 'RG' then
       FQuery.SQL.Add('num_rg_ie like "%' + aParams[1] + '%"')
     else if aParams[0] = 'CNPJ' then
       FQuery.SQL.Add('NUM_CPF_CNPJ like "%' + aParams[1] + '%"')

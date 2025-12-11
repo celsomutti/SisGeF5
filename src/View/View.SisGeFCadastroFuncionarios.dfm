@@ -1738,7 +1738,6 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
   end
   object dsEmploye: TDataSource
     AutoEdit = False
-    DataSet = Data_Sisgef.queryFuncionarios
     Left = 656
     Top = 8
   end
@@ -1808,13 +1807,11 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
   end
   object dsFuncoes: TDataSource
     AutoEdit = False
-    DataSet = Data_Sisgef.queryFuncoesRH
     Left = 848
     Top = 8
   end
   object dsEndereco: TDataSource
     AutoEdit = False
-    DataSet = Data_Sisgef.queryFuncionariosEnderecos
     Left = 488
     Top = 8
   end

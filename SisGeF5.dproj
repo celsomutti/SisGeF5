@@ -661,7 +661,7 @@
             <Form>viewSisGeFNomeGrupo</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="src\View\View.SisGeFRegisterContractors.pas">
+        <DCCReference Include="src\View\View.SisGeFCadastroContratados.pas">
             <Form>view_SisGeFRegisterContractors</Form>
             <FormType>dfm</FormType>
         </DCCReference>

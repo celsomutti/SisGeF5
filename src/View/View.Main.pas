@@ -317,7 +317,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
   View.CadastroClientes, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals,
-  View.SisGeFRegisterContractors, View.SisGeFNFsFaturas,
+  View.SisGeFCadastroContratados, View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
   View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios, View.SisGeFCadastroFuncionarios;
 
@@ -444,12 +444,12 @@ end;
 
 procedure Tview_Main.actCadastroContratadosExecute(Sender: TObject);
 begin
-  if not Assigned(view_SisGeFRegisterContractors) then
+  if not Assigned(viewSisGeFCadastroContratados) then
   begin
-    view_SisGeFRegisterContractors := Tview_SisGeFRegisterContractors.Create
+    viewSisGeFCadastroContratados := TviewSisGeFCadastroContratados.Create
       (Application);
   end;
-  view_SisGeFRegisterContractors.Show;
+  viewSisGeFCadastroContratados.Show;
 end;
 
 procedure Tview_Main.actCadastroEmpresasExecute(Sender: TObject);

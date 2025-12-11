@@ -1,34 +1,36 @@
-object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
+object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
   Left = 0
   Top = 0
+  BorderStyle = bsSingle
   Caption = 'Cadastro de Contratados'
-  ClientHeight = 517
-  ClientWidth = 930
-  Color = clBtnFace
+  ClientHeight = 488
+  ClientWidth = 924
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
+  Position = poScreenCenter
   ShowHint = True
   Visible = True
-  WindowState = wsMaximized
   OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 54
-    Width = 930
-    Height = 463
+    Width = 924
+    Height = 434
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
+    ExplicitWidth = 930
+    ExplicitHeight = 463
     object camposPesquisa: TcxComboBox
       Left = 71
       Top = 26
@@ -42,14 +44,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
         'Nome / Raz'#227'o Social'
         'Alias / Nome Fantasia'
         'N'#176' CNH'
-        'Registro CNH'
-        'Raz'#227'o Social MEI'
-        'Nome Fantasia MEI'
-        'CNPJ MEI'
-        'Nome Favorecido'
-        'CPF / CNPJ Favorecido'
-        'RENAVAN'
-        'Placa do Ve'#237'culo')
+        'Registro CNH')
       Style.HotTrack = False
       TabOrder = 0
       Text = 'Todos'
@@ -61,10 +56,10 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       Hint = 'Par'#226'metro'
       Style.HotTrack = False
       TabOrder = 1
-      Width = 373
+      Width = 367
     end
     object cxButton1: TcxButton
-      Left = 750
+      Left = 744
       Top = 25
       Width = 75
       Height = 23
@@ -77,19 +72,20 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     object Panel1: TPanel
       Left = 24
       Top = 55
-      Width = 882
-      Height = 384
+      Width = 876
+      Height = 355
       BevelOuter = bvNone
       TabOrder = 5
       object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 882
+        Width = 876
         Height = 25
         Align = alTop
         BevelOuter = bvNone
         ParentBackground = False
         TabOrder = 0
+        ExplicitWidth = 882
         object cxButton2: TcxButton
           Left = 33
           Top = 0
@@ -139,12 +135,14 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       object gridCadastro: TcxGrid
         Left = 0
         Top = 25
-        Width = 882
-        Height = 359
+        Width = 876
+        Height = 330
         Align = alClient
         TabOrder = 1
         LookAndFeel.NativeStyle = True
         LookAndFeel.SkinName = 'UserSkin'
+        ExplicitWidth = 882
+        ExplicitHeight = 359
         object viewCadastro: TcxGridDBTableView
           OnDblClick = viewCadastroDblClick
           Navigator.Buttons.CustomButtons = <>
@@ -178,169 +176,155 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
           OptionsSelection.ShowCheckBoxesDynamically = True
           OptionsView.GroupByBox = False
           OptionsView.Indicator = True
-          object viewCadastrocod_cadastro: TcxGridDBColumn
-            DataBinding.FieldName = 'cod_cadastro'
-            HeaderAlignmentHorz = taCenter
-          end
-          object viewCadastronum_cnpj: TcxGridDBColumn
-            DataBinding.FieldName = 'num_cnpj'
-            HeaderAlignmentHorz = taCenter
-          end
-          object viewCadastrodes_razao_social: TcxGridDBColumn
-            DataBinding.FieldName = 'des_razao_social'
-            HeaderAlignmentHorz = taCenter
-            Width = 297
-          end
-          object viewCadastronom_fantasia: TcxGridDBColumn
-            DataBinding.FieldName = 'nom_fantasia'
-            HeaderAlignmentHorz = taCenter
-            Width = 298
-          end
-          object viewCadastrocod_entregador: TcxGridDBColumn
-            DataBinding.FieldName = 'cod_entregador'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 139
-          end
-          object viewCadastronom_entregador: TcxGridDBColumn
-            DataBinding.FieldName = 'nom_entregador'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-          end
-          object viewCadastronum_ie: TcxGridDBColumn
-            DataBinding.FieldName = 'num_ie'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-          end
-          object viewCadastronom_favorecido: TcxGridDBColumn
-            DataBinding.FieldName = 'nom_favorecido'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 288
-          end
-          object viewCadastronum_cpf_cnpj_favorecido: TcxGridDBColumn
-            DataBinding.FieldName = 'num_cpf_cnpj_favorecido'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-          end
-          object viewCadastronom_razao_mei: TcxGridDBColumn
-            DataBinding.FieldName = 'nom_razao_mei'
-            HeaderAlignmentHorz = taCenter
-            Width = 341
-          end
-          object viewCadastronom_fantasia_mei: TcxGridDBColumn
-            DataBinding.FieldName = 'nom_fantasia_mei'
-            HeaderAlignmentHorz = taCenter
-            Width = 368
-          end
-          object viewCadastronum_cnpj_mei: TcxGridDBColumn
-            DataBinding.FieldName = 'num_cnpj_mei'
-            HeaderAlignmentHorz = taCenter
-          end
-          object viewCadastrodes_placa: TcxGridDBColumn
-            DataBinding.FieldName = 'des_placa'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 76
-          end
-          object viewCadastrodes_modelo: TcxGridDBColumn
-            DataBinding.FieldName = 'des_modelo'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 247
-          end
-          object viewCadastronum_renavan: TcxGridDBColumn
-            DataBinding.FieldName = 'num_renavan'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 119
-          end
-          object viewCadastrodes_forma_pagamento: TcxGridDBColumn
-            DataBinding.FieldName = 'des_forma_pagamento'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-          end
-          object viewCadastrodes_tipo_conta: TcxGridDBColumn
-            DataBinding.FieldName = 'des_tipo_conta'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 191
-          end
-          object viewCadastrocod_banco: TcxGridDBColumn
-            DataBinding.FieldName = 'cod_banco'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 116
-          end
-          object viewCadastronom_banco: TcxGridDBColumn
-            DataBinding.FieldName = 'nom_banco'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 236
-          end
-          object viewCadastrocod_agencia: TcxGridDBColumn
-            DataBinding.FieldName = 'cod_agencia'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 91
-          end
-          object viewCadastronom_conta: TcxGridDBColumn
-            DataBinding.FieldName = 'nom_conta'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-          end
-          object viewCadastrodata_validade_cnh: TcxGridDBColumn
-            DataBinding.FieldName = 'data_validade_cnh'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 80
-          end
-          object viewCadastrodat_gv: TcxGridDBColumn
-            DataBinding.FieldName = 'dat_gv'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 86
-          end
-          object viewCadastronum_cnh: TcxGridDBColumn
-            DataBinding.FieldName = 'num_cnh'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-          end
-          object viewCadastronum_registro_cnh: TcxGridDBColumn
-            DataBinding.FieldName = 'num_registro_cnh'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-          end
-          object viewCadastrodes_categoria_cnh: TcxGridDBColumn
-            DataBinding.FieldName = 'des_categoria_cnh'
-            Visible = False
-            HeaderAlignmentHorz = taCenter
-            VisibleForCustomization = False
-            Width = 94
+          object viewCadastroid: TcxGridDBColumn
+            DataBinding.FieldName = 'id'
           end
           object viewCadastronom_base: TcxGridDBColumn
+            Caption = 'Base'
             DataBinding.FieldName = 'nom_base'
             Visible = False
             GroupIndex = 0
-            VisibleForCustomization = False
+          end
+          object viewCadastrocod_erp_contratados: TcxGridDBColumn
+            Caption = 'C'#243'd. ERP'
+            DataBinding.FieldName = 'cod_erp_contratados'
+            Visible = False
+          end
+          object viewCadastroid_categoria: TcxGridDBColumn
+            Caption = 'Categoria'
+            DataBinding.FieldName = 'id_categoria'
+          end
+          object viewCadastrodes_funcao: TcxGridDBColumn
+            Caption = 'Fun'#231#227'o'
+            DataBinding.FieldName = 'des_funcao'
+            Width = 109
+          end
+          object viewCadastrocod_pessoa: TcxGridDBColumn
+            Caption = 'Tipo'
+            DataBinding.FieldName = 'cod_pessoa'
+          end
+          object viewCadastrodes_tipo_doc: TcxGridDBColumn
+            Caption = 'Tipo DOC'
+            DataBinding.FieldName = 'des_tipo_doc'
+          end
+          object viewCadastronom_razao_social: TcxGridDBColumn
+            Caption = 'Nome / Raz'#227'o Social'
+            DataBinding.FieldName = 'nom_razao_social'
+          end
+          object viewCadastronom_fantasia_alias: TcxGridDBColumn
+            Caption = 'Alias /Nome Fantasia'
+            DataBinding.FieldName = 'nom_fantasia_alias'
+          end
+          object viewCadastronum_cpf_cnpj: TcxGridDBColumn
+            Caption = 'CPF / CNPJ'
+            DataBinding.FieldName = 'num_cpf_cnpj'
+          end
+          object viewCadastronum_rg_ie: TcxGridDBColumn
+            Caption = 'RG / Ins. Est.'
+            DataBinding.FieldName = 'num_rg_ie'
+          end
+          object viewCadastronum_im: TcxGridDBColumn
+            Caption = 'Ins. Municipal'
+            DataBinding.FieldName = 'num_im'
+          end
+          object viewCadastrodat_emissao_rg: TcxGridDBColumn
+            Caption = 'Emiss'#227'o RG'
+            DataBinding.FieldName = 'dat_emissao_rg'
+            Visible = False
+          end
+          object viewCadastronom_emissor_rg: TcxGridDBColumn
+            Caption = 'Emissor RG'
+            DataBinding.FieldName = 'nom_emissor_rg'
+            Visible = False
+          end
+          object viewCadastrouf_emissor_rg: TcxGridDBColumn
+            Caption = 'UF RG'
+            DataBinding.FieldName = 'uf_emissor_rg'
+            Visible = False
+          end
+          object viewCadastrodat_nascimento: TcxGridDBColumn
+            Caption = 'Nascimento'
+            DataBinding.FieldName = 'dat_nascimento'
+            Visible = False
+          end
+          object viewCadastrodes_nacionalidade: TcxGridDBColumn
+            Caption = 'Nacionalidade'
+            DataBinding.FieldName = 'des_nacionalidade'
+            Visible = False
+          end
+          object viewCadastrodes_naturalidade: TcxGridDBColumn
+            Caption = 'Naturalidade'
+            DataBinding.FieldName = 'des_naturalidade'
+            Visible = False
+          end
+          object viewCadastrouf_naturalidade: TcxGridDBColumn
+            Caption = 'UF Naturalidade'
+            DataBinding.FieldName = 'uf_naturalidade'
+            Visible = False
+          end
+          object viewCadastronom_pai: TcxGridDBColumn
+            Caption = 'Nomr Pai'
+            DataBinding.FieldName = 'nom_pai'
+            Visible = False
+          end
+          object viewCadastronom_mae: TcxGridDBColumn
+            Caption = 'Nome M'#227'e'
+            DataBinding.FieldName = 'nom_mae'
+            Visible = False
+          end
+          object viewCadastrocod_crt: TcxGridDBColumn
+            Caption = 'CRT'
+            DataBinding.FieldName = 'cod_crt'
+            Visible = False
+          end
+          object viewCadastronum_cnh: TcxGridDBColumn
+            Caption = 'N'#186' CNH'
+            DataBinding.FieldName = 'num_cnh'
+            Visible = False
+          end
+          object viewCadastronum_registro_cnh: TcxGridDBColumn
+            Caption = 'Registro CNH'
+            DataBinding.FieldName = 'num_registro_cnh'
+            Visible = False
+          end
+          object viewCadastrodes_categoria_cnh: TcxGridDBColumn
+            Caption = 'Cateoria CNH'
+            DataBinding.FieldName = 'des_categoria_cnh'
+            Visible = False
+          end
+          object viewCadastrodat_validade_cnh: TcxGridDBColumn
+            Caption = 'Validade CNH'
+            DataBinding.FieldName = 'dat_validade_cnh'
+            Visible = False
+          end
+          object viewCadastrodat_emissao_cnh: TcxGridDBColumn
+            Caption = 'Emiss'#227'o CNH'
+            DataBinding.FieldName = 'dat_emissao_cnh'
+            Visible = False
+          end
+          object viewCadastrouf_cnh: TcxGridDBColumn
+            Caption = 'UF CNH'
+            DataBinding.FieldName = 'uf_cnh'
+            Visible = False
+          end
+          object viewCadastrodat_primeira_cnh: TcxGridDBColumn
+            Caption = 'Primeira CNH'
+            DataBinding.FieldName = 'dat_primeira_cnh'
+            Visible = False
+          end
+          object viewCadastrocod_status: TcxGridDBColumn
+            Caption = 'Status'
+            DataBinding.FieldName = 'cod_status'
+          end
+          object viewCadastrodat_cadastro: TcxGridDBColumn
+            Caption = 'Data Cadastro'
+            DataBinding.FieldName = 'dat_cadastro'
+            Visible = False
+          end
+          object viewCadastrodes_obs: TcxGridDBColumn
+            Caption = 'Observa'#231#245'es'
+            DataBinding.FieldName = 'des_obs'
+            Visible = False
           end
         end
         object viewDocumentos: TcxGridDBTableView
@@ -595,7 +579,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       end
     end
     object statusRegistro: TcxCheckBox
-      Left = 645
+      Left = 639
       Top = 26
       Hint = 'PEsquisar somenter por registros ativos'
       Caption = 'Somente Ativos'
@@ -606,13 +590,13 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     object filterControl: TcxDBFilterControl
       Left = 10000
       Top = 10000
-      Width = 882
-      Height = 384
+      Width = 876
+      Height = 355
       Color = clWhite
       Items = <
         item
           Caption = 'C'#243'digo'
-          FieldName = 'cod_cadastro'
+          FieldName = 'id'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.IgnoreMaskBlank = True
           Properties.MaskKind = emkRegExpr
@@ -620,19 +604,19 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
         end
         item
           Caption = 'Nome / Raz'#227'o Social'
-          FieldName = 'des_razao_social'
+          FieldName = 'nom_razao_social'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.MaxLength = 70
         end
         item
           Caption = 'Alias / Nome Fantasia'
-          FieldName = 'nom_fantaasia'
+          FieldName = 'nom_fantaasia_alias'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.MaxLength = 70
         end
         item
           Caption = 'CPF / CNPJ Cadastro'
-          FieldName = 'num_cnpj'
+          FieldName = 'num_cpf_cnpj'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.IgnoreMaskBlank = True
           Properties.MaskKind = emkRegExprEx
@@ -641,7 +625,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
         end
         item
           Caption = 'RG / Ins. Estadual'
-          FieldName = 'num_ie'
+          FieldName = 'num_rg_ie'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.IgnoreMaskBlank = True
           Properties.MaskKind = emkRegExprEx
@@ -671,32 +655,12 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
           Properties.ShowTime = False
         end
         item
-          Caption = 'C'#243'd. Seg. CNH'
-          FieldName = 'cod_cnh'
+          Caption = 'Ins. Municipal'
+          FieldName = 'num_im'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.IgnoreMaskBlank = True
           Properties.MaskKind = emkRegExpr
           Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d'
-        end
-        item
-          Caption = 'Raz'#227'p Social MEI'
-          FieldName = 'nom_razao_mei'
-          PropertiesClassName = 'TcxTextEditProperties'
-          Properties.MaxLength = 70
-        end
-        item
-          Caption = 'Nome Fantasia MEI'
-          FieldName = 'nom_fantasia_mei'
-          PropertiesClassName = 'TcxTextEditProperties'
-          Properties.MaxLength = 70
-        end
-        item
-          Caption = 'CNPJ MEI'
-          FieldName = 'num_cnpj_mei'
-          PropertiesClassName = 'TcxMaskEditProperties'
-          Properties.IgnoreMaskBlank = True
-          Properties.MaskKind = emkRegExprEx
-          Properties.EditMask = '[\d./-]+'
         end
         item
           Caption = 'Nome do Pai'
@@ -709,43 +673,6 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
           FieldName = 'nom_mae'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.MaxLength = 70
-        end
-        item
-          Caption = 'Nome Favorecido'
-          FieldName = 'nom_favorecido'
-          PropertiesClassName = 'TcxTextEditProperties'
-          Properties.MaxLength = 70
-        end
-        item
-          Caption = 'CPF / CNPJ Favorecido'
-          FieldName = 'num_cpf_cnpj_favorecido'
-          PropertiesClassName = 'TcxMaskEditProperties'
-          Properties.IgnoreMaskBlank = True
-          Properties.MaskKind = emkRegExprEx
-          Properties.EditMask = '[\d./-]+'
-        end
-        item
-          Caption = 'PLaca Ve'#237'culo'
-          FieldName = 'des_placa'
-          PropertiesClassName = 'TcxTextEditProperties'
-          Properties.CharCase = ecUpperCase
-          Properties.MaxLength = 7
-        end
-        item
-          Caption = 'Tipo de Ve'#237'culo'
-          FieldName = 'des_tipo'
-          PropertiesClassName = 'TcxTextEditProperties'
-          Properties.CharCase = ecUpperCase
-          Properties.MaxLength = 20
-        end
-        item
-          Caption = 'N'#186'. RENAVAN'
-          FieldName = 'num_renvan'
-          PropertiesClassName = 'TcxMaskEditProperties'
-          Properties.IgnoreMaskBlank = True
-          Properties.MaskKind = emkRegExprEx
-          Properties.EditMask = '[\d]+'
-          Properties.MaxLength = 0
         end>
       FilterOptions.DateTimeFormat = 'yyyy-mm-dd'
       LookAndFeel.SkinName = 'UserSkin'
@@ -789,7 +716,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       Visible = False
     end
     object cxButton8: TcxButton
-      Left = 831
+      Left = 825
       Top = 24
       Width = 75
       Height = 25
@@ -1019,11 +946,13 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     object actionDocumentsToExpire: TAction
       Caption = '&Documentos'
       Hint = 'Lista de documentos a vencer'
+      Visible = False
       OnExecute = actionDocumentsToExpireExecute
     end
     object actionRiskManagement: TAction
       Caption = '&GR'
       Hint = 'Lista de gerenciamento de risco'
+      Visible = False
       OnExecute = actionRiskManagementExecute
     end
     object actionLocation: TAction
@@ -1295,8 +1224,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       end
       item
         Name = 'uf_emissor_rg'
-        Attributes = [faFixed]
-        DataType = ftFixedChar
+        DataType = ftString
         Size = 2
       end
       item
@@ -1315,8 +1243,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       end
       item
         Name = 'uf_naturalidade'
-        Attributes = [faFixed]
-        DataType = ftFixedChar
+        DataType = ftString
         Size = 2
       end
       item
@@ -1358,8 +1285,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       end
       item
         Name = 'uf_cnh'
-        Attributes = [faFixed]
-        DataType = ftFixedChar
+        DataType = ftString
         Size = 2
       end
       item
@@ -1396,7 +1322,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     Left = 232
     Top = 230
     Content = {
-      414442530F0068347F0F0000FF00010001FF02FF0304001E0000006D0065006D
+      414442530F009258760F0000FF00010001FF02FF0304001E0000006D0065006D
       005400610062006C0065005200650063006F0072006400730005000A00000054
       00610062006C006500060000000000070000080032000000090000FF0AFF0B04
       000400000069006400050004000000690064000C00010000000E000D000F0001
@@ -1449,100 +1375,99 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       6900730073006F0072005F0072006700180014000000FEFF0B04001A00000075
       0066005F0065006D006900730073006F0072005F007200670005001A00000075
       0066005F0065006D006900730073006F0072005F00720067000C000D0000000E
-      0014001500020000000F00011600011A00011000011700011100011200011300
-      1A000000750066005F0065006D006900730073006F0072005F00720067001800
-      02000000FEFF0B04001C0000006400610074005F006E0061007300630069006D
-      0065006E0074006F0005001C0000006400610074005F006E0061007300630069
-      006D0065006E0074006F000C000E0000000E001B000F00011600011000011700
-      0111000112000113001C0000006400610074005F006E0061007300630069006D
-      0065006E0074006F00FEFF0B0400220000006400650073005F006E0061006300
-      69006F006E0061006C0069006400610064006500050022000000640065007300
-      5F006E006100630069006F006E0061006C00690064006100640065000C000F00
-      00000E0014001500460000000F00011600011000011700011100011200011300
-      220000006400650073005F006E006100630069006F006E0061006C0069006400
-      610064006500180046000000FEFF0B0400200000006400650073005F006E0061
-      0074007500720061006C00690064006100640065000500200000006400650073
-      005F006E00610074007500720061006C00690064006100640065000C00100000
-      000E0014001500460000000F0001160001100001170001110001120001130020
-      0000006400650073005F006E00610074007500720061006C0069006400610064
-      006500180046000000FEFF0B04001E000000750066005F006E00610074007500
-      720061006C006900640061006400650005001E000000750066005F006E006100
-      74007500720061006C00690064006100640065000C00110000000E0014001500
-      020000000F00011600011A000110000117000111000112000113001E00000075
-      0066005F006E00610074007500720061006C0069006400610064006500180002
-      000000FEFF0B04000E0000006E006F006D005F0070006100690005000E000000
-      6E006F006D005F007000610069000C00120000000E0014001500460000000F00
-      0116000110000117000111000112000113000E0000006E006F006D005F007000
-      61006900180046000000FEFF0B04000E0000006E006F006D005F006D00610065
-      0005000E0000006E006F006D005F006D00610065000C00130000000E00140015
-      00460000000F000116000110000117000111000112000113000E0000006E006F
-      006D005F006D0061006500180046000000FEFF0B04000E00000063006F006400
-      5F0063007200740005000E00000063006F0064005F006300720074000C001400
-      00000E000D000F000116000110000117000111000112000113000E0000006300
-      6F0064005F00630072007400FEFF0B04000E0000006E0075006D005F0063006E
-      00680005000E0000006E0075006D005F0063006E0068000C00150000000E0014
-      0015000F0000000F000116000110000117000111000112000113000E0000006E
-      0075006D005F0063006E00680018000F000000FEFF0B0400200000006E007500
-      6D005F0072006500670069007300740072006F005F0063006E00680005002000
-      00006E0075006D005F0072006500670069007300740072006F005F0063006E00
-      68000C00160000000E00140015000F0000000F00011600011000011700011100
-      011200011300200000006E0075006D005F007200650067006900730074007200
-      6F005F0063006E00680018000F000000FEFF0B0400220000006400650073005F
-      00630061007400650067006F007200690061005F0063006E0068000500220000
-      006400650073005F00630061007400650067006F007200690061005F0063006E
-      0068000C00170000000E0014001500020000000F000116000110000117000111
-      00011200011300220000006400650073005F00630061007400650067006F0072
-      00690061005F0063006E006800180002000000FEFF0B04002000000064006100
-      74005F00760061006C00690064006100640065005F0063006E00680005002000
-      00006400610074005F00760061006C00690064006100640065005F0063006E00
-      68000C00180000000E001B000F00011600011000011700011100011200011300
-      200000006400610074005F00760061006C00690064006100640065005F006300
-      6E006800FEFF0B04001E0000006400610074005F0065006D0069007300730061
-      006F005F0063006E00680005001E0000006400610074005F0065006D00690073
-      00730061006F005F0063006E0068000C00190000000E001B000F000116000110
-      000117000111000112000113001E0000006400610074005F0065006D00690073
-      00730061006F005F0063006E006800FEFF0B04000C000000750066005F006300
-      6E00680005000C000000750066005F0063006E0068000C001A0000000E001400
-      1500020000000F00011600011A000110000117000111000112000113000C0000
-      00750066005F0063006E006800180002000000FEFF0B04002000000064006100
-      74005F007000720069006D0065006900720061005F0063006E00680005002000
-      00006400610074005F007000720069006D0065006900720061005F0063006E00
-      68000C001B0000000E001B000F00011600011000011700011100011200011300
-      200000006400610074005F007000720069006D0065006900720061005F006300
-      6E006800FEFF0B04001400000063006F0064005F007300740061007400750073
-      0005001400000063006F0064005F007300740061007400750073000C001C0000
-      000E000D000F000116000110000117000111000112000113001400000063006F
-      0064005F00730074006100740075007300FEFF0B040018000000640061007400
-      5F0063006100640061007300740072006F000500180000006400610074005F00
-      63006100640061007300740072006F000C001D0000000E0019000F0001160001
-      1000011700011100011200011300180000006400610074005F00630061006400
-      61007300740072006F00FEFF0B04000E0000006400650073005F006F00620073
-      0005000E0000006400650073005F006F00620073000C001E0000000E001C000F
-      00011600011D000110000117000111000112000113000E000000640065007300
-      5F006F0062007300FEFEFF1EFEFF1FFEFF20FEFEFEFF21FEFF22FF23FEFEFE0E
-      004D0061006E0061006700650072001E00550070006400610074006500730052
-      00650067006900730074007200790012005400610062006C0065004C00690073
-      0074000A005400610062006C00650008004E0061006D006500140053006F0075
-      007200630065004E0061006D0065000A0054006100620049004400240045006E
-      0066006F0072006300650043006F006E00730074007200610069006E00740073
-      001E004D0069006E0069006D0075006D00430061007000610063006900740079
-      00180043006800650063006B004E006F0074004E0075006C006C00140043006F
-      006C0075006D006E004C006900730074000C0043006F006C0075006D006E0010
-      0053006F007500720063006500490044000E006400740049006E007400330032
-      0010004400610074006100540079007000650014005300650061007200630068
-      00610062006C0065000800420061007300650012004F0049006E005500700064
-      0061007400650010004F0049006E00570068006500720065001A004F00720069
-      00670069006E0043006F006C004E0061006D00650018006400740041006E0073
-      00690053007400720069006E0067000800530069007A006500120041006C006C
-      006F0077004E0075006C006C0014004F0041006C006C006F0077004E0075006C
-      006C00140053006F007500720063006500530069007A00650014006400740044
-      00610074006500540069006D0065001000460069007800650064004C0065006E
-      000C006400740044006100740065000C00640074004D0065006D006F00100042
-      006C006F00620044006100740061001C0043006F006E00730074007200610069
-      006E0074004C00690073007400100056006900650077004C006900730074000E
-      0052006F0077004C006900730074001800520065006C006100740069006F006E
-      004C006900730074001C0055007000640061007400650073004A006F00750072
-      006E0061006C000E004300680061006E00670065007300}
+      0014001500020000000F000116000110000117000111000112000113001A0000
+      00750066005F0065006D006900730073006F0072005F00720067001800020000
+      00FEFF0B04001C0000006400610074005F006E0061007300630069006D006500
+      6E0074006F0005001C0000006400610074005F006E0061007300630069006D00
+      65006E0074006F000C000E0000000E001A000F00011600011000011700011100
+      0112000113001C0000006400610074005F006E0061007300630069006D006500
+      6E0074006F00FEFF0B0400220000006400650073005F006E006100630069006F
+      006E0061006C00690064006100640065000500220000006400650073005F006E
+      006100630069006F006E0061006C00690064006100640065000C000F0000000E
+      0014001500460000000F00011600011000011700011100011200011300220000
+      006400650073005F006E006100630069006F006E0061006C0069006400610064
+      006500180046000000FEFF0B0400200000006400650073005F006E0061007400
+      7500720061006C00690064006100640065000500200000006400650073005F00
+      6E00610074007500720061006C00690064006100640065000C00100000000E00
+      14001500460000000F0001160001100001170001110001120001130020000000
+      6400650073005F006E00610074007500720061006C0069006400610064006500
+      180046000000FEFF0B04001E000000750066005F006E00610074007500720061
+      006C006900640061006400650005001E000000750066005F006E006100740075
+      00720061006C00690064006100640065000C00110000000E0014001500020000
+      000F000116000110000117000111000112000113001E000000750066005F006E
+      00610074007500720061006C0069006400610064006500180002000000FEFF0B
+      04000E0000006E006F006D005F0070006100690005000E0000006E006F006D00
+      5F007000610069000C00120000000E0014001500460000000F00011600011000
+      0117000111000112000113000E0000006E006F006D005F007000610069001800
+      46000000FEFF0B04000E0000006E006F006D005F006D006100650005000E0000
+      006E006F006D005F006D00610065000C00130000000E0014001500460000000F
+      000116000110000117000111000112000113000E0000006E006F006D005F006D
+      0061006500180046000000FEFF0B04000E00000063006F0064005F0063007200
+      740005000E00000063006F0064005F006300720074000C00140000000E000D00
+      0F000116000110000117000111000112000113000E00000063006F0064005F00
+      630072007400FEFF0B04000E0000006E0075006D005F0063006E00680005000E
+      0000006E0075006D005F0063006E0068000C00150000000E00140015000F0000
+      000F000116000110000117000111000112000113000E0000006E0075006D005F
+      0063006E00680018000F000000FEFF0B0400200000006E0075006D005F007200
+      6500670069007300740072006F005F0063006E0068000500200000006E007500
+      6D005F0072006500670069007300740072006F005F0063006E0068000C001600
+      00000E00140015000F0000000F00011600011000011700011100011200011300
+      200000006E0075006D005F0072006500670069007300740072006F005F006300
+      6E00680018000F000000FEFF0B0400220000006400650073005F006300610074
+      00650067006F007200690061005F0063006E0068000500220000006400650073
+      005F00630061007400650067006F007200690061005F0063006E0068000C0017
+      0000000E0014001500020000000F000116000110000117000111000112000113
+      00220000006400650073005F00630061007400650067006F007200690061005F
+      0063006E006800180002000000FEFF0B0400200000006400610074005F007600
+      61006C00690064006100640065005F0063006E00680005002000000064006100
+      74005F00760061006C00690064006100640065005F0063006E0068000C001800
+      00000E001A000F00011600011000011700011100011200011300200000006400
+      610074005F00760061006C00690064006100640065005F0063006E006800FEFF
+      0B04001E0000006400610074005F0065006D0069007300730061006F005F0063
+      006E00680005001E0000006400610074005F0065006D0069007300730061006F
+      005F0063006E0068000C00190000000E001A000F000116000110000117000111
+      000112000113001E0000006400610074005F0065006D0069007300730061006F
+      005F0063006E006800FEFF0B04000C000000750066005F0063006E0068000500
+      0C000000750066005F0063006E0068000C001A0000000E001400150002000000
+      0F000116000110000117000111000112000113000C000000750066005F006300
+      6E006800180002000000FEFF0B0400200000006400610074005F007000720069
+      006D0065006900720061005F0063006E0068000500200000006400610074005F
+      007000720069006D0065006900720061005F0063006E0068000C001B0000000E
+      001A000F00011600011000011700011100011200011300200000006400610074
+      005F007000720069006D0065006900720061005F0063006E006800FEFF0B0400
+      1400000063006F0064005F007300740061007400750073000500140000006300
+      6F0064005F007300740061007400750073000C001C0000000E000D000F000116
+      000110000117000111000112000113001400000063006F0064005F0073007400
+      6100740075007300FEFF0B0400180000006400610074005F0063006100640061
+      007300740072006F000500180000006400610074005F00630061006400610073
+      00740072006F000C001D0000000E0019000F0001160001100001170001110001
+      1200011300180000006400610074005F0063006100640061007300740072006F
+      00FEFF0B04000E0000006400650073005F006F006200730005000E0000006400
+      650073005F006F00620073000C001E0000000E001B000F00011600011C000110
+      000117000111000112000113000E0000006400650073005F006F0062007300FE
+      FEFF1DFEFF1EFEFF1FFEFEFEFF20FEFF21FF22FEFEFE0E004D0061006E006100
+      6700650072001E00550070006400610074006500730052006500670069007300
+      74007200790012005400610062006C0065004C006900730074000A0054006100
+      62006C00650008004E0061006D006500140053006F0075007200630065004E00
+      61006D0065000A0054006100620049004400240045006E0066006F0072006300
+      650043006F006E00730074007200610069006E00740073001E004D0069006E00
+      69006D0075006D00430061007000610063006900740079001800430068006500
+      63006B004E006F0074004E0075006C006C00140043006F006C0075006D006E00
+      4C006900730074000C0043006F006C0075006D006E00100053006F0075007200
+      63006500490044000E006400740049006E007400330032001000440061007400
+      610054007900700065001400530065006100720063006800610062006C006500
+      0800420061007300650012004F0049006E005500700064006100740065001000
+      4F0049006E00570068006500720065001A004F0072006900670069006E004300
+      6F006C004E0061006D00650018006400740041006E0073006900530074007200
+      69006E0067000800530069007A006500120041006C006C006F0077004E007500
+      6C006C0014004F0041006C006C006F0077004E0075006C006C00140053006F00
+      7500720063006500530069007A00650014006400740044006100740065005400
+      69006D0065000C006400740044006100740065000C00640074004D0065006D00
+      6F00100042006C006F00620044006100740061001C0043006F006E0073007400
+      7200610069006E0074004C00690073007400100056006900650077004C006900
+      730074000E0052006F0077004C006900730074001800520065006C0061007400
+      69006F006E004C006900730074001C0055007000640061007400650073004A00
+      6F00750072006E0061006C000E004300680061006E00670065007300}
     object memTableRecordsid: TIntegerField
       FieldName = 'id'
       Required = True
@@ -1655,6 +1580,18 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
       FieldName = 'des_obs'
       BlobType = ftMemo
     end
+    object memTableRecordsnom_base: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'nom_base'
+      Size = 70
+      Calculated = True
+    end
+    object memTableRecordsdes_funcao: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'des_funcao'
+      Size = 70
+      Calculated = True
+    end
   end
   object dsRecords: TDataSource
     AutoEdit = False
@@ -1668,6 +1605,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     FieldDefs = <
       item
         Name = 'id_gr'
+        Attributes = [faReadonly]
         DataType = ftAutoInc
       end
       item
@@ -1719,63 +1657,65 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     Left = 232
     Top = 334
     Content = {
-      414442530F006834CD030000FF00010001FF02FF030400140000006D0065006D
+      414442530F009258D0030000FF00010001FF02FF030400140000006D0065006D
       005400610062006C0065004700520005000A0000005400610062006C00650006
       0000000000070000080032000000090000FF0AFF0B04000A000000690064005F
       006700720005000A000000690064005F00670072000C00010000000E000D000F
       00011000011100011200011300FFFFFFFF1400FFFFFFFF150001160001170001
-      18000A000000690064005F0067007200FEFF0B04001C000000690064005F0063
-      006F006E007400720061007400610064006F00730005001C000000690064005F
-      0063006F006E007400720061007400610064006F0073000C00020000000E000D
-      000F000112000119000116000118001C000000690064005F0063006F006E0074
-      00720061007400610064006F007300FEFF0B0400180000006400610074005F00
-      63006F006E00730075006C00740061000500180000006400610074005F006300
-      6F006E00730075006C00740061000C00030000000E001A000F00011200011900
-      011600011800180000006400610074005F0063006F006E00730075006C007400
-      6100FEFF0B0400180000006400610074005F00760061006C0069006400610064
-      0065000500180000006400610074005F00760061006C00690064006100640065
-      000C00040000000E001A000F0001120001190001160001180018000000640061
-      0074005F00760061006C0069006400610064006500FEFF0B0400160000006E00
-      6F006D005F0065006D00700072006500730061000500160000006E006F006D00
-      5F0065006D00700072006500730061000C00050000000E001B001C0046000000
-      0F00011200011900011600011800160000006E006F006D005F0065006D007000
-      72006500730061001D0046000000FEFF0B04001800000063006F0064005F0063
-      006F006E00730075006C007400610005001800000063006F0064005F0063006F
-      006E00730075006C00740061000C00060000000E001B001C00140000000F0001
-      10000112000115000119000116000118001800000063006F0064005F0063006F
-      006E00730075006C00740061001D0014000000FEFF0B04002200000063006F00
-      64005F007300650067007500720061006E00630061005F0063006E0068000500
-      2200000063006F0064005F007300650067007500720061006E00630061005F00
-      63006E0068000C00070000000E001B001C001E0000000F000110000112000115
-      000119000116000118002200000063006F0064005F0073006500670075007200
-      61006E00630061005F0063006E0068001D001E000000FEFEFF1EFEFF1FFEFF20
-      FEFEFEFF21FEFF22FF23FEFEFE0E004D0061006E0061006700650072001E0055
-      0070006400610074006500730052006500670069007300740072007900120054
-      00610062006C0065004C006900730074000A005400610062006C00650008004E
-      0061006D006500140053006F0075007200630065004E0061006D0065000A0054
-      006100620049004400240045006E0066006F0072006300650043006F006E0073
-      0074007200610069006E00740073001E004D0069006E0069006D0075006D0043
-      006100700061006300690074007900180043006800650063006B004E006F0074
-      004E0075006C006C00140043006F006C0075006D006E004C006900730074000C
-      0043006F006C0075006D006E00100053006F007500720063006500490044000E
-      006400740049006E007400330032001000440061007400610054007900700065
-      001400530065006100720063006800610062006C006500120041006C006C006F
-      0077004E0075006C006C000E004100750074006F0049006E0063000800420061
-      007300650022004100750074006F0049006E006300720065006D0065006E0074
-      00530065006500640022004100750074006F0049006E006300720065006D0065
-      006E007400530074006500700014004F0041006C006C006F0077004E0075006C
-      006C0010004F0049006E005700680065007200650020004F0041006600740065
-      00720049006E0073004300680061006E006700650064001A004F007200690067
-      0069006E0043006F006C004E0061006D00650012004F0049006E005500700064
-      006100740065000C0064007400440061007400650018006400740041006E0073
-      00690053007400720069006E0067000800530069007A006500140053006F0075
-      00720063006500530069007A0065001C0043006F006E00730074007200610069
-      006E0074004C00690073007400100056006900650077004C006900730074000E
-      0052006F0077004C006900730074001800520065006C006100740069006F006E
-      004C006900730074001C0055007000640061007400650073004A006F00750072
-      006E0061006C000E004300680061006E00670065007300}
+      18000119000A000000690064005F0067007200FEFF0B04001C00000069006400
+      5F0063006F006E007400720061007400610064006F00730005001C0000006900
+      64005F0063006F006E007400720061007400610064006F0073000C0002000000
+      0E000D000F00011200011A000117000119001C000000690064005F0063006F00
+      6E007400720061007400610064006F007300FEFF0B0400180000006400610074
+      005F0063006F006E00730075006C00740061000500180000006400610074005F
+      0063006F006E00730075006C00740061000C00030000000E001B000F00011200
+      011A00011700011900180000006400610074005F0063006F006E00730075006C
+      0074006100FEFF0B0400180000006400610074005F00760061006C0069006400
+      6100640065000500180000006400610074005F00760061006C00690064006100
+      640065000C00040000000E001B000F00011200011A0001170001190018000000
+      6400610074005F00760061006C0069006400610064006500FEFF0B0400160000
+      006E006F006D005F0065006D00700072006500730061000500160000006E006F
+      006D005F0065006D00700072006500730061000C00050000000E001C001D0046
+      0000000F00011200011A00011700011900160000006E006F006D005F0065006D
+      00700072006500730061001E0046000000FEFF0B04001800000063006F006400
+      5F0063006F006E00730075006C007400610005001800000063006F0064005F00
+      63006F006E00730075006C00740061000C00060000000E001C001D0014000000
+      0F00011000011200011500011A000117000119001800000063006F0064005F00
+      63006F006E00730075006C00740061001E0014000000FEFF0B04002200000063
+      006F0064005F007300650067007500720061006E00630061005F0063006E0068
+      0005002200000063006F0064005F007300650067007500720061006E00630061
+      005F0063006E0068000C00070000000E001C001D001E0000000F000110000112
+      00011500011A000117000119002200000063006F0064005F0073006500670075
+      00720061006E00630061005F0063006E0068001E001E000000FEFEFF1FFEFF20
+      FEFF21FEFEFEFF22FEFF23FF24FEFEFE0E004D0061006E006100670065007200
+      1E00550070006400610074006500730052006500670069007300740072007900
+      12005400610062006C0065004C006900730074000A005400610062006C006500
+      08004E0061006D006500140053006F0075007200630065004E0061006D006500
+      0A0054006100620049004400240045006E0066006F0072006300650043006F00
+      6E00730074007200610069006E00740073001E004D0069006E0069006D007500
+      6D0043006100700061006300690074007900180043006800650063006B004E00
+      6F0074004E0075006C006C00140043006F006C0075006D006E004C0069007300
+      74000C0043006F006C0075006D006E00100053006F0075007200630065004900
+      44000E006400740049006E007400330032001000440061007400610054007900
+      700065001400530065006100720063006800610062006C006500120041006C00
+      6C006F0077004E0075006C006C000E004100750074006F0049006E0063000800
+      420061007300650022004100750074006F0049006E006300720065006D006500
+      6E007400530065006500640022004100750074006F0049006E00630072006500
+      6D0065006E007400530074006500700014004F0041006C006C006F0077004E00
+      75006C006C0012004F0052006500610064004F006E006C00790010004F004900
+      6E005700680065007200650020004F004100660074006500720049006E007300
+      4300680061006E006700650064001A004F0072006900670069006E0043006F00
+      6C004E0061006D00650012004F0049006E005500700064006100740065000C00
+      64007400440061007400650018006400740041006E0073006900530074007200
+      69006E0067000800530069007A006500140053006F0075007200630065005300
+      69007A0065001C0043006F006E00730074007200610069006E0074004C006900
+      73007400100056006900650077004C006900730074000E0052006F0077004C00
+      6900730074001800520065006C006100740069006F006E004C00690073007400
+      1C0055007000640061007400650073004A006F00750072006E0061006C000E00
+      4300680061006E00670065007300}
     object memTableGRid_gr: TFDAutoIncField
       FieldName = 'id_gr'
+      ReadOnly = True
     end
     object memTableGRid_contratados: TIntegerField
       FieldName = 'id_contratados'
@@ -1885,7 +1825,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     Left = 232
     Top = 277
     Content = {
-      414442530F006834E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F009258E9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005
@@ -2050,7 +1990,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     Left = 232
     Top = 389
     Content = {
-      414442530F006834F0020000FF00010001FF02FF030400200000006D0065006D
+      414442530F009258F0020000FF00010001FF02FF030400200000006D0065006D
       005400610062006C00650043006F006E007400610074006F00730005000A0000
       005400610062006C006500060000000000070000080032000000090000FF0AFF
       0B0400160000007300650071005F0063006F006E007400610074006F00050016
@@ -2174,7 +2114,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     Left = 400
     Top = 237
     Content = {
-      414442530F00683488020000FF00010001FF02FF030400180000006D0065006D
+      414442530F00925888020000FF00010001FF02FF030400180000006D0065006D
       005400610062006C00650043004E004100450005000A0000005400610062006C
       006500060000000000070000080032000000090000FF0AFF0B04000E00000069
       0064005F0063006E006100650005000E000000690064005F0063006E00610065
@@ -2240,6 +2180,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     FieldDefs = <
       item
         Name = 'id_financeiro'
+        Attributes = [faReadonly]
         DataType = ftAutoInc
       end
       item
@@ -2293,64 +2234,66 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     Left = 400
     Top = 293
     Content = {
-      414442530F006834FB030000FF00010001FF02FF030400240000006D0065006D
+      414442530F009258FE030000FF00010001FF02FF030400240000006D0065006D
       005400610062006C006500460069006E0061006E0063006500690072006F0005
       000A0000005400610062006C0065000600000000000700000800320000000900
       00FF0AFF0B04001A000000690064005F00660069006E0061006E006300650069
       0072006F0005001A000000690064005F00660069006E0061006E006300650069
       0072006F000C00010000000E000D000F00011000011100011200011300FFFFFF
-      FF1400FFFFFFFF15000116000117000118001A000000690064005F0066006900
-      6E0061006E0063006500690072006F00FEFF0B04001C000000690064005F0063
-      006F006E007400720061007400610064006F00730005001C000000690064005F
-      0063006F006E007400720061007400610064006F0073000C00020000000E000D
-      000F000112000119000116000118001C000000690064005F0063006F006E0074
-      00720061007400610064006F007300FEFF0B04001200000063006F0064005F00
-      620061006E0063006F0005001200000063006F0064005F00620061006E006300
-      6F000C00030000000E001A001B00040000000F00011200011900011600011800
-      1200000063006F0064005F00620061006E0063006F001C0004000000FEFF0B04
-      001600000063006F0064005F006100670065006E006300690061000500160000
-      0063006F0064005F006100670065006E006300690061000C00040000000E001A
-      001B000A0000000F000112000119000116000118001600000063006F0064005F
-      006100670065006E006300690061001C000A000000FEFF0B0400120000006E00
-      75006D005F0063006F006E00740061000500120000006E0075006D005F006300
-      6F006E00740061000C00050000000E001A001B00140000000F00011200011900
-      011600011800120000006E0075006D005F0063006F006E00740061001C001400
-      0000FEFF0B040012000000630068006100760065005F00700069007800050012
-      000000630068006100760065005F007000690078000C00060000000E001A001B
-      007D0000000F0001100001120001150001190001160001180012000000630068
-      006100760065005F007000690078001C007D000000FEFF0B0400260000006400
-      650073005F0066006F0072006D0061005F0070006100670061006D0065006E00
-      74006F000500260000006400650073005F0066006F0072006D0061005F007000
-      6100670061006D0065006E0074006F000C00070000000E001A001B0014000000
-      0F00011000011200011500011900011600011800260000006400650073005F00
-      66006F0072006D0061005F0070006100670061006D0065006E0074006F001C00
-      14000000FEFEFF1DFEFF1EFEFF1FFEFEFEFF20FEFF21FF22FEFEFE0E004D0061
-      006E0061006700650072001E0055007000640061007400650073005200650067
-      006900730074007200790012005400610062006C0065004C006900730074000A
-      005400610062006C00650008004E0061006D006500140053006F007500720063
-      0065004E0061006D0065000A0054006100620049004400240045006E0066006F
-      0072006300650043006F006E00730074007200610069006E00740073001E004D
-      0069006E0069006D0075006D0043006100700061006300690074007900180043
-      006800650063006B004E006F0074004E0075006C006C00140043006F006C0075
-      006D006E004C006900730074000C0043006F006C0075006D006E00100053006F
-      007500720063006500490044000E006400740049006E00740033003200100044
-      0061007400610054007900700065001400530065006100720063006800610062
-      006C006500120041006C006C006F0077004E0075006C006C000E004100750074
-      006F0049006E0063000800420061007300650022004100750074006F0049006E
-      006300720065006D0065006E007400530065006500640022004100750074006F
-      0049006E006300720065006D0065006E007400530074006500700014004F0041
-      006C006C006F0077004E0075006C006C0010004F0049006E0057006800650072
-      00650020004F004100660074006500720049006E0073004300680061006E0067
-      00650064001A004F0072006900670069006E0043006F006C004E0061006D0065
-      0012004F0049006E0055007000640061007400650018006400740041006E0073
-      00690053007400720069006E0067000800530069007A006500140053006F0075
-      00720063006500530069007A0065001C0043006F006E00730074007200610069
-      006E0074004C00690073007400100056006900650077004C006900730074000E
-      0052006F0077004C006900730074001800520065006C006100740069006F006E
-      004C006900730074001C0055007000640061007400650073004A006F00750072
-      006E0061006C000E004300680061006E00670065007300}
+      FF1400FFFFFFFF15000116000117000118000119001A000000690064005F0066
+      0069006E0061006E0063006500690072006F00FEFF0B04001C00000069006400
+      5F0063006F006E007400720061007400610064006F00730005001C0000006900
+      64005F0063006F006E007400720061007400610064006F0073000C0002000000
+      0E000D000F00011200011A000117000119001C000000690064005F0063006F00
+      6E007400720061007400610064006F007300FEFF0B04001200000063006F0064
+      005F00620061006E0063006F0005001200000063006F0064005F00620061006E
+      0063006F000C00030000000E001B001C00040000000F00011200011A00011700
+      0119001200000063006F0064005F00620061006E0063006F001D0004000000FE
+      FF0B04001600000063006F0064005F006100670065006E006300690061000500
+      1600000063006F0064005F006100670065006E006300690061000C0004000000
+      0E001B001C000A0000000F00011200011A000117000119001600000063006F00
+      64005F006100670065006E006300690061001D000A000000FEFF0B0400120000
+      006E0075006D005F0063006F006E00740061000500120000006E0075006D005F
+      0063006F006E00740061000C00050000000E001B001C00140000000F00011200
+      011A00011700011900120000006E0075006D005F0063006F006E00740061001D
+      0014000000FEFF0B040012000000630068006100760065005F00700069007800
+      050012000000630068006100760065005F007000690078000C00060000000E00
+      1B001C007D0000000F00011000011200011500011A0001170001190012000000
+      630068006100760065005F007000690078001D007D000000FEFF0B0400260000
+      006400650073005F0066006F0072006D0061005F0070006100670061006D0065
+      006E0074006F000500260000006400650073005F0066006F0072006D0061005F
+      0070006100670061006D0065006E0074006F000C00070000000E001B001C0014
+      0000000F00011000011200011500011A00011700011900260000006400650073
+      005F0066006F0072006D0061005F0070006100670061006D0065006E0074006F
+      001D0014000000FEFEFF1EFEFF1FFEFF20FEFEFEFF21FEFF22FF23FEFEFE0E00
+      4D0061006E0061006700650072001E0055007000640061007400650073005200
+      650067006900730074007200790012005400610062006C0065004C0069007300
+      74000A005400610062006C00650008004E0061006D006500140053006F007500
+      7200630065004E0061006D0065000A0054006100620049004400240045006E00
+      66006F0072006300650043006F006E00730074007200610069006E0074007300
+      1E004D0069006E0069006D0075006D0043006100700061006300690074007900
+      180043006800650063006B004E006F0074004E0075006C006C00140043006F00
+      6C0075006D006E004C006900730074000C0043006F006C0075006D006E001000
+      53006F007500720063006500490044000E006400740049006E00740033003200
+      1000440061007400610054007900700065001400530065006100720063006800
+      610062006C006500120041006C006C006F0077004E0075006C006C000E004100
+      750074006F0049006E0063000800420061007300650022004100750074006F00
+      49006E006300720065006D0065006E0074005300650065006400220041007500
+      74006F0049006E006300720065006D0065006E00740053007400650070001400
+      4F0041006C006C006F0077004E0075006C006C0012004F005200650061006400
+      4F006E006C00790010004F0049006E005700680065007200650020004F004100
+      660074006500720049006E0073004300680061006E006700650064001A004F00
+      72006900670069006E0043006F006C004E0061006D00650012004F0049006E00
+      55007000640061007400650018006400740041006E0073006900530074007200
+      69006E0067000800530069007A006500140053006F0075007200630065005300
+      69007A0065001C0043006F006E00730074007200610069006E0074004C006900
+      73007400100056006900650077004C006900730074000E0052006F0077004C00
+      6900730074001800520065006C006100740069006F006E004C00690073007400
+      1C0055007000640061007400650073004A006F00750072006E0061006C000E00
+      4300680061006E00670065007300}
     object memTableFinanceiroid_financeiro: TFDAutoIncField
       FieldName = 'id_financeiro'
+      ReadOnly = True
     end
     object memTableFinanceiroid_contratados: TIntegerField
       FieldName = 'id_contratados'
@@ -2383,6 +2326,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     FieldDefs = <
       item
         Name = 'id_representante'
+        Attributes = [faReadonly]
         DataType = ftAutoInc
       end
       item
@@ -2420,55 +2364,57 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     Left = 400
     Top = 341
     Content = {
-      414442530F006834DA020000FF00010001FF02FF0304002C0000006D0065006D
+      414442530F009258DD020000FF00010001FF02FF0304002C0000006D0065006D
       005400610062006C00650052006500700072006500730065006E00740061006E
       0074006500730005000A0000005400610062006C006500060000000000070000
       080032000000090000FF0AFF0B040020000000690064005F0072006500700072
       006500730065006E00740061006E0074006500050020000000690064005F0072
       006500700072006500730065006E00740061006E00740065000C00010000000E
       000D000F00011000011100011200011300FFFFFFFF1400FFFFFFFF1500011600
-      01170001180020000000690064005F0072006500700072006500730065006E00
-      740061006E0074006500FEFF0B04001C000000690064005F0063006F006E0074
-      00720061007400610064006F00730005001C000000690064005F0063006F006E
-      007400720061007400610064006F0073000C00020000000E000D000F00011200
-      0119000116000118001C000000690064005F0063006F006E0074007200610074
-      00610064006F007300FEFF0B0400220000006E006F006D005F00720065007000
-      72006500730065006E00740061006E00740065000500220000006E006F006D00
-      5F0072006500700072006500730065006E00740061006E00740065000C000300
-      00000E001A001B00470000000F00011200011900011600011800220000006E00
-      6F006D005F0072006500700072006500730065006E00740061006E0074006500
-      1C0047000000FEFF0B0400220000006300700066005F00720065007000720065
-      00730065006E00740061006E00740065000500220000006300700066005F0072
-      006500700072006500730065006E00740061006E00740065000C00040000000E
-      001A001B00140000000F00011200011900011600011800220000006300700066
-      005F0072006500700072006500730065006E00740061006E00740065001C0014
-      000000FEFEFF1DFEFF1EFEFF1FFEFEFEFF20FEFF21FF22FEFEFE0E004D006100
-      6E0061006700650072001E005500700064006100740065007300520065006700
-      6900730074007200790012005400610062006C0065004C006900730074000A00
-      5400610062006C00650008004E0061006D006500140053006F00750072006300
-      65004E0061006D0065000A0054006100620049004400240045006E0066006F00
-      72006300650043006F006E00730074007200610069006E00740073001E004D00
-      69006E0069006D0075006D004300610070006100630069007400790018004300
-      6800650063006B004E006F0074004E0075006C006C00140043006F006C007500
-      6D006E004C006900730074000C0043006F006C0075006D006E00100053006F00
-      7500720063006500490044000E006400740049006E0074003300320010004400
-      6100740061005400790070006500140053006500610072006300680061006200
-      6C006500120041006C006C006F0077004E0075006C006C000E00410075007400
-      6F0049006E0063000800420061007300650022004100750074006F0049006E00
-      6300720065006D0065006E007400530065006500640022004100750074006F00
-      49006E006300720065006D0065006E007400530074006500700014004F004100
-      6C006C006F0077004E0075006C006C0010004F0049006E005700680065007200
-      650020004F004100660074006500720049006E0073004300680061006E006700
-      650064001A004F0072006900670069006E0043006F006C004E0061006D006500
-      12004F0049006E0055007000640061007400650018006400740041006E007300
-      690053007400720069006E0067000800530069007A006500140053006F007500
-      720063006500530069007A0065001C0043006F006E0073007400720061006900
-      6E0074004C00690073007400100056006900650077004C006900730074000E00
-      52006F0077004C006900730074001800520065006C006100740069006F006E00
-      4C006900730074001C0055007000640061007400650073004A006F0075007200
-      6E0061006C000E004300680061006E00670065007300}
+      01170001180001190020000000690064005F0072006500700072006500730065
+      006E00740061006E0074006500FEFF0B04001C000000690064005F0063006F00
+      6E007400720061007400610064006F00730005001C000000690064005F006300
+      6F006E007400720061007400610064006F0073000C00020000000E000D000F00
+      011200011A000117000119001C000000690064005F0063006F006E0074007200
+      61007400610064006F007300FEFF0B0400220000006E006F006D005F00720065
+      00700072006500730065006E00740061006E00740065000500220000006E006F
+      006D005F0072006500700072006500730065006E00740061006E00740065000C
+      00030000000E001B001C00470000000F00011200011A00011700011900220000
+      006E006F006D005F0072006500700072006500730065006E00740061006E0074
+      0065001D0047000000FEFF0B0400220000006300700066005F00720065007000
+      72006500730065006E00740061006E0074006500050022000000630070006600
+      5F0072006500700072006500730065006E00740061006E00740065000C000400
+      00000E001B001C00140000000F00011200011A00011700011900220000006300
+      700066005F0072006500700072006500730065006E00740061006E0074006500
+      1D0014000000FEFEFF1EFEFF1FFEFF20FEFEFEFF21FEFF22FF23FEFEFE0E004D
+      0061006E0061006700650072001E005500700064006100740065007300520065
+      0067006900730074007200790012005400610062006C0065004C006900730074
+      000A005400610062006C00650008004E0061006D006500140053006F00750072
+      00630065004E0061006D0065000A0054006100620049004400240045006E0066
+      006F0072006300650043006F006E00730074007200610069006E00740073001E
+      004D0069006E0069006D0075006D004300610070006100630069007400790018
+      0043006800650063006B004E006F0074004E0075006C006C00140043006F006C
+      0075006D006E004C006900730074000C0043006F006C0075006D006E00100053
+      006F007500720063006500490044000E006400740049006E0074003300320010
+      0044006100740061005400790070006500140053006500610072006300680061
+      0062006C006500120041006C006C006F0077004E0075006C006C000E00410075
+      0074006F0049006E0063000800420061007300650022004100750074006F0049
+      006E006300720065006D0065006E007400530065006500640022004100750074
+      006F0049006E006300720065006D0065006E007400530074006500700014004F
+      0041006C006C006F0077004E0075006C006C0012004F0052006500610064004F
+      006E006C00790010004F0049006E005700680065007200650020004F00410066
+      0074006500720049006E0073004300680061006E006700650064001A004F0072
+      006900670069006E0043006F006C004E0061006D00650012004F0049006E0055
+      007000640061007400650018006400740041006E007300690053007400720069
+      006E0067000800530069007A006500140053006F007500720063006500530069
+      007A0065001C0043006F006E00730074007200610069006E0074004C00690073
+      007400100056006900650077004C006900730074000E0052006F0077004C0069
+      00730074001800520065006C006100740069006F006E004C006900730074001C
+      0055007000640061007400650073004A006F00750072006E0061006C000E0043
+      00680061006E00670065007300}
     object memTableRepresentantesid_representante: TFDAutoIncField
       FieldName = 'id_representante'
+      ReadOnly = True
     end
     object memTableRepresentantesid_contratados: TIntegerField
       FieldName = 'id_contratados'
@@ -2489,6 +2435,7 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     FieldDefs = <
       item
         Name = 'id_rh'
+        Attributes = [faReadonly]
         DataType = ftAutoInc
       end
       item
@@ -2536,62 +2483,64 @@ object view_SisGeFRegisterContractors: Tview_SisGeFRegisterContractors
     Left = 400
     Top = 397
     Content = {
-      414442530F0068349F030000FF00010001FF02FF03040016000000460044004D
+      414442530F009258A2030000FF00010001FF02FF03040016000000460044004D
       0065006D005400610062006C006500310005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B04000A000000690064
       005F007200680005000A000000690064005F00720068000C00010000000E000D
       000F00011000011100011200011300FFFFFFFF1400FFFFFFFF15000116000117
-      000118000A000000690064005F0072006800FEFF0B04001C000000690064005F
-      0063006F006E007400720061007400610064006F00730005001C000000690064
-      005F0063006F006E007400720061007400610064006F0073000C00020000000E
-      000D000F000112000119000116000118001C000000690064005F0063006F006E
-      007400720061007400610064006F007300FEFF0B040016000000760061006C00
-      5F00730061006C006100720069006F00050016000000760061006C005F007300
-      61006C006100720069006F000C00030000000E001A001B000C0000000F000110
-      0001120001150001190001160001180016000000760061006C005F0073006100
-      6C006100720069006F001C000C000000FEFF0B0400180000006400610074005F
-      00610064006D0069007300730061006F000500180000006400610074005F0061
-      0064006D0069007300730061006F000C00040000000E001D000F000110000112
-      00011500011900011600011800180000006400610074005F00610064006D0069
-      007300730061006F00FEFF0B0400180000006400610074005F00640065006D00
-      69007300730061006F000500180000006400610074005F00640065006D006900
-      7300730061006F000C00050000000E001D000F00011000011200011500011900
-      011600011800180000006400610074005F00640065006D006900730073006100
-      6F00FEFF0B04001C000000690064005F00640065007000610072007400610065
-      006E0074006F0005001C000000690064005F0064006500700061007200740061
-      0065006E0074006F000C00060000000E000D000F000112000119000116000118
-      001C000000690064005F00640065007000610072007400610065006E0074006F
-      00FEFF0B040012000000690064005F00660075006E00630061006F0005001200
-      0000690064005F00660075006E00630061006F000C00070000000E000D000F00
-      01100001120001150001190001160001180012000000690064005F0066007500
-      6E00630061006F00FEFEFF1EFEFF1FFEFF20FEFEFEFF21FEFF22FF23FEFEFE0E
-      004D0061006E0061006700650072001E00550070006400610074006500730052
-      00650067006900730074007200790012005400610062006C0065004C00690073
-      0074000A005400610062006C00650008004E0061006D006500140053006F0075
-      007200630065004E0061006D0065000A0054006100620049004400240045006E
-      0066006F0072006300650043006F006E00730074007200610069006E00740073
-      001E004D0069006E0069006D0075006D00430061007000610063006900740079
-      00180043006800650063006B004E006F0074004E0075006C006C00140043006F
-      006C0075006D006E004C006900730074000C0043006F006C0075006D006E0010
-      0053006F007500720063006500490044000E006400740049006E007400330032
-      0010004400610074006100540079007000650014005300650061007200630068
-      00610062006C006500120041006C006C006F0077004E0075006C006C000E0041
-      00750074006F0049006E0063000800420061007300650022004100750074006F
-      0049006E006300720065006D0065006E00740053006500650064002200410075
-      0074006F0049006E006300720065006D0065006E007400530074006500700014
-      004F0041006C006C006F0077004E0075006C006C0010004F0049006E00570068
-      0065007200650020004F004100660074006500720049006E0073004300680061
-      006E006700650064001A004F0072006900670069006E0043006F006C004E0061
-      006D00650012004F0049006E0055007000640061007400650010006400740053
-      0069006E0067006C006500120050007200650063006900730069006F006E001E
-      0053006F00750072006300650050007200650063006900730069006F006E000C
-      006400740044006100740065001C0043006F006E00730074007200610069006E
-      0074004C00690073007400100056006900650077004C006900730074000E0052
-      006F0077004C006900730074001800520065006C006100740069006F006E004C
-      006900730074001C0055007000640061007400650073004A006F00750072006E
-      0061006C000E004300680061006E00670065007300}
+      000118000119000A000000690064005F0072006800FEFF0B04001C0000006900
+      64005F0063006F006E007400720061007400610064006F00730005001C000000
+      690064005F0063006F006E007400720061007400610064006F0073000C000200
+      00000E000D000F00011200011A000117000119001C000000690064005F006300
+      6F006E007400720061007400610064006F007300FEFF0B040016000000760061
+      006C005F00730061006C006100720069006F00050016000000760061006C005F
+      00730061006C006100720069006F000C00030000000E001B001C000C0000000F
+      00011000011200011500011A0001170001190016000000760061006C005F0073
+      0061006C006100720069006F001D000C000000FEFF0B04001800000064006100
+      74005F00610064006D0069007300730061006F00050018000000640061007400
+      5F00610064006D0069007300730061006F000C00040000000E001E000F000110
+      00011200011500011A00011700011900180000006400610074005F0061006400
+      6D0069007300730061006F00FEFF0B0400180000006400610074005F00640065
+      006D0069007300730061006F000500180000006400610074005F00640065006D
+      0069007300730061006F000C00050000000E001E000F00011000011200011500
+      011A00011700011900180000006400610074005F00640065006D006900730073
+      0061006F00FEFF0B04001C000000690064005F00640065007000610072007400
+      610065006E0074006F0005001C000000690064005F0064006500700061007200
+      7400610065006E0074006F000C00060000000E000D000F00011200011A000117
+      000119001C000000690064005F00640065007000610072007400610065006E00
+      74006F00FEFF0B040012000000690064005F00660075006E00630061006F0005
+      0012000000690064005F00660075006E00630061006F000C00070000000E000D
+      000F00011000011200011500011A0001170001190012000000690064005F0066
+      0075006E00630061006F00FEFEFF1FFEFF20FEFF21FEFEFEFF22FEFF23FF24FE
+      FEFE0E004D0061006E0061006700650072001E00550070006400610074006500
+      73005200650067006900730074007200790012005400610062006C0065004C00
+      6900730074000A005400610062006C00650008004E0061006D00650014005300
+      6F0075007200630065004E0061006D0065000A00540061006200490044002400
+      45006E0066006F0072006300650043006F006E00730074007200610069006E00
+      740073001E004D0069006E0069006D0075006D00430061007000610063006900
+      74007900180043006800650063006B004E006F0074004E0075006C006C001400
+      43006F006C0075006D006E004C006900730074000C0043006F006C0075006D00
+      6E00100053006F007500720063006500490044000E006400740049006E007400
+      3300320010004400610074006100540079007000650014005300650061007200
+      63006800610062006C006500120041006C006C006F0077004E0075006C006C00
+      0E004100750074006F0049006E00630008004200610073006500220041007500
+      74006F0049006E006300720065006D0065006E00740053006500650064002200
+      4100750074006F0049006E006300720065006D0065006E007400530074006500
+      700014004F0041006C006C006F0077004E0075006C006C0012004F0052006500
+      610064004F006E006C00790010004F0049006E00570068006500720065002000
+      4F004100660074006500720049006E0073004300680061006E00670065006400
+      1A004F0072006900670069006E0043006F006C004E0061006D00650012004F00
+      49006E00550070006400610074006500100064007400530069006E0067006C00
+      6500120050007200650063006900730069006F006E001E0053006F0075007200
+      6300650050007200650063006900730069006F006E000C006400740044006100
+      740065001C0043006F006E00730074007200610069006E0074004C0069007300
+      7400100056006900650077004C006900730074000E0052006F0077004C006900
+      730074001800520065006C006100740069006F006E004C006900730074001C00
+      55007000640061007400650073004A006F00750072006E0061006C000E004300
+      680061006E00670065007300}
     object memTableRHid_rh: TFDAutoIncField
       FieldName = 'id_rh'
+      ReadOnly = True
     end
     object memTableRHid_contratados: TIntegerField
       FieldName = 'id_contratados'

@@ -276,13 +276,13 @@ end;
 
 procedure TviewCadastroFuncionarios.Cancelar;
 begin
-  Data_Sisgef.queryFuncionarios.Cancel;
+  //Data_Sisgef.queryFuncionarios.Cancel;
   lbgTabbed.ItemIndex := 0;
 end;
 
 procedure TviewCadastroFuncionarios.Editar;
 begin
-  Data_Sisgef.queryFuncionarios.Edit;
+  //Data_Sisgef.queryFuncionarios.Edit;
   lbgTabbed.ItemIndex := 1;
 end;
 
@@ -294,7 +294,7 @@ begin
   try
     fnUtil := Common.Utils.TUtils.Create;
 
-    if Data_Sisgef.queryFuncionarios.IsEmpty then Exit;
+    //if Data_Sisgef.queryFuncionarios.IsEmpty then Exit;
 
     if Data_Sisgef.SaveDialog.Execute() then
     begin
@@ -348,15 +348,15 @@ end;
 
 procedure TviewCadastroFuncionarios.OnShowForm;
 begin
-  with Data_Sisgef do
-  begin
-    queryFuncionarios.ExecSQL;
-    queryFuncionariosEnderecos.Open();
-    queryBancos.Open();
-    queryDepartamentos.Open();
-    queryEstados.Open();
-    queryFuncoesRH.Open();
-  end;
+//  with Data_Sisgef do
+//  begin
+//    queryFuncionarios.ExecSQL;
+//    queryFuncionariosEnderecos.Open();
+//    queryBancos.Open();
+//    queryDepartamentos.Open();
+//    queryEstados.Open();
+//    queryFuncoesRH.Open();
+//  end;
 end;
 
 procedure TviewCadastroFuncionarios.Pesquisar;
