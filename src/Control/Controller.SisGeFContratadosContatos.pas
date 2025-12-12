@@ -6,8 +6,9 @@ interface
   type
     TContratadosContatosController = class
     private
-      FContatos : TContratadosContatosModel;
     public
+      FContatos : TContratadosContatosModel;
+
       Constructor Create();
       function    GetNextID   (sIdName: string)         : Integer;
       function    Search      (aParams: array of string): boolean;

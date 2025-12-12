@@ -14,7 +14,8 @@ uses
   Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Cadastro, Control.Estados,
   Control.CadastroEnderecos, Control.CadastroContatos, System.DateUtils, dxLayoutLookAndFeels, dxLayoutControlAdapters, Vcl.Menus,
   Vcl.StdCtrls, cxButtons, FireDAC.Stan.StorageBin, Controller.SisGeFVehiclesRegistration, Controller.APICEP, Controller.APICNPJ,
-  System.StrUtils, cxButtonEdit, Global.Parametros, cxImageComboBox, cxCurrencyEdit, Vcl.ExtCtrls;
+  System.StrUtils, cxButtonEdit, Global.Parametros, cxImageComboBox, cxCurrencyEdit, Vcl.ExtCtrls,
+  Controller.SisGeFCadastroContratados, Controller.SisGeFContratadosContatos, Controller.SisGeFContratadosEnderecos;
 
 type
   Tview_SisGeFContractedDetail = class(TForm)
@@ -75,12 +76,8 @@ type
     layoutGroupJuridica2: TdxLayoutGroup;
     textEditIE: TcxTextEdit;
     layoutItemIE: TdxLayoutItem;
-    textEditIEST: TcxTextEdit;
-    layoutItemIEST: TdxLayoutItem;
     textEditIM: TcxTextEdit;
     layoutItemIM: TdxLayoutItem;
-    textEditCNAE: TcxTextEdit;
-    layoutItemCNAE: TdxLayoutItem;
     comboBoxCRT: TcxComboBox;
     layoutItemCRT: TdxLayoutItem;
     layoutControlComplementoGroup_Root: TdxLayoutGroup;
@@ -89,16 +86,6 @@ type
     layoutGroupEnderecos: TdxLayoutGroup;
     layoutGroupContatos: TdxLayoutGroup;
     layoutGroupDadosBancarios: TdxLayoutGroup;
-    memTableEnderecos: TFDMemTable;
-    memTableEnderecoscod_entregador: TIntegerField;
-    memTableEnderecosdes_tipo_endereco: TStringField;
-    memTableEnderecosnum_cep: TStringField;
-    memTableEnderecosdes_logradouro: TStringField;
-    memTableEnderecosnum_logradouro: TStringField;
-    memTableEnderecosdes_complemento: TStringField;
-    memTableEnderecosnom_bairro: TStringField;
-    memTableEnderecosnom_cidade: TStringField;
-    memTableEnderecosuf_estado: TStringField;
     dsEnderecos: TDataSource;
     layoutGroupEndereco1: TdxLayoutGroup;
     dbComboBoxTipoEndereco: TcxDBComboBox;
@@ -117,9 +104,6 @@ type
     layoutItemCidade: TdxLayoutItem;
     dbLookupComboBoxUFEndereco: TcxDBLookupComboBox;
     layoutItemUFEndereco: TdxLayoutItem;
-    memTableEnderecosseq_endereco: TIntegerField;
-    memTableEnderecosdom_correspondencia: TIntegerField;
-    memTableEnderecosdes_referencia: TStringField;
     layoutGroupEndereco4: TdxLayoutGroup;
     dbTextEditReferencia: TcxDBTextEdit;
     layoutItemReferencia: TdxLayoutItem;
@@ -130,8 +114,8 @@ type
     gridContatos: TcxGrid;
     layoutItemContatos: TdxLayoutItem;
     memTableContatos: TFDMemTable;
-    memTableContatoscod_entregador: TIntegerField;
     memTableContatosseq_contato: TIntegerField;
+    memTableContatosid_contratados: TIntegerField;
     memTableContatosdes_contato: TStringField;
     memTableContatosnum_telefone: TStringField;
     memTableContatosdes_email: TStringField;
@@ -176,15 +160,6 @@ type
     actionSolicitarGR: TAction;
     actionContrato: TAction;
     layoutGroupComplementos: TdxLayoutGroup;
-    layoutGroupGR: TdxLayoutGroup;
-    checkBoxStatusGR: TcxCheckBox;
-    layoutItemStatusGR: TdxLayoutItem;
-    textEditEmpresaGR: TcxTextEdit;
-    layoutItemEmpresaGR: TdxLayoutItem;
-    dateEditValidadeGR: TcxDateEdit;
-    layoutItemValidadeGR: TdxLayoutItem;
-    textEditNumeroConsultaGR: TcxTextEdit;
-    layoutItemNumeroConsultaGR: TdxLayoutItem;
     layoutGroupObs: TdxLayoutGroup;
     memoObservacoes: TcxMemo;
     layoutItemObservacoes: TdxLayoutItem;
@@ -199,71 +174,18 @@ type
     dbCheckBoxCorrespondencia: TcxDBCheckBox;
     layoutItemCorrespondencia: TdxLayoutItem;
     layoutGroupOptions: TdxLayoutGroup;
-    cxButton1: TcxButton;
-    dxLayoutItem1: TdxLayoutItem;
     cxButton2: TcxButton;
     dxLayoutItem2: TdxLayoutItem;
     cxButton3: TcxButton;
     dxLayoutItem3: TdxLayoutItem;
     actionAnexarDocumentos: TAction;
     layoutGroupVeiculos: TdxLayoutGroup;
-    dsVeiculos: TDataSource;
-    memTableVeiculos: TFDMemTable;
-    memTableVeiculosCOD_VEICULO: TIntegerField;
-    memTableVeiculosNUM_CNPJ: TStringField;
-    memTableVeiculosNOM_PROPRIETARIO: TStringField;
-    memTableVeiculosNUM_RG: TStringField;
-    memTableVeiculosCOD_ENTREGADOR: TIntegerField;
-    memTableVeiculosDES_RAZAO_SOCIAL: TStringField;
-    memTableVeiculosDES_MARCA: TStringField;
-    memTableVeiculosDES_MODELO: TStringField;
-    memTableVeiculosDES_PLACA: TStringField;
-    memTableVeiculosDES_TIPO: TStringField;
-    memTableVeiculosNUM_CHASSIS: TStringField;
-    memTableVeiculosDES_ANO: TStringField;
-    memTableVeiculosDES_COR: TStringField;
-    memTableVeiculosNUM_RENAVAN: TStringField;
-    memTableVeiculosANO_EXERCICIO_CLRV: TStringField;
     layoutGroupGridVeiculos: TdxLayoutGroup;
-    gridVeiculosDBTableView1: TcxGridDBTableView;
-    gridVeiculosLevel1: TcxGridLevel;
-    gridVeiculos: TcxGrid;
-    dxLayoutItem4: TdxLayoutItem;
-    gridVeiculosDBTableView1COD_VEICULO: TcxGridDBColumn;
-    gridVeiculosDBTableView1NUM_CNPJ: TcxGridDBColumn;
-    gridVeiculosDBTableView1NOM_PROPRIETARIO: TcxGridDBColumn;
-    gridVeiculosDBTableView1NUM_RG: TcxGridDBColumn;
-    gridVeiculosDBTableView1COD_ENTREGADOR: TcxGridDBColumn;
-    gridVeiculosDBTableView1DES_RAZAO_SOCIAL: TcxGridDBColumn;
-    gridVeiculosDBTableView1DES_MARCA: TcxGridDBColumn;
-    gridVeiculosDBTableView1DES_MODELO: TcxGridDBColumn;
-    gridVeiculosDBTableView1DES_PLACA: TcxGridDBColumn;
-    gridVeiculosDBTableView1DES_TIPO: TcxGridDBColumn;
-    gridVeiculosDBTableView1NUM_CHASSIS: TcxGridDBColumn;
-    gridVeiculosDBTableView1DES_ANO: TcxGridDBColumn;
-    gridVeiculosDBTableView1DES_COR: TcxGridDBColumn;
-    gridVeiculosDBTableView1NUM_RENAVAN: TcxGridDBColumn;
-    gridVeiculosDBTableView1ANO_EXERCICIO_CLRV: TcxGridDBColumn;
     actionNovoVeiculo: TAction;
     actionEditarVeiculo: TAction;
     dxLayoutGroup1: TdxLayoutGroup;
-    cxButton4: TcxButton;
-    dxLayoutItem5: TdxLayoutItem;
-    cxButton5: TcxButton;
-    dxLayoutItem6: TdxLayoutItem;
     checkBoxStatus: TcxCheckBox;
     dxLayoutItem7: TdxLayoutItem;
-    layoutGroupMEI: TdxLayoutGroup;
-    dxLayoutGroup2: TdxLayoutGroup;
-    textEditCodigoMEI: TcxTextEdit;
-    dxLayoutItem8: TdxLayoutItem;
-    buttonEditCNPJMEI: TcxButtonEdit;
-    dxLayoutItem9: TdxLayoutItem;
-    dxLayoutGroup3: TdxLayoutGroup;
-    textEditRazaoMEI: TcxTextEdit;
-    dxLayoutItem10: TdxLayoutItem;
-    textEditFantasiaMEI: TcxTextEdit;
-    dxLayoutItem11: TdxLayoutItem;
     maskEditCPCNPJ: TcxButtonEdit;
     dxLayoutItem12: TdxLayoutItem;
     dbMaskEditCEP: TcxDBButtonEdit;
@@ -273,8 +195,6 @@ type
     actionPesquisaCNPJMEI: TAction;
     cxButton6: TcxButton;
     dxLayoutItem14: TdxLayoutItem;
-    icbSexo: TcxImageComboBox;
-    dxLayoutItem15: TdxLayoutItem;
     dxLayoutGroup4: TdxLayoutGroup;
     cedSalario: TcxCurrencyEdit;
     dxLayoutItem16: TdxLayoutItem;
@@ -284,21 +204,85 @@ type
     Image2: TImage;
     icbFuncao: TcxImageComboBox;
     dxLayoutItem18: TdxLayoutItem;
+    memTableEnderecos: TFDMemTable;
+    memTableEnderecos_id_endereco: TIntegerField;
+    memTableEnderecos_id_contratados: TIntegerField;
+    memTableEnderecos_des_tipo: TStringField;
+    memTableEnderecosnum_cep: TStringField;
+    memTableEnderecosdes_logradouro: TStringField;
+    memTableEnderecosnum_logradouro: TStringField;
+    memTableEnderecosdes_complemento: TStringField;
+    memTableEnderecos_des_bairro: TStringField;
+    memTableEnderecosnom_cidade: TStringField;
+    memTableEnderecosuf_estado: TStringField;
+    memTableEnderecosdes_referencia: TStringField;
+    memTableCNAE: TFDMemTable;
+    memTableCNAEid_cnae: TIntegerField;
+    memTableCNAEid_contratados: TIntegerField;
+    memTableCNAEcod_tipo_cnae: TIntegerField;
+    memTableCNAEcod_cnae: TStringField;
+    memTableCNAEdes_cnae: TStringField;
+    dsCNAE: TDataSource;
+    memTableFinanceiro: TFDMemTable;
+    memTableFinanceiroid_financeiro: TFDAutoIncField;
+    memTableFinanceiroid_contratados: TIntegerField;
+    memTableFinanceirocod_banco: TStringField;
+    memTableFinanceirocod_agencia: TStringField;
+    memTableFinanceironum_conta: TStringField;
+    memTableFinanceirochave_pix: TStringField;
+    memTableFinanceirodes_forma_pagamento: TStringField;
+    dsFinanceiro: TDataSource;
+    memTableRepresentantes: TFDMemTable;
+    memTableRepresentantesid_representante: TFDAutoIncField;
+    memTableRepresentantesid_contratados: TIntegerField;
+    memTableRepresentantesnom_representante: TStringField;
+    memTableRepresentantescpf_representante: TStringField;
+    dsRepresentantes: TDataSource;
+    memTableRH: TFDMemTable;
+    memTableRHid_rh: TFDAutoIncField;
+    memTableRHid_contratados: TIntegerField;
+    memTableRHval_salario: TSingleField;
+    memTableRHdat_admissao: TDateField;
+    memTableRHdat_demissao: TDateField;
+    memTableRHid_departaento: TIntegerField;
+    memTableRHid_funcao: TIntegerField;
+    dsRH: TDataSource;
+    cboTipoPessoa: TcxComboBox;
+    dxLayoutItem4: TdxLayoutItem;
+    dxLayoutGroup2: TdxLayoutGroup;
+    dxLayoutGroup3: TdxLayoutGroup;
+    datAdmissao: TcxDateEdit;
+    dxLayoutItem6: TdxLayoutItem;
+    datDEmissao: TcxDateEdit;
+    dxLayoutItem8: TdxLayoutItem;
+    cboCategoria: TcxComboBox;
+    dxLayoutItem9: TdxLayoutItem;
+    cboSexo: TcxComboBox;
+    lyiSexo: TdxLayoutItem;
+    dxLayoutGroup5: TdxLayoutGroup;
+    gridCNAEDBTableView1: TcxGridDBTableView;
+    gridCNAELevel1: TcxGridLevel;
+    gridCNAE: TcxGrid;
+    dxLayoutItem5: TdxLayoutItem;
+    gridCNAEDBTableView1id_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1id_contratados: TcxGridDBColumn;
+    gridCNAEDBTableView1cod_tipo_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1cod_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1des_cnae: TcxGridDBColumn;
     //procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCancelarExecute(Sender: TObject);
-    procedure actionEditarVeiculoExecute(Sender: TObject);
     procedure actionNovoVeiculoExecute(Sender: TObject);
     procedure checkBoxStatusPropertiesChange(Sender: TObject);
     procedure actionPesquisaCNPJExecute(Sender: TObject);
     procedure actionPesquisaCEPExecute(Sender: TObject);
-    procedure actionPesquisaCNPJMEIExecute(Sender: TObject);
     procedure actionGravarExecute(Sender: TObject);
     procedure actionFecharExecute(Sender: TObject);
     procedure actionAnexarDocumentosExecute(Sender: TObject);
     procedure actionContratoExecute(Sender: TObject);
+    procedure cboTipoPessoaPropertiesChange(Sender: TObject);
   private
     FAcao: TAcao;
     FID: integer;
@@ -361,12 +345,6 @@ begin
   EmiteContrato;
 end;
 
-procedure Tview_SisGeFContractedDetail.actionEditarVeiculoExecute(Sender: TObject);
-begin
-if not memTableVeiculos.IsEmpty then
-    EditarVeiculo(memTableVeiculosCOD_ENTREGADOR.AsInteger, memTableVeiculosCOD_VEICULO.AsInteger);
-end;
-
 procedure Tview_SisGeFContractedDetail.actionFecharExecute(Sender: TObject);
 begin
   ModalResult := mrCancel;
@@ -408,11 +386,6 @@ begin
   SearchCNPJ(maskEditCPCNPJ.Text);
 end;
 
-procedure Tview_SisGeFContractedDetail.actionPesquisaCNPJMEIExecute(Sender: TObject);
-begin
-  SearchCNPJMEI(buttonEditCNPJMEI.Text);
-end;
-
 procedure Tview_SisGeFContractedDetail.AnexarDocumento;
 var
   sPast : string;
@@ -428,6 +401,28 @@ begin
   FFunctions.Free;
 end;
 
+procedure Tview_SisGeFContractedDetail.cboTipoPessoaPropertiesChange(Sender: TObject);
+begin
+  if cboTipoPessoa.ItemIndex = 2 then
+  begin
+    maskEditCPCNPJ.Properties.Buttons[0].Enabled := True;
+    maskEditCPCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
+    cboSexo.ItemIndex := 3;
+    lyiSexo.Visible := False;
+    layoutGroupPessoaFisica.Visible := False;
+    layoutGroupPessoaJuridica.Visible := True;
+  end
+  else
+  begin
+    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
+    maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;0; ';
+    layoutGroupPessoaJuridica.Visible := False;
+    layoutGroupPessoaFisica.Visible := True;
+    cboSexo.ItemIndex := 0;
+    lyiSexo.Visible := True;
+  end;
+end;
+
 procedure Tview_SisGeFContractedDetail.checkBoxStatusPropertiesChange(Sender: TObject);
 begin
   if checkBoxStatus.Checked then
@@ -439,6 +434,7 @@ end;
 procedure Tview_SisGeFContractedDetail.ClearFields;
 begin
   maskEditID.EditValue := 0;
+  cboTipoPessoa.ItemIndex := 2;
   maskEditCPCNPJ.Clear;
   textEditNome.Clear;
   textEditRG.Clear;
@@ -460,9 +456,11 @@ begin
   lookupComboBoxUFCNH.Clear;
   textEditNomeFantasia.Clear;
   textEditIE.Clear;
-  textEditIEST.Clear;
+  cboSexo.ItemIndex := 3;
+  cboBase.ItemIndex := 0;
+  icbFuncao.ItemIndex := 0;
+  cboCategoria.ItemIndex := 0;
   textEditIM.Clear;
-  textEditCNAE.Clear;
   comboBoxCRT.ItemIndex := 0;
   if memTableEnderecos.Active then memTableEnderecos.Close;
   if memTableContatos.Active then memTableContatos.Close;
@@ -474,41 +472,8 @@ begin
   textEditFavorecido.Clear;
   maskEditCPFCNPJFavorecido.Clear;
   textEditChavePIX.Clear;
-  checkBoxStatusGR.Checked := False;
-  textEditEmpresaGR.Clear;
-  dateEditValidadeGR.Clear;
-  textEditNumeroConsultaGR.Clear;
   memoObservacoes.Lines.Clear;
 end;
-
-//procedure Tview_SisGeFContractedDetail.comboBoxTipoPessoaPropertiesChange(Sender: TObject);
-//begin
-//  if comboBoxTipoPessoa.ItemIndex = 1 then
-//  begin
-//    layoutGroupPessoaFisica.MakeVisible;
-//    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
-//    maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
-//    maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
-//    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
-//  end
-//  else if comboBoxTipoPessoa.ItemIndex = 2 then
-//  begin
-//    layoutGroupPessoaJuridica.MakeVisible;
-//    maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
-//    maskEditCPCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;1; ';
-//    maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
-//    maskEditCPCNPJ.Properties.Buttons[0].Enabled := True;
-//  end
-//  else
-//  begin
-//    layoutGroupPessoaFisica.MakeVisible;
-//    maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
-//    maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;1; ';
-//    maskEditCPCNPJ.Properties.IgnoreMaskBlank := True;
-//    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
-//  end;
-
-//end;
 
 procedure Tview_SisGeFContractedDetail.EditarCadastro;
 begin
@@ -516,23 +481,23 @@ begin
     ModalResult := mrOk;
     Exit;
   Modo;
-  //comboBoxTipoPessoa.SetFocus;
+  cboTipoPessoa.SetFocus;
 end;
 
 procedure Tview_SisGeFContractedDetail.EditarVeiculo(iCadastro, iVeiculo: integer);
 begin
-  if not Assigned(view_SisGeFVehiclesRegistrationDetail) then
-  begin
-    view_SisGeFVehiclesRegistrationDetail := Tview_SisGeFVehiclesRegistrationDetail.Create(Application);
-  end;
-  view_SisGeFVehiclesRegistrationDetail.iID := iVeiculo;
-  view_SisGeFVehiclesRegistrationDetail.fAcao := tacAlterar;
-  view_SisGeFVehiclesRegistrationDetail.fRegistro := iCadastro;
-  if view_SisGeFVehiclesRegistrationDetail.ShowModal() = mrOk then
-  begin
-    PopulaVeiculos(iCadastro);
-  end;
-  FreeAndNil(view_SisGeFVehiclesRegistrationDetail);
+//  if not Assigned(view_SisGeFVehiclesRegistrationDetail) then
+//  begin
+//    view_SisGeFVehiclesRegistrationDetail := Tview_SisGeFVehiclesRegistrationDetail.Create(Application);
+//  end;
+//  view_SisGeFVehiclesRegistrationDetail.iID := iVeiculo;
+//  view_SisGeFVehiclesRegistrationDetail.fAcao := tacAlterar;
+//  view_SisGeFVehiclesRegistrationDetail.fRegistro := iCadastro;
+//  if view_SisGeFVehiclesRegistrationDetail.ShowModal() = mrOk then
+//  begin
+//    PopulaVeiculos(iCadastro);
+//  end;
+//  FreeAndNil(view_SisGeFVehiclesRegistrationDetail);
 end;
 
 procedure Tview_SisGeFContractedDetail.EmiteContrato;
@@ -564,10 +529,14 @@ end;
 
 procedure Tview_SisGeFContractedDetail.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if memTableEnderecos.Active then memTableEnderecos.Close;
-  if memTableContatos.Active then memTableContatos.Close;
+  memTableEnderecos.Active := False;
+  memTableContatos.Active := False;
   memTableBancos.Active := False;
   memTableEstados.Active := False;
+  memTableCNAE.Active := False;
+  memTableFinanceiro.Active := False;
+  memTableRH.Active := false;
+  memTableRepresentantes.Active := False;
   Action := caFree;
   view_SisGeFContractedDetail := nil;
 end;
@@ -725,9 +694,7 @@ begin
     actionContrato.Enabled := False;
     actionNovoVeiculo.Enabled := False;
     actionEditarVeiculo.Enabled := False;
-  //  actionAnexarDocumentos.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
-    icbSexo.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
     textEditNome.Properties.ReadOnly := True;
     textEditRG.Properties.ReadOnly := True;
@@ -748,9 +715,7 @@ begin
     lookupComboBoxUFCNH.Properties.ReadOnly := True;
     textEditNomeFantasia.Properties.ReadOnly := True;
     textEditIE.Properties.ReadOnly := True;
-    textEditIEST.Properties.ReadOnly := True;
     textEditIM.Properties.ReadOnly := True;
-    textEditCNAE.Properties.ReadOnly := True;
     comboBoxCRT.Properties.ReadOnly := True;
     comboBoxFormaPagamento.Properties.ReadOnly := True;
     comboBoxTipoConta.Properties.ReadOnly := True;
@@ -760,13 +725,17 @@ begin
     textEditFavorecido.Properties.ReadOnly := True;
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
     textEditChavePIX.Properties.ReadOnly := True;
-    checkBoxStatusGR.Properties.ReadOnly := True;
-    textEditEmpresaGR.Properties.ReadOnly := True;
-    dateEditValidadeGR.Properties.ReadOnly := True;
-    textEditNumeroConsultaGR.Properties.ReadOnly := True;
     memoObservacoes.Properties.ReadOnly := True;
     dsEnderecos.AutoEdit := False;
     dsContatos.AutoEdit := False;
+    cboSexo.Properties.ReadOnly := True;
+    cboTipoPessoa.Properties.ReadOnly := True;
+    cedSalario.Properties.ReadOnly := True;
+    cboBase.Properties.ReadOnly := True;
+    icbFuncao.Properties.ReadOnly := True;
+    datAdmissao.Properties.ReadOnly := True;
+    datDEmissao.Properties.ReadOnly := True;
+    cboCategoria.Properties.ReadOnly := True;
   end
   else if FAcao = tacIncluir then
   begin
@@ -781,11 +750,9 @@ begin
     actionFichaDIRECT.Enabled := False;
     actionSolicitarGR.Enabled := False;
     actionContrato.Enabled := False;
-//    actionAnexarDocumentos.Enabled := False;
     actionNovoVeiculo.Enabled := False;
     actionEditarVeiculo.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
-    icbSexo.Properties.ReadOnly := False;
     maskEditCPCNPJ.Properties.ReadOnly := False;
     textEditNome.Properties.ReadOnly := False;
     textEditRG.Properties.ReadOnly := False;
@@ -806,9 +773,7 @@ begin
     lookupComboBoxUFCNH.Properties.ReadOnly := False;
     textEditNomeFantasia.Properties.ReadOnly := False;
     textEditIE.Properties.ReadOnly := False;
-    textEditIEST.Properties.ReadOnly := False;
     textEditIM.Properties.ReadOnly := False;
-    textEditCNAE.Properties.ReadOnly := False;
     comboBoxCRT.Properties.ReadOnly := False;
     comboBoxFormaPagamento.Properties.ReadOnly := False;
     comboBoxTipoConta.Properties.ReadOnly := False;
@@ -818,15 +783,19 @@ begin
     textEditFavorecido.Properties.ReadOnly := False;
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
     textEditChavePIX.Properties.ReadOnly := False;
-    checkBoxStatusGR.Properties.ReadOnly := False;
-    textEditEmpresaGR.Properties.ReadOnly := False;
-    dateEditValidadeGR.Properties.ReadOnly := False;
-    textEditNumeroConsultaGR.Properties.ReadOnly := False;
     memoObservacoes.Properties.ReadOnly := False;
     memTableEnderecos.Active := True;
     memTableContatos.Active := True;
     dsEnderecos.AutoEdit := True;
     dsContatos.AutoEdit := True;
+    cboSexo.Properties.ReadOnly := False;
+    cboTipoPessoa.Properties.ReadOnly := False;
+    cedSalario.Properties.ReadOnly := False;
+    cboBase.Properties.ReadOnly := False;
+    icbFuncao.Properties.ReadOnly := False;
+    datAdmissao.Properties.ReadOnly := False;
+    datDEmissao.Properties.ReadOnly := False;
+    cboCategoria.Properties.ReadOnly := False;
   end
   else if FAcao = tacAlterar then
   begin
@@ -840,11 +809,9 @@ begin
     actionFichaDIRECT.Enabled := False;
     actionSolicitarGR.Enabled := False;
     actionContrato.Enabled := True;
-//    actionAnexarDocumentos.Enabled := True;
     actionNovoVeiculo.Enabled := True;
     actionEditarVeiculo.Enabled := True;
     maskEditID.Properties.ReadOnly := True;
-    icbSexo.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
     textEditNome.Properties.ReadOnly := False;
     textEditRG.Properties.ReadOnly := False;
@@ -865,9 +832,7 @@ begin
     lookupComboBoxUFCNH.Properties.ReadOnly := False;
     textEditNomeFantasia.Properties.ReadOnly := False;
     textEditIE.Properties.ReadOnly := False;
-    textEditIEST.Properties.ReadOnly := False;
     textEditIM.Properties.ReadOnly := False;
-    textEditCNAE.Properties.ReadOnly := False;
     comboBoxCRT.Properties.ReadOnly := False;
     comboBoxFormaPagamento.Properties.ReadOnly := False;
     comboBoxTipoConta.Properties.ReadOnly := False;
@@ -877,13 +842,17 @@ begin
     textEditFavorecido.Properties.ReadOnly := False;
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := False;
     textEditChavePIX.Properties.ReadOnly := False;
-    checkBoxStatusGR.Properties.ReadOnly := False;
-    textEditEmpresaGR.Properties.ReadOnly := False;
-    dateEditValidadeGR.Properties.ReadOnly := False;
-    textEditNumeroConsultaGR.Properties.ReadOnly := False;
     memoObservacoes.Properties.ReadOnly := False;
     dsEnderecos.AutoEdit := True;
     dsContatos.AutoEdit := True;
+    cboSexo.Properties.ReadOnly := False;
+    cboTipoPessoa.Properties.ReadOnly := False;
+    cedSalario.Properties.ReadOnly := False;
+    cboBase.Properties.ReadOnly := False;
+    icbFuncao.Properties.ReadOnly := False;
+    datAdmissao.Properties.ReadOnly := False;
+    datDEmissao.Properties.ReadOnly := False;
+    cboCategoria.Properties.ReadOnly := False;
   end
   else if FAcao = tacPesquisa then
   begin
@@ -897,11 +866,9 @@ begin
     actionFichaDIRECT.Enabled := True;
     actionSolicitarGR.Enabled := True;
     actionContrato.Enabled := True;
-//    actionAnexarDocumentos.Enabled := False;
     actionNovoVeiculo.Enabled := False;
     actionEditarVeiculo.Enabled := False;
     maskEditID.Properties.ReadOnly := True;
-    icbSexo.Properties.ReadOnly := True;
     maskEditCPCNPJ.Properties.ReadOnly := True;
     textEditNome.Properties.ReadOnly := True;
     textEditRG.Properties.ReadOnly := True;
@@ -922,9 +889,7 @@ begin
     lookupComboBoxUFCNH.Properties.ReadOnly := True;
     textEditNomeFantasia.Properties.ReadOnly := True;
     textEditIE.Properties.ReadOnly := True;
-    textEditIEST.Properties.ReadOnly := True;
     textEditIM.Properties.ReadOnly := True;
-    textEditCNAE.Properties.ReadOnly := True;
     comboBoxCRT.Properties.ReadOnly := True;
     comboBoxFormaPagamento.Properties.ReadOnly := True;
     comboBoxTipoConta.Properties.ReadOnly := True;
@@ -934,35 +899,40 @@ begin
     textEditFavorecido.Properties.ReadOnly := True;
     maskEditCPFCNPJFavorecido.Properties.ReadOnly := True;
     textEditChavePIX.Properties.ReadOnly := True;
-    checkBoxStatusGR.Properties.ReadOnly := True;
-    textEditEmpresaGR.Properties.ReadOnly := True;
-    dateEditValidadeGR.Properties.ReadOnly := True;
-    textEditNumeroConsultaGR.Properties.ReadOnly := True;
     memoObservacoes.Properties.ReadOnly := True;
     dsEnderecos.AutoEdit := False;
     dsContatos.AutoEdit := False;
+    cboSexo.Properties.ReadOnly := True;
+    cboTipoPessoa.Properties.ReadOnly := True;
+    cedSalario.Properties.ReadOnly := True;
+    cboBase.Properties.ReadOnly := True;
+    icbFuncao.Properties.ReadOnly := True;
+    datAdmissao.Properties.ReadOnly := True;
+    datDEmissao.Properties.ReadOnly := True;
+    cboCategoria.Properties.ReadOnly := True;
+
   end;
 end;
 
 procedure Tview_SisGeFContractedDetail.NovoCadastro;
 begin
   Modo;
-  icbSexo.SetFocus;
+  cboTipoPessoa.SetFocus;
 end;
 
 function Tview_SisGeFContractedDetail.PesquisaCadastro: boolean;
 var
   aParam: array of variant;
-  cadastro : TCadastroControl;
+  cadastro : TCadastroContratadosController;
 begin
   try
     cadastro := TCadastroControl.Create;
     Result := False;
     SetLength(aParam,2);
-    aparam := ['CADASTRO', FID];
-    if cadastro.Localizar(aParam) then
+    aparam := ['ID', FID];
+    if cadastro.Search(aParam) then
     begin
-      if not cadastro.SetupModel(cadastro.Cadastro.Query) then
+      if not cadastro.SetupRecord then
       begin
         Application.MessageBox('Ocorreu um problema ao exibir as informações!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
         Exit;
@@ -980,7 +950,7 @@ begin
     Result := True;
   finally
     Finalize(aParam);
-    cadastro.DisposeOf;
+    cadastro.Free;
   end;
 end;
 
@@ -1012,22 +982,22 @@ end;
 
 procedure Tview_SisGeFContractedDetail.PopulaContatos(iCadastro: Integer);
 var
-  FContatos : TCadastroContatosControl;
+  FContatos : TContratadosContatosController;
   aParam: array of variant;
 begin
   try
-    FContatos := TCadastroContatosControl.Create;
+    FContatos := TContratadosContatosController.Create;
     if memTableContatos.Active then
     begin
       memTableContatos.Close;
     end;
     SetLength(aParam,2);
-    aParam := ['ID',iCadastro];
-    if FContatos.Localizar(aParam) then
+    aParam := ['CONTRATADO',iCadastro];
+    if FContatos.Search(aParam) then
     begin
-      memTableContatos.CopyDataSet(FContatos.Contatos.Query);
+      memTableContatos.CopyDataSet(FContatos.FContatos.Query);
     end;
-    FContatos.Contatos.Query.Connection.Close;
+    FContatos.FContatos.Query.Connection.Close;
     if not memTableContatos.Active then
       memTableContatos.Active := True
   finally
@@ -1037,22 +1007,22 @@ end;
 
 procedure Tview_SisGeFContractedDetail.PopulaEnderecos(iCadastro: Integer);
 var
-  FEnderecos : TCadastroEnderecosControl;
+  FEnderecos : TContratadosEnderecosController;
   aParam: array of variant;
 begin
   try
-    FEnderecos := TCadastroEnderecosControl.Create;
+    FEnderecos := TContratadosEnderecosController.Create;
     if memTableEnderecos.Active then
     begin
       memTableEnderecos.Close;
     end;
     SetLength(aParam,2);
-    aParam := ['ID',iCadastro];
-    if FEnderecos.Localizar(aParam) then
+    aParam := ['CONTRATADO',iCadastro];
+    if FEnderecos.Search(aParam) then
     begin
-      memTableEnderecos.CopyDataSet(Fenderecos.Enderecos.Query);
+      memTableEnderecos.CopyDataSet(FEnderecos.FEnderecos.Query);
     end;
-    Fenderecos.Enderecos.Query.Connection.Close;
+    FEnderecos.FEnderecos.Query.Connection.Close;
     if not memTableEnderecos.Active then
       memTableEnderecos.Active := True;
   finally
@@ -1086,41 +1056,40 @@ begin
 end;
 
 procedure Tview_SisGeFContractedDetail.PopulaVeiculos(iCadastro: integer);
-var
-  sMensagem: String;
-  FVeiculos: TControllerSisGeFVehiclesRegistration;
-  aParam : array of variant;
+//var
+//  sMensagem: String;
+//  FVeiculos: TControllerSisGeFVehiclesRegistration;
+//  aParam : array of variant;
 begin
-  try
-    memTableVeiculos.Active := False;
-    FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
-    SetLength(aParam,2);
-    aParam := ['CADASTRO',iCadastro];
-    if FVeiculos.Search(aParam) then
-    begin
-      memTableVeiculos.Active := True;
-      memTableVeiculos.CopyDataSet(FVeiculos.Veiculos.Query);
-      FVeiculos.Veiculos.Query.Connection.Connected := False;
-      if not memTableVeiculos.IsEmpty then
-        gridVeiculosDBTableView1.DataController.DataSource.DataSet.First;
-    end;
-  finally
-    FVeiculos.Free;
-  end;
+//  try
+//    memTableVeiculos.Active := False;
+//    FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
+//    SetLength(aParam,2);
+//    aParam := ['CADASTRO',iCadastro];
+//    if FVeiculos.Search(aParam) then
+//    begin
+//      memTableVeiculos.Active := True;
+//      memTableVeiculos.CopyDataSet(FVeiculos.Veiculos.Query);
+//      FVeiculos.Veiculos.Query.Connection.Connected := False;
+//      if not memTableVeiculos.IsEmpty then
+//        gridVeiculosDBTableView1.DataController.DataSource.DataSet.First;
+//    end;
+//  finally
+//    FVeiculos.Free;
+//  end;
 end;
 
 function Tview_SisGeFContractedDetail.SalvarDados: boolean;
 var
-  FCadastro : TCadastroControl;
-  FEnderecos : TCadastroEnderecosControl;
-  FContatos : TCadastroContatosControl;
-  FVeiculos : TControllerSisGeFVehiclesRegistration;
+  FCadastro : TCadastroContratadosController;
+  FEnderecos : TContratadosEnderecosController;
+  FContatos : TContratadosContatosController;
+//  FVeiculos : TControllerSisGeFVehiclesRegistration;
 begin
   try
-    FCadastro := TCadastroControl.Create;
-    FEnderecos := TCadastroEnderecosControl.Create;
-    FContatos := TCadastroContatosControl.Create;
-    FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
+    FCadastro := TCadastroContratadosController.Create;
+    FEnderecos := TContratadosEnderecosController.Create;
+    FContatos := TContratadosContatosController.Create;
     Result := False;
     if not ValidaDados() then
     begin
@@ -1129,16 +1098,16 @@ begin
    if MessageDlg('Confirma salvar os dados ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
      Exit;
    SetupClassCadastro(FCadastro);
-   FCadastro.Cadastro.Acao := FAcao;
-   if not FCadastro.Gravar() then
+   FCadastro.FContratados.Acao := FAcao;
+   if not FCadastro.SaveRecord() then
     begin
       MessageDlg('Ocorreu um problema ao tentar gravar o cadastro!', mtError, [mbCancel], 0);
       Exit;
     end;
-    maskEditID.EditValue := FCadastro.Cadastro.Cadastro;
-    fenderecos.Enderecos.ID := FCadastro.Cadastro.Cadastro;
-    fenderecos.Enderecos.Acao := tacExcluir;
-    if not fenderecos.Gravar then
+    maskEditID.EditValue := FCadastro.FContratados.ARecord.id;
+    FEnderecos.FEnderecos.ARecord := FCadastro.FContratados.ARecord.id;
+    FEnderecos.FEnderecos.Acao := tacExcluir;
+    if not FEnderecos.SaveRecord then
     begin
      MessageDlg('Ocorreu um problema ao preparar a gravação dos endereços!', mtError, [mbCancel], 0);
       Exit;

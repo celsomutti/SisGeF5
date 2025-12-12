@@ -34,8 +34,9 @@ type
         function    SetupRecords()                        : boolean;
 
 
-        property Acao     : TAcao   read  FAcao     write FAcao;
-        property Mensagem : string  read  FMensagem write FMensagem;
+        property Acao     : TAcao     read  FAcao     write FAcao;
+        property Mensagem : string    read  FMensagem write FMensagem;
+        property Query    : TFDQuery  read  FQuery    write FQuery;
       protected
   end;
   const

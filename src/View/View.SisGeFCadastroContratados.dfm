@@ -29,8 +29,6 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitWidth = 930
-    ExplicitHeight = 463
     object camposPesquisa: TcxComboBox
       Left = 71
       Top = 26
@@ -85,7 +83,6 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
         BevelOuter = bvNone
         ParentBackground = False
         TabOrder = 0
-        ExplicitWidth = 882
         object cxButton2: TcxButton
           Left = 33
           Top = 0
@@ -141,8 +138,6 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
         TabOrder = 1
         LookAndFeel.NativeStyle = True
         LookAndFeel.SkinName = 'UserSkin'
-        ExplicitWidth = 882
-        ExplicitHeight = 359
         object viewCadastro: TcxGridDBTableView
           OnDblClick = viewCadastroDblClick
           Navigator.Buttons.CustomButtons = <>
@@ -1322,7 +1317,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 232
     Top = 230
     Content = {
-      414442530F009258760F0000FF00010001FF02FF0304001E0000006D0065006D
+      414442530F001934760F0000FF00010001FF02FF0304001E0000006D0065006D
       005400610062006C0065005200650063006F0072006400730005000A00000054
       00610062006C006500060000000000070000080032000000090000FF0AFF0B04
       000400000069006400050004000000690064000C00010000000E000D000F0001
@@ -1657,7 +1652,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 232
     Top = 334
     Content = {
-      414442530F009258D0030000FF00010001FF02FF030400140000006D0065006D
+      414442530F001934D0030000FF00010001FF02FF030400140000006D0065006D
       005400610062006C0065004700520005000A0000005400610062006C00650006
       0000000000070000080032000000090000FF0AFF0B04000A000000690064005F
       006700720005000A000000690064005F00670072000C00010000000E000D000F
@@ -1748,7 +1743,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 304
     Top = 334
   end
-  object memTableEnderecos: TFDMemTable
+  object memTableEnderecos_: TFDMemTable
     Active = True
     FieldDefs = <
       item
@@ -1825,7 +1820,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 232
     Top = 277
     Content = {
-      414442530F009258E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F001934E9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005
@@ -1893,54 +1888,54 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
       00730074000E0052006F0077004C006900730074001800520065006C00610074
       0069006F006E004C006900730074001C0055007000640061007400650073004A
       006F00750072006E0061006C000E004300680061006E00670065007300}
-    object memTableEnderecosid_endereco: TIntegerField
+    object memTableEnderecos_id_endereco: TIntegerField
       FieldName = 'id_endereco'
       Required = True
     end
-    object memTableEnderecosid_contratados: TIntegerField
+    object memTableEnderecos_id_contratados: TIntegerField
       FieldName = 'id_contratados'
       Required = True
     end
-    object memTableEnderecosdes_tipo: TStringField
+    object memTableEnderecos_des_tipo: TStringField
       FieldName = 'des_tipo'
     end
-    object memTableEnderecosnum_cep: TStringField
+    object memTableEnderecos_num_cep: TStringField
       FieldName = 'num_cep'
       Size = 9
     end
-    object memTableEnderecosdes_logradouro: TStringField
+    object memTableEnderecos_des_logradouro: TStringField
       FieldName = 'des_logradouro'
       Size = 70
     end
-    object memTableEnderecosnum_logradouro: TStringField
+    object memTableEnderecos_num_logradouro: TStringField
       FieldName = 'num_logradouro'
       Size = 11
     end
-    object memTableEnderecosdes_complemento: TStringField
+    object memTableEnderecos_des_complemento: TStringField
       FieldName = 'des_complemento'
       Size = 50
     end
-    object memTableEnderecosdes_bairro: TStringField
+    object memTableEnderecos_des_bairro: TStringField
       FieldName = 'des_bairro'
       Size = 70
     end
-    object memTableEnderecosnom_cidade: TStringField
+    object memTableEnderecos_nom_cidade: TStringField
       FieldName = 'nom_cidade'
       Size = 70
     end
-    object memTableEnderecosuf_estado: TStringField
+    object memTableEnderecos_uf_estado: TStringField
       FieldName = 'uf_estado'
       FixedChar = True
       Size = 2
     end
-    object memTableEnderecosdes_referencia: TStringField
+    object memTableEnderecos_des_referencia: TStringField
       FieldName = 'des_referencia'
       Size = 132
     end
   end
   object dsEnderecos: TDataSource
     AutoEdit = False
-    DataSet = memTableEnderecos
+    DataSet = memTableEnderecos_
     Enabled = False
     Left = 304
     Top = 278
@@ -1990,7 +1985,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 232
     Top = 389
     Content = {
-      414442530F009258F0020000FF00010001FF02FF030400200000006D0065006D
+      414442530F001934F0020000FF00010001FF02FF030400200000006D0065006D
       005400610062006C00650043006F006E007400610074006F00730005000A0000
       005400610062006C006500060000000000070000080032000000090000FF0AFF
       0B0400160000007300650071005F0063006F006E007400610074006F00050016
@@ -2114,7 +2109,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 400
     Top = 237
     Content = {
-      414442530F00925888020000FF00010001FF02FF030400180000006D0065006D
+      414442530F00193488020000FF00010001FF02FF030400180000006D0065006D
       005400610062006C00650043004E004100450005000A0000005400610062006C
       006500060000000000070000080032000000090000FF0AFF0B04000E00000069
       0064005F0063006E006100650005000E000000690064005F0063006E00610065
@@ -2234,7 +2229,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 400
     Top = 293
     Content = {
-      414442530F009258FE030000FF00010001FF02FF030400240000006D0065006D
+      414442530F001934FE030000FF00010001FF02FF030400240000006D0065006D
       005400610062006C006500460069006E0061006E0063006500690072006F0005
       000A0000005400610062006C0065000600000000000700000800320000000900
       00FF0AFF0B04001A000000690064005F00660069006E0061006E006300650069
@@ -2364,7 +2359,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 400
     Top = 341
     Content = {
-      414442530F009258DD020000FF00010001FF02FF0304002C0000006D0065006D
+      414442530F001934DD020000FF00010001FF02FF0304002C0000006D0065006D
       005400610062006C00650052006500700072006500730065006E00740061006E
       0074006500730005000A0000005400610062006C006500060000000000070000
       080032000000090000FF0AFF0B040020000000690064005F0072006500700072
@@ -2483,7 +2478,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 400
     Top = 397
     Content = {
-      414442530F009258A2030000FF00010001FF02FF03040016000000460044004D
+      414442530F001934A2030000FF00010001FF02FF03040016000000460044004D
       0065006D005400610062006C006500310005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B04000A000000690064
       005F007200680005000A000000690064005F00720068000C00010000000E000D

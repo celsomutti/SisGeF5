@@ -7,8 +7,9 @@ uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFContratadosE
   type
     TContratadosEnderecosController = class
     private
-      FEnderecos : TContratadosEnderecosModel;
     public
+      FEnderecos : TContratadosEnderecosModel;
+
       Constructor Create();
       function    GetNextID   (sIdName: string)         : Integer;
       function    Search      (aParams: array of string): boolean;
