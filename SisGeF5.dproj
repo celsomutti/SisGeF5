@@ -686,6 +686,8 @@
         <DCCReference Include="src\Control\Controller.SisGeFContratadosGR.pas"/>
         <DCCReference Include="src\Model\Model.SisGeFContratadosRepresentantes.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFContratadosRepresentantes.pas"/>
+        <DCCReference Include="src\Model\Model.SisGefContratadosRH.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFContratadosRH.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -345,7 +345,9 @@ uses
   Model.SisGeFContratadosGR in 'src\Model\Model.SisGeFContratadosGR.pas',
   Controller.SisGeFContratadosGR in 'src\Control\Controller.SisGeFContratadosGR.pas',
   Model.SisGeFContratadosRepresentantes in 'src\Model\Model.SisGeFContratadosRepresentantes.pas',
-  Controller.SisGeFContratadosRepresentantes in 'src\Control\Controller.SisGeFContratadosRepresentantes.pas';
+  Controller.SisGeFContratadosRepresentantes in 'src\Control\Controller.SisGeFContratadosRepresentantes.pas',
+  Model.SisGefContratadosRH in 'src\Model\Model.SisGefContratadosRH.pas',
+  Controller.SisGeFContratadosRH in 'src\Control\Controller.SisGeFContratadosRH.pas';
 
 {$R *.res}
 

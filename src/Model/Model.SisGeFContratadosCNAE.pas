@@ -8,7 +8,7 @@ type
   TCNAE = record
     id_cnae         : integer;
     id_contratados  : integer;
-    cod_tipo_cnae   : integer;
+    des_tipo_cnae   : string[20];
     cod_cnae        : string[20];
     des_cnae        : string[132];
   end;
@@ -22,6 +22,7 @@ type
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
+        function Excluir  ()  : boolean;
 
       public
         ARecord   : TCNAE;
@@ -34,26 +35,27 @@ type
         function    SetupRecords()                        : boolean;
 
 
-        property Acao     : TAcao   read  FAcao     write FAcao;
-        property Mensagem : string  read  FMensagem write FMensagem;
+        property Acao     : TAcao     read  FAcao     write FAcao;
+        property Mensagem : string    read  FMensagem write FMensagem;
+        property Query    : TFDQuery  read  FQuery    write FQuery;
       protected
   end;
   const
       TABLENAME = 'crm_contratados_cnae';
       SQLINSERT = 'insert into ' + TABLENAME +
-                  '(id_cnae, id_contratados, cod_tipo_cnae, cod_cnae, des_cnae) ' +
+                  '(id_cnae, id_contratados, des_tipo_cnae, cod_cnae, des_cnae) ' +
                   'VALUES '  +
-                  '(:id_cnae, :id_contratados, :cod_tipo_cnae, :cod_cnae, :des_cnae)';
+                  '(:id_cnae, :id_contratados, :des_tipo_cnae, :cod_cnae, :des_cnae)';
       SQLUPDATE = 'update ' + TABLENAME +
                   ' set ' +
-                  'id_contratados = :id_contratados, cod_tipo_cnae = :cod_tipo_cnae, cod_cnae = :cod_cnae, ' +
+                  'id_contratados = :id_contratados, des_tipo_cnae = :des_tipo_cnae, cod_cnae = :cod_cnae, ' +
                   'des_cnae  = :des_cnae ' +
                   'where ' +
                   'id_cnae = :id_cnae';
-      SQLSELECT = 'select id_cnae, id_contratados, cod_tipo_cnae, cod_cnae, des_cnae ' +
+      SQLSELECT = 'select id_cnae, id_contratados, des_tipo_cnae, cod_cnae, des_cnae ' +
                   'from ' +
                   TABLENAME;
-
+      SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_contratados';
 
 implementation
 
@@ -65,7 +67,7 @@ begin
   try
     FQuery := FConn.GetQuery;
     FQuery.ExecSQL(SQLUPDATE,
-                  [ARecord.id_contratados, ARecord.cod_tipo_cnae, ARecord.cod_cnae,
+                  [ARecord.id_contratados, ARecord.des_tipo_cnae, ARecord.cod_cnae,
                   ARecord.des_cnae, ARecord.id_cnae]);
     Result := True;
   finally
@@ -106,6 +108,19 @@ begin
   Result := True;
 end;
 
+function TContratadosCNAEModel.Excluir: boolean;
+begin
+  Result := False;
+  try
+    FQuery := FConn.GetQuery;
+    FQuery.ExecSQL(SQLDELETE,
+                  [ARecord.id_contratados]);
+    Result := True;
+  finally
+    FQuery.Connection.Close;
+  end;
+end;
+
 function TContratadosCNAEModel.GetNextID(sIdName: string): Integer;
 begin
   try
@@ -129,7 +144,7 @@ begin
     ARecord.id_cnae := GetNextID('id_cnae');
     FQuery := FConn.GetQuery();
     FQuery.ExecSQL(SQLINSERT,
-                  [ARecord.id_cnae, ARecord.id_contratados, ARecord.cod_tipo_cnae, ARecord.cod_cnae,
+                  [ARecord.id_cnae, ARecord.id_contratados, ARecord.des_tipo_cnae, ARecord.cod_cnae,
                   ARecord.des_cnae]);
     Result := True;
   finally
@@ -140,8 +155,9 @@ end;
 function TContratadosCNAEModel.SaveRecord: boolean;
 begin
  case FAcao of
-    tacIncluir: Result := Inserir();
-    tacAlterar: Result := Alterar();
+    tacIncluir  : Result  :=  Inserir ();
+    tacAlterar  : Result  :=  Alterar ();
+    tacExcluir  : Result  :=  Excluir ();
   end;
 end;
 
@@ -180,7 +196,7 @@ begin
     Exit;
   ARecord.id_cnae         :=  FQuery.FieldByName('id_cnae').AsInteger;
   ARecord.id_contratados  :=  FQuery.FieldByName('id_contratados').AsInteger;
-  ARecord.cod_tipo_cnae   :=  FQuery.FieldByName('cod_tipo_cnae').AsInteger;
+  ARecord.des_tipo_cnae   :=  FQuery.FieldByName('des_tipo_cnae').AsString;
   ARecord.cod_cnae        :=  FQuery.FieldByName('des_cnae').AsString;
   ARecord.des_cnae        :=  FQuery.FieldByName('des_cnae').AsString;
   Result := True;

@@ -19,8 +19,9 @@ type
         FConn     : TConnectionMySQL;
         FQuery    : TFDQuery;
 
-        function Inserir  ()  : boolean;
-        function Alterar  ()  : boolean;
+        function  Inserir   ()  : boolean;
+        function  Alterar   ()  : boolean;
+        function  Excluir   ()  : boolean;
 
       public
         ARecord   : TRepresentantes;
@@ -33,12 +34,13 @@ type
         function    SetupRecords()                        : boolean;
 
 
-        property Acao     : TAcao   read  FAcao     write FAcao;
-        property Mensagem : string  read  FMensagem write FMensagem;
+        property Acao     : TAcao     read  FAcao     write FAcao;
+        property Mensagem : string    read  FMensagem write FMensagem;
+        property Query    : TFDQuery  read  FQuery    write FQuery;
       protected
   end;
   const
-      TABLENAME = 'crm_contratados_gr';
+      TABLENAME = 'crm_contratados_representantes';
       SQLINSERT = 'insert into ' + TABLENAME +
                   '(id_representante, id_contratados, nom_representante, cpf_representante) ' +
                   'VALUES '  +
@@ -52,6 +54,7 @@ type
       SQLSELECT = 'select id_representante, id_contratados, nom_representante, cpf_representante ' +
                   'from ' +
                   TABLENAME;
+      SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_contratados';
 
 implementation
 
@@ -103,6 +106,19 @@ begin
   Result := True;
 end;
 
+function TContratadosRepresentantesModel.Excluir: boolean;
+begin
+  Result := False;
+  try
+    FQuery := FConn.GetQuery;
+    FQuery.ExecSQL(SQLDELETE,
+                  [ARecord.id_contratados]);
+    Result := True;
+  finally
+    FQuery.Connection.Close;
+  end;
+end;
+
 function TContratadosRepresentantesModel.GetNextID(sIdName: string): Integer;
 begin
   try
@@ -136,8 +152,9 @@ end;
 function TContratadosRepresentantesModel.SaveRecord: boolean;
 begin
   case FAcao of
-    tacIncluir: Result := Inserir();
-    tacAlterar: Result := Alterar();
+    tacIncluir  : Result  :=  Inserir();
+    tacAlterar  : Result  :=  Alterar();
+    tacExcluir  : Result  :=  Excluir();
   end;
 end;
 

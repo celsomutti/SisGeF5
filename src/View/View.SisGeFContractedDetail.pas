@@ -11,11 +11,13 @@ uses
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxNavigator, cxDBNavigator,
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
   cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, System.Actions,
-  Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Cadastro, Control.Estados,
-  Control.CadastroEnderecos, Control.CadastroContatos, System.DateUtils, dxLayoutLookAndFeels, dxLayoutControlAdapters, Vcl.Menus,
+  Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Estados,
+  System.DateUtils, dxLayoutLookAndFeels, dxLayoutControlAdapters, Vcl.Menus,
   Vcl.StdCtrls, cxButtons, FireDAC.Stan.StorageBin, Controller.SisGeFVehiclesRegistration, Controller.APICEP, Controller.APICNPJ,
   System.StrUtils, cxButtonEdit, Global.Parametros, cxImageComboBox, cxCurrencyEdit, Vcl.ExtCtrls,
-  Controller.SisGeFCadastroContratados, Controller.SisGeFContratadosContatos, Controller.SisGeFContratadosEnderecos;
+  Controller.SisGeFCadastroContratados, Controller.SisGeFContratadosContatos, Controller.SisGeFContratadosEnderecos,
+  Controller.SisGeFContratadosCNAE, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,
+  Controller.SisGeFContratadosRH;
 
 type
   Tview_SisGeFContractedDetail = class(TForm)
@@ -128,8 +130,6 @@ type
     LayoutGroupDadosBancarios1: TdxLayoutGroup;
     comboBoxFormaPagamento: TcxComboBox;
     layoutItemFormaPagamento: TdxLayoutItem;
-    comboBoxTipoConta: TcxComboBox;
-    layoutItemTipoConta: TdxLayoutItem;
     layoutGroupDadosBancarios2: TdxLayoutGroup;
     lookupComboBoxBanco: TcxLookupComboBox;
     layoutItemBanco: TdxLayoutItem;
@@ -138,10 +138,6 @@ type
     textEditConta: TcxTextEdit;
     layoutItemConta: TdxLayoutItem;
     layoutGroupDadosBancarios3: TdxLayoutGroup;
-    textEditFavorecido: TcxTextEdit;
-    layoutItemFavorecido: TdxLayoutItem;
-    maskEditCPFCNPJFavorecido: TcxMaskEdit;
-    layoutItemCPFCNPJFavorecido: TdxLayoutItem;
     LayoutGrouPDadosBancarios4: TdxLayoutGroup;
     textEditChavePIX: TcxTextEdit;
     layoutItemChavePIX: TdxLayoutItem;
@@ -179,7 +175,7 @@ type
     cxButton3: TcxButton;
     dxLayoutItem3: TdxLayoutItem;
     actionAnexarDocumentos: TAction;
-    layoutGroupVeiculos: TdxLayoutGroup;
+    layoutGroupCNAE: TdxLayoutGroup;
     layoutGroupGridVeiculos: TdxLayoutGroup;
     actionNovoVeiculo: TAction;
     actionEditarVeiculo: TAction;
@@ -219,34 +215,9 @@ type
     memTableCNAE: TFDMemTable;
     memTableCNAEid_cnae: TIntegerField;
     memTableCNAEid_contratados: TIntegerField;
-    memTableCNAEcod_tipo_cnae: TIntegerField;
     memTableCNAEcod_cnae: TStringField;
     memTableCNAEdes_cnae: TStringField;
     dsCNAE: TDataSource;
-    memTableFinanceiro: TFDMemTable;
-    memTableFinanceiroid_financeiro: TFDAutoIncField;
-    memTableFinanceiroid_contratados: TIntegerField;
-    memTableFinanceirocod_banco: TStringField;
-    memTableFinanceirocod_agencia: TStringField;
-    memTableFinanceironum_conta: TStringField;
-    memTableFinanceirochave_pix: TStringField;
-    memTableFinanceirodes_forma_pagamento: TStringField;
-    dsFinanceiro: TDataSource;
-    memTableRepresentantes: TFDMemTable;
-    memTableRepresentantesid_representante: TFDAutoIncField;
-    memTableRepresentantesid_contratados: TIntegerField;
-    memTableRepresentantesnom_representante: TStringField;
-    memTableRepresentantescpf_representante: TStringField;
-    dsRepresentantes: TDataSource;
-    memTableRH: TFDMemTable;
-    memTableRHid_rh: TFDAutoIncField;
-    memTableRHid_contratados: TIntegerField;
-    memTableRHval_salario: TSingleField;
-    memTableRHdat_admissao: TDateField;
-    memTableRHdat_demissao: TDateField;
-    memTableRHid_departaento: TIntegerField;
-    memTableRHid_funcao: TIntegerField;
-    dsRH: TDataSource;
     cboTipoPessoa: TcxComboBox;
     dxLayoutItem4: TdxLayoutItem;
     dxLayoutGroup2: TdxLayoutGroup;
@@ -263,12 +234,17 @@ type
     gridCNAEDBTableView1: TcxGridDBTableView;
     gridCNAELevel1: TcxGridLevel;
     gridCNAE: TcxGrid;
-    dxLayoutItem5: TdxLayoutItem;
+    dxLayoutItem1: TdxLayoutItem;
     gridCNAEDBTableView1id_cnae: TcxGridDBColumn;
     gridCNAEDBTableView1id_contratados: TcxGridDBColumn;
     gridCNAEDBTableView1cod_tipo_cnae: TcxGridDBColumn;
     gridCNAEDBTableView1cod_cnae: TcxGridDBColumn;
     gridCNAEDBTableView1des_cnae: TcxGridDBColumn;
+    txtRepresentante: TcxTextEdit;
+    dxLayoutItem5: TdxLayoutItem;
+    mskCPFRepresentante: TcxMaskEdit;
+    dxLayoutItem10: TdxLayoutItem;
+    memTableCNAEdes_tipo_cnae: TStringField;
     //procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
@@ -288,14 +264,18 @@ type
     FID: integer;
     { Private declarations }
     procedure ClearFields;
-    procedure SetupFields(FCadastro: TCadastroControl);
-    procedure SetupClassCadastro(FCadastro: TCadastroControl);
+    procedure SetupFields(FCadastro: TCadastroContratadosController);
+    procedure SetupClassCadastro(FCadastro: TCadastroContratadosController);
     procedure PopulaBancos;
     procedure PopulaEstados;
     function PesquisaCadastro(): boolean;
     procedure PopulaEnderecos(iCadastro: Integer);
     procedure PopulaContatos(iCadastro: Integer);
     procedure PopulaVeiculos(iCadastro: integer);
+    procedure PopulaCNAE(iCadastro: Integer);
+    procedure PopulaFinanceiro(iCadastro: integer);
+    procedure PopulaRepresentante(iCadastro: integer);
+    procedure PopulaRH(iCadastro: Integer);
     procedure Modo;
     function ValidaDados(): boolean;
     procedure IncluirVeículo(iCadastro: integer);
@@ -593,8 +573,8 @@ begin
     sEndereco := sEndereco + ', bairro ' + dbTextEditBairro.Text;
     sEndereco := sEndereco + ', cidade ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
-    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditRazaoMEI.Text);
-    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(buttonEditCNPJMEI.Text);
+    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
     Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
     Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(textEditNome.Text);
     Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
@@ -647,8 +627,8 @@ begin
     sEndereco := sEndereco + ', ' + dbTextEditBairro.Text;
     sEndereco := sEndereco + ', ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
-   Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditRazaoMEI.Text);
-    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(buttonEditCNPJMEI.Text);
+   Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
     Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
     Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(textEditNome.Text);
     Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
@@ -980,6 +960,31 @@ begin
 
 end;
 
+procedure Tview_SisGeFContractedDetail.PopulaCNAE(iCadastro: Integer);
+var
+  FCNAE : TCadastroContratadosCNAEController;
+  aParam: array of variant;
+begin
+  try
+    FCNAE := TCadastroContratadosCNAEController.Create;
+    if memTableContatos.Active then
+    begin
+      memTableContatos.Close;
+    end;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro];
+    if FCNAE.Search(aParam) then
+    begin
+      memTableCNAE.CopyDataSet(FCNAE.FCNAE.Query);
+    end;
+    FCNAE.FCNAE.Query.Connection.Close;
+    if not memTableCNAE.Active then
+      memTableCNAE.Active := True
+  finally
+    FCNAE.Free;
+  end;
+end;
+
 procedure Tview_SisGeFContractedDetail.PopulaContatos(iCadastro: Integer);
 var
   FContatos : TContratadosContatosController;
@@ -1055,6 +1060,93 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFContractedDetail.PopulaFinanceiro(iCadastro: integer);
+var
+  FFinanceiro : TContratadosFinanceiroController;
+  aParam: array of variant;
+begin
+  try
+    FFinanceiro := TContratadosFinanceiroController.Create;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro];
+    if FFinanceiro.Search(aParam) then
+    begin
+      if FFinanceiro.SetupRecord then
+      begin
+        comboBoxFormaPagamento.Text := FFinanceiro.FFinanceiro.ARecord.des_forma_pagamento;
+        lookupComboBoxBanco.EditValue := FFinanceiro.FFinanceiro.ARecord.cod_banco;
+        textEditAgencia.Text := FFinanceiro.FFinanceiro.ARecord.cod_agencia;
+        textEditConta.Text := FFinanceiro.FFinanceiro.ARecord.num_conta;
+        textEditChavePIX.Text := FFinanceiro.FFinanceiro.ARecord.chave_pix;
+      end
+      else
+      begin
+        MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0)
+      end;
+    end;
+    FFinanceiro.FFinanceiro.Query.Connection.Close;
+  finally
+    FFinanceiro.Free;
+  end;
+end;
+
+procedure Tview_SisGeFContractedDetail.PopulaRepresentante(iCadastro: integer);
+var
+  FRepresentante : TContratadosRepresentanteController;
+  aParam: array of variant;
+begin
+  try
+    FRepresentante := TContratadosRepresentanteController.Create;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro];
+    if FRepresentante.Search(aParam) then
+    begin
+      if FRepresentante.SetupRecord then
+      begin
+        txtRepresentante.Text := FRepresentante.FRepresentante.ARecord.nom_representante;
+        mskCPFRepresentante.EditingValue := FRepresentante.FRepresentante.ARecord.cpf_representante;
+      end
+      else
+      begin
+        MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0)
+      end;
+    end;
+    FRepresentante.FRepresentante.Query.Connection.Close;
+  finally
+    FRepresentante.Free;
+  end;
+end;
+
+procedure Tview_SisGeFContractedDetail.PopulaRH(iCadastro: Integer);
+var
+  FRH : TContratadosRHController;
+  aParam: array of variant;
+begin
+  try
+    FRH := TContratadosRHController.Create;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro];
+    if FRH.Search(aParam) then
+    begin
+      if FRH.SetupRecord then
+      begin
+        cedSalario.Value    := FRH.FRH.ARecord.val_salario;
+        cboBase.ItemIndex   := FRH.FRH.ARecord.id_departamento;
+        icbFuncao.EditValue := FRH.FRH.ARecord.id_funcao;
+        datAdmissao.Date    := FRH.FRH.ARecord.dat_admissao;
+        datDemissao.Date    := FRH.FRH.ARecord.dat_demissao;
+      end
+      else
+      begin
+        MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0)
+      end;
+    end;
+    FRH.FRH.Query.Connection.Close;
+  finally
+    FRH.Free;
+  end;
+end;
+
 procedure Tview_SisGeFContractedDetail.PopulaVeiculos(iCadastro: integer);
 //var
 //  sMensagem: String;
@@ -1081,15 +1173,22 @@ end;
 
 function Tview_SisGeFContractedDetail.SalvarDados: boolean;
 var
-  FCadastro : TCadastroContratadosController;
-  FEnderecos : TContratadosEnderecosController;
-  FContatos : TContratadosContatosController;
-//  FVeiculos : TControllerSisGeFVehiclesRegistration;
+  FCadastro       : TCadastroContratadosController;
+  FEnderecos      : TContratadosEnderecosController;
+  FContatos       : TContratadosContatosController;
+  FFinanceiro     : TContratadosFinanceiroController;
+  FRepresentante  : TContratadosRepresentanteController;
+  FRH             : TContratadosRHController;
+  FCNAE           : TCadastroContratadosCNAEController;
 begin
+  FCadastro       :=  TCadastroContratadosController.Create;
+  FEnderecos      :=  TContratadosEnderecosController.Create;
+  FContatos       :=  TContratadosContatosController.Create;
+  FFinanceiro     :=  TContratadosFinanceiroController.Create;
+  FRepresentante  :=  TContratadosRepresentanteController.Create;
+  FRH             :=  TContratadosRHController.Create;
+  FCNAE           :=  TCadastroContratadosCNAEController.Create;
   try
-    FCadastro := TCadastroContratadosController.Create;
-    FEnderecos := TContratadosEnderecosController.Create;
-    FContatos := TContratadosContatosController.Create;
     Result := False;
     if not ValidaDados() then
     begin
@@ -1097,46 +1196,179 @@ begin
     end;
    if MessageDlg('Confirma salvar os dados ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
      Exit;
+
+   //Cadastro
+
    SetupClassCadastro(FCadastro);
    FCadastro.FContratados.Acao := FAcao;
    if not FCadastro.SaveRecord() then
     begin
-      MessageDlg('Ocorreu um problema ao tentar gravar o cadastro!', mtError, [mbCancel], 0);
+      MessageDlg(FCadastro.FContratados.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
     maskEditID.EditValue := FCadastro.FContratados.ARecord.id;
+
+    //Endereços
+
     FEnderecos.FEnderecos.ARecord := FCadastro.FContratados.ARecord.id;
     FEnderecos.FEnderecos.Acao := tacExcluir;
     if not FEnderecos.SaveRecord then
     begin
-     MessageDlg('Ocorreu um problema ao preparar a gravação dos endereços!', mtError, [mbCancel], 0);
+      MessageDlg('Ocorreu um problema ao preparar a gravação dos endereços!', mtError, [mbCancel], 0);
       Exit;
     end;
-    if not fenderecos.SaveBatch(memTableEnderecos) then
+    while not memTableEnderecos.Eof do
     begin
-       MessageDlg('Ocorreu um problema ao tentar gravar o(s) endereço(s)!', mtError, [mbCancel], 0);
-       Exit;
+      FEnderecos.FEnderecos.ARecord.des_tipo := memTableEnderecos_des_tipo.AsString;
+      FEnderecos.FEnderecos.ARecord.num_cep := memTableEnderecosnum_cep.AsString;
+      FEnderecos.FEnderecos.ARecord.des_logradouro := memTableEnderecosdes_logradouro.AsString;
+      FEnderecos.FEnderecos.ARecord.num_logradouro := memTableEnderecosnum_logradouro.AsString;
+      FEnderecos.FEnderecos.ARecord.des_complemento := memTableEnderecosdes_complemento.AsString;
+      FEnderecos.FEnderecos.ARecord.des_bairro := memTableEnderecos_des_bairro.AsString;
+      FEnderecos.FEnderecos.ARecord.nom_cidade := memTableEnderecosnom_cidade.AsString;
+      FEnderecos.FEnderecos.ARecord.uf_estado := memTableEnderecosuf_estado.AsString;
+      FEnderecos.FEnderecos.ARecord.des_referencia := memTableEnderecosdes_referencia.AsString;
+      FEnderecos.FEnderecos.Acao := tacIncluir;
+      if not FEnderecos.FEnderecos.SaveRecord then
+      begin
+        MessageDlg(FEnderecos.FEnderecos.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      memTableEnderecos.Next;
     end;
-    fcontatos.Contatos.ID := FCadastro.Cadastro.Cadastro;
-    fcontatos.Contatos.Sequencia := -1;
-    fcontatos.Contatos.Acao := tacExcluir;
-    if not fcontatos.Gravar then
+
+    //Contatos
+
+    FContatos.FContatos.ARecord.id_contratados := FCadastro.FContratados.ARecord.id;
+    FContatos.FContatos.ARecord.seq_contato := -1;
+    FContatos.FContatos.Acao := tacExcluir;
+    if not FContatos.SaveRecord then
     begin
-      MessageDlg('Ocorreu um problema ao preparar a gravação dos contatos!', mtError, [mbCancel], 0);
+      MessageDlg(FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
-    if not fcontatos.SaveBatch(memTableContatos) then
+    while not memTableContatos.Eof do
     begin
-      MessageDlg('Ocorreu um problema ao tentar gravar o(s) contato(s)!',mtError, [mbCancel], 0);
+      FContatos.FContatos.ARecord.des_contato := memTableContatosdes_contato.AsString;
+      FContatos.FContatos.ARecord.num_telefone := memTableContatosnum_telefone.AsString;
+      FContatos.FContatos.ARecord.des_email := memTableContatosdes_email.AsString;
+      FContatos.FContatos.Acao := tacIncluir;
+      if not FContatos.FContatos.SaveRecord then
+      begin
+        MessageDlg(FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      memTableContatos.Next;
+    end;
+
+    // Financeiro
+
+    FFinanceiro.FFinanceiro.ARecord.id_contratados  :=  FCadastro.FContratados.ARecord.id;
+    FFinanceiro.FFinanceiro.ARecord.id_financeiro   :=  -1;
+    FFinanceiro.FFinanceiro.Acao                    :=  tacExcluir;
+    if not FFinanceiro.SaveRecord then
+    begin
+      MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
-    MessageDlg('Dados gravados com sucesso.', mtInformation, [mbOK], 0);
+    while not memTableFinanceiro.Eof do
+    begin
+      FFinanceiro.FFinanceiro.ARecord.cod_banco           :=  memTableFinanceirocod_banco.AsString;
+      FFinanceiro.FFinanceiro.ARecord.cod_agencia         :=  memTableFinanceirocod_agencia.AsString;
+      FFinanceiro.FFinanceiro.ARecord.num_conta           :=  memTableFinanceironum_conta.AsString;
+      FFinanceiro.FFinanceiro.ARecord.chave_pix           :=  memTableFinanceirochave_pix.AsString;
+      FFinanceiro.FFinanceiro.ARecord.des_forma_pagamento :=  memTableFinanceirodes_forma_pagamento.AsString;
+      FFinanceiro.FFinanceiro.Acao                        :=  tacIncluir;
+      if not FFinanceiro.FFinanceiro.SaveRecord then
+      begin
+        MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+      end;
+      memTableFinanceiro.Next;
+    end;
+
+    // Representante
+
+    FRepresentante.FRepresentante.ARecord.id_contratados    :=  FCadastro.FContratados.ARecord.id;
+    FRepresentante.FRepresentante.ARecord.id_REpresentante  :=  -1;
+    FRepresentante.FRepresentante.Acao                      :=  tacExcluir;
+    if not FRepresentante.SaveRecord then
+    begin
+      MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    while not memTableRepresentantes.Eof do
+    begin
+      FRepresentante.FRepresentante.ARecord.nom_representante :=  memTableRepresentantesnom_representante.AsString;
+      FRepresentante.FRepresentante.ARecord.cpf_representante :=  memTableRepresentantescpf_representante.AsString;
+      FRepresentante.FRepresentante.Acao                        :=  tacIncluir;
+      if not FRepresentante.FRepresentante.SaveRecord then
+      begin
+        MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+      end;
+      memTableRepresentantes.Next;
+    end;
+
+    // RH
+
+    FRH.FRH.ARecord.id_contratados  :=  FCadastro.FContratados.ARecord.id;
+    FRH.FRH.ARecord.id_RH           :=  -1;
+    FRH.FRH.Acao                    :=  tacExcluir;
+    if not FRH.SaveRecord then
+    begin
+      MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    while not memTableRH.Eof do
+    begin
+      FRH.FRH.ARecord.val_salario     :=  memTableRHval_salario.AsFloat;
+      FRH.FRH.ARecord.dat_admissao    :=  memTableRHdat_admissao.AsDateTime;
+      FRH.FRH.ARecord.dat_demissao    :=  memTableRHdat_demissao.AsDateTime;
+      FRH.FRH.ARecord.id_departamento :=  memTableRHid_departaento.AsInteger;
+      FRH.FRH.ARecord.id_funcao       :=  memTableRHid_funcao.AsString;
+      FRH.FRH.Acao                    :=  tacIncluir;
+      if not FRH.FRH.SaveRecord then
+      begin
+        MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+      end;
+      memTableRH.Next;
+    end;
+
+    // CNAE
+
+    FCNAE.FCNAE.ARecord.id_contratados  :=  FCadastro.FContratados.ARecord.id;
+    FCNAE.FCNAE.ARecord.id_CNAE         :=  -1;
+    FCNAE.FCNAE.Acao                    :=  tacExcluir;
+    if not FCNAE.SaveRecord then
+    begin
+      MessageDlg(FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    while not memTableCNAE.Eof do
+    begin
+      FCNAE.FCNAE.ARecord.des_tipo_cnae :=  memTableCNAEdes_cnae.AsInteger;
+      FCNAE.FCNAE.ARecord.cod_cnae      :=  memTableCNAEcod_cnae.AsString;
+      FCNAE.FCNAE.ARecord.des_cnae      :=  memTableCNAEdes_cnae.AsString;
+      FCNAE.FCNAE.Acao                  :=  tacIncluir;
+      if not FCNAE.FCNAE.SaveRecord then
+      begin
+        MessageDlg(FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+      end;
+      memTableCNAE.Next;
+    end;
+
     Result := True;
   finally
-    FCadastro.DisposeOf;
-    FEnderecos.DisposeOf;
-    FContatos.DisposeOf;
-    FVeiculos.DisposeOf;
+    FCadastro.Free;
+    FEnderecos.Free;
+    FContatos.Free;
+    FFinanceiro.Free;
+    FRepresentante.Free;
+    FRH.Free;
+    FCNAE.Free;
   end;
 end;
 
@@ -1165,7 +1397,7 @@ begin
         begin
           memTableEnderecosdes_logradouro.AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
           memTableEnderecosdes_complemento.AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
-          memTableEnderecosnom_bairro.AsString := Data_Sisgef.memTableCEPbairro.AsString;
+          memTableEnderecos_des_bairro.AsString := Data_Sisgef.memTableCEPbairro.AsString;
           memTableEnderecosnom_cidade.AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
           memTableEnderecosuf_estado.AsString := Data_Sisgef.memTableCEPuf.AsString;
           memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
@@ -1178,7 +1410,7 @@ begin
     begin
       memTableEnderecosdes_logradouro.AsString := APICEP.APICEP.Enderecos.Logradouro;
       memTableEnderecosdes_complemento.AsString := APICEP.APICEP.Enderecos.Complemento;
-      memTableEnderecosnom_bairro.AsString := APICEP.APICEP.Enderecos.Bairro;
+      memTableEnderecos_des_bairro.AsString := APICEP.APICEP.Enderecos.Bairro;
       memTableEnderecosnom_cidade.AsString := APICEP.APICEP.Enderecos.Cidade;
       memTableEnderecosuf_estado.AsString := APICEP.APICEP.Enderecos.UF;
       //memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
@@ -1216,23 +1448,31 @@ begin
     end;
     if not view_ResultadoConsultaCNPJ.memTableAP.IsEmpty then
     begin
+      memTableCNAE.Active := False;
+      memTableCNAE.Active := True;
       view_ResultadoConsultaCNPJ.memTableAP.First;
-      textEditCNAE.Text := view_ResultadoConsultaCNPJ.memTableAPcod_cnae.AsString;
+      while not view_ResultadoConsultaCNPJ.memTableAP.Eof do
+      begin
+        memTableCNAEdes_tipo_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPdes_tipo.AsString;
+        memTableCNAEcod_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPcod_cnae.AsString;
+        memTableCNAEdes_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPdes_cnae.AsString;
+        view_ResultadoConsultaCNPJ.memTableAP.Next;
+      end;
+
     end;
 
     FreeAndNil(view_ResultadoConsultaCNPJ);
 
     textEditNome.Text := APICNPJ.APICNPJ.Pessoas.Nome;
     textEditNomeFantasia.Text := APICNPJ.APICNPJ.Pessoas.Fantasia;
-//    memTableCadastrocod_status.AsInteger := 1;
 
     memTableEnderecos.Insert;
-    memTableEnderecosdes_tipo_endereco.AsString := APICNPJ.APICNPJ.Enderecos.Tipo;
+    memTableEnderecos_des_tipo.AsString := APICNPJ.APICNPJ.Enderecos.Tipo;
     memTableEnderecosnum_cep.AsString := APICNPJ.APICNPJ.Enderecos.CEP;
     memTableEnderecosdes_logradouro.AsString := APICNPJ.APICNPJ.Enderecos.Logradouro;
     memTableEnderecosnum_logradouro.AsString := APICNPJ.APICNPJ.Enderecos.Numero;
     memTableEnderecosdes_complemento.AsString := APICNPJ.APICNPJ.Enderecos.Complemento;
-    memTableEnderecosnom_bairro.AsString := APICNPJ.APICNPJ.Enderecos.Bairro;
+    memTableEnderecos_des_bairro.AsString := APICNPJ.APICNPJ.Enderecos.Bairro;
     memTableEnderecosnom_cidade.AsString := APICNPJ.APICNPJ.Enderecos.Cidade;
     memTableEnderecosuf_estado.AsString := APICNPJ.APICNPJ.Enderecos.UF;
     memTableEnderecos.Post;
@@ -1286,8 +1526,8 @@ begin
 
     FreeAndNil(view_ResultadoConsultaCNPJ);
 
-    textEditRazaoMEI.Text := APICNPJ.APICNPJ.Pessoas.Nome;
-    textEditFantasiaMEI.Text := APICNPJ.APICNPJ.Pessoas.Fantasia;
+    //textEditRazaoMEI.Text := APICNPJ.APICNPJ.Pessoas.Nome;
+    //textEditFantasiaMEI.Text := APICNPJ.APICNPJ.Pessoas.Fantasia;
 
   finally
     if Data_Sisgef.memTableCNPJ.Active then
@@ -1296,140 +1536,111 @@ begin
   end;
 end;
 
-procedure Tview_SisGeFContractedDetail.SetupClassCadastro(FCadastro: TCadastroControl);
+procedure Tview_SisGeFContractedDetail.SetupClassCadastro(FCadastro: TCadastroContratadosController);
 begin
-  FCadastro.Cadastro.Funcionario := icbSexo.EditValue;
-  FCadastro.Cadastro.CPFCNPJ := maskEditCPCNPJ.EditValue;
-  FCadastro.Cadastro.Nome := textEditNome.Text;
-  FCadastro.Cadastro.IERG := textEditRG.Text;
-  FCadastro.Cadastro.EmissorRG := textEditExpedidor.Text;
-  if dateEditDataRG.Text = '' then
-    FCadastro.Cadastro.EMissaoRG := 0
+  FCadastro.FContratados.ARecord.cod_erp_contratados := 0;
+  FCadastro.FContratados.ARecord.id_categoria := cboCategoria.ItemIndex;
+  FCadastro.FContratados.ARecord.cod_pessoa := cboSexo.ItemIndex;
+  if cboTipoPessoa.ItemIndex = 1 then
+    FCadastro.FContratados.ARecord.des_tipo_doc := 'CPF'
+  else if cboTipoPessoa.ItemIndex = 2 then
+    FCadastro.FContratados.ARecord.des_tipo_doc := 'CNPJ'
   else
-    FCadastro.Cadastro.EMissaoRG := dateEditDataRG.Date;
-  if dateEditNascimento.Text = '' then
-    FCadastro.Cadastro.Nascimento := 0
-  else
-    FCadastro.Cadastro.Nascimento := dateEditNascimento.Date;
-  FCadastro.Cadastro.Pai := textEditNomePai.Text;
-  FCadastro.Cadastro.Mae := textEditNomeMae.Text;
-  FCadastro.Cadastro.CidadeNascimento := textEditNaturalidade.Text;
-  FCadastro.Cadastro.UFNascimento := lookupComboBoxNaturalidade.Text;
-  FCadastro.Cadastro.CodigoCNH := textEditSegurancaCNH.Text;
-  FCadastro.Cadastro.NumeroCNH := textEditNumeroCNH.Text;
-  FCadastro.Cadastro.RegistroCNH := textEditRegistroCNH.Text;
-  FCadastro.Cadastro.CategoriaCNH := textEditCategoriaCNH.Text;
-  if dateEditEmissaoCNH.Text = '' then
-    FCadastro.Cadastro.EmissaoCNH := 0
-  else
-    FCadastro.Cadastro.EmissaoCNH := dateEditEmissaoCNH.Date;
-  if dateEditValidadeCNH.Text = '' then
-    FCadastro.Cadastro.ValidadeCNH := 0
-  else
-    FCadastro.Cadastro.ValidadeCNH := dateEditValidadeCNH.Date;
-  if dateEditPrimeiraCNH.Text = '' then
-    FCadastro.Cadastro.DataPrimeiraCNH := 0
-  else
-    FCadastro.Cadastro.DataPrimeiraCNH := dateEditPrimeiraCNH.Date;
-  FCadastro.Cadastro.UFCNH := lookupComboBoxUFCNH.Text;
-  FCadastro.Cadastro.Fantasia := textEditNomeFantasia.Text;
-  begin
-    FCadastro.Cadastro.UFRG := lookupComboBoxUFRG.Text;
-  end;
-  FCadastro.Cadastro.IEST := textEditIEST.Text;
-  FCadastro.Cadastro.IM := textEditIM.Text;
-  FCadastro.Cadastro.CNAE := textEditCNAE.Text;
-  FCadastro.Cadastro.CRT := comboBoxCRT.ItemIndex;
-  FCadastro.Cadastro.FormaPagamento := comboBoxFormaPagamento.Text;
-  FCadastro.Cadastro.TipoConta := comboBoxTipoConta.Text;
-  if lookupComboBoxBanco.Text <> '' then
-    FCadastro.Cadastro.Banco := lookupComboBoxBanco.EditValue;
-  FCadastro.Cadastro.AgenciaConta := textEditAgencia.Text;
-  FCadastro.Cadastro.NumeroConta := textEditConta.Text;
-  FCadastro.Cadastro.NomeFavorecido := textEditFavorecido.Text;
-  FCadastro.Cadastro.CPFCNPJFavorecido := maskEditCPFCNPJFavorecido.Text;
-  FCadastro.Cadastro.Chave := textEditChavePIX.Text;
-  FCadastro.Cadastro.GV := checkBoxStatusGR.EditValue;
-  FCadastro.Cadastro.EmpresaGR := textEditEmpresaGR.Text;
-  if dateEditValidadeGR.Text = '' then
-    FCadastro.Cadastro.DataGV := 0
-  else
-    FCadastro.Cadastro.DataGV := dateEditValidadeGR.Date;
-  FCadastro.Cadastro.NumeroConsultaGR := textEditNumeroConsultaGR.Text;
-  FCadastro.Cadastro.Obs := memoObservacoes.Text;
-  FCadastro.Cadastro.Status := checkBoxStatus.EditValue;
-  FCadastro.Cadastro.MEI := textEditCodigoMEI.Text;
-  FCadastro.Cadastro.CNPJMEI := buttonEditCNPJMEI.Text;
-  FCadastro.Cadastro.RazaoMEI := textEditRazaoMEI.Text;
-  FCadastro.Cadastro.FantasiaMEI := textEditFantasiaMEI.Text;
-  if FCadastro.Cadastro.Acao = tacIncluir then
-    FCadastro.Cadastro.DataCadastro := Now();
-  FCadastro.Cadastro.DataAlteracao := Now();
-  FCadastro.Cadastro.Executante := Global.Parametros.pUser_Name;
-  FCadastro.Cadastro.Usuario := Global.Parametros.pUser_ID;
-  FCadastro.Cadastro.Verba := cedSalario.Value;
-  FCadastro.Cadastro.Agente := cboBase.ItemIndex;
-  FCadastro.Cadastro.Entregador := icbFuncao.EditValue;
+    FCadastro.FContratados.ARecord.des_tipo_doc := 'NONE';
+  FCadastro.FContratados.ARecord.nom_razao_social := textEditNome.Text;
+  FCadastro.FContratados.ARecord.nom_fantasia_alias := textEditNomeFantasia.Text;
+  FCadastro.FContratados.ARecord.num_cpf_cnpj := maskEditCPCNPJ.EditValue;
+  if cboTipoPessoa.ItemIndex = 1 then
+    FCadastro.FContratados.ARecord.num_rg_ie := textEditRG.Text
+  else if cboTipoPessoa.ItemIndex = 2 then
+    FCadastro.FContratados.ARecord.num_rg_ie := textEditIE.Text;
+  if dateEditDataRG.Text <> '' then
+    FCadastro.FContratados.ARecord.dat_emissao_rg := dateEditDataRG.Date;
+  FCadastro.FContratados.ARecord.nom_emissor_rg := textEditExpedidor.Text;
+  FCadastro.FContratados.ARecord.uf_emissor_rg := lookupComboBoxUFRG.Text;
+  if dateEditNascimento.Text <> '' then
+    FCadastro.FContratados.ARecord.dat_nascimento := dateEditNascimento.Date;
+  FCadastro.FContratados.ARecord.des_nacionalidade := 'BRASIL';
+  FCadastro.FContratados.ARecord.des_naturalidade := textEditNaturalidade.Text;
+  FCadastro.FContratados.ARecord.uf_naturalidade := lookupComboBoxNaturalidade.Text;
+  FCadastro.FContratados.ARecord.nom_pai := textEditNomePai.Text;
+  FCadastro.FContratados.ARecord.nom_mae := textEditNomeMae.Text;
+  FCadastro.FContratados.ARecord.cod_crt  := comboBoxCRT.ItemIndex;
+  FCadastro.FContratados.ARecord.num_cnh := textEditNumeroCNH.Text;
+  FCadastro.FContratados.ARecord.num_registro_cnh := textEditRegistroCNH.Text;
+  FCadastro.FContratados.ARecord.des_categoria_cnh := textEditCategoriaCNH.Text;
+  if dateEditEmissaoCNH.Text <> '' then
+    FCadastro.FContratados.ARecord.dat_emissao_cnh := dateEditEmissaoCNH.Date;
+  if dateEditValidadeCNH.Text <> '' then
+    FCadastro.FContratados.ARecord.dat_validade_cnh := dateEditValidadeCNH.Date;
+  if dateEditPrimeiraCNH.Text<> '' then
+    FCadastro.FContratados.ARecord.dat_primeira_cnh := dateEditPrimeiraCNH.Date;
+  FCadastro.FContratados.ARecord.uf_cnh := lookupComboBoxUFCNH.Text;
+  FCadastro.FContratados.ARecord.num_im := textEditIM.Text;
+  FCadastro.FContratados.ARecord.des_obs := memoObservacoes.Text;
+  FCadastro.FContratados.ARecord.cod_status := checkBoxStatus.EditValue;
 end;
 
-procedure Tview_SisGeFContractedDetail.SetupFields(FCadastro: TCadastroControl);
+procedure Tview_SisGeFContractedDetail.SetupFields(FCadastro: TCadastroContratadosController);
 begin
-  maskEditID.EditValue := FCadastro.Cadastro.Cadastro;
-  icbSexo.EditValue := FCadastro.Cadastro.Funcionario;
-  maskEditCPCNPJ.EditValue := FCadastro.Cadastro.CPFCNPJ;
-  textEditNome.Text := FCadastro.Cadastro.Nome;
-  textEditRG.Text := FCadastro.Cadastro.IERG;
-  textEditExpedidor.Text := FCadastro.Cadastro.EmissorRG;
-  dateEditDataRG.Date := FCadastro.Cadastro.EMissaoRG;
-  dateEditNascimento.Date := FCadastro.Cadastro.Nascimento;
-  lookupComboBoxUFRG.EditValue := FCadastro.Cadastro.UFRG;
-  textEditNomePai.Text := FCadastro.Cadastro.Pai;
-  textEditNomeMae.Text := FCadastro.Cadastro.Mae;
-  textEditNaturalidade.Text := FCadastro.Cadastro.CidadeNascimento;
-  lookupComboBoxNaturalidade.EditValue := FCadastro.Cadastro.UFNascimento;
-  textEditSegurancaCNH.Text := FCadastro.Cadastro.CodigoCNH;
-  textEditNumeroCNH.Text := FCadastro.Cadastro.NumeroCNH;
-  textEditRegistroCNH.Text := FCadastro.Cadastro.RegistroCNH;
-  textEditCategoriaCNH.Text := FCadastro.Cadastro.CategoriaCNH;
-  dateEditEmissaoCNH.Date := FCadastro.Cadastro.EmissaoCNH;
-  dateEditValidadeCNH.Date := FCadastro.Cadastro.ValidadeCNH;
-  dateEditPrimeiraCNH.Date := FCadastro.Cadastro.DataPrimeiraCNH;
-  lookupComboBoxUFCNH.EditValue := FCadastro.Cadastro.UFCNH;
-  textEditNomeFantasia.Text := FCadastro.Cadastro.Fantasia;
-  textEditIE.Text := FCadastro.Cadastro.IERG;
-  textEditIEST.Text := FCadastro.Cadastro.IEST;
-  textEditIM.Text := FCadastro.Cadastro.IM;
-  textEditCNAE.Text := FCadastro.Cadastro.CNAE;
-  comboBoxCRT.ItemIndex := FCadastro.Cadastro.CRT;
-  textEditCodigoMEI.Text := FCadastro.Cadastro.MEI;
-  buttonEditCNPJMEI.Text := FCadastro.Cadastro.CNPJMEI;
-  textEditRazaoMEI.Text := FCadastro.Cadastro.RazaoMEI;
-  textEditFantasiaMEI.Text := FCadastro.Cadastro.FantasiaMEI;
-  comboBoxFormaPagamento.Text := FCadastro.Cadastro.FormaPagamento;
-  comboBoxTipoConta.Text := FCadastro.Cadastro.TipoConta;
-  lookupComboBoxBanco.EditValue := FCadastro.Cadastro.Banco;
-  textEditAgencia.Text := FCadastro.Cadastro.AgenciaConta;
-  textEditConta.Text := FCadastro.Cadastro.NumeroConta;
-  textEditFavorecido.Text := FCadastro.Cadastro.NomeFavorecido;
-  maskEditCPFCNPJFavorecido.Text := FCadastro.Cadastro.CPFCNPJFavorecido;
-  textEditChavePIX.Text := FCadastro.Cadastro.Chave;
-  checkBoxStatusGR.EditValue := FCadastro.Cadastro.GV;
-  textEditEmpresaGR.Text := FCadastro.Cadastro.EmpresaGR;
-  dateEditValidadeGR.Date := FCadastro.Cadastro.DataGV;
-  textEditNumeroConsultaGR.Text := FCadastro.Cadastro.NumeroConsultaGR;
-  memoObservacoes.Text := FCadastro.Cadastro.Obs;
-  cedSalario.Value := FCadastro.Cadastro.Verba;
-  cboBase.ItemIndex := FCadastro.Cadastro.Agente;
-  icbFuncao.EditValue := FCadastro.Cadastro.Entregador;
-  if (FCadastro.Cadastro.Status = 0) or (FCadastro.Cadastro.Status = 1) or (FCadastro.Cadastro.Status = 5)then
-    checkBoxStatus.Checked := True
-  else
-    checkBoxStatus.Checked := False;
-  if memTableEnderecos.Active then memTableEnderecos.Close;
-  PopulaEnderecos(FCadastro.Cadastro.Cadastro);
-  if memTableContatos.Active then memTableContatos.Close;
-  PopulaContatos(FCadastro.Cadastro.Cadastro);
-  PopulaVeiculos(FCadastro.Cadastro.Cadastro);
+  maskEditID.EditValue := FCadastro.FContratados.ARecord.id;
+  cboSexo.ItemIndex := FCadastro.FContratados.ARecord.cod_pessoa;
+  case FCadastro.FContratados.ARecord.des_tipo_doc of
+    'CPF'   : cboTipoPessoa.ItemIndex := 1;
+    'CNPJ'  : cboTipoPessoa.ItemIndex := 2;
+    else
+    begin
+      cboTipoPessoa.ItemIndex := 0;
+    end;
+  end;
+  maskEditCPCNPJ.EditValue := FCadastro.FContratados.ARecord.nom_razao_social;
+  textEditNome.Text := FCadastro.FContratados.ARecord.nom_razao_social;
+  textEditRG.Text := FCadastro.FContratados.ARecord.num_rg_ie;
+  textEditExpedidor.Text := FCadastro.FContratados.ARecord.nom_emissor_rg;
+  dateEditDataRG.Date := FCadastro.FContratados.ARecord.dat_emissao_rg;
+  dateEditNascimento.Date := FCadastro.FContratados.ARecord.dat_nascimento;
+  lookupComboBoxUFRG.EditValue := FCadastro.FContratados.ARecord.uf_emissor_rg;
+  textEditNomePai.Text := FCadastro.FContratados.ARecord.nom_pai;
+  textEditNomeMae.Text := FCadastro.FContratados.ARecord.nom_mae;
+  textEditNaturalidade.Text := FCadastro.FContratados.ARecord.des_naturalidade;
+  lookupComboBoxNaturalidade.EditValue := FCadastro.FContratados.ARecord.uf_naturalidade;
+//  textEditSegurancaCNH.Text := FCadastro.FContratados.ARecord.;
+  textEditNumeroCNH.Text := FCadastro.FContratados.ARecord.num_cnh;
+  textEditRegistroCNH.Text := FCadastro.FContratados.ARecord.num_registro_cnh;
+  textEditCategoriaCNH.Text := FCadastro.FContratados.ARecord.des_categoria_cnh;
+  dateEditEmissaoCNH.Date := FCadastro.FContratados.ARecord.dat_emissao_cnh;
+  dateEditValidadeCNH.Date := FCadastro.FContratados.ARecord.dat_validade_cnh;
+  dateEditPrimeiraCNH.Date := FCadastro.FContratados.ARecord.dat_primeira_cnh;
+  lookupComboBoxUFCNH.EditValue := FCadastro.FContratados.ARecord.uf_cnh;
+  textEditNomeFantasia.Text := FCadastro.FContratados.ARecord.nom_fantasia_alias;
+  textEditIE.Text := FCadastro.FContratados.ARecord.num_rg_ie;
+  textEditIM.Text := FCadastro.FContratados.ARecord.num_im;
+//  textEditCNAE.Text := FCadastro.Cadastro.CNAE;
+  comboBoxCRT.ItemIndex := FCadastro.FContratados.ARecord.cod_crt;
+//  comboBoxFormaPagamento.Text := FCadastro.FContratados.ARecord.des_;
+//  comboBoxTipoConta.Text := FCadastro.Cadastro.TipoConta;
+//  lookupComboBoxBanco.EditValue := FCadastro.Cadastro.Banco;
+//  textEditAgencia.Text := FCadastro.Cadastro.AgenciaConta;
+//  textEditConta.Text := FCadastro.Cadastro.NumeroConta;
+//  textEditFavorecido.Text := FCadastro.Cadastro.NomeFavorecido;
+//  maskEditCPFCNPJFavorecido.Text := FCadastro.Cadastro.CPFCNPJFavorecido;
+//  textEditChavePIX.Text := FCadastro.Cadastro.Chave;
+//  checkBoxStatusGR.EditValue := FCadastro.Cadastro.GV;
+//  textEditEmpresaGR.Text := FCadastro.Cadastro.EmpresaGR;
+//  dateEditValidadeGR.Date := FCadastro.Cadastro.DataGV;
+//  textEditNumeroConsultaGR.Text := FCadastro.Cadastro.NumeroConsultaGR;
+  memoObservacoes.Text := FCadastro.FContratados.ARecord.des_obs;
+//  cedSalario.Value := FCadastro.Cadastro.Verba;
+//  cboBase.ItemIndex := FCadastro.Cadastro.Agente;
+//  icbFuncao.EditValue := FCadastro.Cadastro.Entregador;
+  checkBoxStatus.EditValue := FCadastro.FContratados.ARecord.cod_status;
+  memTableEnderecos.Active := False;
+  PopulaEnderecos(FCadastro.FContratados.ARecord.id);
+  memTableContatos.Active := False;
+  PopulaContatos(FCadastro.FContratados.ARecord.id);
+  memTableCNAE.Active := False;
+  PopulaCNAE(FCadastro.FContratados.ARecord.id);
+  cboCategoria.ItemIndex := FCadastro.FContratados.ARecord.id_categoria;
 end;
 
 function Tview_SisGeFContractedDetail.ValidaDados: boolean;

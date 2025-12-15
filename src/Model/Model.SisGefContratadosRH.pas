@@ -1,31 +1,33 @@
-unit Model.SisGeFContratadosContatos;
+unit Model.SisGefContratadosRH;
 
 interface
 
 uses Common.ENum, FireDAC.Comp.Client, service.connectionMySQL, service.sistem;
 
 type
-  TContatos = record
-    seq_contato     : integer;
+  TRH = record
+    id_rh           : integer;
     id_contratados  : integer;
-    des_contato     : string[30];
-    num_telefone    : string[20];
-    des_email       : string[128];
+    val_salario     : double;
+    dat_admissao    : TDate;
+    dat_demissao    : TDate;
+    id_departamento : integer;
+    id_funcao       : integer;
   end;
 
-  type TContratadosContatosModel = class
+  type TContratadosRHModel = class
     private
         FAcao     : TAcao;
         FMensagem : string;
         FConn     : TConnectionMySQL;
         FQuery    : TFDQuery;
 
-        function Inserir  ()  : boolean;
-        function Alterar  ()  : boolean;
-        function Excluir  ()  : boolean;
+        function  Inserir ()  : boolean;
+        function  Alterar ()  : boolean;
+        function  Excluir ()  : boolean;
 
       public
-        ARecord   : TContatos;
+        ARecord   : TRH;
 
         Constructor Create();
         function    GetNextID   (sIdName: string)         : Integer;
@@ -41,46 +43,46 @@ type
       protected
   end;
   const
-      TABLENAME = 'crm_contratados_contatos';
+      TABLENAME = 'crm_contratados_rh';
       SQLINSERT = 'insert into ' + TABLENAME +
-                  '(seq_contato, id_contratados, des_contato, num_telefone, des_email) ' +
+                  '(id_rh, id_contratados, val_salario, dat_admissao, dat_demissao, id_departamento, id_funcao) ' +
                   'VALUES '  +
-                  '(:seq_contato, :id_contratados, :des_contato, :num_telefone, :des_email)';
+                  '(:id_rh, :id_contratados, :val_salario, :dat_admissao, :dat_demissao, :id_departamento, :id_funcao)';
       SQLUPDATE = 'update ' + TABLENAME +
                   ' set ' +
-                  'id_contratados = :id_contratados, des_contato = :des_contato, num_telefone = :num_telefone, ' +
-                  'des_email  = :des_email ' +
+                  'id_contratados = :id_contratados, val_salario = :val_salario, dat_admissao = :dat_admissao, ' +
+                  'dat_demissao = :dat_demissao, id_departamento = :id_departamento, id_funcao = :id_funcao, ' +
                   'where ' +
-                  'seq_contato = :seq_contato';
-      SQLSELECT = 'select seq_contato, id_contratados, des_contato, num_telefone, des_email ' +
+                  'id_rh = :id_rh';
+      SQLSELECT = 'id_rh, id_contratados, val_salario, dat_admissao, dat_demissao, id_departamento, id_funcao ' +
                   'from ' +
                   TABLENAME;
-      SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_contratados';
+      SQLDELETE = 'select from ' + TABLENAME + ' where id_contratados = :id_contratados';
 
 
 implementation
 
-{ TContratadosContatosModel }
+{ TContratadosRHModel }
 
-function TContratadosContatosModel.Alterar: boolean;
+function TContratadosRHModel.Alterar: boolean;
 begin
   try
   FQuery := FConn.GetQuery;
     FQuery.ExecSQL(SQLUPDATE,
-                  [ARecord.id_contratados, ARecord.des_contato, ARecord.num_telefone,
-                  ARecord.des_email, ARecord.seq_contato]);
+                  [ARecord.id_contratados, ARecord.val_salario, ARecord.dat_admissao, ARecord.dat_demissao,
+                  ARecord.id_departamento, ARecord.id_funcao, ARecord.id_rh]);
     Result := True;
   finally
     FQuery.Connection.Close;
   end;
 end;
 
-constructor TContratadosContatosModel.Create;
+constructor TContratadosRHModel.Create;
 begin
   FConn := TConnectionMySQL.Create();
 end;
 
-function TContratadosContatosModel.CustomSearch(aParams: array of string): boolean;
+function TContratadosRHModel.CustomSearch(aParams: array of string): boolean;
 var
   sSource : string;
 begin
@@ -108,10 +110,10 @@ begin
   Result := True;
 end;
 
-function TContratadosContatosModel.Excluir: boolean;
+function TContratadosRHModel.Excluir: boolean;
 begin
   try
-  FQuery := FConn.GetQuery;
+    FQuery := FConn.GetQuery;
     FQuery.ExecSQL(SQLDELETE,
                   [ARecord.id_contratados]);
     Result := True;
@@ -120,7 +122,7 @@ begin
   end;
 end;
 
-function TContratadosContatosModel.GetNextID(sIdName: string): Integer;
+function TContratadosRHModel.GetNextID(sIdName: string): Integer;
 begin
   try
     FQuery := FConn.GetQuery;
@@ -136,31 +138,31 @@ begin
   end;
 end;
 
-function TContratadosContatosModel.Inserir: boolean;
+function TContratadosRHModel.Inserir: boolean;
 begin
   Result := False;
   try
-    ARecord.seq_contato := 0;
+    ARecord.id_rh := 0;
     FQuery := FConn.GetQuery();
     FQuery.ExecSQL(SQLINSERT,
-                  [ARecord.seq_contato, ARecord.id_contratados, ARecord.des_contato, ARecord.num_telefone,
-                  ARecord.des_email]);
+                  [ARecord.id_rh, ARecord.id_contratados, ARecord.val_salario, ARecord.dat_admissao, ARecord.dat_demissao,
+                  ARecord.id_departamento, ARecord.id_funcao]);
     Result := True;
   finally
     FQuery.Connection.Close;
   end;
 end;
 
-function TContratadosContatosModel.SaveRecord: boolean;
+function TContratadosRHModel.SaveRecord: boolean;
 begin
   case FAcao of
-    tacIncluir  : Result := Inserir();
-    tacAlterar  : Result := Alterar();
-    tacExcluir  : Result := Excluir();
+    tacIncluir  : Result  :=  Inserir();
+    tacAlterar  : Result  :=  Alterar();
+    tacExcluir  : Result  :=  Excluir();
   end;
 end;
 
-function TContratadosContatosModel.Search(aParams: array of string): boolean;
+function TContratadosRHModel.Search(aParams: array of string): boolean;
 begin
   Result := False;
   FQuery := FConn.GetQuery;
@@ -169,13 +171,7 @@ begin
   begin
     FQuery.SQL.Add('where');
     if aParams[0] = 'ID' then
-      FQuery.SQL.Add('seq_contato = ' + aParams[1])
-    else if aParams[0] = 'CONTRATADO' then
-      FQuery.SQL.Add('id_contradados = ' + aParams[1])
-    else if aParams[0] = 'TELEFONE' then
-      FQuery.SQL.Add('num_telefone like "%' + aParams[1] + '%"')
-    else if aParams[0] = 'EMAIL' then
-      FQuery.SQL.Add('des_email like "%' + aParams[1] + '%"')
+      FQuery.SQL.Add('id_rh = ' + aParams[1])
     else
       FQuery.SQL.Add(aParams[1]);
   end;
@@ -188,16 +184,18 @@ begin
   Result := True;
 end;
 
-function TContratadosContatosModel.SetupRecords: boolean;
+function TContratadosRHModel.SetupRecords: boolean;
 begin
   Result := False;
   if FQuery.IsEmpty then
     Exit;
-  ARecord.seq_contato     :=  FQuery.FieldByName('seq_contato').AsInteger;
+  ARecord.id_rh           :=  FQuery.FieldByName('id_rh').AsInteger;
   ARecord.id_contratados  :=  FQuery.FieldByName('id_contratados').AsInteger;
-  ARecord.des_contato     :=  FQuery.FieldByName('des_contato').AsString;
-  ARecord.num_telefone    :=  FQuery.FieldByName('num_telefone').AsString;
-  ARecord.des_email       :=  FQuery.FieldByName('des_email').AsString;
+  ARecord.val_salario     :=  FQuery.FieldByName('val_salario').AsFloat;
+  ARecord.dat_admissao    :=  FQuery.FieldByName('dat_admissao').AsDateTime;
+  Arecord.dat_demissao    :=  FQuery.FieldByName('dat_demissao').AsDateTime;
+  ARecord.id_departamento :=  FQuery.FieldByName('id_departamento').AsInteger;
+  ARecord.id_funcao       :=  FQuery.FieldByName('id_funcao').AsInteger;
   Result := True;
 end;
 

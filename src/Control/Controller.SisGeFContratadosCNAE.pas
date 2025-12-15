@@ -5,10 +5,11 @@ interface
   uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFContratadosCNAE;
 
   type
-    TCadastroContratadosController = class
+    TCadastroContratadosCNAEController = class
     private
-      FCNAE : TContratadosCNAEModel;
     public
+      FCNAE : TContratadosCNAEModel;
+
       Constructor Create();
       function    GetNextID   (sIdName: string)         : Integer;
       function    Search      (aParams: array of string): boolean;
@@ -19,34 +20,34 @@ interface
 
 implementation
 
-{ TCadastroContratadosController }
+{ TCadastroContratadosCNAEController }
 
-constructor TCadastroContratadosController.Create;
+constructor TCadastroContratadosCNAEController.Create;
 begin
   FCNAE := TContratadosCNAEModel.Create();
 end;
 
-function TCadastroContratadosController.CustomSearch(aParams: array of string): boolean;
+function TCadastroContratadosCNAEController.CustomSearch(aParams: array of string): boolean;
 begin
   Result := FCNAE.CustomSearch(aParams);
 end;
 
-function TCadastroContratadosController.GetNextID(sIdName: string): Integer;
+function TCadastroContratadosCNAEController.GetNextID(sIdName: string): Integer;
 begin
   Result := FCNAE.GetNextID(sIdName);
 end;
 
-function TCadastroContratadosController.SaveRecord: boolean;
+function TCadastroContratadosCNAEController.SaveRecord: boolean;
 begin
   Result := FCNAE.SaveRecord();
 end;
 
-function TCadastroContratadosController.Search(aParams: array of string): boolean;
+function TCadastroContratadosCNAEController.Search(aParams: array of string): boolean;
 begin
   Result := FCNAE.Search(aParams);
 end;
 
-function TCadastroContratadosController.SetupRecord: boolean;
+function TCadastroContratadosCNAEController.SetupRecord: boolean;
 begin
   Result := FCNAE.SetupRecords();
 end;

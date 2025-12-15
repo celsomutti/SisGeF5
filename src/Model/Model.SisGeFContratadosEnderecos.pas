@@ -28,6 +28,7 @@ type
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
+        function Excluir  ()  : boolean;
 
       public
         ARecord   : TEnderecos;
@@ -64,6 +65,7 @@ type
                   'des_bairro, nom_cidade, uf_estado, des_referencia ' +
                   'from ' +
                   TABLENAME;
+      SQLDELETE = 'deelete from ' + TABLENAME + 'where id-contratado = :id_contratado';
 
 
 implementation
@@ -117,6 +119,20 @@ begin
   Result := True;
 end;
 
+function TContratadosEnderecosModel.Excluir: boolean;
+begin
+  Result := False;
+  try
+
+    FQuery := FConn.GetQuery();
+    FQuery.ExecSQL(SQLDELETE,
+                  [ARecord.id_contratados]);
+    Result := True;
+  finally
+    FQuery.Connection.Close;
+  end;
+end;
+
 function TContratadosEnderecosModel.GetNextID(sIdName: string): Integer;
 begin
   try
@@ -152,8 +168,9 @@ end;
 function TContratadosEnderecosModel.SaveRecord: boolean;
 begin
   case FAcao of
-    tacIncluir: Result := Inserir();
-    tacAlterar: Result := Alterar();
+    tacIncluir  : Result := Inserir();
+    tacAlterar  : Result := Alterar();
+    tacExcluir  : RESULT := Excluir();
   end;
 end;
 

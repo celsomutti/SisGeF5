@@ -24,7 +24,8 @@ type
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
-
+        function Excluir  ()  : Boolean;
+        
       public
         ARecord   : TFinanceiro;
 
@@ -36,8 +37,9 @@ type
         function    SetupRecords()                        : boolean;
 
 
-        property Acao     : TAcao   read  FAcao     write FAcao;
-        property Mensagem : string  read  FMensagem write FMensagem;
+        property Acao     : TAcao     read  FAcao     write FAcao;
+        property Mensagem : string    read  FMensagem write FMensagem;
+        property Query    : TFDQuery  read FQuery     write FQuery;
       protected
   end;
   const
@@ -55,6 +57,7 @@ type
       SQLSELECT = 'select id_financeiro, id_contratados, cod_banco, cod_agencia, num_conta, chave_pix, des_forma_pagamento ' +
                   'from ' +
                   TABLENAME;
+      SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_contratados';
 
 
 implementation
@@ -66,8 +69,8 @@ begin
   try
   FQuery := FConn.GetQuery;
     FQuery.ExecSQL(SQLUPDATE,
-                  [ARecord.id_financeiro, ARecord.id_contratados, ARecord.cod_banco, ARecord.cod_agencia, ARecord.num_conta,
-                  ARecord.chave_pix, ARecord.des_forma_pagamento]);
+                  [ARecord.id_contratados, ARecord.cod_banco, ARecord.cod_agencia, ARecord.num_conta,
+                  ARecord.chave_pix, ARecord.des_forma_pagamento, ARecord.id_financeiro]);
     Result := True;
   finally
     FQuery.Connection.Close;
@@ -107,6 +110,18 @@ begin
   Result := True;
 end;
 
+function TContratadosFinanceiroModel.Excluir: Boolean;
+begin
+  try
+  FQuery := FConn.GetQuery;
+    FQuery.ExecSQL(SQLUPDATE,
+                  [ARecord.id_contratados]);
+    Result := True;
+  finally
+    FQuery.Connection.Close;
+  end;
+end;
+
 function TContratadosFinanceiroModel.GetNextID(sIdName: string): Integer;
 begin
   try
@@ -141,8 +156,9 @@ end;
 function TContratadosFinanceiroModel.SaveRecord: boolean;
 begin
    case FAcao of
-    tacIncluir: Result := Inserir();
-    tacAlterar: Result := Alterar();
+    tacIncluir  : Result  :=  Inserir();
+    tacAlterar  : Result  :=  Alterar();
+    tacExcluir  : Result  :=  Excluir();
   end;
 end;
 

@@ -5,10 +5,12 @@ interface
 uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFContratadosRepresentantes;
 
   type
-    TContratadosGRController = class
+    TContratadosRepresentanteController = class
     private
-      FRepresentante : TContratadosRepresentantesModel;
+
     public
+      FRepresentante : TContratadosRepresentantesModel;
+
       Constructor Create();
       function    GetNextID   (sIdName: string)         : Integer;
       function    Search      (aParams: array of string): boolean;
@@ -20,34 +22,34 @@ uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFContratadosR
 
 implementation
 
-{ TContratadosGRController }
+{ TContratadosRepresentanteController }
 
-constructor TContratadosGRController.Create;
+constructor TContratadosRepresentanteController.Create;
 begin
   FRepresentante := TContratadosRepresentantesModel.Create;
 end;
 
-function TContratadosGRController.CustomSearch(aParams: array of string): boolean;
+function TContratadosRepresentanteController.CustomSearch(aParams: array of string): boolean;
 begin
   Result := FRepresentante.CustomSearch(aParams);
 end;
 
-function TContratadosGRController.GetNextID(sIdName: string): Integer;
+function TContratadosRepresentanteController.GetNextID(sIdName: string): Integer;
 begin
   Result := FRepresentante.GetNextID(sIdName);
 end;
 
-function TContratadosGRController.SaveRecord: boolean;
+function TContratadosRepresentanteController.SaveRecord: boolean;
 begin
   Result := FRepresentante.SaveRecord;
 end;
 
-function TContratadosGRController.Search(aParams: array of string): boolean;
+function TContratadosRepresentanteController.Search(aParams: array of string): boolean;
 begin
   Result := FRepresentante.Search(aParams);
 end;
 
-function TContratadosGRController.SetupRecord: boolean;
+function TContratadosRepresentanteController.SetupRecord: boolean;
 begin
   Result := FRepresentante.SetupRecords;
 end;

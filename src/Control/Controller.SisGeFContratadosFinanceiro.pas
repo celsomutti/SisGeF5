@@ -7,8 +7,10 @@ uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFContratadosF
   type
     TContratadosFinanceiroController = class
     private
-      FFinanceiro : TContratadosFinanceiroModel;
+
     public
+      FFinanceiro : TContratadosFinanceiroModel;
+
       Constructor Create();
       function    GetNextID   (sIdName: string)         : Integer;
       function    Search      (aParams: array of string): boolean;

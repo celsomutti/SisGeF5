@@ -40,8 +40,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitWidth = 885
-    ExplicitHeight = 546
     object maskEditID: TcxMaskEdit
       Left = 31
       Top = 12
@@ -60,7 +58,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Width = 74
     end
     object textEditNome: TcxTextEdit
-      Left = 456
+      Left = 455
       Top = 12
       Hint = 'Nome ou raz'#227'p social]'
       Properties.MaxLength = 70
@@ -68,7 +66,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 3
-      Width = 317
+      Width = 318
     end
     object layoutControlDados: TdxLayoutControl
       Left = 26
@@ -305,7 +303,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Width = 66
       end
       object textEditNomeFantasia: TcxTextEdit
-        Left = 111
+        Left = 135
         Top = 26
         Hint = 'Nome fantasia'
         Properties.MaxLength = 70
@@ -313,10 +311,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 17
-        Width = 145
+        Width = 325
       end
       object textEditIE: TcxTextEdit
-        Left = 363
+        Left = 567
         Top = 26
         Hint = 'Inscri'#231#227'o Estadual'
         Properties.MaxLength = 20
@@ -324,11 +322,11 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 18
-        Width = 108
+        Width = 139
       end
       object textEditIM: TcxTextEdit
-        Left = 585
-        Top = 26
+        Left = 135
+        Top = 53
         Hint = 'Inscri'#231#227'o municipal'
         Properties.MaxLength = 20
         Style.BorderColor = clWindowFrame
@@ -338,7 +336,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Width = 121
       end
       object comboBoxCRT: TcxComboBox
-        Left = 111
+        Left = 290
         Top = 53
         Hint = 'C'#243'digo de Refime Tribut'#225'rio'
         Properties.DropDownListStyle = lsFixedList
@@ -354,56 +352,29 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 20
         Text = 'Selecione ...'
-        Width = 595
+        Width = 416
       end
-      object gridCNAE: TcxGrid
-        Left = 26
-        Top = 99
-        Width = 680
-        Height = 56
+      object txtRepresentante: TcxTextEdit
+        Left = 135
+        Top = 80
+        Hint = 'Nome do representante'
+        Properties.MaxLength = 70
+        Style.BorderColor = clWindowFrame
+        Style.BorderStyle = ebs3D
+        Style.HotTrack = False
         TabOrder = 21
-        object gridCNAEDBTableView1: TcxGridDBTableView
-          Navigator.Buttons.CustomButtons = <>
-          DataController.DataSource = dsCNAE
-          DataController.Summary.DefaultGroupSummaryItems = <>
-          DataController.Summary.FooterSummaryItems = <>
-          DataController.Summary.SummaryGroups = <>
-          OptionsData.CancelOnExit = False
-          OptionsData.Deleting = False
-          OptionsData.DeletingConfirmation = False
-          OptionsData.Editing = False
-          OptionsData.Inserting = False
-          OptionsView.ColumnAutoWidth = True
-          OptionsView.GroupByBox = False
-          object gridCNAEDBTableView1id_cnae: TcxGridDBColumn
-            DataBinding.FieldName = 'id_cnae'
-            Visible = False
-            VisibleForCustomization = False
-          end
-          object gridCNAEDBTableView1id_contratados: TcxGridDBColumn
-            DataBinding.FieldName = 'id_contratados'
-            Visible = False
-            VisibleForCustomization = False
-          end
-          object gridCNAEDBTableView1cod_tipo_cnae: TcxGridDBColumn
-            Caption = 'Tipo'
-            DataBinding.FieldName = 'cod_tipo_cnae'
-            Width = 58
-          end
-          object gridCNAEDBTableView1cod_cnae: TcxGridDBColumn
-            Caption = 'C'#243'digo'
-            DataBinding.FieldName = 'cod_cnae'
-            Width = 124
-          end
-          object gridCNAEDBTableView1des_cnae: TcxGridDBColumn
-            Caption = 'Descri'#231#227'o'
-            DataBinding.FieldName = 'des_cnae'
-            Width = 496
-          end
-        end
-        object gridCNAELevel1: TcxGridLevel
-          GridView = gridCNAEDBTableView1
-        end
+        Width = 571
+      end
+      object mskCPFRepresentante: TcxMaskEdit
+        Left = 135
+        Top = 107
+        Properties.EditMask = '!000\.000\.000\-00;0; '
+        Style.BorderColor = clWindowFrame
+        Style.BorderStyle = ebs3D
+        Style.HotTrack = False
+        TabOrder = 22
+        Text = '           '
+        Width = 143
       end
       object layoutControlDadosGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
@@ -422,7 +393,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avTop
         CaptionOptions.Text = 'Pessoa F'#237'sica'
         ButtonOptions.Buttons = <>
-        ItemIndex = 2
+        ItemIndex = 3
         ShowBorder = False
         Index = 0
       end
@@ -563,6 +534,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
+        ItemIndex = 3
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 3
@@ -668,7 +640,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Parent = layoutControlDadosGroup_Root
         CaptionOptions.Text = 'Pessoa Jur'#237'dica'
         ButtonOptions.Buttons = <>
-        ItemIndex = 2
+        ItemIndex = 1
         Index = 1
       end
       object layoutGroupJuridica1: TdxLayoutGroup
@@ -676,7 +648,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 2
+        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 0
@@ -698,6 +670,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avTop
         CaptionOptions.Text = 'New Group'
         ButtonOptions.Buttons = <>
+        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 1
@@ -708,19 +681,19 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         CaptionOptions.Text = 'Inscri'#231#227'o Estadual:'
         Control = textEditIE
         ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 108
+        ControlOptions.OriginalWidth = 139
         ControlOptions.ShowBorder = False
         Index = 1
       end
       object layoutItemIM: TdxLayoutItem
-        Parent = layoutGroupJuridica1
+        Parent = layoutGroupJuridica2
         AlignVert = avClient
         CaptionOptions.Text = 'Inscri'#231#227'o Municipal:'
         Control = textEditIM
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
-        Index = 2
+        Index = 0
       end
       object layoutItemCRT: TdxLayoutItem
         Parent = layoutGroupJuridica2
@@ -731,7 +704,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
-        Index = 0
+        Index = 1
       end
       object dxLayoutGroup5: TdxLayoutGroup
         Parent = layoutGroupPessoaJuridica
@@ -745,14 +718,24 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       object dxLayoutItem5: TdxLayoutItem
         Parent = dxLayoutGroup5
         AlignHorz = ahClient
-        AlignVert = avClient
-        CaptionOptions.Text = 'CNAE:'
-        CaptionOptions.Layout = clTop
-        Control = gridCNAE
-        ControlOptions.OriginalHeight = 19
-        ControlOptions.OriginalWidth = 250
+        AlignVert = avTop
+        CaptionOptions.Text = 'Representante: '
+        Control = txtRepresentante
+        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
         Index = 0
+      end
+      object dxLayoutItem10: TdxLayoutItem
+        Parent = dxLayoutGroup5
+        AlignHorz = ahLeft
+        AlignVert = avTop
+        CaptionOptions.Text = 'CPF Representante: '
+        Control = mskCPFRepresentante
+        ControlOptions.OriginalHeight = 21
+        ControlOptions.OriginalWidth = 143
+        ControlOptions.ShowBorder = False
+        Index = 1
       end
     end
     object layoutControlComplemento: TdxLayoutControl
@@ -764,7 +747,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       TabOrder = 5
       Transparent = True
       object dbComboBoxTipoEndereco: TcxDBComboBox
-        Left = 243
+        Left = 242
         Top = 46
         Hint = 'Tipo de endere'#231'o'
         DataBinding.DataField = 'des_tipo'
@@ -780,7 +763,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 1
-        Width = 308
+        Width = 309
       end
       object dbTextEditEndereco: TcxDBTextEdit
         Left = 89
@@ -879,7 +862,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       object dbNavigatorEnderecos: TcxDBNavigator
         Left = 26
         Top = 159
-        Width = 192
+        Width = 217
         Height = 25
         Cursor = crHandPoint
         Buttons.CustomButtons = <>
@@ -900,6 +883,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Buttons.GotoBookmark.Visible = False
         Buttons.Filter.Visible = False
         DataSource = dsEnderecos
+        InfoPanel.Visible = True
         TabOrder = 10
       end
       object gridContatos: TcxGrid
@@ -989,27 +973,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         TabOrder = 12
         Text = 'NENHUMA'
         Visible = False
-        Width = 246
-      end
-      object comboBoxTipoConta: TcxComboBox
-        Left = 10000
-        Top = 10000
-        Properties.DropDownListStyle = lsEditFixedList
-        Properties.IgnoreMaskBlank = True
-        Properties.Items.Strings = (
-          'NENHUM'
-          'CONTA CORRENTE'
-          'CONTA POUPAN'#199'A'
-          'CONTA SAL'#193'RIO')
-        Style.BorderColor = clWindowFrame
-        Style.BorderStyle = ebs3D
-        Style.HotTrack = False
-        Style.ButtonStyle = bts3D
-        Style.PopupBorderStyle = epbsFrame3D
-        TabOrder = 13
-        Text = 'NENHUM'
-        Visible = False
-        Width = 228
+        Width = 562
       end
       object lookupComboBoxBanco: TcxLookupComboBox
         Left = 10000
@@ -1026,7 +990,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.HotTrack = False
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
-        TabOrder = 14
+        TabOrder = 13
         Visible = False
         Width = 142
       end
@@ -1038,7 +1002,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
-        TabOrder = 15
+        TabOrder = 14
         Visible = False
         Width = 115
       end
@@ -1050,34 +1014,9 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
-        TabOrder = 16
+        TabOrder = 15
         Visible = False
         Width = 185
-      end
-      object textEditFavorecido: TcxTextEdit
-        Left = 10000
-        Top = 10000
-        Properties.MaxLength = 70
-        Style.BorderColor = clWindowFrame
-        Style.BorderStyle = ebs3D
-        Style.HotTrack = False
-        TabOrder = 17
-        Visible = False
-        Width = 309
-      end
-      object maskEditCPFCNPJFavorecido: TcxMaskEdit
-        Left = 10000
-        Top = 10000
-        Properties.IgnoreMaskBlank = True
-        Properties.EditMask = '99999999999999999999;0; '
-        Properties.MaxLength = 0
-        Style.BorderColor = clWindowFrame
-        Style.BorderStyle = ebs3D
-        Style.HotTrack = False
-        TabOrder = 18
-        Text = '                    '
-        Visible = False
-        Width = 190
       end
       object textEditChavePIX: TcxTextEdit
         Left = 10000
@@ -1087,7 +1026,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
-        TabOrder = 19
+        TabOrder = 16
         Visible = False
         Width = 562
       end
@@ -1156,6 +1095,51 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.ButtonStyle = bts3D
         TabOrder = 2
         Width = 121
+      end
+      object gridCNAE: TcxGrid
+        Left = 10000
+        Top = 10000
+        Width = 680
+        Height = 127
+        TabOrder = 17
+        Visible = False
+        object gridCNAEDBTableView1: TcxGridDBTableView
+          Navigator.Buttons.CustomButtons = <>
+          DataController.DataSource = dsCNAE
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+          OptionsView.ColumnAutoWidth = True
+          OptionsView.GroupByBox = False
+          object gridCNAEDBTableView1id_cnae: TcxGridDBColumn
+            Caption = 'ID'
+            DataBinding.FieldName = 'id_cnae'
+            Visible = False
+          end
+          object gridCNAEDBTableView1id_contratados: TcxGridDBColumn
+            Caption = 'ID Cotratado'
+            DataBinding.FieldName = 'id_contratados'
+            Visible = False
+          end
+          object gridCNAEDBTableView1cod_tipo_cnae: TcxGridDBColumn
+            Caption = 'Tipo'
+            DataBinding.FieldName = 'des_tipo_cnae'
+            Width = 111
+          end
+          object gridCNAEDBTableView1cod_cnae: TcxGridDBColumn
+            Caption = 'CNAE'
+            DataBinding.FieldName = 'cod_cnae'
+            Width = 133
+          end
+          object gridCNAEDBTableView1des_cnae: TcxGridDBColumn
+            Caption = 'Descri'#231#227'o'
+            DataBinding.FieldName = 'des_cnae'
+            Width = 434
+          end
+        end
+        object gridCNAELevel1: TcxGridLevel
+          GridView = gridCNAEDBTableView1
+        end
       end
       object layoutControlComplementoGroup_Root: TdxLayoutGroup
         AlignHorz = ahClient
@@ -1317,7 +1301,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         CaptionOptions.Visible = False
         Control = dbNavigatorEnderecos
         ControlOptions.OriginalHeight = 25
-        ControlOptions.OriginalWidth = 192
+        ControlOptions.OriginalWidth = 217
         ControlOptions.ShowBorder = False
         Index = 4
       end
@@ -1353,17 +1337,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
         Index = 0
-      end
-      object layoutItemTipoConta: TdxLayoutItem
-        Parent = LayoutGroupDadosBancarios1
-        AlignHorz = ahClient
-        AlignVert = avTop
-        CaptionOptions.Text = 'Tipo de Conta:'
-        Control = comboBoxTipoConta
-        ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 121
-        ControlOptions.ShowBorder = False
-        Index = 1
       end
       object layoutGroupDadosBancarios2: TdxLayoutGroup
         Parent = layoutGroupDadosBancarios
@@ -1416,28 +1389,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         ShowBorder = False
         Index = 2
       end
-      object layoutItemFavorecido: TdxLayoutItem
-        Parent = layoutGroupDadosBancarios3
-        AlignHorz = ahClient
-        AlignVert = avTop
-        CaptionOptions.Text = 'Favorecido:'
-        Control = textEditFavorecido
-        ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 189
-        ControlOptions.ShowBorder = False
-        Index = 0
-      end
-      object layoutItemCPFCNPJFavorecido: TdxLayoutItem
-        Parent = layoutGroupDadosBancarios3
-        AlignHorz = ahClient
-        AlignVert = avTop
-        CaptionOptions.Text = 'CPF/CNPJ:'
-        Control = maskEditCPFCNPJFavorecido
-        ControlOptions.OriginalHeight = 21
-        ControlOptions.OriginalWidth = 121
-        ControlOptions.ShowBorder = False
-        Index = 1
-      end
       object LayoutGrouPDadosBancarios4: TdxLayoutGroup
         Parent = layoutGroupDadosBancarios
         CaptionOptions.Text = 'New Group'
@@ -1468,14 +1419,16 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         ControlOptions.ShowBorder = False
         Index = 0
       end
-      object layoutGroupVeiculos: TdxLayoutGroup
+      object layoutGroupCNAE: TdxLayoutGroup
         Parent = layoutControlComplementoGroup_Root
-        CaptionOptions.Text = 'Ve'#237'culos'
+        AlignHorz = ahClient
+        AlignVert = avClient
+        CaptionOptions.Text = 'CNAE'
         ButtonOptions.Buttons = <>
         Index = 3
       end
       object layoutGroupGridVeiculos: TdxLayoutGroup
-        Parent = layoutGroupVeiculos
+        Parent = layoutGroupCNAE
         AlignHorz = ahClient
         AlignVert = avClient
         CaptionOptions.Text = 'New Group'
@@ -1491,7 +1444,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         ButtonOptions.Buttons = <>
         LayoutDirection = ldHorizontal
         ShowBorder = False
-        Index = 0
+        Index = 1
       end
       object dxLayoutItem13: TdxLayoutItem
         Parent = layoutGroupEndereco1
@@ -1501,6 +1454,18 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
         Index = 2
+      end
+      object dxLayoutItem1: TdxLayoutItem
+        Parent = layoutGroupGridVeiculos
+        AlignHorz = ahClient
+        AlignVert = avClient
+        CaptionOptions.Text = 'cxGrid1'
+        CaptionOptions.Visible = False
+        Control = gridCNAE
+        ControlOptions.OriginalHeight = 200
+        ControlOptions.OriginalWidth = 250
+        ControlOptions.ShowBorder = False
+        Index = 0
       end
     end
     object memoObservacoes: TcxMemo
@@ -1544,6 +1509,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Top = 527
       Hint = 'Cadastro ativo ou inativo'
       Caption = 'ATIVO'
+      Properties.NullStyle = nssUnchecked
       Properties.ValueChecked = '1'
       Properties.ValueUnchecked = '2'
       Properties.OnChange = checkBoxStatusPropertiesChange
@@ -1552,7 +1518,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       TabOrder = 14
     end
     object maskEditCPCNPJ: TcxButtonEdit
-      Left = 273
+      Left = 272
       Top = 11
       Properties.Buttons = <
         item
@@ -1650,7 +1616,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       TabOrder = 8
       Text = 'Selecione'
       Visible = False
-      Width = 118
+      Width = 117
     end
     object icbFuncao: TcxImageComboBox
       Left = 10000
@@ -1743,7 +1709,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Width = 154
     end
     object cboTipoPessoa: TcxComboBox
-      Left = 143
+      Left = 142
       Top = 11
       Hint = 'Tipo de Pessoa'
       Properties.DropDownListStyle = lsFixedList
@@ -1774,7 +1740,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 10
       Visible = False
-      Width = 121
+      Width = 147
     end
     object datDEmissao: TcxDateEdit
       Left = 10000
@@ -1787,7 +1753,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 11
       Visible = False
-      Width = 121
+      Width = 147
     end
     object cboCategoria: TcxComboBox
       Left = 10000
@@ -1806,7 +1772,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       TabOrder = 12
       Text = 'Selecione ...'
       Visible = False
-      Width = 121
+      Width = 142
     end
     object cboSexo: TcxComboBox
       Left = 10000
@@ -1825,7 +1791,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       TabOrder = 6
       Text = 'cboSexo'
       Visible = False
-      Width = 118
+      Width = 117
     end
     object layoutControlPadraoGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -1977,7 +1943,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       CaptionOptions.Visible = False
       Control = checkBoxStatus
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 55
+      ControlOptions.OriginalWidth = 54
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -2078,7 +2044,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     end
     object dxLayoutItem6: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahLeft
+      AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Data de Admiss'#227'o'
       Control = datAdmissao
@@ -2089,7 +2055,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     end
     object dxLayoutItem8: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahLeft
+      AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Data de Demiss'#227'o:'
       Control = datDEmissao
@@ -2100,7 +2066,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     end
     object dxLayoutItem9: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahLeft
+      AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Categoria:'
       Control = cboCategoria
@@ -2125,8 +2091,8 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
   object dsEnderecos: TDataSource
     AutoEdit = False
     DataSet = memTableEnderecos
-    Left = 472
-    Top = 440
+    Left = 536
+    Top = 296
   end
   object memTableContatos: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -2381,10 +2347,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 400
-    Top = 445
+    Left = 592
+    Top = 293
     Content = {
-      414442530F00652CE9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00A453E9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005
@@ -2511,11 +2477,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         DataType = ftInteger
       end
       item
-        Name = 'cod_tipo_cnae'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
         Name = 'cod_cnae'
         Attributes = [faRequired]
         DataType = ftString
@@ -2545,7 +2506,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     Left = 400
     Top = 237
     Content = {
-      414442530F00652C88020000FF00010001FF02FF030400180000006D0065006D
+      414442530F00A4530F020000FF00010001FF02FF030400180000006D0065006D
       005400610062006C00650043004E004100450005000A0000005400610062006C
       006500060000000000070000080032000000090000FF0AFF0B04000E00000069
       0064005F0063006E006100650005000E000000690064005F0063006E00610065
@@ -2554,36 +2515,33 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       7400720061007400610064006F00730005001C000000690064005F0063006F00
       6E007400720061007400610064006F0073000C00020000000E000D000F000110
       000111000112000113001C000000690064005F0063006F006E00740072006100
-      7400610064006F007300FEFF0B04001A00000063006F0064005F007400690070
-      006F005F0063006E006100650005001A00000063006F0064005F007400690070
-      006F005F0063006E00610065000C00030000000E000D000F0001100001110001
-      12000113001A00000063006F0064005F007400690070006F005F0063006E0061
-      006500FEFF0B04001000000063006F0064005F0063006E006100650005001000
-      000063006F0064005F0063006E00610065000C00040000000E00140015001400
-      00000F000110000111000112000113001000000063006F0064005F0063006E00
-      61006500160014000000FEFF0B0400100000006400650073005F0063006E0061
-      0065000500100000006400650073005F0063006E00610065000C00050000000E
-      0014001500840000000F00011000011100011200011300100000006400650073
-      005F0063006E0061006500160084000000FEFEFF17FEFF18FEFF19FEFEFEFF1A
-      FEFF1BFF1CFEFEFE0E004D0061006E0061006700650072001E00550070006400
-      6100740065007300520065006700690073007400720079001200540061006200
-      6C0065004C006900730074000A005400610062006C00650008004E0061006D00
-      6500140053006F0075007200630065004E0061006D0065000A00540061006200
-      49004400240045006E0066006F0072006300650043006F006E00730074007200
-      610069006E00740073001E004D0069006E0069006D0075006D00430061007000
-      61006300690074007900180043006800650063006B004E006F0074004E007500
-      6C006C00140043006F006C0075006D006E004C006900730074000C0043006F00
-      6C0075006D006E00100053006F007500720063006500490044000E0064007400
-      49006E0074003300320010004400610074006100540079007000650014005300
-      65006100720063006800610062006C0065000800420061007300650012004F00
-      49006E0055007000640061007400650010004F0049006E005700680065007200
-      65001A004F0072006900670069006E0043006F006C004E0061006D0065001800
-      6400740041006E007300690053007400720069006E0067000800530069007A00
-      6500140053006F007500720063006500530069007A0065001C0043006F006E00
-      730074007200610069006E0074004C0069007300740010005600690065007700
-      4C006900730074000E0052006F0077004C006900730074001800520065006C00
-      6100740069006F006E004C006900730074001C00550070006400610074006500
-      73004A006F00750072006E0061006C000E004300680061006E00670065007300}
+      7400610064006F007300FEFF0B04001000000063006F0064005F0063006E0061
+      00650005001000000063006F0064005F0063006E00610065000C00030000000E
+      0014001500140000000F000110000111000112000113001000000063006F0064
+      005F0063006E0061006500160014000000FEFF0B040010000000640065007300
+      5F0063006E00610065000500100000006400650073005F0063006E0061006500
+      0C00040000000E0014001500840000000F000110000111000112000113001000
+      00006400650073005F0063006E0061006500160084000000FEFEFF17FEFF18FE
+      FF19FEFEFEFF1AFEFF1BFF1CFEFEFE0E004D0061006E0061006700650072001E
+      0055007000640061007400650073005200650067006900730074007200790012
+      005400610062006C0065004C006900730074000A005400610062006C00650008
+      004E0061006D006500140053006F0075007200630065004E0061006D0065000A
+      0054006100620049004400240045006E0066006F0072006300650043006F006E
+      00730074007200610069006E00740073001E004D0069006E0069006D0075006D
+      0043006100700061006300690074007900180043006800650063006B004E006F
+      0074004E0075006C006C00140043006F006C0075006D006E004C006900730074
+      000C0043006F006C0075006D006E00100053006F007500720063006500490044
+      000E006400740049006E00740033003200100044006100740061005400790070
+      0065001400530065006100720063006800610062006C00650008004200610073
+      00650012004F0049006E0055007000640061007400650010004F0049006E0057
+      0068006500720065001A004F0072006900670069006E0043006F006C004E0061
+      006D00650018006400740041006E007300690053007400720069006E00670008
+      00530069007A006500140053006F007500720063006500530069007A0065001C
+      0043006F006E00730074007200610069006E0074004C00690073007400100056
+      006900650077004C006900730074000E0052006F0077004C0069007300740018
+      00520065006C006100740069006F006E004C006900730074001C005500700064
+      0061007400650073004A006F00750072006E0061006C000E004300680061006E
+      00670065007300}
     object memTableCNAEid_cnae: TIntegerField
       FieldName = 'id_cnae'
       Required = True
@@ -2592,9 +2550,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       FieldName = 'id_contratados'
       Required = True
     end
-    object memTableCNAEcod_tipo_cnae: TIntegerField
-      FieldName = 'cod_tipo_cnae'
-      Required = True
+    object memTableCNAEdes_tipo_cnae: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'des_tipo_cnae'
+      Calculated = True
     end
     object memTableCNAEcod_cnae: TStringField
       FieldName = 'cod_cnae'
@@ -2611,411 +2570,5 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     DataSet = memTableCNAE
     Left = 472
     Top = 237
-  end
-  object memTableFinanceiro: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'id_financeiro'
-        Attributes = [faReadonly]
-        DataType = ftAutoInc
-      end
-      item
-        Name = 'id_contratados'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'cod_banco'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 4
-      end
-      item
-        Name = 'cod_agencia'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 10
-      end
-      item
-        Name = 'num_conta'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 20
-      end
-      item
-        Name = 'chave_pix'
-        DataType = ftString
-        Size = 125
-      end
-      item
-        Name = 'des_forma_pagamento'
-        DataType = ftString
-        Size = 20
-      end>
-    IndexDefs = <>
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
-    FormatOptions.MaxBcdPrecision = 2147483647
-    FormatOptions.MaxBcdScale = 1073741823
-    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
-    ResourceOptions.Persistent = True
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
-    UpdateOptions.LockWait = True
-    UpdateOptions.FetchGeneratorsPoint = gpNone
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    StoreDefs = True
-    Left = 400
-    Top = 293
-    Content = {
-      414442530F00652CFE030000FF00010001FF02FF030400240000006D0065006D
-      005400610062006C006500460069006E0061006E0063006500690072006F0005
-      000A0000005400610062006C0065000600000000000700000800320000000900
-      00FF0AFF0B04001A000000690064005F00660069006E0061006E006300650069
-      0072006F0005001A000000690064005F00660069006E0061006E006300650069
-      0072006F000C00010000000E000D000F00011000011100011200011300FFFFFF
-      FF1400FFFFFFFF15000116000117000118000119001A000000690064005F0066
-      0069006E0061006E0063006500690072006F00FEFF0B04001C00000069006400
-      5F0063006F006E007400720061007400610064006F00730005001C0000006900
-      64005F0063006F006E007400720061007400610064006F0073000C0002000000
-      0E000D000F00011200011A000117000119001C000000690064005F0063006F00
-      6E007400720061007400610064006F007300FEFF0B04001200000063006F0064
-      005F00620061006E0063006F0005001200000063006F0064005F00620061006E
-      0063006F000C00030000000E001B001C00040000000F00011200011A00011700
-      0119001200000063006F0064005F00620061006E0063006F001D0004000000FE
-      FF0B04001600000063006F0064005F006100670065006E006300690061000500
-      1600000063006F0064005F006100670065006E006300690061000C0004000000
-      0E001B001C000A0000000F00011200011A000117000119001600000063006F00
-      64005F006100670065006E006300690061001D000A000000FEFF0B0400120000
-      006E0075006D005F0063006F006E00740061000500120000006E0075006D005F
-      0063006F006E00740061000C00050000000E001B001C00140000000F00011200
-      011A00011700011900120000006E0075006D005F0063006F006E00740061001D
-      0014000000FEFF0B040012000000630068006100760065005F00700069007800
-      050012000000630068006100760065005F007000690078000C00060000000E00
-      1B001C007D0000000F00011000011200011500011A0001170001190012000000
-      630068006100760065005F007000690078001D007D000000FEFF0B0400260000
-      006400650073005F0066006F0072006D0061005F0070006100670061006D0065
-      006E0074006F000500260000006400650073005F0066006F0072006D0061005F
-      0070006100670061006D0065006E0074006F000C00070000000E001B001C0014
-      0000000F00011000011200011500011A00011700011900260000006400650073
-      005F0066006F0072006D0061005F0070006100670061006D0065006E0074006F
-      001D0014000000FEFEFF1EFEFF1FFEFF20FEFEFEFF21FEFF22FF23FEFEFE0E00
-      4D0061006E0061006700650072001E0055007000640061007400650073005200
-      650067006900730074007200790012005400610062006C0065004C0069007300
-      74000A005400610062006C00650008004E0061006D006500140053006F007500
-      7200630065004E0061006D0065000A0054006100620049004400240045006E00
-      66006F0072006300650043006F006E00730074007200610069006E0074007300
-      1E004D0069006E0069006D0075006D0043006100700061006300690074007900
-      180043006800650063006B004E006F0074004E0075006C006C00140043006F00
-      6C0075006D006E004C006900730074000C0043006F006C0075006D006E001000
-      53006F007500720063006500490044000E006400740049006E00740033003200
-      1000440061007400610054007900700065001400530065006100720063006800
-      610062006C006500120041006C006C006F0077004E0075006C006C000E004100
-      750074006F0049006E0063000800420061007300650022004100750074006F00
-      49006E006300720065006D0065006E0074005300650065006400220041007500
-      74006F0049006E006300720065006D0065006E00740053007400650070001400
-      4F0041006C006C006F0077004E0075006C006C0012004F005200650061006400
-      4F006E006C00790010004F0049006E005700680065007200650020004F004100
-      660074006500720049006E0073004300680061006E006700650064001A004F00
-      72006900670069006E0043006F006C004E0061006D00650012004F0049006E00
-      55007000640061007400650018006400740041006E0073006900530074007200
-      69006E0067000800530069007A006500140053006F0075007200630065005300
-      69007A0065001C0043006F006E00730074007200610069006E0074004C006900
-      73007400100056006900650077004C006900730074000E0052006F0077004C00
-      6900730074001800520065006C006100740069006F006E004C00690073007400
-      1C0055007000640061007400650073004A006F00750072006E0061006C000E00
-      4300680061006E00670065007300}
-    object memTableFinanceiroid_financeiro: TFDAutoIncField
-      FieldName = 'id_financeiro'
-      ReadOnly = True
-    end
-    object memTableFinanceiroid_contratados: TIntegerField
-      FieldName = 'id_contratados'
-      Required = True
-    end
-    object memTableFinanceirocod_banco: TStringField
-      FieldName = 'cod_banco'
-      Required = True
-      Size = 4
-    end
-    object memTableFinanceirocod_agencia: TStringField
-      FieldName = 'cod_agencia'
-      Required = True
-      Size = 10
-    end
-    object memTableFinanceironum_conta: TStringField
-      FieldName = 'num_conta'
-      Required = True
-    end
-    object memTableFinanceirochave_pix: TStringField
-      FieldName = 'chave_pix'
-      Size = 125
-    end
-    object memTableFinanceirodes_forma_pagamento: TStringField
-      FieldName = 'des_forma_pagamento'
-    end
-  end
-  object dsFinanceiro: TDataSource
-    AutoEdit = False
-    DataSet = memTableFinanceiro
-    Left = 472
-    Top = 293
-  end
-  object memTableRepresentantes: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'id_representante'
-        Attributes = [faReadonly]
-        DataType = ftAutoInc
-      end
-      item
-        Name = 'id_contratados'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'nom_representante'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 71
-      end
-      item
-        Name = 'cpf_representante'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 20
-      end>
-    IndexDefs = <>
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
-    FormatOptions.MaxBcdPrecision = 2147483647
-    FormatOptions.MaxBcdScale = 1073741823
-    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
-    ResourceOptions.Persistent = True
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
-    UpdateOptions.LockWait = True
-    UpdateOptions.FetchGeneratorsPoint = gpNone
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    StoreDefs = True
-    Left = 400
-    Top = 341
-    Content = {
-      414442530F00652CDD020000FF00010001FF02FF0304002C0000006D0065006D
-      005400610062006C00650052006500700072006500730065006E00740061006E
-      0074006500730005000A0000005400610062006C006500060000000000070000
-      080032000000090000FF0AFF0B040020000000690064005F0072006500700072
-      006500730065006E00740061006E0074006500050020000000690064005F0072
-      006500700072006500730065006E00740061006E00740065000C00010000000E
-      000D000F00011000011100011200011300FFFFFFFF1400FFFFFFFF1500011600
-      01170001180001190020000000690064005F0072006500700072006500730065
-      006E00740061006E0074006500FEFF0B04001C000000690064005F0063006F00
-      6E007400720061007400610064006F00730005001C000000690064005F006300
-      6F006E007400720061007400610064006F0073000C00020000000E000D000F00
-      011200011A000117000119001C000000690064005F0063006F006E0074007200
-      61007400610064006F007300FEFF0B0400220000006E006F006D005F00720065
-      00700072006500730065006E00740061006E00740065000500220000006E006F
-      006D005F0072006500700072006500730065006E00740061006E00740065000C
-      00030000000E001B001C00470000000F00011200011A00011700011900220000
-      006E006F006D005F0072006500700072006500730065006E00740061006E0074
-      0065001D0047000000FEFF0B0400220000006300700066005F00720065007000
-      72006500730065006E00740061006E0074006500050022000000630070006600
-      5F0072006500700072006500730065006E00740061006E00740065000C000400
-      00000E001B001C00140000000F00011200011A00011700011900220000006300
-      700066005F0072006500700072006500730065006E00740061006E0074006500
-      1D0014000000FEFEFF1EFEFF1FFEFF20FEFEFEFF21FEFF22FF23FEFEFE0E004D
-      0061006E0061006700650072001E005500700064006100740065007300520065
-      0067006900730074007200790012005400610062006C0065004C006900730074
-      000A005400610062006C00650008004E0061006D006500140053006F00750072
-      00630065004E0061006D0065000A0054006100620049004400240045006E0066
-      006F0072006300650043006F006E00730074007200610069006E00740073001E
-      004D0069006E0069006D0075006D004300610070006100630069007400790018
-      0043006800650063006B004E006F0074004E0075006C006C00140043006F006C
-      0075006D006E004C006900730074000C0043006F006C0075006D006E00100053
-      006F007500720063006500490044000E006400740049006E0074003300320010
-      0044006100740061005400790070006500140053006500610072006300680061
-      0062006C006500120041006C006C006F0077004E0075006C006C000E00410075
-      0074006F0049006E0063000800420061007300650022004100750074006F0049
-      006E006300720065006D0065006E007400530065006500640022004100750074
-      006F0049006E006300720065006D0065006E007400530074006500700014004F
-      0041006C006C006F0077004E0075006C006C0012004F0052006500610064004F
-      006E006C00790010004F0049006E005700680065007200650020004F00410066
-      0074006500720049006E0073004300680061006E006700650064001A004F0072
-      006900670069006E0043006F006C004E0061006D00650012004F0049006E0055
-      007000640061007400650018006400740041006E007300690053007400720069
-      006E0067000800530069007A006500140053006F007500720063006500530069
-      007A0065001C0043006F006E00730074007200610069006E0074004C00690073
-      007400100056006900650077004C006900730074000E0052006F0077004C0069
-      00730074001800520065006C006100740069006F006E004C006900730074001C
-      0055007000640061007400650073004A006F00750072006E0061006C000E0043
-      00680061006E00670065007300}
-    object memTableRepresentantesid_representante: TFDAutoIncField
-      FieldName = 'id_representante'
-      ReadOnly = True
-    end
-    object memTableRepresentantesid_contratados: TIntegerField
-      FieldName = 'id_contratados'
-      Required = True
-    end
-    object memTableRepresentantesnom_representante: TStringField
-      FieldName = 'nom_representante'
-      Required = True
-      Size = 71
-    end
-    object memTableRepresentantescpf_representante: TStringField
-      FieldName = 'cpf_representante'
-      Required = True
-    end
-  end
-  object dsRepresentantes: TDataSource
-    AutoEdit = False
-    DataSet = memTableRepresentantes
-    Left = 472
-    Top = 341
-  end
-  object memTableRH: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'id_rh'
-        Attributes = [faReadonly]
-        DataType = ftAutoInc
-      end
-      item
-        Name = 'id_contratados'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'val_salario'
-        DataType = ftSingle
-        Precision = 12
-      end
-      item
-        Name = 'dat_admissao'
-        DataType = ftDate
-      end
-      item
-        Name = 'dat_demissao'
-        DataType = ftDate
-      end
-      item
-        Name = 'id_departaento'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'id_funcao'
-        DataType = ftInteger
-      end>
-    IndexDefs = <>
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
-    FormatOptions.MaxBcdPrecision = 2147483647
-    FormatOptions.MaxBcdScale = 1073741823
-    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
-    ResourceOptions.Persistent = True
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
-    UpdateOptions.LockWait = True
-    UpdateOptions.FetchGeneratorsPoint = gpNone
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    StoreDefs = True
-    Left = 400
-    Top = 397
-    Content = {
-      414442530F00652CA2030000FF00010001FF02FF03040016000000460044004D
-      0065006D005400610062006C006500310005000A0000005400610062006C0065
-      00060000000000070000080032000000090000FF0AFF0B04000A000000690064
-      005F007200680005000A000000690064005F00720068000C00010000000E000D
-      000F00011000011100011200011300FFFFFFFF1400FFFFFFFF15000116000117
-      000118000119000A000000690064005F0072006800FEFF0B04001C0000006900
-      64005F0063006F006E007400720061007400610064006F00730005001C000000
-      690064005F0063006F006E007400720061007400610064006F0073000C000200
-      00000E000D000F00011200011A000117000119001C000000690064005F006300
-      6F006E007400720061007400610064006F007300FEFF0B040016000000760061
-      006C005F00730061006C006100720069006F00050016000000760061006C005F
-      00730061006C006100720069006F000C00030000000E001B001C000C0000000F
-      00011000011200011500011A0001170001190016000000760061006C005F0073
-      0061006C006100720069006F001D000C000000FEFF0B04001800000064006100
-      74005F00610064006D0069007300730061006F00050018000000640061007400
-      5F00610064006D0069007300730061006F000C00040000000E001E000F000110
-      00011200011500011A00011700011900180000006400610074005F0061006400
-      6D0069007300730061006F00FEFF0B0400180000006400610074005F00640065
-      006D0069007300730061006F000500180000006400610074005F00640065006D
-      0069007300730061006F000C00050000000E001E000F00011000011200011500
-      011A00011700011900180000006400610074005F00640065006D006900730073
-      0061006F00FEFF0B04001C000000690064005F00640065007000610072007400
-      610065006E0074006F0005001C000000690064005F0064006500700061007200
-      7400610065006E0074006F000C00060000000E000D000F00011200011A000117
-      000119001C000000690064005F00640065007000610072007400610065006E00
-      74006F00FEFF0B040012000000690064005F00660075006E00630061006F0005
-      0012000000690064005F00660075006E00630061006F000C00070000000E000D
-      000F00011000011200011500011A0001170001190012000000690064005F0066
-      0075006E00630061006F00FEFEFF1FFEFF20FEFF21FEFEFEFF22FEFF23FF24FE
-      FEFE0E004D0061006E0061006700650072001E00550070006400610074006500
-      73005200650067006900730074007200790012005400610062006C0065004C00
-      6900730074000A005400610062006C00650008004E0061006D00650014005300
-      6F0075007200630065004E0061006D0065000A00540061006200490044002400
-      45006E0066006F0072006300650043006F006E00730074007200610069006E00
-      740073001E004D0069006E0069006D0075006D00430061007000610063006900
-      74007900180043006800650063006B004E006F0074004E0075006C006C001400
-      43006F006C0075006D006E004C006900730074000C0043006F006C0075006D00
-      6E00100053006F007500720063006500490044000E006400740049006E007400
-      3300320010004400610074006100540079007000650014005300650061007200
-      63006800610062006C006500120041006C006C006F0077004E0075006C006C00
-      0E004100750074006F0049006E00630008004200610073006500220041007500
-      74006F0049006E006300720065006D0065006E00740053006500650064002200
-      4100750074006F0049006E006300720065006D0065006E007400530074006500
-      700014004F0041006C006C006F0077004E0075006C006C0012004F0052006500
-      610064004F006E006C00790010004F0049006E00570068006500720065002000
-      4F004100660074006500720049006E0073004300680061006E00670065006400
-      1A004F0072006900670069006E0043006F006C004E0061006D00650012004F00
-      49006E00550070006400610074006500100064007400530069006E0067006C00
-      6500120050007200650063006900730069006F006E001E0053006F0075007200
-      6300650050007200650063006900730069006F006E000C006400740044006100
-      740065001C0043006F006E00730074007200610069006E0074004C0069007300
-      7400100056006900650077004C006900730074000E0052006F0077004C006900
-      730074001800520065006C006100740069006F006E004C006900730074001C00
-      55007000640061007400650073004A006F00750072006E0061006C000E004300
-      680061006E00670065007300}
-    object memTableRHid_rh: TFDAutoIncField
-      FieldName = 'id_rh'
-      ReadOnly = True
-    end
-    object memTableRHid_contratados: TIntegerField
-      FieldName = 'id_contratados'
-      Required = True
-    end
-    object memTableRHval_salario: TSingleField
-      FieldName = 'val_salario'
-    end
-    object memTableRHdat_admissao: TDateField
-      FieldName = 'dat_admissao'
-    end
-    object memTableRHdat_demissao: TDateField
-      FieldName = 'dat_demissao'
-    end
-    object memTableRHid_departaento: TIntegerField
-      FieldName = 'id_departaento'
-      Required = True
-    end
-    object memTableRHid_funcao: TIntegerField
-      FieldName = 'id_funcao'
-    end
-  end
-  object dsRH: TDataSource
-    AutoEdit = False
-    DataSet = memTableRH
-    Left = 472
-    Top = 389
   end
 end
