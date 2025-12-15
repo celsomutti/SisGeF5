@@ -172,7 +172,7 @@ begin
     if aParams[0] = 'ID' then
       FQuery.SQL.Add('id_cnae = ' + aParams[1])
     else if aParams[0] = 'CONTRATADO' then
-      FQuery.SQL.Add('id_contradados = ' + aParams[1])
+      FQuery.SQL.Add('id_contratados = ' + aParams[1])
     else if aParams[0] = 'CNAE' then
       FQuery.SQL.Add('cod_cnae like "%' + aParams[1] + '%"')
     else if aParams[0] = 'NOME' then
@@ -180,6 +180,7 @@ begin
     else
       FQuery.SQL.Add(aParams[1]);
   end;
+  FQuery.Open();
   if FQuery.IsEmpty then
   begin
     FMensagem := 'Nenhum registro encontrado!';

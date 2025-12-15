@@ -9,8 +9,8 @@ type
     id_rh           : integer;
     id_contratados  : integer;
     val_salario     : double;
-    dat_admissao    : TDate;
-    dat_demissao    : TDate;
+    dat_admissao    : TDateTime;
+    dat_demissao    : TDateTime;
     id_departamento : integer;
     id_funcao       : integer;
   end;
@@ -54,10 +54,10 @@ type
                   'dat_demissao = :dat_demissao, id_departamento = :id_departamento, id_funcao = :id_funcao, ' +
                   'where ' +
                   'id_rh = :id_rh';
-      SQLSELECT = 'id_rh, id_contratados, val_salario, dat_admissao, dat_demissao, id_departamento, id_funcao ' +
+      SQLSELECT = 'select id_rh, id_contratados, val_salario, dat_admissao, dat_demissao, id_departamento, id_funcao ' +
                   'from ' +
                   TABLENAME;
-      SQLDELETE = 'select from ' + TABLENAME + ' where id_contratados = :id_contratados';
+      SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_contratados';
 
 
 implementation
@@ -175,6 +175,7 @@ begin
     else
       FQuery.SQL.Add(aParams[1]);
   end;
+  FQuery.Open();
   if FQuery.IsEmpty then
   begin
     FMensagem := 'Nenhum registro encontrado!';

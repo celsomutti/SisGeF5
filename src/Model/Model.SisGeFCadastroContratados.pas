@@ -16,10 +16,10 @@ interface
       num_cpf_cnpj            : string[20];
       num_rg_ie               : string[20];
       num_im                  : string[30];
-      dat_emissao_rg          : TDate;
+      dat_emissao_rg          : TDateTime;
       nom_emissor_rg          : string[20];
       uf_emissor_rg           : string[2];
-      dat_nascimento          : TDate;
+      dat_nascimento          : TDateTime;
       des_nacionalidade       : string[70];
       des_naturalidade        : string[70];
       uf_naturalidade         : string[2];
@@ -29,12 +29,12 @@ interface
       num_cnh                 : string[15];
       num_registro_cnh        : string[15];
       des_categoria_cnh       : string[2];
-      dat_validade_cnh        : TDate;
-      dat_emissao_cnh         : TDate;
+      dat_validade_cnh        : TDateTime;
+      dat_emissao_cnh         : TDateTime;
       uf_cnh                  : string[2];
-      dat_primeira_cnh        : TDate;
+      dat_primeira_cnh        : TDateTime;
       cod_status              : integer;
-      dat_cadastro            : TDate;
+      dat_cadastro            : TDateTime;
       des_obs                 : string;
     end;
   type
@@ -66,7 +66,7 @@ interface
       protected
     end;
     const
-      TABLENAME = 'crm_contratdos';
+      TABLENAME = 'crm_contratados';
       VIEWNAME  = 'view_register_contracted';
       SQLINSERT = 'insert into ' + TABLENAME +
                   '(id, cod_erp_contratados, id_categoria, cod_pessoa, des_tipo_doc, nom_razao_social, ' +
@@ -224,13 +224,15 @@ begin
       FQuery.SQL.Add('num_cnh like "%' + aParams[1] + '%"')
     else if aParams[0] = 'REGISTRO' then
       FQuery.SQL.Add('num_registro_cnh like "%' + aParams[1] + '%"')
+    else if aParams[0] = 'ALL' then
+      FQuery.SQL.Add('TRUE')
     else
       FQuery.SQL.Add(aParams[1])
   end;
+  FQuery.Open();
   if FQuery.IsEmpty then
   begin
     FMensagem := 'Nenhum registro encontrado!';
-    FQuery.Connection.Close;
     Exit;
   end;
   Result := True;

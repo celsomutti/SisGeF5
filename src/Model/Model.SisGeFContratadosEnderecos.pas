@@ -65,7 +65,7 @@ type
                   'des_bairro, nom_cidade, uf_estado, des_referencia ' +
                   'from ' +
                   TABLENAME;
-      SQLDELETE = 'deelete from ' + TABLENAME + 'where id-contratado = :id_contratado';
+      SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_contratados';
 
 
 implementation
@@ -170,7 +170,7 @@ begin
   case FAcao of
     tacIncluir  : Result := Inserir();
     tacAlterar  : Result := Alterar();
-    tacExcluir  : RESULT := Excluir();
+    tacExcluir  : Result := Excluir();
   end;
 end;
 
@@ -185,7 +185,7 @@ begin
     if aParams[0] = 'ID' then
       FQuery.SQL.Add('id_endereco = ' + aParams[1])
     else if aParams[0] = 'CONTRATADO' then
-      FQuery.SQL.Add('id_contradados = ' + aParams[1])
+      FQuery.SQL.Add('id_contratados = ' + aParams[1])
     else if aParams[0] = 'CEP' then
       FQuery.SQL.Add('num_cep like "%' + aParams[1] + '%"')
     else if aParams[0] = 'LOGRADOURO' then
@@ -193,6 +193,7 @@ begin
     else
       FQuery.SQL.Add(aParams[1]);
   end;
+  FQuery.Open();
   if FQuery.IsEmpty then
   begin
     FMensagem := 'Nenhum registro encontrado!';

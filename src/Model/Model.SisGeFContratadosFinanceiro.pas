@@ -114,7 +114,7 @@ function TContratadosFinanceiroModel.Excluir: Boolean;
 begin
   try
   FQuery := FConn.GetQuery;
-    FQuery.ExecSQL(SQLUPDATE,
+    FQuery.ExecSQL(SQLDELETE,
                   [ARecord.id_contratados]);
     Result := True;
   finally
@@ -173,7 +173,7 @@ begin
     if aParams[0] = 'ID' then
       FQuery.SQL.Add('id_financeiro = ' + aParams[1])
     else if aParams[0] = 'CONTRATADO' then
-      FQuery.SQL.Add('id_contradados = ' + aParams[1])
+      FQuery.SQL.Add('id_contratados = ' + aParams[1])
     else if aParams[0] = 'BANCO' then
       FQuery.SQL.Add('cod_banco like "%' + aParams[1] + '%"')
     else if aParams[0] = 'PIX' then
@@ -181,6 +181,7 @@ begin
     else
       FQuery.SQL.Add(aParams[1]);
   end;
+  FQuery.Open();
   if FQuery.IsEmpty then
   begin
     FMensagem := 'Nenhum registro encontrado!';
@@ -195,7 +196,7 @@ begin
   Result := False;
   if FQuery.IsEmpty then
     Exit;
-  ARecord.id_financeiro       :=  FQuery.FieldByName('id_endereco').AsInteger;
+  ARecord.id_financeiro       :=  FQuery.FieldByName('id_financeiro').AsInteger;
   ARecord.id_contratados      :=  FQuery.FieldByName('id_contratados').AsInteger;
   ARecord.cod_banco           :=  FQuery.FieldByName('cod_banco').AsString;
   ARecord.cod_agencia         :=  FQuery.FieldByName('cod_agencia').AsString;

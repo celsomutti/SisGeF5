@@ -79,8 +79,6 @@ type
     viewDocumentosdes_placa: TcxGridDBColumn;
     viewDocumentosano_exercicio_clrv: TcxGridDBColumn;
     viewDocumentosnum_renavan: TcxGridDBColumn;
-    memTableGR: TFDMemTable;
-    dsGR: TDataSource;
     viewGRcod_cadastro: TcxGridDBColumn;
     viewGRdat_gv: TcxGridDBColumn;
     viewGRnum_cnpj: TcxGridDBColumn;
@@ -148,64 +146,6 @@ type
     memTableRecordscod_status: TIntegerField;
     memTableRecordsdat_cadastro: TDateTimeField;
     memTableRecordsdes_obs: TMemoField;
-    memTableGRid_gr: TFDAutoIncField;
-    memTableGRid_contratados: TIntegerField;
-    memTableGRdat_consulta: TDateField;
-    memTableGRdat_validade: TDateField;
-    memTableGRnom_empresa: TStringField;
-    memTableGRcod_consulta: TStringField;
-    memTableGRcod_seguranca_cnh: TStringField;
-    memTableEnderecos_: TFDMemTable;
-    dsEnderecos: TDataSource;
-    memTableEnderecos_id_endereco: TIntegerField;
-    memTableEnderecos_id_contratados: TIntegerField;
-    memTableEnderecos_des_tipo: TStringField;
-    memTableEnderecos_num_cep: TStringField;
-    memTableEnderecos_des_logradouro: TStringField;
-    memTableEnderecos_num_logradouro: TStringField;
-    memTableEnderecos_des_complemento: TStringField;
-    memTableEnderecos_des_bairro: TStringField;
-    memTableEnderecos_nom_cidade: TStringField;
-    memTableEnderecos_uf_estado: TStringField;
-    memTableEnderecos_des_referencia: TStringField;
-    memTableContatos: TFDMemTable;
-    memTableContatosseq_contato: TFDAutoIncField;
-    memTableContatosid_contratados: TIntegerField;
-    memTableContatosdes_contato: TStringField;
-    memTableContatosnum_telefone: TStringField;
-    memTableContatosdes_email: TStringField;
-    dsContatos: TDataSource;
-    memTableCNAE: TFDMemTable;
-    memTableCNAEid_cnae: TIntegerField;
-    memTableCNAEid_contratados: TIntegerField;
-    memTableCNAEcod_tipo_cnae: TIntegerField;
-    memTableCNAEcod_cnae: TStringField;
-    memTableCNAEdes_cnae: TStringField;
-    memTableFinanceiro: TFDMemTable;
-    memTableFinanceiroid_financeiro: TFDAutoIncField;
-    memTableFinanceiroid_contratados: TIntegerField;
-    memTableFinanceirocod_banco: TStringField;
-    memTableFinanceirocod_agencia: TStringField;
-    memTableFinanceironum_conta: TStringField;
-    memTableFinanceirochave_pix: TStringField;
-    memTableFinanceirodes_forma_pagamento: TStringField;
-    memTableRepresentantes: TFDMemTable;
-    memTableRepresentantesid_representante: TFDAutoIncField;
-    memTableRepresentantesid_contratados: TIntegerField;
-    memTableRepresentantesnom_representante: TStringField;
-    memTableRepresentantescpf_representante: TStringField;
-    memTableRH: TFDMemTable;
-    memTableRHid_rh: TFDAutoIncField;
-    memTableRHid_contratados: TIntegerField;
-    memTableRHval_salario: TSingleField;
-    memTableRHdat_admissao: TDateField;
-    memTableRHdat_demissao: TDateField;
-    memTableRHid_departaento: TIntegerField;
-    memTableRHid_funcao: TIntegerField;
-    dsCNAE: TDataSource;
-    dsFinanceiro: TDataSource;
-    dsRepresentantes: TDataSource;
-    dsRH: TDataSource;
     viewCadastroid: TcxGridDBColumn;
     viewCadastrocod_erp_contratados: TcxGridDBColumn;
     viewCadastroid_categoria: TcxGridDBColumn;
@@ -447,7 +387,6 @@ begin
   case FSearch of
     0 : iID := memTableRecordsid.AsInteger;
     1 : iID := 0;
-    2 : iID := memTableGRid_gr.AsInteger;
     else
       iID := 0;
   end;
@@ -466,13 +405,6 @@ end;
 procedure TviewSisGefCadastroContratados.EndForm;
 begin
   memTableRecords.Active := False;
-  memTableEnderecos.Active := False;
-  memTableContatos.Active;
-  memTableFinanceiro.Active := False;
-  memTableCNAE.Active ;
-  memTableRepresentantes.Active;
-  memTableRH.Active;
-  memTableGR.Active := False;
 end;
 
 procedure TviewSisGefCadastroContratados.ExpandGrid;
@@ -506,7 +438,7 @@ begin
     begin
       if FileExists(Data_Sisgef.SaveDialog.FileName) then
       begin
-        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' j� existe! Sobrepor ?';
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
         if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
       end;
 
@@ -532,7 +464,7 @@ begin
     begin
       if not FileExists(OpenDialog.FileName) then
       begin
-          MessageDlg('Arquivo ' + OpenDialog.FileName + ' n�o foi encontrado', mtWarning, [mbCancel], 0);
+          MessageDlg('Arquivo ' + OpenDialog.FileName + ' não foi encontrado', mtWarning, [mbCancel], 0);
           Exit;
       end;
       filterControl.LoadFromFile(OpenDialog.FileName);
@@ -551,6 +483,7 @@ begin
     FCadastro := TCadastroContratadosController.Create;
     SetLength(aParams, 2);
     case iIndex of
+      0 : aParams[0] := 'ALL';
       1 : aParams[0] := 'ID';
       2 : aParams[0] := 'CNPJ';
       3 : aParams[0] := 'RG';
@@ -614,7 +547,7 @@ begin
     begin
       if FileExists(SaveDialog.FileName) then
       begin
-        if MessageDlg('Arquivo ' + SaveDialog.FileName + ' j� existe. Sobrepor ?', mtConfirmation, [mbYes,mbNo], 0) = mrNo then
+        if MessageDlg('Arquivo ' + SaveDialog.FileName + ' já existe. Sobrepor ?', mtConfirmation, [mbYes,mbNo], 0) = mrNo then
           Exit;
       end;
       filterControl.SaveToFile(SaveDialog.FileName);
@@ -688,7 +621,6 @@ begin
   gridCadastroLevel1.GridView := viewCadastro;
   dxLayoutGroup5.Visible := True;
   FSearch := 0;
-  memTableGR.Active := False;
 //  memTableDocuments.Active := False;
 //  Data_Sisgef.FDConnectionMySQL.Connected := False;
 end;

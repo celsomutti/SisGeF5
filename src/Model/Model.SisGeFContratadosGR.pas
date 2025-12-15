@@ -171,6 +171,7 @@ begin
     else
       FQuery.SQL.Add(aParams[1]);
   end;
+  FQuery.Open();
   if FQuery.IsEmpty then
   begin
     FMensagem := 'Nenhum registro encontrado!';

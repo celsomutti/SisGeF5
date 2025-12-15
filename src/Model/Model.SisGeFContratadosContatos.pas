@@ -171,7 +171,7 @@ begin
     if aParams[0] = 'ID' then
       FQuery.SQL.Add('seq_contato = ' + aParams[1])
     else if aParams[0] = 'CONTRATADO' then
-      FQuery.SQL.Add('id_contradados = ' + aParams[1])
+      FQuery.SQL.Add('id_contratados = ' + aParams[1])
     else if aParams[0] = 'TELEFONE' then
       FQuery.SQL.Add('num_telefone like "%' + aParams[1] + '%"')
     else if aParams[0] = 'EMAIL' then
@@ -179,10 +179,10 @@ begin
     else
       FQuery.SQL.Add(aParams[1]);
   end;
+  FQuery.Open();
   if FQuery.IsEmpty then
   begin
     FMensagem := 'Nenhum registro encontrado!';
-    FQuery.Connection.Close;
     Exit;
   end;
   Result := True;

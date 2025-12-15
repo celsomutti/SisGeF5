@@ -6310,6 +6310,7 @@
     object dxBarLargeButton59: TdxBarLargeButton
       Action = actCadastroEmbarcadores
       Category = 0
+      Enabled = False
       LargeImageIndex = 3
     end
     object dxBarLargeButton60: TdxBarLargeButton

@@ -169,7 +169,7 @@ begin
     if aParams[0] = 'ID' then
       FQuery.SQL.Add('id_representante = ' + aParams[1])
     else if aParams[0] = 'CONTRATADO' then
-      FQuery.SQL.Add('id_contradados = ' + aParams[1])
+      FQuery.SQL.Add('id_contratados = ' + aParams[1])
     else if aParams[0] = 'NOME' then
       FQuery.SQL.Add('nom_representante = "%' +  aParams[1] + '%"')
     else if aParams[0] = 'CPF' then
@@ -177,6 +177,7 @@ begin
     else
       FQuery.SQL.Add(aParams[1]);
   end;
+  FQuery.Open();
   if FQuery.IsEmpty then
   begin
     FMensagem := 'Nenhum registro encontrado!';
@@ -191,7 +192,7 @@ begin
   Result := False;
   if FQuery.IsEmpty then
     Exit;
-  ARecord.id_representante  :=  FQuery.FieldByName('id_gr').AsInteger;
+  ARecord.id_representante  :=  FQuery.FieldByName('id_representante').AsInteger;
   ARecord.id_contratados    :=  FQuery.FieldByName('id_contratados').AsInteger;
   ARecord.nom_representante :=  FQuery.FieldByName('nom_representante').AsString;
   ARecord.cpf_representante :=  FQuery.FieldByName('cpf_representante').AsString;
