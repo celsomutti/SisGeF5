@@ -282,15 +282,17 @@ type
     procedure SearchCEP(sCEP: String);
     procedure SearchCNPJ(sCNPJ: string);
     procedure SearchCNPJMEI(sCNPJ: string);
-    procedure ImprimeContratoPF(sData, sValor, sAtividade, sFuncao: String);
-    procedure ImprimeContratoPJ(sData: String);
+    procedure ImprimeContratoColaborador(sData, sAtividade, sLocal: String);
+    procedure ImprimeContratoAutonomo(sData, sAtividade, sLocal: String);
+    procedure ImprimeContratoEntregador(sData, sLocal: String);
+
     procedure EmiteContrato;
     procedure EditarCadastro;
     Procedure NovoCadastro;
     procedure AnexarDocumento;
   public
-    property Acao: TAcao read FAcao write FAcao;
-    property ID: integer read FID write FID;
+      property Acao: TAcao read FAcao write FAcao;
+      property ID: integer read FID write FID;
   end;
 
 var
@@ -478,7 +480,7 @@ end;
 procedure Tview_SisGeFContractedDetail.EmiteContrato;
 var
   iTipo: integer;
-  sData, sValor, sAtividade, sFuncao: String;
+  sData, sValor, sAtividade, sFuncao, sLocal: String;
 begin
   try
     if not Assigned(view_SisGeFContractEmission) then begin
@@ -488,12 +490,14 @@ begin
       Exit;
     iTipo := view_SisGeFContractEmission.radioGroup.ItemIndex;
     sData := view_SisGeFContractEmission.dateContrato.Text;
-    sValor := view_SisGeFContractEmission.curValorContrato.Text;
+    sValor := Self.cedSalario.Text;
     sAtividade := view_SisGeFContractEmission.memoAtividades.Text;
-    sFuncao := view_SisGeFContractEmission.cboFuncoes.Text;
+    sLocal := view_SisGeFContractEmission.txtLocal.Text;
+    sFuncao := icbFuncao.Text;
     case iTipo of
-      0 : ImprimeContratoPF(sData,sValor, sAtividade, sFuncao);
-      1 : ImprimeContratoPJ(sData);
+      0 : ImprimeContratoColaborador(sData, sAtividade, sLocal);
+      1 : ImprimeContratoEntregador(sData, sLocal);
+      2 : ImprimeContratoAutonomo(sData, sAtividade, sLocal);
       else
         Exit;
     end;
@@ -526,23 +530,86 @@ begin
   end;
 end;
 
-procedure Tview_SisGeFContractedDetail.ImprimeContratoPF(sData, sValor, sAtividade, sFuncao: String);
+procedure Tview_SisGeFContractedDetail.ImprimeContratoAutonomo(sData, sAtividade, sLocal: String);
 var
   sEndereco: String;
   sDataExtenso: String;
   dtData: TDate;
   sExtenco: String;
+  sValor: string;
+  sFuncao : string;
   FFuncao: TUtils;
 begin
-  FFuncao := TUtils.Create;;
+  FFuncao := TUtils.Create;
   sEndereco := '';
   dtData := StrToDateDef(sData,0);
-  sDataExtenso := FormatDateTime('dd "de" mmmm "de" yyyy', dtData);
+  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', dtData);
   with Data_Sisgef.frxReport do begin
     if not Assigned(view_Impressao) then begin
       view_Impressao := Tview_Impressao.Create(Application);
     end;
-    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - COLABORADOR';
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - AUTÔNOMO';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoAutonomo.fr3';
+    if view_Impressao.ShowModal <> mrOk then
+    begin
+      FreeAndNil(view_Impressao);
+      Exit;
+    end
+    else begin
+      if (not FileExists(view_Impressao.cxArquivo.Text)) then begin
+        Application.MessageBox(PChar('Arquivo ' + view_Impressao.cxArquivo.Text +
+                               ' não foi encontrado!'), 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    sValor := cedSalario.Text;
+    sExtenco := FFuncao.valorPorExtenso(StrToFloatDef(ReplaceStr(sValor,'.',''),0));
+    sEndereco := dbTextEditEndereco.Text + ', ' + dbTextEditNumero.Text;
+    if dbTextEditComplemento.Text = '' then
+    begin
+      sEndereco := sEndereco + ', ' + dbTextEditComplemento.Text;
+    end;
+    sEndereco := sEndereco + ', bairro ' + dbTextEditBairro.Text;
+    sEndereco := sEndereco + ', cidade ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
+    sEndereco := sEndereco + ', CEP: ' + dbMaskEditCEP.Text;
+    sFuncao := icbFuncao.Text;
+    LoadFromFile(view_Impressao.cxArquivo.Text);
+    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('pFuncao')].Value :=  QuotedStr(sFuncao);
+    Variables.Items[Variables.IndexOf('pAtividades')].Value :=  QuotedStr(sAtividade);
+    Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
+    Variables.Items[Variables.IndexOf('pValorNumeral')].Value :=  QuotedStr(sValor);
+    Variables.Items[Variables.IndexOf('pValorExtencao')].Value :=  QuotedStr(sExtenco);
+    Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+
+    FFuncao.Free;
+    FreeAndNil(view_Impressao);
+    ShowReport(True);
+  end;
+
+end;
+
+procedure Tview_SisGeFContractedDetail.ImprimeContratoColaborador(sData, sAtividade, sLocal: String);
+var
+  sEndereco: String;
+  sDataExtenso: String;
+  dtData: TDate;
+  sExtenco: String;
+  sValor: string;
+  sFuncao : string;
+  FFuncao: TUtils;
+begin
+  FFuncao := TUtils.Create;
+  sEndereco := '';
+  dtData := StrToDateDef(sData,0);
+  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', dtData);
+  with Data_Sisgef.frxReport do begin
+    if not Assigned(view_Impressao) then begin
+      view_Impressao := Tview_Impressao.Create(Application);
+    end;
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - CONTRATADO';
     view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoColaborador.fr3';
     if view_Impressao.ShowModal <> mrOk then
     begin
@@ -556,6 +623,7 @@ begin
         Exit;
       end;
     end;
+    sValor := cedSalario.Text;
     sExtenco := FFuncao.valorPorExtenso(StrToFloatDef(ReplaceStr(sValor,'.',''),0));
     sEndereco := dbTextEditEndereco.Text + ', ' + dbTextEditNumero.Text;
     if dbTextEditComplemento.Text = '' then
@@ -564,13 +632,14 @@ begin
     end;
     sEndereco := sEndereco + ', bairro ' + dbTextEditBairro.Text;
     sEndereco := sEndereco + ', cidade ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
+    sEndereco := sEndereco + ', CEP: ' + dbMaskEditCEP.Text;
+    sFuncao := icbFuncao.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
     Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
     Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
     Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
-    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(textEditNome.Text);
-    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
-    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(txtRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(mskCPFRepresentante.Text);
     Variables.Items[Variables.IndexOf('pFuncao')].Value :=  QuotedStr(sFuncao);
     Variables.Items[Variables.IndexOf('pAtividades')].Value :=  QuotedStr(sAtividade);
     Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
@@ -584,7 +653,7 @@ begin
   end;
 end;
 
-procedure Tview_SisGeFContractedDetail.ImprimeContratoPJ(sData: String);
+procedure Tview_SisGeFContractedDetail.ImprimeContratoEntregador(sData, sLocal: String);
 var
   sEndereco: String;
   sDataExtenso: String;
@@ -592,13 +661,13 @@ var
 begin
   sEndereco := '';
   dtData := StrToDateDef(sData,0);
-  sDataExtenso := FormatDateTime('dd "de" mmmm "de" yyyy', dtData);
+  sDataExtenso := sLocal + ',' + FormatDateTime('dd "de" mmmm "de" yyyy', dtData);
   with Data_Sisgef.frxReport do begin
     if not Assigned(view_Impressao) then begin
       view_Impressao := Tview_Impressao.Create(Application);
     end;
-    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - PESSOA JURÍDICA';
-    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoMotorista.fr3';
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - MOTORISTA / ENTREGADOR';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoEntregador.fr3';
     if view_Impressao.ShowModal <> mrOk then
     begin
       FreeAndNil(view_Impressao);
@@ -618,12 +687,13 @@ begin
     end;
     sEndereco := sEndereco + ', ' + dbTextEditBairro.Text;
     sEndereco := sEndereco + ', ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
+    sEndereco := sEndereco + ', CEP: ' + dbMaskEditCEP.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
     Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
     Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
-    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(textEditNome.Text);
-    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(txtRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(mskCPFRepresentante.Text);
     Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
     Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
     Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
@@ -1583,7 +1653,7 @@ begin
     cboTipoPessoa.ItemIndex := 2
   else
     cboTipoPessoa.ItemIndex := 0;
-  maskEditCPCNPJ.EditValue := FCadastro.FContratados.ARecord.nom_razao_social;
+  maskEditCPCNPJ.EditValue := FCadastro.FContratados.ARecord.num_cpf_cnpj;
   textEditNome.Text := FCadastro.FContratados.ARecord.nom_razao_social;
   textEditRG.Text := FCadastro.FContratados.ARecord.num_rg_ie;
   textEditExpedidor.Text := FCadastro.FContratados.ARecord.nom_emissor_rg;

@@ -250,7 +250,7 @@ begin
   ARecord.des_tipo_doc        :=  FQuery.FieldByName('des_tipo_doc').AsString;
   ARecord.nom_razao_social    :=  FQuery.FieldByName('nom_razao_social').AsString;
   ARecord.nom_fantasia_alias  :=  FQuery.FieldByName('nom_fantasia_alias').AsString;
-  ARecord.num_cpf_cnpj        :=  FQuery.FieldByName('nom_fantasia_alias').AsString;
+  ARecord.num_cpf_cnpj        :=  FQuery.FieldByName('num_cpf_cnpj').AsString;
   ARecord.num_rg_ie           :=  FQuery.FieldByName('num_rg_ie').AsString;
   ARecord.num_im              :=  FQuery.FieldByName('num_im').AsString;
   ARecord.dat_emissao_rg      :=  FQuery.FieldByName('dat_emissao_rg').AsDateTime;

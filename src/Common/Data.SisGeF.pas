@@ -713,8 +713,8 @@ type
     queryBancoscod_modalidade: TStringField;
     queryBancoscod_modalidade_cp: TStringField;
     frxBarCodeObject1: TfrxBarCodeObject;
-    frxReport: TfrxReport;
     queryFuncionarios: TFDQuery;
+    frxReport: TfrxReport;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

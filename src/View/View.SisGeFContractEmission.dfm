@@ -39,9 +39,11 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
           Caption = 'COLABORADOR'
         end
         item
-          Caption = 'MOTORISTA'
+          Caption = 'MOTORISTA / ENTREGADOR'
+        end
+        item
+          Caption = 'AUT'#212'NOMO'
         end>
-      Properties.OnChange = radioGroupPropertiesChange
       ItemIndex = 0
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -72,7 +74,7 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
       Height = 25
       Cursor = crHandPoint
       Action = actionEmitir
-      TabOrder = 5
+      TabOrder = 4
     end
     object cxButton2: TcxButton
       Left = 694
@@ -82,43 +84,7 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
       Cursor = crHandPoint
       Action = actionCancelar
       Cancel = True
-      TabOrder = 6
-    end
-    object cboFuncoes: TcxComboBox
-      Left = 313
-      Top = 121
-      Properties.Items.Strings = (
-        'ANALISTA'
-        'AUXILIAR EXPEDI'#199#195'O'
-        'AJUDANTE DE MOTORISTA'
-        'COORDENADOR(A)'
-        'ASG'
-        'SUPERVISOR(A)'
-        'AUXILIAR EXPEDI'#199#195'O II'
-        'ASSISENTE FINANCEIRO'
-        'CAPTA'#199#195'O'
-        'FINANCEIRO'
-        'GERENTE'
-        'LIDER DE EXPEDI'#199#195'O'
-        'MONITORAMENTO'
-        'MOTORISTA')
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 2
-      Width = 167
-    end
-    object curValorContrato: TcxCurrencyEdit
-      Left = 561
-      Top = 121
-      Properties.DisplayFormat = ',0.00;-,0.00'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 3
-      Width = 121
+      TabOrder = 5
     end
     object memoAtividades: TcxMemo
       Left = 10
@@ -127,9 +93,19 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 4
+      TabOrder = 3
       Height = 184
       Width = 759
+    end
+    object txtLocal: TcxTextEdit
+      Left = 332
+      Top = 121
+      Hint = 'Informe a localidade da assinatura do contrato'
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 2
+      Width = 170
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -144,7 +120,7 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
+      ItemIndex = 1
       ShowBorder = False
       Index = 0
     end
@@ -167,6 +143,7 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -217,28 +194,6 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
       ControlOptions.ShowBorder = False
       Index = 1
     end
-    object dxLayoutItem5: TdxLayoutItem
-      Parent = dxLayoutGroup2
-      AlignHorz = ahLeft
-      AlignVert = avCenter
-      CaptionOptions.Text = 'Fun'#231#227'o'
-      Control = cboFuncoes
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 167
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem6: TdxLayoutItem
-      Parent = dxLayoutGroup2
-      AlignHorz = ahLeft
-      AlignVert = avCenter
-      CaptionOptions.Text = 'Valor Contrato'
-      Control = curValorContrato
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
     object dxLayoutGroup4: TdxLayoutGroup
       Parent = dxLayoutGroup1
       AlignHorz = ahClient
@@ -259,6 +214,17 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
       ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
       Index = 0
+    end
+    object dxLayoutItem5: TdxLayoutItem
+      Parent = dxLayoutGroup2
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Localidade:'
+      Control = txtLocal
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 170
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object ationList: TActionList

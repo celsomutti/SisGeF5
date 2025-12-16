@@ -753,14 +753,12 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
       AlignVert = avClient
       CaptionOptions.Text = 'Set Filter'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       Index = 1
     end
     object dxLayoutGroup5: TdxLayoutGroup
       Parent = dxLayoutGroup3
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 4
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -829,7 +827,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
       CaptionOptions.Visible = False
       Control = statusRegistro
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 99
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -1316,7 +1314,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     Left = 232
     Top = 230
     Content = {
-      414442530F00FE2A760F0000FF00010001FF02FF0304001E0000006D0065006D
+      414442530F00FC3E760F0000FF00010001FF02FF0304001E0000006D0065006D
       005400610062006C0065005200650063006F0072006400730005000A00000054
       00610062006C006500060000000000070000080032000000090000FF0AFF0B04
       000400000069006400050004000000690064000C00010000000E000D000F0001
