@@ -1321,7 +1321,7 @@ begin
       MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
-    FFinanceiro.FFinanceiro.ARecord.cod_banco           :=  lookupComboBoxBanco.EditValue;
+    FFinanceiro.FFinanceiro.ARecord.cod_banco           :=  lookupComboBoxBanco.Text;
     FFinanceiro.FFinanceiro.ARecord.cod_agencia         :=  textEditAgencia.Text;
     FFinanceiro.FFinanceiro.ARecord.num_conta           :=  textEditConta.Text;
     FFinanceiro.FFinanceiro.ARecord.chave_pix           :=  textEditChavePIX.Text;
@@ -1344,7 +1344,7 @@ begin
       Exit;
     end;
     FRepresentante.FRepresentante.ARecord.nom_representante :=  txtRepresentante.Text;
-    FRepresentante.FRepresentante.ARecord.cpf_representante :=  mskCPFRepresentante.EditValue;
+    FRepresentante.FRepresentante.ARecord.cpf_representante :=  mskCPFRepresentante.Text;
     FRepresentante.FRepresentante.Acao                      :=  tacIncluir;
     if not FRepresentante.FRepresentante.SaveRecord then
     begin
