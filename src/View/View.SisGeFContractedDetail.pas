@@ -13,7 +13,7 @@ uses
   cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, System.Actions,
   Vcl.ActnList, dxBar, cxMemo, Common.ENum, Common.Utils, Control.Bancos, Control.Estados,
   System.DateUtils, dxLayoutLookAndFeels, dxLayoutControlAdapters, Vcl.Menus,
-  Vcl.StdCtrls, cxButtons, FireDAC.Stan.StorageBin, Controller.SisGeFVehiclesRegistration, Controller.APICEP, Controller.APICNPJ,
+  Vcl.StdCtrls, cxButtons, FireDAC.Stan.StorageBin, Controller.APICEP, Controller.APICNPJ,
   System.StrUtils, cxButtonEdit, Global.Parametros, cxImageComboBox, cxCurrencyEdit, Vcl.ExtCtrls,
   Controller.SisGeFCadastroContratados, Controller.SisGeFContratadosContatos, Controller.SisGeFContratadosEnderecos,
   Controller.SisGeFContratadosCNAE, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,

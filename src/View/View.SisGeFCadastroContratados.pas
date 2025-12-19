@@ -12,7 +12,9 @@ uses
   cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGridBandedTableView,
   cxGridDBBandedTableView, cxCheckBox, cxFilterControl, cxDBFilterControl, Vcl.FileCtrl, cxCalendar, Common.Utils,
-  FireDAC.Stan.Async, FireDAC.DApt, System.DateUtils, Common.ENum, FireDAC.Stan.StorageBin, Controller.SisGeFCadastroContratados;
+  FireDAC.Stan.Async, FireDAC.DApt, System.DateUtils, Common.ENum, FireDAC.Stan.StorageBin, Controller.SisGeFCadastroContratados,
+  Controller.SisGeFContratadosContatos, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosCNAE,
+  Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes, Controller.SisGeFContratadosRH;
 
 type
   TviewSisGefCadastroContratados = class(TForm)
@@ -116,39 +118,8 @@ type
     viewGRnom_base: TcxGridDBColumn;
     viewGRcod_entregador: TcxGridDBColumn;
     viewGRnom_entregador: TcxGridDBColumn;
-    memTableRecordsid: TIntegerField;
-    memTableRecordscod_erp_contratados: TStringField;
-    memTableRecordsid_categoria: TIntegerField;
-    memTableRecordscod_pessoa: TIntegerField;
-    memTableRecordsdes_tipo_doc: TStringField;
-    memTableRecordsnom_razao_social: TStringField;
-    memTableRecordsnom_fantasia_alias: TStringField;
-    memTableRecordsnum_cpf_cnpj: TStringField;
-    memTableRecordsnum_rg_ie: TStringField;
-    memTableRecordsnum_im: TStringField;
-    memTableRecordsdat_emissao_rg: TDateTimeField;
-    memTableRecordsnom_emissor_rg: TStringField;
-    memTableRecordsuf_emissor_rg: TStringField;
-    memTableRecordsdat_nascimento: TDateField;
-    memTableRecordsdes_nacionalidade: TStringField;
-    memTableRecordsdes_naturalidade: TStringField;
-    memTableRecordsuf_naturalidade: TStringField;
-    memTableRecordsnom_pai: TStringField;
-    memTableRecordsnom_mae: TStringField;
-    memTableRecordscod_crt: TIntegerField;
-    memTableRecordsnum_cnh: TStringField;
-    memTableRecordsnum_registro_cnh: TStringField;
-    memTableRecordsdes_categoria_cnh: TStringField;
-    memTableRecordsdat_validade_cnh: TDateField;
-    memTableRecordsdat_emissao_cnh: TDateField;
-    memTableRecordsuf_cnh: TStringField;
-    memTableRecordsdat_primeira_cnh: TDateField;
-    memTableRecordscod_status: TIntegerField;
-    memTableRecordsdat_cadastro: TDateTimeField;
-    memTableRecordsdes_obs: TMemoField;
     viewCadastroid: TcxGridDBColumn;
     viewCadastrocod_erp_contratados: TcxGridDBColumn;
-    viewCadastroid_categoria: TcxGridDBColumn;
     viewCadastrocod_pessoa: TcxGridDBColumn;
     viewCadastrodes_tipo_doc: TcxGridDBColumn;
     viewCadastronom_razao_social: TcxGridDBColumn;
@@ -176,10 +147,43 @@ type
     viewCadastrocod_status: TcxGridDBColumn;
     viewCadastrodat_cadastro: TcxGridDBColumn;
     viewCadastrodes_obs: TcxGridDBColumn;
-    memTableRecordsnom_base: TStringField;
-    memTableRecordsdes_funcao: TStringField;
     viewCadastronom_base: TcxGridDBColumn;
     viewCadastrodes_funcao: TcxGridDBColumn;
+    dxBarLargeButton11: TdxBarLargeButton;
+    actionDeleteRegister: TAction;
+    viewCadastrodes_categoria: TcxGridDBColumn;
+    memTableRecordsid: TIntegerField;
+    memTableRecordscod_erp_contratados: TStringField;
+    memTableRecordsdes_categoria: TStringField;
+    memTableRecordscod_pessoa: TIntegerField;
+    memTableRecordsdes_tipo_doc: TStringField;
+    memTableRecordsnom_razao_social: TStringField;
+    memTableRecordsnom_fantasia_alias: TStringField;
+    memTableRecordsnum_cpf_cnpj: TStringField;
+    memTableRecordsnum_rg_ie: TStringField;
+    memTableRecordsnum_im: TStringField;
+    memTableRecordsdat_emissao_rg: TDateField;
+    memTableRecordsnom_emissor_rg: TStringField;
+    memTableRecordsuf_emissor_rg: TStringField;
+    memTableRecordsdat_nascimento: TDateField;
+    memTableRecordsdes_nacionalidade: TStringField;
+    memTableRecordsdes_naturalidade: TStringField;
+    memTableRecordsuf_naturalidade: TStringField;
+    memTableRecordsnom_pai: TStringField;
+    memTableRecordsnom_mae: TStringField;
+    memTableRecordscod_crt: TIntegerField;
+    memTableRecordsnum_cnh: TStringField;
+    memTableRecordsnum_registro_cnh: TStringField;
+    memTableRecordsdes_categoria_cnh: TStringField;
+    memTableRecordsdat_validade_cnh: TDateField;
+    memTableRecordsdat_emissao_cnh: TDateField;
+    memTableRecordsuf_cnh: TStringField;
+    memTableRecordsdat_primeira_cnh: TDateField;
+    memTableRecordscod_status: TIntegerField;
+    memTableRecordsdat_cadastro: TDateTimeField;
+    memTableRecordsdes_obs: TMemoField;
+    memTableRecordsnom_base: TStringField;
+    memTableRecordsdes_funcao: TStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionSetFilterExecute(Sender: TObject);
@@ -200,6 +204,9 @@ type
     procedure viewCadastroDblClick(Sender: TObject);
     procedure viewDocumentosDblClick(Sender: TObject);
     procedure viewGRDblClick(Sender: TObject);
+    procedure actionDeleteRegisterExecute(Sender: TObject);
+    procedure camposPesquisaPropertiesChange(Sender: TObject);
+    procedure parametroPesquisaPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     procedure StartForm;
@@ -220,6 +227,7 @@ type
     procedure ClearSearch;
     procedure NewRegister;
     procedure EditRegister;
+    procedure DeleteRegister;
   public
     { Public declarations }
   end;
@@ -254,6 +262,11 @@ end;
 procedure TviewSisGefCadastroContratados.actionCloseFormExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TviewSisGefCadastroContratados.actionDeleteRegisterExecute(Sender: TObject);
+begin
+  DeleteRegister;
 end;
 
 procedure TviewSisGefCadastroContratados.actionDocumentsToExpireExecute(Sender: TObject);
@@ -351,6 +364,14 @@ begin
   end;
 end;
 
+procedure TviewSisGefCadastroContratados.camposPesquisaPropertiesChange(Sender: TObject);
+begin
+  if camposPesquisa.ItemIndex = 0 then
+    parametroPesquisa.Enabled := False
+  else
+    parametroPesquisa.Enabled := True;
+end;
+
 procedure TviewSisGefCadastroContratados.CancelFilter;
 begin
   if not filterControl.FilterText.IsEmpty then
@@ -377,6 +398,64 @@ begin
     2 : viewGR.ViewData.Collapse(True);
     else
       Exit;
+  end;
+end;
+
+procedure TviewSisGefCadastroContratados.DeleteRegister;
+var
+  FCadastro       : TCadastroContratadosController;
+  FEnderecos      : TContratadosEnderecosController;
+  FContatos       : TContratadosContatosController;
+  FFinanceiro     : TContratadosFinanceiroController;
+  FRepresentante  : TContratadosRepresentanteController;
+  FRH             : TContratadosRHController;
+  FCNAE           : TCadastroContratadosCNAEController;
+  iID : integer;
+begin
+  FCadastro       :=  TCadastroContratadosController.Create;
+  FEnderecos      :=  TContratadosEnderecosController.Create;
+  FContatos       :=  TContratadosContatosController.Create;
+  FFinanceiro     :=  TContratadosFinanceiroController.Create;
+  FRepresentante  :=  TContratadosRepresentanteController.Create;
+  FRH             :=  TContratadosRHController.Create;
+  FCNAE           :=  TCadastroContratadosCNAEController.Create;
+  try
+
+    if memTableRecords.IsEmpty then
+      Exit;
+
+    if Application.MessageBox('Confirma excluir este registro?', 'Excluir', MB_YESNO + MB_ICONQUESTION) = mrNo then
+      Exit;
+
+    iID := memTableRecordsid.AsInteger;
+
+    FCadastro.FContratados.Acao         :=  tacExcluir;
+    FEnderecos.FEnderecos.Acao          :=  tacExcluir;
+    FContatos.FContatos.Acao            :=  tacExcluir;
+    FFinanceiro.FFinanceiro.Acao        :=  tacExcluir;
+    FRepresentante.FRepresentante.Acao  :=  tacExcluir;
+    FRH.FRH.Acao                        :=  tacExcluir;
+    FCNAE.FCNAE.Acao                    :=  tacExcluir;
+
+    FEnderecos.SaveRecord;
+    FContatos.SaveRecord;
+    FFinanceiro.SaveRecord;
+    FRepresentante.SaveRecord;
+    FRH.SaveRecord;
+    FCNAE.SaveRecord;
+    FCadastro.SaveRecord;
+
+  finally
+    FCadastro.Free;
+    FEnderecos.Free;
+    FContatos.Free;
+    FFinanceiro.Free;
+    FRepresentante.Free;
+    FRH.Free;
+    FCNAE.Free;
+
+    LocateRegister(camposPesquisa.ItemIndex, parametroPesquisa.Text);
+
   end;
 end;
 
@@ -537,6 +616,14 @@ begin
     else
       Exit;
   end;
+end;
+
+procedure TviewSisGefCadastroContratados.parametroPesquisaPropertiesChange(Sender: TObject);
+begin
+  if parametroPesquisa.Text = '' then
+    actionClearSearch.Enabled := False
+  else
+    actionClearSearch.Enabled := True;
 end;
 
 procedure TviewSisGefCadastroContratados.SaveFilter;

@@ -47,6 +47,7 @@ interface
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
+        function Excluir  ()  : boolean;
 
       public
         ARecord   : TContratados;
@@ -100,6 +101,8 @@ interface
                   'num_cnh, num_registro_cnh, des_categoria_cnh, dat_validade_cnh, dat_emissao_cnh, uf_cnh, ' +
                   'dat_primeira_cnh, cod_status, dat_cadastro, des_obs ' +
                   'from ';
+
+      SQLDELETE = 'delete from ' + TABLENAME + ' where id = :id';
 implementation
 
 { TCadastroContratadosModel }
@@ -158,6 +161,18 @@ begin
   Result := True;
 end;
 
+function TCadastroContratadosModel.Excluir: boolean;
+begin
+  Result := False;
+  try
+    FQuery := FConn.GetQuery;
+    FQuery.ExecSQL(SQLDELETE, [ARecord.id]);
+    Result := True;
+  finally
+    FQuery.Connection.Close;
+  end;
+end;
+
 function TCadastroContratadosModel.GetNextID(sIdName: string): Integer;
 begin
  try
@@ -206,7 +221,7 @@ function TCadastroContratadosModel.Search(aParams: array of string): boolean;
 begin
   Result := False;
   FQuery := FConn.GetQuery;
-  FQuery.SQL.Add(SQLSELECT + VIEWNAME);
+  FQuery.SQL.Add('SELECT * FROM ' + VIEWNAME);
   if Length(aParams) >= 2 then
   begin
     FQuery.SQL.Add('where');
