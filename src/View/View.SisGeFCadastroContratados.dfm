@@ -178,57 +178,40 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
             Caption = 'ID'
             DataBinding.FieldName = 'id'
           end
-          object viewCadastronom_base: TcxGridDBColumn
-            Caption = 'Base'
-            DataBinding.FieldName = 'nom_base'
-            Visible = False
-            GroupIndex = 0
+          object viewCadastronum_cpf_cnpj: TcxGridDBColumn
+            Caption = 'CPF/ CNPJ'
+            DataBinding.FieldName = 'num_cpf_cnpj'
           end
           object viewCadastrocod_erp_contratados: TcxGridDBColumn
-            Caption = 'C'#243'd. ERP'
+            Caption = 'C'#243'd.ERP'
             DataBinding.FieldName = 'cod_erp_contratados'
             Visible = False
           end
-          object viewCadastrodes_tipo_doc: TcxGridDBColumn
-            Caption = 'Tipo DOC'
-            DataBinding.FieldName = 'des_tipo_doc'
-            Width = 80
-          end
-          object viewCadastronum_cpf_cnpj: TcxGridDBColumn
-            Caption = 'CPF / CNPJ'
-            DataBinding.FieldName = 'num_cpf_cnpj'
-          end
-          object viewCadastrodes_categoria: TcxGridDBColumn
-            Caption = 'Categoria'
-            DataBinding.FieldName = 'des_categoria'
-            Width = 115
-          end
-          object viewCadastrodes_funcao: TcxGridDBColumn
-            Caption = 'Fun'#231#227'o'
-            DataBinding.FieldName = 'des_funcao'
-            Visible = False
-            Width = 143
+          object viewCadastroid_categoria: TcxGridDBColumn
+            DataBinding.FieldName = 'Categoria'
+            Width = 95
           end
           object viewCadastrocod_pessoa: TcxGridDBColumn
-            Caption = 'Tipo'
-            DataBinding.FieldName = 'cod_pessoa'
+            DataBinding.FieldName = 'Tipo'
             Visible = False
           end
+          object viewCadastrodes_tipo_doc: TcxGridDBColumn
+            DataBinding.FieldName = 'Tipo DOC'
+            Width = 94
+          end
           object viewCadastronom_razao_social: TcxGridDBColumn
-            Caption = 'Nome / Raz'#227'o Social'
+            Caption = 'Nome'
             DataBinding.FieldName = 'nom_razao_social'
+            Width = 235
           end
           object viewCadastronom_fantasia_alias: TcxGridDBColumn
-            Caption = 'Alias /Nome Fantasia'
+            Caption = 'Alias'
             DataBinding.FieldName = 'nom_fantasia_alias'
+            Width = 198
           end
           object viewCadastronum_rg_ie: TcxGridDBColumn
-            Caption = 'RG / Ins. Est.'
+            Caption = 'RG / Ins.Est.'
             DataBinding.FieldName = 'num_rg_ie'
-          end
-          object viewCadastronum_im: TcxGridDBColumn
-            Caption = 'Ins. Municipal'
-            DataBinding.FieldName = 'num_im'
           end
           object viewCadastrodat_emissao_rg: TcxGridDBColumn
             Caption = 'Emiss'#227'o RG'
@@ -243,7 +226,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
           object viewCadastrouf_emissor_rg: TcxGridDBColumn
             Caption = 'UF RG'
             DataBinding.FieldName = 'uf_emissor_rg'
-            Visible = False
+            Width = 63
           end
           object viewCadastrodat_nascimento: TcxGridDBColumn
             Caption = 'Nascimento'
@@ -256,22 +239,21 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
             Visible = False
           end
           object viewCadastrodes_naturalidade: TcxGridDBColumn
-            Caption = 'Naturalidade'
-            DataBinding.FieldName = 'des_naturalidade'
+            DataBinding.FieldName = 'Naturalidade'
             Visible = False
           end
           object viewCadastrouf_naturalidade: TcxGridDBColumn
-            Caption = 'UF Naturalidade'
+            Caption = 'UF Nat.'
             DataBinding.FieldName = 'uf_naturalidade'
             Visible = False
           end
           object viewCadastronom_pai: TcxGridDBColumn
-            Caption = 'Nomr Pai'
+            Caption = 'Nome do Pai'
             DataBinding.FieldName = 'nom_pai'
             Visible = False
           end
           object viewCadastronom_mae: TcxGridDBColumn
-            Caption = 'Nome M'#227'e'
+            Caption = 'Nome da M'#227'e'
             DataBinding.FieldName = 'nom_mae'
             Visible = False
           end
@@ -281,7 +263,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
             Visible = False
           end
           object viewCadastronum_cnh: TcxGridDBColumn
-            Caption = 'N'#186' CNH'
+            Caption = 'N'#250'mero CNH'
             DataBinding.FieldName = 'num_cnh'
             Visible = False
           end
@@ -291,7 +273,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
             Visible = False
           end
           object viewCadastrodes_categoria_cnh: TcxGridDBColumn
-            Caption = 'Cateoria CNH'
+            Caption = 'Categoria CNH'
             DataBinding.FieldName = 'des_categoria_cnh'
             Visible = False
           end
@@ -1179,6 +1161,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     end
   end
   object memTableRecords: TFDMemTable
+    Active = True
     FieldDefs = <
       item
         Name = 'id'
@@ -1191,9 +1174,9 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
         Size = 50
       end
       item
-        Name = 'des_categoria'
-        DataType = ftString
-        Size = 255
+        Name = 'id_categoria'
+        Attributes = [faRequired]
+        DataType = ftInteger
       end
       item
         Name = 'cod_pessoa'
@@ -1226,13 +1209,8 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
         Size = 20
       end
       item
-        Name = 'num_im'
-        DataType = ftString
-        Size = 30
-      end
-      item
         Name = 'dat_emissao_rg'
-        DataType = ftDate
+        DataType = ftDateTime
       end
       item
         Name = 'nom_emissor_rg'
@@ -1323,16 +1301,6 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
       item
         Name = 'des_obs'
         DataType = ftMemo
-      end
-      item
-        Name = 'nom_base'
-        DataType = ftString
-        Size = 70
-      end
-      item
-        Name = 'des_funcao'
-        DataType = ftString
-        Size = 132
       end>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
@@ -1351,185 +1319,258 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
     StoreDefs = True
     Left = 232
     Top = 230
+    Content = {
+      414442530F00C6361E0F0000FF00010001FF02FF0304001E0000006D0065006D
+      005400610062006C0065005200650063006F0072006400730005000A00000054
+      00610062006C006500060000000000070000080032000000090000FF0AFF0B04
+      000400000069006400050004000000690064000C00010000000E000D000F0001
+      10000111000112000113000400000069006400FEFF0B04002600000063006F00
+      64005F006500720070005F0063006F006E007400720061007400610064006F00
+      730005002600000063006F0064005F006500720070005F0063006F006E007400
+      720061007400610064006F0073000C00020000000E0014001500320000000F00
+      0116000110000117000111000112000113002600000063006F0064005F006500
+      720070005F0063006F006E007400720061007400610064006F00730018003200
+      0000FEFF0B040018000000690064005F00630061007400650067006F00720069
+      006100050018000000690064005F00630061007400650067006F007200690061
+      000C00030000000E000D000F0001100001110001120001130018000000690064
+      005F00630061007400650067006F00720069006100FEFF0B0400140000006300
+      6F0064005F0070006500730073006F00610005001400000063006F0064005F00
+      70006500730073006F0061000C00040000000E000D000F000110000111000112
+      000113001400000063006F0064005F0070006500730073006F006100FEFF0B04
+      00180000006400650073005F007400690070006F005F0064006F006300050018
+      0000006400650073005F007400690070006F005F0064006F0063000C00050000
+      000E0014001500040000000F0001160001100001170001110001120001130018
+      0000006400650073005F007400690070006F005F0064006F0063001800040000
+      00FEFF0B0400200000006E006F006D005F00720061007A0061006F005F007300
+      6F006300690061006C000500200000006E006F006D005F00720061007A006100
+      6F005F0073006F006300690061006C000C00060000000E001400150046000000
+      0F00011600011000011700011100011200011300200000006E006F006D005F00
+      720061007A0061006F005F0073006F006300690061006C00180046000000FEFF
+      0B0400240000006E006F006D005F00660061006E00740061007300690061005F
+      0061006C006900610073000500240000006E006F006D005F00660061006E0074
+      0061007300690061005F0061006C006900610073000C00070000000E00140015
+      00460000000F00011600011000011700011100011200011300240000006E006F
+      006D005F00660061006E00740061007300690061005F0061006C006900610073
+      00180046000000FEFF0B0400180000006E0075006D005F006300700066005F00
+      63006E0070006A000500180000006E0075006D005F006300700066005F006300
+      6E0070006A000C00080000000E0014001500140000000F000116000110000117
+      00011100011200011300180000006E0075006D005F006300700066005F006300
+      6E0070006A00180014000000FEFF0B0400120000006E0075006D005F00720067
+      005F00690065000500120000006E0075006D005F00720067005F00690065000C
+      00090000000E0014001500140000000F00011600011000011700011100011200
+      011300120000006E0075006D005F00720067005F0069006500180014000000FE
+      FF0B04001C0000006400610074005F0065006D0069007300730061006F005F00
+      7200670005001C0000006400610074005F0065006D0069007300730061006F00
+      5F00720067000C000A0000000E0019000F000116000110000117000111000112
+      000113001C0000006400610074005F0065006D0069007300730061006F005F00
+      72006700FEFF0B04001C0000006E006F006D005F0065006D006900730073006F
+      0072005F007200670005001C0000006E006F006D005F0065006D006900730073
+      006F0072005F00720067000C000B0000000E0014001500140000000F00011600
+      0110000117000111000112000113001C0000006E006F006D005F0065006D0069
+      00730073006F0072005F0072006700180014000000FEFF0B04001A0000007500
+      66005F0065006D006900730073006F0072005F007200670005001A0000007500
+      66005F0065006D006900730073006F0072005F00720067000C000C0000000E00
+      14001500020000000F00011600011A000110000117000111000112000113001A
+      000000750066005F0065006D006900730073006F0072005F0072006700180002
+      000000FEFF0B04001C0000006400610074005F006E0061007300630069006D00
+      65006E0074006F0005001C0000006400610074005F006E006100730063006900
+      6D0065006E0074006F000C000D0000000E001B000F0001160001100001170001
+      11000112000113001C0000006400610074005F006E0061007300630069006D00
+      65006E0074006F00FEFF0B0400220000006400650073005F006E006100630069
+      006F006E0061006C00690064006100640065000500220000006400650073005F
+      006E006100630069006F006E0061006C00690064006100640065000C000E0000
+      000E0014001500460000000F0001160001100001170001110001120001130022
+      0000006400650073005F006E006100630069006F006E0061006C006900640061
+      0064006500180046000000FEFF0B0400200000006400650073005F006E006100
+      74007500720061006C0069006400610064006500050020000000640065007300
+      5F006E00610074007500720061006C00690064006100640065000C000F000000
+      0E0014001500460000000F000116000110000117000111000112000113002000
+      00006400650073005F006E00610074007500720061006C006900640061006400
+      6500180046000000FEFF0B04001E000000750066005F006E0061007400750072
+      0061006C006900640061006400650005001E000000750066005F006E00610074
+      007500720061006C00690064006100640065000C00100000000E001400150002
+      0000000F00011600011A000110000117000111000112000113001E0000007500
+      66005F006E00610074007500720061006C006900640061006400650018000200
+      0000FEFF0B04000E0000006E006F006D005F0070006100690005000E0000006E
+      006F006D005F007000610069000C00110000000E0014001500460000000F0001
+      16000110000117000111000112000113000E0000006E006F006D005F00700061
+      006900180046000000FEFF0B04000E0000006E006F006D005F006D0061006500
+      05000E0000006E006F006D005F006D00610065000C00120000000E0014001500
+      460000000F000116000110000117000111000112000113000E0000006E006F00
+      6D005F006D0061006500180046000000FEFF0B04000E00000063006F0064005F
+      0063007200740005000E00000063006F0064005F006300720074000C00130000
+      000E000D000F000116000110000117000111000112000113000E00000063006F
+      0064005F00630072007400FEFF0B04000E0000006E0075006D005F0063006E00
+      680005000E0000006E0075006D005F0063006E0068000C00140000000E001400
+      15000F0000000F000116000110000117000111000112000113000E0000006E00
+      75006D005F0063006E00680018000F000000FEFF0B0400200000006E0075006D
+      005F0072006500670069007300740072006F005F0063006E0068000500200000
+      006E0075006D005F0072006500670069007300740072006F005F0063006E0068
+      000C00150000000E00140015000F0000000F0001160001100001170001110001
+      1200011300200000006E0075006D005F0072006500670069007300740072006F
+      005F0063006E00680018000F000000FEFF0B0400220000006400650073005F00
+      630061007400650067006F007200690061005F0063006E006800050022000000
+      6400650073005F00630061007400650067006F007200690061005F0063006E00
+      68000C00160000000E0014001500020000000F00011600011000011700011100
+      011200011300220000006400650073005F00630061007400650067006F007200
+      690061005F0063006E006800180002000000FEFF0B0400200000006400610074
+      005F00760061006C00690064006100640065005F0063006E0068000500200000
+      006400610074005F00760061006C00690064006100640065005F0063006E0068
+      000C00170000000E001B000F0001160001100001170001110001120001130020
+      0000006400610074005F00760061006C00690064006100640065005F0063006E
+      006800FEFF0B04001E0000006400610074005F0065006D006900730073006100
+      6F005F0063006E00680005001E0000006400610074005F0065006D0069007300
+      730061006F005F0063006E0068000C00180000000E001B000F00011600011000
+      0117000111000112000113001E0000006400610074005F0065006D0069007300
+      730061006F005F0063006E006800FEFF0B04000C000000750066005F0063006E
+      00680005000C000000750066005F0063006E0068000C00190000000E00140015
+      00020000000F00011600011A000110000117000111000112000113000C000000
+      750066005F0063006E006800180002000000FEFF0B0400200000006400610074
+      005F007000720069006D0065006900720061005F0063006E0068000500200000
+      006400610074005F007000720069006D0065006900720061005F0063006E0068
+      000C001A0000000E001B000F0001160001100001170001110001120001130020
+      0000006400610074005F007000720069006D0065006900720061005F0063006E
+      006800FEFF0B04001400000063006F0064005F00730074006100740075007300
+      05001400000063006F0064005F007300740061007400750073000C001B000000
+      0E000D000F000116000110000117000111000112000113001400000063006F00
+      64005F00730074006100740075007300FEFF0B0400180000006400610074005F
+      0063006100640061007300740072006F000500180000006400610074005F0063
+      006100640061007300740072006F000C001C0000000E0019000F000116000110
+      00011700011100011200011300180000006400610074005F0063006100640061
+      007300740072006F00FEFF0B04000E0000006400650073005F006F0062007300
+      05000E0000006400650073005F006F00620073000C001D0000000E001C000F00
+      011600011D000110000117000111000112000113000E0000006400650073005F
+      006F0062007300FEFEFF1EFEFF1FFEFF20FEFEFEFF21FEFF22FF23FEFEFE0E00
+      4D0061006E0061006700650072001E0055007000640061007400650073005200
+      650067006900730074007200790012005400610062006C0065004C0069007300
+      74000A005400610062006C00650008004E0061006D006500140053006F007500
+      7200630065004E0061006D0065000A0054006100620049004400240045006E00
+      66006F0072006300650043006F006E00730074007200610069006E0074007300
+      1E004D0069006E0069006D0075006D0043006100700061006300690074007900
+      180043006800650063006B004E006F0074004E0075006C006C00140043006F00
+      6C0075006D006E004C006900730074000C0043006F006C0075006D006E001000
+      53006F007500720063006500490044000E006400740049006E00740033003200
+      1000440061007400610054007900700065001400530065006100720063006800
+      610062006C0065000800420061007300650012004F0049006E00550070006400
+      61007400650010004F0049006E00570068006500720065001A004F0072006900
+      670069006E0043006F006C004E0061006D00650018006400740041006E007300
+      690053007400720069006E0067000800530069007A006500120041006C006C00
+      6F0077004E0075006C006C0014004F0041006C006C006F0077004E0075006C00
+      6C00140053006F007500720063006500530069007A0065001400640074004400
+      610074006500540069006D0065001000460069007800650064004C0065006E00
+      0C006400740044006100740065000C00640074004D0065006D006F0010004200
+      6C006F00620044006100740061001C0043006F006E0073007400720061006900
+      6E0074004C00690073007400100056006900650077004C006900730074000E00
+      52006F0077004C006900730074001800520065006C006100740069006F006E00
+      4C006900730074001C0055007000640061007400650073004A006F0075007200
+      6E0061006C000E004300680061006E00670065007300}
     object memTableRecordsid: TIntegerField
       FieldName = 'id'
-      Origin = 'id'
       Required = True
     end
     object memTableRecordscod_erp_contratados: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'cod_erp_contratados'
-      Origin = 'cod_erp_contratados'
       Size = 50
     end
-    object memTableRecordsdes_categoria: TStringField
-      FieldName = 'des_categoria'
-      Origin = 'des_categoria'
-      Size = 255
+    object memTableRecordsid_categoria: TIntegerField
+      FieldName = 'id_categoria'
+      Required = True
     end
     object memTableRecordscod_pessoa: TIntegerField
       FieldName = 'cod_pessoa'
-      Origin = 'cod_pessoa'
       Required = True
     end
     object memTableRecordsdes_tipo_doc: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'des_tipo_doc'
-      Origin = 'des_tipo_doc'
       Size = 4
     end
     object memTableRecordsnom_razao_social: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'nom_razao_social'
-      Origin = 'nom_razao_social'
       Size = 70
     end
     object memTableRecordsnom_fantasia_alias: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'nom_fantasia_alias'
-      Origin = 'nom_fantasia_alias'
       Size = 70
     end
     object memTableRecordsnum_cpf_cnpj: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'num_cpf_cnpj'
-      Origin = 'num_cpf_cnpj'
     end
     object memTableRecordsnum_rg_ie: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'num_rg_ie'
-      Origin = 'num_rg_ie'
     end
-    object memTableRecordsnum_im: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'num_im'
-      Origin = 'num_im'
-      Size = 30
-    end
-    object memTableRecordsdat_emissao_rg: TDateField
-      AutoGenerateValue = arDefault
+    object memTableRecordsdat_emissao_rg: TDateTimeField
       FieldName = 'dat_emissao_rg'
-      Origin = 'dat_emissao_rg'
     end
     object memTableRecordsnom_emissor_rg: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'nom_emissor_rg'
-      Origin = 'nom_emissor_rg'
     end
     object memTableRecordsuf_emissor_rg: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'uf_emissor_rg'
-      Origin = 'uf_emissor_rg'
       FixedChar = True
       Size = 2
     end
     object memTableRecordsdat_nascimento: TDateField
-      AutoGenerateValue = arDefault
       FieldName = 'dat_nascimento'
-      Origin = 'dat_nascimento'
     end
     object memTableRecordsdes_nacionalidade: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'des_nacionalidade'
-      Origin = 'des_nacionalidade'
       Size = 70
     end
     object memTableRecordsdes_naturalidade: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'des_naturalidade'
-      Origin = 'des_naturalidade'
       Size = 70
     end
     object memTableRecordsuf_naturalidade: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'uf_naturalidade'
-      Origin = 'uf_naturalidade'
       FixedChar = True
       Size = 2
     end
     object memTableRecordsnom_pai: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'nom_pai'
-      Origin = 'nom_pai'
       Size = 70
     end
     object memTableRecordsnom_mae: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'nom_mae'
-      Origin = 'nom_mae'
       Size = 70
     end
     object memTableRecordscod_crt: TIntegerField
-      AutoGenerateValue = arDefault
       FieldName = 'cod_crt'
-      Origin = 'cod_crt'
     end
     object memTableRecordsnum_cnh: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'num_cnh'
-      Origin = 'num_cnh'
       Size = 15
     end
     object memTableRecordsnum_registro_cnh: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'num_registro_cnh'
-      Origin = 'num_registro_cnh'
       Size = 15
     end
     object memTableRecordsdes_categoria_cnh: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'des_categoria_cnh'
-      Origin = 'des_categoria_cnh'
       Size = 2
     end
     object memTableRecordsdat_validade_cnh: TDateField
-      AutoGenerateValue = arDefault
       FieldName = 'dat_validade_cnh'
-      Origin = 'dat_validade_cnh'
     end
     object memTableRecordsdat_emissao_cnh: TDateField
-      AutoGenerateValue = arDefault
       FieldName = 'dat_emissao_cnh'
-      Origin = 'dat_emissao_cnh'
     end
     object memTableRecordsuf_cnh: TStringField
-      AutoGenerateValue = arDefault
       FieldName = 'uf_cnh'
-      Origin = 'uf_cnh'
       FixedChar = True
       Size = 2
     end
     object memTableRecordsdat_primeira_cnh: TDateField
-      AutoGenerateValue = arDefault
       FieldName = 'dat_primeira_cnh'
-      Origin = 'dat_primeira_cnh'
     end
     object memTableRecordscod_status: TIntegerField
-      AutoGenerateValue = arDefault
       FieldName = 'cod_status'
-      Origin = 'cod_status'
     end
     object memTableRecordsdat_cadastro: TDateTimeField
-      AutoGenerateValue = arDefault
       FieldName = 'dat_cadastro'
-      Origin = 'dat_cadastro'
     end
     object memTableRecordsdes_obs: TMemoField
-      AutoGenerateValue = arDefault
       FieldName = 'des_obs'
-      Origin = 'des_obs'
       BlobType = ftMemo
-    end
-    object memTableRecordsnom_base: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'nom_base'
-      Origin = 'nom_base'
-      Size = 70
-    end
-    object memTableRecordsdes_funcao: TStringField
-      FieldName = 'des_funcao'
-      Origin = 'des_funcao'
-      Size = 132
     end
   end
   object dsRecords: TDataSource
