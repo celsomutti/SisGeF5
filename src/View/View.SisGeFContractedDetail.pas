@@ -17,7 +17,7 @@ uses
   System.StrUtils, cxButtonEdit, Global.Parametros, cxImageComboBox, cxCurrencyEdit, Vcl.ExtCtrls,
   Controller.SisGeFCadastroContratados, Controller.SisGeFContratadosContatos, Controller.SisGeFContratadosEnderecos,
   Controller.SisGeFContratadosCNAE, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,
-  Controller.SisGeFContratadosRH;
+  Controller.SisGeFContratadosRH, Control.Bases, Controller.SisGeFFuncoesRH;
 
 type
   Tview_SisGeFContractedDetail = class(TForm)
@@ -187,12 +187,8 @@ type
     dxLayoutGroup4: TdxLayoutGroup;
     cedSalario: TcxCurrencyEdit;
     dxLayoutItem16: TdxLayoutItem;
-    cboBase: TcxComboBox;
-    dxLayoutItem17: TdxLayoutItem;
     Image1: TImage;
     Image2: TImage;
-    icbFuncao: TcxImageComboBox;
-    dxLayoutItem18: TdxLayoutItem;
     memTableEnderecos: TFDMemTable;
     memTableEnderecos_id_endereco: TIntegerField;
     memTableEnderecos_id_contratados: TIntegerField;
@@ -228,21 +224,33 @@ type
     gridCNAELevel1: TcxGridLevel;
     gridCNAE: TcxGrid;
     dxLayoutItem1: TdxLayoutItem;
-    gridCNAEDBTableView1id_cnae: TcxGridDBColumn;
-    gridCNAEDBTableView1id_contratados: TcxGridDBColumn;
-    gridCNAEDBTableView1cod_tipo_cnae: TcxGridDBColumn;
-    gridCNAEDBTableView1cod_cnae: TcxGridDBColumn;
-    gridCNAEDBTableView1des_cnae: TcxGridDBColumn;
     txtRepresentante: TcxTextEdit;
     dxLayoutItem5: TdxLayoutItem;
     mskCPFRepresentante: TcxMaskEdit;
     dxLayoutItem10: TdxLayoutItem;
-    memTableCNAEdes_tipo_cnae: TStringField;
     gridContatosDBTableView1seq_contato: TcxGridDBColumn;
     gridContatosDBTableView1id_contratados: TcxGridDBColumn;
     gridContatosDBTableView1des_contato: TcxGridDBColumn;
     gridContatosDBTableView1num_telefone: TcxGridDBColumn;
     gridContatosDBTableView1des_email: TcxGridDBColumn;
+    memTableBases: TFDMemTable;
+    dsBases: TDataSource;
+    memTableBasescod_agente: TIntegerField;
+    memTableBasesnom_fantasia: TStringField;
+    memTableFuncoes: TFDMemTable;
+    dsFuncoes: TDataSource;
+    lcbBase: TcxLookupComboBox;
+    dxLayoutItem11: TdxLayoutItem;
+    lcbFuncao: TcxLookupComboBox;
+    dxLayoutItem15: TdxLayoutItem;
+    memTableFuncoesid_funcao: TIntegerField;
+    memTableFuncoesdes_funcao: TStringField;
+    memTableCNAEdes_tipo_cnae: TStringField;
+    gridCNAEDBTableView1id_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1id_contratados: TcxGridDBColumn;
+    gridCNAEDBTableView1des_tipo_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1cod_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1des_cnae: TcxGridDBColumn;
     //procedure comboBoxTipoPessoaPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
@@ -266,6 +274,8 @@ type
     procedure SetupClassCadastro(FCadastro: TCadastroContratadosController);
     procedure PopulaBancos;
     procedure PopulaEstados;
+    procedure PopulaBases;
+    procedure PopulaFuncoes;
     function PesquisaCadastro(): boolean;
     procedure PopulaEnderecos(iCadastro: Integer);
     procedure PopulaContatos(iCadastro: Integer);
@@ -437,8 +447,8 @@ begin
   textEditNomeFantasia.Clear;
   textEditIE.Clear;
   cboSexo.ItemIndex := 3;
-  cboBase.ItemIndex := 0;
-  icbFuncao.ItemIndex := 0;
+  lcbBase.EditValue := -1;
+  lcbFuncao.EditValue := -1;
   cboCategoria.ItemIndex := 0;
   textEditIM.Clear;
   comboBoxCRT.ItemIndex := 0;
@@ -493,7 +503,7 @@ begin
     sValor := Self.cedSalario.Text;
     sAtividade := view_SisGeFContractEmission.memoAtividades.Text;
     sLocal := view_SisGeFContractEmission.txtLocal.Text;
-    sFuncao := icbFuncao.Text;
+    sFuncao := lcbFuncao.Text;
     case iTipo of
       0 : ImprimeContratoColaborador(sData, sAtividade, sLocal);
       1 : ImprimeContratoEntregador(sData, sLocal);
@@ -513,6 +523,8 @@ begin
   memTableBancos.Active := False;
   memTableEstados.Active := False;
   memTableCNAE.Active := False;
+  memTableBases.Active := False;
+  memTableFuncoes.Active := False;
   Action := caFree;
   view_SisGeFContractedDetail := nil;
 end;
@@ -521,6 +533,8 @@ procedure Tview_SisGeFContractedDetail.FormShow(Sender: TObject);
 begin
   PopulaBancos;
   PopulaEstados;
+  PopulaBases;
+  PopulaFuncoes;
   Modo;
   case FAcao of
     tacIncluir : NovoCadastro;
@@ -572,7 +586,7 @@ begin
     sEndereco := sEndereco + ', bairro ' + dbTextEditBairro.Text;
     sEndereco := sEndereco + ', cidade ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
     sEndereco := sEndereco + ', CEP: ' + dbMaskEditCEP.Text;
-    sFuncao := icbFuncao.Text;
+    sFuncao := lcbFuncao.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
     Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
     Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
@@ -633,7 +647,7 @@ begin
     sEndereco := sEndereco + ', bairro ' + dbTextEditBairro.Text;
     sEndereco := sEndereco + ', cidade ' + dbTextEditCidade.Text + '/' + dbLookupComboBoxUFEndereco.Text;
     sEndereco := sEndereco + ', CEP: ' + dbMaskEditCEP.Text;
-    sFuncao := icbFuncao.Text;
+    sFuncao := lcbFuncao.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
     Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
     Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
@@ -770,8 +784,8 @@ begin
     cboSexo.Properties.ReadOnly := True;
     cboTipoPessoa.Properties.ReadOnly := True;
     cedSalario.Properties.ReadOnly := True;
-    cboBase.Properties.ReadOnly := True;
-    icbFuncao.Properties.ReadOnly := True;
+    lcbBase.Properties.ReadOnly := True;
+    lcbFuncao.Properties.ReadOnly := True;
     datAdmissao.Properties.ReadOnly := True;
     datDEmissao.Properties.ReadOnly := True;
     cboCategoria.Properties.ReadOnly := True;
@@ -827,8 +841,8 @@ begin
     cboSexo.Properties.ReadOnly := False;
     cboTipoPessoa.Properties.ReadOnly := False;
     cedSalario.Properties.ReadOnly := False;
-    cboBase.Properties.ReadOnly := False;
-    icbFuncao.Properties.ReadOnly := False;
+    lcbBase.Properties.ReadOnly := False;
+    lcbFuncao.Properties.ReadOnly := False;
     datAdmissao.Properties.ReadOnly := False;
     datDEmissao.Properties.ReadOnly := False;
     cboCategoria.Properties.ReadOnly := False;
@@ -881,8 +895,8 @@ begin
     cboSexo.Properties.ReadOnly := False;
     cboTipoPessoa.Properties.ReadOnly := False;
     cedSalario.Properties.ReadOnly := False;
-    cboBase.Properties.ReadOnly := False;
-    icbFuncao.Properties.ReadOnly := False;
+    lcbBase.Properties.ReadOnly := False;
+    lcbFuncao.Properties.ReadOnly := False;
     datAdmissao.Properties.ReadOnly := False;
     datDEmissao.Properties.ReadOnly := False;
     cboCategoria.Properties.ReadOnly := False;
@@ -935,8 +949,8 @@ begin
     cboSexo.Properties.ReadOnly := True;
     cboTipoPessoa.Properties.ReadOnly := True;
     cedSalario.Properties.ReadOnly := True;
-    cboBase.Properties.ReadOnly := True;
-    icbFuncao.Properties.ReadOnly := True;
+    lcbBase.Properties.ReadOnly := True;
+    lcbFuncao.Properties.ReadOnly := True;
     datAdmissao.Properties.ReadOnly := True;
     datDEmissao.Properties.ReadOnly := True;
     cboCategoria.Properties.ReadOnly := True;
@@ -958,9 +972,9 @@ begin
   try
     cadastro := TCadastroContratadosController.Create;
     Result := False;
-    SetLength(aParam,2);
-    aparam := ['ID', FID.ToString];
-    if cadastro.Search(aParam) then
+    SetLength(aParam,3);
+    aparam := ['*', 'TABLE', 'id = ' + FID.ToString];
+    if cadastro.CustomSearch(aParam) then
     begin
       if not cadastro.SetupRecord then
       begin
@@ -1007,7 +1021,23 @@ begin
   finally
     FBancos.Free;
   end;
+end;
 
+procedure Tview_SisGeFContractedDetail.PopulaBases;
+var
+  FBases : TBasesControl;
+  aParam : array of variant;
+begin
+  try
+    FBases := TBasesControl.Create;
+    SetLength(aParam,3);
+    aParam := ['APOIO','*',''];
+    memTableBases.Active := False;
+    memTableBases.Data := FBases.Localizar(aParam);
+    Finalize(aParam);
+  finally
+    FBases.Free;
+  end;
 end;
 
 procedure Tview_SisGeFContractedDetail.PopulaCNAE(iCadastro: Integer);
@@ -1017,20 +1047,32 @@ var
 begin
   try
     FCNAE := TCadastroContratadosCNAEController.Create;
-    if memTableContatos.Active then
+    if memTableCNAE.Active then
     begin
-      memTableContatos.Close;
+      memTableCNAE.Close;
     end;
     SetLength(aParam,2);
     aParam := ['CONTRATADO',iCadastro.ToString];
-    if FCNAE.Search(aParam) then
+    if not FCNAE.Search(aParam) then
     begin
-      memTableCNAE.CopyDataSet(FCNAE.FCNAE.Query);
+      Exit;
     end;
-    FCNAE.FCNAE.Query.Connection.Close;
+    memTableCNAE.Active := True;;
+    while not FCNAE.FCNAE.Query.Eof do
+    begin
+      memTableCNAE.Insert;
+      memTableCNAEid_cnae.AsInteger         :=  FCNAE.FCNAE.Query.FieldByName('id_cnae').AsInteger;
+      memTableCNAEid_contratados.AsInteger  :=  FCNAE.FCNAE.Query.FieldByName('id_contratados').AsInteger;
+      memTableCNAEdes_tipo_cnae.AsString    :=  FCNAE.FCNAE.Query.FieldByName('des_tipo_cnae').AsString;
+      memTableCNAEcod_cnae.AsString         :=  FCNAE.FCNAE.Query.FieldByName('cod_cnae').AsString;
+      memTableCNAEdes_cnae.AsString         :=  FCNAE.FCNAE.Query.FieldByName('des_cnae').AsString;
+      memTableCNAE.Post;
+      FCNAE.FCNAE.Query.Next;
+    end;
     if not memTableCNAE.Active then
       memTableCNAE.Active := True
   finally
+    FCNAE.FCNAE.Query.Connection.Close;  
     FCNAE.Free;
   end;
 end;
@@ -1048,14 +1090,26 @@ begin
     end;
     SetLength(aParam,2);
     aParam := ['CONTRATADO',iCadastro.ToString];
-    if FContatos.Search(aParam) then
+    if not FContatos.Search(aParam) then
     begin
-      memTableContatos.CopyDataSet(FContatos.FContatos.Query);
+      Exit;
     end;
-    FContatos.FContatos.Query.Connection.Close;
+    memTableContatos.Active := True;
+    while not FContatos.FContatos.Query.Eof do
+    begin
+      memTableContatos.Insert;
+      memTableContatosseq_contato.AsInteger := FContatos.FContatos.Query.FieldByName('seq_contato').AsInteger;
+      memTableContatosid_contratados.AsInteger := FContatos.FContatos.Query.FieldByName('id_contratados').AsInteger;
+      memTableContatosdes_contato.AsString := FContatos.FContatos.Query.FieldByName('des_contato').AsString;
+      memTableContatosnum_telefone.AsString := FContatos.FContatos.Query.FieldByName('num_telefone').AsString;
+      memTableContatosdes_email.AsString := FContatos.FContatos.Query.FieldByName('des_email').AsString;
+      memTableContatos.Post;
+      FContatos.FContatos.Query.Next;
+    end;
     if not memTableContatos.Active then
       memTableContatos.Active := True;
   finally
+    FContatos.FContatos.Query.Connection.Close;
     FContatos.Free;
   end;
 end;
@@ -1140,6 +1194,31 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFContractedDetail.PopulaFuncoes;
+var
+  FFuncoes : TFuncoesRHController;
+  aParam : array of string;
+begin
+  try
+    FFuncoes := TFuncoesRHController.Create;
+    SetLength(aParam,3);
+    aParam := [''];
+    if FFuncoes.Search(aParam)  then
+    begin
+      if memTableFuncoes.Active then
+      begin
+        memTableFuncoes.Close;
+      end;
+      memTableFuncoes.Data := FFuncoes.FFuncoes.Query;
+      FFuncoes.FFuncoes.Query.Close;
+      FFuncoes.FFuncoes.Query.Connection.Close;
+    end;
+    Finalize(aParam);
+  finally
+    FFuncoes.Free;
+  end;
+end;
+
 procedure Tview_SisGeFContractedDetail.PopulaRepresentante(iCadastro: integer);
 var
   FRepresentante : TContratadosRepresentanteController;
@@ -1181,8 +1260,8 @@ begin
       if FRH.SetupRecord then
       begin
         cedSalario.Value    := FRH.FRH.ARecord.val_salario;
-        cboBase.ItemIndex   := FRH.FRH.ARecord.id_departamento;
-        icbFuncao.EditValue := FRH.FRH.ARecord.id_funcao;
+        lcbBase.EditValue   := FRH.FRH.ARecord.id_departamento;
+        lcbFuncao.EditValue := FRH.FRH.ARecord.id_funcao;
         datAdmissao.Date    := FRH.FRH.ARecord.dat_admissao;
         datDemissao.Date    := FRH.FRH.ARecord.dat_demissao;
       end
@@ -1230,6 +1309,7 @@ var
   FRepresentante  : TContratadosRepresentanteController;
   FRH             : TContratadosRHController;
   FCNAE           : TCadastroContratadosCNAEController;
+  FUtil           : TUtils;
 begin
   FCadastro       :=  TCadastroContratadosController.Create;
   FEnderecos      :=  TContratadosEnderecosController.Create;
@@ -1238,6 +1318,7 @@ begin
   FRepresentante  :=  TContratadosRepresentanteController.Create;
   FRH             :=  TContratadosRHController.Create;
   FCNAE           :=  TCadastroContratadosCNAEController.Create;
+  FUtil           :=  TUtils.Create;
   try
     Result := False;
     if not ValidaDados() then
@@ -1270,7 +1351,7 @@ begin
     while not memTableEnderecos.Eof do
     begin
       FEnderecos.FEnderecos.ARecord.des_tipo := memTableEnderecos_des_tipo.AsString;
-      FEnderecos.FEnderecos.ARecord.num_cep := memTableEnderecosnum_cep.AsString;
+      FEnderecos.FEnderecos.ARecord.num_cep := FUtil.DesmontaCPFCNPJ(memTableEnderecosnum_cep.AsString);
       FEnderecos.FEnderecos.ARecord.des_logradouro := memTableEnderecosdes_logradouro.AsString;
       FEnderecos.FEnderecos.ARecord.num_logradouro := memTableEnderecosnum_logradouro.AsString;
       FEnderecos.FEnderecos.ARecord.des_complemento := memTableEnderecosdes_complemento.AsString;
@@ -1371,8 +1452,8 @@ begin
       FRH.FRH.ARecord.dat_demissao  :=  0
     else
       FRH.FRH.ARecord.dat_demissao  :=  datDEmissao.Date;
-    FRH.FRH.ARecord.id_departamento :=  cboBase.ItemIndex;
-    FRH.FRH.ARecord.id_funcao       :=  icbFuncao.EditValue;
+    FRH.FRH.ARecord.id_departamento :=  lcbBase.EditValue;
+    FRH.FRH.ARecord.id_funcao       :=  lcbFuncao.EditValue;
     FRH.FRH.Acao                    :=  tacIncluir;
     if not FRH.FRH.SaveRecord then
     begin
@@ -1583,7 +1664,10 @@ begin
 end;
 
 procedure Tview_SisGeFContractedDetail.SetupClassCadastro(FCadastro: TCadastroContratadosController);
+var
+  FUtil : TUtils;
 begin
+  FUtil := TUtils.Create;
   FCadastro.FContratados.ARecord.id := maskEditId.EditValue;
   FCadastro.FContratados.ARecord.cod_erp_contratados := '0';
   FCadastro.FContratados.ARecord.id_categoria := cboCategoria.ItemIndex;
@@ -1596,7 +1680,7 @@ begin
     FCadastro.FContratados.ARecord.des_tipo_doc := 'NONE';
   FCadastro.FContratados.ARecord.nom_razao_social := textEditNome.Text;
   FCadastro.FContratados.ARecord.nom_fantasia_alias := textEditNomeFantasia.Text;
-  FCadastro.FContratados.ARecord.num_cpf_cnpj := maskEditCPCNPJ.EditValue;
+  FCadastro.FContratados.ARecord.num_cpf_cnpj :=  FUtil.DesmontaCPFCNPJ(maskEditCPCNPJ.EditValue);
   if cboTipoPessoa.ItemIndex = 1 then
     FCadastro.FContratados.ARecord.num_rg_ie := textEditRG.Text
   else if cboTipoPessoa.ItemIndex = 2 then
@@ -1640,7 +1724,7 @@ begin
   FCadastro.FContratados.ARecord.cod_status := checkBoxStatus.EditValue;
   if FCadastro.FContratados.Acao = tacIncluir then
     FCadastro.FContratados.ARecord.dat_cadastro := Now();
-
+  FUtil.Free;
 end;
 
 procedure Tview_SisGeFContractedDetail.SetupFields(FCadastro: TCadastroContratadosController);
@@ -1687,7 +1771,6 @@ begin
   PopulaFinanceiro(FCadastro.FContratados.ARecord.id);
   PopulaRepresentante(FCadastro.FContratados.ARecord.id);
   PopulaRH(FCadastro.FContratados.ARecord.id);
-
 end;
 
 function Tview_SisGeFContractedDetail.ValidaDados: boolean;

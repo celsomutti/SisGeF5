@@ -146,7 +146,7 @@ begin
   FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
   if aParams[1] = 'VIEW' then
     sSource := VIEWNAME;
-  if aParams[1] = '' then
+  if aParams[1] = 'TABLE' then
     sSource := TABLENAME;
   FQuery.MacroByName('colums').AsRaw := aParams[0];
   FQuery.MacroByName('table').AsRaw := sSource;

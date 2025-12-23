@@ -14,7 +14,8 @@ uses
   cxGridDBBandedTableView, cxCheckBox, cxFilterControl, cxDBFilterControl, Vcl.FileCtrl, cxCalendar, Common.Utils,
   FireDAC.Stan.Async, FireDAC.DApt, System.DateUtils, Common.ENum, FireDAC.Stan.StorageBin, Controller.SisGeFCadastroContratados,
   Controller.SisGeFContratadosContatos, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosCNAE,
-  Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes, Controller.SisGeFContratadosRH;
+  Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes, Controller.SisGeFContratadosRH,
+  cxImageComboBox;
 
 type
   TviewSisGefCadastroContratados = class(TForm)
@@ -122,13 +123,14 @@ type
     actionDeleteRegister: TAction;
     memTableRecordsid: TIntegerField;
     memTableRecordscod_erp_contratados: TStringField;
-    memTableRecordsid_categoria: TIntegerField;
+    memTableRecordsdes_categoria: TStringField;
     memTableRecordscod_pessoa: TIntegerField;
     memTableRecordsdes_tipo_doc: TStringField;
     memTableRecordsnom_razao_social: TStringField;
     memTableRecordsnom_fantasia_alias: TStringField;
     memTableRecordsnum_cpf_cnpj: TStringField;
     memTableRecordsnum_rg_ie: TStringField;
+    memTableRecordsnum_im: TStringField;
     memTableRecordsdat_emissao_rg: TDateTimeField;
     memTableRecordsnom_emissor_rg: TStringField;
     memTableRecordsuf_emissor_rg: TStringField;
@@ -149,15 +151,18 @@ type
     memTableRecordscod_status: TIntegerField;
     memTableRecordsdat_cadastro: TDateTimeField;
     memTableRecordsdes_obs: TMemoField;
+    memTableRecordsnom_base: TStringField;
+    memTableRecordsdes_funcao: TStringField;
     viewCadastroid: TcxGridDBColumn;
     viewCadastrocod_erp_contratados: TcxGridDBColumn;
-    viewCadastroid_categoria: TcxGridDBColumn;
+    viewCadastrodes_categoria: TcxGridDBColumn;
     viewCadastrocod_pessoa: TcxGridDBColumn;
     viewCadastrodes_tipo_doc: TcxGridDBColumn;
     viewCadastronom_razao_social: TcxGridDBColumn;
     viewCadastronom_fantasia_alias: TcxGridDBColumn;
     viewCadastronum_cpf_cnpj: TcxGridDBColumn;
     viewCadastronum_rg_ie: TcxGridDBColumn;
+    viewCadastronum_im: TcxGridDBColumn;
     viewCadastrodat_emissao_rg: TcxGridDBColumn;
     viewCadastronom_emissor_rg: TcxGridDBColumn;
     viewCadastrouf_emissor_rg: TcxGridDBColumn;
@@ -178,6 +183,8 @@ type
     viewCadastrocod_status: TcxGridDBColumn;
     viewCadastrodat_cadastro: TcxGridDBColumn;
     viewCadastrodes_obs: TcxGridDBColumn;
+    viewCadastronom_base: TcxGridDBColumn;
+    viewCadastrodes_funcao: TcxGridDBColumn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
     procedure actionSetFilterExecute(Sender: TObject);
@@ -404,7 +411,8 @@ var
   FRepresentante  : TContratadosRepresentanteController;
   FRH             : TContratadosRHController;
   FCNAE           : TCadastroContratadosCNAEController;
-  iID : integer;
+  iID             : integer;
+  sMensagem       : string;
 begin
   FCadastro       :=  TCadastroContratadosController.Create;
   FEnderecos      :=  TContratadosEnderecosController.Create;
@@ -418,26 +426,63 @@ begin
     if memTableRecords.IsEmpty then
       Exit;
 
-    if Application.MessageBox('Confirma excluir este registro?', 'Excluir', MB_YESNO + MB_ICONQUESTION) = mrNo then
+    sMensagem :=  'Confirma excluir o contratado ' + memTableRecordsnom_razao_social.Value + ' ?';
+    if Application.MessageBox(PChar(sMensagem), 'Excluir', MB_YESNO + MB_ICONQUESTION) = mrNo then
       Exit;
 
     iID := memTableRecordsid.AsInteger;
 
-    FCadastro.FContratados.Acao         :=  tacExcluir;
-    FEnderecos.FEnderecos.Acao          :=  tacExcluir;
-    FContatos.FContatos.Acao            :=  tacExcluir;
-    FFinanceiro.FFinanceiro.Acao        :=  tacExcluir;
-    FRepresentante.FRepresentante.Acao  :=  tacExcluir;
-    FRH.FRH.Acao                        :=  tacExcluir;
-    FCNAE.FCNAE.Acao                    :=  tacExcluir;
+    FEnderecos.FEnderecos.ARecord.id_contratados          :=  iID;
+    FEnderecos.FEnderecos.Acao                            := tacExcluir;
+    if not FEnderecos.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um problema ao excluir os endereços!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FContatos.FContatos.ARecord.id_contratados            :=  iID;
+    FContatos.FContatos.Acao                              :=  tacExcluir;
+    if not FContatos.SaveRecord then
+    begin
+      MessageDlg(FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FFinanceiro.FFinanceiro.ARecord.id_contratados        :=  iID;
+    FFinanceiro.FFinanceiro.Acao                          :=  tacExcluir;
+    if not FFinanceiro.SaveRecord then
+    begin
+      MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FRepresentante.FRepresentante.ARecord.id_contratados  :=  iID;
+    FRepresentante.FRepresentante.Acao                    :=  tacExcluir;
+    if not FRepresentante.SaveRecord then
+    begin
+      MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FRH.FRH.ARecord.id_contratados                        :=  iID;
+    FRH.FRH.Acao                                          :=  tacExcluir;
+    if not FRH.SaveRecord then
+    begin
+      MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FCNAE.FCNAE.ARecord.id_contratados                    :=  iID;
+    FCNAE.FCNAE.Acao                                      :=  tacExcluir;
+    if not FCNAE.SaveRecord then
+    begin
+      MessageDlg(FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
 
-    FEnderecos.SaveRecord;
-    FContatos.SaveRecord;
-    FFinanceiro.SaveRecord;
-    FRepresentante.SaveRecord;
-    FRH.SaveRecord;
-    FCNAE.SaveRecord;
-    FCadastro.SaveRecord;
+    FCadastro.FContratados.ARecord.id                     :=  iID;
+    FCadastro.FContratados.Acao                           :=  tacExcluir;
+    if not FCadastro.SaveRecord then
+    begin
+      MessageDlg(FCadastro.FContratados.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+
 
   finally
     FCadastro.Free;
@@ -576,7 +621,7 @@ begin
       memTableRecords.Active := True;
       memTableRecords.CopyDataSet(FCadastro.FContratados.Query);
       viewCadastro.ViewData.Expand(True);
-      viewCadastro.DataController.DataSource.DataSet.First;
+      viewCadastro.ViewData.Rows[1].Selected := True;;
       gridCadastro.SetFocus;
     end
     else
@@ -699,9 +744,10 @@ end;
 
 procedure TviewSisGefCadastroContratados.SearchRecords;
 begin
-  gridCadastroLevel1.GridView := viewCadastro;
-  dxLayoutGroup5.Visible := True;
-  FSearch := 0;
+  LocateRegister(camposPesquisa.ItemIndex, parametroPesquisa.Text);
+//  gridCadastroLevel1.GridView := viewCadastro;
+//  dxLayoutGroup5.Visible := True;
+//  FSearch := 0;
 //  memTableDocuments.Active := False;
 //  Data_Sisgef.FDConnectionMySQL.Connected := False;
 end;

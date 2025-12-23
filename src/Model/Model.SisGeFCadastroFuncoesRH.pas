@@ -17,13 +17,13 @@ interface
         FMensagem : string;
         FConn     : TConnectionMySQL;
         FQuery    : TFDQuery;
-        ARecord   : TFuncoes;
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
       protected
 
       public
+        ARecord   : TFuncoes;
 
         Constructor Create();
         function    GetNextID   (sIdName: string)         : Integer;
@@ -33,8 +33,9 @@ interface
         function    SetupRecord ()                        : boolean;
 
 
-        property Acao     : TAcao   read  FAcao     write FAcao;
-        property Mensagem : string  read  FMensagem write FMensagem;
+        property Acao     : TAcao     read  FAcao     write FAcao;
+        property Mensagem : string    read  FMensagem write FMensagem;
+        property Query    : TFDQuery  read  FQuery    write FQuery;
     end;
 
      const
@@ -149,6 +150,7 @@ begin
     else if aParams[0] = 'NOME' then
       FQuery.SQL.Add('des_funcao like "%' + aParams[1] + '%"');
   end;
+  FQuery.Open();
   if FQuery.IsEmpty then
   begin
     FMensagem := 'Nenhum registro encontrado!';

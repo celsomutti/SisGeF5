@@ -6,14 +6,16 @@ interface
   type
     TFuncoesRHController = class
     private
-      FFuncoes : TFuncoesRH;
     public
+      FFuncoes : TFuncoesRH;
+
       Constructor Create();
       function    GetNextID   (sIdName: string)         : Integer;
       function    Search      (aParams: array of string): boolean;
       function    CustomSearch(aParams: array of string): boolean;
       function    SaveRecord  ()                        : boolean;
       function    SetupRecord ()                        : boolean;
+
     end;
 
 implementation
