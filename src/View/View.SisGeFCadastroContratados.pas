@@ -492,7 +492,7 @@ begin
     FRepresentante.Free;
     FRH.Free;
     FCNAE.Free;
-
+    MessageDlg('Cadastro excluído com sucesso!', mtInformation, [mbOK], 0);
     LocateRegister(camposPesquisa.ItemIndex, parametroPesquisa.Text);
 
   end;

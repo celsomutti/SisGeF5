@@ -172,6 +172,8 @@ begin
     FQuery.SQL.Add('where');
     if aParams[0] = 'ID' then
       FQuery.SQL.Add('id_rh = ' + aParams[1])
+    else if aParams[0] = 'CONTRATADO' then
+      FQuery.SQL.Add('id_contratados = ' + aParams[1])
     else
       FQuery.SQL.Add(aParams[1]);
   end;

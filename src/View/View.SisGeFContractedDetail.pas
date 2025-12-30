@@ -465,10 +465,12 @@ end;
 procedure Tview_SisGeFContractedDetail.EditarCadastro;
 begin
   if not PesquisaCadastro() then
+  begin
     ModalResult := mrOk;
     Exit;
+  end;
   Modo;
-  cboTipoPessoa.SetFocus;
+  maskEditCPCNPJ.SetFocus;
 end;
 
 procedure Tview_SisGeFContractedDetail.EditarVeiculo(iCadastro, iVeiculo: integer);
@@ -535,6 +537,24 @@ begin
   PopulaEstados;
   PopulaBases;
   PopulaFuncoes;
+  if cboTipoPessoa.ItemIndex = 2 then
+  begin
+    maskEditCPCNPJ.Properties.Buttons[0].Enabled := True;
+    maskEditCPCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
+    cboSexo.ItemIndex := 3;
+    lyiSexo.Visible := False;
+    layoutGroupPessoaFisica.Visible := False;
+    layoutGroupPessoaJuridica.Visible := True;
+  end
+  else
+  begin
+    maskEditCPCNPJ.Properties.Buttons[0].Enabled := False;
+    maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;0; ';
+    layoutGroupPessoaJuridica.Visible := False;
+    layoutGroupPessoaFisica.Visible := True;
+    cboSexo.ItemIndex := 0;
+    lyiSexo.Visible := True;
+  end;
   Modo;
   case FAcao of
     tacIncluir : NovoCadastro;
@@ -557,7 +577,7 @@ begin
   FFuncao := TUtils.Create;
   sEndereco := '';
   dtData := StrToDateDef(sData,0);
-  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', dtData);
+  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', Now());
   with Data_Sisgef.frxReport do begin
     if not Assigned(view_Impressao) then begin
       view_Impressao := Tview_Impressao.Create(Application);
@@ -589,7 +609,7 @@ begin
     sFuncao := lcbFuncao.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
     Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
-    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(FFuncao.FormataCPF(maskEditCPCNPJ.Text));
     Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
     Variables.Items[Variables.IndexOf('pFuncao')].Value :=  QuotedStr(sFuncao);
     Variables.Items[Variables.IndexOf('pAtividades')].Value :=  QuotedStr(sAtividade);
@@ -597,6 +617,7 @@ begin
     Variables.Items[Variables.IndexOf('pValorNumeral')].Value :=  QuotedStr(sValor);
     Variables.Items[Variables.IndexOf('pValorExtencao')].Value :=  QuotedStr(sExtenco);
     Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+    Variables.Items[Variables.IndexOf('pLocal')].Value :=  QuotedStr(sLocal);
 
     FFuncao.Free;
     FreeAndNil(view_Impressao);
@@ -618,7 +639,7 @@ begin
   FFuncao := TUtils.Create;
   sEndereco := '';
   dtData := StrToDateDef(sData,0);
-  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', dtData);
+  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', Now);
   with Data_Sisgef.frxReport do begin
     if not Assigned(view_Impressao) then begin
       view_Impressao := Tview_Impressao.Create(Application);
@@ -650,7 +671,7 @@ begin
     sFuncao := lcbFuncao.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
     Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
-    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value := QuotedStr(FFuncao.FormataCNPJ(maskEditCPCNPJ.Text));
     Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
     Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(txtRepresentante.Text);
     Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(mskCPFRepresentante.Text);
@@ -660,7 +681,7 @@ begin
     Variables.Items[Variables.IndexOf('pValorNumeral')].Value :=  QuotedStr(sValor);
     Variables.Items[Variables.IndexOf('pValorExtencao')].Value :=  QuotedStr(sExtenco);
     Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
-
+    Variables.Items[Variables.IndexOf('pLocal')].Value :=  QuotedStr(sLocal);
     FFuncao.Free;
     FreeAndNil(view_Impressao);
     ShowReport(True);
@@ -672,10 +693,13 @@ var
   sEndereco: String;
   sDataExtenso: String;
   dtData: TDate;
+  FFuncao : TUtils;
+
 begin
+  FFuncao := TUtils.Create;
   sEndereco := '';
   dtData := StrToDateDef(sData,0);
-  sDataExtenso := sLocal + ',' + FormatDateTime('dd "de" mmmm "de" yyyy', dtData);
+  sDataExtenso := sLocal + ',' + FormatDateTime('dd "de" mmmm "de" yyyy', Now);
   with Data_Sisgef.frxReport do begin
     if not Assigned(view_Impressao) then begin
       view_Impressao := Tview_Impressao.Create(Application);
@@ -704,14 +728,15 @@ begin
     sEndereco := sEndereco + ', CEP: ' + dbMaskEditCEP.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(textEditNome.Text);
-    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(FFuncao.FormataCNPJ(maskEditCPCNPJ.Text));
     Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
     Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(txtRepresentante.Text);
     Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(mskCPFRepresentante.Text);
-    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(maskEditCPCNPJ.Text);
     Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
     Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+    Variables.Items[Variables.IndexOf('pLocal')].Value :=  QuotedStr(sLocal);
     FreeAndNil(view_Impressao);
+    FFuncao.Free;
     ShowReport(True);
   end;
 end;
@@ -1592,7 +1617,8 @@ begin
 
     textEditNome.Text := APICNPJ.APICNPJ.Pessoas.Nome;
     textEditNomeFantasia.Text := APICNPJ.APICNPJ.Pessoas.Fantasia;
-
+    if not  memTableEnderecos.Active then  memTableEnderecos.Active := True;
+    
     memTableEnderecos.Insert;
     memTableEnderecos_des_tipo.AsString := APICNPJ.APICNPJ.Enderecos.Tipo;
     memTableEnderecosnum_cep.AsString := APICNPJ.APICNPJ.Enderecos.CEP;
@@ -1604,6 +1630,7 @@ begin
     memTableEnderecosuf_estado.AsString := APICNPJ.APICNPJ.Enderecos.UF;
     memTableEnderecos.Post;
 
+    if not memTableContatos.Active then memTableContatos.Active := True;
     if APICNPJ.APICNPJ.Contatos.Descricao <> '' then
     begin
       memTableContatos.Insert;
@@ -1728,13 +1755,22 @@ begin
 end;
 
 procedure Tview_SisGeFContractedDetail.SetupFields(FCadastro: TCadastroContratadosController);
+var
+  FFuncoes : TUtils;
 begin
+  FFuncoes := TUtils.Create;
   maskEditID.EditValue := FCadastro.FContratados.ARecord.id;
   cboSexo.ItemIndex := FCadastro.FContratados.ARecord.cod_pessoa;
   if FCadastro.FContratados.ARecord.des_tipo_doc = 'CPF' then
-    cboTipoPessoa.ItemIndex := 1
+  begin
+    cboTipoPessoa.ItemIndex := 1;
+    maskEditCPCNPJ.EditValue := FFuncoes.FormataCPF(FCadastro.FContratados.ARecord.num_cpf_cnpj);
+  end
   else if FCadastro.FContratados.ARecord.des_tipo_doc = 'CNPJ' then
-    cboTipoPessoa.ItemIndex := 2
+  begin
+    cboTipoPessoa.ItemIndex := 2;
+    maskEditCPCNPJ.EditValue := FFuncoes.FormataCNPJ(FCadastro.FContratados.ARecord.num_cpf_cnpj);
+  end
   else
     cboTipoPessoa.ItemIndex := 0;
   maskEditCPCNPJ.EditValue := FCadastro.FContratados.ARecord.num_cpf_cnpj;
@@ -1771,6 +1807,7 @@ begin
   PopulaFinanceiro(FCadastro.FContratados.ARecord.id);
   PopulaRepresentante(FCadastro.FContratados.ARecord.id);
   PopulaRH(FCadastro.FContratados.ARecord.id);
+  FFuncoes.Free;
 end;
 
 function Tview_SisGeFContractedDetail.ValidaDados: boolean;

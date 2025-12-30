@@ -214,6 +214,7 @@ begin
  case FAcao of
     tacIncluir: Result := Inserir();
     tacAlterar: Result := Alterar();
+    tacExcluir: REsult := Excluir();
   end;
 end;
 
