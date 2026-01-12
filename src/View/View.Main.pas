@@ -319,7 +319,8 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals,
   View.SisGeFCadastroContratados, View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
-  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios, View.SisGeFCadastroFuncionarios;
+  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios, View.SisGeFCadastroFuncionarios,
+  View.SisGeFCadastroBases;
 
 procedure Tview_Main.Acessos;
 var

@@ -5818,7 +5818,7 @@
     object bmMainBar19: TdxBar
       Caption = 'Transportes'
       CaptionButtons = <>
-      DockedLeft = 744
+      DockedLeft = 700
       DockedTop = 0
       FloatLeft = 802
       FloatTop = 8
@@ -6440,7 +6440,7 @@
     object actCadastroDistribuidores: TAction
       Tag = 202050
       Category = 'Cadastro'
-      Caption = '&Distribuidores'
+      Caption = '&Bases'
       Hint = 'Cadastro de distribuidores'
     end
     object actCadastroCandidatos: TAction

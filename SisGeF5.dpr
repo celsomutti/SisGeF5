@@ -347,7 +347,8 @@ uses
   Model.SisGeFContratadosRepresentantes in 'src\Model\Model.SisGeFContratadosRepresentantes.pas',
   Controller.SisGeFContratadosRepresentantes in 'src\Control\Controller.SisGeFContratadosRepresentantes.pas',
   Model.SisGefContratadosRH in 'src\Model\Model.SisGefContratadosRH.pas',
-  Controller.SisGeFContratadosRH in 'src\Control\Controller.SisGeFContratadosRH.pas';
+  Controller.SisGeFContratadosRH in 'src\Control\Controller.SisGeFContratadosRH.pas',
+  View.SisGeFCadastroBases in 'src\View\View.SisGeFCadastroBases.pas' {viewCadastroBases};
 
 {$R *.res}
 
