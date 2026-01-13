@@ -13,6 +13,9 @@ type
     destructor Destroy; override;
     function Gravar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
+
+    property Endereco : TEnderecosBases read FEnderecos write FEnderecos;
+
  end;
 
 

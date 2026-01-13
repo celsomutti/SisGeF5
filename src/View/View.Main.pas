@@ -269,6 +269,7 @@ type
     procedure actControleViagensExecute(Sender: TObject);
     procedure btnCloseFormClick(Sender: TObject);
     procedure btnMinimieFormClick(Sender: TObject);
+    procedure actCadastroDistribuidoresExecute(Sender: TObject);
 
   private
     FidFTP : TIdFTP;
@@ -451,6 +452,15 @@ begin
       (Application);
   end;
   viewSisGeFCadastroContratados.Show;
+end;
+
+procedure Tview_Main.actCadastroDistribuidoresExecute(Sender: TObject);
+begin
+  if not Assigned(viewCadastroBases) then
+  begin
+    viewCadastroBases := TviewCadastroBases.Create(Application);
+  end;
+  viewCadastroBases.Show;
 end;
 
 procedure Tview_Main.actCadastroEmpresasExecute(Sender: TObject);

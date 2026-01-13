@@ -6316,6 +6316,7 @@
     object dxBarLargeButton60: TdxBarLargeButton
       Action = actCadastroDistribuidores
       Category = 0
+      Hint = 'Cadastro de bases'
       LargeImageIndex = 5
     end
     object dxBarLargeButton61: TdxBarLargeButton
@@ -6442,6 +6443,7 @@
       Category = 'Cadastro'
       Caption = '&Bases'
       Hint = 'Cadastro de distribuidores'
+      OnExecute = actCadastroDistribuidoresExecute
     end
     object actCadastroCandidatos: TAction
       Tag = 101030

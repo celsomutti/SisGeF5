@@ -1,9 +1,11 @@
 object viewCadastroBases: TviewCadastroBases
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
   Caption = 'Cadastro de Bases'
-  ClientHeight = 561
-  ClientWidth = 784
+  ClientHeight = 571
+  ClientWidth = 794
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,43 +15,66 @@ object viewCadastroBases: TviewCadastroBases
   KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
+  ShowHint = True
   OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 784
-    Height = 561
+    Width = 794
+    Height = 571
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitLeft = 528
-    ExplicitTop = 144
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object cxButton1: TcxButton
-      Left = 687
-      Top = 526
+      Left = 697
+      Top = 536
       Width = 87
       Height = 25
       Action = actExit
-      TabOrder = 5
+      TabOrder = 30
     end
     object gridBases: TcxGrid
       Left = 24
-      Top = 92
-      Width = 736
-      Height = 383
+      Top = 72
+      Width = 746
+      Height = 413
       TabOrder = 1
       object gridBasesDBTableView1: TcxGridDBTableView
+        OnDblClick = gridBasesDBTableView1DblClick
         Navigator.Buttons.CustomButtons = <>
+        Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+        Navigator.Buttons.First.ImageIndex = 91
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.Prior.ImageIndex = 94
+        Navigator.Buttons.Next.ImageIndex = 93
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Last.ImageIndex = 92
+        Navigator.Buttons.Insert.Visible = False
+        Navigator.Buttons.Delete.Visible = False
+        Navigator.Buttons.Edit.Visible = False
+        Navigator.Buttons.Post.Visible = False
+        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.ImageIndex = 96
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
         DataController.DataSource = dsBases
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsData.CancelOnExit = False
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Editing = False
+        OptionsData.Inserting = False
         OptionsView.GroupByBox = False
+        OptionsView.Indicator = True
         object gridBasesDBTableView1cod_agente: TcxGridDBColumn
           Caption = 'C'#243'digo'
           DataBinding.FieldName = 'cod_agente'
@@ -137,8 +162,13 @@ object viewCadastroBases: TviewCadastroBases
           VisibleForCustomization = False
         end
         object gridBasesDBTableView1cod_status: TcxGridDBColumn
-          Caption = 'Status'
+          Caption = 'Ativo'
           DataBinding.FieldName = 'cod_status'
+          PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.Alignment = taRightJustify
+          Properties.NullStyle = nssUnchecked
+          Properties.ValueChecked = '1'
+          Properties.ValueUnchecked = '0'
           HeaderAlignmentHorz = taCenter
         end
         object gridBasesDBTableView1des_observacao: TcxGridDBColumn
@@ -239,11 +269,15 @@ object viewCadastroBases: TviewCadastroBases
     end
     object betSearch: TcxButtonEdit
       Left = 89
-      Top = 44
+      Top = 24
       Properties.Buttons = <
         item
           Action = actSearch
           Default = True
+          Kind = bkGlyph
+        end
+        item
+          Action = actClear
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
@@ -252,11 +286,11 @@ object viewCadastroBases: TviewCadastroBases
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 0
-      Width = 671
+      Width = 681
     end
     object cxButton2: TcxButton
       Left = 24
-      Top = 481
+      Top = 491
       Width = 80
       Height = 25
       Action = actNew
@@ -264,7 +298,7 @@ object viewCadastroBases: TviewCadastroBases
     end
     object cxButton3: TcxButton
       Left = 110
-      Top = 481
+      Top = 491
       Width = 80
       Height = 25
       Action = actEdit
@@ -272,11 +306,399 @@ object viewCadastroBases: TviewCadastroBases
     end
     object cxButton4: TcxButton
       Left = 196
-      Top = 481
+      Top = 491
       Width = 80
       Height = 25
       Action = actExport
       TabOrder = 4
+    end
+    object dbSpeCodigo: TcxDBSpinEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'C'#243'digo da base'
+      DataBinding.DataField = 'cod_agente'
+      DataBinding.DataSource = dsBases
+      Properties.SpinButtons.Visible = False
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 5
+      Visible = False
+      Width = 63
+    end
+    object dbIcbPessoa: TcxDBImageComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Tipo de Pessoa'
+      DataBinding.DataField = 'des_tipo_doc'
+      DataBinding.DataSource = dsBases
+      Properties.Items = <
+        item
+          Description = 'F'#205'SICA'
+          ImageIndex = 0
+          Value = 'CPF'
+        end
+        item
+          Description = 'JUR'#205'DICA'
+          ImageIndex = 0
+          Value = 'CNPJ'
+        end>
+      Properties.OnChange = dbIcbPessoaPropertiesChange
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 6
+      Visible = False
+      Width = 89
+    end
+    object dbTedNome: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Raz'#227'o Social / Nome'
+      DataBinding.DataField = 'des_razao_social'
+      DataBinding.DataSource = dsBases
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 8
+      Visible = False
+      Width = 275
+    end
+    object dbBedCpfCnpj: TcxDBButtonEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero do CPF / CNPJ'
+      DataBinding.DataField = 'num_cnpj'
+      DataBinding.DataSource = dsBases
+      Properties.Buttons = <
+        item
+          Action = actSearchCNPJ
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 7
+      Visible = False
+      Width = 129
+    end
+    object dbTedNomeFantasia: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Nome fantasia / Alias'
+      DataBinding.DataField = 'nom_fantasia'
+      DataBinding.DataSource = dsBases
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 9
+      Visible = False
+      Width = 251
+    end
+    object dbTedIeRg: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Inscri'#231#227'o Estadual/RG'
+      DataBinding.DataField = 'num_ie'
+      DataBinding.DataSource = dsBases
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 10
+      Visible = False
+      Width = 121
+    end
+    object dbTedIm: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Inscri'#231#227'o municipal'
+      DataBinding.DataField = 'num_im'
+      DataBinding.DataSource = dsBases
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 11
+      Visible = False
+      Width = 121
+    end
+    object dbBedCep: TcxDBButtonEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'CEP do endere'#231'o'
+      DataBinding.DataField = 'NUM_CEP'
+      DataBinding.DataSource = dsEndereco
+      Properties.Buttons = <
+        item
+          Action = actSeachCEP
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.EditMask = '00000-000;1; '
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 12
+      Visible = False
+      Width = 97
+    end
+    object dbTedEndereco: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Logradouro do endere'#231'o'
+      DataBinding.DataField = 'DES_LOGRADOURO'
+      DataBinding.DataSource = dsEndereco
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 13
+      Visible = False
+      Width = 434
+    end
+    object dbTedNumero: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero do logradouro'
+      DataBinding.DataField = 'NUM_LOGRADOURO'
+      DataBinding.DataSource = dsEndereco
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 14
+      Visible = False
+      Width = 84
+    end
+    object dbTedComplemento: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Complemento do endere'#231'o'
+      DataBinding.DataField = 'DES_COMPLEMENTO'
+      DataBinding.DataSource = dsEndereco
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 15
+      Visible = False
+      Width = 237
+    end
+    object dbTedBairro: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Bairro do endere'#231'o'
+      DataBinding.DataField = 'DES_BAIRRO'
+      DataBinding.DataSource = dsEndereco
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 16
+      Visible = False
+      Width = 376
+    end
+    object dbTedCidade: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Cidade do endere'#231'o'
+      DataBinding.DataField = 'NOM_CIDADE'
+      DataBinding.DataSource = dsEndereco
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 17
+      Visible = False
+      Width = 570
+    end
+    object dbCbxEstados: TcxDBComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Estado do endere'#231'o'
+      DataBinding.DataField = 'UF_ESTADO'
+      DataBinding.DataSource = dsEndereco
+      Properties.DropDownListStyle = lsEditFixedList
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 18
+      Visible = False
+      Width = 70
+    end
+    object dbCbxFormaPagamento: TcxDBComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Forma de pagamento'
+      DataBinding.DataField = 'des_forma_pagamento'
+      DataBinding.DataSource = dsBases
+      Properties.DropDownListStyle = lsEditFixedList
+      Properties.Items.Strings = (
+        'NENHUMA'
+        'OBB PLUS'
+        'DEP'#211'SITO/TRANSFER'#202'NCIA'
+        'CHEQUE'
+        'TED/DOC'
+        'DINHEIRO'
+        'FOLHA DE PAGAMENTO'
+        'PIX')
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 19
+      Visible = False
+      Width = 200
+    end
+    object cxDBLookupComboBox1: TcxDBLookupComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Banco da conta'
+      DataBinding.DataField = 'cod_banco'
+      DataBinding.DataSource = dsBases
+      Properties.KeyFieldNames = 'cod_banco'
+      Properties.ListColumns = <
+        item
+          Caption = 'C'#243'digo'
+          FieldName = 'cod_banco'
+        end
+        item
+          Caption = 'Nome'
+          FieldName = 'nom_banco'
+        end>
+      Properties.ListSource = dsBancos
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 20
+      Visible = False
+      Width = 375
+    end
+    object dbRedAgencia: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Ag'#234'ncia banc'#225'ria da conta'
+      DataBinding.DataField = 'cod_agencia'
+      DataBinding.DataSource = dsBases
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 21
+      Visible = False
+      Width = 78
+    end
+    object dbTedConta: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero da conta'
+      DataBinding.DataField = 'num_conta'
+      DataBinding.DataSource = dsBases
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 22
+      Visible = False
+      Width = 104
+    end
+    object cxDBTextEdit1: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      DataBinding.DataField = 'des_chave'
+      DataBinding.DataSource = dsBases
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 23
+      Visible = False
+      Width = 356
+    end
+    object dbMemObs: TcxDBMemo
+      Left = 10000
+      Top = 10000
+      DataBinding.DataField = 'des_observacao'
+      DataBinding.DataSource = dsBases
+      Properties.ScrollBars = ssVertical
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 24
+      Visible = False
+      Height = 44
+      Width = 722
+    end
+    object dbCurVerba: TcxDBCurrencyEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Valor da verba fixa'
+      DataBinding.DataField = 'val_verba'
+      DataBinding.DataSource = dsBases
+      Properties.DisplayFormat = ',0.00;-,0.00'
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 25
+      Visible = False
+      Width = 88
+    end
+    object dbDatCadastro: TcxDBDateEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Data do cadastro'
+      DataBinding.DataField = 'dat_cadastro'
+      DataBinding.DataSource = dsBases
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 26
+      Visible = False
+      Width = 121
+    end
+    object cxButton5: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 80
+      Height = 25
+      Action = actSave
+      TabOrder = 28
+      Visible = False
+    end
+    object cxButton6: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 80
+      Height = 25
+      Action = actCancel
+      Cancel = True
+      TabOrder = 29
+      Visible = False
+    end
+    object dbchkStatus: TcxDBCheckBox
+      Left = 10000
+      Top = 10000
+      Caption = 'INATIVO'
+      DataBinding.DataField = 'cod_status'
+      DataBinding.DataSource = dsBases
+      Properties.Alignment = taRightJustify
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = '1'
+      Properties.ValueUnchecked = '0'
+      Properties.OnChange = dbchkStatusPropertiesChange
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 27
+      Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -294,6 +716,7 @@ object viewCadastroBases: TviewCadastroBases
       ButtonOptions.Buttons = <>
       LayoutDirection = ldTabbed
       ShowBorder = False
+      TabbedOptions.HideTabs = True
       Index = 0
     end
     object lgpGrade: TdxLayoutGroup
@@ -378,10 +801,11 @@ object viewCadastroBases: TviewCadastroBases
       ControlOptions.ShowBorder = False
       Index = 0
     end
-    object dxLayoutGroup3: TdxLayoutGroup
+    object lgpCadastro: TdxLayoutGroup
       Parent = lgpContainer
       CaptionOptions.Text = 'Cadastro'
       ButtonOptions.Buttons = <>
+      ItemIndex = 4
       Index = 1
     end
     object dxLayoutItem5: TdxLayoutItem
@@ -408,11 +832,414 @@ object viewCadastroBases: TviewCadastroBases
       ControlOptions.ShowBorder = False
       Index = 2
     end
+    object dxLayoutGroup3: TdxLayoutGroup
+      Parent = lgpCadastro
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = ' Identifica'#231#227'o '
+      ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
+      ItemIndex = 1
+      Index = 0
+    end
+    object dxLayoutItem7: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      CaptionOptions.Text = 'C'#243'digo'
+      Control = dbSpeCodigo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 63
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup4: TdxLayoutGroup
+      Parent = dxLayoutGroup3
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem8: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Tipo'
+      Control = dbIcbPessoa
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 89
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem10: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Nome'
+      Control = dbTedNome
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem9: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'CPF/CNPJ'
+      Control = dbBedCpfCnpj
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 129
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup5: TdxLayoutGroup
+      Parent = dxLayoutGroup3
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem11: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Nome Fantasia/Alias'
+      Control = dbTedNomeFantasia
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 155
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem12: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Ins. Est./RG'
+      Control = dbTedIeRg
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem13: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Ins. Mun.'
+      Control = dbTedIm
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup6: TdxLayoutGroup
+      Parent = lgpCadastro
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = ' Endere'#231'o '
+      ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
+      ItemIndex = 2
+      Index = 1
+    end
+    object dxLayoutGroup7: TdxLayoutGroup
+      Parent = dxLayoutGroup6
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ItemIndex = 2
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem14: TdxLayoutItem
+      Parent = dxLayoutGroup7
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'CEP'
+      Control = dbBedCep
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 97
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem15: TdxLayoutItem
+      Parent = dxLayoutGroup7
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Endere'#231'o'
+      Control = dbTedEndereco
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem17: TdxLayoutItem
+      Parent = dxLayoutGroup7
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'N'#186'.'
+      Control = dbTedNumero
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 84
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup8: TdxLayoutGroup
+      Parent = dxLayoutGroup6
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem18: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Complemento'
+      Control = dbTedComplemento
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 103
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem19: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Bairro'
+      Control = dbTedBairro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 197
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup9: TdxLayoutGroup
+      Parent = dxLayoutGroup6
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem16: TdxLayoutItem
+      Parent = dxLayoutGroup9
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Cidade'
+      Control = dbTedCidade
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem20: TdxLayoutItem
+      Parent = dxLayoutGroup9
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Estado'
+      Control = dbCbxEstados
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 70
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup10: TdxLayoutGroup
+      Parent = lgpCadastro
+      CaptionOptions.Text = ' Financeiro '
+      ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
+      ItemIndex = 1
+      Index = 2
+    end
+    object dxLayoutGroup11: TdxLayoutGroup
+      Parent = dxLayoutGroup10
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem21: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      CaptionOptions.Text = 'Forma de pagamento'
+      Control = dbCbxFormaPagamento
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 200
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem22: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Banco'
+      Control = cxDBLookupComboBox1
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup12: TdxLayoutGroup
+      Parent = dxLayoutGroup10
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem23: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Ag'#234'ncia'
+      Control = dbRedAgencia
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 78
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem24: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'N'#250'mero Conta'
+      Control = dbTedConta
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 104
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem25: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Chave PIX'
+      Control = cxDBTextEdit1
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup13: TdxLayoutGroup
+      Parent = lgpCadastro
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = ' Outros '
+      ButtonOptions.Buttons = <>
+      ItemIndex = 1
+      Index = 3
+    end
+    object dxLayoutGroup14: TdxLayoutGroup
+      Parent = dxLayoutGroup13
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem26: TdxLayoutItem
+      Parent = dxLayoutGroup14
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Observa'#231#245'es'
+      CaptionOptions.Layout = clTop
+      Control = dbMemObs
+      ControlOptions.OriginalHeight = 44
+      ControlOptions.OriginalWidth = 185
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup15: TdxLayoutGroup
+      Parent = dxLayoutGroup13
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem27: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Verba'
+      Control = dbCurVerba
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 88
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem28: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Cadastro'
+      Control = dbDatCadastro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup16: TdxLayoutGroup
+      Parent = lgpCadastro
+      AlignHorz = ahClient
+      AlignVert = avBottom
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutItem29: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      CaptionOptions.Text = 'cxButton5'
+      CaptionOptions.Visible = False
+      Control = cxButton5
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 80
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem30: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      CaptionOptions.Text = 'cxButton6'
+      CaptionOptions.Visible = False
+      Control = cxButton6
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 80
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem31: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahRight
+      AlignVert = avCenter
+      CaptionOptions.Text = 'cxDBCheckBox1'
+      CaptionOptions.Visible = False
+      Control = dbchkStatus
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 66
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
   end
   object aclBases: TActionList
     Images = Data_Sisgef.iml_16_16
-    Left = 488
-    Top = 232
+    Left = 152
     object actExit: TAction
       Caption = 'Sair'
       Hint = 'Sair da tela de cadastro'
@@ -422,28 +1249,59 @@ object viewCadastroBases: TviewCadastroBases
     object actSearch: TAction
       Caption = 'Pesquisar'
       ImageIndex = 86
+      OnExecute = actSearchExecute
     end
     object actNew: TAction
       Caption = '&Novo'
       Hint = 'Novo cadastro'
       ImageIndex = 115
+      OnExecute = actNewExecute
     end
     object actEdit: TAction
       Caption = '&Editar'
       Hint = 'Editar cadastro'
       ImageIndex = 95
+      OnExecute = actEditExecute
     end
     object actExport: TAction
       Caption = 'E&xportar'
       Hint = 'Exportar dados da grade'
       ImageIndex = 101
+      OnExecute = actExportExecute
+    end
+    object actSearchCNPJ: TAction
+      Caption = 'Pesquisa CNPJ'
+      ImageIndex = 81
+      OnExecute = actSearchCNPJExecute
+    end
+    object actSeachCEP: TAction
+      Caption = 'Pesquisa CEP'
+      ImageIndex = 82
+      OnExecute = actSeachCEPExecute
+    end
+    object actSave: TAction
+      Caption = '&Gravar'
+      Hint = 'Gravar cadastro'
+      ImageIndex = 85
+      OnExecute = actSaveExecute
+    end
+    object actCancel: TAction
+      Caption = 'Cancelar'
+      Hint = 'Cancelar opera'#231#227'o'
+      ImageIndex = 84
+      OnExecute = actCancelExecute
+    end
+    object actClear: TAction
+      Caption = 'Limpar'
+      Hint = 'Limpar par'#226'metro de pequisa'
+      ImageIndex = 120
+      OnExecute = actClearExecute
     end
   end
   object dsBases: TDataSource
     AutoEdit = False
     DataSet = mtbBases
-    Left = 432
-    Top = 232
+    Left = 488
   end
   object mtbBases: TFDMemTable
     Active = True
@@ -604,10 +1462,9 @@ object viewCadastroBases: TviewCadastroBases
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 384
-    Top = 232
+    Left = 440
     Content = {
-      414442530F00E94E260F0000FF00010001FF02FF030400100000006D00740062
+      414442530F000046260F0000FF00010001FF02FF030400100000006D00740062
       004200610073006500730005000A0000005400610062006C0065000600000000
       00070000080032000000090000FF0AFF0B04001400000063006F0064005F0061
       00670065006E007400650005001400000063006F0064005F006100670065006E
@@ -858,5 +1715,87 @@ object viewCadastroBases: TviewCadastroBases
     object mtbBasescod_tabela: TIntegerField
       FieldName = 'cod_tabela'
     end
+  end
+  object mtbEndereco: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 544
+    object mtbEnderecoCOD_AGENTE: TIntegerField
+      FieldName = 'COD_AGENTE'
+    end
+    object mtbEnderecoSEQ_ENDERECO: TIntegerField
+      FieldName = 'SEQ_ENDERECO'
+    end
+    object mtbEnderecoDES_TIPO: TStringField
+      FieldName = 'DES_TIPO'
+    end
+    object mtbEnderecoDES_LOGRADOURO: TStringField
+      FieldName = 'DES_LOGRADOURO'
+      Size = 70
+    end
+    object mtbEnderecoNUM_LOGRADOURO: TStringField
+      FieldName = 'NUM_LOGRADOURO'
+      Size = 10
+    end
+    object mtbEnderecoDES_COMPLEMENTO: TStringField
+      FieldName = 'DES_COMPLEMENTO'
+      Size = 50
+    end
+    object mtbEnderecoDOM_CORRESPONDENCIA: TIntegerField
+      FieldName = 'DOM_CORRESPONDENCIA'
+    end
+    object mtbEnderecoDES_BAIRRO: TStringField
+      FieldName = 'DES_BAIRRO'
+      Size = 70
+    end
+    object mtbEnderecoNOM_CIDADE: TStringField
+      FieldName = 'NOM_CIDADE'
+      Size = 70
+    end
+    object mtbEnderecoUF_ESTADO: TStringField
+      FieldName = 'UF_ESTADO'
+      Size = 2
+    end
+    object mtbEnderecoNUM_CEP: TStringField
+      FieldName = 'NUM_CEP'
+      Size = 9
+    end
+    object mtbEnderecoDES_REFERENCIA: TStringField
+      FieldName = 'DES_REFERENCIA'
+      Size = 256
+    end
+  end
+  object dsEndereco: TDataSource
+    AutoEdit = False
+    DataSet = mtbEndereco
+    Left = 592
+  end
+  object mtbBancos: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 656
+    object mtbBancoscod_banco: TStringField
+      FieldName = 'cod_banco'
+      Size = 4
+    end
+    object mtbBancosnom_banco: TStringField
+      FieldName = 'nom_banco'
+      Size = 50
+    end
+  end
+  object dsBancos: TDataSource
+    AutoEdit = False
+    DataSet = mtbBancos
+    Left = 704
   end
 end

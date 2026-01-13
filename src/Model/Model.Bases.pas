@@ -84,6 +84,7 @@ type
     function Gravar(): Boolean;
     function GetField(sField: String; sKey: String; sKeyValue: String): String;
     function SetupModel(FDBases: TFDQuery): Boolean;
+    function GetNextID(sIdName: string) : Integer;
     procedure ClearModel;
 
 
@@ -213,6 +214,25 @@ begin
   end;
 end;
 
+function TBases.GetNextID(sIdName: string): Integer;
+var
+  FQuery: TFDQuery;
+begin
+  try
+    FQuery := FConexao.ReturnQuery();
+    FQuery.Open('select coalesce(max(' + sIdName + '),0) + 1 from ' + TABLENAME);
+    try
+      Result := FQuery.Fields[0].AsInteger;
+    finally
+      FQuery.Close;
+    end;
+  finally
+    FQuery.Connection.Close;
+    FQuery.Free;
+  end;
+
+end;
+
 function TBases.Gravar: Boolean;
 begin
   Result := False;
@@ -229,6 +249,8 @@ var
 begin
   try
     Result := False;
+    if FCodigo = 0 then
+      FCodigo := GetNextID('cod_agente');
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLINSERT,
                     [FCodigo, FRazaoSocial, FNomeFantasia, FTipoDoc, FCNPJCPF, FIE, FIEST, FIM, FCNAE, FCRT, FNumeroCNH,
@@ -278,7 +300,8 @@ begin
   end
   else if aParam[0] = 'FILTRO' then
   begin
-    FDQuery.SQL.Add('where ' + aParam[1]);
+    if aParam[1] <> '' then
+      FDQuery.SQL.Add('where ' + aParam[1]);
   end
   else if aParam[0] = 'APOIO' then
   begin
