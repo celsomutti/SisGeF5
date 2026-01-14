@@ -166,14 +166,14 @@ type
     dsBancos: TDataSource;
     mtbBancoscod_banco: TStringField;
     mtbBancosnom_banco: TStringField;
-    cxDBLookupComboBox1: TcxDBLookupComboBox;
+    dbLcbBanco: TcxDBLookupComboBox;
     dxLayoutItem22: TdxLayoutItem;
     dxLayoutGroup12: TdxLayoutGroup;
-    dbRedAgencia: TcxDBTextEdit;
+    dbTedAgencia: TcxDBTextEdit;
     dxLayoutItem23: TdxLayoutItem;
     dbTedConta: TcxDBTextEdit;
     dxLayoutItem24: TdxLayoutItem;
-    cxDBTextEdit1: TcxDBTextEdit;
+    dbTedChavePix: TcxDBTextEdit;
     dxLayoutItem25: TdxLayoutItem;
     dxLayoutGroup13: TdxLayoutGroup;
     dxLayoutGroup14: TdxLayoutGroup;
@@ -338,6 +338,7 @@ begin
   PopulaEnderecos(mtbBasescod_agente.AsInteger);
   lgpContainer.ItemIndex := 1;
   mtbBases.Edit;
+  mtbBasesdat_alteracao.AsDateTime := Now();
 end;
 
 procedure TviewCadastroBases.ExportGrade;
@@ -440,6 +441,8 @@ begin
   Mode;
   lgpContainer.ItemIndex := 1;
   mtbBases.Insert;
+  mtbBasesdat_cadastro.AsDateTime := Now();
+  mtbBasescod_status.AsInteger := 1;
   dbSpeCodigo.SetFocus;
 end;
 
@@ -557,6 +560,9 @@ begin
   FBase := TBasesControl.Create;
   FEndereco := TEnderecosBasesControl.Create;
   FUtil := TUtils.Create;
+  if MessageDlg('Confirma salvar os dados ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+     Exit;
+  mtbBases.Post;
   try
     if not ValidaDados then Exit;
     mtbBases.Post;
@@ -596,7 +602,7 @@ begin
 
     if not FBase.Gravar then
     begin
-      MessageDlg('Erro ao gravar a base!', mtError.mtWarning, [mrCancel], 0);
+      MessageDlg( 'Erro ao gravar a base!', mtError, [mbCancel],0);
       Exit;
     end;
 
@@ -607,7 +613,7 @@ begin
 
       if not FEndereco.Gravar then
       begin
-        MessageDlg('Erro ao preparar a gravação do endereço da base!', mtError.mtWarning, [mrCancel], 0);
+        MessageDlg('Erro ao preparar a gravação do endereço da base!', mtError, [mbCancel],0);
         Exit;
       end;
       FEndereco.Endereco.Sequencia := 0;
@@ -623,11 +629,11 @@ begin
       FEndereco.Endereco.Acao := Facao;
       if not FEndereco.Gravar then
       begin
-        MessageDlg('Erro ao gravar o endereço da base!', mtError, [mrCancel], 0);
+        MessageDlg('Erro ao gravar o endereço da base!', mtError, [mbCancel],0);
         Exit;
       end;
-      MessageDlg('Cadastro salvo com sucesso!', mtInformation, [mbOK], 0);
     end;
+    MessageDlg('Cadastro salvo com sucesso!', mtInformation, [mbOK],0);
   finally
     FUtil.Free;
     FBase.Free;
@@ -645,7 +651,7 @@ begin
     sCEP := ReplaceStr(sCEP,' ','');
     if not APICEP.GetAdressByCEP(sCEP) then
     begin
-      MessageDlg(APICEP.APICEP.Mensagem, mtWarning, [mbCancel], 0);
+      MessageDlg(APICEP.APICEP.Mensagem, mtWarning, [mbCancel],0);
       Exit;
     end;
     if Data_Sisgef.memTableCEP.Active then
@@ -658,6 +664,9 @@ begin
         end;
         if view_ListaCEPs.ShowModal = mrOK then
         begin
+          mtbEndereco.Active := False;
+          mtbEndereco.Active := True;
+          mtbEndereco.Insert;
           mtbEnderecoDES_LOGRADOURO.AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
           mtbEnderecoDES_COMPLEMENTO.AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
           mtbEnderecoDES_BAIRRO.AsString := Data_Sisgef.memTableCEPbairro.AsString;
@@ -671,11 +680,16 @@ begin
     end
     else
     begin
-      mtbEnderecoDES_LOGRADOURO.AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
-      mtbEnderecoDES_COMPLEMENTO.AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
-      mtbEnderecoDES_BAIRRO.AsString := Data_Sisgef.memTableCEPbairro.AsString;
-      mtbEnderecoNOM_CIDADE.AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
-      mtbEnderecoUF_ESTADO.AsString := Data_Sisgef.memTableCEPuf.AsString;
+      APICEP.APICEP.Enderecos.CEP := mtbEnderecoNUM_CEP.AsString;
+      mtbEndereco.Active := False;
+      mtbEndereco.Active := True;
+      mtbEndereco.Insert;
+      mtbEnderecoNUM_CEP.AsString := APICEP.APICEP.Enderecos.CEP;
+      mtbEnderecoDES_LOGRADOURO.AsString := APICEP.APICEP.Enderecos.Logradouro;
+      mtbEnderecoDES_COMPLEMENTO.AsString := APICEP.APICEP.Enderecos.Complemento;
+      mtbEnderecoDES_BAIRRO.AsString := APICEP.APICEP.Enderecos.Bairro;
+      mtbEnderecoNOM_CIDADE.AsString := APICEP.APICEP.Enderecos.Cidade;
+      mtbEnderecoUF_ESTADO.AsString := APICEP.APICEP.Enderecos.UF;
     end;
   finally
     APICEP.Free;
@@ -694,7 +708,7 @@ begin
 
     if not APICNPJ.GetCNPJ(sCNPJ) then
     begin
-      MessageDlg(APICNPJ.APICNPJ.Mensagem, mtWarning, [mbCancel], 0);
+      MessageDlg(APICNPJ.APICNPJ.Mensagem, mtWarning, [mbCancel],0);
       Exit;
     end;
 
@@ -713,7 +727,7 @@ begin
       while not view_ResultadoConsultaCNPJ.memTableAP.Eof do
       begin
         if view_ResultadoConsultaCNPJ.memTableAPdes_tipo.AsString = 'PRINCIPAL' then
-          mtbBasesnum_cnpj.AsString := view_ResultadoConsultaCNPJ.memTableAPcod_cnae.AsString;
+          mtbBasescod_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPcod_cnae.AsString;
         view_ResultadoConsultaCNPJ.memTableAP.Next;
       end;
 
@@ -751,24 +765,24 @@ var
 begin
   FUtil := TUtils.Create;
   Result := False;
-  if mtbBasesdes_razao_social.AsString.IsEmpty then
+  if dbTedNome.Text = '' then
   begin
-    MessageDlg('Informe o nome / razão social da base!',mtWarning, [mbOK], 0);
+    MessageDlg('Informe o nome / razão social da base!',mtWarning, [mbOK],0);
     Exit;
   end;
-  if mtbBasesnom_fantasia.AsString.IsEmpty then
+  if dbTedNomeFantasia.Text = '' then
   begin
-    MessageDlg('Informe o alias / nome fantasia da base!',mtWarning, [mbOK], 0);
+    MessageDlg('Informe o alias / nome fantasia da base!',mtWarning, [mbOK],0);
     Exit;
   end;
-  sCampo := FUtil.DesmontaCPFCNPJ(mtbBasesnum_cnpj.AsString);
-  if not sCampo.IsEmpty then
+  sCampo := FUtil.DesmontaCPFCNPJ(dbBedCpfCnpj.Text);
+  if sCampo <> '' then
   begin
     if Length(sCampo) <= 14 then
     begin
       if not FUtil.CNPJ(sCampo) then
       begin
-        MessageDlg('CNPJ informado é inválido!',mtWarning, [mbOK], 0);
+        MessageDlg('CNPJ informado é inválido!',mtWarning, [mbOK],0);
         Exit;
       end;
     end
@@ -776,38 +790,34 @@ begin
     begin
       if not FUtil.CPF(sCampo) then
       begin
-        MessageDlg('CPF informado é inválido!',mtWarning, [mbOK], 0);
+        MessageDlg('CPF informado é inválido!',mtWarning, [mbOK],0);
         Exit;
       end;
     end;
   end;
-  if (mtbBasesnum_ie.AsString = '') and (mtbBasesdes_tipo_doc.AsString = 'CNPJ') then
+  if dbCbxFormaPagamento.Text  = 'PIX' then
   begin
-    mtbBasesnum_ie.AsString := 'ISENTO';
-  end;
-  if mtbBasesdes_forma_pagamento.AsString  = 'PIX' then
-  begin
-    if mtbBasesdes_chave.AsString.IsEmpty then
+    if dbTedChavePix.Text = '' then
     begin
-      MessageDlg('Informe a chave PIX!',mtWarning, [mbOK], 0);
+      MessageDlg('Informe a chave PIX!',mtWarning, [mbOK],0);
       Exit;
     end;
   end;
-  if (mtbBasesdes_forma_pagamento.AsString  = 'DEPÓSITO/TRANSFERÊNCIA') or (mtbBasesdes_forma_pagamento.AsString  = 'TED/DOC') then
+  if (dbCbxFormaPagamento.Text  = 'DEPÓSITO/TRANSFERÊNCIA') or (dbCbxFormaPagamento.Text  = 'TED/DOC') then
   begin
-    if mtbBasescod_banco.AsString.IsEmpty then
+    if dbLcbBanco.Text = '' then
     begin
-      MessageDlg('Informe o banco!',mtWarning, [mbOK], 0);
+      MessageDlg('Informe o banco!',mtWarning, [mbOK],0);
       Exit;
     end;
-    if mtbBasescod_agencia.AsString.IsEmpty then
+    if dbTedAgencia.Text = '' then
     begin
-      MessageDlg('Informe a agência bancária!',mtWarning, [mbOK], 0);
+      MessageDlg('Informe a agência bancária!',mtWarning, [mbOK],0);
       Exit;
     end;
-    if mtbBasesnum_conta.AsString.IsEmpty then
+    if dbTedConta.Text = '' then
     begin
-      MessageDlg('Informe o número da conta!',mtWarning, [mbOK], 0);
+      MessageDlg('Informe o número da conta!',mtWarning, [mbOK],0);
       Exit;
     end;
   end;

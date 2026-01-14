@@ -64,7 +64,7 @@ type
                 'des_referencia = :des_referencia ' +
                 'where ' +
                 'cod_agente = :cod_agente and seq_endereco = :seq_endereco;';
-    SQLDELETE = 'delete from ' + TABLENAME +
+    SQLDELETE = 'delete from ' + TABLENAME + ' ' +
                 'where cod_agente = :cod_agente ';
     SQLQUERY  = 'select cod_agente, seq_endereco, des_tipo, des_logradouro, num_logradouro, des_complemento, ' +
                 'dom_correspondencia, des_bairro, nom_cidade, uf_estado, num_cep, des_referencia ' +

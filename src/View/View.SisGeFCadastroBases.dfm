@@ -557,7 +557,7 @@ object viewCadastroBases: TviewCadastroBases
       Visible = False
       Width = 200
     end
-    object cxDBLookupComboBox1: TcxDBLookupComboBox
+    object dbLcbBanco: TcxDBLookupComboBox
       Left = 10000
       Top = 10000
       Hint = 'Banco da conta'
@@ -583,7 +583,7 @@ object viewCadastroBases: TviewCadastroBases
       Visible = False
       Width = 375
     end
-    object dbRedAgencia: TcxDBTextEdit
+    object dbTedAgencia: TcxDBTextEdit
       Left = 10000
       Top = 10000
       Hint = 'Ag'#234'ncia banc'#225'ria da conta'
@@ -609,7 +609,7 @@ object viewCadastroBases: TviewCadastroBases
       Visible = False
       Width = 104
     end
-    object cxDBTextEdit1: TcxDBTextEdit
+    object dbTedChavePix: TcxDBTextEdit
       Left = 10000
       Top = 10000
       DataBinding.DataField = 'des_chave'
@@ -1085,7 +1085,7 @@ object viewCadastroBases: TviewCadastroBases
       AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Banco'
-      Control = cxDBLookupComboBox1
+      Control = dbLcbBanco
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 145
       ControlOptions.ShowBorder = False
@@ -1106,7 +1106,7 @@ object viewCadastroBases: TviewCadastroBases
       AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'Ag'#234'ncia'
-      Control = dbRedAgencia
+      Control = dbTedAgencia
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 78
       ControlOptions.ShowBorder = False
@@ -1128,7 +1128,7 @@ object viewCadastroBases: TviewCadastroBases
       AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Chave PIX'
-      Control = cxDBTextEdit1
+      Control = dbTedChavePix
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
@@ -1464,7 +1464,7 @@ object viewCadastroBases: TviewCadastroBases
     StoreDefs = True
     Left = 440
     Content = {
-      414442530F000046260F0000FF00010001FF02FF030400100000006D00740062
+      414442530F00FF35260F0000FF00010001FF02FF030400100000006D00740062
       004200610073006500730005000A0000005400610062006C0065000600000000
       00070000080032000000090000FF0AFF0B04001400000063006F0064005F0061
       00670065006E007400650005001400000063006F0064005F006100670065006E
