@@ -52,8 +52,6 @@ type
     grdUsuariosDBTableView1des_login: TcxGridDBColumn;
     grdUsuariosDBTableView1des_email: TcxGridDBColumn;
     grdUsuariosDBTableView1dom_ativo: TcxGridDBColumn;
-    cxButton5: TcxButton;
-    dxLayoutItem8: TdxLayoutItem;
     aclUsuarios: TActionList;
     actNovo: TAction;
     actEditar: TAction;
@@ -135,7 +133,7 @@ type
     gridAcessosDBTableView1des_modulo: TcxGridDBColumn;
     gridAcessosDBTableView1cod_menu: TcxGridDBColumn;
     gridAcessosDBTableView1des_menu: TcxGridDBColumn;
-    actUsuarios: TAction;
+    actCancelarGrupo: TAction;
     cxButton11: TcxButton;
     dxLayoutItem30: TdxLayoutItem;
     cxButton12: TcxButton;
@@ -159,15 +157,14 @@ type
     mtbAcessosUsuario: TFDMemTable;
     mtbAcessosUsuariocod_menu: TIntegerField;
     mtbAcessosUsuariocod_usuario: TIntegerField;
+    dxLayoutGroup8: TdxLayoutGroup;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actSairExecute(Sender: TObject);
     procedure actPesquisaExecute(Sender: TObject);
     procedure actExportarExecute(Sender: TObject);
     procedure ckbStatusPropertiesChange(Sender: TObject);
-    procedure actGRuposExecute(Sender: TObject);
-    procedure actUsuariosExecute(Sender: TObject);
-    procedure actListarAcessosExecute(Sender: TObject);
+    procedure actCancelarGrupoExecute(Sender: TObject);
     procedure actNovoGrupoExecute(Sender: TObject);
     procedure actSelecionarTudoExecute(Sender: TObject);
     procedure actLimparRegistrosExecute(Sender: TObject);
@@ -183,6 +180,8 @@ type
     procedure lcbGruposPropertiesChange(Sender: TObject);
     procedure grdUsuariosDBTableView1CellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
       AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+    procedure actGRuposExecute(Sender: TObject);
+    procedure actListarAcessosExecute(Sender: TObject);
   private
     { Private declarations }
     FConn : TConnectionMySQL;
@@ -267,6 +266,7 @@ begin
     PopulaAcessos(lcbGrupos.EditValue);
     ListaAcessos(lcbGrupos.EditValue);
   end;
+
 end;
 
 procedure TviewSisGefCadastroUsuarios.actMostrarConfirmacaoExecute(Sender: TObject);
@@ -322,10 +322,9 @@ begin
   SelecaoTodosAcessos(1);
 end;
 
-procedure TviewSisGefCadastroUsuarios.actUsuariosExecute(Sender: TObject);
+procedure TviewSisGefCadastroUsuarios.actCancelarGrupoExecute(Sender: TObject);
 begin
   ClearGrupos;
-  lgpTabbed.ItemIndex := 0;
 end;
 
 procedure TviewSisGefCadastroUsuarios.ckbAdministradorPropertiesChange(Sender: TObject);

@@ -348,7 +348,15 @@ uses
   Controller.SisGeFContratadosRepresentantes in 'src\Control\Controller.SisGeFContratadosRepresentantes.pas',
   Model.SisGefContratadosRH in 'src\Model\Model.SisGefContratadosRH.pas',
   Controller.SisGeFContratadosRH in 'src\Control\Controller.SisGeFContratadosRH.pas',
-  View.SisGeFCadastroBases in 'src\View\View.SisGeFCadastroBases.pas' {viewCadastroBases};
+  View.SisGeFCadastroBases in 'src\View\View.SisGeFCadastroBases.pas' {viewCadastroBases},
+  services.SisGeFSheetOrderrShoppe in 'src\Services\services.SisGeFSheetOrderrShoppe.pas',
+  Excel4Delphi.Common in 'src\Excel4Delphi\Excel4Delphi.Common.pas',
+  Excel4Delphi.Formula in 'src\Excel4Delphi\Excel4Delphi.Formula.pas',
+  Excel4Delphi.NumberFormats in 'src\Excel4Delphi\Excel4Delphi.NumberFormats.pas',
+  Excel4Delphi in 'src\Excel4Delphi\Excel4Delphi.pas',
+  Excel4Delphi.Stream in 'src\Excel4Delphi\Excel4Delphi.Stream.pas',
+  Excel4Delphi.Utils in 'src\Excel4Delphi\Excel4Delphi.Utils.pas',
+  Excel4Delphi.Xml in 'src\Excel4Delphi\Excel4Delphi.Xml.pas';
 
 {$R *.res}
 

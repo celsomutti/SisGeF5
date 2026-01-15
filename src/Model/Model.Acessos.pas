@@ -66,6 +66,7 @@ begin
   end;
 end;
 
+
 function TAcessos.Localizar(aParam: array of variant): TFDQuery;
 var
   acessosDAO : TAcessosDAO;

@@ -6717,7 +6717,7 @@
     object actUsuarios: TAction
       Tag = 701010
       Category = 'Sistema'
-      Caption = '&Usu'#225'rios'
+      Caption = '&Usu'#225'rios / Grupos'
       Hint = 'Cadastro de Usu'#225'rios e Grupos de Usu'#225'rios (Acessos)'
       OnExecute = actUsuariosExecute
     end

@@ -105,6 +105,7 @@ begin
   end;
 end;
 
+
 function TAcessosDAO.Pesquisar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
