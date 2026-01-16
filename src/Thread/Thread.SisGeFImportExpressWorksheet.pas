@@ -7,7 +7,7 @@ uses
   Control.Bases, Control.EntregadoresExpressas, Generics.Collections, System.StrUtils, Control.PlanilhaEntradaDIRECT,
   Control.PlanilhaEntradaSimExpress, Control.ControleAWB, Control.PlanilhaBaixasTFO, Control.PlanilhaBaixasDIRECT,
   Control.PlanilhaEntradaRedeForte, Controller.SisGeFTrackingExpress,
-  Control.PlanilhaEntradaTracking, Common.Utils;
+  Control.PlanilhaEntradaTracking, Common.Utils, services.SisGeFSheetOrderShoppe;
 
 type
   Thread_ImportImportExpressWorksheet = class(TThread)
@@ -34,10 +34,12 @@ type
     FEntregadores: TEntregadoresExpressasControl;
     FControleAWB : TControleAWBControl;
     FTracking: TControllerSisGeFTrackingExpress;
+    FTMS: integer;
 
     procedure UpdateLOG(sMensagem: String);
     procedure ProcessTFO;
     procedure ProcessSIM;
+    procedure processaInSPXXPRESS;
     procedure ProcessENGLOBA;
     procedure ProcessDIRECT;
     procedure ProcessRF;
@@ -65,6 +67,7 @@ type
     property Cancelar: Boolean read FCancelar write FCancelar;
     property TipoProcesso : integer read FTipoProcesso write FTipoProcesso;
     property Loja: boolean read FLoja write FLoja;
+    property TMS: integer read FTMS write FTMS;
   end;
 
 implementation
@@ -440,11 +443,12 @@ procedure Thread_ImportImportExpressWorksheet.Execute;
 begin
   if FTipoProcesso = 1 then
   begin
-    case FCliente of
+    case FTMS of
       1 : ProcessDIRECT;
       2 : ProcessEngloba;
       3 : ProcessSIM;
       4 : ProcessTFO;
+      5 : processaInSPXXPRESS;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
@@ -500,6 +504,114 @@ begin
                  ' - Tipo de processamento inválido! Processamento cancelado.';
     UpdateLOG(sMensagem);
     FCancelar := True;
+  end;
+end;
+
+procedure Thread_ImportImportExpressWorksheet.processaInSPXXPRESS;
+var
+  FPlanilha : TSheetOrdersShopee;
+  i: integer;
+begin
+  try
+    try
+      FProcesso := True;
+      FCancelar := False;
+      FPlanilha := TSheetOrdersShopee.Create;
+      FEntregas := TEntregasControl.Create;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
+      UpdateLog(sMensagem);
+      FPlanilha.FileName := FArquivo;
+      if not FPLanilha.GetSheet() then
+      begin
+        UpdateLOG(FPlanilha.Mensagem);
+        FCancelar := True;
+        Exit;
+      end;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Iniciando a importação do arquivo ' + FArquivo +
+                '. Aguarde...';
+      UpdateLog(sMensagem);
+      iPos := 0;
+      FTotalRegistros := FPlanilha.Planilha.Count;
+      FTotalGravados := 0;
+      FTotalInconsistencias := 0;
+      FProgresso := 0;
+      for i := 0 to Pred(FTotalRegistros) do
+      begin
+        SetLength(aParam,3);
+        aParam := ['NNCLIENTE', FPlanilha.Planilha[i].Pedido, FCliente];
+        if not FEntregas.LocalizarExata(aParam) then
+        begin
+          FEntregas.Entregas.Acao := tacIncluir;
+        end
+        else
+        begin
+          FEntregas.Entregas.Acao := tacAlterar;
+        end;
+        Finalize(aParam);
+        FEntregas.Entregas.Cliente := 0;
+        FEntregas.Entregas.NN := FPlanilha.Planilha[i].Pedido;
+        FEntregas.Entregas.NF := '000000000';
+        FEntregas.Entregas.Consumidor := '';
+        FEntregas.Entregas.Retorno := FPlanilha.Planilha[i].RotaLH;
+        FEntregas.Entregas.Endereco := '';
+        FEntregas.Entregas.Complemento := '';
+        FEntregas.Entregas.Bairro := '';
+        FEntregas.Entregas.Cidade := '';
+        FEntregas.Entregas.Cep := '00000-000';
+        FEntregas.Entregas.Telefone := '';
+        FEntregas.Entregas.Status := 0;
+        FEntregas.Entregas.Atraso := 0;
+        FEntregas.Entregas.VerbaEntregador := 0;
+        FEntregas.Entregas.Baixado := 'N';
+        FEntregas.Entregas.VerbaFranquia := 0;
+        FEntregas.Entregas.PesoReal := 0;
+        FEntregas.Entregas.PesoCobrado := 0;
+        FEntregas.Entregas.Volumes := 1;
+        FEntregas.Entregas.VolumesExtra := 0;
+        FEntregas.Entregas.ValorVolumes := 0;
+        FEntregas.Entregas.Container := '000000';
+        FEntregas.Entregas.ValorProduto := 0;
+        FEntregas.Entregas.Altura := 0;
+        FEntregas.Entregas.Largura := 0;
+        FEntregas.Entregas.Comprimento := 0;
+        FEntregas.Entregas.Rastreio := '';
+        FEntregas.Entregas.Pedido := FPlanilha.Planilha[I].NumeroTO;
+        FEntregas.Entregas.CodCliente := FCliente;
+        FEntregas.Entregas.Rastreio := 'Origem: ' + FPlanilha.Planilha[I].Origem + #13 + 'Destino: ' +
+                                       FPlanilha.Planilha[I].Destino;
+        FEntregas.Entregas.Recebimento := StrToDateTime(FPlanilha.Planilha[I].HoraEntrega);
+
+        if not FEntregas.Gravar() then
+        begin
+          sMensagem := '>> ' + FormatDateTime('yyyy-mm-dd hh:mm:ss', Now) + ' - Erro ao gravar o NN ' + FEntregas.Entregas.NN + ' !';
+          UpdateLog(sMensagem);
+          Inc(FTotalInconsistencias,1);
+        end
+        else
+        begin
+          Inc(FTotalGravados,1);
+        end;
+        Finalize(aParam);
+        iPos := i;
+        FProgresso := (iPos / FTotalRegistros) * 100;
+        if Self.Terminated then
+        begin
+          Data_Sisgef.memTableImport.Active := False;
+          Abort;
+        end;
+      end;
+      FProcesso := False;
+    Except on E: Exception do
+      begin
+        sMensagem := '>> ** ERROR SPX XPRESS **' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
+        UpdateLog(sMensagem);
+        FProcesso := False;
+        FCancelar := True;
+      end;
+    end;
+  finally
+    FPlanilha.Free;
+    FEntregas.Free;
   end;
 end;
 

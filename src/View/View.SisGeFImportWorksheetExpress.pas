@@ -97,7 +97,7 @@ type
     procedure UpdateDashboard;
     procedure RenameFiles(sFile: string);
     procedure StartImport(sFile: string);
-    procedure ProcessaCapa(sFile: String; iCliente, iTipo: Integer; bLojas: boolean);
+    procedure ProcessaCapa(sFile: String; iCliente, iTMS, iTipo: Integer; bLojas: boolean);
     procedure TerminateProc;
   public
     { Public declarations }
@@ -199,8 +199,8 @@ begin
   arquivoSelecionado.Clear;
   if (tipoArquivo.ItemIndex <= 0) or (comboTMS.ItemIndex <= 0) then
     Exit;
-//  if (tipoArquivo.ItemIndex <= 0) or (cliente.Text = '') then
-//    Exit;
+  if (tipoArquivo.ItemIndex <= 0) or (cliente.Text = '') then
+    Exit;
   Result := True;
 end;
 
@@ -214,12 +214,13 @@ begin
   end;
 end;
 
-procedure Tview_SisGeFImportWorksheetExpress.ProcessaCapa(sFile: String; iCliente, iTipo: Integer; bLojas: boolean);
+procedure Tview_SisGeFImportWorksheetExpress.ProcessaCapa(sFile: String; iCliente, iTMS, iTipo: Integer; bLojas: boolean);
 begin
   log.Clear;
   importws := Thread_ImportImportExpressWorksheet.Create(True);
   importws.Arquivo := sFile;
   importws.Cliente := iCliente;
+  importws.TMS := comboTMS.ItemIndex;
   importws.TipoProcesso := iTipo;
   importws.Loja := bLojas;
   importws.Priority := tpNormal;
@@ -252,7 +253,7 @@ end;
 
 procedure Tview_SisGeFImportWorksheetExpress.StartImport(sFile: string);
 var
-  iCliente, iTipo, iItem: integer;
+  iCliente, iTMS, iTipo, iItem: integer;
   bLojas: boolean;
 begin
 
@@ -261,10 +262,11 @@ begin
 
   if Application.MessageBox(PChar('Confirma a importação do arquivo ' + sFile + ' ?'), 'Importar', MB_YESNO + MB_ICONQUESTION) = IDYES then
   begin
-    iCliente := comboTMS.ItemIndex;
+    iCliente := cliente.EditValue;
+    iTMS := comboTMS.ItemIndex;
     iTipo := tipoArquivo.ItemIndex;
     bLojas := False;
-    ProcessaCapa(sFile, iCliente, iTipo, bLojas);
+    ProcessaCapa(sFile, iCliente, iTMS, iTipo, bLojas);
   end;
 end;
 
@@ -330,6 +332,7 @@ procedure Tview_SisGeFImportWorksheetExpress.ValidateFile(sFile: string);
 begin
   try
     cFunctions := TSisGeFFunctions.Create;
+
     if cFunctions.ValidadeFile(tipoArquivo.ItemIndex, comboTMS.ItemIndex, sFile) then
     begin
       AddFile(sFile)
@@ -347,24 +350,30 @@ function Tview_SisGeFImportWorksheetExpress.ValidateProcess: boolean;
 begin
   Result := False;
   // validação geral
-    if tipoArquivo.ItemIndex <= 0 then
-    begin
-      MessageDlg('Informe o tipo de arquivo.', mtWarning, [mbCancel], 0);
-      tipoArquivo.SetFocus;
-      Exit;
-    end;
-    if comboTMS.ItemIndex <= 0 then
-    begin
-      MessageDlg('Informe o TMS que gerou o arquivo.', mtWarning, [mbCancel], 0);
-      comboTMS.SetFocus;
-      Exit;
-    end;
-    if arquivoSelecionado.Text = '' then
-    begin
-      MessageDlg('Nenhum arquivo informado.', mtWarning, [mbCancel], 0);
-      tipoArquivo.SetFocus;
-      Exit;
-    end;
+  if tipoArquivo.ItemIndex <= 0 then
+  begin
+    MessageDlg('Informe o tipo de arquivo.', mtWarning, [mbCancel], 0);
+    tipoArquivo.SetFocus;
+    Exit;
+  end;
+  if comboTMS.ItemIndex <= 0 then
+  begin
+    MessageDlg('Informe o TMS que gerou o arquivo.', mtWarning, [mbCancel], 0);
+    comboTMS.SetFocus;
+    Exit;
+  end;
+  if cliente.Text = '' then
+  begin
+    MessageDlg('Informe o cliente.', mtWarning, [mbCancel], 0);
+    cliente.SetFocus;
+    Exit;
+  end;
+  if arquivoSelecionado.Text = '' then
+  begin
+    MessageDlg('Nenhum arquivo informado.', mtWarning, [mbCancel], 0);
+    tipoArquivo.SetFocus;
+    Exit;
+  end;
   Result := True;
 end;
 

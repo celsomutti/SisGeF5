@@ -692,7 +692,7 @@
             <Form>viewCadastroBases</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="src\Services\services.SisGeFSheetOrderrShoppe.pas"/>
+        <DCCReference Include="src\Services\services.SisGeFSheetOrderShoppe.pas"/>
         <DCCReference Include="src\Excel4Delphi\Excel4Delphi.Common.pas"/>
         <DCCReference Include="src\Excel4Delphi\Excel4Delphi.Formula.pas"/>
         <DCCReference Include="src\Excel4Delphi\Excel4Delphi.NumberFormats.pas"/>

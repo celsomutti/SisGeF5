@@ -229,7 +229,8 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
         'PLANCK'
         'ENGLOBA'
         'SIM EXPRESS'
-        'STDCLIENTE')
+        'STDCLIENTE'
+        'SPX XPRESS')
       Properties.OnChange = comboTMSPropertiesChange
       Style.HotTrack = False
       TabOrder = 2
@@ -407,7 +408,6 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'Cliente:'
-      Visible = False
       Control = cliente
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 248

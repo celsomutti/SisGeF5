@@ -80,11 +80,21 @@ var
 begin
   Result := False;
   FileExt := LowerCase(ExtractFileExt(sArquivo));
-  if FileExt <> '.csv' then
+  if iCliente <> 5 then
   begin
-    FMensagem := 'Selecione apenas arquivos de planilhas no formato CSV (Delimitados por ponto e vírgula, *.csv).';
-    Exit;
-  end;
+    if FileExt <> '.csv' then
+    begin
+      FMensagem := 'Selecione apenas arquivos de planilhas no formato CSV (Delimitados por ponto e vírgula, *.csv).';
+      Exit;
+    end;
+  end
+  else if iCliente <> 5 then
+  begin
+    if (FileExt <> '.xls') and (FileExt <> '.xlsx') then
+    begin
+      FMensagem := 'Selecione apenas arquivos de planilhas no formato XLS ou XLSX.';
+      Exit;
+    end;
   if iTipo = 1 then
   begin
     case icliente of
