@@ -88,7 +88,7 @@ begin
       Exit;
     end;
   end
-  else if iCliente <> 5 then
+  else
   begin
     if (FileExt <> '.xls') and (FileExt <> '.xlsx') then
     begin
@@ -102,6 +102,7 @@ begin
       2 : Result := ValidateENGLOBAEntregas(sArquivo);
       3 : Result := ValidateSIMExpressEntregas(sArquivo);
       4 : Result := ValidateTFOEntregas(sArquivo);
+      5 : Result := True;
       else
         Result := NoRotine;
     end;
@@ -140,6 +141,7 @@ begin
       Result := ValidatePlanckLojas(sArquivo)
     else
     Result := NoRotine;
+  end;
   end;
 end;
 

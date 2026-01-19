@@ -197,7 +197,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
             Caption = 'CPF / CNPJ'
             DataBinding.FieldName = 'num_cpf_cnpj'
             PropertiesClassName = 'TcxMaskEditProperties'
-            Properties.EditMask = '00\.000\.000\/0000\-00;1; '
+            Properties.EditMask = '00000000000000;1; '
             HeaderAlignmentHorz = taCenter
           end
           object viewCadastrodes_funcao: TcxGridDBColumn

@@ -511,6 +511,7 @@ procedure Thread_ImportImportExpressWorksheet.processaInSPXXPRESS;
 var
   FPlanilha : TSheetOrdersShopee;
   i: integer;
+  sDateTime, sDate : String;
 begin
   try
     try
@@ -551,7 +552,7 @@ begin
         FEntregas.Entregas.Cliente := 0;
         FEntregas.Entregas.NN := FPlanilha.Planilha[i].Pedido;
         FEntregas.Entregas.NF := '000000000';
-        FEntregas.Entregas.Consumidor := '';
+        FEntregas.Entregas.Consumidor := 'CLIENTE SHOPEE';
         FEntregas.Entregas.Retorno := FPlanilha.Planilha[i].RotaLH;
         FEntregas.Entregas.Endereco := '';
         FEntregas.Entregas.Complemento := '';
@@ -579,7 +580,13 @@ begin
         FEntregas.Entregas.CodCliente := FCliente;
         FEntregas.Entregas.Rastreio := 'Origem: ' + FPlanilha.Planilha[I].Origem + #13 + 'Destino: ' +
                                        FPlanilha.Planilha[I].Destino;
-        FEntregas.Entregas.Recebimento := StrToDateTime(FPlanilha.Planilha[I].HoraEntrega);
+        sDate := Copy(FPlanilha.Planilha[I].HoraEntrega, 1, 10);
+        sDateTime := Copy(sDate, 9, 2) + '/';
+        sDateTime := sDateTime + Copy(sDate,6,2) + '/';
+        sDateTime := sDateTime + Copy(sDate,1,4) + ' ';
+        sDateTime := sDateTime + Copy(FPlanilha.Planilha[I].HoraEntrega,12,8);
+        FEntregas.Entregas.Recebimento := StrToDateTime(sDateTime);
+        FEntregas.Entregas.Recebido := 'S';
 
         if not FEntregas.Gravar() then
         begin

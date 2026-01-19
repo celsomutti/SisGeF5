@@ -1814,10 +1814,12 @@ function Tview_SisGeFContractedDetail.ValidaDados: boolean;
 var
   FCadastro : TCadastroContratadosController;
   sCPF: string;
+  FUtil : TUTils;
 begin
   try
     Result := False;
     FCadastro := TCadastroContratadosController.Create;
+    FUtil := TUtils.Create;
 //    if FAcao = tacIncluir then
 //    begin
 //      if not Common.Utils.TUtils.CPF(maskEditCPCNPJ.Text) then
@@ -1863,6 +1865,16 @@ begin
         end;
       end;
     end;
+
+    if FAcao = tacIncluir then
+    begin
+      if FCadastro.Search(['CNPJ', FUtil.DesmontaCPFCNPJ(maskEditCPCNPJ.Text)]) then
+      begin
+        Application.MessageBox('CNPJ/CPF já cadastrado!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+    end;
+
 
     if cboTipoPessoa.ItemIndex = 1 then
     begin

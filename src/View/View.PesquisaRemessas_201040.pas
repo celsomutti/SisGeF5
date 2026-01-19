@@ -11,7 +11,7 @@ uses
   cxDBFilterControl, cxContainer, cxEdit, cxLabel, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxMemo, cxStyles, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, cxDBData, cxCheckBox,
   cxCurrencyEdit, cxBlobEdit, cxDBLookupComboBox, cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGridCustomView, cxGrid, cxButtonEdit, cxCalendar, cxGridCustomPopupMenu, cxGridPopupMenu;
+  cxGridCustomView, cxGrid, cxButtonEdit, cxCalendar, cxGridCustomPopupMenu, cxGridPopupMenu, service.connectionMySQL;
 
 type
   Tview_PesquisaRemessas = class(TForm)
@@ -78,7 +78,6 @@ type
     fdQueryBIVAL_VOLUMES_EXTRA: TFloatField;
     fdQueryBIQTD_PESO_COBRADO: TFloatField;
     fdQueryBIDES_TIPO_PESO: TStringField;
-    fdQueryBIDAT_RECEBIDO: TDateField;
     fdQueryBIDOM_RECEBIDO: TStringField;
     fdQueryBINUM_CTRC: TIntegerField;
     fdQueryBINUM_MANIFESTO: TIntegerField;
@@ -176,6 +175,7 @@ type
     tvPesquisacod_awb: TcxGridDBColumn;
     tvPesquisades_produto: TcxGridDBColumn;
     cxGridPopupMenu1: TcxGridPopupMenu;
+    fdQueryBIDAT_RECEBIDO: TDateTimeField;
     procedure actionFecharTelaExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure tvPesquisaNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
@@ -191,7 +191,7 @@ type
     procedure codigoClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
       var Error: Boolean);
   private
-    { Private declarations }
+    FConn : TConnectionMySQL;
     procedure StartForm;
     procedure SaveLayout(sLayout: string);
     procedure PopulateFieldsCombo;
@@ -347,7 +347,10 @@ var
   sOperacao, sEm, sLinha, sItem, sCliente: String;
   i: integer;
   aValores: Array of variant;
+  FConn : TConnectionMySQL;
 begin
+  if not Assigned(FConn) then
+    Fconn := TConnectionMySQL.Create;
   if campos.ItemIndex = -1 then
     Exit;
   sOperacao := ' IN ';
@@ -400,6 +403,7 @@ begin
   end;
   sLinha := sLinha + sEm;
   finalize(aValores);
+  fdQueryBI.Connection := FConn.GetConnection;
   fdQueryBI.Active := false;
   fdQueryBI.SQL.Text := sSQlOld + ' where ' + sLinha + ')' + sCliente;
   fdQueryBI.Active := true;
@@ -413,6 +417,7 @@ procedure Tview_PesquisaRemessas.FilterDetailed;
 var
   sFiltro, sMessage: String;
 begin
+  if not Assigned(FConn) then FConn := TConnectionMySQL.Create;
   if dbFilterControl.FilterText.IsEmpty then
   begin
     sMessage := 'Devido a grande quantidade de registros da tabela de pedidos, esse filtro somente ' +
@@ -421,6 +426,7 @@ begin
     Exit;
   end;
   sFiltro := dbFilterControl.FilterText;
+  fdQueryBI.Connection := Fconn.GetConnection;
   fdQueryBI.Active := false;
   fdQueryBI.SQL.Text := sSQlOld + ' where ' + sFiltro;
   fdQueryBI.Active := true;
@@ -435,7 +441,10 @@ begin
   if fdQueryBI.Active then
   begin
     fdQueryBI.Active := False;
-    Data_Sisgef.FDConnectionMySQL.Connected := False;
+    if Assigned(FConn) then
+    begin
+      FConn.Free;
+    end;
   end;
   Data_Sisgef.mtbClientesEmpresa.Close;
   Action := caFree;

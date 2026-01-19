@@ -314,14 +314,14 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.AnaliseRoteirosExpressas, View.CadastroAbrangenciaExpressas,
   View.EntregadoresExpressasPesquisa,
   View.LancamentosExtratosExpressasPesquisa, View.ParametrosPrazosExtratos,
-  View.PesquisaRemessas_201040, View.ExtraviosSinistrosMultas,
+  View.ExtraviosSinistrosMultas,
   View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
   View.CadastroClientes, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals,
   View.SisGeFCadastroContratados, View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
   View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios, View.SisGeFCadastroFuncionarios,
-  View.SisGeFCadastroBases;
+  View.SisGeFCadastroBases, View.PesquisaRemessas_201040;
 
 procedure Tview_Main.Acessos;
 var

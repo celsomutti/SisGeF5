@@ -6482,7 +6482,7 @@
     object actConsultaPedidos: TAction
       Tag = 201040
       Category = 'Expressas'
-      Caption = '&BI de Pedidos'
+      Caption = 'Pes&quisa de Pedidos'
       Hint = 'Cunsulta de pedidos importados'
       OnExecute = actConsultaPedidosExecute
     end

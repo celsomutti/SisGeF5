@@ -54,7 +54,8 @@ begin
   Result    :=  False;
   try
     workBook.LoadFromFile(FFileName);
-    iRows := workBook.Sheets[iSheet].RowCount;
+    iRows := workBook.Sheets[iSheet].RowCount -1;
+    FPlanilha := TObjectList<TSheetOrdersShopee>.Create();
     if iRows < 2 then
     begin
       FMensagem := 'Sheet : Planilha está vazia!';
@@ -67,13 +68,15 @@ begin
     iStart := 1;
     for iRow := iStart to iRows - 1 do
     begin
-      FPlanilha[iRow].FHoraEntrega  := workBook.Sheets[iSheet].CellRef['A', iRow].AsString;
-      FPlanilha[iRow].FPedido       := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
-      FPlanilha[iRow].FOrigem       := workBook.Sheets[iSheet].CellRef['C', iRow].AsString;
-      FPlanilha[iRow].FDestino      := workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
-      FPlanilha[iRow].FNumeroTO     := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
-      FPlanilha[iRow].FRotaLH       := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
+      FPlanilha.Add(TSheetOrdersShopee.Create);
+      FPlanilha[Pred(iRow)].FHoraEntrega  := workBook.Sheets[iSheet].CellRef['A', iRow].AsString;
+      FPlanilha[Pred(iRow)].FPedido       := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
+      FPlanilha[Pred(iRow)].FOrigem       := workBook.Sheets[iSheet].CellRef['C', iRow].AsString;
+      FPlanilha[Pred(iRow)].FDestino      := workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
+      FPlanilha[Pred(iRow)].FNumeroTO     := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
+      FPlanilha[Pred(iRow)].FRotaLH       := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
       iCol := 0;
+
     end;
     if FPlanilha.Count = 0 then
     begin

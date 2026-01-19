@@ -111,10 +111,10 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Style.HotTrack = False
       TabOrder = 0
       Text = 'Selecione ...'
-      Width = 117
+      Width = 149
     end
     object cliente: TcxLookupComboBox
-      Left = 289
+      Left = 321
       Top = 13
       Hint = 'Selecione o cliente'
       Properties.KeyFieldNames = 'cod_cliente'
@@ -127,7 +127,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Properties.OnChange = clientePropertiesChange
       Style.HotTrack = False
       TabOrder = 1
-      Width = 248
+      Width = 291
     end
     object cxButton5: TcxButton
       Left = 13
@@ -222,7 +222,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Width = 121
     end
     object comboTMS: TcxComboBox
-      Left = 580
+      Left = 655
       Top = 13
       Properties.Items.Strings = (
         'Selecione ...'
@@ -235,7 +235,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Style.HotTrack = False
       TabOrder = 2
       Text = 'Selecione ...'
-      Width = 181
+      Width = 212
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -394,7 +394,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     end
     object dxLayoutItem8: TdxLayoutItem
       Parent = dxLayoutGroup8
-      AlignHorz = ahLeft
+      AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Tipo de Arquivo:'
       Control = tipoArquivo
@@ -405,7 +405,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     end
     object dxLayoutItem9: TdxLayoutItem
       Parent = dxLayoutGroup8
-      AlignHorz = ahLeft
+      AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Cliente:'
       Control = cliente
@@ -544,6 +544,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
     end
     object dxLayoutItem17: TdxLayoutItem
       Parent = dxLayoutGroup8
+      AlignHorz = ahClient
       CaptionOptions.Text = 'TMS:'
       Control = comboTMS
       ControlOptions.OriginalHeight = 25

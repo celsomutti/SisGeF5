@@ -1,16 +1,15 @@
 object view_PesquisaRemessas: Tview_PesquisaRemessas
   Left = 0
   Top = 0
-  Caption = 'Pesquisa de Remessas Expressas'
-  ClientHeight = 428
-  ClientWidth = 921
+  Caption = 'Pesquisa de Pedidos'
+  ClientHeight = 561
+  ClientWidth = 784
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  FormStyle = fsMDIChild
   Icon.Data = {
     0000010004003030000001002000A8250000460000002020000001002000A810
     0000EE2500001818000001002000880900009636000010100000010020006804
@@ -563,8 +562,8 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
     000000010000}
   KeyPreview = True
   OldCreateOrder = False
+  Position = poScreenCenter
   ShowHint = True
-  Visible = True
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
@@ -572,8 +571,8 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
   object cxPageControl1: TcxPageControl
     Left = 0
     Top = 54
-    Width = 921
-    Height = 374
+    Width = 784
+    Height = 507
     Align = alClient
     Color = clDefault
     ParentBackground = False
@@ -584,17 +583,21 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
     Properties.ShowButtonHints = True
     Properties.ShowTabHints = True
     OnChange = cxPageControl1Change
-    ClientRectBottom = 374
-    ClientRectRight = 921
+    ExplicitWidth = 921
+    ExplicitHeight = 374
+    ClientRectBottom = 507
+    ClientRectRight = 784
     ClientRectTop = 26
     object cxTabSheet1: TcxTabSheet
       Caption = 'Par'#226'metros'
       ImageIndex = 0
+      ExplicitWidth = 921
+      ExplicitHeight = 348
       object dbFilterControl: TcxDBFilterControl
         Left = 0
         Top = 0
-        Width = 921
-        Height = 348
+        Width = 784
+        Height = 481
         Align = alClient
         Color = clWhite
         DataSet = fdQueryBI
@@ -868,11 +871,15 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
           end>
         FilterOptions.DateTimeFormat = 'yyyy-mm-dd'
         TabOrder = 0
+        ExplicitWidth = 921
+        ExplicitHeight = 348
       end
     end
     object cxTabSheet2: TcxTabSheet
       Caption = 'Pesquisa em Lote'
       ImageIndex = 1
+      ExplicitWidth = 921
+      ExplicitHeight = 348
       object campos: TcxComboBox
         Left = 3
         Top = 94
@@ -952,11 +959,13 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
     object cxTabSheet3: TcxTabSheet
       Caption = 'Pesquisa'
       ImageIndex = 2
+      ExplicitWidth = 921
+      ExplicitHeight = 348
       object grdPesquisa: TcxGrid
         Left = 0
         Top = 0
-        Width = 921
-        Height = 348
+        Width = 784
+        Height = 481
         Align = alClient
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -967,6 +976,8 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
         TabOrder = 0
         LookAndFeel.Kind = lfFlat
         LookAndFeel.ScrollbarMode = sbmClassic
+        ExplicitWidth = 921
+        ExplicitHeight = 348
         object tvPesquisa: TcxGridDBTableView
           Navigator.Buttons.OnButtonClick = tvPesquisaNavigatorButtonsButtonClick
           Navigator.Buttons.CustomButtons = <
@@ -1024,11 +1035,11 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
           OptionsView.Indicator = True
           object tvPesquisaNUM_NOSSONUMERO: TcxGridDBColumn
             DataBinding.FieldName = 'NUM_NOSSONUMERO'
-            Width = 120
+            Width = 156
           end
           object tvPesquisaNUM_PEDIDO: TcxGridDBColumn
             DataBinding.FieldName = 'NUM_PEDIDO'
-            Width = 96
+            Width = 149
           end
           object tvPesquisaCOD_AGENTE: TcxGridDBColumn
             DataBinding.FieldName = 'COD_AGENTE'
@@ -1210,8 +1221,11 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             DataBinding.FieldName = 'DES_TIPO_PESO'
           end
           object tvPesquisaDAT_RECEBIDO: TcxGridDBColumn
+            Caption = 'Data Recebimento'
             DataBinding.FieldName = 'DAT_RECEBIDO'
-            Width = 123
+            PropertiesClassName = 'TcxDateEditProperties'
+            Properties.SaveTime = False
+            Width = 152
           end
           object tvPesquisaDOM_RECEBIDO: TcxGridDBColumn
             DataBinding.FieldName = 'DOM_RECEBIDO'
@@ -1229,6 +1243,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
             Width = 93
           end
           object tvPesquisaDES_RASTREIO: TcxGridDBColumn
+            Caption = 'Rastreio/OBS'
             DataBinding.FieldName = 'DES_RASTREIO'
             PropertiesClassName = 'TcxBlobEditProperties'
             Properties.BlobEditKind = bekMemo
@@ -1349,7 +1364,7 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
     object actionExecutarFiltro: TAction
       Caption = '&Filtro'
       Hint = 'Executar filtro'
-      ImageIndex = 11
+      ImageIndex = 25
       OnExecute = actionExecutarFiltroExecute
     end
     object actionExportarDados: TAction
@@ -1508,7 +1523,6 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
     end
   end
   object fdQueryBI: TFDQuery
-    Connection = Data_Sisgef.FDConnectionMySQL
     SQL.Strings = (
       'select * from view_entregas')
     Left = 496
@@ -1770,11 +1784,8 @@ object view_PesquisaRemessas: Tview_PesquisaRemessas
       FieldName = 'DES_TIPO_PESO'
       Origin = 'DES_TIPO_PESO'
     end
-    object fdQueryBIDAT_RECEBIDO: TDateField
-      AutoGenerateValue = arDefault
-      DisplayLabel = 'Data Recebimento'
+    object fdQueryBIDAT_RECEBIDO: TDateTimeField
       FieldName = 'DAT_RECEBIDO'
-      Origin = 'DAT_RECEBIDO'
     end
     object fdQueryBIDOM_RECEBIDO: TStringField
       AutoGenerateValue = arDefault

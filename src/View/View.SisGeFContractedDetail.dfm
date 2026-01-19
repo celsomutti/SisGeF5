@@ -58,7 +58,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Width = 74
     end
     object textEditNome: TcxTextEdit
-      Left = 455
+      Left = 456
       Top = 12
       Hint = 'Nome ou raz'#227'p social]'
       Properties.MaxLength = 70
@@ -66,7 +66,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 3
-      Width = 318
+      Width = 317
     end
     object layoutControlDados: TdxLayoutControl
       Left = 26
@@ -338,7 +338,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Width = 121
       end
       object comboBoxCRT: TcxComboBox
-        Left = 290
+        Left = 291
         Top = 53
         Hint = 'C'#243'digo de Refime Tribut'#225'rio'
         Properties.DropDownListStyle = lsFixedList
@@ -355,7 +355,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 20
         Text = 'Selecione ...'
-        Width = 416
+        Width = 415
       end
       object txtRepresentante: TcxTextEdit
         Left = 135
@@ -753,7 +753,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       TabOrder = 5
       Transparent = True
       object dbComboBoxTipoEndereco: TcxDBComboBox
-        Left = 124
+        Left = 125
         Top = 46
         Hint = 'Tipo de endere'#231'o'
         DataBinding.DataField = 'des_tipo'
@@ -769,10 +769,10 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 0
-        Width = 427
+        Width = 426
       end
       object dbTextEditEndereco: TcxDBTextEdit
-        Left = 124
+        Left = 125
         Top = 76
         Hint = 'Endere'#231'o'
         DataBinding.DataField = 'des_logradouro'
@@ -782,7 +782,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 2
-        Width = 238
+        Width = 237
       end
       object dbTextEditNumero: TcxDBTextEdit
         Left = 393
@@ -809,7 +809,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Width = 152
       end
       object dbTextEditBairro: TcxDBTextEdit
-        Left = 124
+        Left = 125
         Top = 103
         Hint = 'Bairro do endere'#231'o'
         DataBinding.DataField = 'des_bairro'
@@ -819,7 +819,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 5
-        Width = 217
+        Width = 216
       end
       object dbTextEditCidade: TcxDBTextEdit
         Left = 392
@@ -854,7 +854,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Width = 92
       end
       object dbTextEditReferencia: TcxDBTextEdit
-        Left = 124
+        Left = 125
         Top = 130
         Hint = 'Refer'#234'ncia do endere'#231'o'
         DataBinding.DataField = 'des_referencia'
@@ -863,7 +863,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 8
-        Width = 582
+        Width = 581
       end
       object dbNavigatorEnderecos: TcxDBNavigator
         Left = 26
@@ -1511,7 +1511,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       TabOrder = 14
     end
     object maskEditCPCNPJ: TcxButtonEdit
-      Left = 272
+      Left = 273
       Top = 11
       Properties.Buttons = <
         item
@@ -1582,7 +1582,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       Width = 107
     end
     object cboTipoPessoa: TcxComboBox
-      Left = 142
+      Left = 143
       Top = 11
       Hint = 'Tipo de Pessoa'
       Properties.DropDownListStyle = lsFixedList
@@ -1856,7 +1856,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       CaptionOptions.Visible = False
       Control = checkBoxStatus
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 54
+      ControlOptions.OriginalWidth = 55
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -2259,7 +2259,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     Left = 592
     Top = 293
     Content = {
-      414442530F005654E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00883AE9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005
@@ -2420,7 +2420,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     Left = 400
     Top = 237
     Content = {
-      414442530F0056549A020000FF00010001FF02FF030400180000006D0065006D
+      414442530F00883A9A020000FF00010001FF02FF030400180000006D0065006D
       005400610062006C00650043004E004100450005000A0000005400610062006C
       006500060000000000070000080032000000090000FF0AFF0B04000E00000069
       0064005F0063006E006100650005000E000000690064005F0063006E00610065
