@@ -3,7 +3,7 @@ unit Model.ExtraviosMultas;
 interface
 
 uses Common.ENum, FireDAC.Comp.Client, System.Classes, DAO.Conexao, System.SysUtils, Control.Sistema, Common.Utils, Control.Entregas,
-  Global.Parametros;
+  Global.Parametros, service.connectionMySQL;
 
 type
   TExtraviosMultas = class
@@ -34,7 +34,7 @@ type
     FTipo: Integer;
     FExtrato: String;
     FData: TDateTime;
-    FConexao : TConexao;
+    FConexao : TConnectionMySQL;
     FQuery: TFDQuery;
     FProduto: String;
     FCliente: Integer;
@@ -135,7 +135,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('UPDATE ' + TABLENAME + ' SET ID_EXTRATO = 0 WHERE ID_EXTRATO = :ID', [iExtrato]);
     Result := True;
   finally
@@ -180,7 +180,7 @@ end;
 
 constructor TExtraviosMultas.Create;
 begin
-  FConexao := TSistemaControl.GetInstance.Conexao;
+  FConexao := TConnectionMySQL.Create;
 end;
 
 function TExtraviosMultas.Delete: Boolean;
@@ -190,7 +190,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery;
     FDQuery.ExecSQL('DELETE FROM ' + TABLENAME + ' WHERE COD_EXTRAVIO = :ID',[Id]);
     Result := True;
   finally
@@ -208,7 +208,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     sExtrato := aParam[0];
     iEntregador := aParam[1];
     sSQL := 'UPDATE ' + TABLENAME + ' SET ' +
@@ -228,7 +228,7 @@ var
 begin
   try
     Result := 0;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.SQL.Clear;
     FDQuery.SQL.Add('select COD_EXTRAVIO from ' + TABLENAME + ' where NUM_NOSSONUMERO = :NUM_NOSSONUMERO and COD_TIPO = :COD_TIPO ' +
                    'and DOM_RESTRICAO <> ' + QuotedStr('E'));
@@ -254,7 +254,7 @@ begin
           'from ' + TABLENAME +
           ' where tbextravios.dom_restricao = "S" and tbextravios.val_percentual_pago < 100 ' +
           'group by tbextravios.cod_agente, tbextravios.cod_entregador;';
-  fdQuery := FConexao.ReturnQuery;
+  fdQuery := FConexao.GetQuery;
   fdQuery.SQL.Add(sSQL);
   FDQuery.Open();
   Result := FDQuery;
@@ -273,7 +273,7 @@ begin
             'from ' + TABLENAME +
             ' where tbextravios.dom_restricao = "S" and tbextravios.val_percentual_pago < 100 ' +
             'group by tbextravios.cod_agente, tbextravios.cod_entregador;';
-    fdQuery := FConexao.ReturnQuery;
+    fdQuery := FConexao.GetQuery;
     fdQuery.SQL.Add(sSQL);
     FDQuery.Open();
     if fdQuery.IsEmpty then
@@ -345,7 +345,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery;
+    FDQuery := FConexao.GetQuery;
     FDQuery.Open('select coalesce(max(COD_EXTRAVIO),0) + 1 from ' + TABLENAME);
     try
       Result := FDQuery.Fields[0].AsInteger;
@@ -375,7 +375,7 @@ begin
   try
     Result := False;
     Id := GetID;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL(SQLINSERT, [ID, Descricao, NN, Agente, ValorProduto, Data, Multa, Verba, Total, Restricao, Entregador, Tipo,
                                 VerbaFranquia, ValorFranquia, Extrato, DataFranquia, EnvioCorrespondencia, RetornoCorrespondencia,
                                 Obs, Percentual, IDExtrato, Sequencia, Executor, Manutencao, NumeroExtrato, Cliente, Produto, AWB]);
@@ -390,7 +390,7 @@ function TExtraviosMultas.Localizar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery;
+  FDQuery := FConexao.GetQuery;
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
   FDQuery.SQL.Add(SQLQUERY);
@@ -490,11 +490,11 @@ end;
 function TExtraviosMultas.PesquisaExtraviosMultas(iIndex: integer; sTexto, sFilter: String): boolean;
 var
   sFiltro: String;
-  fFuncoes : Common.Utils.TUtils;
+  fFuncoes : TUtils;
 begin
   Result := False;
   sFiltro := '';
-  fFuncoes := Common.Utils.TUtils.Create;
+  fFuncoes := TUtils.Create;
   if sFilter <> '' then
   begin
     sFiltro := sfilter;
@@ -539,7 +539,7 @@ begin
     end;
   end;
   fFuncoes.Free;
-  FQuery := FConexao.ReturnQuery;
+  FQuery := FConexao.GetQuery;
   FQuery.SQL.Add('select * from view_pesquisaextravios');
   if sFiltro <> '' then
   begin
@@ -559,7 +559,7 @@ function TExtraviosMultas.RetornaTotaisExtravios(aParam: array of variant): TFDQ
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery;
+  FDQuery := FConexao.GetQuery;
   FDQuery.SQL.Clear;
   FDQuery.SQL.Add('select count(num_nossonumero) as itens, sum(val_total) as total from ' + TABLENAME);
   FDQuery.SQL.Add('where id_extrato in (' + aParam[0] + ')');
@@ -607,7 +607,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery;
+    FDQuery := FConexao.GetQuery;
     FDQuery.ExecSQL(SQLUPDATE, [Descricao, NN, Agente, ValorProduto, Data, Multa, Verba, Total, Restricao, Entregador, Tipo,
                                 VerbaFranquia, ValorFranquia, Extrato, DataFranquia, EnvioCorrespondencia, RetornoCorrespondencia,
                                 Obs, Percentual, IDExtrato, Sequencia, Executor, Manutencao, NumeroExtrato, Cliente, Produto, AWB,

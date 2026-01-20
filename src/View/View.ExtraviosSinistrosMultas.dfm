@@ -4,15 +4,15 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
   Caption = 'Extravios, Sinistros e Multas'
   ClientHeight = 458
   ClientWidth = 835
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
+  Position = poScreenCenter
   ShowHint = True
   Visible = True
   OnClose = FormClose
@@ -31,10 +31,9 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     Properties.CustomButtons.Buttons = <>
     Properties.HideTabs = True
     OnChange = pageControlPesquisaChange
-    ClientRectBottom = 394
-    ClientRectLeft = 4
-    ClientRectRight = 825
-    ClientRectTop = 4
+    ClientRectBottom = 398
+    ClientRectRight = 829
+    ClientRectTop = 0
     object tabResultado: TcxTabSheet
       Caption = 'Resultado'
       ImageIndex = 0
@@ -42,8 +41,8 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
         AlignWithMargins = True
         Left = 3
         Top = 36
-        Width = 815
-        Height = 351
+        Width = 823
+        Height = 359
         Align = alClient
         TabOrder = 0
         object gridExtraviosDBTableView1: TcxGridDBTableView
@@ -323,7 +322,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 815
+        Width = 823
         Height = 27
         Align = alTop
         BevelOuter = bvNone
@@ -331,7 +330,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
         ShowCaption = False
         TabOrder = 1
         DesignSize = (
-          815
+          823
           27)
         object cxLabel1: TcxLabel
           Left = 2
@@ -345,10 +344,10 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           Hint = 'Par'#226'metro a pesquisasr'
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 1
-          Width = 349
+          Width = 357
         end
         object cxButton1: TcxButton
-          Left = 420
+          Left = 428
           Top = 1
           Width = 81
           Height = 25
@@ -368,14 +367,14 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           TabOrder = 2
         end
         object cxLabel2: TcxLabel
-          Left = 507
+          Left = 515
           Top = 4
           Anchors = [akTop, akRight]
           Caption = 'Campos:'
           Transparent = True
         end
         object comboBoxCampos: TcxComboBox
-          Left = 559
+          Left = 567
           Top = 3
           Anchors = [akTop, akRight]
           Properties.Items.Strings = (
@@ -396,7 +395,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           Width = 151
         end
         object checkBoxGrupo: TcxCheckBox
-          Left = 716
+          Left = 724
           Top = 3
           Action = actionPainelGrupos
           Anchors = [akTop, akRight]
@@ -407,6 +406,8 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     object tabFiltro: TcxTabSheet
       Caption = 'Filtro'
       ImageIndex = 1
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object panelFooterFiltro: TPanel
         AlignWithMargins = True
         Left = 3
@@ -1090,7 +1091,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
     Left = 736
   end
   object frxDeclaracao: TfrxReport
-    Version = '6.6.11'
+    Version = '6.9.15'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
@@ -1170,6 +1171,10 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
       MirrorMode = []
       object PageHeader1: TfrxPageHeader
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 102.047310000000000000
         Top = 18.897650000000000000

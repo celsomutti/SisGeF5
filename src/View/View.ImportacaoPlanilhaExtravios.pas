@@ -61,6 +61,8 @@ type
     tipo: TcxRadioGroup;
     dxLayoutItem12: TdxLayoutItem;
     Timer: TTimer;
+    cbxTMS: TcxComboBox;
+    dxLayoutItem13: TdxLayoutItem;
     procedure edtCodigoEntregadorPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure edtCodigoEntregadorPropertiesChange(Sender: TObject);
     procedure edtCodigoEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
@@ -164,6 +166,7 @@ begin
   capa := Thread_ImportMisplacement.Create(True);
   capa.Arquivo := edtArquivo.Text;
   capa.Cliente := cliente.EditValue;
+  capa.TMS := cbxTMS.ItemIndex;
   capa.Data := datEvento.Date;
   capa.Descricao := cboDescricaoExtravio.Text;
   capa.Agente := iBase;
@@ -253,15 +256,28 @@ begin
     Application.MessageBox('Arquivo informado não existe!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     Exit;
   end;
-  if datEvento.Date = 0 then
+  if cbxTMS.ItemIndex = 0 then
   begin
-    Application.MessageBox('Informe a data do evento!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Application.MessageBox('Selecione o TMS  de origem!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     Exit;
   end;
-  if cboDescricaoExtravio.Text = '' then
+  if cbxTMS.ItemIndex = 1 then
   begin
-    Application.MessageBox('Informe a descrição ou motivo do extravio!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
+    if datEvento.Date = 0 then
+    begin
+      Application.MessageBox('Informe a data do evento!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    if cboDescricaoExtravio.Text = '' then
+    begin
+      Application.MessageBox('Informe a descrição ou motivo do extravio!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    if StrToIntDef(edtCodigoEntregador.Text,0) = 0 then
+    begin
+      Application.MessageBox('Informe o código do entregador!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
   end;
   if tipo.ItemIndex = -1 then
   begin
@@ -271,11 +287,6 @@ begin
   if cliente.EditValue = 0 then
   begin
     Application.MessageBox('Informe o cliente!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
-  end;
-  if StrToIntDef(edtCodigoEntregador.Text,0) = 0 then
-  begin
-    Application.MessageBox('Informe o código do entregador!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     Exit;
   end;
   Result := True;

@@ -356,7 +356,8 @@ uses
   Excel4Delphi in 'src\Excel4Delphi\Excel4Delphi.pas',
   Excel4Delphi.Stream in 'src\Excel4Delphi\Excel4Delphi.Stream.pas',
   Excel4Delphi.Utils in 'src\Excel4Delphi\Excel4Delphi.Utils.pas',
-  Excel4Delphi.Xml in 'src\Excel4Delphi\Excel4Delphi.Xml.pas';
+  Excel4Delphi.Xml in 'src\Excel4Delphi\Excel4Delphi.Xml.pas',
+  services.SisGeFSheetMisplacementShopee in 'src\Services\services.SisGeFSheetMisplacementShopee.pas';
 
 {$R *.res}
 

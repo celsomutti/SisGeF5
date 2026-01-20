@@ -6,7 +6,8 @@ uses
   System.Classes, Control.Entregas, Control.PlanilhaEntradaTFO, System.SysUtils, System.DateUtils, Control.VerbasExpressas,
   Control.Bases, Control.EntregadoresExpressas, Generics.Collections, System.StrUtils, Control.PlanilhaEntradaDIRECT,
   Control.PlanilhaEntradaSimExpress, Control.ControleAWB, Control.PlanilhaBaixasTFO, Control.PlanilhaBaixasDIRECT,
-  Control.PlanilhaEntradaRedeForte, Control.PlanilhaEntradaENGLOBA, Control.ExtraviosMultas;
+  Control.PlanilhaEntradaRedeForte, Control.PlanilhaEntradaENGLOBA, Control.ExtraviosMultas, services.SisGeFSheetMisplacementShopee,
+  Common.Utils;
 
 type
   Thread_ImportMisplacement = class(TThread)
@@ -30,8 +31,6 @@ type
     FEntregas: TEntregasControl;
     FVerbas: TVerbasExpressasControl;
     FBases: TBasesControl;
-    FEntregadores: TEntregadoresExpressasControl;
-    FControleAWB : TControleAWBControl;
     FExtravios: TExtraviosMultasControl;
     FDescricao: string;
     FEntregador: integer;
@@ -39,15 +38,18 @@ type
     FAgente: integer;
     FData: TDate;
     FObs: string;
+    FTMS: integer;
     procedure UpdateLOG(sMensagem: String);
     procedure ProcessTFO;
     procedure ProcessSIM;
     procedure ProcessENGLOBA;
     procedure ProcessDIRECT;
     procedure ProcessRF;
+    procedure ProcessSPXXPRESS;
     function RetornaAgente(iEntregador: integer): integer;
     function RetornaAgenteDocumento(sChave: String): integer;
     function RetornaEntregadorDocumento(SChave: string): integer;
+    function FormataData(sData: string): string;
   protected
     procedure Execute; override;
   public
@@ -67,6 +69,8 @@ type
     property Entregador: integer read FEntregador write FEntregador;
     property Data: TDate read FData write FData;
     property Obs: string read FObs write FObs;
+    property TMS: integer read FTMS write FTMS;
+
   end;
 
 implementation
@@ -108,10 +112,11 @@ uses Common.ENum, Global.Parametros;
 
 procedure Thread_ImportMisplacement.Execute;
 begin
-  case FCliente of
+  case FTMS of
     //1 : ProcessTFO;
     //2 : ProcessSIM;
-    4 : ProcessDIRECT;
+    1 : ProcessDIRECT;
+    5 : ProcessSPXXPRESS;
     //5 : ProcessSIM;
     //6 : ProcessENGLOBA;
     //7 : ProcessRF;
@@ -125,9 +130,20 @@ begin
   end;
 end;
 
+function Thread_ImportMisplacement.FormataData(sData: string): string;
+var
+  sDat : string;
+begin
+  sDat := Copy(sData, 9,2) + '/';
+  sDat := sDat + Copy(sData,6,2) + '/';
+  sDat := sDat + Copy(sData,1,4);
+  REsult := sDat;
+end;
+
 procedure Thread_ImportMisplacement.ProcessDIRECT;
 var
   FPlanilha : TPlanilhaEntradaDIRECTControl;
+  FControleAWB : TControleAWBControl;
   iTipo, i : integer;
   sOperacao : string;
   dPeso: double;
@@ -390,6 +406,7 @@ procedure Thread_ImportMisplacement.ProcessENGLOBA;
 var
   FPlanilha : TPlanilhaEntradaENGLOBAControl;
   i: integer;
+  FEntregadores : TEntregadoresExpressasControl;
 begin
   try
     try
@@ -527,6 +544,7 @@ end;
 procedure Thread_ImportMisplacement.ProcessRF;
 var
   FPlanilha : TPlanilhaEntradaRedeForteControl;
+  FEntregadores : TEntregadoresExpressasControl;
   i: integer;
 begin
   try
@@ -669,6 +687,7 @@ end;
 procedure Thread_ImportMisplacement.ProcessSIM;
 var
   FPlanilha : TPlanilhaEntradaSimExpressControl;
+  FEntregadores : TEntregadoresExpressasControl;
   i: integer;
 begin
   try
@@ -805,6 +824,179 @@ begin
   end;
 end;
 
+procedure Thread_ImportMisplacement.ProcessSPXXPRESS;
+var
+  FPlanilha : TSheetMisplacement;
+  iTipo, i : integer;
+  sOperacao : string;
+  dPeso: double;
+  FUtil : TUtils;
+  sDatas, sObs : string;
+begin
+  FUtil := TUtils.Create;
+  try
+    try
+      FProcesso := True;
+      FCancelar := False;
+      FPlanilha := TSheetMisplacement.Create;
+      FExtravios := TExtraviosMultasControl.Create;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
+      UpdateLog(sMensagem);
+      FPlanilha.FileName := FArquivo;
+      if not FPLanilha.GetSheet() then
+      begin
+        UpdateLOG(FPlanilha.Mensagem);
+        FCancelar := True;
+        Exit;
+      end;
+      sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Iniciando a importação do arquivo ' + FArquivo +
+                '. Aguarde...';
+      UpdateLog(sMensagem);
+      iPos := 0;
+      FTotalRegistros := FPlanilha.Planilha.Count;
+      FTotalGravados := 0;
+      FTotalInconsistencias := 0;
+      FProgresso := 0;
+      for i := 0 to FTotalRegistros - 1 do
+      begin
+        SetLength(aParam,3);
+        aParam := ['NNCLIENTE', FPlanilha.Planilha[i].NumeroRastreio, FCliente];
+        if not FEntregas.LocalizarExata(aParam) then
+        begin
+          sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Pedido ' + FPlanilha.NumeroRastreio +
+                       ' não encontrado!';
+          UpdateLog(sMensagem);
+          Inc(FTotalInconsistencias,1);
+        end;
+        Finalize(aParam);
+        SetLength(aParam,3);
+        aParam := ['NNCLIENTE', FCliente, FPlanilha.Planilha[i].NumeroRastreio];
+        FExtravios.Extravios.Query := FExtravios.Extravios.Localizar(aParam);
+        if FExtravios.Extravios.Query.IsEmpty then
+        begin
+          FExtravios.Extravios.ID := 0;
+          FExtravios.Extravios.Descricao := FPlanilha.Planilha[i].Retorno;
+          FExtravios.Extravios.NN := FPlanilha.Planilha[i].NumeroRastreio;
+          FExtravios.Extravios.Agente := FAgente;
+          FExtravios.Extravios.ValorProduto := StrToFloatDef(FUtil.ReplaceStr(FPlanilha.Planilha[i].ValorRecuperacao, '.', ','), 0);
+          FExtravios.Extravios.Data := StrToDate(FormataData(FPlanilha.Planilha[i].DataExtravio));
+          FExtravios.Extravios.Multa := 0;
+          FExtravios.Extravios.Verba := 0;
+          FExtravios.Extravios.Total := StrToFloatDef(FUtil.ReplaceStr(FPlanilha.Planilha[i].ValorRecuperacao, '.', ','), 0);
+          if FTipo = 1 then
+          begin
+            FExtravios.Extravios.Restricao := 'S';
+            FExtravios.Extravios.Percentual := 100;
+          end
+          else
+          begin
+            FExtravios.Extravios.Restricao := 'N';
+            FExtravios.Extravios.Percentual := 0;
+          end;
+          FExtravios.Extravios.Entregador := FEntregador;
+          FExtravios.Extravios.Tipo := FTipo;
+          FExtravios.Extravios.VerbaFranquia := 0;
+          FExtravios.Extravios.ValorFranquia := 0;
+          FExtravios.Extravios.Extrato := 'N';
+          FExtravios.Extravios.DataFranquia := StrToDate(FormataData(FPlanilha.Planilha[i].DataPedido));;
+          FExtravios.Extravios.EnvioCorrespondencia := '';
+          FExtravios.Extravios.RetornoCorrespondencia := FPlanilha.Planilha[i].Justificativa;
+          sObs := '3pl Responsavel: ' + FPlanilha.Planilha[i].Pl3Responsaval + '#13' +
+                  'Razão de recuperação: ' + FPlanilha.Planilha[i].RazaoRecuperacao + '#13' +
+                  'Milha responsável: ' + FPlanilha.Planilha[i].MilhaResponsavel + '#13' +
+                  'Número AT: ' + FPlanilha.Planilha[i].NumeroAT + '#13' +
+                  'Fm Hub: ' + FPlanilha.Planilha[i].FmHub + '#13' +
+                  'Ultimo Xpt: ' + FPlanilha.Planilha[i].UltimoXpt + '#13' +
+                  'Data do Email: ' + FormataData(FPlanilha.Planilha[i].DataEmail) + '#13' +
+                  'Canal Logistico: ' + FormataData(FPlanilha.Planilha[i].Canal) + '#13' +
+                  'Data previsão retorno: ' + FormataData(FPlanilha.Planilha[i].DataRetorno);
+          FExtravios.Extravios.Obs := FObs;
+          FExtravios.Extravios.IDExtrato := 0;
+          FExtravios.Extravios.Executor := Global.Parametros.pUser_Name;
+          FExtravios.Extravios.Manutencao := Now;
+          FExtravios.Extravios.Sequencia := 0;
+          FExtravios.Extravios.Cliente := FCliente;
+          FExtravios.Extravios.Produto := FPlanilha.Planilha[i].Responsavel;
+          FExtravios.Extravios.AWB := FPlanilha.Planilha[i].RastreioCorreios;
+          FExtravios.Extravios.NumeroExtrato := '';
+          FExtravios.Extravios.Acao := tacIncluir;
+          if FExtravios.Extravios.Gravar then
+            Inc(FTotalGravados,1);
+        end
+        else
+        begin
+          if FExtravios.Extravios.Restricao <> 'S' then
+          begin
+            FExtravios.SetupClass;
+            FExtravios.Extravios.Descricao := FPlanilha.Planilha[i].Retorno;
+            FExtravios.Extravios.NN := FPlanilha.Planilha[i].NumeroRastreio;
+            FExtravios.Extravios.Agente := FAgente;
+            FExtravios.Extravios.ValorProduto := StrToFloatDef(FUtil.ReplaceStr(FPlanilha.Planilha[i].ValorRecuperacao, '.', ','), 0);
+            FExtravios.Extravios.Data := StrToDate(FormataData(FPlanilha.Planilha[i].DataExtravio));
+            FExtravios.Extravios.Multa := 0;
+            FExtravios.Extravios.Verba := 0;
+            FExtravios.Extravios.Total := StrToFloatDef(FUtil.ReplaceStr(FPlanilha.Planilha[i].ValorRecuperacao, '.', ','), 0);
+            if FTipo = 1 then
+            begin
+              FExtravios.Extravios.Restricao := 'S';
+              FExtravios.Extravios.Percentual := 100;
+            end
+            else
+            begin
+              FExtravios.Extravios.Restricao := 'N';
+              FExtravios.Extravios.Percentual := 0;
+            end;
+            FExtravios.Extravios.Entregador := FEntregador;
+            FExtravios.Extravios.Tipo := FTipo;
+            FExtravios.Extravios.VerbaFranquia := 0;
+            FExtravios.Extravios.ValorFranquia := 0;
+            FExtravios.Extravios.Extrato := 'N';
+            FExtravios.Extravios.DataFranquia := StrToDate(FormataData(FPlanilha.Planilha[i].DataPedido));;
+            FExtravios.Extravios.EnvioCorrespondencia := '';
+            FExtravios.Extravios.RetornoCorrespondencia := FPlanilha.Planilha[i].Justificativa;
+            sObs := '3pl Responsavel: ' + FPlanilha.Planilha[i].Pl3Responsaval + '#13' +
+                    'Razão de recuperação: ' + FPlanilha.Planilha[i].RazaoRecuperacao + '#13' +
+                    'Milha responsável: ' + FPlanilha.Planilha[i].MilhaResponsavel + '#13' +
+                    'Número AT: ' + FPlanilha.Planilha[i].NumeroAT + '#13' +
+                    'Fm Hub: ' + FPlanilha.Planilha[i].FmHub + '#13' +
+                    'Ultimo Xpt: ' + FPlanilha.Planilha[i].UltimoXpt + '#13' +
+                    'Data do Email: ' + FormataData(FPlanilha.Planilha[i].DataEmail) + '#13' +
+                    'Canal Logistico: ' + FormataData(FPlanilha.Planilha[i].Canal) + '#13' +
+                    'Data previsão retorno: ' + FormataData(FPlanilha.Planilha[i].DataRetorno);
+            FExtravios.Extravios.Obs := FObs;
+            FExtravios.Extravios.IDExtrato := 0;
+            FExtravios.Extravios.Executor := Global.Parametros.pUser_Name;
+            FExtravios.Extravios.Manutencao := Now;
+            FExtravios.Extravios.Sequencia := 0;
+            FExtravios.Extravios.Cliente := FCliente;
+            FExtravios.Extravios.Produto := FPlanilha.Planilha[i].Responsavel;
+            FExtravios.Extravios.AWB := FPlanilha.Planilha[i].RastreioCorreios;
+            FExtravios.Extravios.NumeroExtrato := '';
+            FExtravios.Extravios.Acao := tacAlterar;
+            if FExtravios.Extravios.Gravar then
+              Inc(FTotalGravados,1);
+          end;
+        end;
+        iPos := i;
+        FProgresso := (iPos / (FTotalRegistros - 1)) * 100;
+        if Self.Terminated then Abort;
+      end;
+      FProcesso := False;
+    Except on E: Exception do
+      begin
+        sMensagem := '>> ** ERROR SPXXPRESS**' + Chr(13) + 'Classe: ' + E.ClassName + chr(13) + 'Mensagem: ' + E.Message;
+        UpdateLog(sMensagem);
+        FProcesso := False;
+        FCancelar := True;
+      end;
+    end;
+  finally
+    FPlanilha.Free;
+    FExtravios.Free;
+    FUtil.Free;
+  end;
+end;
+
 procedure Thread_ImportMisplacement.ProcessTFO;
 var
   FPlanilha : TPlanilhaEntradaTFOControl;
@@ -933,6 +1125,7 @@ function Thread_ImportMisplacement.RetornaAgente(iEntregador: integer): integer;
 var
   aParam: array of variant;
   iRetorno: integer;
+  FEntregadores : TEntregadoresExpressasControl;
 begin
   Result := 0;
   iRetorno := 0;
@@ -953,6 +1146,7 @@ function Thread_ImportMisplacement.RetornaAgenteDocumento(sChave: String): integ
 var
   aParam: array of variant;
   iRetorno: integer;
+  FEntregadores : TEntregadoresExpressasControl;
 begin
   Result := 0;
   iRetorno := 0;
@@ -974,6 +1168,7 @@ function Thread_ImportMisplacement.RetornaEntregadorDocumento(SChave: string): i
 var
   aParam: array of variant;
   iRetorno: integer;
+  FEntregadores : TEntregadoresExpressasControl;
 begin
   Result := 0;
   iRetorno := 0;

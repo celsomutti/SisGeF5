@@ -75,7 +75,6 @@ begin
       FPlanilha[Pred(iRow)].FDestino      := workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
       FPlanilha[Pred(iRow)].FNumeroTO     := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
       FPlanilha[Pred(iRow)].FRotaLH       := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
-      iCol := 0;
 
     end;
     if FPlanilha.Count = 0 then
