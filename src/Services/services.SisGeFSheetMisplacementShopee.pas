@@ -28,6 +28,7 @@ interface
         FPl3Responsaval: string;
         FDataVencimento: string;
         FNotaDebito: string;
+        FRows : integer;
 
         FFileName: string;
         FMensagem: string;
@@ -71,54 +72,55 @@ implementation
 function TSheetMisplacement.GetSheet: boolean;
 var
   workBook: TZWorkBook;
-  iRow, iRows, iSheet, iSheets, iCol, iCols, iStart: integer;
+  iRow, iSheet, iSheets, iCol, iCols, iStart: integer;
 begin
   workBook  :=  TZWorkBook.Create(nil);
   iCol      :=  0;
   iCols     :=  0;
   iRow      :=  0;
-  iRows     :=  0;
   iSheet    :=  0;
   iSheets   :=  0;
   iStart    :=  0;
   Result    :=  False;
   try
-    workBook.LoadFromFile(FFileName);
-    iRows := workBook.Sheets[iSheet].RowCount -1;
+//    workBook.LoadFromFile(FFileName);
+//    iRows := workBook.Sheets[iSheet].RowCount -1;
     FPlanilha := TObjectList<TSheetMisplacement>.Create();
-    if iRows < 2 then
-    begin
-      FMensagem := 'Sheet : Planilha está vazia!';
-      Exit;
-    end;
     if not ValidaPlanilha() then
     begin
       FMensagem := 'Sheet : Planilha informada não é válida!';
     end;
-    iStart := 2;
-    for iRow := iStart to iRows - 1 do
+    if FRows < 2 then
+    begin
+      FMensagem := 'Sheet : Planilha está vazia!';
+      Exit;
+    end;
+    workBook.LoadFromFile(FFileName);
+    iStart := 3;
+    for iRow := iStart to FRows - 1 do
     begin
       FPlanilha.Add(TSheetMisplacement.Create);
-      FPlanilha[Pred(iRow)].FRetorno          := workBook.Sheets[iSheet].CellRef['A', iRow].AsString;
-      FPlanilha[Pred(iRow)].FJustificativa    := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
-      FPlanilha[Pred(iRow)].FDataExtravio     := workBook.Sheets[iSheet].CellRef['C', iRow].AsString;
-      FPlanilha[Pred(iRow)].FDataPedido       := workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
-      FPlanilha[Pred(iRow)].FOrderId          := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
-      FPlanilha[Pred(iRow)].FNumeroRastreio   := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
-      FPlanilha[Pred(iRow)].FRastreioCorreios := workBook.Sheets[iSheet].CellRef['G', iRow].AsString;
-      FPlanilha[Pred(iRow)].FPl3Responsaval   := workBook.Sheets[iSheet].CellRef['H', iRow].AsString;
-      FPlanilha[Pred(iRow)].FRazaoRecuperacao := workBook.Sheets[iSheet].CellRef['I', iRow].AsString;
-      FPlanilha[Pred(iRow)].FValorRecuperacao := workBook.Sheets[iSheet].CellRef['J', iRow].AsString;
-      FPlanilha[Pred(iRow)].FMilhaResponsavel := workBook.Sheets[iSheet].CellRef['K', iRow].AsString;
-      FPlanilha[Pred(iRow)].FResponsavel      := workBook.Sheets[iSheet].CellRef['L', iRow].AsString;
-      FPlanilha[Pred(iRow)].FNumeroAT         := workBook.Sheets[iSheet].CellRef['M', iRow].AsString;
-      FPlanilha[Pred(iRow)].FFmHub            := workBook.Sheets[iSheet].CellRef['N', iRow].AsString;
-      FPlanilha[Pred(iRow)].FSoc              := workBook.Sheets[iSheet].CellRef['O', iRow].AsString;
-      FPlanilha[Pred(iRow)].FUltimoXpt        := workBook.Sheets[iSheet].CellRef['P', iRow].AsString;
-      FPlanilha[Pred(iRow)].FDataEmail        := workBook.Sheets[iSheet].CellRef['Q', iRow].AsString;
-      FPlanilha[Pred(iRow)].FDataRetorno      := workBook.Sheets[iSheet].CellRef['R', iRow].AsString;
-      FPlanilha[Pred(iRow)].FNotaDebito       := workBook.Sheets[iSheet].CellRef['S', iRow].AsString;
-      FPlanilha[Pred(iRow)].FDataVencimento   := workBook.Sheets[iSheet].CellRef['T', iRow].AsString;
+      FPlanilha[iRow - 3].FRetorno          := workBook.Sheets[iSheet].CellRef['A', iRow].AsString;
+      FPlanilha[iRow - 3].FJustificativa    := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
+      FPlanilha[iRow - 3].FDataExtravio     := workBook.Sheets[iSheet].CellRef['C', iRow].AsString;
+      FPlanilha[iRow - 3].FDataPedido       := workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
+      FPlanilha[iRow - 3].FCanal            := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
+      FPlanilha[iRow - 3].FOrderId          := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
+      FPlanilha[iRow - 3].FNumeroRastreio   := workBook.Sheets[iSheet].CellRef['G', iRow].AsString;
+      FPlanilha[iRow - 3].FRastreioCorreios := workBook.Sheets[iSheet].CellRef['H', iRow].AsString;
+      FPlanilha[iRow - 3].FPl3Responsaval   := workBook.Sheets[iSheet].CellRef['I', iRow].AsString;
+      FPlanilha[iRow - 3].FRazaoRecuperacao := workBook.Sheets[iSheet].CellRef['J', iRow].AsString;
+      FPlanilha[iRow - 3].FValorRecuperacao := workBook.Sheets[iSheet].CellRef['K', iRow].AsString;
+      FPlanilha[iRow - 3].FMilhaResponsavel := workBook.Sheets[iSheet].CellRef['L', iRow].AsString;
+      FPlanilha[iRow - 3].FResponsavel      := workBook.Sheets[iSheet].CellRef['M', iRow].AsString;
+      FPlanilha[iRow - 3].FNumeroAT         := workBook.Sheets[iSheet].CellRef['N', iRow].AsString;
+      FPlanilha[iRow - 3].FFmHub            := workBook.Sheets[iSheet].CellRef['O', iRow].AsString;
+      FPlanilha[iRow - 3].FSoc              := workBook.Sheets[iSheet].CellRef['P', iRow].AsString;
+      FPlanilha[iRow - 3].FUltimoXpt        := workBook.Sheets[iSheet].CellRef['Q', iRow].AsString;
+      FPlanilha[iRow - 3].FDataEmail        := workBook.Sheets[iSheet].CellRef['R', iRow].AsString;
+      FPlanilha[iRow - 3].FDataRetorno      := workBook.Sheets[iSheet].CellRef['S', iRow].AsString;
+      FPlanilha[iRow - 3].FNotaDebito       := workBook.Sheets[iSheet].CellRef['T', iRow].AsString;
+      FPlanilha[iRow - 3].FDataVencimento   := workBook.Sheets[iSheet].CellRef['U', iRow].AsString;
     end;
     if FPlanilha.Count = 0 then
     begin
@@ -135,11 +137,27 @@ function TSheetMisplacement.ValidaPlanilha: boolean;
 var
   workBook  : TZWorkBook;
   sExt      : String;
+  bFlag     : Boolean;
+  iRow      : Integer;
 begin
   workBook  :=  TZWorkBook.Create(nil);
   Result    :=  False;
+  bFlag     :=  False;
+  iRow      :=  2;
   try
     workBook.LoadFromFile(FFileName);
+    while not bFlag do
+    begin
+      if workBook.Sheets[0].CellRef['G', iRow].AsString <> '' then
+      begin
+        Inc(iRow, 1);
+      end
+      else
+      begin
+        FRows := iRow;
+        bFlag := True;
+      end;
+    end;
     if workBook.Sheets[0].CellRef['A', 2].AsString <> 'retorno 3pl' then
       Exit;
     if workBook.Sheets[0].CellRef['B', 2].AsString <> 'justificativa 3pl' then

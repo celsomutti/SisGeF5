@@ -3,7 +3,7 @@ unit Model.Entregas;
 interface
 
   uses
-    Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, System.DateUtils, System.Variants;
+    Common.ENum, FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, System.DateUtils, System.Variants, service.connectionMySQL;
 
   type
     TEntregas = class
@@ -63,7 +63,7 @@ interface
       FPedido: String;
       FAcao: TAcao;
       FCodCliente: Integer;
-      FConexao : TConexao;
+      FConexao : TConnectionMySQL;
     FQuery: TFDQuery;
 
       function Inserir(): Boolean;
@@ -206,7 +206,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.Connection.Ping;
     FDQuery.ExecSQL(SQLUPDATE,[Self.Distribuidor, Self.Entregador, Self.Cliente, Self.NF, Self.Consumidor, Self.Endereco,
                     Self.Complemento, Self.Bairro, Self.Cidade, Self.CEP, Self.Telefone, Self.Expedicao, Self.Previsao,
@@ -286,7 +286,7 @@ end;
 
 constructor TEntregas.Create;
 begin
-  FConexao := TConexao.Create;
+  FConexao := TConnectionMySQL.Create;
 end;
 
 function TEntregas.EncerraEntregas(aParam: array of variant): Boolean;
@@ -312,7 +312,7 @@ begin
              ' where cod_entregador = ' + iEntregador.ToString +
              ' and dat_baixa >= ' + QuotedStr(FormatDateTime('yyyy/mm/dd', dtData1)) +
              ' and dat_baixa <= ' +  QuotedStr(FormatDateTime('yyyy/mm/dd', dtData2));
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery;
     FDQuery.ExecSQL(sSQL);
     Result := True;
   finally
@@ -326,7 +326,7 @@ var
   sSQL : String;
   fdExtrato : TFDQuery;
 begin
-  fdExtrato := FConexao.ReturnQuery();
+  fdExtrato := FConexao.GetQuery();
   sSQL := 'select ' +
           ':id_extrato as id_extrato, ' +
           ':num_ano as num_ano, ' +
@@ -391,7 +391,7 @@ function TEntregas.EntregasExtratoEntregadores(aParam: array of variant): boolea
 begin
   try
     Result := False;
-    fdExtrato := FConexao.ReturnQuery();
+    fdExtrato := FConexao.GetQuery();
     sSQL := 'select ' +
             ':id_extrato as id_extrato, ' +
             ':num_ano as num_ano, ' +
@@ -464,7 +464,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('delete from ' + TABLENAME + ' where NUM_NOSSONUMERO = :NUM_NOSSONUMERO', [Self.NN]);
     Result := True;
   finally
@@ -479,7 +479,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.SQL.Add('SELECT * FROM ' + TABLENAME + ' WHERE NUM_NOSSONUMERO = :NN');
     FDQuery.ParamByName('NN').AsString := sNN;
     FDQuery.Open();
@@ -503,7 +503,7 @@ var
   FDQuery: TFDQuery;
   sSQL: String;
 begin
-  FDQuery := FConexao.ReturnQuery();
+  FDQuery := FConexao.GetQuery();
   FDQuery.SQL.Clear;
   sSQL := 'select dat_baixa, count(num_nossonumero) as qtd_entregas, sum(qtd_volumes) as qtd_volumes, val_verba_entregador ' +
           'from ' +
@@ -521,7 +521,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.SQL.Text := 'select ' + sField + ' from ' + TABLENAME + ' where ' + sKey + ' = ' + sKeyValue;
     FDQuery.Open();
     if not FDQuery.IsEmpty then Result := FDQuery.FieldByName(sField).AsString;
@@ -546,7 +546,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.Connection.Ping;
     FDQuery.ExecSQL(SQLINSERT, [Self.NN, Self.Distribuidor, Self.Entregador, Self.Cliente, Self.NF, Self.Consumidor, Self.Endereco,
                     Self.Complemento, Self.Bairro, Self.Cidade, Self.CEP, Self.Telefone, Self.Expedicao, Self.Previsao,
@@ -568,7 +568,7 @@ function TEntregas.Localizar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery();
+  FDQuery := FConexao.GetQuery();
   if Length(aParam) = 0 then
   begin
     Exit;
@@ -735,7 +735,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     if Length(aParam) = 0 then
     begin
       Exit;
@@ -780,7 +780,7 @@ var
   iDias: Integer;
   datData: TDate;
 begin
-  FDQuery := FConexao.ReturnQuery();
+  FDQuery := FConexao.GetQuery();
   if Length(aParam) = 0 then
   begin
     Exit;
