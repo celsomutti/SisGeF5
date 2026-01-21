@@ -279,7 +279,7 @@ object view_ImportacaoPlanilhaExtravios: Tview_ImportacaoPlanilhaExtravios
       Parent = dxLayoutGroup1
       CaptionOptions.Text = 'Planilha Local'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
+      ItemIndex = 7
       Index = 0
     end
     object dxLayoutItem1: TdxLayoutItem

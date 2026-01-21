@@ -5,7 +5,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
   Caption = 'Extravios, Multas e Sinistros de Expressas'
   ClientHeight = 451
   ClientWidth = 842
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -68,47 +68,10 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Width = 88
     end
     object cxLabel3: TcxLabel
-      Left = 183
+      Left = 207
       Top = 52
-      Caption = 'Motivo:'
+      Caption = 'Descri'#231#227'o:'
       Transparent = True
-    end
-    object Descricao: TcxComboBox
-      Left = 229
-      Top = 52
-      Properties.Items.Strings = (
-        '01-ENTREGA LOCAL INDEVIDO'
-        '02-CORREIO INTERNO'
-        '03-EMBALGEM VIOLADA'
-        '04-EMBALAGEM LACRADA'
-        '05-ENTREGA RESOLVIDA'
-        '06-AVARIA EM PODER DO ENTREGADOR/AGENTE'
-        '07-PRODUTO N'#195'O ENTREGUE'
-        '08-PRODUTO INCOMPLETO'
-        '09-DEVOLU'#199#195'O DA DECLARA'#199#195'O'
-        '10-EXTRAVIO - FALTA DE RETORNO'
-        '11-PERDEU O PRAZO PARA DEFESA'
-        '12-EXTRAVIO-ENTREGA N'#195'O COMPROVADA'
-        '13-AVARIA DO PRODUTO NA TRANSFER'#202'NCIA'#9
-        '14-AVARIA NA DEVOLU'#199#195'O'#9
-        '15-EXTRAVIO PARCIAL'#9
-        '16-FALHA DO CONTROLE '#9
-        '17-FOR'#199'ADO POR ATRASO'#9
-        '18-FOR'#199'ADO POR PERDA DO PRODUTO'#9
-        '19-FURTO INTERNO NA FRANQUIA'#9
-        '20-LR - PRODUTO COLETADO FORA DOS PADR'#213'ES'#9
-        '21-FALTA NO CONTAINER OU ROMANEIO  S/ ANOTA'#199#195'O NO ROMANEIO'
-        '22-MULTA POR ENTREGA EM LOCAL INDEVIDO'
-        '23-MULTA POR PROTOCOLO RASURADO/INCORRETO'
-        '24-EXTRAVIO NA IDA - TFO'
-        '25-DEVOLU'#199#195'O DE PRODUTO ENTREGUE'
-        '26-MULTA BAIXA INDEVIDA'
-        '27-MULTA INFORMATIVO FALSO'
-        '28-EXTRAVIO DEVOLU'#199#195'O-ERRO PROCESSO FRANQUIA'
-        '99-ROUBO'
-        '98-ASSALTO NA ENTREGA (COM B.O.)')
-      TabOrder = 11
-      Width = 268
     end
     object cxLabel4: TcxLabel
       Left = 258
@@ -143,7 +106,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
         end>
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.OnValidate = EntregadorPropertiesValidate
-      TabOrder = 12
+      TabOrder = 11
       Text = '0'
       Width = 71
     end
@@ -152,19 +115,19 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Top = 51
       TabStop = False
       Properties.ReadOnly = True
-      TabOrder = 15
+      TabOrder = 14
       Width = 185
     end
     object cxLabel17: TcxLabel
       Left = 601
       Top = 22
-      Caption = 'N'#186'. Remessa:'
+      Caption = 'N'#186'. Rastreio:'
       Transparent = True
     end
     object cxLabel18: TcxLabel
       Left = 6
       Top = 52
-      Caption = 'AWB:'
+      Caption = 'Correios:'
       Transparent = True
     end
     object cxLabel13: TcxLabel
@@ -203,8 +166,8 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Width = 153
     end
     object AWB: TcxButtonEdit
-      Left = 43
-      Top = 51
+      Left = 56
+      Top = 50
       Hint = 'C'#243'digo AWB'
       Properties.Buttons = <
         item
@@ -214,7 +177,13 @@ object view_CadastroExtravios: Tview_CadastroExtravios
         end>
       Properties.Images = Data_Sisgef.iml_16_16
       TabOrder = 8
-      Width = 134
+      Width = 145
+    end
+    object Descricao: TcxTextEdit
+      Left = 280
+      Top = 51
+      TabOrder = 16
+      Width = 217
     end
   end
   object cxGroupBox2: TcxGroupBox
@@ -307,19 +276,8 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     object cxLabel10: TcxLabel
       Left = 3
       Top = 22
-      Caption = 'Correspond'#234'ncia:'
+      Caption = 'Justificativa:'
       Transparent = True
-    end
-    object EnvioCorrespondencia: TcxComboBox
-      Left = 98
-      Top = 21
-      Hint = 'Envio da correspond'#234'ncia'
-      Properties.Items.Strings = (
-        'N'#195'O SE APLICA'
-        'ENVIADA'
-        'N'#195'O ENVIADA')
-      TabOrder = 1
-      Width = 224
     end
     object cxLabel11: TcxLabel
       Left = 328
@@ -327,27 +285,13 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Caption = 'Retorno:'
       Transparent = True
     end
-    object RetornoCorrespondencia: TcxComboBox
-      Left = 381
-      Top = 21
-      Hint = 'Retorno do Envio da correspond'#234'ncia'
-      Properties.Items.Strings = (
-        'N'#195'O SE APLICA'
-        'N'#195'O FOI DEVOLVIDA'
-        'DEVOLVIDA POR MALOTE INTERNO'
-        'DEVOLVIDA POR CORREIO'
-        'DEVOLVIDA PESSOALMENTE'
-        'DEVOLVIDA DIGITALIZADA POR E-MAIL')
-      TabOrder = 3
-      Width = 225
-    end
     object Obs: TMemo
       Left = 98
       Top = 75
       Width = 508
       Height = 54
       Hint = 'Observa'#231#245'es'
-      TabOrder = 7
+      TabOrder = 5
     end
     object cxLabel12: TcxLabel
       Left = 3
@@ -358,7 +302,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     object cxLabel14: TcxLabel
       Left = 3
       Top = 49
-      Caption = 'Produto:'
+      Caption = 'Respons'#225'vel:'
       Transparent = True
     end
     object Produto: TcxTextEdit
@@ -367,8 +311,20 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Hint = 'Descri'#231#227'o do produto'
       TabStop = False
       Properties.ReadOnly = True
-      TabOrder = 4
+      TabOrder = 2
       Width = 508
+    end
+    object EnvioCorrespondencia: TcxTextEdit
+      Left = 98
+      Top = 21
+      TabOrder = 6
+      Width = 224
+    end
+    object RetornoCorrespondencia: TcxTextEdit
+      Left = 384
+      Top = 22
+      TabOrder = 7
+      Width = 220
     end
   end
   object cxGroupBox5: TcxGroupBox

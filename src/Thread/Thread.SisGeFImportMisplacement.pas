@@ -6,8 +6,8 @@ uses
   System.Classes, Control.Entregas, Control.PlanilhaEntradaTFO, System.SysUtils, System.DateUtils, Control.VerbasExpressas,
   Control.Bases, Control.EntregadoresExpressas, Generics.Collections, System.StrUtils, Control.PlanilhaEntradaDIRECT,
   Control.PlanilhaEntradaSimExpress, Control.ControleAWB, Control.PlanilhaBaixasTFO, Control.PlanilhaBaixasDIRECT,
-  Control.PlanilhaEntradaRedeForte, Control.PlanilhaEntradaENGLOBA, Control.ExtraviosMultas, services.SisGeFSheetMisplacementShopee,
-  Common.Utils;
+  Control.PlanilhaEntradaRedeForte, Control.PlanilhaEntradaENGLOBA, services.SisGeFSheetMisplacementShopee,
+  Common.Utils, Control.ExtraviosMultas;
 
 type
   Thread_ImportMisplacement = class(TThread)
@@ -137,7 +137,7 @@ begin
   sDat := Copy(sData, 9,2) + '/';
   sDat := sDat + Copy(sData,6,2) + '/';
   sDat := sDat + Copy(sData,1,4);
-  REsult := sDat;
+  Result := sDat;
 end;
 
 procedure Thread_ImportMisplacement.ProcessDIRECT;
@@ -840,6 +840,7 @@ begin
       FCancelar := False;
       FPlanilha := TSheetMisplacement.Create;
       FExtravios := TExtraviosMultasControl.Create;
+      FEntregas := TEntregasControl.Create;
       sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
       UpdateLog(sMensagem);
       FPlanilha.FileName := FArquivo;
@@ -875,7 +876,7 @@ begin
         if FExtravios.Extravios.Query.IsEmpty then
         begin
           FExtravios.Extravios.ID := 0;
-          FExtravios.Extravios.Descricao := FPlanilha.Planilha[i].Retorno;
+          FExtravios.Extravios.Descricao := FPlanilha.Planilha[i].RazaoRecuperacao;
           FExtravios.Extravios.NN := FPlanilha.Planilha[i].NumeroRastreio;
           FExtravios.Extravios.Agente := FAgente;
           FExtravios.Extravios.ValorProduto := StrToFloatDef(FUtil.ReplaceStr(FPlanilha.Planilha[i].ValorRecuperacao, '.', ','), 0);
@@ -899,18 +900,17 @@ begin
           FExtravios.Extravios.ValorFranquia := 0;
           FExtravios.Extravios.Extrato := 'N';
           FExtravios.Extravios.DataFranquia := StrToDate(FormataData(FPlanilha.Planilha[i].DataPedido));;
-          FExtravios.Extravios.EnvioCorrespondencia := '';
-          FExtravios.Extravios.RetornoCorrespondencia := FPlanilha.Planilha[i].Justificativa;
-          sObs := '3pl Responsavel: ' + FPlanilha.Planilha[i].Pl3Responsaval + '#13' +
-                  'Razão de recuperação: ' + FPlanilha.Planilha[i].RazaoRecuperacao + '#13' +
-                  'Milha responsável: ' + FPlanilha.Planilha[i].MilhaResponsavel + '#13' +
-                  'Número AT: ' + FPlanilha.Planilha[i].NumeroAT + '#13' +
-                  'Fm Hub: ' + FPlanilha.Planilha[i].FmHub + '#13' +
-                  'Ultimo Xpt: ' + FPlanilha.Planilha[i].UltimoXpt + '#13' +
-                  'Data do Email: ' + FormataData(FPlanilha.Planilha[i].DataEmail) + '#13' +
-                  'Canal Logistico: ' + FormataData(FPlanilha.Planilha[i].Canal) + '#13' +
-                  'Data previsão retorno: ' + FormataData(FPlanilha.Planilha[i].DataRetorno);
-          FExtravios.Extravios.Obs := FObs;
+          FExtravios.Extravios.EnvioCorrespondencia := FPlanilha.Planilha[i].Justificativa;
+          FExtravios.Extravios.RetornoCorrespondencia := FPlanilha.Planilha[i].Retorno;
+          sObs := '3pl Responsavel: ' + FPlanilha.Planilha[i].Pl3Responsaval + '; ' +
+                  'Milha responsável: ' + FPlanilha.Planilha[i].MilhaResponsavel + '; ' +
+                  'Número AT: ' + FPlanilha.Planilha[i].NumeroAT + '; ' +
+                  'Fm Hub: ' + FPlanilha.Planilha[i].FmHub + '; ' +
+                  'Ultimo Xpt: ' + FPlanilha.Planilha[i].UltimoXpt + '; ' +
+                  'Data do Email: ' + FUtil.ReplaceStr(FPlanilha.Planilha[i].DataEmail,'-', '/') + '; ' +
+                  'Canal Logistico: ' + FPlanilha.Planilha[i].Canal + '; ' +
+                  'Data previsão retorno: ' + FUtil.ReplaceStr(FPlanilha.Planilha[i].DataRetorno,'-','/');
+          FExtravios.Extravios.Obs := sObs;
           FExtravios.Extravios.IDExtrato := 0;
           FExtravios.Extravios.Executor := Global.Parametros.pUser_Name;
           FExtravios.Extravios.Manutencao := Now;
@@ -928,7 +928,7 @@ begin
           if FExtravios.Extravios.Restricao <> 'S' then
           begin
             FExtravios.SetupClass;
-            FExtravios.Extravios.Descricao := FPlanilha.Planilha[i].Retorno;
+            FExtravios.Extravios.Descricao := FPlanilha.Planilha[i].RazaoRecuperacao;
             FExtravios.Extravios.NN := FPlanilha.Planilha[i].NumeroRastreio;
             FExtravios.Extravios.Agente := FAgente;
             FExtravios.Extravios.ValorProduto := StrToFloatDef(FUtil.ReplaceStr(FPlanilha.Planilha[i].ValorRecuperacao, '.', ','), 0);
@@ -952,18 +952,17 @@ begin
             FExtravios.Extravios.ValorFranquia := 0;
             FExtravios.Extravios.Extrato := 'N';
             FExtravios.Extravios.DataFranquia := StrToDate(FormataData(FPlanilha.Planilha[i].DataPedido));;
-            FExtravios.Extravios.EnvioCorrespondencia := '';
-            FExtravios.Extravios.RetornoCorrespondencia := FPlanilha.Planilha[i].Justificativa;
-            sObs := '3pl Responsavel: ' + FPlanilha.Planilha[i].Pl3Responsaval + '#13' +
-                    'Razão de recuperação: ' + FPlanilha.Planilha[i].RazaoRecuperacao + '#13' +
-                    'Milha responsável: ' + FPlanilha.Planilha[i].MilhaResponsavel + '#13' +
-                    'Número AT: ' + FPlanilha.Planilha[i].NumeroAT + '#13' +
-                    'Fm Hub: ' + FPlanilha.Planilha[i].FmHub + '#13' +
-                    'Ultimo Xpt: ' + FPlanilha.Planilha[i].UltimoXpt + '#13' +
-                    'Data do Email: ' + FormataData(FPlanilha.Planilha[i].DataEmail) + '#13' +
-                    'Canal Logistico: ' + FormataData(FPlanilha.Planilha[i].Canal) + '#13' +
+            FExtravios.Extravios.EnvioCorrespondencia := FPlanilha.Planilha[i].Justificativa;
+            FExtravios.Extravios.RetornoCorrespondencia := FPlanilha.Planilha[i].Retorno;
+            sObs := '3pl Responsavel: ' + FPlanilha.Planilha[i].Pl3Responsaval + #13 +
+                    'Milha responsável: ' + FPlanilha.Planilha[i].MilhaResponsavel + #13 +
+                    'Número AT: ' + FPlanilha.Planilha[i].NumeroAT + #13 +
+                    'Fm Hub: ' + FPlanilha.Planilha[i].FmHub + #13 +
+                    'Ultimo Xpt: ' + FPlanilha.Planilha[i].UltimoXpt + #13 +
+                    'Data do Email: ' + FormataData(FPlanilha.Planilha[i].DataEmail) + #13 +
+                    'Canal Logistico: ' + FormataData(FPlanilha.Planilha[i].Canal) + #13 +
                     'Data previsão retorno: ' + FormataData(FPlanilha.Planilha[i].DataRetorno);
-            FExtravios.Extravios.Obs := FObs;
+            FExtravios.Extravios.Obs := sObs;
             FExtravios.Extravios.IDExtrato := 0;
             FExtravios.Extravios.Executor := Global.Parametros.pUser_Name;
             FExtravios.Extravios.Manutencao := Now;

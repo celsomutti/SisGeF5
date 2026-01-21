@@ -2,7 +2,7 @@ unit Model.EntregadoresExpressas;
 
 interface
 uses
-  Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils;
+  Common.ENum, FireDAC.Comp.Client, DAO.Conexao, System.SysUtils, service.connectionMySQL;
   type
     TEntregadoresExpressas = class
 
@@ -19,7 +19,7 @@ uses
     FExecutor: String;
     FManutencao: TDateTime;
     FAcao: TAcao;
-    FConexao : TConexao;
+    FConexao : TConnectionMySQL;
     FTabela: Integer;
     FCliente: Integer;
     FAtivo: Integer;
@@ -99,7 +99,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL(SQLUPDATE, [Self.Cadastro, Self.Entregador, Self.Fantasia, Self.Agente, Self.Data, Self.Chave, Self.Grupo, Self.Verba, Self.Executor,
                     Self.Ativo, Self.Manutencao, Self.Tabela, Self.Cliente, Self.ID]);
     Result := True;
@@ -127,7 +127,7 @@ end;
 
 constructor TEntregadoresExpressas.Create;
 begin
-  FConexao := TSistemaControl.GetInstance().Conexao;
+  FConexao := TConnectionMySQL.Create;;
 end;
 
 function TEntregadoresExpressas.EntregadorExiste(iTipo, iCliente, iEntregador: Integer; sERP: String): Boolean;
@@ -136,7 +136,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     if iTipo = 1 then
     begin
       FDQuery.SQL.Add('select cod_cliente, cod_entregador from ' + TABLENAME + ' where cod_cliente = :cliente and cod_entregador = :entregador;');
@@ -173,7 +173,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('delete from ' + TABLENAME + ' where id_entregador = :id',
                     [Self.ID]);
     Result := True;
@@ -188,7 +188,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.SQL.Text := 'select ' + sField + ' from ' + TABLENAME + ' where ' + sKey + ' = ' + sKeyValue;
     FDQuery.Open();
     if not FDQuery.IsEmpty then Result := FDQuery.FieldByName(sField).AsString;
@@ -213,7 +213,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     Self.Entregador := GetCode;
     FDQuery.ExecSQL(SQLINSERT, [Self.Cadastro, Self.Entregador, Self.Fantasia, Self.Agente, Self.Data, Self.Chave, Self.Grupo,
                     Self.Verba, Self.Executor, Self.Ativo, Self.Manutencao, Self.Tabela, Self.Cliente]);
@@ -230,7 +230,7 @@ function TEntregadoresExpressas.Localizar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery();
+  FDQuery := FConexao.GetQuery();
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
   FDQuery.SQL.Add('select * from ' + TABLENAME);
@@ -313,7 +313,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     if Length(aParam) < 2 then Exit;
     FDQuery.SQL.Clear;
     FDQuery.SQL.Add('select * from ' + TABLENAME);
@@ -491,7 +491,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.Open('select coalesce(max(ID_ENTREGADOR),0) + 1 from ' + TABLENAME);
     try
       Result := FDQuery.Fields[0].AsInteger;

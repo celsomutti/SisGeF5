@@ -2,7 +2,7 @@ unit Control.Entregas;
 
 interface
 
-uses Model.Entregas, System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum;
+uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Model.Entregas;
 
 type
   TEntregasControl = class

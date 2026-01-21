@@ -157,6 +157,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
             Width = 83
           end
           object gridExtraviosDBTableView1DES_EXTRAVIO: TcxGridDBColumn
+            Caption = 'Descri'#231#227'o/Raz'#227'o Recupera'#231#227'o'
             DataBinding.FieldName = 'DES_EXTRAVIO'
             PropertiesClassName = 'TcxTextEditProperties'
             HeaderAlignmentHorz = taCenter
@@ -170,7 +171,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
             HeaderAlignmentHorz = taCenter
           end
           object gridExtraviosDBTableView1NUM_NOSSONUMERO: TcxGridDBColumn
-            Caption = 'N'#186' Remessa'
+            Caption = 'N'#186' Rastreio'
             DataBinding.FieldName = 'NUM_NOSSONUMERO'
             PropertiesClassName = 'TcxTextEditProperties'
             HeaderAlignmentHorz = taCenter
@@ -219,6 +220,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
             Visible = False
           end
           object gridExtraviosDBTableView1cod_awb: TcxGridDBColumn
+            Caption = 'Rastreio Correios'
             DataBinding.FieldName = 'cod_awb'
             PropertiesClassName = 'TcxTextEditProperties'
             HeaderAlignmentHorz = taCenter
@@ -233,6 +235,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
             Width = 77
           end
           object gridExtraviosDBTableView1des_produto: TcxGridDBColumn
+            Caption = 'Respons'#225'vel'
             DataBinding.FieldName = 'des_produto'
             PropertiesClassName = 'TcxTextEditProperties'
             HeaderAlignmentHorz = taCenter

@@ -5351,7 +5351,7 @@
       Tag = 2020
       Caption = 'Opera'#231#227'o Expressas'
       CaptionButtons = <>
-      DockedLeft = 362
+      DockedLeft = 378
       DockedTop = 0
       FloatLeft = 1129
       FloatTop = 8
@@ -5388,7 +5388,7 @@
       Tag = 2030
       Caption = 'Demonstrativos Expressas'
       CaptionButtons = <>
-      DockedLeft = 722
+      DockedLeft = 738
       DockedTop = 0
       FloatLeft = 1129
       FloatTop = 8
@@ -5413,7 +5413,7 @@
       Tag = 2040
       Caption = 'Verbas Expressas'
       CaptionButtons = <>
-      DockedLeft = 894
+      DockedLeft = 910
       DockedTop = 0
       FloatLeft = 844
       FloatTop = 8

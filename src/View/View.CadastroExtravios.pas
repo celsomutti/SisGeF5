@@ -8,8 +8,8 @@ uses
   cxContainer, cxEdit, dxSkinsCore, dxSkinsDefaultPainters, cxTextEdit, cxLabel, cxGroupBox, cxMaskEdit, cxDropDownEdit,
   Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxButtonEdit, cxCurrencyEdit, Vcl.StdCtrls, cxClasses, dxGaugeCustomScale,
   dxGaugeQuantitativeScale, dxGaugeCircularScale, dxGaugeControl, Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons,
-  cxProgressBar, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Data.DB, Data.SisGeF, Common.ENum, Control.EntregadoresExpressas,
-  Control.ControleAWB, Control.Entregas;
+  cxProgressBar, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Data.DB, Data.SisGeF, Common.ENum,
+  Control.ControleAWB, Control.Entregas, Control.EntregadoresExpressas;
 
 
 type
@@ -20,7 +20,6 @@ type
     cxLabel2: TcxLabel;
     Tipo: TcxComboBox;
     cxLabel3: TcxLabel;
-    Descricao: TcxComboBox;
     cxLabel4: TcxLabel;
     Data: TcxDateEdit;
     cxLabel5: TcxLabel;
@@ -37,9 +36,7 @@ type
     Total: TcxCurrencyEdit;
     cxGroupBox3: TcxGroupBox;
     cxLabel10: TcxLabel;
-    EnvioCorrespondencia: TcxComboBox;
     cxLabel11: TcxLabel;
-    RetornoCorrespondencia: TcxComboBox;
     Obs: TMemo;
     cxLabel12: TcxLabel;
     cxGroupBox5: TcxGroupBox;
@@ -69,6 +66,9 @@ type
     actionRemessa: TAction;
     actionAWB: TAction;
     operacao: TcxLabel;
+    Descricao: TcxTextEdit;
+    EnvioCorrespondencia: TcxTextEdit;
+    RetornoCorrespondencia: TcxTextEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionFinalizarExecute(Sender: TObject);
     procedure actionGravarExecute(Sender: TObject);
@@ -184,7 +184,7 @@ begin
   Data.Clear;
   NN.Clear;
   AWB.Clear;
-  Descricao.ItemIndex := -1;
+  Descricao.Text := '';
   Entregador.Tag := -1;
   Entregador.Text := '0';
   Entregador.Tag := 0;
@@ -194,8 +194,8 @@ begin
   Multa.Value := 0;
   Verba.Value := 0;
   Total.Value := 0;
-  EnvioCorrespondencia.ItemIndex := -1;
-  RetornoCorrespondencia.ItemIndex := -1;
+  EnvioCorrespondencia.Text := '';
+  RetornoCorrespondencia.Text := '';
   Obs.Clear;
   Produto.Clear;
   Sequencia.EditValue := 0;
