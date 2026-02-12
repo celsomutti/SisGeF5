@@ -408,7 +408,7 @@ begin
     maskEditCPCNPJ.Properties.EditMask := '!000\.000\.000\-00;0; ';
     layoutGroupPessoaJuridica.Visible := False;
     layoutGroupPessoaFisica.Visible := True;
-    cboSexo.ItemIndex := 0;
+//    cboSexo.ItemIndex := 0;
     lyiSexo.Visible := True;
   end;
 end;

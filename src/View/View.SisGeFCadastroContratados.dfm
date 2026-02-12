@@ -191,7 +191,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
             Caption = 'ID'
             DataBinding.FieldName = 'id'
             HeaderAlignmentHorz = taCenter
-            Width = 41
+            Width = 60
           end
           object viewCadastronum_cpf_cnpj: TcxGridDBColumn
             Caption = 'CPF / CNPJ'
@@ -644,6 +644,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
       State = cbsChecked
       Style.HotTrack = False
       TabOrder = 3
+      Visible = False
     end
     object filterControl: TcxDBFilterControl
       Left = 10000

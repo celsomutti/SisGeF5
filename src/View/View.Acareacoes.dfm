@@ -54,8 +54,8 @@ object view_Acareacoes: Tview_Acareacoes
       TabOrder = 50
     end
     object mskCodigo: TcxMaskEdit
-      Left = 35
-      Top = 100
+      Left = 39
+      Top = 105
       Hint = 'C'#243'digo Interno da Acarea'#231#227'o'
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -72,11 +72,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.IsFontAssigned = True
       TabOrder = 1
       Text = '0'
-      Width = 47
+      Width = 46
     end
     object txtID: TcxTextEdit
-      Left = 88
-      Top = 100
+      Left = 91
+      Top = 105
       Hint = 'ID da acarea'#231#227'o na Transfolha'
       ParentFont = False
       Properties.MaxLength = 100
@@ -91,8 +91,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 68
     end
     object txtNN: TcxTextEdit
-      Left = 162
-      Top = 100
+      Left = 165
+      Top = 105
       Hint = 'Nosso N'#250'mero TFO'
       ParentFont = False
       Properties.MaxLength = 14
@@ -105,11 +105,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 3
-      Width = 97
+      Width = 96
     end
     object edtCodigoEntregador: TcxButtonEdit
-      Left = 452
-      Top = 100
+      Left = 454
+      Top = 104
       Hint = 'C'#243'digo do entregador'
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -136,8 +136,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 68
     end
     object txtNomeEntregador: TcxTextEdit
-      Left = 526
-      Top = 100
+      Left = 528
+      Top = 105
       Hint = 'Nome do entregador'
       ParentFont = False
       Properties.ReadOnly = True
@@ -149,11 +149,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 7
-      Width = 208
+      Width = 205
     end
     object edtCodigoBase: TcxButtonEdit
-      Left = 740
-      Top = 100
+      Left = 739
+      Top = 104
       Hint = 'C'#243'digo da base'
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -177,8 +177,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 65
     end
     object txtNomeBase: TcxTextEdit
-      Left = 811
-      Top = 100
+      Left = 810
+      Top = 105
       Hint = 'Nome da Base'
       ParentFont = False
       Properties.ReadOnly = True
@@ -191,11 +191,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.Shadow = False
       Style.IsFontAssigned = True
       TabOrder = 9
-      Width = 249
+      Width = 246
     end
     object edtValorExtravio: TcxCurrencyEdit
-      Left = 583
-      Top = 342
+      Left = 579
+      Top = 348
       Hint = 'Valor do Extravio'
       EditValue = 0.000000000000000000
       ParentFont = False
@@ -212,8 +212,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 74
     end
     object edtValorMulta: TcxCurrencyEdit
-      Left = 663
-      Top = 342
+      Left = 659
+      Top = 348
       Hint = 'Valor da multa'
       EditValue = 0.000000000000000000
       ParentFont = False
@@ -230,8 +230,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 64
     end
     object cboEnvioCorrespondencia: TcxComboBox
-      Left = 733
-      Top = 342
+      Left = 729
+      Top = 348
       ParentFont = False
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -250,8 +250,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 168
     end
     object cboRetornoCorrespondencia: TcxComboBox
-      Left = 907
-      Top = 342
+      Left = 903
+      Top = 348
       Hint = 'Retorno da correspond'#234'ncia'
       ParentFont = False
       Properties.DropDownListStyle = lsEditFixedList
@@ -273,8 +273,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 153
     end
     object chkStatus: TcxCheckBox
-      Left = 1066
-      Top = 342
+      Left = 1062
+      Top = 348
       Hint = 'Status da acarea'#231#227'o (Aberta ou Finalizada)'
       AutoSize = False
       Caption = 'ABERTA'
@@ -296,8 +296,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 91
     end
     object memObs: TcxMemo
-      Left = 35
-      Top = 403
+      Left = 39
+      Top = 409
       Lines.Strings = (
         '')
       ParentFont = False
@@ -310,31 +310,31 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 34
-      Height = 87
-      Width = 1122
+      Height = 77
+      Width = 1114
     end
     object cxButton1: TcxButton
-      Left = 22
-      Top = 509
-      Width = 122
+      Left = 26
+      Top = 505
+      Width = 121
       Height = 25
       Cursor = crHandPoint
       Action = actIncluir
       TabOrder = 35
     end
     object cxButton2: TcxButton
-      Left = 278
-      Top = 509
-      Width = 123
+      Left = 281
+      Top = 505
+      Width = 121
       Height = 25
       Cursor = crHandPoint
       Action = actEditar
       TabOrder = 37
     end
     object cxButton4: TcxButton
-      Left = 407
-      Top = 509
-      Width = 122
+      Left = 408
+      Top = 505
+      Width = 121
       Height = 25
       Cursor = crHandPoint
       Action = actFiltltrar
@@ -342,7 +342,7 @@ object view_Acareacoes: Tview_Acareacoes
     end
     object cxButton5: TcxButton
       Left = 535
-      Top = 509
+      Top = 505
       Width = 122
       Height = 25
       Cursor = crHandPoint
@@ -351,25 +351,25 @@ object view_Acareacoes: Tview_Acareacoes
     end
     object cxButton6: TcxButton
       Left = 663
-      Top = 509
-      Width = 122
+      Top = 505
+      Width = 121
       Height = 25
       Cursor = crHandPoint
       Action = actExcluir
       TabOrder = 40
     end
     object cxButton7: TcxButton
-      Left = 791
-      Top = 509
-      Width = 123
+      Left = 790
+      Top = 505
+      Width = 121
       Height = 25
       Cursor = crHandPoint
       Action = actSalvar
       TabOrder = 41
     end
     object cxButton8: TcxButton
-      Left = 920
-      Top = 509
+      Left = 917
+      Top = 505
       Width = 122
       Height = 25
       Cursor = crHandPoint
@@ -378,9 +378,9 @@ object view_Acareacoes: Tview_Acareacoes
       TabOrder = 42
     end
     object cxButton10: TcxButton
-      Left = 1048
-      Top = 509
-      Width = 122
+      Left = 1045
+      Top = 505
+      Width = 121
       Height = 25
       Cursor = crHandPoint
       Action = actDeclaracao
@@ -402,13 +402,13 @@ object view_Acareacoes: Tview_Acareacoes
       Visible = False
       OnEnter = txtParametroEnter
       OnExit = txtParametroExit
-      Width = 121
+      Width = 1059
     end
     object grdPesquisa: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 250
-      Height = 302
+      Width = 1140
+      Height = 343
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -662,8 +662,8 @@ object view_Acareacoes: Tview_Acareacoes
       Visible = False
     end
     object txtConsumidor: TcxTextEdit
-      Left = 35
-      Top = 181
+      Left = 39
+      Top = 187
       Hint = 'Nome do Consumidor'
       ParentFont = False
       Properties.MaxLength = 70
@@ -676,11 +676,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 11
-      Width = 389
+      Width = 386
     end
     object cxButton3: TcxButton
-      Left = 150
-      Top = 509
+      Left = 153
+      Top = 505
       Width = 122
       Height = 25
       Cursor = crHandPoint
@@ -688,8 +688,8 @@ object view_Acareacoes: Tview_Acareacoes
       TabOrder = 36
     end
     object datRetorno: TcxDateEdit
-      Left = 367
-      Top = 100
+      Left = 369
+      Top = 104
       Hint = 'Data do prazo do retorno'
       ParentFont = False
       Properties.SaveTime = False
@@ -705,8 +705,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 79
     end
     object datAcareacao: TcxDateEdit
-      Left = 265
-      Top = 101
+      Left = 267
+      Top = 107
       Hint = 'Data da acarea'#231#227'o / acarea'#231#227'o'
       ParentFont = False
       Properties.DateButtons = [btnClear, btnNow, btnToday]
@@ -723,8 +723,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 96
     end
     object cboUnidade: TcxComboBox
-      Left = 1066
-      Top = 100
+      Left = 1062
+      Top = 104
       Hint = 'Especifique a Unidade'
       ParentFont = False
       Properties.DropDownListStyle = lsEditFixedList
@@ -752,11 +752,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       TabOrder = 47
       Visible = False
-      Width = 121
+      Width = 1074
     end
     object cboMotivo: TcxComboBox
-      Left = 35
-      Top = 342
+      Left = 39
+      Top = 348
       Hint = 'Motivo da acarea'#231#227'o'
       ParentFont = False
       Properties.DropDownListStyle = lsEditFixedList
@@ -776,11 +776,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 25
-      Width = 151
+      Width = 148
     end
     object cboTratativa: TcxComboBox
-      Left = 192
-      Top = 342
+      Left = 193
+      Top = 348
       Hint = 'Tratativa da acarea'#231#227'o'
       ParentFont = False
       Properties.DropDownListStyle = lsEditFixedList
@@ -800,11 +800,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 26
-      Width = 121
+      Width = 119
     end
     object cboApuracao: TcxComboBox
-      Left = 319
-      Top = 342
+      Left = 318
+      Top = 348
       Hint = 'Apura'#231#227'o da acarea'#231#227'o'
       ParentFont = False
       Properties.DropDownListStyle = lsEditFixedList
@@ -830,11 +830,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 27
-      Width = 105
+      Width = 104
     end
     object cboResultado: TcxComboBox
-      Left = 430
-      Top = 342
+      Left = 428
+      Top = 348
       Hint = 'Resultado da acarea'#231#227'o'
       ParentFont = False
       Properties.DropDownListStyle = lsEditFixedList
@@ -852,11 +852,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 28
-      Width = 121
+      Width = 119
     end
     object txtPedido: TcxTextEdit
-      Left = 964
-      Top = 181
+      Left = 961
+      Top = 187
       ParentFont = False
       Properties.MaxLength = 20
       Properties.ReadOnly = False
@@ -868,11 +868,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 14
-      Width = 193
+      Width = 192
     end
     object txtNomeCliente: TcxTextEdit
-      Left = 430
-      Top = 181
+      Left = 431
+      Top = 187
       ParentFont = False
       Properties.MaxLength = 80
       Properties.ReadOnly = False
@@ -884,11 +884,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 12
-      Width = 382
+      Width = 380
     end
     object datEntrega: TcxDateEdit
-      Left = 818
-      Top = 181
+      Left = 817
+      Top = 187
       ParentFont = False
       Properties.DateButtons = [btnClear, btnNow, btnToday]
       Properties.SaveTime = False
@@ -901,11 +901,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 13
-      Width = 140
+      Width = 138
     end
     object textEditEndereco: TcxTextEdit
-      Left = 99
-      Top = 208
+      Left = 103
+      Top = 214
       ParentFont = False
       Properties.MaxLength = 70
       Style.Font.Charset = ANSI_CHARSET
@@ -916,11 +916,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 15
-      Width = 271
+      Width = 263
     end
     object textEditRemetente: TcxTextEdit
-      Left = 99
-      Top = 235
+      Left = 103
+      Top = 241
       ParentFont = False
       Properties.MaxLength = 20
       Style.Font.Charset = ANSI_CHARSET
@@ -931,11 +931,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 20
-      Width = 514
+      Width = 510
     end
     object textEditNumero: TcxTextEdit
-      Left = 426
-      Top = 208
+      Left = 422
+      Top = 214
       ParentFont = False
       Properties.MaxLength = 11
       Style.Font.Charset = ANSI_CHARSET
@@ -949,8 +949,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 76
     end
     object textEditBairro: TcxTextEdit
-      Left = 547
-      Top = 208
+      Left = 543
+      Top = 214
       ParentFont = False
       Properties.MaxLength = 70
       Style.Font.Charset = ANSI_CHARSET
@@ -964,8 +964,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 224
     end
     object textEditCidade: TcxTextEdit
-      Left = 822
-      Top = 208
+      Left = 818
+      Top = 214
       ParentFont = False
       Properties.MaxLength = 70
       Style.Font.Charset = ANSI_CHARSET
@@ -979,8 +979,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 215
     end
     object maskEditCEP: TcxMaskEdit
-      Left = 1068
-      Top = 208
+      Left = 1064
+      Top = 214
       ParentFont = False
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d\d\d'
@@ -996,7 +996,7 @@ object view_Acareacoes: Tview_Acareacoes
     end
     object textEditProduto: TcxTextEdit
       Left = 670
-      Top = 235
+      Top = 241
       ParentFont = False
       Properties.MaxLength = 100
       Style.Font.Charset = ANSI_CHARSET
@@ -1007,11 +1007,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 21
-      Width = 487
+      Width = 483
     end
     object textEditRecebedor: TcxTextEdit
-      Left = 99
-      Top = 262
+      Left = 103
+      Top = 268
       ParentFont = False
       Properties.MaxLength = 70
       Style.Font.Charset = ANSI_CHARSET
@@ -1022,11 +1022,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 22
-      Width = 296
+      Width = 293
     end
     object textEditIdentificacao: TcxTextEdit
-      Left = 476
-      Top = 262
+      Left = 477
+      Top = 268
       ParentFont = False
       Properties.MaxLength = 40
       Style.Font.Charset = ANSI_CHARSET
@@ -1037,11 +1037,11 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 23
-      Width = 306
+      Width = 303
     end
     object textEditDocumento: TcxTextEdit
-      Left = 857
-      Top = 262
+      Left = 855
+      Top = 268
       ParentFont = False
       Properties.MaxLength = 20
       Style.Font.Charset = ANSI_CHARSET
@@ -1052,7 +1052,7 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 24
-      Width = 300
+      Width = 298
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahParentManaged
@@ -1157,7 +1157,7 @@ object view_Acareacoes: Tview_Acareacoes
       CaptionOptions.Text = 'Entregador:'
       CaptionOptions.Layout = clTop
       Control = edtCodigoEntregador
-      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 73
       ControlOptions.ShowBorder = False
       Index = 5
@@ -1181,7 +1181,7 @@ object view_Acareacoes: Tview_Acareacoes
       CaptionOptions.Text = 'Base:'
       CaptionOptions.Layout = clTop
       Control = edtCodigoBase
-      ControlOptions.OriginalHeight = 22
+      ControlOptions.OriginalHeight = 24
       ControlOptions.OriginalWidth = 70
       ControlOptions.ShowBorder = False
       Index = 7
@@ -2102,7 +2102,7 @@ object view_Acareacoes: Tview_Acareacoes
     Top = 8
   end
   object frxDeclaracao: TfrxReport
-    Version = '6.6.11'
+    Version = '6.9.15'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
