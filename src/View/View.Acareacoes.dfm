@@ -477,6 +477,7 @@ object view_Acareacoes: Tview_Acareacoes
           Width = 63
         end
         object tvPesquisaID_ACAREACAO: TcxGridDBColumn
+          Caption = 'Ass Task ID'
           DataBinding.FieldName = 'ID_ACAREACAO'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
@@ -488,12 +489,13 @@ object view_Acareacoes: Tview_Acareacoes
           HeaderAlignmentHorz = taCenter
         end
         object tvPesquisaNUM_NOSSONUMERO: TcxGridDBColumn
+          Caption = 'SPXTN'
           DataBinding.FieldName = 'NUM_NOSSONUMERO'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
         end
         object tvPesquisaCOD_ENTREGADOR: TcxGridDBColumn
-          Caption = 'C'#243'd. Entregador'
+          Caption = 'C'#243'd. Motorista'
           DataBinding.FieldName = 'COD_ENTREGADOR'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.IgnoreMaskBlank = True
@@ -503,7 +505,7 @@ object view_Acareacoes: Tview_Acareacoes
           Width = 115
         end
         object tvPesquisaNOM_ENTREGADOR: TcxGridDBColumn
-          Caption = 'Nome Entregador'
+          Caption = 'Nome Motorista'
           DataBinding.FieldName = 'COD_ENTREGADOR'
           PropertiesClassName = 'TcxLookupComboBoxProperties'
           Properties.KeyFieldNames = 'COD_ENTREGADOR'
@@ -541,6 +543,7 @@ object view_Acareacoes: Tview_Acareacoes
           Width = 174
         end
         object tvPesquisaDAT_ENTREGA: TcxGridDBColumn
+          Caption = 'Dat Entrega'
           DataBinding.FieldName = 'DAT_ENTREGA'
           Width = 79
         end
@@ -730,9 +733,7 @@ object view_Acareacoes: Tview_Acareacoes
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
         'Selecione ...'
-        'RAMOS'
-        'NIT 2'
-        'ZNO 1')
+        'MATRIZ')
       Properties.OnChange = cboUnidadePropertiesChange
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -759,7 +760,6 @@ object view_Acareacoes: Tview_Acareacoes
       Top = 348
       Hint = 'Motivo da acarea'#231#227'o'
       ParentFont = False
-      Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
         'EMBALAGEM VAZIA'
         'ITEM FALTANTE'
@@ -783,7 +783,6 @@ object view_Acareacoes: Tview_Acareacoes
       Top = 348
       Hint = 'Tratativa da acarea'#231#227'o'
       ParentFont = False
-      Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
         'ENVIAR A DECLARA'#199#195'O'
         'REALIZAR AUDIO'
@@ -807,7 +806,6 @@ object view_Acareacoes: Tview_Acareacoes
       Top = 348
       Hint = 'Apura'#231#227'o da acarea'#231#227'o'
       ParentFont = False
-      Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
         '01-ENTREGA LOCAL INDEVIDO'
         '02-CORREIO INTERNO'
@@ -1101,7 +1099,6 @@ object view_Acareacoes: Tview_Acareacoes
       CaptionOptions.Layout = clBottom
       CaptionOptions.Text = 'Dados'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
       Index = 0
     end
     object dxLayoutGroup3: TdxLayoutGroup
@@ -1154,7 +1151,7 @@ object view_Acareacoes: Tview_Acareacoes
       Parent = dxLayoutGroup3
       AlignHorz = ahClient
       AlignVert = avCenter
-      CaptionOptions.Text = 'Entregador:'
+      CaptionOptions.Text = 'Motorista'
       CaptionOptions.Layout = clTop
       Control = edtCodigoEntregador
       ControlOptions.OriginalHeight = 24
@@ -1166,7 +1163,7 @@ object view_Acareacoes: Tview_Acareacoes
       Parent = dxLayoutGroup3
       AlignHorz = ahClient
       AlignVert = avCenter
-      CaptionOptions.Text = 'Nome do Entregador:'
+      CaptionOptions.Text = 'Nome do Motorista:'
       CaptionOptions.Layout = clTop
       Control = txtNomeEntregador
       ControlOptions.OriginalHeight = 21
@@ -1398,8 +1395,8 @@ object view_Acareacoes: Tview_Acareacoes
       Parent = dxLayoutAutoCreatedGroup3
       AlignHorz = ahClient
       CaptionOptions.Text = 
-        'Par'#226'metro (Sequ'#234'ncia ou #ID ou Nosso N'#250'mero ou C'#243'digo do Entrega' +
-        'dor ou C'#243'digo da Base)'
+        'Par'#226'metro (Sequ'#234'ncia ou Ass Task ID ou SPXTN ou C'#243'digo do Motori' +
+        'sta ou C'#243'digo da Base)'
       CaptionOptions.Layout = clTop
       Control = txtParametro
       ControlOptions.OriginalHeight = 21

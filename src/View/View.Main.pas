@@ -305,7 +305,7 @@ implementation
 
 uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.CadastraSenha,
-  View.Calendario, View.VerbasExpressas, View.Acareacoes, View.ImportarPedidos,
+  View.Calendario, View.VerbasExpressas, View.ImportarPedidos,
   View.ImportarBaixasTFO,
   View.ControleEntregas, View.RecepcaoPedidos, View.ExpedicaoExpressas,
   View.EnvioRespostaCTNC,
@@ -321,7 +321,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFCadastroContratados, View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
   View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios, View.SisGeFCadastroFuncionarios,
-  View.SisGeFCadastroBases, View.PesquisaRemessas_201040;
+  View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.Acareacoes;
 
 procedure Tview_Main.Acessos;
 var
