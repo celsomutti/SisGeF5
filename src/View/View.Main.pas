@@ -321,7 +321,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFCadastroContratados, View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
   View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios, View.SisGeFCadastroFuncionarios,
-  View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.Acareacoes;
+  View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.Acareacoes, View.SisGeFCadastroTerceirizados;
 
 procedure Tview_Main.Acessos;
 var
@@ -404,9 +404,7 @@ end;
 procedure Tview_Main.actAcareacoesExpressasExecute(Sender: TObject);
 begin
   if not Assigned(view_Acareacoes) then
-  begin
     view_Acareacoes := Tview_Acareacoes.Create(Application);
-  end;
   view_Acareacoes.Show;
 end;
 
@@ -446,12 +444,21 @@ end;
 
 procedure Tview_Main.actCadastroContratadosExecute(Sender: TObject);
 begin
-  if not Assigned(viewSisGeFCadastroContratados) then
+//  if not Assigned(viewSisGeFCadastroContratados) then
+//  begin
+//    viewSisGeFCadastroContratados := TviewSisGeFCadastroContratados.Create
+//      (Application);
+//  end;
+//  viewSisGeFCadastroContratados.Show;
+
+if not Assigned(viewCadastroTerceirizados) then
   begin
-    viewSisGeFCadastroContratados := TviewSisGeFCadastroContratados.Create
+    viewCadastroTerceirizados := TviewCadastroTerceirizados.Create
       (Application);
   end;
-  viewSisGeFCadastroContratados.Show;
+  viewCadastroTerceirizados.Show;
+
+
 end;
 
 procedure Tview_Main.actCadastroDistribuidoresExecute(Sender: TObject);

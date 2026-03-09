@@ -19,10 +19,11 @@ uses
   System.Actions, Vcl.ActnList, cxLabel, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxCheckBox, DAO.Conexao,
   Control.Bases, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB, cxDBData, dxmdaset, cxGridLevel,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, cxBlobEdit, cxDBLookupComboBox, cxTimeEdit,
-  Control.Entregas, Control.Clientes, FireDAC.Comp.Client, Control.ExtraviosMultas, frxClass, cxGridExportLink, ShellAPI, cxDBEdit,
+  Control.Entregas, FireDAC.Comp.Client, Control.ExtraviosMultas, frxClass, cxGridExportLink, ShellAPI, cxDBEdit,
   Data.SisGeF, Control.Acessos, Control.FilterData, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, Control.Cadastro, dxDateRanges,
-  cxDataControllerConditionalFormattingRulesManagerDialog, Controller.SisGeFCadastroContratados, service.connectionMySQL;
+  cxDataControllerConditionalFormattingRulesManagerDialog, Controller.SisGeFCadastroContratados, service.connectionMySQL,
+  FireDAC.Stan.StorageBin, Controller.CRMClientes;
 
 type
   Tview_Acareacoes = class(TForm)
@@ -112,26 +113,8 @@ type
     grdPesquisa: TcxGrid;
     dxLayoutItem30: TdxLayoutItem;
     dsPesquisa: TDataSource;
-    mtbPesquisa: TdxMemData;
     txtParametro: TcxTextEdit;
     dxLayoutItem31: TdxLayoutItem;
-    mtbPesquisaSEQ_ACAREACAO: TIntegerField;
-    mtbPesquisaDAT_ACAREACAO: TDateTimeField;
-    mtbPesquisaNUM_NOSSONUMERO: TStringField;
-    mtbPesquisaCOD_ENTREGADOR: TIntegerField;
-    mtbPesquisaCOD_BASE: TIntegerField;
-    mtbPesquisaDES_MOTIVO: TStringField;
-    mtbPesquisaDES_TRATATIVA: TStringField;
-    mtbPesquisaDES_APURACAO: TStringField;
-    mtbPesquisaDES_RESULTADO: TStringField;
-    mtbPesquisaVAL_EXTRAVIO: TCurrencyField;
-    mtbPesquisaVAL_MULTA: TCurrencyField;
-    mtbPesquisaDES_ENVIO_CORRESPONDENCIA: TStringField;
-    mtbPesquisaDES_RETORNO_CORRESPONDENCIA: TStringField;
-    mtbPesquisaDES_OBSERVACOES: TMemoField;
-    mtbPesquisaDOM_FINALIZAR: TBooleanField;
-    mtbPesquisaDES_EXECUTOR: TStringField;
-    mtbPesquisaDAT_MANUTENCAO: TDateTimeField;
     tvPesquisaRecId: TcxGridDBColumn;
     tvPesquisaSEQ_ACAREACAO: TcxGridDBColumn;
     tvPesquisaID_ACAREACAO: TcxGridDBColumn;
@@ -169,7 +152,6 @@ type
     dxLayoutItem34: TdxLayoutItem;
     dxLayoutAutoCreatedGroup3: TdxLayoutAutoCreatedGroup;
     actPesquisarAcareacoes: TAction;
-    mtbPesquisaID_ACAREACAO: TStringField;
     dxLayoutGroup8: TdxLayoutGroup;
     txtConsumidor: TcxTextEdit;
     dxLayoutItem35: TdxLayoutItem;
@@ -181,25 +163,11 @@ type
     SaveDialog: TSaveDialog;
     datEntrega: TcxDateEdit;
     dxLayoutItem36: TdxLayoutItem;
-    mtbPesquisaDAT_ENTREGA: TDateField;
     tvPesquisaDAT_ENTREGA: TcxGridDBColumn;
     datRetorno: TcxDateEdit;
     dxLayoutItem39: TdxLayoutItem;
     cboUnidade: TcxComboBox;
     dxLayoutItem40: TdxLayoutItem;
-    mtbPesquisaDAT_RETORNO: TDateField;
-    mtbPesquisaDES_UNIDADE: TStringField;
-    mtbPesquisaNOM_CONSUMIDOR: TStringField;
-    mtbPesquisaDES_ENDERECO: TStringField;
-    mtbPesquisaNUM_ENDERECO: TStringField;
-    mtbPesquisaDES_BAIRRO: TStringField;
-    mtbPesquisaDES_CIDADE: TStringField;
-    mtbPesquisaNUM_CEP: TStringField;
-    mtbPesquisaDES_REMETENTE: TStringField;
-    mtbPesquisaDES_PRODUTO: TStringField;
-    mtbPesquisaNOM_RECEBEDOR: TStringField;
-    mtbPesquisaDES_IDENTIFICACAO: TStringField;
-    mtbPesquisaDES_DOCUMENTO: TStringField;
     textQuery: TcxTextEdit;
     layoutFilterText: TdxLayoutItem;
     memTableAcareacoes: TFDMemTable;
@@ -261,8 +229,44 @@ type
     textEditDocumento: TcxTextEdit;
     dxLayoutItem50: TdxLayoutItem;
     dxLayoutAutoCreatedGroup8: TdxLayoutAutoCreatedGroup;
+    mtbPesquisa: TFDMemTable;
+    memTableAcareacoesnom_motorista: TStringField;
+    memTableAcareacoesnom_base: TStringField;
+    mtbPesquisaSEQ_ACAREACAO: TFDAutoIncField;
+    mtbPesquisaID_ACAREACAO: TStringField;
+    mtbPesquisaDAT_ACAREACAO: TDateTimeField;
+    mtbPesquisaNUM_NOSSONUMERO: TStringField;
+    mtbPesquisaCOD_ENTREGADOR: TIntegerField;
+    mtbPesquisaNOM_MOTORISTA: TStringField;
+    mtbPesquisaCOD_BASE: TIntegerField;
+    mtbPesquisaNOM_BASE: TStringField;
+    mtbPesquisaDAT_ENTREGA: TDateField;
+    mtbPesquisaDES_MOTIVO: TStringField;
+    mtbPesquisaDES_TRATATIVA: TStringField;
+    mtbPesquisaDES_APURACAO: TStringField;
+    mtbPesquisaDES_RESULTADO: TStringField;
+    mtbPesquisaVAL_EXTRAVIO: TFloatField;
+    mtbPesquisaVAL_MULTA: TFloatField;
+    mtbPesquisaDES_ENVIO_CORRESPONDENCIA: TStringField;
+    mtbPesquisaDES_RETORNO_CORRESPONDENCIA: TStringField;
+    mtbPesquisaDES_OBSERVACOES: TMemoField;
+    mtbPesquisaDOM_FINALIZAR: TShortintField;
+    mtbPesquisaDES_EXECUTOR: TStringField;
+    mtbPesquisaDAT_MANUTENCAO: TDateTimeField;
+    mtbPesquisaDAT_RETORNO: TDateTimeField;
+    mtbPesquisaDES_UNIDADE: TStringField;
+    mtbPesquisaNOM_CONSUMIDOR: TStringField;
+    mtbPesquisaDES_ENDERECO: TStringField;
+    mtbPesquisaNUM_ENDERECO: TStringField;
+    mtbPesquisaDES_BAIRRO: TStringField;
+    mtbPesquisaDES_CIDADE: TStringField;
+    mtbPesquisaNUM_CEP: TStringField;
+    mtbPesquisaDES_REMETENTE: TStringField;
+    mtbPesquisaDES_PRODUTO: TStringField;
+    mtbPesquisaNOM_RECEBEDOR: TStringField;
+    mtbPesquisaDES_IDENTIFICACAO: TStringField;
+    mtbPesquisaDES_DOCUMENTO: TStringField;
     procedure actFecharExecute(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure chkStatusPropertiesChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -295,6 +299,7 @@ type
       var Error: Boolean);
     procedure edtCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
       var Error: Boolean);
+    procedure FormCreate(Sender: TObject);
 
   private
     { Private declarations }
@@ -303,7 +308,7 @@ type
     FBase : TBasesControl;
     FEntregadores : TCadastroContratadosController;
     FEntregas : TEntregasControl;
-    FClientes : TClientesControl;
+    FClientes : TCRMClientesController;
     FExtravio: TExtraviosMultasControl;
     FAcessos : TAcessosControl;
     procedure StatusButton();
@@ -601,7 +606,7 @@ var
 begin
   try
     FEntregas := TEntregasControl.Create;
-    FClientes := TClientesControl.Create;
+    FClientes := TCRMClientesController.Create;
     sConsumidor := '';
     sCliente := '';
     sPedido := '';
@@ -649,11 +654,12 @@ begin
     aParam[0] := 'CODIGO';
     aParam[1] := iClienteEmpresa;
     aParam[2] := iCliente;
-    FDQuery := FClientes.Localizar(aParam);
+    if FClientes.Localizar(aParam) then
+      FDQuery := FClientes.Clientes.Query;
     Finalize(aParam);
     if not FDQuery.IsEmpty then
     begin
-      sCliente := FDQuery.FieldByName('COD_CLIENTE').AsString + ' - ' + FDQuery.FieldByName('NOM_CLIENTE').AsString;
+      sCliente := FDQuery.FieldByName('COD_CLIENTE').AsString + ' - ' + FDQuery.FieldByName('nom_fantasia').AsString;
     end;
     FDQuery.Close;
     if sCliente.IsEmpty then sCliente := '';
@@ -1148,23 +1154,26 @@ begin
   try
     FDQuery := FMySQL.GetQuery;
     sSQL := '';
-    if Common.Utils.TUtils.ENumero(txtParametro.Text) then
+    if txtParametro.Text <> '' then
     begin
-      sSQL := 'SEQ_ACAREACAO LIKE ' + txtParametro.Text + ' OR ID_ACAREACAO LIKE ' +
-               QuotedStr('%' + txtParametro.Text + '%') + ' OR NUM_NOSSONUMERO LIKE '+ QuotedStr('%' + txtParametro.Text + '%') +
-              ' OR COD_ENTREGADOR = ' + txtParametro.Text + ' OR COD_BASE = ' + txtParametro.Text;
-    end
-    else
-    begin
-      sSQL := 'ID_ACAREACAO LIKE ' + QuotedStr('%' + txtParametro.Text + '%') + ' OR NUM_NOSSONUMERO LIKE '+
-              QuotedStr('%' + txtParametro.Text + '%');
+      if Common.Utils.TUtils.ENumero(txtParametro.Text) then
+      begin
+        sSQL := 'SEQ_ACAREACAO LIKE ' + txtParametro.Text + ' OR ID_ACAREACAO LIKE ' +
+                 QuotedStr('%' + txtParametro.Text + '%') + ' OR NUM_NOSSONUMERO LIKE '+ QuotedStr('%' + txtParametro.Text + '%') +
+                ' OR COD_ENTREGADOR = ' + txtParametro.Text + ' OR COD_BASE = ' + txtParametro.Text;
+      end
+      else
+      begin
+        sSQL := 'ID_ACAREACAO LIKE ' + QuotedStr('%' + txtParametro.Text + '%') + ' OR NUM_NOSSONUMERO LIKE '+
+                QuotedStr('%' + txtParametro.Text + '%');
 
+      end;
     end;
     SetLength(aParam,2);
     iIndex := 0;
     aParam[0] := 'FILTRO';
     aparam[1] := sSQL;
-    FDQuery := FAcareacao.Localizar(aParam);
+    FDQuery := FAcareacao.LocalizarView(aParam);
     Finalize(aParam);
     if not FDQuery.IsEmpty then PopulaPesquisa(FDQuery);
     FDQuery.Close;
@@ -1282,7 +1291,6 @@ begin
     txtNomeBase.Text := FEntregadores.FContratados.Query.FieldByName('nom_base').AsString;
   end;
   Finalize(aParam);
-  FEntregadores.FContratados.Query.Connection.Close;
 end;
 
 procedure Tview_Acareacoes.PopulaBase;
@@ -1313,10 +1321,11 @@ begin
   txtID.Text := FAcareacao.Acareacoes.Id;
   datAcareacao.Date := FAcareacao.Acareacoes.Data;
   txtNN.Text := FAcareacao.Acareacoes.Nossonumero;
-  edtCodigoEntregador.EditValue := FAcareacao.Acareacoes.Entregador;
-  NomeEntregador(FAcareacao.Acareacoes.Entregador);
-  //edtCodigoBase.EditValue := FAcareacao.Acareacoes.Base;
-  //txtNomeBase.Text := NomeBase(FAcareacao.Acareacoes.Base);
+  edtCodigoEntregador.EditValue := mtbPesquisaCOD_ENTREGADOR.AsInteger;
+  txtNomeEntregador.Text := mtbPesquisaNOM_MOTORISTA.AsString;
+  //NomeEntregador(FAcareacao.Acareacoes.Entregador);
+  edtCodigoBase.EditValue := mtbPesquisaNOM_BASE.AsString;
+  txtNomeBase.Text := NomeBase(FAcareacao.Acareacoes.Base);
   DadosEntrega(FAcareacao.Acareacoes.Nossonumero);
   datEntrega.Date := FAcareacao.Acareacoes.DataEntrega;
   cboMotivo.Text := FAcareacao.Acareacoes.Motivo;
@@ -1361,7 +1370,6 @@ begin
     mtbEntregadores.Open;
   finally
     FDQuery.Free;
-    FEntregadores.FContratados.Query.Connection.Close;
   end;
 end;
 
@@ -1370,19 +1378,20 @@ var
   iIndex : Integer;
 begin
     if mtbPesquisa.Active then mtbPesquisa.Close;
-    mtbPesquisa.Open;
-    if not FDQuery.IsEmpty then FDQuery.First;
-    while not FDQuery.Eof do
-    begin
-      mtbPesquisa.Insert;
-      for iIndex := 0 to FDQuery.FieldCount - 1 do
-      begin
-        mtbPesquisa.FieldByName(FDQuery.FieldList[iIndex].FieldName).Value :=
-        FDQuery.FieldByName(FDQuery.FieldList[iIndex].FieldName).Value;
-      end;
-      mtbPesquisa.Post;
-      FDQuery.Next;
-    end;
+    mtbPesquisa.Data := FDQuery.Data;
+//    mtbPesquisa.Open;
+//    if not FDQuery.IsEmpty then FDQuery.First;
+//    while not FDQuery.Eof do
+//    begin
+//      mtbPesquisa.Insert;
+//      for iIndex := 0 to FDQuery.FieldCount - 1 do
+//      begin
+//        mtbPesquisa.FieldByName(FDQuery.FieldList[iIndex].FieldName).Value :=
+//        FDQuery.FieldByName(FDQuery.FieldList[iIndex].FieldName).Value;
+//      end;
+//      mtbPesquisa.Post;
+//      FDQuery.Next;
+//    end;
     if not mtbPesquisa.IsEmpty then mtbPesquisa.First;
 end;
 

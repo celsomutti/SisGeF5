@@ -19,6 +19,7 @@ type
     function Gravar: Boolean;
     function Finalizar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
+    function LocalizarView(aParam: array of variant): TFDQuery;
     function GetId(): Integer;
     function ValidaCampos(): Boolean;
     function ValidaFinalizar(): Boolean;
@@ -73,6 +74,11 @@ end;
 function TAcareacaoControl.Localizar(aParam: array of variant): TFDQuery;
 begin
   Result := FAcareacoes.Localizar(aParam);
+end;
+
+function TAcareacaoControl.LocalizarView(aParam: array of variant): TFDQuery;
+begin
+  Result := FAcareacoes.LocalizarView(aParam);
 end;
 
 function TAcareacaoControl.ValidaCampos: Boolean;

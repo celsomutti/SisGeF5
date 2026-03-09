@@ -357,7 +357,10 @@ uses
   Excel4Delphi.Stream in 'src\Excel4Delphi\Excel4Delphi.Stream.pas',
   Excel4Delphi.Utils in 'src\Excel4Delphi\Excel4Delphi.Utils.pas',
   Excel4Delphi.Xml in 'src\Excel4Delphi\Excel4Delphi.Xml.pas',
-  services.SisGeFSheetMisplacementShopee in 'src\Services\services.SisGeFSheetMisplacementShopee.pas';
+  services.SisGeFSheetMisplacementShopee in 'src\Services\services.SisGeFSheetMisplacementShopee.pas',
+  View.SisGeFCadastroTerceirizados in 'src\View\View.SisGeFCadastroTerceirizados.pas' {viewCadastroTerceirizados},
+  Model.SisgeFCategorias in 'src\Model\Model.SisgeFCategorias.pas',
+  Controller.SisGeFCategorias in 'src\Control\Controller.SisGeFCategorias.pas';
 
 {$R *.res}
 

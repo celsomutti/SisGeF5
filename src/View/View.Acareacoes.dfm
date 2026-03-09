@@ -402,7 +402,7 @@ object view_Acareacoes: Tview_Acareacoes
       Visible = False
       OnEnter = txtParametroEnter
       OnExit = txtParametroExit
-      Width = 1059
+      Width = 1040
     end
     object grdPesquisa: TcxGrid
       Left = 10000
@@ -468,11 +468,13 @@ object view_Acareacoes: Tview_Acareacoes
           Visible = False
         end
         object tvPesquisaSEQ_ACAREACAO: TcxGridDBColumn
+          Caption = 'Ticket'
           DataBinding.FieldName = 'SEQ_ACAREACAO'
           PropertiesClassName = 'TcxMaskEditProperties'
           Properties.IgnoreMaskBlank = True
           Properties.MaskKind = emkRegExpr
           Properties.EditMask = '\d\d\d\d\d\d'
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 63
         end
@@ -481,9 +483,10 @@ object view_Acareacoes: Tview_Acareacoes
           DataBinding.FieldName = 'ID_ACAREACAO'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 115
+          Width = 177
         end
         object tvPesquisaDAT_ACAREACAO: TcxGridDBColumn
+          Caption = 'Data'
           DataBinding.FieldName = 'DAT_ACAREACAO'
           PropertiesClassName = 'TcxDateEditProperties'
           HeaderAlignmentHorz = taCenter
@@ -493,6 +496,7 @@ object view_Acareacoes: Tview_Acareacoes
           DataBinding.FieldName = 'NUM_NOSSONUMERO'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
+          Width = 180
         end
         object tvPesquisaCOD_ENTREGADOR: TcxGridDBColumn
           Caption = 'C'#243'd. Motorista'
@@ -506,15 +510,9 @@ object view_Acareacoes: Tview_Acareacoes
         end
         object tvPesquisaNOM_ENTREGADOR: TcxGridDBColumn
           Caption = 'Nome Motorista'
-          DataBinding.FieldName = 'COD_ENTREGADOR'
-          PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.KeyFieldNames = 'COD_ENTREGADOR'
-          Properties.ListColumns = <
-            item
-              FieldName = 'NOM_FANTASIA'
-            end>
-          Properties.ListOptions.ShowHeader = False
-          Properties.ListSource = dsEntregadores
+          DataBinding.FieldName = 'NOM_MOTORISTA'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 184
         end
@@ -530,15 +528,9 @@ object view_Acareacoes: Tview_Acareacoes
         end
         object tvPesquisaNOM_BASE: TcxGridDBColumn
           Caption = 'Nome da Base'
-          DataBinding.FieldName = 'COD_BASE'
-          PropertiesClassName = 'TcxLookupComboBoxProperties'
-          Properties.KeyFieldNames = 'COD_AGENTE'
-          Properties.ListColumns = <
-            item
-              FieldName = 'NOM_FANTASIA'
-            end>
-          Properties.ListOptions.ShowHeader = False
-          Properties.ListSource = dsBase
+          DataBinding.FieldName = 'NOM_BASE'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 174
         end
@@ -557,16 +549,19 @@ object view_Acareacoes: Tview_Acareacoes
         object tvPesquisaDES_TRATATIVA: TcxGridDBColumn
           DataBinding.FieldName = 'DES_TRATATIVA'
           PropertiesClassName = 'TcxTextEditProperties'
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 252
         end
         object tvPesquisaDES_APURACAO: TcxGridDBColumn
+          Caption = 'Apura'#231#227'o'
           DataBinding.FieldName = 'DES_APURACAO'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
           Width = 247
         end
         object tvPesquisaDES_RESULTADO: TcxGridDBColumn
+          Caption = 'Resultado'
           DataBinding.FieldName = 'DES_RESULTADO'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
@@ -615,6 +610,7 @@ object view_Acareacoes: Tview_Acareacoes
           Caption = 'Finalizado'
           DataBinding.FieldName = 'DOM_FINALIZAR'
           PropertiesClassName = 'TcxCheckBoxProperties'
+          Properties.Alignment = taRightJustify
           HeaderAlignmentHorz = taCenter
           Width = 72
         end
@@ -657,7 +653,7 @@ object view_Acareacoes: Tview_Acareacoes
     object cxButton13: TcxButton
       Left = 10000
       Top = 10000
-      Width = 75
+      Width = 94
       Height = 25
       Cursor = crHandPoint
       Action = actPesquisarAcareacoes
@@ -1129,6 +1125,7 @@ object view_Acareacoes: Tview_Acareacoes
       AlignVert = avCenter
       CaptionOptions.Text = 'ID/Chamado:'
       CaptionOptions.Layout = clTop
+      Visible = False
       Control = txtID
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 69
@@ -1139,7 +1136,7 @@ object view_Acareacoes: Tview_Acareacoes
       Parent = dxLayoutGroup3
       AlignHorz = ahClient
       AlignVert = avCenter
-      CaptionOptions.Text = 'NN/Remessa:'
+      CaptionOptions.Text = 'SPXTN:'
       CaptionOptions.Layout = clTop
       Control = txtNN
       ControlOptions.OriginalHeight = 21
@@ -1455,7 +1452,7 @@ object view_Acareacoes: Tview_Acareacoes
       CaptionOptions.Layout = clTop
       Control = cxButton13
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 94
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -1525,6 +1522,7 @@ object view_Acareacoes: Tview_Acareacoes
       AlignVert = avClient
       CaptionOptions.Text = 'Unidade:'
       CaptionOptions.Layout = clTop
+      Visible = False
       Control = cboUnidade
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 91
@@ -1926,153 +1924,6 @@ object view_Acareacoes: Tview_Acareacoes
     DataSet = mtbPesquisa
     Left = 880
     Top = 8
-  end
-  object mtbPesquisa: TdxMemData
-    Indexes = <>
-    SortOptions = []
-    Left = 936
-    Top = 8
-    object mtbPesquisaSEQ_ACAREACAO: TIntegerField
-      DisplayLabel = 'Sequ'#234'ncia'
-      FieldName = 'SEQ_ACAREACAO'
-    end
-    object mtbPesquisaID_ACAREACAO: TStringField
-      DisplayLabel = '#ID TFO'
-      FieldName = 'ID_ACAREACAO'
-    end
-    object mtbPesquisaDAT_ACAREACAO: TDateTimeField
-      DisplayLabel = 'Data'
-      FieldName = 'DAT_ACAREACAO'
-    end
-    object mtbPesquisaNUM_NOSSONUMERO: TStringField
-      DisplayLabel = 'Nosso N'#250'mero'
-      FieldName = 'NUM_NOSSONUMERO'
-      Size = 14
-    end
-    object mtbPesquisaCOD_ENTREGADOR: TIntegerField
-      DisplayLabel = 'C'#243'digo do Entregador'
-      FieldName = 'COD_ENTREGADOR'
-    end
-    object mtbPesquisaCOD_BASE: TIntegerField
-      DisplayLabel = 'C'#243'digo da Base'
-      FieldName = 'COD_BASE'
-    end
-    object mtbPesquisaDAT_ENTREGA: TDateField
-      DisplayLabel = 'Data Entrega'
-      FieldName = 'DAT_ENTREGA'
-    end
-    object mtbPesquisaDES_MOTIVO: TStringField
-      DisplayLabel = 'Motivo da Acarea'#231#227'o'
-      FieldName = 'DES_MOTIVO'
-      Size = 60
-    end
-    object mtbPesquisaDES_TRATATIVA: TStringField
-      DisplayLabel = 'Tratativa'
-      FieldName = 'DES_TRATATIVA'
-      Size = 60
-    end
-    object mtbPesquisaDES_APURACAO: TStringField
-      DisplayLabel = 'Apura'#231#227'o'
-      FieldName = 'DES_APURACAO'
-      Size = 60
-    end
-    object mtbPesquisaDES_RESULTADO: TStringField
-      DisplayLabel = 'Resultado'
-      FieldName = 'DES_RESULTADO'
-      Size = 60
-    end
-    object mtbPesquisaVAL_EXTRAVIO: TCurrencyField
-      DisplayLabel = 'Valor do Extravio'
-      FieldName = 'VAL_EXTRAVIO'
-    end
-    object mtbPesquisaVAL_MULTA: TCurrencyField
-      DisplayLabel = 'Valor da Multa'
-      FieldName = 'VAL_MULTA'
-    end
-    object mtbPesquisaDES_ENVIO_CORRESPONDENCIA: TStringField
-      DisplayLabel = 'Envio Declara'#231#227'o'
-      FieldName = 'DES_ENVIO_CORRESPONDENCIA'
-    end
-    object mtbPesquisaDES_RETORNO_CORRESPONDENCIA: TStringField
-      DisplayLabel = 'Retorno Declara'#231#227'o'
-      FieldName = 'DES_RETORNO_CORRESPONDENCIA'
-    end
-    object mtbPesquisaDES_OBSERVACOES: TMemoField
-      DisplayLabel = 'Observa'#231#245'es'
-      FieldName = 'DES_OBSERVACOES'
-      BlobType = ftMemo
-    end
-    object mtbPesquisaDOM_FINALIZAR: TBooleanField
-      DisplayLabel = 'Finalizar'
-      FieldName = 'DOM_FINALIZAR'
-    end
-    object mtbPesquisaDES_EXECUTOR: TStringField
-      DisplayLabel = 'Executor'
-      FieldName = 'DES_EXECUTOR'
-    end
-    object mtbPesquisaDAT_MANUTENCAO: TDateTimeField
-      DisplayLabel = 'Manuten'#231#227'o'
-      FieldName = 'DAT_MANUTENCAO'
-    end
-    object mtbPesquisaNOM_CONSUMIDOR: TStringField
-      DisplayLabel = 'Consumidor'
-      FieldName = 'NOM_CONSUMIDOR'
-      Size = 70
-    end
-    object mtbPesquisaDAT_RETORNO: TDateField
-      FieldName = 'DAT_RETORNO'
-    end
-    object mtbPesquisaDES_UNIDADE: TStringField
-      FieldName = 'DES_UNIDADE'
-    end
-    object mtbPesquisaDES_ENDERECO: TStringField
-      DisplayLabel = 'Endere'#231'o'
-      FieldName = 'DES_ENDERECO'
-      Size = 70
-    end
-    object mtbPesquisaNUM_ENDERECO: TStringField
-      DisplayLabel = 'N'#250'mero'
-      FieldName = 'NUM_ENDERECO'
-      Size = 11
-    end
-    object mtbPesquisaDES_BAIRRO: TStringField
-      DisplayLabel = 'Bairro'
-      FieldName = 'DES_BAIRRO'
-      Size = 70
-    end
-    object mtbPesquisaDES_CIDADE: TStringField
-      DisplayLabel = 'Cidade'
-      FieldName = 'DES_CIDADE'
-      Size = 70
-    end
-    object mtbPesquisaNUM_CEP: TStringField
-      DisplayLabel = 'CEP'
-      FieldName = 'NUM_CEP'
-      Size = 9
-    end
-    object mtbPesquisaDES_REMETENTE: TStringField
-      DisplayLabel = 'Remetente'
-      FieldName = 'DES_REMETENTE'
-    end
-    object mtbPesquisaDES_PRODUTO: TStringField
-      DisplayLabel = 'Produto'
-      FieldName = 'DES_PRODUTO'
-      Size = 40
-    end
-    object mtbPesquisaNOM_RECEBEDOR: TStringField
-      DisplayLabel = 'Recebedor'
-      FieldName = 'NOM_RECEBEDOR'
-      Size = 70
-    end
-    object mtbPesquisaDES_IDENTIFICACAO: TStringField
-      DisplayLabel = 'Identifica'#231#227'o'
-      FieldName = 'DES_IDENTIFICACAO'
-      Size = 40
-    end
-    object mtbPesquisaDES_DOCUMENTO: TStringField
-      DisplayLabel = 'Documento'
-      FieldName = 'DES_DOCUMENTO'
-    end
   end
   object mtbEntregadores: TdxMemData
     Indexes = <>
@@ -4110,6 +3961,504 @@ object view_Acareacoes: Tview_Acareacoes
     object memTableAcareacoesdes_documento: TStringField
       DisplayLabel = 'Documento'
       FieldName = 'des_documento'
+    end
+    object memTableAcareacoesnom_motorista: TStringField
+      FieldName = 'nom_motorista'
+      Size = 70
+    end
+    object memTableAcareacoesnom_base: TStringField
+      FieldName = 'nom_base'
+      Size = 70
+    end
+  end
+  object mtbPesquisa: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'SEQ_ACAREACAO'
+        DataType = ftAutoInc
+      end
+      item
+        Name = 'ID_ACAREACAO'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'DAT_ACAREACAO'
+        Attributes = [faRequired]
+        DataType = ftDateTime
+      end
+      item
+        Name = 'NUM_NOSSONUMERO'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'COD_ENTREGADOR'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'NOM_MOTORISTA'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'COD_BASE'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'NOM_BASE'
+        DataType = ftString
+        Size = 80
+      end
+      item
+        Name = 'DAT_ENTREGA'
+        DataType = ftDate
+      end
+      item
+        Name = 'DES_MOTIVO'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'DES_TRATATIVA'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'DES_APURACAO'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'DES_RESULTADO'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'VAL_EXTRAVIO'
+        DataType = ftFloat
+        Precision = 22
+      end
+      item
+        Name = 'VAL_MULTA'
+        DataType = ftFloat
+        Precision = 22
+      end
+      item
+        Name = 'DES_ENVIO_CORRESPONDENCIA'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'DES_RETORNO_CORRESPONDENCIA'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'DES_OBSERVACOES'
+        DataType = ftMemo
+      end
+      item
+        Name = 'DOM_FINALIZAR'
+        DataType = ftShortint
+      end
+      item
+        Name = 'DES_EXECUTOR'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'DAT_MANUTENCAO'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'DAT_RETORNO'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'DES_UNIDADE'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'NOM_CONSUMIDOR'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'DES_ENDERECO'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'NUM_ENDERECO'
+        DataType = ftString
+        Size = 11
+      end
+      item
+        Name = 'DES_BAIRRO'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'DES_CIDADE'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'NUM_CEP'
+        DataType = ftString
+        Size = 9
+      end
+      item
+        Name = 'DES_REMETENTE'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'DES_PRODUTO'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'NOM_RECEBEDOR'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'DES_IDENTIFICACAO'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'DES_DOCUMENTO'
+        DataType = ftString
+        Size = 20
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 928
+    Top = 8
+    Content = {
+      414442530F004C4D4B120000FF00010001FF02FF030400160000006D00740062
+      005000650073007100750069007300610005000A0000005400610062006C0065
+      00060000000000070000080032000000090000FF0AFF0B04001A000000530045
+      0051005F00410043004100520045004100430041004F0005001A000000530045
+      0051005F00410043004100520045004100430041004F000C00010000000E000D
+      000F00011000011100011200011300FFFFFFFF1400FFFFFFFF15000116000117
+      000118001A0000005300450051005F0041004300410052004500410043004100
+      4F00FEFF0B040018000000490044005F00410043004100520045004100430041
+      004F00050018000000490044005F00410043004100520045004100430041004F
+      000C00020000000E0019001A00640000000F00011200011B0001160001180018
+      000000490044005F00410043004100520045004100430041004F001C00640000
+      00FEFF0B04001A0000004400410054005F004100430041005200450041004300
+      41004F0005001A0000004400410054005F004100430041005200450041004300
+      41004F000C00030000000E001D000F00011200011B000116000118001A000000
+      4400410054005F00410043004100520045004100430041004F00FEFF0B04001E
+      0000004E0055004D005F004E004F00530053004F004E0055004D00450052004F
+      0005001E0000004E0055004D005F004E004F00530053004F004E0055004D0045
+      0052004F000C00040000000E0019001A00320000000F00011200011B00011600
+      0118001E0000004E0055004D005F004E004F00530053004F004E0055004D0045
+      0052004F001C0032000000FEFF0B04001C00000043004F0044005F0045004E00
+      5400520045004700410044004F00520005001C00000043004F0044005F004500
+      4E005400520045004700410044004F0052000C00050000000E000D000F000112
+      00011B000116000118001C00000043004F0044005F0045004E00540052004500
+      4700410044004F005200FEFF0B04001A0000004E004F004D005F004D004F0054
+      004F005200490053005400410005001A0000004E004F004D005F004D004F0054
+      004F00520049005300540041000C00060000000E0019001A00460000000F0001
+      1000011200011500011B000116000118001A0000004E004F004D005F004D004F
+      0054004F00520049005300540041001C0046000000FEFF0B0400100000004300
+      4F0044005F00420041005300450005001000000043004F0044005F0042004100
+      530045000C00070000000E000D000F00011200011B0001160001180010000000
+      43004F0044005F004200410053004500FEFF0B0400100000004E004F004D005F
+      0042004100530045000500100000004E004F004D005F0042004100530045000C
+      00080000000E0019001A00500000000F00011000011200011500011B00011600
+      011800100000004E004F004D005F0042004100530045001C0050000000FEFF0B
+      0400160000004400410054005F0045004E005400520045004700410005001600
+      00004400410054005F0045004E00540052004500470041000C00090000000E00
+      1E000F00011000011200011500011B0001160001180016000000440041005400
+      5F0045004E0054005200450047004100FEFF0B0400140000004400450053005F
+      004D004F005400490056004F000500140000004400450053005F004D004F0054
+      00490056004F000C000A0000000E0019001A00640000000F0001100001120001
+      1500011B00011600011800140000004400450053005F004D004F005400490056
+      004F001C0064000000FEFF0B04001A0000004400450053005F00540052004100
+      54004100540049005600410005001A0000004400450053005F00540052004100
+      5400410054004900560041000C000B0000000E0019001A00640000000F000110
+      00011200011500011B000116000118001A0000004400450053005F0054005200
+      41005400410054004900560041001C0064000000FEFF0B040018000000440045
+      0053005F0041005000550052004100430041004F000500180000004400450053
+      005F0041005000550052004100430041004F000C000C0000000E0019001A0064
+      0000000F00011000011200011500011B00011600011800180000004400450053
+      005F0041005000550052004100430041004F001C0064000000FEFF0B04001A00
+      00004400450053005F0052004500530055004C005400410044004F0005001A00
+      00004400450053005F0052004500530055004C005400410044004F000C000D00
+      00000E0019001A00640000000F00011000011200011500011B00011600011800
+      1A0000004400450053005F0052004500530055004C005400410044004F001C00
+      64000000FEFF0B040018000000560041004C005F004500580054005200410056
+      0049004F00050018000000560041004C005F0045005800540052004100560049
+      004F000C000E0000000E001F002000160000000F00011000011200011500011B
+      0001160001180018000000560041004C005F0045005800540052004100560049
+      004F00210016000000FEFF0B040012000000560041004C005F004D0055004C00
+      54004100050012000000560041004C005F004D0055004C00540041000C000F00
+      00000E001F002000160000000F00011000011200011500011B00011600011800
+      12000000560041004C005F004D0055004C0054004100210016000000FEFF0B04
+      00320000004400450053005F0045004E00560049004F005F0043004F00520052
+      004500530050004F004E00440045004E00430049004100050032000000440045
+      0053005F0045004E00560049004F005F0043004F00520052004500530050004F
+      004E00440045004E004300490041000C00100000000E0019001A00140000000F
+      00011000011200011500011B00011600011800320000004400450053005F0045
+      004E00560049004F005F0043004F00520052004500530050004F004E00440045
+      004E004300490041001C0014000000FEFF0B0400360000004400450053005F00
+      5200450054004F0052004E004F005F0043004F00520052004500530050004F00
+      4E00440045004E004300490041000500360000004400450053005F0052004500
+      54004F0052004E004F005F0043004F00520052004500530050004F004E004400
+      45004E004300490041000C00110000000E0019001A00460000000F0001100001
+      1200011500011B00011600011800360000004400450053005F00520045005400
+      4F0052004E004F005F0043004F00520052004500530050004F004E0044004500
+      4E004300490041001C0046000000FEFF0B04001E0000004400450053005F004F
+      0042005300450052005600410043004F004500530005001E0000004400450053
+      005F004F0042005300450052005600410043004F00450053000C00120000000E
+      0022000F00011000012300011200011500011B000116000118001E0000004400
+      450053005F004F0042005300450052005600410043004F0045005300FEFF0B04
+      001A00000044004F004D005F00460049004E0041004C0049005A004100520005
+      001A00000044004F004D005F00460049004E0041004C0049005A00410052000C
+      00130000000E0024000F00011000011200011500011B000116000118001A0000
+      0044004F004D005F00460049004E0041004C0049005A0041005200FEFF0B0400
+      180000004400450053005F004500580045004300550054004F00520005001800
+      00004400450053005F004500580045004300550054004F0052000C0014000000
+      0E0019001A00140000000F00011000011200011500011B000116000118001800
+      00004400450053005F004500580045004300550054004F0052001C0014000000
+      FEFF0B04001C0000004400410054005F004D0041004E005500540045004E0043
+      0041004F0005001C0000004400410054005F004D0041004E005500540045004E
+      00430041004F000C00150000000E001D000F00011000011200011500011B0001
+      16000118001C0000004400410054005F004D0041004E005500540045004E0043
+      0041004F00FEFF0B0400160000004400410054005F005200450054004F005200
+      4E004F000500160000004400410054005F005200450054004F0052004E004F00
+      0C00160000000E001D000F00011000011200011500011B000116000118001600
+      00004400410054005F005200450054004F0052004E004F00FEFF0B0400160000
+      004400450053005F0055004E0049004400410044004500050016000000440045
+      0053005F0055004E00490044004100440045000C00170000000E0019001A0014
+      0000000F00011000011200011500011B00011600011800160000004400450053
+      005F0055004E00490044004100440045001C0014000000FEFF0B04001C000000
+      4E004F004D005F0043004F004E00530055004D00490044004F00520005001C00
+      00004E004F004D005F0043004F004E00530055004D00490044004F0052000C00
+      180000000E0019001A00460000000F00011000011200011500011B0001160001
+      18001C0000004E004F004D005F0043004F004E00530055004D00490044004F00
+      52001C0046000000FEFF0B0400180000004400450053005F0045004E00440045
+      005200450043004F000500180000004400450053005F0045004E004400450052
+      00450043004F000C00190000000E0019001A00460000000F0001100001120001
+      1500011B00011600011800180000004400450053005F0045004E004400450052
+      00450043004F001C0046000000FEFF0B0400180000004E0055004D005F004500
+      4E00440045005200450043004F000500180000004E0055004D005F0045004E00
+      440045005200450043004F000C001A0000000E0019001A000B0000000F000110
+      00011200011500011B00011600011800180000004E0055004D005F0045004E00
+      440045005200450043004F001C000B000000FEFF0B0400140000004400450053
+      005F00420041004900520052004F000500140000004400450053005F00420041
+      004900520052004F000C001B0000000E0019001A00460000000F000110000112
+      00011500011B00011600011800140000004400450053005F0042004100490052
+      0052004F001C0046000000FEFF0B0400140000004400450053005F0043004900
+      44004100440045000500140000004400450053005F0043004900440041004400
+      45000C001C0000000E0019001A00460000000F00011000011200011500011B00
+      011600011800140000004400450053005F004300490044004100440045001C00
+      46000000FEFF0B04000E0000004E0055004D005F0043004500500005000E0000
+      004E0055004D005F004300450050000C001D0000000E0019001A00090000000F
+      00011000011200011500011B000116000118000E0000004E0055004D005F0043
+      00450050001C0009000000FEFF0B04001A0000004400450053005F0052004500
+      4D004500540045004E005400450005001A0000004400450053005F0052004500
+      4D004500540045004E00540045000C001E0000000E0019001A00140000000F00
+      011000011200011500011B000116000118001A0000004400450053005F005200
+      45004D004500540045004E00540045001C0014000000FEFF0B04001600000044
+      00450053005F00500052004F004400550054004F000500160000004400450053
+      005F00500052004F004400550054004F000C001F0000000E0019001A00640000
+      000F00011000011200011500011B00011600011800160000004400450053005F
+      00500052004F004400550054004F001C0064000000FEFF0B04001A0000004E00
+      4F004D005F0052004500430045004200450044004F00520005001A0000004E00
+      4F004D005F0052004500430045004200450044004F0052000C00200000000E00
+      19001A00460000000F00011000011200011500011B000116000118001A000000
+      4E004F004D005F0052004500430045004200450044004F0052001C0046000000
+      FEFF0B0400220000004400450053005F004900440045004E0054004900460049
+      0043004100430041004F000500220000004400450053005F004900440045004E
+      00540049004600490043004100430041004F000C00210000000E0019001A0028
+      0000000F00011000011200011500011B00011600011800220000004400450053
+      005F004900440045004E00540049004600490043004100430041004F001C0028
+      000000FEFF0B04001A0000004400450053005F0044004F00430055004D004500
+      4E0054004F0005001A0000004400450053005F0044004F00430055004D004500
+      4E0054004F000C00220000000E0019001A00140000000F000110000112000115
+      00011B000116000118001A0000004400450053005F0044004F00430055004D00
+      45004E0054004F001C0014000000FEFEFF25FEFF26FEFF27FEFEFEFF28FEFF29
+      2A00D0170000FF2BFEFEFE0E004D0061006E0061006700650072001E00550070
+      0064006100740065007300520065006700690073007400720079001200540061
+      0062006C0065004C006900730074000A005400610062006C00650008004E0061
+      006D006500140053006F0075007200630065004E0061006D0065000A00540061
+      00620049004400240045006E0066006F0072006300650043006F006E00730074
+      007200610069006E00740073001E004D0069006E0069006D0075006D00430061
+      00700061006300690074007900180043006800650063006B004E006F0074004E
+      0075006C006C00140043006F006C0075006D006E004C006900730074000C0043
+      006F006C0075006D006E00100053006F007500720063006500490044000E0064
+      00740049006E0074003300320010004400610074006100540079007000650014
+      00530065006100720063006800610062006C006500120041006C006C006F0077
+      004E0075006C006C000E004100750074006F0049006E00630008004200610073
+      00650022004100750074006F0049006E006300720065006D0065006E00740053
+      0065006500640022004100750074006F0049006E006300720065006D0065006E
+      007400530074006500700014004F0041006C006C006F0077004E0075006C006C
+      0010004F0049006E005700680065007200650020004F00410066007400650072
+      0049006E0073004300680061006E006700650064001A004F0072006900670069
+      006E0043006F006C004E0061006D00650018006400740041006E007300690053
+      007400720069006E0067000800530069007A00650012004F0049006E00550070
+      006400610074006500140053006F007500720063006500530069007A00650014
+      00640074004400610074006500540069006D0065000C00640074004400610074
+      00650010006400740044006F00750062006C0065001200500072006500630069
+      00730069006F006E001E0053006F007500720063006500500072006500630069
+      00730069006F006E000C00640074004D0065006D006F00100042006C006F0062
+      0044006100740061000E0064007400530042007900740065001C0043006F006E
+      00730074007200610069006E0074004C00690073007400100056006900650077
+      004C006900730074000E0052006F0077004C006900730074001800520065006C
+      006100740069006F006E004C006900730074001C005500700064006100740065
+      0073004A006F00750072006E0061006C001200530061007600650050006F0069
+      006E0074000E004300680061006E00670065007300}
+    object mtbPesquisaSEQ_ACAREACAO: TFDAutoIncField
+      FieldName = 'SEQ_ACAREACAO'
+    end
+    object mtbPesquisaID_ACAREACAO: TStringField
+      FieldName = 'ID_ACAREACAO'
+      Required = True
+      Size = 100
+    end
+    object mtbPesquisaDAT_ACAREACAO: TDateTimeField
+      FieldName = 'DAT_ACAREACAO'
+      Required = True
+    end
+    object mtbPesquisaNUM_NOSSONUMERO: TStringField
+      FieldName = 'NUM_NOSSONUMERO'
+      Required = True
+      Size = 50
+    end
+    object mtbPesquisaCOD_ENTREGADOR: TIntegerField
+      FieldName = 'COD_ENTREGADOR'
+      Required = True
+    end
+    object mtbPesquisaNOM_MOTORISTA: TStringField
+      FieldName = 'NOM_MOTORISTA'
+      Size = 70
+    end
+    object mtbPesquisaCOD_BASE: TIntegerField
+      FieldName = 'COD_BASE'
+      Required = True
+    end
+    object mtbPesquisaNOM_BASE: TStringField
+      FieldName = 'NOM_BASE'
+      Size = 80
+    end
+    object mtbPesquisaDAT_ENTREGA: TDateField
+      FieldName = 'DAT_ENTREGA'
+    end
+    object mtbPesquisaDES_MOTIVO: TStringField
+      FieldName = 'DES_MOTIVO'
+      Size = 100
+    end
+    object mtbPesquisaDES_TRATATIVA: TStringField
+      FieldName = 'DES_TRATATIVA'
+      Size = 100
+    end
+    object mtbPesquisaDES_APURACAO: TStringField
+      FieldName = 'DES_APURACAO'
+      Size = 100
+    end
+    object mtbPesquisaDES_RESULTADO: TStringField
+      FieldName = 'DES_RESULTADO'
+      Size = 100
+    end
+    object mtbPesquisaVAL_EXTRAVIO: TFloatField
+      FieldName = 'VAL_EXTRAVIO'
+    end
+    object mtbPesquisaVAL_MULTA: TFloatField
+      FieldName = 'VAL_MULTA'
+    end
+    object mtbPesquisaDES_ENVIO_CORRESPONDENCIA: TStringField
+      FieldName = 'DES_ENVIO_CORRESPONDENCIA'
+    end
+    object mtbPesquisaDES_RETORNO_CORRESPONDENCIA: TStringField
+      FieldName = 'DES_RETORNO_CORRESPONDENCIA'
+      Size = 70
+    end
+    object mtbPesquisaDES_OBSERVACOES: TMemoField
+      FieldName = 'DES_OBSERVACOES'
+      BlobType = ftMemo
+    end
+    object mtbPesquisaDOM_FINALIZAR: TShortintField
+      FieldName = 'DOM_FINALIZAR'
+    end
+    object mtbPesquisaDES_EXECUTOR: TStringField
+      FieldName = 'DES_EXECUTOR'
+    end
+    object mtbPesquisaDAT_MANUTENCAO: TDateTimeField
+      FieldName = 'DAT_MANUTENCAO'
+    end
+    object mtbPesquisaDAT_RETORNO: TDateTimeField
+      FieldName = 'DAT_RETORNO'
+    end
+    object mtbPesquisaDES_UNIDADE: TStringField
+      FieldName = 'DES_UNIDADE'
+    end
+    object mtbPesquisaNOM_CONSUMIDOR: TStringField
+      FieldName = 'NOM_CONSUMIDOR'
+      Size = 70
+    end
+    object mtbPesquisaDES_ENDERECO: TStringField
+      FieldName = 'DES_ENDERECO'
+      Size = 70
+    end
+    object mtbPesquisaNUM_ENDERECO: TStringField
+      FieldName = 'NUM_ENDERECO'
+      Size = 11
+    end
+    object mtbPesquisaDES_BAIRRO: TStringField
+      FieldName = 'DES_BAIRRO'
+      Size = 70
+    end
+    object mtbPesquisaDES_CIDADE: TStringField
+      FieldName = 'DES_CIDADE'
+      Size = 70
+    end
+    object mtbPesquisaNUM_CEP: TStringField
+      FieldName = 'NUM_CEP'
+      Size = 9
+    end
+    object mtbPesquisaDES_REMETENTE: TStringField
+      FieldName = 'DES_REMETENTE'
+    end
+    object mtbPesquisaDES_PRODUTO: TStringField
+      FieldName = 'DES_PRODUTO'
+      Size = 100
+    end
+    object mtbPesquisaNOM_RECEBEDOR: TStringField
+      FieldName = 'NOM_RECEBEDOR'
+      Size = 70
+    end
+    object mtbPesquisaDES_IDENTIFICACAO: TStringField
+      FieldName = 'DES_IDENTIFICACAO'
+      Size = 40
+    end
+    object mtbPesquisaDES_DOCUMENTO: TStringField
+      FieldName = 'DES_DOCUMENTO'
     end
   end
 end

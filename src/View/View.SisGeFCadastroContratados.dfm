@@ -644,7 +644,6 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
       State = cbsChecked
       Style.HotTrack = False
       TabOrder = 3
-      Visible = False
     end
     object filterControl: TcxDBFilterControl
       Left = 10000

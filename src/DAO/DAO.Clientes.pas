@@ -3,7 +3,7 @@ unit DAO.Clientes;
 interface
 
 uses
-  FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Model.Clientes;
+  FireDAC.Comp.Client, System.SysUtils, Model.Clientes, service.connectionMySQL;
 
   type
 
@@ -11,7 +11,7 @@ uses
 
   private
 
-    FConexao : TConexao;
+    FConexao : TConnectionMySQL;
 
   public
 
@@ -38,7 +38,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('UPDATE ' + TABLENAME + 'SET NOM_CLIENTE = :NOM_CLIENTE, VAL_VERBA = :VAL_VERBA, DOM_OS = :DOM_OS ' +
     'WHERE COD_CLIENTE_EMPRESA = :COD_CLIENTE_EMPRESA AND COD_CLIENTE = :COD_CLIENTE;', [ACliente.Codigo,
     ACliente.Nome, ACliente.Verba, ACliente.OS, ACliente.Cliente, ACliente.Codigo]);
@@ -50,7 +50,7 @@ end;
 
 constructor TClientesDAO.Create;
 begin
-  FConexao := TSistemaControl.GetInstance().Conexao;
+  FConexao := TConnectionMySQL.Create;
 end;
 
 function TClientesDAO.Excluir(ACliente: TClientes): Boolean;
@@ -59,7 +59,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('delete from ' + TABLENAME + ' where COD_CLIENTE_EMPRESA = :COD_CLIENTE_EMPRESA and COD_CLIENTE = :COD_CLIENTE',
                    [ACliente.Cliente, ACliente.Codigo]);
     Result := True;
@@ -74,7 +74,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('INSERT INTO ' + TABLENAME  + ' (COD_CLIENTE_EMPRESA, COD_CLIENTE, NOM_CLIENTE, VAL_VERBA, DOM_OS) ' +
                     'VALUES ' +
                     '(:COD_CLIENTE_EMPRESA, :COD_CLIENTE, :NOM_CLIENTE, :VAL_VERBA, :DOM_OS);',
@@ -89,7 +89,7 @@ function TClientesDAO.Pesquisar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery();
+  FDQuery := FConexao.GetQuery();
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
   FDQuery.SQL.Add('select * from ' + TABLENAME);

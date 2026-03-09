@@ -753,8 +753,8 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
       TabOrder = 5
       Transparent = True
       object dbComboBoxTipoEndereco: TcxDBComboBox
-        Left = 125
-        Top = 46
+        Left = 10000
+        Top = 10000
         Hint = 'Tipo de endere'#231'o'
         DataBinding.DataField = 'des_tipo'
         DataBinding.DataSource = dsEnderecos
@@ -769,11 +769,12 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 0
+        Visible = False
         Width = 426
       end
       object dbTextEditEndereco: TcxDBTextEdit
-        Left = 125
-        Top = 76
+        Left = 10000
+        Top = 10000
         Hint = 'Endere'#231'o'
         DataBinding.DataField = 'des_logradouro'
         DataBinding.DataSource = dsEnderecos
@@ -782,11 +783,12 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 2
+        Visible = False
         Width = 237
       end
       object dbTextEditNumero: TcxDBTextEdit
-        Left = 393
-        Top = 76
+        Left = 10000
+        Top = 10000
         Hint = 'N'#250'mero do endere'#231'o'
         DataBinding.DataField = 'num_logradouro'
         DataBinding.DataSource = dsEnderecos
@@ -794,11 +796,12 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 3
+        Visible = False
         Width = 74
       end
       object dbTextEditComplemento: TcxDBTextEdit
-        Left = 554
-        Top = 76
+        Left = 10000
+        Top = 10000
         DataBinding.DataField = 'des_complemento'
         DataBinding.DataSource = dsEnderecos
         Properties.MaxLength = 50
@@ -806,11 +809,12 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 4
+        Visible = False
         Width = 152
       end
       object dbTextEditBairro: TcxDBTextEdit
-        Left = 125
-        Top = 103
+        Left = 10000
+        Top = 10000
         Hint = 'Bairro do endere'#231'o'
         DataBinding.DataField = 'des_bairro'
         DataBinding.DataSource = dsEnderecos
@@ -819,11 +823,12 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 5
+        Visible = False
         Width = 216
       end
       object dbTextEditCidade: TcxDBTextEdit
-        Left = 392
-        Top = 103
+        Left = 10000
+        Top = 10000
         Hint = 'Cidade do endere'#231'o'
         DataBinding.DataField = 'nom_cidade'
         DataBinding.DataSource = dsEnderecos
@@ -832,11 +837,12 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 6
+        Visible = False
         Width = 193
       end
       object dbLookupComboBoxUFEndereco: TcxDBLookupComboBox
-        Left = 614
-        Top = 103
+        Left = 10000
+        Top = 10000
         DataBinding.DataField = 'uf_estado'
         DataBinding.DataSource = dsEnderecos
         Properties.KeyFieldNames = 'uf_estado'
@@ -851,11 +857,12 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 7
+        Visible = False
         Width = 92
       end
       object dbTextEditReferencia: TcxDBTextEdit
-        Left = 125
-        Top = 130
+        Left = 10000
+        Top = 10000
         Hint = 'Refer'#234'ncia do endere'#231'o'
         DataBinding.DataField = 'des_referencia'
         DataBinding.DataSource = dsEnderecos
@@ -863,11 +870,12 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 8
+        Visible = False
         Width = 581
       end
       object dbNavigatorEnderecos: TcxDBNavigator
-        Left = 26
-        Top = 159
+        Left = 10000
+        Top = 10000
         Width = 217
         Height = 25
         Cursor = crHandPoint
@@ -891,6 +899,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         DataSource = dsEnderecos
         InfoPanel.Visible = True
         TabOrder = 9
+        Visible = False
       end
       object gridContatos: TcxGrid
         Left = 10000
@@ -961,8 +970,8 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         end
       end
       object comboBoxFormaPagamento: TcxComboBox
-        Left = 10000
-        Top = 10000
+        Left = 144
+        Top = 46
         Hint = 'Forma de pagamento'
         Properties.DropDownListStyle = lsEditFixedList
         Properties.IgnoreMaskBlank = True
@@ -982,12 +991,11 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 11
         Text = 'NENHUMA'
-        Visible = False
         Width = 562
       end
       object lookupComboBoxBanco: TcxLookupComboBox
-        Left = 10000
-        Top = 10000
+        Left = 144
+        Top = 73
         Hint = 'Banco '
         Properties.KeyFieldNames = 'cod_banco'
         Properties.ListColumns = <
@@ -1001,48 +1009,44 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.ButtonStyle = bts3D
         Style.PopupBorderStyle = epbsFrame3D
         TabOrder = 12
-        Visible = False
         Width = 142
       end
       object textEditAgencia: TcxTextEdit
-        Left = 10000
-        Top = 10000
+        Left = 342
+        Top = 73
         Hint = 'Ag'#234'ncia da conta'
         Properties.MaxLength = 10
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 13
-        Visible = False
         Width = 115
       end
       object textEditConta: TcxTextEdit
-        Left = 10000
-        Top = 10000
+        Left = 521
+        Top = 73
         Hint = 'N'#250'mero da Conta'
         Properties.MaxLength = 20
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 14
-        Visible = False
         Width = 185
       end
       object textEditChavePIX: TcxTextEdit
-        Left = 10000
-        Top = 10000
+        Left = 144
+        Top = 111
         Hint = 'Chave PIX'
         Properties.MaxLength = 70
         Style.BorderColor = clWindowFrame
         Style.BorderStyle = ebs3D
         Style.HotTrack = False
         TabOrder = 15
-        Visible = False
         Width = 562
       end
       object dbMaskEditCEP: TcxDBButtonEdit
-        Left = 585
-        Top = 46
+        Left = 10000
+        Top = 10000
         Hint = 'CEP do endere'#231'o'
         DataBinding.DataField = 'num_cep'
         DataBinding.DataSource = dsEnderecos
@@ -1088,6 +1092,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Style.HotTrack = False
         Style.ButtonStyle = bts3D
         TabOrder = 1
+        Visible = False
         Width = 121
       end
       object gridCNAE: TcxGrid
@@ -1150,6 +1155,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avClient
         ButtonOptions.Buttons = <>
         Hidden = True
+        ItemIndex = 2
         LayoutDirection = ldTabbed
         ShowBorder = False
         Index = -1
@@ -2260,7 +2266,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     Left = 592
     Top = 293
     Content = {
-      414442530F001854E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00664EE9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005
@@ -2421,7 +2427,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     Left = 400
     Top = 237
     Content = {
-      414442530F0018549A020000FF00010001FF02FF030400180000006D0065006D
+      414442530F00664E9A020000FF00010001FF02FF030400180000006D0065006D
       005400610062006C00650043004E004100450005000A0000005400610062006C
       006500060000000000070000080032000000090000FF0AFF0B04000E00000069
       0064005F0063006E006100650005000E000000690064005F0063006E00610065

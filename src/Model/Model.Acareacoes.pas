@@ -3,7 +3,7 @@ unit Model.Acareacoes;
 interface
 
 uses
-  Common.ENum, FireDAC.Comp.Client,System.SysUtils, DAO.Conexao, Control.Sistema;
+  Common.ENum, FireDAC.Comp.Client,System.SysUtils, Control.Sistema, service.connectionMySQL;
 
   type
     TAcareacoes = class
@@ -42,7 +42,7 @@ uses
       FCidade: String;
       FEndereco: String;
 
-      FConexao : TConexao;
+      FConexao : TConnectionMySQL;
       FAcao: TAcao;
       FNumero: String;
 
@@ -90,6 +90,7 @@ uses
 
       constructor Create();
       function Localizar(aParam: array of variant): TFDQuery;
+      function LocalizarView(aParam: array of variant): TFDQuery;
       function Gravar(): Boolean;
       function GetID(): Integer;
       function AcareacaoExiste(): Boolean;
@@ -97,6 +98,7 @@ uses
     end;
   const
       TABLENAME = 'tbacareacoes';
+      VIEW = 'view_acareacoes';
 
 implementation
 
@@ -109,7 +111,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.SQL.Clear;
     FDQuery.SQL.Add('select * from ' + TABLENAME + ' where ID_ACAREACAO = :ID_ACAREACAO and NUM_NOSSONUMERO = :NUM_NOSSONUMERO');
     FDQuery.ParamByName('ID_ACAREACAO').AsString := Id;
@@ -129,7 +131,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('UPDATE ' + TABLENAME + ' SET ' +
                     'ID_ACAREACAO = :ID_ACAREACAO, DAT_ACAREACAO = :DAT_ACAREACAO, ' +
                     'NUM_NOSSONUMERO = :NUM_NOSSONUMERO, COD_ENTREGADOR = :COD_ENTREGADOR, COD_BASE = :COD_BASE, ' +
@@ -155,7 +157,7 @@ begin
 
 constructor TAcareacoes.Create;
 begin
-  FConexao := TSistemaControl.GetInstance().Conexao;
+  FConexao := TConnectionMySQL.Create();
 end;
 
 function TAcareacoes.Excluir(): Boolean;
@@ -164,7 +166,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('delete from ' + TABLENAME + ' where SEQ_ACAREACAO = :SEQ_ACAREACAO', [Sequencia]);
     Result := True;
   finally
@@ -178,7 +180,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.Open('select coalesce(max(SEQ_ACAREACAO),0) + 1 from ' + TABLENAME);
     try
       Result := FDQuery.Fields[0].AsInteger;
@@ -207,7 +209,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     Self.Sequencia := GetID();
     FDQuery.ExecSQL('insert into ' + TABLENAME  + '(SEQ_ACAREACAO, ID_ACAREACAO, DAT_ACAREACAO, NUM_NOSSONUMERO, ' +
                     'COD_ENTREGADOR, COD_BASE, DAT_ENTREGA, DES_MOTIVO, DES_TRATATIVA, DES_APURACAO, DES_RESULTADO, ' +
@@ -237,38 +239,81 @@ function TAcareacoes.Localizar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery();
+  FDQuery := FConexao.GetQuery();
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
 
   FDQuery.SQL.Add('select * from ' + TABLENAME);
-  if aParam[0] = 'SEQUENCIA' then
+  if aParam[1] <> '' then
   begin
-    FDQuery.SQL.Add('WHERE SEQ_ACAREACAO = :SEQ_ACAREACAO');
-    FDQuery.ParamByName('SEQ_ACAREACAO').AsInteger := aParam[1];
-  end;
-  if aParam[0] = 'ID' then
-  begin
-    FDQuery.SQL.Add('WHERE ID_ACAREACAO = :ID_ACAREACAO');
-    FDQuery.ParamByName('ID_ACAREACAO').AsString := aParam[1];
-  end;
-  if aParam[0] = 'DATA' then
-  begin
-    FDQuery.SQL.Add('WHERE DAT_ACAREACAO = :DAT_ACAREACAO');
-    FDQuery.ParamByName('WHERE DAT_ACAREACAO').AsDate := aParam[1];
-  end;
-  if aParam[0] = 'NN' then
-  begin
-    FDQuery.SQL.Add('WHERE NUM_NOSSONUMERO = :NUM_NOSSONUMERO');
-    FDQuery.ParamByName('NUM_NOSSONUMERO').AsString := aParam[1];
-  end;
-  if aParam[0] = 'FILTRO' then
-  begin
-    FDQuery.SQL.Add('WHERE ' + aParam[1]);
+    if aParam[0] = 'SEQUENCIA' then
+    begin
+      FDQuery.SQL.Add('WHERE SEQ_ACAREACAO = :SEQ_ACAREACAO');
+      FDQuery.ParamByName('SEQ_ACAREACAO').AsInteger := aParam[1];
+    end;
+    if aParam[0] = 'ID' then
+    begin
+      FDQuery.SQL.Add('WHERE ID_ACAREACAO = :ID_ACAREACAO');
+      FDQuery.ParamByName('ID_ACAREACAO').AsString := aParam[1];
+    end;
+    if aParam[0] = 'DATA' then
+    begin
+      FDQuery.SQL.Add('WHERE DAT_ACAREACAO = :DAT_ACAREACAO');
+      FDQuery.ParamByName('WHERE DAT_ACAREACAO').AsDate := aParam[1];
+    end;
+    if aParam[0] = 'NN' then
+    begin
+      FDQuery.SQL.Add('WHERE NUM_NOSSONUMERO = :NUM_NOSSONUMERO');
+      FDQuery.ParamByName('NUM_NOSSONUMERO').AsString := aParam[1];
+    end;
+    if aParam[0] = 'FILTRO' then
+    begin
+      FDQuery.SQL.Add('WHERE ' + aParam[1]);
+    end;
   end;
   FDQuery.Open;
   Result := FDQuery;
 end;
 
+
+function TAcareacoes.LocalizarView(aParam: array of variant): TFDQuery;
+var
+  FDQuery: TFDQuery;
+begin
+  FDQuery := FConexao.GetQuery();
+  if Length(aParam) < 2 then Exit;
+  FDQuery.SQL.Clear;
+
+  FDQuery.SQL.Add('select * from ' + VIEW);
+  if aParam[1] <> '' then
+  begin
+    if aParam[0] = 'SEQUENCIA' then
+    begin
+      FDQuery.SQL.Add('WHERE SEQ_ACAREACAO = :SEQ_ACAREACAO');
+      FDQuery.ParamByName('SEQ_ACAREACAO').AsInteger := aParam[1];
+    end;
+    if aParam[0] = 'ID' then
+    begin
+      FDQuery.SQL.Add('WHERE ID_ACAREACAO = :ID_ACAREACAO');
+      FDQuery.ParamByName('ID_ACAREACAO').AsString := aParam[1];
+    end;
+    if aParam[0] = 'DATA' then
+    begin
+      FDQuery.SQL.Add('WHERE DAT_ACAREACAO = :DAT_ACAREACAO');
+      FDQuery.ParamByName('WHERE DAT_ACAREACAO').AsDate := aParam[1];
+    end;
+    if aParam[0] = 'NN' then
+    begin
+      FDQuery.SQL.Add('WHERE NUM_NOSSONUMERO = :NUM_NOSSONUMERO');
+      FDQuery.ParamByName('NUM_NOSSONUMERO').AsString := aParam[1];
+    end;
+    if aParam[0] = 'FILTRO' then
+    begin
+      FDQuery.SQL.Add('WHERE ' + aParam[1]);
+    end;
+  end;
+  FDQuery.Open;
+  Result := FDQuery;
+end;
 
 end.
