@@ -35,9 +35,9 @@ type
         function    SaveRecord  ()                        : boolean;
         function    SetupRecords()                        : boolean;
 
-
-        property Acao     : TAcao   read  FAcao     write FAcao;
-        property Mensagem : string  read  FMensagem write FMensagem;
+        property Query    : TFDQuery  read  FQuery    write FQuery;
+        property Acao     : TAcao     read  FAcao     write FAcao;
+        property Mensagem : string    read  FMensagem write FMensagem;
       protected
   end;
   const
@@ -155,9 +155,9 @@ begin
   begin
     FQuery.SQL.Add('where');
     if aParams[0] = 'ID' then
-      FQuery.SQL.Add('id_cnae = ' + aParams[1])
+      FQuery.SQL.Add('id_gr = ' + aParams[1])
     else if aParams[0] = 'CONTRATADO' then
-      FQuery.SQL.Add('id_contradados = ' + aParams[1])
+      FQuery.SQL.Add('id_contratados = ' + aParams[1])
     else if aParams[0] = 'CONSULTA' then
       FQuery.SQL.Add('dat_consulta = "' +  aParams[1] + '"')
     else if aParams[0] = 'VALIDADE' then

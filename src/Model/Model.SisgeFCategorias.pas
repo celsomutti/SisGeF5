@@ -184,7 +184,8 @@ begin
   if FQuery.IsEmpty then
     Exit;
   ARecord.id_categoria  :=  FQuery.FieldByName('id_categoria').AsInteger;
-  ARecord.des_categoria :=  FQuery.FieldByName('des_categoria').AsInteger;
+  ARecord.des_categoria :=  FQuery.FieldByName('des_categoria').AsString;
   Result := True;
 end;
 
+end.

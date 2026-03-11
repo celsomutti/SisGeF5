@@ -7,8 +7,10 @@ uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFContratadosG
   type
     TContratadosGRController = class
     private
-      FGR : TContratadosGRModel;
+
     public
+      FGR : TContratadosGRModel;
+
       Constructor Create();
       function    GetNextID   (sIdName: string)         : Integer;
       function    Search      (aParams: array of string): boolean;

@@ -20,7 +20,8 @@ uses
   cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxCurrencyEdit, cxDBNavigator, Control.Bancos, Control.Estados,
   Controller.SisGeFCategorias, Control.Bases, Controller.SisGeFFuncoesRH, Controller.SisGeFContratadosCNAE,
   Controller.SisGeFContratadosRH, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosContatos,
-  Controller.SisGeFVehiclesRegistration, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes;
+  Controller.SisGeFVehiclesRegistration, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,
+  Controller.SisGeFContratadosGR, Controller.APICNPJ, Controller.APICEP;
 
 type
   TviewCadastroTerceirizados = class(TForm)
@@ -66,8 +67,6 @@ type
     dxLayoutItem4: TdxLayoutItem;
     cbxAtivos: TcxCheckBox;
     dxLayoutItem7: TdxLayoutItem;
-    cboCategoria: TcxComboBox;
-    dxLayoutItem8: TdxLayoutItem;
     dxLayoutSeparatorItem3: TdxLayoutSeparatorItem;
     gridDBTableView1: TcxGridDBTableView;
     gridLevel1: TcxGridLevel;
@@ -256,7 +255,6 @@ type
     dxLayoutItem32: TdxLayoutItem;
     mtbRHid_rh: TIntegerField;
     mtbRHid_contratados: TIntegerField;
-    mtbRHval_salario: TCurrencyField;
     mtbRHdat_admissao: TDateField;
     mtbRHdat_demissao: TDateField;
     mtbRHid_departamento: TIntegerField;
@@ -470,7 +468,7 @@ type
     saRepresentante: TDataSource;
     mtbRepresentantesid_representante: TIntegerField;
     mtbRepresentantesid_contratados: TIntegerField;
-    mtbRepresentantesnom_presentante: TStringField;
+    mtbRepresentantesnom_representante: TStringField;
     mtbRepresentantescpf_representante: TStringField;
     dbCPFRepresentante: TcxDBMaskEdit;
     dxLayoutItem78: TdxLayoutItem;
@@ -484,6 +482,45 @@ type
     cxButton12: TcxButton;
     dxLayoutItem81: TdxLayoutItem;
     actionContracts: TAction;
+    lcbCategorias: TcxLookupComboBox;
+    dxLayoutItem8: TdxLayoutItem;
+    mtbRHval_salario: TFloatField;
+    dxLayoutSeparatorItem12: TdxLayoutSeparatorItem;
+    memTableVeiculosCOD_VEICULO: TIntegerField;
+    memTableVeiculosDES_TIPO_DOC: TStringField;
+    memTableVeiculosNUM_CNPJ: TStringField;
+    memTableVeiculosNOM_PROPRIETARIO: TStringField;
+    memTableVeiculosDAT_NASCIMENTO: TDateField;
+    memTableVeiculosNOM_MAE: TStringField;
+    memTableVeiculosNOM_PAI: TStringField;
+    memTableVeiculosNUM_RG: TStringField;
+    memTableVeiculosUF_RG: TStringField;
+    memTableVeiculosDAT_EMISSAO_RG: TDateField;
+    memTableVeiculosUF_ENDERECO: TStringField;
+    memTableVeiculosNOM_CIDADE: TStringField;
+    memTableVeiculosDES_ENDERECO: TStringField;
+    memTableVeiculosNUM_CEP: TStringField;
+    memTableVeiculosDES_BAIRRO: TStringField;
+    memTableVeiculosNUM_TELEFONE_1: TStringField;
+    memTableVeiculosDES_TELEFONE_1: TStringField;
+    memTableVeiculosNUM_TELEFONE_2: TStringField;
+    memTableVeiculosDES_TELEFONE_2: TStringField;
+    memTableVeiculosCOD_ENTREGADOR: TIntegerField;
+    memTableVeiculosDES_MARCA: TStringField;
+    memTableVeiculosDES_MODELO: TStringField;
+    memTableVeiculosDES_PLACA: TStringField;
+    memTableVeiculosUF_PLACA: TStringField;
+    memTableVeiculosNOM_CIDADE_PLACA: TStringField;
+    memTableVeiculosDES_TIPO: TStringField;
+    memTableVeiculosNUM_CHASSIS: TStringField;
+    memTableVeiculosDES_ANO: TStringField;
+    memTableVeiculosDES_COR: TStringField;
+    memTableVeiculosNUM_RENAVAN: TStringField;
+    memTableVeiculosANO_EXERCICIO_CLRV: TStringField;
+    memTableVeiculosDOM_RASTREAMENTO: TStringField;
+    memTableVeiculosDOM_ABASTECIMENTO: TStringField;
+    memTableVeiculosNOM_EXECUTOR: TStringField;
+    memTableVeiculosDAT_MANUTENCAO: TDateTimeField;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -494,9 +531,22 @@ type
     procedure actionGroupPanelExecute(Sender: TObject);
     procedure actionReturnGridExecute(Sender: TObject);
     procedure actionEditRegisterExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure actionNewRegisterExecute(Sender: TObject);
+    procedure lgpMainTabChanged(Sender: TObject);
+    procedure dbTipoPessoaPropertiesChange(Sender: TObject);
+    procedure dbTipoPessoaVeiculoPropertiesChange(Sender: TObject);
+    procedure actionSearchDocExecute(Sender: TObject);
+    procedure actionSearchDocVehicleExecute(Sender: TObject);
+    procedure actionSearchCEPContractedExecute(Sender: TObject);
+    procedure actionSearchCEPVeiculoExecute(Sender: TObject);
   private
     { Private declarations }
+    FCaptionComplent : String;
+
     function CustomSearchStr(sParam: string): string;
+
+    procedure LoadForm();
 
     procedure ExecSarch(sQuery: string);
     procedure ExportGrid();
@@ -517,6 +567,18 @@ type
     procedure PopulateVehicles(iCadastro: integer);
     procedure PopulateFinances(iCadastro: integer);
     procedure PopulateRepresentative(iCadastro: integer);
+    procedure PopulateGR(iCadastro: integer);
+
+    procedure ChangeCaptionForm();
+    procedure Editar(iCadastro: integer);
+    procedure Inserir();
+    procedure Cancelar;
+
+    procedure SearchCNPJCadastro(sCNPJ: string);
+    procedure SearchCNPJVeiculo(sCNPJ: string);
+    procedure SearchCEPCadastro(sCEP: string);
+    procedure SearchCEPVeiculo(sCEP: string);
+
   public
     { Public declarations }
   end;
@@ -528,7 +590,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, View.ListaCEPs, View.ResultadoConsultaCNPJ, View.Impressao;
 
 { TviewCadastroTerceirizados }
 
@@ -539,7 +601,7 @@ end;
 
 procedure TviewCadastroTerceirizados.actionEditRegisterExecute(Sender: TObject);
 begin
-  lgpMain.ItemIndex := 1;
+  Editar(mtbCadastroid.AsInteger);
 end;
 
 procedure TviewCadastroTerceirizados.actionExpandGridExecute(Sender: TObject);
@@ -557,6 +619,11 @@ begin
   PanelGroup;
 end;
 
+procedure TviewCadastroTerceirizados.actionNewRegisterExecute(Sender: TObject);
+begin
+  Inserir;
+end;
+
 procedure TviewCadastroTerceirizados.actionRetractGridExecute(Sender: TObject);
 begin
   CollapseGrid;
@@ -564,7 +631,27 @@ end;
 
 procedure TviewCadastroTerceirizados.actionReturnGridExecute(Sender: TObject);
 begin
-  lgpMain.ItemIndex := 0;
+  Cancelar;
+end;
+
+procedure TviewCadastroTerceirizados.actionSearchCEPContractedExecute(Sender: TObject);
+begin
+  SearchCEPCadastro(dbCEP.Text);
+end;
+
+procedure TviewCadastroTerceirizados.actionSearchCEPVeiculoExecute(Sender: TObject);
+begin
+  SearchCEPVeiculo(dbCEPVeiculo.Text);
+end;
+
+procedure TviewCadastroTerceirizados.actionSearchDocExecute(Sender: TObject);
+begin
+  SearchCNPJCadastro(dbCPFCNPJ.Text);
+end;
+
+procedure TviewCadastroTerceirizados.actionSearchDocVehicleExecute(Sender: TObject);
+begin
+  SearchCNPJVeiculo(dbCPFCNPJVeiculo.Text);
 end;
 
 procedure TviewCadastroTerceirizados.actionSearchRecordsExecute(Sender: TObject);
@@ -578,6 +665,52 @@ begin
   begin
     bteSearch.Clear;
     bteSearch.SetFocus;
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.Cancelar;
+begin
+  dsCadastro.AutoEdit := False;
+  daRH.AutoEdit := False;
+  dataGR.AutoEdit := False;
+  dsVeiculos.AutoEdit := False;
+  dsEnderecos.AutoEdit := False;
+  dsContatos.AutoEdit := False;
+  dsFinanceiro.AutoEdit := False;
+  saRepresentante.AutoEdit := False;
+
+  mtbCadastro.Cancel;
+
+  memTableEnderecos.Active := False;
+  memTableContatos.Active := False;
+  mtbFinanceiro.Active := False;
+  memTableCNAE.Active := False;
+  mtbRepresentantes.Active := False;
+  memTableVeiculos.Active := False;
+  mtbGR.Active := False;
+  lgpMain.ItemIndex := 0;
+end;
+
+
+procedure TviewCadastroTerceirizados.ChangeCaptionForm;
+var
+  sState: string;
+begin
+  sState := EmptyStr;
+  case dsCadastro.State of
+    dsInsert  : sState  := 'INCLUIR';
+    dsEdit    : sState  := 'EDITAR';
+  else
+    sState := EmptyStr;
+  end;
+  if lgpMain.ItemIndex = 1 then
+  begin
+    FCaptionComplent := ' - ' + sState;
+    Self.Caption := Self.Caption + FCaptionComplent;
+  end
+  else
+  begin
+    Self.Caption := StringReplace(Self.Caption, FCaptionComplent, EmptyStr,[rfReplaceAll]);
   end;
 end;
 
@@ -687,13 +820,13 @@ begin
       sQueryPadrao := sQueryPadrao + ' cod_status = 1';
     end;
 
-    if cboCategoria.ItemIndex > 0 then
+    if lcbCategorias.ItemIndex > 0 then
     begin
       if sQueryPadrao.IsEmpty then
         sQueryPadrao := sQueryPadrao + '('
       else
         sQueryPadrao := sQueryPadrao + ' and ';
-      sQueryPadrao := sQueryPadrao + ' id_categoria = ' + cboCategoria.ItemIndex.ToString ;
+      sQueryPadrao := sQueryPadrao + ' id_categoria = ' + lcbCategorias.ItemIndex.ToString ;
     end;
 
     if not sQueryPadrao.IsEmpty then
@@ -711,6 +844,64 @@ begin
   end;
 end;
 
+procedure TviewCadastroTerceirizados.dbTipoPessoaPropertiesChange(Sender: TObject);
+begin
+  if dbTipoPessoa.ItemIndex = 2 then
+  begin
+    dbCPFCNPJ.Properties.Buttons[0].Enabled := True;
+    dbCPFCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
+    dbSexo.ItemIndex := 3;
+  end
+  else
+  begin
+    dbCPFCNPJ.Properties.Buttons[0].Enabled := False;
+    dbCPFCNPJ.Properties.EditMask := '!000\.000\.000\-00;0; ';
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.dbTipoPessoaVeiculoPropertiesChange(Sender: TObject);
+begin
+  if dbTipoPessoaVeiculo.ItemIndex = 2 then
+  begin
+    dbCPFCNPJVeiculo.Properties.Buttons[0].Enabled := True;
+    dbCPFCNPJVeiculo.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
+  end
+  else
+  begin
+    dbCPFCNPJVeiculo.Properties.Buttons[0].Enabled := False;
+    dbCPFCNPJVeiculo.Properties.EditMask := '!000\.000\.000\-00;0; ';
+  end;
+
+end;
+
+procedure TviewCadastroTerceirizados.Editar(iCadastro: integer);
+begin
+  if gridDBTableView1.ViewData.RowCount = 0 then Exit;
+
+  dsCadastro.AutoEdit := True;
+  daRH.AutoEdit := True;
+  dataGR.AutoEdit := True;
+  dsVeiculos.AutoEdit := True;
+  dsEnderecos.AutoEdit := True;
+  dsContatos.AutoEdit := True;
+  dsFinanceiro.AutoEdit := True;
+  saRepresentante.AutoEdit := True;
+
+  PopulateAdress(iCadastro);
+  PopulateContacts(iCadastro);
+  PopulateFinances(iCadastro);
+  PopulateGR(iCadastro);
+  PopulateRH(iCadastro);
+  PopulateCNAE(iCadastro);
+  PopulateRepresentative(iCadastro);
+  PopulateVehicles(iCadastro);
+
+  mtbCadastro.Edit;
+
+  dxLayoutGroup6.ItemIndex := 0;
+  lgpMain.ItemIndex := 1;
+end;
+
 procedure TviewCadastroTerceirizados.ExecSarch(sQuery: string);
 var
   cadastro : TCadastroContratadosController;
@@ -723,6 +914,9 @@ begin
      aParam[0] := '*';
      aParam[1] := 'VIEW';
      aParam[2] := sQuery;
+
+     if mtbCadastro.Active then mtbCadastro.Active := False;
+
 
      if cadastro.CustomSearch(aParam) then
      begin
@@ -773,6 +967,59 @@ begin
   if mtbCadastro.Active then mtbCadastro.Close;
   Action := caFree;
   viewCadastroTerceirizados := Nil;
+end;
+
+procedure TviewCadastroTerceirizados.FormShow(Sender: TObject);
+begin
+  LoadForm;
+end;
+
+procedure TviewCadastroTerceirizados.Inserir;
+begin
+  dsCadastro.AutoEdit := True;
+  daRH.AutoEdit := True;
+  dataGR.AutoEdit := True;
+  dsVeiculos.AutoEdit := True;
+  dsEnderecos.AutoEdit := True;
+  dsContatos.AutoEdit := True;
+  dsFinanceiro.AutoEdit := True;
+  saRepresentante.AutoEdit := True;
+
+  mtbCadastro.Insert;
+  memTableEnderecos.Active := False;
+  memTableEnderecos.Active := True;
+  memTableContatos.Active := False;
+  memTableContatos.Active := True;
+  mtbFinanceiro.Active := False;
+  mtbFinanceiro.Active := True;
+  mtbGR.Active := False;
+  mtbGR.Active := True;
+  mtbRH.Active := False;
+  mtbRH.Active := True;
+  memTableCNAE.Active := False;
+  memTableCNAE.Active := True;
+  mtbRepresentantes.Active := False;
+  mtbRepresentantes.Active := True;
+  memTableVeiculos.Active := False;
+  memTableVeiculos.Active := True;
+  dxLayoutGroup6.ItemIndex := 0;
+  lgpMain.ItemIndex := 1;
+end;
+
+procedure TviewCadastroTerceirizados.lgpMainTabChanged(Sender: TObject);
+begin
+  ChangeCaptionForm();
+end;
+
+procedure TviewCadastroTerceirizados.LoadForm;
+begin
+  FCaptionComplent := EmptyStr;
+  PopulateBank;
+  PopulateStates;
+  PopulateCategories;
+  PopulateBases;
+  PopulateFunctions;
+  lcbCategorias.EditValue := 0;
 end;
 
 procedure TviewCadastroTerceirizados.PanelGroup;
@@ -861,7 +1108,11 @@ begin
       begin
         memTableFuncoes.Close;
       end;
-      memTableFuncoes.Data := FCategorias.FCategorias.Query;
+      mtbCategorias.Data := FCategorias.FCategorias.Query;
+      mtbCategorias.Insert;
+      mtbCategoriasid_categoria.AsInteger := 0;
+      mtbCategoriasdes_categoria.AsString := 'TODOS';
+      mtbCategorias.Post;
       FCategorias.FCategorias.Query.Close;
       FCategorias.FCategorias.Query.Connection.Close;
     end;
@@ -935,6 +1186,8 @@ begin
 //      end;
     end;
     FFinanceiro.FFinanceiro.Query.Connection.Close;
+    if not mtbFinanceiro.Active then mtbFinanceiro.Active := True;
+
   finally
     FFinanceiro.Free;
   end;
@@ -965,6 +1218,27 @@ begin
   end;
 end;
 
+procedure TviewCadastroTerceirizados.PopulateGR(iCadastro: integer);
+var
+  FGR : TContratadosGRController;
+  aParam: array of string;
+begin
+  try
+    fgr := TContratadosGRController.Create;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro.ToString];
+    if FGR.Search(aParam) then
+    begin
+      mtbGR.Data := FGR.FGR.Query.Data;
+    end;
+    FGR.FGR.Query.Connection.Close;
+    if not mtbGR.Active then mtbGR.Active := True;
+
+  finally
+    FGR.Free;
+  end;
+end;
+
 procedure TviewCadastroTerceirizados.PopulateRepresentative(iCadastro: integer);
 var
   FRepresentante : TContratadosRepresentanteController;
@@ -988,6 +1262,8 @@ begin
 //      end;
     end;
     FRepresentante.FRepresentante.Query.Connection.Close;
+    if not mtbRepresentantes.Active then mtbRepresentantes.Active := True;
+
   finally
     FRepresentante.Free;
   end;
@@ -1004,8 +1280,22 @@ begin
     aParam := ['CONTRATADO',iCadastro.ToString];
     if FRH.Search(aParam) then
     begin
-      if mtbRH.Active then mtbRH.Close;
-      mtbRH.Data := FRH.FRH.Query.Data;
+//      if mtbRH.Active then mtbRH.Close;
+//      mtbRH.Data := FRH.FRH.Query.Data;
+      mtbRH.Open;
+      while not FRH.FRH.Query.Eof do
+      begin
+        mtbRH.Insert;
+        mtbRHid_rh.AsInteger := FRH.FRH.Query.FieldByName('id_rh').AsInteger;
+        mtbRHid_contratados.AsInteger := FRH.FRH.Query.FieldByName('id_contratados').AsInteger;
+        mtbRHdat_admissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_admissao').AsDateTime;
+        mtbRHdat_demissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_demissao').AsDateTime;
+        mtbRHid_departamento.AsInteger := FRH.FRH.Query.FieldByName('id_departamento').AsInteger;
+        mtbRHid_funcao.AsInteger := FRH.FRH.Query.FieldByName('id_funcao').AsInteger;
+        mtbRHval_salario.AsFloat := FRH.FRH.Query.FieldByName('val_salario').AsFloat;
+        mtbRH.Post;
+        FRH.FRH.Query.Next;
+      end;
 
 //      if FRH.SetupRecord then
 //      begin
@@ -1020,6 +1310,8 @@ begin
 //        MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0)
 //      end;
     end;
+    if not mtbRH.Active then
+      mtbRH.Active := True;
     FRH.FRH.Query.Connection.Close;
   finally
     FRH.Free;
@@ -1070,8 +1362,251 @@ begin
 //      if not memTableVeiculos.IsEmpty then
 //        gridVeiculosDBTableView1.DataController.DataSource.DataSet.First;
     end;
+    if not memTableVeiculos.Active then memTableVeiculos.Active := True;
+
   finally
     FVeiculos.Free;
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.SearchCEPCadastro(sCEP: string);
+var
+  APICEP : TAPICEPController;
+  utils : TUtils;
+begin
+  try
+    APICEP := TAPICEPController.Create;
+    utils := TUtils.Create;
+    sCEP := utils.DesmontaCPFCNPJ(sCEP);
+    if not APICEP.GetAdressByCEP(sCEP) then
+    begin
+      MessageDlg(APICEP.APICEP.Mensagem, mtWarning, [mbCancel], 0);
+      Exit;
+    end;
+    if Data_Sisgef.memTableCEP.Active then
+    begin
+      if not Data_Sisgef.memTableCEP.IsEmpty then
+      begin
+        if not Assigned(view_ListaCEPs) then
+        begin
+          view_ListaCEPs := Tview_ListaCEPs.Create(Application);
+        end;
+        if view_ListaCEPs.ShowModal = mrOK then
+        begin
+          memTableEnderecosdes_logradouro.AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
+          memTableEnderecosdes_complemento.AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
+          memTableEnderecos_des_bairro.AsString := Data_Sisgef.memTableCEPbairro.AsString;
+          memTableEnderecosnom_cidade.AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
+          memTableEnderecosuf_estado.AsString := Data_Sisgef.memTableCEPuf.AsString;
+          memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
+        end;
+        Data_Sisgef.memTableCEP.Active := False;
+        FreeAndNil(view_ListaCEPs);
+      end;
+    end
+    else
+    begin
+      memTableEnderecosdes_logradouro.AsString := APICEP.APICEP.Enderecos.Logradouro;
+      memTableEnderecosdes_complemento.AsString := APICEP.APICEP.Enderecos.Complemento;
+      memTableEnderecos_des_bairro.AsString := APICEP.APICEP.Enderecos.Bairro;
+      memTableEnderecosnom_cidade.AsString := APICEP.APICEP.Enderecos.Cidade;
+      memTableEnderecosuf_estado.AsString := APICEP.APICEP.Enderecos.UF;
+      //memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
+    end;
+  finally
+    APICEP.Free;
+    utils.Free;
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.SearchCEPVeiculo(sCEP: string);
+var
+  APICEP : TAPICEPController;
+  utils : TUtils;
+  sEndereco : string;
+begin
+  try
+    APICEP := TAPICEPController.Create;
+    utils := TUtils.Create;
+    sCEP := utils.DesmontaCPFCNPJ(sCEP);
+    if not APICEP.GetAdressByCEP(sCEP) then
+    begin
+      MessageDlg(APICEP.APICEP.Mensagem, mtWarning, [mbCancel], 0);
+      Exit;
+    end;
+    if Data_Sisgef.memTableCEP.Active then
+    begin
+      if not Data_Sisgef.memTableCEP.IsEmpty then
+      begin
+        if not Assigned(view_ListaCEPs) then
+        begin
+          view_ListaCEPs := Tview_ListaCEPs.Create(Application);
+        end;
+        if view_ListaCEPs.ShowModal = mrOK then
+        begin
+          sEndereco := EmptyStr;
+          if not Data_Sisgef.memTableCEPlogradouro.AsString.IsEmpty then
+            sEndereco := sEndereco +  Data_Sisgef.memTableCEPlogradouro.AsString;
+          if not Data_Sisgef.memTableCEPcomplemento.AsString.IsEmpty then
+            sEndereco := sEndereco +  ' - ' + Data_Sisgef.memTableCEPcomplemento.AsString;
+          memTableVeiculosDES_ENDERECO.AsString := sEndereco;
+          memTableVeiculosDES_BAIRRO.AsString := Data_Sisgef.memTableCEPbairro.AsString;
+          memTableVeiculosNOM_CIDADE.AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
+          memTableEnderecosuf_estado.AsString := Data_Sisgef.memTableCEPuf.AsString;
+          memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
+        end;
+        Data_Sisgef.memTableCEP.Active := False;
+        FreeAndNil(view_ListaCEPs);
+      end;
+    end
+    else
+    begin
+      sEndereco := EmptyStr;
+      if not APICEP.APICEP.Enderecos.Logradouro.IsEmpty then
+        sEndereco := sEndereco +  APICEP.APICEP.Enderecos.Logradouro;
+      if not APICEP.APICEP.Enderecos.Complemento.IsEmpty then
+        sEndereco := sEndereco +  ' - ' + APICEP.APICEP.Enderecos.Complemento;
+      memTableVeiculosDES_ENDERECO.AsString := sEndereco;
+      memTableVeiculosDES_BAIRRO.AsString := APICEP.APICEP.Enderecos.Bairro;
+      memTableVeiculosNOM_CIDADE.AsString := APICEP.APICEP.Enderecos.Cidade;
+      memTableEnderecosuf_estado.AsString := APICEP.APICEP.Enderecos.UF;
+    end;
+  finally
+    APICEP.Free;
+    utils.Free;
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.SearchCNPJCadastro(sCNPJ: string);
+var
+  APICNPJ : TAPICNPJController;
+  utils : TUtils;
+begin
+  try
+    APICNPJ := TAPICNPJController.Create;
+    utils := TUtils.Create;
+    sCNPJ := utils.DesmontaCPFCNPJ(sCNPJ);
+
+    if not APICNPJ.GetCNPJ(sCNPJ) then
+    begin
+      MessageDlg(APICNPJ.APICNPJ.Mensagem, mtWarning, [mbCancel], 0);
+      Exit;
+    end;
+
+    if not Assigned(view_ResultadoConsultaCNPJ) then
+    begin
+      view_ResultadoConsultaCNPJ := Tview_ResultadoConsultaCNPJ.Create(Application);
+    end;
+    if view_ResultadoConsultaCNPJ.ShowModal = mrCancel then
+    begin
+      FreeAndNil(view_ResultadoConsultaCNPJ);
+      Exit;
+    end;
+    if not view_ResultadoConsultaCNPJ.memTableAP.IsEmpty then
+    begin
+      memTableCNAE.Active := False;
+      memTableCNAE.Active := True;
+      view_ResultadoConsultaCNPJ.memTableAP.First;
+      while not view_ResultadoConsultaCNPJ.memTableAP.Eof do
+      begin
+        memTableCNAE.Insert;
+        memTableCNAEdes_tipo_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPdes_tipo.AsString;
+        memTableCNAEcod_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPcod_cnae.AsString;
+        memTableCNAEdes_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPdes_cnae.AsString;
+        memTableCNAE.Post;
+        view_ResultadoConsultaCNPJ.memTableAP.Next;
+      end;
+
+    end;
+
+    FreeAndNil(view_ResultadoConsultaCNPJ);
+
+    dbNome.Text := APICNPJ.APICNPJ.Pessoas.Nome;
+    dbAlias.Text := APICNPJ.APICNPJ.Pessoas.Fantasia;
+    if not  memTableEnderecos.Active then  memTableEnderecos.Active := True;
+
+    memTableEnderecos.Insert;
+    memTableEnderecos_des_tipo.AsString := APICNPJ.APICNPJ.Enderecos.Tipo;
+    memTableEnderecosnum_cep.AsString := APICNPJ.APICNPJ.Enderecos.CEP;
+    memTableEnderecosdes_logradouro.AsString := APICNPJ.APICNPJ.Enderecos.Logradouro;
+    memTableEnderecosnum_logradouro.AsString := APICNPJ.APICNPJ.Enderecos.Numero;
+    memTableEnderecosdes_complemento.AsString := APICNPJ.APICNPJ.Enderecos.Complemento;
+    memTableEnderecos_des_bairro.AsString := APICNPJ.APICNPJ.Enderecos.Bairro;
+    memTableEnderecosnom_cidade.AsString := APICNPJ.APICNPJ.Enderecos.Cidade;
+    memTableEnderecosuf_estado.AsString := APICNPJ.APICNPJ.Enderecos.UF;
+    memTableEnderecos.Post;
+
+    if not memTableContatos.Active then memTableContatos.Active := True;
+    if APICNPJ.APICNPJ.Contatos.Descricao <> '' then
+    begin
+      memTableContatos.Insert;
+      memTableContatosdes_contato.AsString := APICNPJ.APICNPJ.Contatos.Descricao;
+      memTableContatosnum_telefone.AsString := APICNPJ.APICNPJ.Contatos.Telefone;
+      memTableContatosdes_email.AsString := APICNPJ.APICNPJ.Contatos.EMail;
+      memTableContatos.Post;
+    end;
+
+  finally
+    if Data_Sisgef.memTableCNPJ.Active then
+      Data_Sisgef.memTableCNPJ.Active := False;
+    APICNPJ.DisposeOf;
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.SearchCNPJVeiculo(sCNPJ: string);
+var
+  APICNPJ : TAPICNPJController;
+  utils : TUtils;
+  sEndereco : string;
+begin
+  try
+    APICNPJ := TAPICNPJController.Create;
+    utils := TUtils.Create;
+    sCNPJ := utils.DesmontaCPFCNPJ(sCNPJ);
+
+    if not APICNPJ.GetCNPJ(sCNPJ) then
+    begin
+      MessageDlg(APICNPJ.APICNPJ.Mensagem, mtWarning, [mbCancel], 0);
+      Exit;
+    end;
+
+    if not Assigned(view_ResultadoConsultaCNPJ) then
+    begin
+      view_ResultadoConsultaCNPJ := Tview_ResultadoConsultaCNPJ.Create(Application);
+    end;
+    if view_ResultadoConsultaCNPJ.ShowModal = mrCancel then
+    begin
+      FreeAndNil(view_ResultadoConsultaCNPJ);
+      Exit;
+    end;
+
+    FreeAndNil(view_ResultadoConsultaCNPJ);
+
+    dbNomePropVeiculo.Text := APICNPJ.APICNPJ.Pessoas.Nome;
+
+    memTableVeiculosNUM_CEP.AsString := APICNPJ.APICNPJ.Enderecos.CEP;
+
+    sEndereco := EmptyStr;
+
+    if not APICNPJ.APICNPJ.Enderecos.Logradouro.IsEmpty then
+      sEndereco := sEndereco +  APICNPJ.APICNPJ.Enderecos.Logradouro;
+    if not APICNPJ.APICNPJ.Enderecos.Numero.IsEmpty then
+      sEndereco := sEndereco +  ', ' + APICNPJ.APICNPJ.Enderecos.Numero
+    else
+      sEndereco := sEndereco +  ', SN';
+    if not APICNPJ.APICNPJ.Enderecos.Complemento.IsEmpty then
+      sEndereco := sEndereco +  ' - ' + APICNPJ.APICNPJ.Enderecos.Complemento;
+
+    memTableVeiculosDES_ENDERECO.AsString := sEndereco;
+    memTableVeiculosDES_BAIRRO.AsString := APICNPJ.APICNPJ.Enderecos.Bairro;
+    memTableVeiculosNOM_CIDADE.AsString := APICNPJ.APICNPJ.Enderecos.Cidade;
+    memTableVeiculosUF_ENDERECO.AsString := APICNPJ.APICNPJ.Enderecos.UF;
+
+  finally
+    if Data_Sisgef.memTableCNPJ.Active then
+      Data_Sisgef.memTableCNPJ.Active := False;
+    utils.Free;
+    APICNPJ.DisposeOf;
   end;
 end;
 
