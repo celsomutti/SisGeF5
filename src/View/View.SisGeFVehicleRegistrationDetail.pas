@@ -479,14 +479,14 @@ begin
     end;
     View_PesquisarPessoas.dxLayoutItem1.Visible := True;
     View_PesquisarPessoas.dxLayoutItem2.Visible := True;
-    sSQL := 'select COD_CADASTRO as "Código", DES_RAZAO_SOCIAL as Nome, NUM_IE as "CNPJ / CPF", NUM_CNPJ as "CNPJ / CPF" ' +
-            'from tbentregadores ';
-    sWhere := 'where COD_CADASTRO like paraN or DES_RAZAO_SOCIAL like "%param%" or NUM_IE like "%param%" or ' +
-              'NUM_CNPJ like "%param%"';
+    sSQL := 'select id as "Código", nom_razao_social as Nome, num_rg_ie as "RG/ Ins. Est.", num_cpf_cnpj as "CNPJ / CPF" ' +
+            'from crm_contratados ';
+    sWhere := 'where id like paraN or nom_razao_social like "%param%" or num_rg_ie like "%param%" or ' +
+              'num_cpf_cnpj like "%param%"';
     View_PesquisarPessoas.sSQL := sSQL;
     View_PesquisarPessoas.sWhere := sWhere;
     View_PesquisarPessoas.bOpen := False;
-    View_PesquisarPessoas.Caption := 'Pesquisa de Tabelas de Verbas';
+    View_PesquisarPessoas.Caption := 'Pesquisa de Contratados';
     if View_PesquisarPessoas.ShowModal = mrOK then
     begin
       cadastro.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsString;

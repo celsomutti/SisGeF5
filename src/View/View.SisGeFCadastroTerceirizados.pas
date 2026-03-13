@@ -21,7 +21,7 @@ uses
   Controller.SisGeFCategorias, Control.Bases, Controller.SisGeFFuncoesRH, Controller.SisGeFContratadosCNAE,
   Controller.SisGeFContratadosRH, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosContatos,
   Controller.SisGeFVehiclesRegistration, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,
-  Controller.SisGeFContratadosGR, Controller.APICNPJ, Controller.APICEP;
+  Controller.SisGeFContratadosGR, Controller.APICNPJ, Controller.APICEP, Common.ENum, System.DateUtils, System.StrUtils;
 
 type
   TviewCadastroTerceirizados = class(TForm)
@@ -521,6 +521,21 @@ type
     memTableVeiculosDOM_ABASTECIMENTO: TStringField;
     memTableVeiculosNOM_EXECUTOR: TStringField;
     memTableVeiculosDAT_MANUTENCAO: TDateTimeField;
+    dbNumeroCNH: TcxDBTextEdit;
+    dxLayoutItem82: TdxLayoutItem;
+    dbRegistroCNH: TcxDBTextEdit;
+    dxLayoutItem83: TdxLayoutItem;
+    dbCategoriaCNH: TcxDBTextEdit;
+    dxLayoutItem84: TdxLayoutItem;
+    dxLayoutGroup4: TdxLayoutGroup;
+    dbValidadeCNH: TcxDBDateEdit;
+    dxLayoutItem85: TdxLayoutItem;
+    dbEmissaoCNH: TcxDBDateEdit;
+    dxLayoutItem86: TdxLayoutItem;
+    dbPrimeiraCNH: TcxDBDateEdit;
+    dxLayoutItem87: TdxLayoutItem;
+    dbUFCNH: TcxDBLookupComboBox;
+    dxLayoutItem88: TdxLayoutItem;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -540,9 +555,12 @@ type
     procedure actionSearchDocVehicleExecute(Sender: TObject);
     procedure actionSearchCEPContractedExecute(Sender: TObject);
     procedure actionSearchCEPVeiculoExecute(Sender: TObject);
+    procedure actionSaveRegisterExecute(Sender: TObject);
+    procedure actionContractsExecute(Sender: TObject);
   private
     { Private declarations }
     FCaptionComplent : String;
+    FAcao : TAcao;
 
     function CustomSearchStr(sParam: string): string;
 
@@ -573,6 +591,24 @@ type
     procedure Editar(iCadastro: integer);
     procedure Inserir();
     procedure Cancelar;
+    procedure EmitirContratos;
+
+    procedure ImprimeContratoColaborador(sData, sAtividade, sLocal: String);
+    procedure ImprimeContratoAutonomo(sData, sAtividade, sLocal: String);
+    procedure ImprimeContratoEntregador(sData, sLocal: String);
+
+
+    function  ValidateData(): boolean;
+
+
+    function  SaveContracted(): boolean;
+    function  SaveAdress(iCadastro: integer): boolean;
+    function  SaveContacts(iCadastro: integer): boolean;
+    function  SaveFinance(iCadastro: integer): boolean;
+    function  SaveRepresentative(iCadastro: integer): boolean;
+    function  SaveRH(iCadastro: integer): boolean;
+    function  SaveCNAE(iCadastro: integer): boolean;
+    function  SaveGR(iCadastro: integer): boolean;
 
     procedure SearchCNPJCadastro(sCNPJ: string);
     procedure SearchCNPJVeiculo(sCNPJ: string);
@@ -590,13 +626,18 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.ListaCEPs, View.ResultadoConsultaCNPJ, View.Impressao;
+uses Data.SisGeF, View.ListaCEPs, View.ResultadoConsultaCNPJ, View.Impressao, View.SisGeFContractEmission;
 
 { TviewCadastroTerceirizados }
 
 procedure TviewCadastroTerceirizados.actionCloseFormExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TviewCadastroTerceirizados.actionContractsExecute(Sender: TObject);
+begin
+  EmitirContratos;
 end;
 
 procedure TviewCadastroTerceirizados.actionEditRegisterExecute(Sender: TObject);
@@ -632,6 +673,25 @@ end;
 procedure TviewCadastroTerceirizados.actionReturnGridExecute(Sender: TObject);
 begin
   Cancelar;
+end;
+
+procedure TviewCadastroTerceirizados.actionSaveRegisterExecute(Sender: TObject);
+begin
+  if not ValidateData() then Exit;
+
+  if MessageDlg('Confirma salvar os dados ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+     Exit;
+
+  if not SaveContracted() then
+  begin
+    Application.MessageBox('Ocorreu algum problema ao gravar os dados!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end
+  else
+  begin
+    Application.MessageBox('Dados gravados com sucesso','Gravar',MB_OK + MB_ICONINFORMATION);
+  end;
+
 end;
 
 procedure TviewCadastroTerceirizados.actionSearchCEPContractedExecute(Sender: TObject);
@@ -881,7 +941,7 @@ begin
   dsCadastro.AutoEdit := True;
   daRH.AutoEdit := True;
   dataGR.AutoEdit := True;
-  dsVeiculos.AutoEdit := True;
+  //dsVeiculos.AutoEdit := True;
   dsEnderecos.AutoEdit := True;
   dsContatos.AutoEdit := True;
   dsFinanceiro.AutoEdit := True;
@@ -900,6 +960,35 @@ begin
 
   dxLayoutGroup6.ItemIndex := 0;
   lgpMain.ItemIndex := 1;
+end;
+
+procedure TviewCadastroTerceirizados.EmitirContratos;
+var
+  iTipo: integer;
+  sData, sValor, sAtividade, sFuncao, sLocal: String;
+begin
+  try
+    if not Assigned(view_SisGeFContractEmission) then begin
+      view_SisGeFContractEmission := Tview_SisGeFContractEmission.Create(Application);
+    end;
+    if view_SisGeFContractEmission.ShowModal = mrCancel Then
+      Exit;
+    iTipo := view_SisGeFContractEmission.radioGroup.ItemIndex;
+    sData := view_SisGeFContractEmission.dateContrato.Text;
+    sValor := Self.dbSalario.Text;
+    sAtividade := view_SisGeFContractEmission.memoAtividades.Text;
+    sLocal := view_SisGeFContractEmission.txtLocal.Text;
+    sFuncao := dbFuncao.Text;
+    case iTipo of
+      0 : ImprimeContratoColaborador(sData, sAtividade, sLocal);
+      1 : ImprimeContratoEntregador(sData, sLocal);
+      2 : ImprimeContratoAutonomo(sData, sAtividade, sLocal);
+      else
+        Exit;
+    end;
+  finally
+    FreeAndNil(view_SisGeFContractEmission);
+  end;
 end;
 
 procedure TviewCadastroTerceirizados.ExecSarch(sQuery: string);
@@ -974,12 +1063,189 @@ begin
   LoadForm;
 end;
 
+procedure TviewCadastroTerceirizados.ImprimeContratoAutonomo(sData, sAtividade, sLocal: String);
+var
+  sEndereco: String;
+  sDataExtenso: String;
+  dtData: TDate;
+  sExtenco: String;
+  sValor: string;
+  sFuncao : string;
+  FFuncao: TUtils;
+begin
+  FFuncao := TUtils.Create;
+  sEndereco := '';
+  dtData := StrToDateDef(sData,0);
+  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', Now());
+  with Data_Sisgef.frxReport do begin
+    if not Assigned(view_Impressao) then begin
+      view_Impressao := Tview_Impressao.Create(Application);
+    end;
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - AUTÔNOMO';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoAutonomo.fr3';
+    if view_Impressao.ShowModal <> mrOk then
+    begin
+      FreeAndNil(view_Impressao);
+      Exit;
+    end
+    else begin
+      if (not FileExists(view_Impressao.cxArquivo.Text)) then begin
+        Application.MessageBox(PChar('Arquivo ' + view_Impressao.cxArquivo.Text +
+                               ' não foi encontrado!'), 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    sValor := dbSalario.Text;
+    sExtenco := FFuncao.valorPorExtenso(StrToFloatDef(ReplaceStr(sValor,'.',''),0));
+    sEndereco := dbEndereco.Text + ', ' + dbNumero.Text;
+    if dbComplemento.Text = '' then
+    begin
+      sEndereco := sEndereco + ', ' + dbComplemento.Text;
+    end;
+    sEndereco := sEndereco + ', bairro ' + dbBairro.Text;
+    sEndereco := sEndereco + ', cidade ' + dbCidade.Text + '/' + dbUF.Text;
+    sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
+    sFuncao := dbFuncao.Text;
+    LoadFromFile(view_Impressao.cxArquivo.Text);
+    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(FFuncao.FormataCPF(dbCPFCNPJ.Text));
+    Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('pFuncao')].Value :=  QuotedStr(sFuncao);
+    Variables.Items[Variables.IndexOf('pAtividades')].Value :=  QuotedStr(sAtividade);
+    Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
+    Variables.Items[Variables.IndexOf('pValorNumeral')].Value :=  QuotedStr(sValor);
+    Variables.Items[Variables.IndexOf('pValorExtencao')].Value :=  QuotedStr(sExtenco);
+    Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+    Variables.Items[Variables.IndexOf('pLocal')].Value :=  QuotedStr(sLocal);
+
+    FFuncao.Free;
+    FreeAndNil(view_Impressao);
+    ShowReport(True);
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.ImprimeContratoColaborador(sData, sAtividade, sLocal: String);
+var
+  sEndereco: String;
+  sDataExtenso: String;
+  dtData: TDate;
+  sExtenco: String;
+  sValor: string;
+  sFuncao : string;
+  FFuncao: TUtils;
+begin
+  FFuncao := TUtils.Create;
+  sEndereco := '';
+  dtData := StrToDateDef(sData,0);
+  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', Now);
+  with Data_Sisgef.frxReport do begin
+    if not Assigned(view_Impressao) then begin
+      view_Impressao := Tview_Impressao.Create(Application);
+    end;
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - CONTRATADO';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoColaborador.fr3';
+    if view_Impressao.ShowModal <> mrOk then
+    begin
+      FreeAndNil(view_Impressao);
+      Exit;
+    end
+    else begin
+      if (not FileExists(view_Impressao.cxArquivo.Text)) then begin
+        Application.MessageBox(PChar('Arquivo ' + view_Impressao.cxArquivo.Text +
+                               ' não foi encontrado!'), 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    sValor := dbSalario.Text;
+    sExtenco := FFuncao.valorPorExtenso(StrToFloatDef(ReplaceStr(sValor,'.',''),0));
+    sEndereco := dbEndereco.Text + ', ' + dbNumero.Text;
+    if dbComplemento.Text = '' then
+    begin
+      sEndereco := sEndereco + ', ' + dbComplemento.Text;
+    end;
+    sEndereco := sEndereco + ', bairro ' + dbBairro.Text;
+    sEndereco := sEndereco + ', cidade ' + dbCidade.Text + '/' + dbUF.Text;
+    sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
+    sFuncao := dbFuncao.Text;
+    LoadFromFile(view_Impressao.cxArquivo.Text);
+    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value := QuotedStr(FFuncao.FormataCNPJ(dbCPFCNPJ.Text));
+    Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(dbRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(dbCPFRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pFuncao')].Value :=  QuotedStr(sFuncao);
+    Variables.Items[Variables.IndexOf('pAtividades')].Value :=  QuotedStr(sAtividade);
+    Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
+    Variables.Items[Variables.IndexOf('pValorNumeral')].Value :=  QuotedStr(sValor);
+    Variables.Items[Variables.IndexOf('pValorExtencao')].Value :=  QuotedStr(sExtenco);
+    Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+    Variables.Items[Variables.IndexOf('pLocal')].Value :=  QuotedStr(sLocal);
+    FFuncao.Free;
+    FreeAndNil(view_Impressao);
+    ShowReport(True);
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.ImprimeContratoEntregador(sData, sLocal: String);
+var
+  sEndereco: String;
+  sDataExtenso: String;
+  dtData: TDate;
+  FFuncao : TUtils;
+
+begin
+  FFuncao := TUtils.Create;
+  sEndereco := '';
+  dtData := StrToDateDef(sData,0);
+  sDataExtenso := sLocal + ',' + FormatDateTime('dd "de" mmmm "de" yyyy', Now);
+  with Data_Sisgef.frxReport do begin
+    if not Assigned(view_Impressao) then begin
+      view_Impressao := Tview_Impressao.Create(Application);
+    end;
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - MOTORISTA / ENTREGADOR';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoEntregador.fr3';
+    if view_Impressao.ShowModal <> mrOk then
+    begin
+      FreeAndNil(view_Impressao);
+      Exit;
+    end
+    else begin
+      if (not FileExists(view_Impressao.cxArquivo.Text)) then begin
+        Application.MessageBox(PChar('Arquivo ' + view_Impressao.cxArquivo.Text +
+                               ' não foi encontrado!'), 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    sEndereco := dbEndereco.Text + ', ' + dbNumero.Text;
+    if dbComplemento.Text = '' then
+    begin
+      sEndereco := sEndereco + ', ' + dbComplemento.Text;
+    end;
+    sEndereco := sEndereco + ', ' + dbBairro.Text;
+    sEndereco := sEndereco + ', ' + dbCidade.Text + '/' + dbUF.Text;
+    sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
+    LoadFromFile(view_Impressao.cxArquivo.Text);
+   Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(FFuncao.FormataCNPJ(dbCPFCNPJ.Text));
+    Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(dbRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(dbCPFRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
+    Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+    Variables.Items[Variables.IndexOf('pLocal')].Value :=  QuotedStr(sLocal);
+    FreeAndNil(view_Impressao);
+    FFuncao.Free;
+    ShowReport(True);
+  end;
+
+end;
+
 procedure TviewCadastroTerceirizados.Inserir;
 begin
   dsCadastro.AutoEdit := True;
   daRH.AutoEdit := True;
   dataGR.AutoEdit := True;
-  dsVeiculos.AutoEdit := True;
+  //dsVeiculos.AutoEdit := True;
   dsEnderecos.AutoEdit := True;
   dsContatos.AutoEdit := True;
   dsFinanceiro.AutoEdit := True;
@@ -1369,6 +1635,412 @@ begin
   end;
 end;
 
+function TviewCadastroTerceirizados.SaveAdress(iCadastro: integer): boolean;
+var
+  FEnderecos : TContratadosEnderecosController;
+  FUtil : TUtils;
+begin
+  FEnderecos := TContratadosEnderecosController.Create;
+  FUtil := TUtils.Create;
+  Result := False;
+  try
+    if iCadastro = 0 then
+    begin
+      MessageDlg('ID não informado!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FEnderecos.FEnderecos.ARecord.id_contratados := iCadastro;
+    FEnderecos.FEnderecos.Acao := tacExcluir;
+
+    if memTableEnderecos.IsEmpty then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    if not FEnderecos.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um problema ao preparar a gravação dos endereços!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    while not memTableEnderecos.Eof do
+    begin
+      FEnderecos.FEnderecos.ARecord.des_tipo := 'RESIDENCIAL';
+      FEnderecos.FEnderecos.ARecord.num_cep := FUtil.DesmontaCPFCNPJ(memTableEnderecosnum_cep.AsString);
+      FEnderecos.FEnderecos.ARecord.des_logradouro := memTableEnderecosdes_logradouro.AsString;
+      FEnderecos.FEnderecos.ARecord.num_logradouro := memTableEnderecosnum_logradouro.AsString;
+      FEnderecos.FEnderecos.ARecord.des_complemento := memTableEnderecosdes_complemento.AsString;
+      FEnderecos.FEnderecos.ARecord.des_bairro := memTableEnderecos_des_bairro.AsString;
+      FEnderecos.FEnderecos.ARecord.nom_cidade := memTableEnderecosnom_cidade.AsString;
+      FEnderecos.FEnderecos.ARecord.uf_estado := memTableEnderecosuf_estado.AsString;
+      FEnderecos.FEnderecos.ARecord.des_referencia := memTableEnderecosdes_referencia.AsString;
+      FEnderecos.FEnderecos.Acao := tacIncluir;
+      if not FEnderecos.FEnderecos.SaveRecord then
+      begin
+        MessageDlg(FEnderecos.FEnderecos.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      memTableEnderecos.Next;
+    end;
+    Result := True;
+  finally
+    FEnderecos.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.SaveCNAE(iCadastro: integer): boolean;
+var
+  FCNAE : TCadastroContratadosCNAEController;
+begin
+  FCNAE := TCadastroContratadosCNAEController.Create;
+  Result := False;
+  try
+    FCNAE.FCNAE.ARecord.id_contratados  :=  iCadastro;
+    FCNAE.FCNAE.ARecord.id_CNAE         :=  -1;
+    FCNAE.FCNAE.Acao                    :=  tacExcluir;
+    if not FCNAE.SaveRecord then
+    begin
+      MessageDlg(FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    if gridCNAEDBTableView1.ViewData.RowCount = 0 then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    while not memTableCNAE.Eof do
+    begin
+      FCNAE.FCNAE.ARecord.des_tipo_cnae :=  memTableCNAEdes_tipo_cnae.AsString;
+      FCNAE.FCNAE.ARecord.cod_cnae      :=  memTableCNAEcod_cnae.AsString;
+      FCNAE.FCNAE.ARecord.des_cnae      :=  memTableCNAEdes_cnae.AsString;
+      FCNAE.FCNAE.Acao                  :=  tacIncluir;
+      if not FCNAE.FCNAE.SaveRecord then
+      begin
+        MessageDlg(FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+      end;
+      memTableCNAE.Next;
+    end;
+  finally
+    FCNAE.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.SaveContacts(iCadastro: integer): boolean;
+var
+  FContatos : TContratadosContatosController;
+begin
+  FContatos := TContratadosContatosController.Create;
+  Result := False;
+  try
+    if iCadastro = 0 then
+    begin
+      MessageDlg('ID não informado!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FContatos.FContatos.ARecord.id_contratados := iCadastro;
+    FContatos.FContatos.ARecord.seq_contato := -1;
+    FContatos.FContatos.Acao := tacExcluir;
+
+    if gridContatosDBTableView1.ViewData.RowCount = 0 then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    if not FContatos.SaveRecord then
+    begin
+      MessageDlg(FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    while not memTableContatos.Eof do
+    begin
+      FContatos.FContatos.ARecord.des_contato := memTableContatosdes_contato.AsString;
+      FContatos.FContatos.ARecord.num_telefone := memTableContatosnum_telefone.AsString;
+      FContatos.FContatos.ARecord.des_email := memTableContatosdes_email.AsString;
+      FContatos.FContatos.Acao := tacIncluir;
+      if not FContatos.FContatos.SaveRecord then
+      begin
+        MessageDlg(FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      memTableContatos.Next;
+    end;
+    memTableContatos.First;
+    Result := True;
+  finally
+    FContatos.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.SaveContracted: boolean;
+var
+  FCadastro : TCadastroContratadosController;
+  FUtils : TUtils;
+begin
+  FCadastro := TCadastroContratadosController.Create;
+  FUtils := TUtils.Create;
+  Result := False;
+
+  try
+    FCadastro.FContratados.Acao := FAcao;
+    FCadastro.FContratados.ARecord.id := mtbCadastroid.AsInteger;
+    FCadastro.FContratados.ARecord.cod_erp_contratados := '0';
+    FCadastro.FContratados.ARecord.id_categoria := mtbCadastroid_categoria.AsInteger;
+    FCadastro.FContratados.ARecord.cod_pessoa := mtbCadastrocod_pessoa.AsInteger;
+    if mtbCadastrocod_pessoa.AsInteger = 1 then
+      FCadastro.FContratados.ARecord.des_tipo_doc := 'CPF'
+    else if mtbCadastrocod_pessoa.AsInteger = 2 then
+      FCadastro.FContratados.ARecord.des_tipo_doc := 'CNPJ'
+    else
+      FCadastro.FContratados.ARecord.des_tipo_doc := 'NONE';
+    FCadastro.FContratados.ARecord.nom_razao_social := mtbCadastronom_razao_social.AsString;
+    FCadastro.FContratados.ARecord.nom_fantasia_alias := mtbCadastronom_fantasia_alias.AsString;
+    FCadastro.FContratados.ARecord.num_cpf_cnpj :=  FUtils.DesmontaCPFCNPJ(mtbCadastronum_cpf_cnpj.AsString);
+    FCadastro.FContratados.ARecord.num_rg_ie := mtbCadastronum_rg_ie.AsString;
+    if FCadastro.FContratados.ARecord.num_rg_ie = '' then
+      FCadastro.FContratados.ARecord.num_rg_ie := 'ISENTO';
+    if mtbCadastrodat_emissao_rg.AsString = '' then
+      FCadastro.FContratados.ARecord.dat_emissao_rg := 0
+    else
+      FCadastro.FContratados.ARecord.dat_emissao_rg := mtbCadastrodat_emissao_rg.AsDateTime;
+    FCadastro.FContratados.ARecord.num_im := mtbCadastronum_im.AsString;
+    FCadastro.FContratados.ARecord.nom_emissor_rg := mtbCadastronom_emissor_rg.AsString;
+    FCadastro.FContratados.ARecord.uf_emissor_rg := mtbCadastrouf_emissor_rg.AsString;
+    if mtbCadastrodat_nascimento.AsString = '' then
+      FCadastro.FContratados.ARecord.dat_nascimento := 0
+    else
+      FCadastro.FContratados.ARecord.dat_nascimento := mtbCadastrodat_nascimento.AsDateTime;
+    FCadastro.FContratados.ARecord.des_nacionalidade := 'BRASIL';
+    FCadastro.FContratados.ARecord.des_naturalidade := mtbCadastrodes_naturalidade.AsString;
+    FCadastro.FContratados.ARecord.uf_naturalidade := mtbCadastrouf_naturalidade.AsString;
+    FCadastro.FContratados.ARecord.nom_pai := mtbCadastronom_pai.AsString;
+    FCadastro.FContratados.ARecord.nom_mae := mtbCadastronom_mae.AsString;
+    FCadastro.FContratados.ARecord.cod_crt  := mtbCadastrocod_crt.AsInteger;
+    FCadastro.FContratados.ARecord.num_cnh := mtbCadastronum_cnh.AsString;
+    FCadastro.FContratados.ARecord.num_registro_cnh := mtbCadastronum_registro_cnh.AsString;
+    FCadastro.FContratados.ARecord.des_categoria_cnh := mtbCadastrodes_categoria_cnh.AsString;
+    if mtbCadastrodat_emissao_cnh.AsDateTime = 0 then
+      FCadastro.FContratados.ARecord.dat_emissao_cnh := 0
+    else
+      FCadastro.FContratados.ARecord.dat_emissao_cnh := mtbCadastrodat_emissao_cnh.AsDateTime;
+    if mtbCadastrodat_validade_cnh.AsDateTime = 0 then
+      FCadastro.FContratados.ARecord.dat_validade_cnh := 0
+    else
+      FCadastro.FContratados.ARecord.dat_validade_cnh := mtbCadastrodat_validade_cnh.AsDateTime;
+    if mtbCadastrodat_primeira_cnh.AsDateTime = 0 then
+      FCadastro.FContratados.ARecord.dat_primeira_cnh := 0
+    else
+      FCadastro.FContratados.ARecord.dat_primeira_cnh := mtbCadastrodat_primeira_cnh.AsDateTime;
+    FCadastro.FContratados.ARecord.uf_cnh := mtbCadastrouf_cnh.AsString;
+    FCadastro.FContratados.ARecord.des_obs := mtbCadastrodes_obs.AsString;
+    FCadastro.FContratados.ARecord.cod_status := mtbCadastrocod_status.AsInteger;
+    if FCadastro.FContratados.Acao = tacIncluir then
+      FCadastro.FContratados.ARecord.dat_cadastro := Now();
+    if not FCadastro.SaveRecord() then
+    begin
+      MessageDlg(FCadastro.FContratados.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    if FAcao = tacIncluir then
+    begin
+      mtbCadastro.Edit;
+      mtbCadastroid.AsInteger := FCadastro.FContratados.ARecord.id;
+      mtbCadastro.Post;
+    end;
+
+    SaveAdress(FCadastro.FContratados.ARecord.id);
+    SaveContacts(FCadastro.FContratados.ARecord.id);
+    SaveFinance(FCadastro.FContratados.ARecord.id);
+    SaveRepresentative(FCadastro.FContratados.ARecord.id);
+    SaveRH(FCadastro.FContratados.ARecord.id);
+    SaveCNAE(FCadastro.FContratados.ARecord.id);
+    SaveGR(FCadastro.FContratados.ARecord.id);
+
+    Result := True;
+  finally
+    FCadastro.Free;
+    FUtils.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.SaveFinance(iCadastro: integer): boolean;
+var
+  FFinanceiro : TContratadosFinanceiroController;
+begin
+  FFinanceiro := TContratadosFinanceiroController.Create;
+  Result := False;
+  try
+    if iCadastro = 0 then
+    begin
+      MessageDlg('ID não informado!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    FFinanceiro.FFinanceiro.ARecord.id_contratados  :=  iCadastro;
+    FFinanceiro.FFinanceiro.ARecord.id_financeiro   :=  -1;
+    FFinanceiro.FFinanceiro.Acao                    :=  tacExcluir;
+    if not FFinanceiro.SaveRecord then
+    begin
+      MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    if gridFinanceiroDBTableView1.ViewData.RowCount = 0 then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    mtbFinanceiro.First;
+    while not mtbFinanceiro.Eof do
+    begin
+      FFinanceiro.FFinanceiro.ARecord.cod_banco           :=  mtbFinanceirocod_banco.AsString;
+      FFinanceiro.FFinanceiro.ARecord.cod_agencia         :=  mtbFinanceirocod_agencia.AsString;
+      FFinanceiro.FFinanceiro.ARecord.num_conta           :=  mtbFinanceironum_conta.AsString;
+      FFinanceiro.FFinanceiro.ARecord.chave_pix           :=  mtbFinanceirochave_pix.AsString;
+      FFinanceiro.FFinanceiro.ARecord.des_forma_pagamento :=  mtbFinanceirodes_forma_pagamento.AsString;
+      FFinanceiro.FFinanceiro.Acao                        :=  tacIncluir;
+      if not FFinanceiro.FFinanceiro.SaveRecord then
+      begin
+        MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      mtbFinanceiro.Next;
+    end;
+    mtbFinanceiro.First;
+    Result := True;
+  finally
+    FFinanceiro.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.SaveGR(iCadastro: integer): boolean;
+var
+  FGR : TContratadosGRController;
+begin
+  FGR := TContratadosGRController.Create;
+  Result := False;
+  try
+    if iCadastro = 0 then
+    begin
+      MessageDlg('ID não informado!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    FGR.FGR.ARecord.id_contratados  :=  iCadastro;
+    FGR.FGR.ARecord.id_gr           :=  -1;
+    FGR.FGR.Acao                    :=  tacExcluir;
+    if not FGR.SaveRecord then
+    begin
+      MessageDlg(FGR.FGR.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    if gridGRDBTableView1.ViewData.RowCount = 0 then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    mtbFinanceiro.First;
+    while not mtbFinanceiro.Eof do
+    begin
+      FGR.FGR.ARecord.dat_consulta      :=  mtbGRdat_consulta.AsDateTime;
+      FGR.FGR.ARecord.dat_validade      :=  mtbGRdat_validade.AsDateTime;
+      FGR.FGR.ARecord.nom_empresa       :=  mtbGRnom_empresa.AsString;
+      FGR.FGR.ARecord.cod_consulta      :=  mtbGRcod_consulta.AsString;
+      FGR.FGR.ARecord.cod_seguranca_cnh :=  mtbGRcod_seguranca_cnh.AsString;
+      FGR.FGR.Acao                      :=  tacIncluir;
+      if not FGR.FGR.SaveRecord then
+      begin
+        MessageDlg(FGR.FGR.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      mtbGR.Next;
+    end;
+    mtbGR.First;
+    Result := True;
+  finally
+    FGR.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.SaveRepresentative(iCadastro: integer): boolean;
+var
+  FRepresentante : TContratadosRepresentanteController;
+begin
+  FRepresentante := TContratadosRepresentanteController.Create;
+  Result := False;
+  try
+    FRepresentante.FRepresentante.ARecord.id_contratados    :=  iCadastro;
+    FRepresentante.FRepresentante.ARecord.id_REpresentante  :=  -1;
+    FRepresentante.FRepresentante.Acao                      :=  tacExcluir;
+    if not FRepresentante.SaveRecord then
+    begin
+      MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    if mtbRepresentantes.IsEmpty then
+    begin
+      Result := True;
+      Exit;
+    end;
+    FRepresentante.FRepresentante.ARecord.nom_representante :=  mtbRepresentantesnom_representante.AsString;
+    FRepresentante.FRepresentante.ARecord.cpf_representante :=  mtbRepresentantescpf_representante.AsString;
+    FRepresentante.FRepresentante.Acao                      :=  tacIncluir;
+    if not FRepresentante.FRepresentante.SaveRecord then
+    begin
+      MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    Result := True;
+  finally
+    FRepresentante.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.SaveRH(iCadastro: integer): boolean;
+var
+  FRH : TContratadosRHController;
+begin
+  FRH := TContratadosRHController.Create;
+  Result := False;
+  try
+    FRH.FRH.ARecord.id_contratados  :=  iCadastro;
+    FRH.FRH.ARecord.id_RH           :=  -1;
+    FRH.FRH.Acao                    :=  tacExcluir;
+    if not FRH.SaveRecord then
+    begin
+      MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FRH.FRH.ARecord.val_salario     :=  mtbRHval_salario.AsFloat;
+    if mtbRHdat_admissao.Text = '' then
+      FRH.FRH.ARecord.dat_admissao    :=  0
+    else
+      FRH.FRH.ARecord.dat_admissao    :=  mtbRHdat_admissao.AsDateTime;
+    if mtbRHdat_demissao.Text = '' then
+      FRH.FRH.ARecord.dat_demissao  :=  0
+    else
+      FRH.FRH.ARecord.dat_demissao  :=  mtbRHdat_demissao.AsDateTime;
+    FRH.FRH.ARecord.id_departamento :=  mtbRHid_departamento.AsInteger;
+    FRH.FRH.ARecord.id_funcao       :=  mtbRHid_funcao.AsInteger;
+    FRH.FRH.Acao                    :=  tacIncluir;
+    if not FRH.FRH.SaveRecord then
+    begin
+      MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    Result := True;
+  finally
+    FRH.Free;
+  end;
+
+end;
+
 procedure TviewCadastroTerceirizados.SearchCEPCadastro(sCEP: string);
 var
   APICEP : TAPICEPController;
@@ -1608,6 +2280,230 @@ begin
     utils.Free;
     APICNPJ.DisposeOf;
   end;
+end;
+
+function TviewCadastroTerceirizados.ValidateData: boolean;
+var
+  FCadastro : TCadastroContratadosController;
+  sCPF: string;
+  FUtil : TUTils;
+begin
+  try
+    Result := False;
+    FCadastro := TCadastroContratadosController.Create;
+    FUtil := TUtils.Create;
+//    if FAcao = tacIncluir then
+//    begin
+//      if not Common.Utils.TUtils.CPF(maskEditCPCNPJ.Text) then
+//      begin
+//        Application.MessageBox('CPF incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+//        maskEditCPCNPJ.SetFocus;
+//        Exit;
+//      end;
+//    end;
+
+    if dbNome.Text = '' then
+    begin
+      Application.MessageBox('Informe o nome ou razão social!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+      dbNome.SetFocus;
+      Exit;
+    end;
+
+    if dbTipoPessoa.EditValue = 2 then
+    begin
+      if dbAlias.Text = '' then
+      begin
+        Application.MessageBox('Informe o nome fantasia!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        dbAlias.SetFocus;
+        Exit;
+      end;
+      sCPF := Common.Utils.TUtils.DesmontaCPFCNPJ(dbCPFCNPJ.Text);
+      if Length(Trim(sCPF)) = 11 then
+      begin
+        if not Common.Utils.TUtils.CPF(sCPF) then
+        begin
+          Application.MessageBox('CPF do Contratado incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          dbCPFCNPJ.SetFocus;
+          Exit;
+        end;
+      end
+      else if Length(Trim(sCPF)) >= 14 then
+      begin
+        if not Common.Utils.TUtils.CNPJ(sCPF) then
+        begin
+          Application.MessageBox('CNPJ do Contratado incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          dbCPFCNPJ.SetFocus;
+          Exit;
+        end;
+      end;
+    end;
+
+    if FAcao = tacIncluir then
+    begin
+      if FCadastro.Search(['CNPJ', FUtil.DesmontaCPFCNPJ(dbCPFCNPJ.Text)]) then
+      begin
+        Application.MessageBox('CNPJ/CPF já cadastrado!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+    end;
+
+
+    if dbTipoPessoa.EditValue = 1 then
+    begin
+      if Facao = tacIncluir then
+      begin
+        if dbRGIE.Text <> '' then
+        begin
+          if dbEmissorRG.Text = '' then
+          begin
+            Application.MessageBox('Informe o orgão expedidor do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            dbEmissorRG.SetFocus;
+            Exit;
+          end;
+          if dbEmissaoRG.Date = 0 then
+          begin
+            Application.MessageBox('Informe o data da emissão do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            dbEmissaoRG.SetFocus;
+            Exit;
+          end;
+          if dbEmissaoRG.Date > Now then
+          begin
+            Application.MessageBox('Data da emissão do RG inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            dbEmissaoRG.SetFocus;
+            Exit;
+          end;
+          if dbUFRG.EditText = '' then
+          begin
+            Application.MessageBox('Informe a UF do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            dbUFRG.SetFocus;
+            Exit;
+          end;
+        end
+        else
+        begin
+          dbEmissorRG.Clear;
+          dbEmissaoRG.Clear;
+          dbUFRG.Clear;
+        end;
+        if dbNascimento.Date <> 0 then
+        begin
+          if dbNascimento.Date >= Now then
+          begin
+            Application.MessageBox('Data de nascimento inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+            dbNascimento.SetFocus;
+            Exit;
+          end;
+          if YearsBetween(Now,dbNascimento.Date) < 18 then
+          begin
+            if Application.MessageBox('Data de nascimento indica que pessoa é menor! Ignorar?', 'Atenção', MB_YESNO + MB_ICONEXCLAMATION + MB_DEFBUTTON2) = IDNO then
+            begin
+              dbNascimento.SetFocus;
+              Exit;
+            end;
+          end;
+        end;
+      end;
+      if Length(Trim(sCPF)) = 11 then
+      begin
+        if not Common.Utils.TUtils.CPF(dbCPFCNPJ.Text) then
+        begin
+          Application.MessageBox('CPF do Contratado incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          dbCPFCNPJ.SetFocus;
+          Exit;
+        end;
+      end
+      else if Length(Trim(sCPF)) >= 14 then
+      begin
+        if not Common.Utils.TUtils.CNPJ(dbCPFCNPJ.Text) then
+        begin
+          Application.MessageBox('CNPJ do Contratado incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          dbCPFCNPJ.SetFocus;
+          Exit;
+        end;
+      end;
+      if dbNaturalidade.Text <> '' then
+      begin
+        if dbUFNaturalidade.Text = '' then
+        begin
+          Application.MessageBox('Informe a UF da naturalidade da Pessoa!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dbUFNaturalidade.SetFocus;
+          Exit;
+        end;
+      end;
+      if dbRegistroCNH.Text <> '' then
+      begin
+        if Length(dbRegistroCNH.Text) <> 11 then
+        begin
+          Application.MessageBox('Quantidade de caracteres do número do registro da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dbRegistroCNH.SetFocus;
+          Exit;
+        end;
+        if Length(dbNumeroCNH.Text) <> 10 then
+        begin
+          Application.MessageBox('Quantidade de caracteres do número da cédula da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dbNumeroCNH.SetFocus;
+          Exit;
+        end;
+//        if Length(textEditSegurancaCNH.Text) <> 11 then
+//        begin
+//          Application.MessageBox('Quantidade de caracteres do código de segurança da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          textEditSegurancaCNH.SetFocus;
+//          Exit;
+//        end;
+        if dbCategoriaCNH.Text = '' then
+        begin
+          Application.MessageBox('Informe a categoria da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dbCategoriaCNH.SetFocus;
+          Exit;
+        end;
+        if dbUFCNH.Text = '' then
+        begin
+          Application.MessageBox('Informe UF da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dbUFCNH.SetFocus;
+          Exit;
+        end;
+        if dbEmissaoCNH.Date = 0  then
+        begin
+          Application.MessageBox('Informe a data da emissão da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dbEmissaoCNH.SetFocus;
+          Exit;
+        end;
+        if dbValidadeCNH.Date < Now  then
+        begin
+          Application.MessageBox('Data da validade da CNH inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dbValidadeCNH.SetFocus;
+          Exit;
+        end;
+        if dbPrimeiraCNH.Date = 0  then
+        begin
+          Application.MessageBox('Informe a data da primeira da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dbPrimeiraCNH.SetFocus;
+          Exit;
+        end;
+        if dbPrimeiraCNH.Date > Now  then
+        begin
+          Application.MessageBox('Data da primeira da CNH inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+          dbPrimeiraCNH.SetFocus;
+          Exit;
+        end;
+      end
+      else
+      begin
+//        textEditSegurancaCNH.Clear;
+        dbNumeroCNH.Clear;
+        dbRegistroCNH.Clear;
+        dbCategoriaCNH.Clear;
+        dbEmissaoCNH.Clear;
+        dbValidadeCNH.Clear;
+        dbPrimeiraCNH.Clear;
+        dbUFCNH.Clear;
+      end;
+    end;
+    Result := True;
+  finally
+    FCadastro.Free;
+  end;
+
 end;
 
 end.
