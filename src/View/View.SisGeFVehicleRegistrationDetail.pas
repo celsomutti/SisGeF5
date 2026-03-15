@@ -10,7 +10,8 @@ uses
   cxGroupBox, cxRadioGroup, cxMaskEdit, cxDropDownEdit, cxImageComboBox, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxButtonEdit,
   dxLayoutControlAdapters, Vcl.StdCtrls, cxCheckBox, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons, cxLabel, Vcl.Buttons,
   System.StrUtils, Control.Estados, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Control.Cadastro, dxStatusBar;
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Control.Cadastro, dxStatusBar,
+  Controller.SisGeFCadastroContratados;
 
 type
   Tview_SisGeFVehiclesRegistrationDetail = class(TForm)
@@ -385,19 +386,28 @@ end;
 
 function Tview_SisGeFVehiclesRegistrationDetail.ReturnNamePerson(iCode: integer): string;
 var
-  cadastro : TCadastroControl;
+  cadastro : TCadastroContratadosController;
   sRetorno: String;
+  aParam: array of string;
 begin
   try
     Result := '';
     sRetorno := '';
-    cadastro := TCadastroControl.Create;
+    SetLength(aParam, 2);
+    aParam[0] := 'ID';
+    aParam[1] := iCode.ToString;
+    cadastro := TCadastroContratadosController.Create;
     if iCode <> 0 then
     begin
-      sRetorno := cadastro.GetField('DES_RAZAO_SOCIAL', 'COD_CADASTRO', iCode.ToString)
+      if cadastro.Search(aParam) then
+      begin
+        sRetorno :=cadastro.FContratados.Query.FieldByName('nom_razao_social').AsString;
+      end;
     end;
     Result := sRetorno;
   finally
+    cadastro.FContratados.Query.Connection.Close;
+    Finalize(aParam);
     cadastro.free;
   end;
 end;

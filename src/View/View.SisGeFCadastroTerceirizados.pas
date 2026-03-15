@@ -536,6 +536,8 @@ type
     dxLayoutItem87: TdxLayoutItem;
     dbUFCNH: TcxDBLookupComboBox;
     dxLayoutItem88: TdxLayoutItem;
+    dbCor: TcxDBTextEdit;
+    dxLayoutItem89: TdxLayoutItem;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -906,7 +908,7 @@ end;
 
 procedure TviewCadastroTerceirizados.dbTipoPessoaPropertiesChange(Sender: TObject);
 begin
-  if dbTipoPessoa.ItemIndex = 2 then
+  if dbTipoPessoa.ItemIndex = 1 then
   begin
     dbCPFCNPJ.Properties.Buttons[0].Enabled := True;
     dbCPFCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
@@ -921,7 +923,7 @@ end;
 
 procedure TviewCadastroTerceirizados.dbTipoPessoaVeiculoPropertiesChange(Sender: TObject);
 begin
-  if dbTipoPessoaVeiculo.ItemIndex = 2 then
+  if dbTipoPessoaVeiculo.ItemIndex = 1 then
   begin
     dbCPFCNPJVeiculo.Properties.Buttons[0].Enabled := True;
     dbCPFCNPJVeiculo.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
@@ -2309,7 +2311,7 @@ begin
       Exit;
     end;
 
-    if dbTipoPessoa.EditValue = 2 then
+    if dbTipoPessoa.EditValue = 'CNPJ' then
     begin
       if dbAlias.Text = '' then
       begin
@@ -2348,7 +2350,7 @@ begin
     end;
 
 
-    if dbTipoPessoa.EditValue = 1 then
+    if dbTipoPessoa.EditValue = 'CPF' then
     begin
       if Facao = tacIncluir then
       begin

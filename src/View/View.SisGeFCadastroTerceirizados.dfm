@@ -794,7 +794,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Left = 10000
       Top = 10000
       Hint = 'Nome do pai'
-      DataBinding.DataField = 'nom_mae'
+      DataBinding.DataField = 'nom_pai'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
       TabOrder = 36
@@ -1456,7 +1456,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 80
       Visible = False
-      Width = 417
+      Width = 282
     end
     object dbAnoVeiculo: TcxDBMaskEdit
       Left = 10000
@@ -1475,7 +1475,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Top = 10000
       Hint = 'Cor predominante do ve'#237'culo'
       Style.HotTrack = False
-      TabOrder = 82
+      TabOrder = 83
       Visible = False
       Width = 105
     end
@@ -1509,7 +1509,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Buttons.Filter.ImageIndex = 11
       DataSource = dsVeiculos
       InfoPanel.Visible = True
-      TabOrder = 83
+      TabOrder = 84
       Visible = False
     end
     object cxButton9: TcxButton
@@ -1518,7 +1518,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 121
       Height = 40
       Action = actionDataContracted
-      TabOrder = 84
+      TabOrder = 85
       Visible = False
     end
     object dbCEP: TcxDBButtonEdit
@@ -1831,7 +1831,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 87
       Height = 37
       Action = actionReturnGrid
-      TabOrder = 85
+      TabOrder = 86
       Visible = False
     end
     object cxButton11: TcxButton
@@ -1840,7 +1840,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 89
       Height = 37
       Action = actionSaveRegister
-      TabOrder = 87
+      TabOrder = 88
       Visible = False
     end
     object cxButton12: TcxButton
@@ -1849,7 +1849,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 103
       Height = 37
       Action = actionContracts
-      TabOrder = 86
+      TabOrder = 87
       Visible = False
     end
     object lcbCategorias: TcxLookupComboBox
@@ -1958,6 +1958,17 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       TabOrder = 47
       Visible = False
       Width = 67
+    end
+    object dbCor: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Cor do ve'#237'culo'
+      DataBinding.DataField = 'DES_COR'
+      DataBinding.DataSource = dsVeiculos
+      Style.HotTrack = False
+      TabOrder = 82
+      Visible = False
+      Width = 103
     end
     object lycMainGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -2070,7 +2081,6 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
       ShowBorder = False
       Index = 2
     end
@@ -2079,6 +2089,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignHorz = ahClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -2399,6 +2410,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       SizeOptions.Height = 332
       SizeOptions.Width = 453
       ButtonOptions.Buttons = <>
+      ItemIndex = 5
       LayoutDirection = ldTabbed
       ShowBorder = False
       Index = 0
@@ -2604,7 +2616,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       CaptionOptions.Text = 'Ve'#237'culos'
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
-      ItemIndex = 6
+      ItemIndex = 7
       Index = 5
     end
     object dxLayoutGroup9: TdxLayoutGroup
@@ -2921,6 +2933,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Parent = lgpVeiculos
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 7
@@ -2946,6 +2959,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     end
     object dxLayoutItem63: TdxLayoutItem
       Parent = dxLayoutGroup20
+      AlignVert = avClient
       CaptionOptions.Text = 'Ano'
       Control = dbAnoVeiculo
       ControlOptions.OriginalHeight = 23
@@ -2960,7 +2974,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 105
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object dxLayoutSeparatorItem8: TdxLayoutSeparatorItem
       Parent = lgpVeiculos
@@ -3311,6 +3325,15 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Control = dbUFCNH
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 67
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem89: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      CaptionOptions.Text = 'Cor'
+      Control = dbCor
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 103
       ControlOptions.ShowBorder = False
       Index = 3
     end
@@ -3710,7 +3733,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     StoreDefs = True
     Left = 264
     Content = {
-      414442530F004731361A0000FF00010001FF02FF030400160000006D00740062
+      414442530F00B635361A0000FF00010001FF02FF030400160000006D00740062
       0043006100640061007300740072006F0005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B040004000000690064
       00050004000000690064000C00010000000E000D000F00011000011100011200
@@ -4767,7 +4790,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 256
     Top = 56
     Content = {
-      414442530F004731E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00B635E9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005
