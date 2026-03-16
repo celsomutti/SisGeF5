@@ -538,6 +538,8 @@ type
     dxLayoutItem88: TdxLayoutItem;
     dbCor: TcxDBTextEdit;
     dxLayoutItem89: TdxLayoutItem;
+    dbStatus: TcxDBCheckBox;
+    dxLayoutItem90: TdxLayoutItem;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -559,6 +561,7 @@ type
     procedure actionSearchCEPVeiculoExecute(Sender: TObject);
     procedure actionSaveRegisterExecute(Sender: TObject);
     procedure actionContractsExecute(Sender: TObject);
+    procedure dbStatusPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     FCaptionComplent : String;
@@ -741,6 +744,7 @@ begin
   dsFinanceiro.AutoEdit := False;
   saRepresentante.AutoEdit := False;
 
+  FAcao := tacIndefinido;
   mtbCadastro.Cancel;
 
   memTableEnderecos.Active := False;
@@ -906,6 +910,14 @@ begin
   end;
 end;
 
+procedure TviewCadastroTerceirizados.dbStatusPropertiesChange(Sender: TObject);
+begin
+  if dbStatus.Checked then
+    dbStatus.Caption := 'ATIVO'
+  else
+    dbStatus.Caption := 'INATIVO';
+end;
+
 procedure TviewCadastroTerceirizados.dbTipoPessoaPropertiesChange(Sender: TObject);
 begin
   if dbTipoPessoa.ItemIndex = 1 then
@@ -943,7 +955,7 @@ begin
   dsCadastro.AutoEdit := True;
   daRH.AutoEdit := True;
   dataGR.AutoEdit := True;
-  //dsVeiculos.AutoEdit := True;
+  dsVeiculos.AutoEdit := True;
   dsEnderecos.AutoEdit := True;
   dsContatos.AutoEdit := True;
   dsFinanceiro.AutoEdit := True;
@@ -958,6 +970,7 @@ begin
   PopulateRepresentative(iCadastro);
   PopulateVehicles(iCadastro);
 
+  FAcao := tacAlterar;
   mtbCadastro.Edit;
 
   dxLayoutGroup6.ItemIndex := 0;
@@ -1247,11 +1260,12 @@ begin
   dsCadastro.AutoEdit := True;
   daRH.AutoEdit := True;
   dataGR.AutoEdit := True;
-  //dsVeiculos.AutoEdit := True;
+  dsVeiculos.AutoEdit := True;
   dsEnderecos.AutoEdit := True;
   dsContatos.AutoEdit := True;
   dsFinanceiro.AutoEdit := True;
   saRepresentante.AutoEdit := True;
+  FAcao := tacIncluir;
 
   mtbCadastro.Insert;
   memTableEnderecos.Active := False;
@@ -1792,12 +1806,7 @@ begin
     FCadastro.FContratados.ARecord.cod_erp_contratados := '0';
     FCadastro.FContratados.ARecord.id_categoria := mtbCadastroid_categoria.AsInteger;
     FCadastro.FContratados.ARecord.cod_pessoa := mtbCadastrocod_pessoa.AsInteger;
-    if mtbCadastrocod_pessoa.AsInteger = 1 then
-      FCadastro.FContratados.ARecord.des_tipo_doc := 'CPF'
-    else if mtbCadastrocod_pessoa.AsInteger = 2 then
-      FCadastro.FContratados.ARecord.des_tipo_doc := 'CNPJ'
-    else
-      FCadastro.FContratados.ARecord.des_tipo_doc := 'NONE';
+    FCadastro.FContratados.ARecord.des_tipo_doc := mtbCadastrodes_tipo_doc.AsString;
     FCadastro.FContratados.ARecord.nom_razao_social := mtbCadastronom_razao_social.AsString;
     FCadastro.FContratados.ARecord.nom_fantasia_alias := mtbCadastronom_fantasia_alias.AsString;
     FCadastro.FContratados.ARecord.num_cpf_cnpj :=  FUtils.DesmontaCPFCNPJ(mtbCadastronum_cpf_cnpj.AsString);
@@ -2195,8 +2204,9 @@ begin
 
     FreeAndNil(view_ResultadoConsultaCNPJ);
 
-    dbNome.Text := APICNPJ.APICNPJ.Pessoas.Nome;
-    dbAlias.Text := APICNPJ.APICNPJ.Pessoas.Fantasia;
+    mtbCadastronom_razao_social.AsString := APICNPJ.APICNPJ.Pessoas.Nome;
+    mtbCadastronom_fantasia_alias.AsString := APICNPJ.APICNPJ.Pessoas.Fantasia;
+    mtbCadastrocod_status.AsInteger := 1;
     if not  memTableEnderecos.Active then  memTableEnderecos.Active := True;
 
     memTableEnderecos.Insert;
