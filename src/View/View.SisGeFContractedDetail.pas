@@ -386,7 +386,7 @@ begin
   sPast := Global.Parametros.pPasta + '\' + maskEditID.Text;
   if not Assigned(view_SisgeFAttachDocuments) then
     view_SisgeFAttachDocuments := Tview_SisgeFAttachDocuments.Create(Application);
-  view_SisgeFAttachDocuments.FPasta := sPast;
+  view_SisgeFAttachDocuments.Pasta := sPast;
   view_SisgeFAttachDocuments.Show;
   FFunctions.Free;
 end;

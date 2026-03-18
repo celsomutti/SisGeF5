@@ -558,6 +558,9 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet2: TcxTabSheet
       Caption = 'Contato'
       ImageIndex = 1
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gridContatos: TcxGrid
         Left = 0
         Top = 0
@@ -766,6 +769,9 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet4: TcxTabSheet
       Caption = 'Observa'#231#245'es'
       ImageIndex = 3
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object observacoes: TcxMemo
         Left = 0
         Top = 0
@@ -780,6 +786,9 @@ object view_SisGeFEmployeeRegistrationDetail: Tview_SisGeFEmployeeRegistrationDe
     object cxTabSheet5: TcxTabSheet
       Caption = 'Ve'#237'culos'
       ImageIndex = 4
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gridVeiculos: TcxGrid
         AlignWithMargins = True
         Left = 3

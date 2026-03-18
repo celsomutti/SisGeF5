@@ -385,7 +385,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avTop
         ButtonOptions.Buttons = <>
         Hidden = True
-        ItemIndex = 1
         LayoutDirection = ldTabbed
         ShowBorder = False
         TabbedOptions.HideTabs = True
@@ -397,7 +396,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avTop
         CaptionOptions.Text = 'Pessoa F'#237'sica'
         ButtonOptions.Buttons = <>
-        ItemIndex = 3
         ShowBorder = False
         Index = 0
       end
@@ -462,7 +460,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 2
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 0
@@ -538,7 +535,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 3
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 3
@@ -646,7 +642,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avClient
         CaptionOptions.Text = 'Pessoa Jur'#237'dica'
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         Index = 1
       end
       object layoutGroupJuridica1: TdxLayoutGroup
@@ -654,7 +649,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         CaptionOptions.Text = 'New Group'
         CaptionOptions.Visible = False
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 0
@@ -676,7 +670,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avTop
         CaptionOptions.Text = 'New Group'
         ButtonOptions.Buttons = <>
-        ItemIndex = 1
         LayoutDirection = ldHorizontal
         ShowBorder = False
         Index = 1
@@ -1155,7 +1148,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         AlignVert = avClient
         ButtonOptions.Buttons = <>
         Hidden = True
-        ItemIndex = 2
         LayoutDirection = ldTabbed
         ShowBorder = False
         Index = -1
@@ -1176,7 +1168,6 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Parent = layoutControlComplementoGroup_Root
         CaptionOptions.Text = 'Dados Banc'#225'rios'
         ButtonOptions.Buttons = <>
-        ItemIndex = 3
         Index = 2
       end
       object layoutGroupEndereco1: TdxLayoutGroup
@@ -1449,7 +1440,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
         Parent = layoutGroupEndereco1
         CaptionOptions.Text = 'CEP:'
         Control = dbMaskEditCEP
-        ControlOptions.OriginalHeight = 24
+        ControlOptions.OriginalHeight = 21
         ControlOptions.OriginalWidth = 121
         ControlOptions.ShowBorder = False
         Index = 1
@@ -2266,7 +2257,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     Left = 592
     Top = 293
     Content = {
-      414442530F00EF3FE9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00724FE9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005
@@ -2427,7 +2418,7 @@ object view_SisGeFContractedDetail: Tview_SisGeFContractedDetail
     Left = 400
     Top = 237
     Content = {
-      414442530F00EF3F9A020000FF00010001FF02FF030400180000006D0065006D
+      414442530F00724F9A020000FF00010001FF02FF030400180000006D0065006D
       005400610062006C00650043004E004100450005000A0000005400610062006C
       006500060000000000070000080032000000090000FF0AFF0B04000E00000069
       0064005F0063006E006100650005000E000000690064005F0063006E00610065

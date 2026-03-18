@@ -29,6 +29,11 @@ type
       FOriginalfilename: string;
       FStart: boolean;
       FSkin: string;
+      FFTPFolder: string;
+      FFTPPassword: string;
+      FFTPHost: string;
+      FFTPUser: string;
+      FFTPPort: string;
       class var FInstante : TSistem;
     protected
     public
@@ -57,6 +62,11 @@ type
       property AliasLicence: string read FAliasLicence write FAliasLicence;
       Property NameLicence: string read FNameLicence write FNameLicence;
       property DocLicence: string read FDocLicence write FDocLicence;
+      property FTPHost: string read FFTPHost write FFTPHost;
+      property FTPUser: string read FFTPUser write FFTPUser;
+      property FTPPassword: string read FFTPPassword write FFTPPassword;
+      property FTPFolder: string read FFTPFolder write FFTPFolder;
+      property FTPPort: string read FFTPPort  write FFTPPort;
       property ValidadeLicence: string read FValidadeLicence write FValidadeLicence;
       function LoadSkinsINI(): TStringList;
       function SaveSkin(): boolean;
@@ -164,12 +174,22 @@ begin
   if FileExists('.env') then
   begin
     LocalCache.LoadDatabase('.env');
+
+    // database
     FDriverId := LocalCache.Instance('database').GetItem('driverid');
     FHostname := LocalCache.Instance('database').GetItem('hostname');
     FDatabase := LocalCache.Instance('database').GetItem('database');
     FPort := LocalCache.Instance('database').GetItem('port');
     FUsername := LocalCache.Instance('database').GetItem('username');
     FPassword := LocalCache.Instance('database').GetItem('password');
+
+    //FTP
+    FFTPHost := LocalCache.Instance('ftp').GetItem('host');
+    FFTPUser := LocalCache.Instance('ftp').GetItem('user');
+    FFTPPassword := LocalCache.Instance('ftp').GetItem('password');
+    FFTPFolder := LocalCache.Instance('ftp').GetItem('folder');
+    FFTPPort := LocalCache.Instance('ftp').GetItem('port');
+
     FStart := True;
   end;
 end;

@@ -1842,7 +1842,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 89
       Height = 37
       Action = actionSaveRegister
-      TabOrder = 89
+      TabOrder = 90
       Visible = False
     end
     object cxButton12: TcxButton
@@ -1851,7 +1851,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 103
       Height = 37
       Action = actionContracts
-      TabOrder = 88
+      TabOrder = 89
       Visible = False
     end
     object lcbCategorias: TcxLookupComboBox
@@ -1984,6 +1984,15 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.OnChange = dbStatusPropertiesChange
       Style.HotTrack = False
       TabOrder = 20
+      Visible = False
+    end
+    object cxButton13: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 143
+      Height = 37
+      Action = actionDocuments
+      TabOrder = 88
       Visible = False
     end
     object lycMainGroup_Root: TdxLayoutGroup
@@ -3242,7 +3251,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalHeight = 37
       ControlOptions.OriginalWidth = 89
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutItem81: TdxLayoutItem
       Parent = dxLayoutGroup29
@@ -3253,7 +3262,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalHeight = 37
       ControlOptions.OriginalWidth = 103
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutItem8: TdxLayoutItem
       Parent = lgpOptionsSearch
@@ -3360,6 +3369,17 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalWidth = 68
       ControlOptions.ShowBorder = False
       Index = 3
+    end
+    object dxLayoutItem91: TdxLayoutItem
+      Parent = dxLayoutGroup29
+      AlignHorz = ahRight
+      CaptionOptions.Text = 'cxButton13'
+      CaptionOptions.Visible = False
+      Control = cxButton13
+      ControlOptions.OriginalHeight = 37
+      ControlOptions.OriginalWidth = 143
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object actionList: TActionList
@@ -3490,6 +3510,12 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Hint = 'Emiss'#227'o de contratos'
       ImageIndex = 32
       OnExecute = actionContractsExecute
+    end
+    object actionDocuments: TAction
+      Caption = 'Documentos'
+      Hint = 'Documentos anexados'
+      ImageIndex = 22
+      OnExecute = actionDocumentsExecute
     end
   end
   object mtbCadastro: TFDMemTable
@@ -3757,7 +3783,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     StoreDefs = True
     Left = 264
     Content = {
-      414442530F007B34361A0000FF00010001FF02FF030400160000006D00740062
+      414442530F00583A361A0000FF00010001FF02FF030400160000006D00740062
       0043006100640061007300740072006F0005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B040004000000690064
       00050004000000690064000C00010000000E000D000F00011000011100011200
@@ -4814,7 +4840,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 256
     Top = 56
     Content = {
-      414442530F007B34E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00583AE9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005

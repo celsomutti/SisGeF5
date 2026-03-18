@@ -540,6 +540,9 @@ type
     dxLayoutItem89: TdxLayoutItem;
     dbStatus: TcxDBCheckBox;
     dxLayoutItem90: TdxLayoutItem;
+    actionDocuments: TAction;
+    cxButton13: TcxButton;
+    dxLayoutItem91: TdxLayoutItem;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -562,6 +565,7 @@ type
     procedure actionSaveRegisterExecute(Sender: TObject);
     procedure actionContractsExecute(Sender: TObject);
     procedure dbStatusPropertiesChange(Sender: TObject);
+    procedure actionDocumentsExecute(Sender: TObject);
   private
     { Private declarations }
     FCaptionComplent : String;
@@ -597,6 +601,7 @@ type
     procedure Inserir();
     procedure Cancelar;
     procedure EmitirContratos;
+    procedure Documentos;
 
     procedure ImprimeContratoColaborador(sData, sAtividade, sLocal: String);
     procedure ImprimeContratoAutonomo(sData, sAtividade, sLocal: String);
@@ -631,7 +636,8 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.ListaCEPs, View.ResultadoConsultaCNPJ, View.Impressao, View.SisGeFContractEmission;
+uses Data.SisGeF, View.ListaCEPs, View.ResultadoConsultaCNPJ, View.Impressao, View.SisGeFContractEmission,
+  View.SisaGeFAttachDocuments;
 
 { TviewCadastroTerceirizados }
 
@@ -643,6 +649,12 @@ end;
 procedure TviewCadastroTerceirizados.actionContractsExecute(Sender: TObject);
 begin
   EmitirContratos;
+end;
+
+procedure TviewCadastroTerceirizados.actionDocumentsExecute(Sender: TObject);
+begin
+  if FAcao = tacAlterar then
+    Documentos;
 end;
 
 procedure TviewCadastroTerceirizados.actionEditRegisterExecute(Sender: TObject);
@@ -946,6 +958,14 @@ begin
     dbCPFCNPJVeiculo.Properties.EditMask := '!000\.000\.000\-00;0; ';
   end;
 
+end;
+
+procedure TviewCadastroTerceirizados.Documentos;
+begin
+  if not Assigned(view_SisgeFAttachDocuments) then
+    view_SisgeFAttachDocuments := Tview_SisgeFAttachDocuments.Create(Application);
+  view_SisgeFAttachDocuments.Pasta := dbId.Text;
+  view_SisgeFAttachDocuments.Show;
 end;
 
 procedure TviewCadastroTerceirizados.Editar(iCadastro: integer);
