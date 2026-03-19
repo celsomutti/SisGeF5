@@ -270,6 +270,8 @@ type
     procedure btnCloseFormClick(Sender: TObject);
     procedure btnMinimieFormClick(Sender: TObject);
     procedure actCadastroDistribuidoresExecute(Sender: TObject);
+    procedure XPAdAutoUpdateAfterUpdate(Sender: TObject);
+    procedure XPAdAutoUpdateFound(Sender: TObject; Version, Size: Integer);
 
   private
     FidFTP : TIdFTP;
@@ -848,9 +850,9 @@ function Tview_Main.ConnectFTPServer: boolean;
 begin
   FidFTP := TIdFTP.Create(Self);
   Result := False;
-  FidFTP.Username     := 'alocarioca.novorioexpress.com';
-  FidFTP.Password     := 'al0c@rioca';
-  FidFTP.Host         := 'ftp.novorioexpress.com';
+  FidFTP.Username     := FSistem.FTPUser;
+  FidFTP.Password     := FSistem.FTPPassword;
+  FidFTP.Host         := FSistem.FTPHost;
   FidFTP.Port         := 21;
   FidFTP.Passive      := True;
   FidFTP.TransferType := ftBinary;
@@ -1012,7 +1014,7 @@ begin
     Acessos;
   end;
   FreeAndNil(view_Login);
-  //VerificaVersao;
+  VerificaVersao;
 end;
 
 procedure Tview_Main.GetCompany;
@@ -1042,7 +1044,7 @@ begin
   if FileExists(sPath + 'versionFTP.ini') then
     DeleteFile(sPath + 'versionFTP.ini');
 
-  FidFTP.Get('Download/SisGeF5/versionFTP.ini', sPath + 'versionFTP.ini', True, True);
+  FidFTP.Get('update/SisGeF5/versionFTP.ini', sPath + 'versionFTP.ini', True, True);
 
   oArquivoINI := TIniFile.Create(sPath + 'versionFTP.ini');
   try
@@ -1061,7 +1063,7 @@ var
   oArquivoINI: TIniFile;
 begin
   sPath := ExtractFilePath(Application.ExeName);
-  oArquivoINI := TIniFile.Create(sPath + 'VersionLocal.ini');
+  oArquivoINI := TIniFile.Create(sPath + 'versionLocal.ini');
   try
     sNumeroVersao := oArquivoINI.ReadString('version', 'number', EmptyStr);
 
@@ -1211,6 +1213,7 @@ var
 begin
   sInternalName := Common.Utils.TUtils.Sistema('InternalName');
   if sInternalName = '_SisGeF5' then Exit;
+
   if not VerifyConnection then Exit;
   if not ConnectFTPServer then Exit;
   iVersionFTP := GetVersionFTP();
@@ -1231,6 +1234,16 @@ var
   nFlags: Cardinal;
 begin
   result := InternetGetConnectedState(@nFlags, 0);
+end;
+
+procedure Tview_Main.XPAdAutoUpdateAfterUpdate(Sender: TObject);
+begin
+  ShowMessage('Sistema atualizado.');
+end;
+
+procedure Tview_Main.XPAdAutoUpdateFound(Sender: TObject; Version, Size: Integer);
+begin
+  ShowMessage('Nova versão encontrada');
 end;
 
 end.

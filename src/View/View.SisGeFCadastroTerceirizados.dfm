@@ -121,6 +121,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Height = 299
       TabOrder = 11
       object gridDBTableView1: TcxGridDBTableView
+        OnDblClick = gridDBTableView1DblClick
         Navigator.Buttons.CustomButtons = <>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.ImageIndex = 91
@@ -155,9 +156,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
         OptionsData.DeletingConfirmation = False
         OptionsData.Editing = False
         OptionsData.Inserting = False
-        OptionsSelection.MultiSelect = True
-        OptionsSelection.CellMultiSelect = True
-        OptionsSelection.InvertSelect = False
+        OptionsSelection.CellSelect = False
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
         object gridDBTableView1id: TcxGridDBColumn
@@ -3783,7 +3782,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     StoreDefs = True
     Left = 264
     Content = {
-      414442530F00583A361A0000FF00010001FF02FF030400160000006D00740062
+      414442530F00B64E361A0000FF00010001FF02FF030400160000006D00740062
       0043006100640061007300740072006F0005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B040004000000690064
       00050004000000690064000C00010000000E000D000F00011000011100011200
@@ -4840,7 +4839,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 256
     Top = 56
     Content = {
-      414442530F00583AE9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00B64EE9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005

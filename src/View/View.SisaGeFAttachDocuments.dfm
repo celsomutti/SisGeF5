@@ -4,7 +4,7 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
   BorderStyle = bsToolWindow
   Caption = 'Documentos Anexados'
   ClientHeight = 367
-  ClientWidth = 369
+  ClientWidth = 413
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,21 +19,34 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object chkListFolder: TcxCheckListBox
+    Left = 0
+    Top = 0
+    Width = 413
+    Height = 335
+    Align = alClient
+    Items = <>
+    TabOrder = 1
+    ExplicitLeft = -16
+    ExplicitTop = -6
+    ExplicitWidth = 775
+  end
   object Panel1: TPanel
     Left = 0
     Top = 335
-    Width = 369
+    Width = 413
     Height = 32
     Align = alBottom
     BevelOuter = bvNone
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 369
     DesignSize = (
-      369
+      413
       32)
     object cxButton1: TcxButton
-      Left = 294
+      Left = 338
       Top = 3
       Width = 75
       Height = 25
@@ -41,6 +54,7 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
       Action = actionClose
       Anchors = [akRight, akBottom]
       TabOrder = 1
+      ExplicitLeft = 294
     end
     object cxButton2: TcxButton
       Left = 0
@@ -62,20 +76,19 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
       Anchors = [akLeft, akBottom]
       TabOrder = 2
     end
-  end
-  object chkListFolder: TcxCheckListBox
-    Left = 0
-    Top = 0
-    Width = 369
-    Height = 335
-    Align = alClient
-    Items = <>
-    TabOrder = 1
+    object cxButton4: TcxButton
+      Left = 175
+      Top = 6
+      Width = 90
+      Height = 25
+      Action = actionDelete
+      TabOrder = 3
+    end
   end
   object actionListAttach: TActionList
     Images = Data_Sisgef.iml_16_16
-    Left = 600
-    Top = 16
+    Left = 32
+    Top = 24
     object actionClose: TAction
       Caption = 'Fechar'
       ImageIndex = 98
@@ -91,10 +104,17 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
       Caption = 'Download'
       Hint = 'Efetuar o download do documento'
       ImageIndex = 119
+      OnExecute = actionDownloadExecute
+    end
+    object actionDelete: TAction
+      Caption = 'Excluir'
+      Hint = 'Excluir arquivos do servidor'
+      ImageIndex = 84
+      OnExecute = actionDeleteExecute
     end
   end
   object OpenDialog: TOpenDialog
-    Left = 616
+    Left = 32
     Top = 80
   end
   object IdFTPDocs: TIdFTP
@@ -106,7 +126,7 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
     NATKeepAlive.IntervalMS = 0
     ProxySettings.ProxyType = fpcmNone
     ProxySettings.Port = 0
-    Left = 624
-    Top = 149
+    Left = 24
+    Top = 141
   end
 end

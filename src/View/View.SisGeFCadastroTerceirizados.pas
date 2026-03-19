@@ -566,6 +566,7 @@ type
     procedure actionContractsExecute(Sender: TObject);
     procedure dbStatusPropertiesChange(Sender: TObject);
     procedure actionDocumentsExecute(Sender: TObject);
+    procedure gridDBTableView1DblClick(Sender: TObject);
   private
     { Private declarations }
     FCaptionComplent : String;
@@ -1096,6 +1097,11 @@ end;
 procedure TviewCadastroTerceirizados.FormShow(Sender: TObject);
 begin
   LoadForm;
+end;
+
+procedure TviewCadastroTerceirizados.gridDBTableView1DblClick(Sender: TObject);
+begin
+  Editar(mtbCadastroid.AsInteger);
 end;
 
 procedure TviewCadastroTerceirizados.ImprimeContratoAutonomo(sData, sAtividade, sLocal: String);

@@ -383,13 +383,13 @@ end;
 
 procedure Tview_Acareacoes.aclAcareacoesExecute(Action: TBasicAction; var Handled: Boolean);
 begin
-  Facessos.Acessos.Administrador := Global.Parametros.pAdmin;
-  if not FAcessos.VerificaLogin(Action.Tag, Global.Parametros.pUser_ID) then
-  begin
-    Application.MessageBox('Usuário sem permissão à esta função!', 'Atenção', MB_OK + MB_ICONHAND);
-    Handled := True;
-    Exit;
-  end;
+//  Facessos.Acessos.Administrador := Global.Parametros.pAdmin;
+//  if not FAcessos.VerificaLogin(Action.Tag, Global.Parametros.pUser_ID) then
+//  begin
+//    Application.MessageBox('Usuário sem permissão à esta função!', 'Atenção', MB_OK + MB_ICONHAND);
+//    Handled := True;
+//    Exit;
+//  end;
 end;
 
 procedure Tview_Acareacoes.actCancelarExecute(Sender: TObject);
@@ -473,7 +473,7 @@ begin
   ClearFields;
   datAcareacao.Date := Now();
   AccessField(True);
-  txtID.SetFocus;
+//  txtID.SetFocus;
 end;
 
 procedure Tview_Acareacoes.actLocalizarExecute(Sender: TObject);
