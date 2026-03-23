@@ -226,23 +226,22 @@ begin
   begin
     sMensagem := 'O campo de texto a pesquisar não foi preenchido!. ' +
     'Caso deseje visualizar todos os entregadores clique OK, porém, esse processo pode ser lento.';
-    if Application.MessageBox(PChar(sMensagem), 'Aten��o!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
+    if Application.MessageBox(PChar(sMensagem), 'Atenção!', MB_OKCANCEL + MB_ICONWARNING) = IDCANCEL then
     begin
       sFiltro := 'NONE';
     end;
   end
   else
   begin
-    sFiltro := 'nom_base like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_entregador like ' + QuotedStr('%' + sTexto + '%') + ' ' +
-    'or des_chave like ' + QuotedStr('%' + sTexto + '%') + ' or nom_cadastro like ' + QuotedStr('%' + sTexto + '%');
+    sFiltro := 'nom_base like ' + QuotedStr('%' +  sTexto + '%') + ' or nom_razao_social like ' + QuotedStr('%' + sTexto + '%') +
+    ' or nom_fantasia_alias like ' + QuotedStr('%' + sTexto + '%');
     if fFuncoes.ENumero(sTexto) then
     begin
       if sTexto <> '' then
       begin
         sFiltro := sFiltro + ' or ';
       end;
-      sFiltro := sFiltro + 'id_entregador like ' + sTexto  + ' or cod_agente like ' + sTexto + ' or cod_entregador like ' + sTexto +
-      ' or cod_cadastro like ' + sTexto;
+      sFiltro := sFiltro + 'id like ' + sTexto  + ' or cod_base like ' + sTexto ;
     end;
   end;
   fFuncoes.Free;

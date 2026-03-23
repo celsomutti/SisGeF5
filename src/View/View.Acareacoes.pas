@@ -22,8 +22,8 @@ uses
   Control.Entregas, FireDAC.Comp.Client, Control.ExtraviosMultas, frxClass, cxGridExportLink, ShellAPI, cxDBEdit,
   Data.SisGeF, Control.Acessos, Control.FilterData, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, Control.Cadastro, dxDateRanges,
-  cxDataControllerConditionalFormattingRulesManagerDialog, Controller.SisGeFCadastroContratados, service.connectionMySQL,
-  FireDAC.Stan.StorageBin, Controller.CRMClientes;
+  cxDataControllerConditionalFormattingRulesManagerDialog, service.connectionMySQL,
+  FireDAC.Stan.StorageBin, Controller.CRMClientes, Controller.SisGeFCadastroContratados;
 
 type
   Tview_Acareacoes = class(TForm)
@@ -472,6 +472,7 @@ begin
   StatusButton;
   ClearFields;
   datAcareacao.Date := Now();
+  datRetorno.Date := Now() + 2;
   AccessField(True);
 //  txtID.SetFocus;
 end;
@@ -965,8 +966,6 @@ end;
 procedure Tview_Acareacoes.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FAcareacao.Acareacoes.Free;
-  FBase.Free;
-  FEntregadores.Free;
   Facessos.Free;
   mtbPesquisa.Close;
   Action := caFree;
@@ -977,8 +976,6 @@ procedure Tview_Acareacoes.FormCreate(Sender: TObject);
 begin
   FMySQL := TConnectionMySQL.Create();
   FAcareacao := TAcareacaoControl.Create;
-  FBase := TBasesControl.Create;
-  FEntregadores := TCadastroContratadosController.Create;
   FAcareacao.Acareacoes.Acao := Common.ENum.tacIndefinido;
   fAcessos := TAcessosControl.Create;
   dtDataBaixa := 0;
@@ -1189,6 +1186,7 @@ var
   FDQuery : TFDQuery;
 begin
   try
+    FBase := TBasesControl.Create;
     FDQuery := FMySQL.GetQuery;
     SetLength(aParam,3);
     aParam[0] := 'APOIO';
@@ -1213,6 +1211,7 @@ begin
       txtNomeBase.Text := NomeBase(View_PesquisarPessoas.qryPesquisa.Fields[2].AsInteger);
     end;
   finally
+    FBase.Free;
     FDQuery.Free;
     FreeAndNil(View_PesquisarPessoas);
   end;
@@ -1228,7 +1227,7 @@ begin
     SetLength(aParam,3);
     aParam[0] := 'id as Código, nom_razao_social as Nome, cod_base as "Cód. Base", nom_base as "Nome Base"';
     aParam[1] := 'VIEW';
-    aparam[2] := 'id_funcao = 29';
+    aparam[2] := 'id_categoria = 2';
     if FEntregadores.CustomSearch(aParam) then
     begin
       FDQuery := FEntregadores.FContratados.Query;
@@ -1262,35 +1261,45 @@ function Tview_Acareacoes.NomeBase(iCodigo: Integer): String;
 var
   aParam: array of Variant;
 begin
-  Result := 'NONE';
-  SetLength(aParam,2);
-  aParam[0] := 'CODIGO';
-  aParam[1] := iCodigo;
-  if FBase.LocalizarExato(aParam) then
-  begin
-    Result := FBase.Bases.NomeFantasia;
+  try
+    FBase := TBasesControl.Create;
+    Result := 'NONE';
+    SetLength(aParam,2);
+    aParam[0] := 'CODIGO';
+    aParam[1] := iCodigo;
+    if FBase.LocalizarExato(aParam) then
+    begin
+      Result := FBase.Bases.NomeFantasia;
+    end;
+    Finalize(aParam);
+  finally
+    FBase.Free;
   end;
-  Finalize(aParam);
 end;
 
 procedure Tview_Acareacoes.NomeEntregador(iCodigo: Integer);
 var
   aParam: array of string;
 begin
-  if iCodigo = 0 then
-  begin
-    Exit;
+  FEntregadores := TCadastroContratadosController.Create;
+  try
+    if iCodigo = 0 then
+    begin
+      Exit;
+    end;
+    SetLength(aParam,2);
+    aParam[0] := 'ID';
+    aParam[1] := iCodigo.ToString;
+    if FEntregadores.Search(aParam) then
+    begin
+      txtNomeEntregador.Text := FEntregadores.FContratados.Query.FieldByName('nom_razao_social').AsString;
+      edtCodigoBase.EditValue := FEntregadores.FContratados.Query.FieldByName('cod_base').AsInteger;
+      txtNomeBase.Text := FEntregadores.FContratados.Query.FieldByName('nom_base').AsString;
+    end;
+    Finalize(aParam);
+  finally
+    FEntregadores.Free;
   end;
-  SetLength(aParam,2);
-  aParam[0] := 'id, nom_razao_social, cod_base, nom_base';
-  aParam[1] := 'VIEW';
-  if FEntregadores.CustomSearch(aParam) then
-  begin
-    txtNomeEntregador.Text := FEntregadores.FContratados.Query.FieldByName('nom_razao_social').AsString;
-    edtCodigoBase.EditValue := FEntregadores.FContratados.Query.FieldByName('cod_base').AsInteger;
-    txtNomeBase.Text := FEntregadores.FContratados.Query.FieldByName('nom_base').AsString;
-  end;
-  Finalize(aParam);
 end;
 
 procedure Tview_Acareacoes.PopulaBase;
@@ -1300,6 +1309,7 @@ var
 begin
   try
     FDQuery := FMySQL.GetQuery;
+    FBase := TBasesControl.Create;
     SetLength(aParam,3);
     aParam[0] := 'APOIO';
     aParam[1] := 'COD_AGENTE, NOM_FANTASIA';
@@ -1310,6 +1320,7 @@ begin
     mtbBase.LoadFromDataSet(FDQuery);
     mtbBase.Open;
   finally
+    FBase.Free;
     FDQuery.Free;
   end;
 end;
@@ -1358,6 +1369,7 @@ var
   FDQuery : TFDQuery;
 begin
   try
+    Fentregadores := TCadastroContratadosController.Create;
     FDQuery := FMySQL.GetQuery;
     SetLength(aParam,2);
     aParam[0] := 'ALL';
@@ -1369,6 +1381,7 @@ begin
     mtbEntregadores.LoadFromDataSet(FDQuery);
     mtbEntregadores.Open;
   finally
+    FEntregadores.Free;
     FDQuery.Free;
   end;
 end;
@@ -1511,7 +1524,6 @@ procedure Tview_Acareacoes.txtNNPropertiesValidate(Sender: TObject; var DisplayV
   var Error: Boolean);
 begin
   if DisplayValue = '' then Exit;
-  DisplayValue := FormatFloat('0',StrToFloat(VarToStr(DisplayValue)));
   if FAcareacao.Acareacoes.Acao = Common.ENum.tacIncluir then
   begin
     DadosEntrega(DisplayValue);

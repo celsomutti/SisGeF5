@@ -9,7 +9,7 @@ uses
   Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxButtonEdit, cxCurrencyEdit, Vcl.StdCtrls, cxClasses, dxGaugeCustomScale,
   dxGaugeQuantitativeScale, dxGaugeCircularScale, dxGaugeControl, Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons,
   cxProgressBar, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Data.DB, Data.SisGeF, Common.ENum,
-  Control.ControleAWB, Control.Entregas, Control.EntregadoresExpressas;
+  Control.ControleAWB, Control.Entregas, Control.EntregadoresExpressas, Controller.SisGeFCadastroContratados;
 
 
 type
@@ -253,23 +253,24 @@ end;
 
 procedure Tview_CadastroExtravios.LocateEntregador(iCodigo: integer);
 var
-  FEntregadores : TEntregadoresExpressasControl;
-  aParam: array of variant;
+  FEntregadores : TCadastroContratadosController;
+  aParam: array of string;
 begin
   try
-    FEntregadores := TEntregadoresExpressasControl.Create;
+    FEntregadores := TCadastroContratadosController.Create;
     SetLength(aParam, 2);
-    aParam := ['ENTREGADOR', iCodigo];
-    if FEntregadores.Localizar(aParam).IsEmpty then
+    aParam := ['ID', iCodigo.ToString];
+    if not FEntregadores.Search(aParam) then
     begin
       NomeEntregador.Text := '';
     end
     else
     begin
-      Entregador.EditValue := Fentregadores.Localizar(aParam).FieldByName('cod_entregador').AsInteger;
-      NomeEntregador.Text := Fentregadores.Localizar(aParam).FieldByName('nom_fantasia').AsString;
-      iBase := Fentregadores.Localizar(aParam).FieldByName('cod_agente').AsInteger;
+      Entregador.EditValue := Fentregadores.FContratados.Query.FieldByName('id').AsString;
+      NomeEntregador.Text := Fentregadores.FContratados.Query.FieldByName('nom_razao_social').AsString;
+      iBase := Fentregadores.FContratados.Query.FieldByName('cod_base').AsInteger;
     end;
+    Fentregadores.FContratados.Query.Connection.Close;
   finally
     FEntregadores.Free;
   end;

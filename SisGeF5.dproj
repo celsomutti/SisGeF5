@@ -168,7 +168,7 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Alô Carioca Serviços de Entregas e Transportes Ltda.;FileDescription=$(MSBuildProjectName);FileVersion=5.2.0.65;InternalName=SisGeF5;LegalCopyright=2018 - 2023 © Alô Carioca;LegalTrademarks=;OriginalFilename=SisGeF;ProductName=$(MSBuildProjectName);ProductVersion=5.2.0.0;Comments=;ProgramID=com.novorioexpress.$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Alô Carioca Serviços de Entregas e Transportes Ltda.;FileDescription=$(MSBuildProjectName);FileVersion=5.2.0.65;InternalName=_SisGeF5;LegalCopyright=2018 - 2023 © Alô Carioca;LegalTrademarks=;OriginalFilename=SisGeF;ProductName=$(MSBuildProjectName);ProductVersion=5.2.0.0;Comments=;ProgramID=com.novorioexpress.$(MSBuildProjectName)</VerInfo_Keys>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <Icon_MainIcon>SisGeF5_Icon3.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>src\asserts\Images\Uwp_44.png</UWP_DelphiLogo44>

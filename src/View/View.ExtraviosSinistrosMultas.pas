@@ -13,7 +13,7 @@ uses
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Stan.StorageBin, Common.Utils, Control.ExtraviosMultas, cxCalendar,
   cxCurrencyEdit, cxBlobEdit, dxBarBuiltInMenu, cxPC, cxFilterControl, cxDBFilterControl, cxDBLookupComboBox, Common.ENum,
   View.CadastroExtravios, Control.EntregadoresExpressas, Global.Parametros, Control.Lancamentos, frxClass, cxImageComboBox,
-  cxProgressBar;
+  cxProgressBar, cxMemo;
 
 type
   Tview_ExtraviosSinistrosMultas = class(TForm)

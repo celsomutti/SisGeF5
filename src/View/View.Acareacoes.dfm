@@ -72,10 +72,10 @@ object view_Acareacoes: Tview_Acareacoes
       Style.IsFontAssigned = True
       TabOrder = 1
       Text = '0'
-      Width = 46
+      Width = 50
     end
     object txtID: TcxTextEdit
-      Left = 91
+      Left = 95
       Top = 105
       Hint = 'ID da acarea'#231#227'o na Transfolha'
       ParentFont = False
@@ -88,12 +88,13 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 2
-      Width = 68
+      Text = '0'
+      Width = 69
     end
     object txtNN: TcxTextEdit
-      Left = 165
+      Left = 170
       Top = 105
-      Hint = 'Nosso N'#250'mero TFO'
+      Hint = 'C'#243'digo SPXTN'
       ParentFont = False
       Properties.MaxLength = 14
       Properties.OnValidate = txtNNPropertiesValidate
@@ -105,10 +106,10 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 3
-      Width = 96
+      Width = 104
     end
     object edtCodigoEntregador: TcxButtonEdit
-      Left = 454
+      Left = 467
       Top = 104
       Hint = 'C'#243'digo do entregador'
       ParentFont = False
@@ -122,7 +123,7 @@ object view_Acareacoes: Tview_Acareacoes
       Properties.IgnoreMaskBlank = True
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
-      Properties.EditMask = '\d\d\d\d\d\d'
+      Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d\d\d'
       Properties.OnValidate = edtCodigoEntregadorPropertiesValidate
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -133,10 +134,10 @@ object view_Acareacoes: Tview_Acareacoes
       Style.IsFontAssigned = True
       TabOrder = 6
       Text = '0'
-      Width = 68
+      Width = 89
     end
     object txtNomeEntregador: TcxTextEdit
-      Left = 528
+      Left = 562
       Top = 105
       Hint = 'Nome do entregador'
       ParentFont = False
@@ -149,10 +150,10 @@ object view_Acareacoes: Tview_Acareacoes
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 7
-      Width = 205
+      Width = 174
     end
     object edtCodigoBase: TcxButtonEdit
-      Left = 739
+      Left = 742
       Top = 104
       Hint = 'C'#243'digo da base'
       ParentFont = False
@@ -174,10 +175,10 @@ object view_Acareacoes: Tview_Acareacoes
       Style.IsFontAssigned = True
       TabOrder = 8
       Text = '0'
-      Width = 65
+      Width = 70
     end
     object txtNomeBase: TcxTextEdit
-      Left = 810
+      Left = 818
       Top = 105
       Hint = 'Nome da Base'
       ParentFont = False
@@ -191,7 +192,7 @@ object view_Acareacoes: Tview_Acareacoes
       Style.Shadow = False
       Style.IsFontAssigned = True
       TabOrder = 9
-      Width = 246
+      Width = 238
     end
     object edtValorExtravio: TcxCurrencyEdit
       Left = 579
@@ -687,8 +688,8 @@ object view_Acareacoes: Tview_Acareacoes
       TabOrder = 36
     end
     object datRetorno: TcxDateEdit
-      Left = 369
-      Top = 104
+      Left = 382
+      Top = 105
       Hint = 'Data do prazo do retorno'
       ParentFont = False
       Properties.SaveTime = False
@@ -704,8 +705,8 @@ object view_Acareacoes: Tview_Acareacoes
       Width = 79
     end
     object datAcareacao: TcxDateEdit
-      Left = 267
-      Top = 107
+      Left = 280
+      Top = 105
       Hint = 'Data da acarea'#231#227'o / acarea'#231#227'o'
       ParentFont = False
       Properties.DateButtons = [btnClear, btnNow, btnToday]
@@ -780,12 +781,8 @@ object view_Acareacoes: Tview_Acareacoes
       Hint = 'Tratativa da acarea'#231#227'o'
       ParentFont = False
       Properties.Items.Strings = (
-        'ENVIAR A DECLARA'#199#195'O'
-        'REALIZAR AUDIO'
-        'ENVIO DE E-MAIL CONSTATANDO'
-        'ENVIO DE E-MAIL RECORRENDO'
-        'APURA'#199#195'O FEITA PELO CONTROLE'
-        'SOMENTE RELATO')
+        'Tratativa realizada pelo driver'
+        'Tratativa via WhatsApp')
       Properties.MaxLength = 60
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -1146,25 +1143,23 @@ object view_Acareacoes: Tview_Acareacoes
     end
     object dxLayoutItem4: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Motorista'
       CaptionOptions.Layout = clTop
       Control = edtCodigoEntregador
       ControlOptions.OriginalHeight = 24
-      ControlOptions.OriginalWidth = 73
+      ControlOptions.OriginalWidth = 89
       ControlOptions.ShowBorder = False
       Index = 5
     end
     object dxLayoutItem5: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Nome do Motorista:'
       CaptionOptions.Layout = clTop
       Control = txtNomeEntregador
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 222
+      ControlOptions.OriginalWidth = 174
       ControlOptions.ShowBorder = False
       Index = 6
     end
@@ -1182,13 +1177,12 @@ object view_Acareacoes: Tview_Acareacoes
     end
     object dxLayoutItem7: TdxLayoutItem
       Parent = dxLayoutGroup3
-      AlignHorz = ahClient
       AlignVert = avCenter
       CaptionOptions.Text = 'Nome da Base:'
       CaptionOptions.Layout = clTop
       Control = txtNomeBase
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 266
+      ControlOptions.OriginalWidth = 238
       ControlOptions.ShowBorder = False
       Index = 8
     end
@@ -1497,6 +1491,7 @@ object view_Acareacoes: Tview_Acareacoes
     end
     object dxLayoutItem39: TdxLayoutItem
       Parent = dxLayoutGroup3
+      AlignVert = avCenter
       CaptionOptions.Text = 'Retorno:'
       CaptionOptions.Layout = clTop
       Control = datRetorno
@@ -1508,7 +1503,7 @@ object view_Acareacoes: Tview_Acareacoes
     object dxLayoutItem8: TdxLayoutItem
       Parent = dxLayoutGroup3
       AlignHorz = ahLeft
-      AlignVert = avBottom
+      AlignVert = avCenter
       CaptionOptions.Text = 'Data:'
       CaptionOptions.Layout = clTop
       Control = datAcareacao
@@ -4159,7 +4154,7 @@ object view_Acareacoes: Tview_Acareacoes
     Left = 928
     Top = 8
     Content = {
-      414442530F00164C4E120000FF00010001FF02FF030400160000006D00740062
+      414442530F0009374E120000FF00010001FF02FF030400160000006D00740062
       005000650073007100750069007300610005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B04001A000000530045
       0051005F00410043004100520045004100430041004F0005001A000000530045

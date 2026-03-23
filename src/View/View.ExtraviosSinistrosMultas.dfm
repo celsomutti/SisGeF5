@@ -129,6 +129,7 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           OptionsSelection.CheckBoxPosition = cbpIndicator
           OptionsSelection.CheckBoxVisibility = [cbvDataRow, cbvColumnHeader]
           OptionsSelection.ClearPersistentSelectionOnOutsideClick = True
+          OptionsView.CellAutoHeight = True
           OptionsView.Footer = True
           OptionsView.GroupByBox = False
           object gridExtraviosDBTableView1COD_EXTRAVIO: TcxGridDBColumn
@@ -297,11 +298,10 @@ object view_ExtraviosSinistrosMultas: Tview_ExtraviosSinistrosMultas
           end
           object gridExtraviosDBTableView1DES_OBSERVACOES: TcxGridDBColumn
             DataBinding.FieldName = 'DES_OBSERVACOES'
-            PropertiesClassName = 'TcxBlobEditProperties'
-            Properties.BlobEditKind = bekMemo
-            Visible = False
+            PropertiesClassName = 'TcxMemoProperties'
+            Properties.ReadOnly = True
             HeaderAlignmentHorz = taCenter
-            Width = 81
+            Width = 235
           end
           object gridExtraviosDBTableView1cod_cliente: TcxGridDBColumn
             DataBinding.FieldName = 'cod_cliente'

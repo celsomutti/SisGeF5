@@ -2,7 +2,7 @@ unit Control.Acareacao;
 
 interface
 
-uses Model.Acareacoes, System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum;
+uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Model.Acareacoes;
 
 type
   TAcareacaoControl = class
@@ -84,11 +84,11 @@ end;
 function TAcareacaoControl.ValidaCampos: Boolean;
 begin
   Result := False;
-  if FAcareacoes.Id.IsEmpty then
-  begin
-    Application.MessageBox('Informe o #ID da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
+//  if FAcareacoes.Id.IsEmpty then
+//  begin
+//    Application.MessageBox('Informe o #ID da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
+//    Exit;
+//  end;
   if FAcareacoes.Nossonumero.IsEmpty then
   begin
     Application.MessageBox('Informe o Nosso Número.', 'Atenção', MB_OK + MB_ICONWARNING);
@@ -137,11 +137,11 @@ begin
     Application.MessageBox('Informe a tratativa da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
   end;
-  if FAcareacoes.Envio.IsEmpty then
-  begin
-    Application.MessageBox('Informe se a correspondência foi enviada.', 'Atenção', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
+//  if FAcareacoes.Envio.IsEmpty then
+//  begin
+//    Application.MessageBox('Informe se a correspondência foi enviada.', 'Atenção', MB_OK + MB_ICONWARNING);
+//    Exit;
+//  end;
   Result := True;
 end;
 
