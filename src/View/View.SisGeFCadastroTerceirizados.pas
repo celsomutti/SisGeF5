@@ -543,6 +543,9 @@ type
     actionDocuments: TAction;
     cxButton13: TcxButton;
     dxLayoutItem91: TdxLayoutItem;
+    cxButton14: TcxButton;
+    dxLayoutItem92: TdxLayoutItem;
+    dxLayoutSeparatorItem13: TdxLayoutSeparatorItem;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -654,7 +657,7 @@ end;
 
 procedure TviewCadastroTerceirizados.actionDocumentsExecute(Sender: TObject);
 begin
-  if FAcao = tacAlterar then
+  if not mtbCadastro.IsEmpty then  
     Documentos;
 end;
 
@@ -1184,7 +1187,7 @@ begin
       view_Impressao := Tview_Impressao.Create(Application);
     end;
     view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - CONTRATADO';
-    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoColaborador.fr3';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoColaboradorV2.fr3';
     if view_Impressao.ShowModal <> mrOk then
     begin
       FreeAndNil(view_Impressao);

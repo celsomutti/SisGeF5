@@ -9,7 +9,8 @@ uses
   Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxButtonEdit, cxCurrencyEdit, Vcl.StdCtrls, cxClasses, dxGaugeCustomScale,
   dxGaugeQuantitativeScale, dxGaugeCircularScale, dxGaugeControl, Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons,
   cxProgressBar, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Data.DB, Data.SisGeF, Common.ENum,
-  Control.ControleAWB, Control.Entregas, Control.EntregadoresExpressas, Controller.SisGeFCadastroContratados;
+  Control.ControleAWB, Control.Entregas, Control.EntregadoresExpressas, Controller.SisGeFCadastroContratados, FireDAC.Comp.Client,
+  service.connectionMySQL;
 
 
 type
@@ -113,7 +114,7 @@ implementation
 
 {$R *.dfm}
 
-uses View.PesquisaEntregadoresExpressas;
+uses View.PesquisaEntregadoresExpressas, View.PesquisarPessoas;
 
 { Tview_CadastroExtravios }
 
@@ -339,23 +340,65 @@ begin
 end;
 
 procedure Tview_CadastroExtravios.PesquisaEntregadores;
+var
+  aParam: array of string;
+  FDQuery : TFDQuery;
+  FMySQL : TConnectionMySQL;
+  FEntregadores : TCadastroContratadosController;
 begin
-  if Cliente.ItemIndex = -1 then
-  begin
-    MessageDlg('Informe o Cliente!', mtWarning, [mbCancel], 0);
-    Cliente.SetFocus;
-    Exit;
+  try
+    FMySQL := TConnectionMySQL.Create;
+    FDQuery := FMySQL.GetQuery;
+    FEntregadores := TCadastroContratadosController.Create;
+    SetLength(aParam,3);
+    aParam[0] := 'id as Código, nom_razao_social as Nome, cod_base as "Cód. Base", nom_base as "Nome Base"';
+    aParam[1] := 'VIEW';
+    aparam[2] := 'id_categoria = 2';
+    if FEntregadores.CustomSearch(aParam) then
+    begin
+      FDQuery := FEntregadores.FContratados.Query;
+    end;
+    Finalize(aParam);
+    if not Assigned(View_PesquisarPessoas) then
+    begin
+      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+    end;
+    View_PesquisarPessoas.qryPesquisa.CreateFieldsFromDataSet(FDQuery);
+    View_PesquisarPessoas.qryPesquisa.LoadFromDataSet(FDQuery);
+    if not FDQuery.IsEmpty then View_PesquisarPessoas.qryPesquisa.First;
+    FDQuery.Close;
+    View_PesquisarPessoas.tvPesquisa.ClearItems;
+    View_PesquisarPessoas.tvPesquisa.DataController.CreateAllItems;
+    View_PesquisarPessoas.Caption := View_PesquisarPessoas.Caption + ' de Motoristas';
+    if View_PesquisarPessoas.ShowModal = mrOk then
+    begin
+      Entregador.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger;
+      NomeEntregador.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
+      iBase := View_PesquisarPessoas.qryPesquisa.Fields[3].AsInteger;
+    end;
+  finally
+    FDQuery.Free;
+    FMySQL.Free;
+    FEntregadores.Free;
+    FreeAndNil(View_PesquisarPessoas);
   end;
-  if not Assigned(view_PesquisaEntregadoresExpressas)  then
-    view_PesquisaEntregadoresExpressas := Tview_PesquisaEntregadoresExpressas.Create(Application);
-  view_PesquisaEntregadoresExpressas.FCliente := Cliente.EditValue;
-  if view_PesquisaEntregadoresExpressas.ShowModal = mrOk then
-  begin
-    entregador.EditValue := view_PesquisaEntregadoresExpressas.fdPesquisacod_entregador.AsInteger;
-    NomeEntregador.Text := view_PesquisaEntregadoresExpressas.fdPesquisanom_entregador.AsString;
-    iBase := view_PesquisaEntregadoresExpressas.fdPesquisacod_agente.AsInteger;
-  end;
-  FreeAndNil(view_PesquisaEntregadoresExpressas);
+
+//  if Cliente.ItemIndex = -1 then
+//  begin
+//    MessageDlg('Informe o Cliente!', mtWarning, [mbCancel], 0);
+//    Cliente.SetFocus;
+//    Exit;
+//  end;
+//  if not Assigned(view_PesquisaEntregadoresExpressas)  then
+//    view_PesquisaEntregadoresExpressas := Tview_PesquisaEntregadoresExpressas.Create(Application);
+//  view_PesquisaEntregadoresExpressas.FCliente := Cliente.EditValue;
+//  if view_PesquisaEntregadoresExpressas.ShowModal = mrOk then
+//  begin
+//    entregador.EditValue := view_PesquisaEntregadoresExpressas.fdPesquisacod_entregador.AsInteger;
+//    NomeEntregador.Text := view_PesquisaEntregadoresExpressas.fdPesquisanom_entregador.AsString;
+//    iBase := view_PesquisaEntregadoresExpressas.fdPesquisacod_agente.AsInteger;
+//  end;
+//  FreeAndNil(view_PesquisaEntregadoresExpressas);
 end;
 
 procedure Tview_CadastroExtravios.PopulateFields;

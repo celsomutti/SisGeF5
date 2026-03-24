@@ -714,7 +714,6 @@ type
     queryBancoscod_modalidade_cp: TStringField;
     frxBarCodeObject1: TfrxBarCodeObject;
     queryFuncionarios: TFDQuery;
-    frxReport: TfrxReport;
     queryFuncionariosCOD_VEICULO: TIntegerField;
     queryFuncionariosDES_TIPO_DOC: TStringField;
     queryFuncionariosNUM_CNPJ: TStringField;
@@ -750,6 +749,7 @@ type
     queryFuncionariosDOM_ABASTECIMENTO: TStringField;
     queryFuncionariosNOM_EXECUTOR: TStringField;
     queryFuncionariosDAT_MANUTENCAO: TDateTimeField;
+    frxReport: TfrxReport;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
