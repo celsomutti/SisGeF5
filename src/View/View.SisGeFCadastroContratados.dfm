@@ -823,7 +823,6 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
       Parent = dxLayoutGroup3
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -894,7 +893,7 @@ object viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados
       CaptionOptions.Visible = False
       Control = statusRegistro
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 99
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 3
     end

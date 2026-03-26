@@ -1133,7 +1133,7 @@ object view_Acareacoes: Tview_Acareacoes
       Parent = dxLayoutGroup3
       AlignHorz = ahClient
       AlignVert = avCenter
-      CaptionOptions.Text = 'SPXTN:'
+      CaptionOptions.Text = 'SPXTN\Remessa:'
       CaptionOptions.Layout = clTop
       Control = txtNN
       ControlOptions.OriginalHeight = 21
@@ -1224,6 +1224,7 @@ object view_Acareacoes: Tview_Acareacoes
       AlignVert = avClient
       CaptionOptions.Text = 'Envio Correspond'#234'ncia:'
       CaptionOptions.Layout = clTop
+      Visible = False
       Control = cboEnvioCorrespondencia
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 168
@@ -1235,6 +1236,7 @@ object view_Acareacoes: Tview_Acareacoes
       AlignHorz = ahClient
       CaptionOptions.Text = 'Retorno da Correspond'#234'ncia:'
       CaptionOptions.Layout = clTop
+      Visible = False
       Control = cboRetornoCorrespondencia
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 37
@@ -1593,7 +1595,7 @@ object view_Acareacoes: Tview_Acareacoes
       Parent = dxLayoutGroup4
       AlignHorz = ahClient
       AlignVert = avTop
-      CaptionOptions.Text = 'Resultado:'
+      CaptionOptions.Text = 'Resultado/Status:'
       CaptionOptions.Layout = clTop
       Control = cboResultado
       ControlOptions.OriginalHeight = 21
@@ -3827,7 +3829,7 @@ object view_Acareacoes: Tview_Acareacoes
       FieldName = 'dat_acareacao'
     end
     object memTableAcareacoesnum_nossonumero: TStringField
-      DisplayLabel = 'Remessa'
+      DisplayLabel = 'SPXTN\Remessa'
       FieldName = 'num_nossonumero'
       Size = 14
     end
@@ -4154,7 +4156,7 @@ object view_Acareacoes: Tview_Acareacoes
     Left = 928
     Top = 8
     Content = {
-      414442530F0009374E120000FF00010001FF02FF030400160000006D00740062
+      414442530F00D7424E120000FF00010001FF02FF030400160000006D00740062
       005000650073007100750069007300610005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B04001A000000530045
       0051005F00410043004100520045004100430041004F0005001A000000530045

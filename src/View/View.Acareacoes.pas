@@ -898,7 +898,7 @@ begin
   try
     SetLength(aParam, 2);
     aParam := ['FILTRO', sFiltro];
-    fdFiltro := FAcareacao.Localizar(aParam);
+    fdFiltro := FAcareacao.LocalizarView(aParam);
     if not fdFiltro.IsEmpty then
     begin
       PopulaPesquisa(fdFiltro);
@@ -1114,7 +1114,11 @@ begin
       FAcareacao.Acareacoes.Multa := FDQuery.FieldByName('VAL_MULTA').AsFloat;
       FAcareacao.Acareacoes.Envio := FDQuery.FieldByName('DES_ENVIO_CORRESPONDENCIA').AsString;
       FAcareacao.Acareacoes.Retorno := FDQuery.FieldByName('DES_RETORNO_CORRESPONDENCIA').AsString;
-      FAcareacao.Acareacoes.Finalizar := FDQuery.FieldByName('DOM_FINALIZAR').Value;
+      if FDQuery.FieldByName('DOM_FINALIZAR').AsInteger = 0 then
+        FAcareacao.Acareacoes.Finalizar := False
+      else
+        FAcareacao.Acareacoes.Finalizar := True;
+
       FAcareacao.Acareacoes.Obs := FDQuery.FieldByName('DES_OBSERVACOES').AsString;
       FAcareacao.Acareacoes.Executor := FDQuery.FieldByName('DES_EXECUTOR').AsString;
       FAcareacao.Acareacoes.Manutencao := FDQuery.FieldByName('DAT_MANUTENCAO').AsDateTime;

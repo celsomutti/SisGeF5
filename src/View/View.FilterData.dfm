@@ -28,8 +28,6 @@ object view_FilterData: Tview_FilterData
     BevelKind = bkFlat
     TabOrder = 0
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitWidth = 637
-    ExplicitHeight = 340
     object labelTitle: TcxLabel
       Left = 80
       Top = 13
@@ -128,7 +126,7 @@ object view_FilterData: Tview_FilterData
     object buttonExecutar: TcxButton
       Left = 13
       Top = 314
-      Width = 75
+      Width = 108
       Height = 25
       Cursor = crHandPoint
       Hint = 'Executar o filtro'
@@ -141,18 +139,18 @@ object view_FilterData: Tview_FilterData
       OnClick = actionExecutarExecute
     end
     object buttonLimpar: TcxButton
-      Left = 96
+      Left = 129
       Top = 314
-      Width = 75
+      Width = 96
       Height = 25
       Cursor = crHandPoint
       Action = actionLimpar
       TabOrder = 12
     end
     object buttonFechar: TcxButton
-      Left = 564
+      Left = 549
       Top = 314
-      Width = 75
+      Width = 90
       Height = 25
       Cursor = crHandPoint
       Hint = 'Fechar a tela de filtro'
@@ -167,7 +165,7 @@ object view_FilterData: Tview_FilterData
     object buttonGrupo: TcxButton
       Left = 537
       Top = 53
-      Width = 81
+      Width = 88
       Height = 25
       Cursor = crHandPoint
       Action = actionGrupo
@@ -191,9 +189,9 @@ object view_FilterData: Tview_FilterData
       Width = 559
     end
     object buttonAdicionar: TcxButton
-      Left = 549
+      Left = 537
       Top = 185
-      Width = 90
+      Width = 102
       Height = 25
       Cursor = crHandPoint
       Action = actionAdicionar
@@ -344,7 +342,7 @@ object view_FilterData: Tview_FilterData
         0002000000020000000100000001000000010000000000000000000000000000
         00000000000000000000000000000000000000000000}
       Control = labelTitle
-      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalHeight = 32
       ControlOptions.OriginalWidth = 515
       ControlOptions.ShowBorder = False
       Index = 0
@@ -434,7 +432,7 @@ object view_FilterData: Tview_FilterData
       CaptionOptions.Visible = False
       Control = buttonExecutar
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 108
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 0
@@ -447,7 +445,7 @@ object view_FilterData: Tview_FilterData
       CaptionOptions.Visible = False
       Control = buttonLimpar
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 96
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 1
@@ -467,7 +465,7 @@ object view_FilterData: Tview_FilterData
       CaptionOptions.Visible = False
       Control = buttonFechar
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+      ControlOptions.OriginalWidth = 90
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -479,7 +477,7 @@ object view_FilterData: Tview_FilterData
       CaptionOptions.Visible = False
       Control = buttonGrupo
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 81
+      ControlOptions.OriginalWidth = 88
       ControlOptions.ShowBorder = False
       Enabled = False
       Index = 3
@@ -513,7 +511,7 @@ object view_FilterData: Tview_FilterData
       CaptionOptions.Visible = False
       Control = buttonAdicionar
       ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 90
+      ControlOptions.OriginalWidth = 102
       ControlOptions.ShowBorder = False
       Index = 4
     end

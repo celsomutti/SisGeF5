@@ -16,12 +16,13 @@ uses
   cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, cxCalendar, cxBlobEdit, Common.Utils, Controller.SisGeFCadastroContratados, cxDBEdit, cxImageComboBox,
+  FireDAC.Comp.Client, cxCalendar, cxBlobEdit, Controller.SisGeFCadastroContratados, cxDBEdit, cxImageComboBox,
   cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxCurrencyEdit, cxDBNavigator, Control.Bancos, Control.Estados,
   Controller.SisGeFCategorias, Control.Bases, Controller.SisGeFFuncoesRH, Controller.SisGeFContratadosCNAE,
   Controller.SisGeFContratadosRH, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosContatos,
   Controller.SisGeFVehiclesRegistration, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,
-  Controller.SisGeFContratadosGR, Controller.APICNPJ, Controller.APICEP, Common.ENum, System.DateUtils, System.StrUtils;
+  Controller.SisGeFContratadosGR, Controller.APICNPJ, Controller.APICEP, Common.ENum, System.DateUtils, System.StrUtils,
+  Common.Utils;
 
 type
   TviewCadastroTerceirizados = class(TForm)
@@ -1177,11 +1178,17 @@ var
   sValor: string;
   sFuncao : string;
   FFuncao: TUtils;
+  dValor : Double;
 begin
   FFuncao := TUtils.Create;
   sEndereco := '';
+  dValor := 0;
   dtData := StrToDateDef(sData,0);
-  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', Now);
+  sLocal := EmptyStr;
+  if sLocal = EmptyStr then
+    sDataExtenso := FormatDateTime('dd "de" mmmm "de" yyyy', Now)
+  else
+    sDataExtenso := sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', Now);
   with Data_Sisgef.frxReport do begin
     if not Assigned(view_Impressao) then begin
       view_Impressao := Tview_Impressao.Create(Application);
@@ -1200,10 +1207,12 @@ begin
         Exit;
       end;
     end;
-    sValor := dbSalario.Text;
-    sExtenco := FFuncao.valorPorExtenso(StrToFloatDef(ReplaceStr(sValor,'.',''),0));
+    sValor := ReplaceStr(dbSalario.Text,'R$ ','') ;
+    sValor := ReplaceStr(sValor,'.','') ;
+    dValor :=  StrToFloatDef(sValor,0);
+    sExtenco := FFuncao.valorPorExtenso(dValor);
     sEndereco := dbEndereco.Text + ', ' + dbNumero.Text;
-    if dbComplemento.Text = '' then
+    if dbComplemento.Text <> '' then
     begin
       sEndereco := sEndereco + ', ' + dbComplemento.Text;
     end;

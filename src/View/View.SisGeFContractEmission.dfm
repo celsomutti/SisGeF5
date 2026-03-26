@@ -44,6 +44,7 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
         item
           Caption = 'AUT'#212'NOMO'
         end>
+      Properties.OnChange = radioGroupPropertiesChange
       ItemIndex = 0
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -220,6 +221,7 @@ object view_SisGeFContractEmission: Tview_SisGeFContractEmission
       AlignHorz = ahLeft
       AlignVert = avCenter
       CaptionOptions.Text = 'Localidade:'
+      Visible = False
       Control = txtLocal
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 170

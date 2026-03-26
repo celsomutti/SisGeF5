@@ -9,7 +9,7 @@ uses
   dxLayoutcxEditAdapters, cxContainer, cxEdit, System.Actions, Vcl.ActnList, cxLabel, Vcl.Menus, Vcl.StdCtrls, cxButtons,
   cxCustomListBox, cxListBox, dxActivityIndicator, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBLookupComboBox, cxMemo, ShellAPI, Data.DB, Common.SisGeFFunctions, cxButtonEdit, Thread.SisGeFImportExpressWorksheet,
-  cxProgressBar;
+  cxProgressBar, Thread.SisGeFImportSheetConfrontations;
 
 type
   Tview_SisGeFImportWorksheetExpress = class(TForm)
@@ -98,6 +98,7 @@ type
     procedure RenameFiles(sFile: string);
     procedure StartImport(sFile: string);
     procedure ProcessaCapa(sFile: String; iCliente, iTMS, iTipo: Integer; bLojas: boolean);
+    procedure ProcessaAcareacoes(sFile: String; iCliente, iTMS, iTipo: Integer; bLojas: boolean);
     procedure TerminateProc;
   public
     { Public declarations }
@@ -108,6 +109,7 @@ var
   OldLBWindowProc: TWndMethod;
   cFunctions : TSisGeFFunctions;
   importws : Thread_ImportImportExpressWorksheet;
+  importConfront : Thread_ImportConfrontations;
 
 implementation
 
@@ -214,6 +216,25 @@ begin
   end;
 end;
 
+procedure Tview_SisGeFImportWorksheetExpress.ProcessaAcareacoes(sFile: String; iCliente, iTMS, iTipo: Integer; bLojas: boolean);
+begin
+  log.Clear;
+  importConfront := Thread_ImportImportExpressWorksheet.Create(True);
+  importConfront.Arquivo := sFile;
+  importConfront.Cliente := iCliente;
+  importConfront.TMS := comboTMS.ItemIndex;
+  importConfront.Loja := bLojas;
+  importConfront.Priority := tpNormal;
+  Timer.Enabled := True;
+  panelDragandDrop.Enabled := False;
+  actionLocateFile.Enabled := False;
+  actionDeleteSelectedFiles.Enabled := False;
+  actionImportWorksheet.Enabled := False;
+  actionCancelImport.Enabled := True;
+  indicador.Active := True;
+  importConfront.Start;
+end;
+
 procedure Tview_SisGeFImportWorksheetExpress.ProcessaCapa(sFile: String; iCliente, iTMS, iTipo: Integer; bLojas: boolean);
 begin
   log.Clear;
@@ -266,7 +287,13 @@ begin
     iTMS := comboTMS.ItemIndex;
     iTipo := tipoArquivo.ItemIndex;
     bLojas := False;
-    ProcessaCapa(sFile, iCliente, iTMS, iTipo, bLojas);
+    case iTipo of
+      5 : ProcessaCapa(sFile, iCliente, iTMS, iTipo, bLojas);
+      else
+        ProcessaCapa(sFile, iCliente, iTMS, iTipo, bLojas);
+    end;
+
+
   end;
 end;
 

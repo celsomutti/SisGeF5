@@ -106,7 +106,8 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
         'Entregas'
         'Baixas'
         'Tracking'
-        'Lojas Direct')
+        'Lojas Direct'
+        'Acarea'#231#245'es')
       Properties.OnChange = tipoArquivoPropertiesChange
       Style.HotTrack = False
       TabOrder = 0

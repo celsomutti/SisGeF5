@@ -35,6 +35,7 @@ type
     class function CriarIni(sFile: string): Boolean;
     class function FormataCPF(const CPF: String): String;
     class function FormataCNPJ(const CNPJ: String): String;
+    class function FormataDataFromMySQL(sData: string): string;
     class function ValidaEMail(const EMailIn: PChar): Boolean;
     class function NumeroDeLinhasTXT(lcPath: String): Integer;
     class function VersaoExe(): String;
@@ -451,6 +452,16 @@ begin
   else
     Result := Copy(Result, 1, 3) + '.' + Copy(Result, 4, 3) + '.' +
       Copy(Result, 7, 3) + '-' + Copy(Result, 10, 2);
+end;
+
+class function TUtils.FormataDataFromMySQL(sData: string): string;
+var
+  sDat : string;
+begin
+  sDat := Copy(sData, 9,2) + '/';
+  sDat := sDat + Copy(sData,6,2) + '/';
+  sDat := sDat + Copy(sData,1,4);
+  Result := sDat;
 end;
 
 // Esta funcao informa CNPJ neste formato: 99.999.999/9999-99

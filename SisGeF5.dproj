@@ -3,7 +3,7 @@
         <ProjectGuid>{80D0C50F-5DBA-4F40-B708-356D1E261DC9}</ProjectGuid>
         <MainSource>SisGeF5.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>38017</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
@@ -591,9 +591,6 @@
         </DCCReference>
         <DCCReference Include="src\Thread\Thread.SisGeFProcessExtractSO.pas"/>
         <DCCReference Include="src\Thread\Thread.SisGeFCloseExtractSO.pas"/>
-        <DCCReference Include="src\View\View.SisGeFContractedDetail.pas">
-            <Form>view_SisGeFContractedDetail</Form>
-        </DCCReference>
         <DCCReference Include="src\View\View.SisGeFPrintRunsImports.pas">
             <Form>view_SisGeFPrintRunsImports</Form>
         </DCCReference>
@@ -666,10 +663,6 @@
             <Form>viewSisGeFNomeGrupo</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="src\View\View.SisGeFCadastroContratados.pas">
-            <Form>view_SisGeFRegisterContractors</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="src\View\View.SisGeFCadastroFuncionarios.pas">
             <Form>viewCadastroFuncionarios</Form>
             <FormType>dfm</FormType>
@@ -712,6 +705,16 @@
         </DCCReference>
         <DCCReference Include="src\Model\Model.SisgeFCategorias.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFCategorias.pas"/>
+        <DCCReference Include="src\View\View.SisGeFCadastroContratados.pas">
+            <Form>viewSisGeFCadastroContratados</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\View\View.SisGeFContractedDetail.pas">
+            <Form>view_SisGeFContractedDetail</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\Services\services.SisGeFSheetConfrontations.pas"/>
+        <DCCReference Include="src\Thread\Thread.SisGeFImportSheetConfrontations.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

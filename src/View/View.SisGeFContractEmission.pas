@@ -36,6 +36,7 @@ type
     procedure actionEmitirExecute(Sender: TObject);
     procedure actionCancelarExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure radioGroupPropertiesChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,10 +64,13 @@ begin
     MessageDlg('Informe a data do início da vingência do contrato!', mtWarning, [mbCancel], 0);
     Exit;
   end;
-  if txtLocal.Text = '' then
+  if radioGroup.ItemIndex <> 0 then
   begin
-    MessageDlg('Informe localidade da assinatura do contrato!', mtWarning, [mbCancel], 0);
-    Exit;
+    if txtLocal.Text = '' then
+    begin
+      MessageDlg('Informe localidade da assinatura do contrato!', mtWarning, [mbCancel], 0);
+      Exit;
+    end;
   end;
   ModalResult := mrOk;
 end;
@@ -76,4 +80,13 @@ begin
   dateContrato.Date := Now;
 end;
 
+procedure Tview_SisGeFContractEmission.radioGroupPropertiesChange(Sender: TObject);
+begin
+  if radioGroup.ItemIndex = 0 then
+    dxLayoutItem5.Visible := False
+  else
+    dxLayoutItem5.Visible := True;
+end;
+
 end.
+

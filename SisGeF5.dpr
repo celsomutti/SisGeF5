@@ -282,7 +282,6 @@ uses
   View.SisGeFExtractSO in 'src\View\View.SisGeFExtractSO.pas' {view_SisGeFExtractSO},
   Thread.SisGeFProcessExtractSO in 'src\Thread\Thread.SisGeFProcessExtractSO.pas',
   Thread.SisGeFCloseExtractSO in 'src\Thread\Thread.SisGeFCloseExtractSO.pas',
-  View.SisGeFContractedDetail in 'src\View\View.SisGeFContractedDetail.pas' {view_SisGeFContractedDetail},
   View.SisGeFPrintRunsImports in 'src\View\View.SisGeFPrintRunsImports.pas' {view_SisGeFPrintRunsImports},
   Thread.PrintRunsImport in 'src\Thread\Thread.PrintRunsImport.pas',
   Model.SisGeFNFsFaturas in 'src\Model\Model.SisGeFNFsFaturas.pas',
@@ -327,7 +326,6 @@ uses
   service.connectionMySQL in 'src\Services\service.connectionMySQL.pas',
   View.SisGeFCadastroUsuarios in 'src\View\View.SisGeFCadastroUsuarios.pas' {viewSisGefCadastroUsuarios},
   View.SisGeFNomeGrupo in 'src\View\View.SisGeFNomeGrupo.pas' {viewSisGeFNomeGrupo},
-  View.SisGeFCadastroContratados in 'src\View\View.SisGeFCadastroContratados.pas' {view_SisGeFRegisterContractors},
   View.SisGeFCadastroFuncionarios in 'src\View\View.SisGeFCadastroFuncionarios.pas' {viewCadastroFuncionarios},
   Model.SisGeFCadastroFuncionarios in 'src\Model\Model.SisGeFCadastroFuncionarios.pas',
   Model.SisGeFCadastroFuncoesRH in 'src\Model\Model.SisGeFCadastroFuncoesRH.pas',
@@ -360,7 +358,11 @@ uses
   services.SisGeFSheetMisplacementShopee in 'src\Services\services.SisGeFSheetMisplacementShopee.pas',
   View.SisGeFCadastroTerceirizados in 'src\View\View.SisGeFCadastroTerceirizados.pas' {viewCadastroTerceirizados},
   Model.SisgeFCategorias in 'src\Model\Model.SisgeFCategorias.pas',
-  Controller.SisGeFCategorias in 'src\Control\Controller.SisGeFCategorias.pas';
+  Controller.SisGeFCategorias in 'src\Control\Controller.SisGeFCategorias.pas',
+  View.SisGeFCadastroContratados in 'src\View\View.SisGeFCadastroContratados.pas' {viewSisGeFCadastroContratados},
+  View.SisGeFContractedDetail in 'src\View\View.SisGeFContractedDetail.pas' {view_SisGeFContractedDetail},
+  services.SisGeFSheetConfrontations in 'src\Services\services.SisGeFSheetConfrontations.pas',
+  Thread.SisGeFImportSheetConfrontations in 'src\Thread\Thread.SisGeFImportSheetConfrontations.pas';
 
 {$R *.res}
 
