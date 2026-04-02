@@ -2,7 +2,7 @@ unit Control.Acareacao;
 
 interface
 
-uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Model.Acareacoes;
+uses System.SysUtils, FireDAC.Comp.Client, Forms, Windows, Common.ENum, Model.Acareacoes, Dialogs;
 
 type
   TAcareacaoControl = class
@@ -10,6 +10,7 @@ type
   private
 
     FAcareacoes: TAcareacoes;
+    FMensagem: string;
 
   public
 
@@ -17,16 +18,19 @@ type
     destructor Destroy; override;
 
     function Gravar: Boolean;
+    function GravarImportacao: boolean;
     function Finalizar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
     function LocalizarView(aParam: array of variant): TFDQuery;
     function GetId(): Integer;
     function ValidaCampos(): Boolean;
+    function ValidaImportacao(): boolean;
     function ValidaFinalizar(): Boolean;
     function ValidaExclusao(): Boolean;
 
 
     property Acareacoes: TAcareacoes read FAcareacoes write FAcareacoes;
+    property Mensagem: string read FMensagem write FMensagem;
 
   end;
 
@@ -66,8 +70,17 @@ begin
   end
   else
   begin
-    if not ValidaCampos then Exit;
+    if not ValidaCampos then
+      Exit;
   end;
+  Result := FAcareacoes.Gravar;
+end;
+
+function TAcareacaoControl.GravarImportacao: boolean;
+begin
+  Result := False;
+  if not ValidaImportacao then
+    Exit;
   Result := FAcareacoes.Gravar;
 end;
 
@@ -219,6 +232,37 @@ begin
   if FAcareacoes.Retorno.IsEmpty then
   begin
     Application.MessageBox('Informe o tipo de retorno da correspondência.', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+  Result := True;
+end;
+
+function TAcareacaoControl.ValidaImportacao: boolean;
+begin
+  Result := False;
+  if FAcareacoes.Nossonumero.IsEmpty then
+  begin
+    FMensagem :='Informe o Nosso Número.';
+    Exit;
+  end;
+  if (DateTimeToStr(FAcareacoes.Data).IsEmpty) or (FAcareacoes.Data = 0) then
+  begin
+    FMensagem := FAcareacoes.Nossonumero +  ' - sem a data da acareação.';
+    Exit;
+  end;
+  if (DateTimeToStr(FAcareacoes.DataRetorno).IsEmpty) or (FAcareacoes.DataRetorno = 0) then
+  begin
+    FMensagem := FAcareacoes.Nossonumero +  ' - sem a data do retorno da acareação.';
+    Exit;
+  end;
+  if FAcareacoes.Entregador = 0 then
+  begin
+    FMensagem := FAcareacoes.Nossonumero +  ' - informe o Entregador.';
+    Exit;
+  end;
+  if FAcareacoes.Base = 0 then
+  begin
+    FMensagem := FAcareacoes.Nossonumero + ' - informe a Base.';
     Exit;
   end;
   Result := True;

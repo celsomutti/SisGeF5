@@ -1,9 +1,3 @@
-{DONE -oCelso -cImportant : Implementar rotina de cadastro e gerenciamento de OS}
-{TODO 1 -oCelso -cImportant : Refatorar rotina de registro de acareações}
-
-
-
-
-
-
+{DONE 1 -oBlink -cCadastros : Cadastro de contratados, não permite cadastrar endereço quando é autonomo}
+{DONE 1 -oBlink -cCadastros : Cadastro e Edição de cadastro de bases, corrigir pois não permite editar ou desativar bases.}
 

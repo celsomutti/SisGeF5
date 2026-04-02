@@ -12,8 +12,8 @@ uses
   cxButtonEdit, System.Actions, Vcl.ActnList, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
   FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Stan.StorageBin,
   cxSpinEdit, cxDBEdit, cxDropDownEdit, cxImageComboBox, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxMemo, cxCurrencyEdit,
-  cxCalendar, service.sistem, Control.Estados, Control.Bancos, Control.Bases, Common.Utils, cxCheckBox, Common.ENum,
-  Controller.APICNPJ, System.StrUtils, Controller.APICEP, Control.EnderecosBases;
+  cxCalendar, service.sistem, Control.Estados, Control.Bancos, Common.Utils, cxCheckBox, Common.ENum,
+  Controller.APICNPJ, System.StrUtils, Controller.APICEP, Control.Bases, Control.EnderecosBases;
 
 type
   TviewCadastroBases = class(TForm)
@@ -565,7 +565,8 @@ begin
   mtbBases.Post;
   try
     if not ValidaDados then Exit;
-    mtbBases.Post;
+    if (mtbBases.State = dsInsert) or (mtbBases.State = dsEdit) then
+      mtbBases.Post;
     if (mtbEndereco.State = dsInsert) or (mtbEndereco.State = dsEdit) then
       mtbEndereco.Post;
     FBase.Bases.Codigo := mtbBasescod_agente.AsInteger;
@@ -598,6 +599,7 @@ begin
     FBase.Bases.Grupo := mtbBasescod_grupo.AsInteger;
     FBase.Bases.Chave := mtbBasesdes_chave.AsString;
     FBase.Bases.Tabela := mtbBasescod_tabela.AsInteger;
+    FBase.Bases.DataAlteracao := Now();
     FBase.Bases.Acao := FAcao;
 
     if not FBase.Gravar then

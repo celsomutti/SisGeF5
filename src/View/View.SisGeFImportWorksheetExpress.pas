@@ -212,14 +212,14 @@ begin
   begin
     openDialog.Title := 'Arquivos de Planilhas';
     if openDialog.Execute then
-      ValidateFile(openDialog.FileName);
+      ValidateFile(openDialog.FileName)
   end;
 end;
 
 procedure Tview_SisGeFImportWorksheetExpress.ProcessaAcareacoes(sFile: String; iCliente, iTMS, iTipo: Integer; bLojas: boolean);
 begin
   log.Clear;
-  importConfront := Thread_ImportImportExpressWorksheet.Create(True);
+  importConfront := Thread_ImportConfrontations.Create(True);
   importConfront.Arquivo := sFile;
   importConfront.Cliente := iCliente;
   importConfront.TMS := comboTMS.ItemIndex;
@@ -288,7 +288,7 @@ begin
     iTipo := tipoArquivo.ItemIndex;
     bLojas := False;
     case iTipo of
-      5 : ProcessaCapa(sFile, iCliente, iTMS, iTipo, bLojas);
+      5 : ProcessaAcareacoes(sFile, iCliente, iTMS, iTipo, bLojas);
       else
         ProcessaCapa(sFile, iCliente, iTMS, iTipo, bLojas);
     end;
@@ -319,39 +319,79 @@ end;
 
 procedure Tview_SisGeFImportWorksheetExpress.UpdateDashboard;
 begin
-if not importws.Processo then
+  if tipoArquivo.ItemIndex < 4 then
   begin
-    Timer.Enabled := False;
-    log.Text := importws.Log;
-    actionLocateFile.Enabled := True;
-    panelDragandDrop.Enabled := True;
-    actionDeleteSelectedFiles.Enabled := True;
-    actionImportWorksheet.Enabled := True;
-    actionCancelImport.Enabled := False;
-    indicador.Active := False;
-    progressBar.Position := importws.Progresso;
-    totalRegistros.EditValue := importws.TotalRegistros;
-    registrosIgnorados.EditValue := importws.TotalInconsistencias;
-    registrosGravados.EditValue := importws.TotalGravados;
-    if importws.Cancelar then
-      Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION)
+    if not importws.Processo then
+    begin
+      Timer.Enabled := False;
+      log.Text := importws.Log;
+      actionLocateFile.Enabled := True;
+      panelDragandDrop.Enabled := True;
+      actionDeleteSelectedFiles.Enabled := True;
+      actionImportWorksheet.Enabled := True;
+      actionCancelImport.Enabled := False;
+      indicador.Active := False;
+      progressBar.Position := importws.Progresso;
+      totalRegistros.EditValue := importws.TotalRegistros;
+      registrosIgnorados.EditValue := importws.TotalInconsistencias;
+      registrosGravados.EditValue := importws.TotalGravados;
+      if importws.Cancelar then
+        Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION)
+      else
+        begin
+          Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+          RenameFiles(arquivoSelecionado.Text);
+        end;
+      arquivoSelecionado.Text := '';
+      progressBar.Position := 0;
+      log.Lines.Add('>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Término da importação!');
+      TerminateProc;
+    end
     else
-      begin
-        Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONINFORMATION);
-        RenameFiles(arquivoSelecionado.Text);
-      end;
-    arquivoSelecionado.Text := '';
-    progressBar.Position := 0;
-    log.Lines.Add('>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Término da importação!');
-    TerminateProc;
+    begin
+      log.Text := importws.Log;
+      progressBar.Position := importws.Progresso;
+      totalRegistros.EditValue := importws.TotalRegistros;
+      registrosIgnorados.EditValue := importws.TotalInconsistencias;
+      registrosGravados.EditValue := importws.TotalGravados;
+    end;
   end
   else
   begin
-    log.Text := importws.Log;
-    progressBar.Position := importws.Progresso;
-    totalRegistros.EditValue := importws.TotalRegistros;
-    registrosIgnorados.EditValue := importws.TotalInconsistencias;
-    registrosGravados.EditValue := importws.TotalGravados;
+    if not importConfront.Processo then
+    begin
+      Timer.Enabled := False;
+      log.Text := importConfront.Log;
+      actionLocateFile.Enabled := True;
+      panelDragandDrop.Enabled := True;
+      actionDeleteSelectedFiles.Enabled := True;
+      actionImportWorksheet.Enabled := True;
+      actionCancelImport.Enabled := False;
+      indicador.Active := False;
+      progressBar.Position := importConfront.Progresso;
+      totalRegistros.EditValue := importConfront.TotalRegistros;
+      registrosIgnorados.EditValue := importConfront.TotalInconsistencias;
+      registrosGravados.EditValue := importConfront.TotalGravados;
+      if importConfront.Cancelar then
+        Application.MessageBox('Importação Cancelada!', 'Atenção', MB_OK + MB_ICONEXCLAMATION)
+      else
+        begin
+          Application.MessageBox('Importação concluída!', 'Atenção', MB_OK + MB_ICONINFORMATION);
+          RenameFiles(arquivoSelecionado.Text);
+        end;
+      arquivoSelecionado.Text := '';
+      progressBar.Position := 0;
+      log.Lines.Add('>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', now) + ' - Término da importação!');
+      TerminateProc;
+    end
+    else
+    begin
+      log.Text := importConfront.Log;
+      progressBar.Position := importConfront.Progresso;
+      totalRegistros.EditValue := importConfront.TotalRegistros;
+      registrosIgnorados.EditValue := importConfront.TotalInconsistencias;
+      registrosGravados.EditValue := importConfront.TotalGravados;
+    end;
   end;
 end;
 
@@ -360,13 +400,20 @@ begin
   try
     cFunctions := TSisGeFFunctions.Create;
 
-    if cFunctions.ValidadeFile(tipoArquivo.ItemIndex, comboTMS.ItemIndex, sFile) then
+    if tipoArquivo.ItemIndex < 5 then
     begin
-      AddFile(sFile)
+      if cFunctions.ValidadeFile(tipoArquivo.ItemIndex, comboTMS.ItemIndex, sFile) then
+      begin
+        AddFile(sFile)
+      end
+      else
+      begin
+        MessageDlg(cFunctions.Mensagem, mtWarning, [mbCancel], 0);
+      end;
     end
     else
     begin
-      MessageDlg(cFunctions.Mensagem, mtWarning, [mbCancel], 0);
+      AddFile(sFile);
     end;
   finally
     cFunctions.DisposeOf;

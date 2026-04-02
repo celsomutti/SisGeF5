@@ -94,28 +94,51 @@ type
     SQLUPDATE = 'update ' + TABLENAME + ' set ' +
                 'des_razao_social = :des_razao_social, nom_fantasia = :nom_fantasia, des_tipo_doc = :des_tipo_doc, ' +
                 'num_cnpj = :num_cnpj, num_ie = :num_ie, num_iest = :num_iest, num_im = :num_im, cod_cnae = :cod_cnae, ' +
-                'cod_crt = :cod_crt, num_cnh = :num_cnh, des_categoria_cnh = :des_categoria_cnh, ' +
-                'dat_validade_cnh = :dat_validade_cnh, des_pagina = :des_pagina, ' +  'cod_status = :cod_status, ' +
-                'des_observacao = :des_observacao, dat_cadastro = :dat_cadastro, dat_alteracao = :dat_alteracao, ' +
+                'des_pagina = :des_pagina, ' +  'cod_status = :cod_status, ' +
+                'des_observacao = :des_observacao,' +
                 'val_verba = :val_verba, des_tipo_conta = :des_tipo_conta, cod_banco = :cod_banco, cod_agencia = :cod_agencia, ' +
                 'num_conta = :num_conta, nom_favorecido = :nom_favorecido, num_cpf_cnpj_favorecido = :num_cpf_cnpj_favorecido, ' +
                 'des_forma_pagamento = :des_forma_pagamento, cod_centro_custo = :cod_centro_custo, cod_grupo = :cod_grupo, ' +
                 'des_chave = :des_chave, cod_tabela = :cod_tabela ' +
                 'where ' +
                 'cod_agente = :cod_agente';
+//    SQLUPDATE = 'update ' + TABLENAME + ' set ' +
+//                'des_razao_social = :des_razao_social, nom_fantasia = :nom_fantasia, des_tipo_doc = :des_tipo_doc, ' +
+//                'num_cnpj = :num_cnpj, num_ie = :num_ie, num_iest = :num_iest, num_im = :num_im, cod_cnae = :cod_cnae, ' +
+//                'cod_crt = :cod_crt, num_cnh = :num_cnh, des_categoria_cnh = :des_categoria_cnh, ' +
+//                'dat_validade_cnh = :dat_validade_cnh, des_pagina = :des_pagina, ' +  'cod_status = :cod_status, ' +
+//                'des_observacao = :des_observacao, dat_cadastro = :dat_cadastro, dat_alteracao = :dat_alteracao, ' +
+//                'val_verba = :val_verba, des_tipo_conta = :des_tipo_conta, cod_banco = :cod_banco, cod_agencia = :cod_agencia, ' +
+//                'num_conta = :num_conta, nom_favorecido = :nom_favorecido, num_cpf_cnpj_favorecido = :num_cpf_cnpj_favorecido, ' +
+//                'des_forma_pagamento = :des_forma_pagamento, cod_centro_custo = :cod_centro_custo, cod_grupo = :cod_grupo, ' +
+//                'des_chave = :des_chave, cod_tabela = :cod_tabela ' +
+//                'where ' +
+//                'cod_agente = :cod_agente';
     SQLDELETE = 'delete from ' + TABLENAME + ' where cod_agente = :cod_agente';
     SQLINSERT = 'insert into ' + TABLENAME +
                 '(cod_agente, des_razao_social, nom_fantasia, des_tipo_doc, num_cnpj, num_ie, num_iest, num_im, cod_cnae, ' +
-                'cod_crt, num_cnh, des_categoria_cnh, dat_validade_cnh, des_pagina, cod_status, des_observacao, ' +
-                'dat_cadastro, dat_alteracao, val_verba, des_tipo_conta, cod_banco, cod_agencia, num_conta, ' +
+                'des_pagina, cod_status, des_observacao, ' +
+                'val_verba, des_tipo_conta, cod_banco, cod_agencia, num_conta, ' +
                 'nom_favorecido, num_cpf_cnpj_favorecido, des_forma_pagamento, cod_centro_custo, ' +
                 'cod_grupo, des_chave, cod_tabela) ' +
                 'values ' +
                 '(:cod_agente, :des_razao_social, :nom_fantasia, :des_tipo_doc, :num_cnpj,:num_ie,:num_iest,:num_im,:cod_cnae, ' +
-                ':cod_crt, :num_cnh, :des_categoria_cnh, :dat_validade_cnh, :des_pagina, :cod_status, :des_observacao, ' +
-                ':dat_cadastro, :dat_alteracao, :val_verba, :des_tipo_conta, :cod_banco, :cod_agencia, :num_conta, ' +
+                ':des_pagina, :cod_status, :des_observacao, ' +
+                ':val_verba, :des_tipo_conta, :cod_banco, :cod_agencia, :num_conta, ' +
                 ':nom_favorecido, :num_cpf_cnpj_favorecido, :des_forma_pagamento, :cod_centro_custo, ' +
                 ':cod_grupo, :des_chave, :cod_tabela) ';
+//  SQLINSERT = 'insert into ' + TABLENAME +
+//                '(cod_agente, des_razao_social, nom_fantasia, des_tipo_doc, num_cnpj, num_ie, num_iest, num_im, cod_cnae, ' +
+//                'cod_crt, num_cnh, des_categoria_cnh, dat_validade_cnh, des_pagina, cod_status, des_observacao, ' +
+//                'dat_cadastro, dat_alteracao, val_verba, des_tipo_conta, cod_banco, cod_agencia, num_conta, ' +
+//                'nom_favorecido, num_cpf_cnpj_favorecido, des_forma_pagamento, cod_centro_custo, ' +
+//                'cod_grupo, des_chave, cod_tabela) ' +
+//                'values ' +
+//                '(:cod_agente, :des_razao_social, :nom_fantasia, :des_tipo_doc, :num_cnpj,:num_ie,:num_iest,:num_im,:cod_cnae, ' +
+//                ':cod_crt, :num_cnh, :des_categoria_cnh, :dat_validade_cnh, :des_pagina, :cod_status, :des_observacao, ' +
+//                ':dat_cadastro, :dat_alteracao, :val_verba, :des_tipo_conta, :cod_banco, :cod_agencia, :num_conta, ' +
+//                ':nom_favorecido, :num_cpf_cnpj_favorecido, :des_forma_pagamento, :cod_centro_custo, ' +
+//                ':cod_grupo, :des_chave, :cod_tabela) ';
 
     SQLQUERY  = 'select cod_agente, des_razao_social, nom_fantasia, des_tipo_doc, num_cnpj, num_ie, num_iest, num_im, ' +
                 'cod_cnae, cod_crt, num_cnh, des_categoria_cnh, dat_validade_cnh, des_pagina, cod_status, des_observacao, ' +
@@ -135,9 +158,8 @@ begin
     Result := False;
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLUPDATE, [FRazaoSocial,
-    FNomeFantasia, FTipoDoc, FCNPJCPF, FIE, FIEST, FIM, FCNAE, FCRT,
-    FNumeroCNH, FCategoriaCNH, FValidadeCNH, FPaginaWeb, FStatus, FObs, FDataCadastro,
-    FDataAlteracao, FValorVerba, FTipoConta, FCodigoBanco, FNumeroAgente, FNumeroConta,
+    FNomeFantasia, FTipoDoc, FCNPJCPF, FIE, FIEST, FIM, FCNAE, FPaginaWeb, FStatus, FObs,
+    FValorVerba, FTipoConta, FCodigoBanco, FNumeroAgente, FNumeroConta,
     FNomeFavorecido, FCNPJCPFFavorecido, FFormaPagamento, FCentroCusto, FGrupo, FChave, FTabela, FCodigo]);
     Result := True;
   finally
@@ -251,10 +273,11 @@ begin
     Result := False;
     if FCodigo = 0 then
       FCodigo := GetNextID('cod_agente');
+    FDataCadastro := Now();
     FDQuery := FConexao.ReturnQuery();
     FDQuery.ExecSQL(SQLINSERT,
-                    [FCodigo, FRazaoSocial, FNomeFantasia, FTipoDoc, FCNPJCPF, FIE, FIEST, FIM, FCNAE, FCRT, FNumeroCNH,
-                    FCategoriaCNH, FValidadeCNH, FPaginaWeb, FStatus, FObs, FDataCadastro, FDataAlteracao, FValorVerba, FTipoConta,
+                    [FCodigo, FRazaoSocial, FNomeFantasia, FTipoDoc, FCNPJCPF, FIE, FIEST, FIM, FCNAE,
+                    FPaginaWeb, FStatus, FObs, FValorVerba, FTipoConta,
                     FCodigoBanco, FNumeroAgente, FNumeroConta, FNomeFavorecido, FCNPJCPFFavorecido, FFormaPagamento, FCentroCusto,
                     FGrupo, FChave, FTabela]);
     Result := True;

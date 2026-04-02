@@ -1226,6 +1226,7 @@ var
   aParam: array of string;
   FDQuery : TFDQuery;
 begin
+  FEntregadores := TCadastroContratadosController.Create;
   try
     FDQuery := FMySQL.GetQuery;
     SetLength(aParam,3);
@@ -1253,10 +1254,11 @@ begin
       edtCodigoEntregador.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger;
       txtNomeEntregador.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
       edtCodigoBase.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[3].AsString;
-      txtNomeBase.Text := NomeBase(edtCodigoEntregador.EditValue);
+      txtNomeBase.Text := NomeBase(edtCodigoBase.EditValue);
     end;
   finally
     FDQuery.Free;
+    Fentregadores.Free;
     FreeAndNil(View_PesquisarPessoas);
   end;
 end;

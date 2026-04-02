@@ -942,9 +942,11 @@ begin
     dbCPFCNPJ.Properties.Buttons[0].Enabled := True;
     dbCPFCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
     dbSexo.ItemIndex := 3;
+    dxLayoutItem31.Visible := True;
   end
   else
   begin
+    dxLayoutItem31.Visible := False;
     dbCPFCNPJ.Properties.Buttons[0].Enabled := False;
     dbCPFCNPJ.Properties.EditMask := '!000\.000\.000\-00;0; ';
   end;
@@ -1306,6 +1308,7 @@ begin
   FAcao := tacIncluir;
 
   mtbCadastro.Insert;
+  mtbCadastrocod_status.AsInteger := 1;
   memTableEnderecos.Active := False;
   memTableEnderecos.Active := True;
   memTableContatos.Active := False;
@@ -2407,25 +2410,25 @@ begin
           if dbEmissorRG.Text = '' then
           begin
             Application.MessageBox('Informe o orgão expedidor do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-            dbEmissorRG.SetFocus;
+//            dbEmissorRG.SetFocus;
             Exit;
           end;
           if dbEmissaoRG.Date = 0 then
           begin
             Application.MessageBox('Informe o data da emissão do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-            dbEmissaoRG.SetFocus;
+//            dbEmissaoRG.SetFocus;
             Exit;
           end;
           if dbEmissaoRG.Date > Now then
           begin
             Application.MessageBox('Data da emissão do RG inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-            dbEmissaoRG.SetFocus;
+//            dbEmissaoRG.SetFocus;
             Exit;
           end;
           if dbUFRG.EditText = '' then
           begin
             Application.MessageBox('Informe a UF do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-            dbUFRG.SetFocus;
+//            dbUFRG.SetFocus;
             Exit;
           end;
         end
@@ -2440,14 +2443,14 @@ begin
           if dbNascimento.Date >= Now then
           begin
             Application.MessageBox('Data de nascimento inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-            dbNascimento.SetFocus;
+//            dbNascimento.SetFocus;
             Exit;
           end;
           if YearsBetween(Now,dbNascimento.Date) < 18 then
           begin
             if Application.MessageBox('Data de nascimento indica que pessoa é menor! Ignorar?', 'Atenção', MB_YESNO + MB_ICONEXCLAMATION + MB_DEFBUTTON2) = IDNO then
             begin
-              dbNascimento.SetFocus;
+//              dbNascimento.SetFocus;
               Exit;
             end;
           end;
@@ -2476,7 +2479,7 @@ begin
         if dbUFNaturalidade.Text = '' then
         begin
           Application.MessageBox('Informe a UF da naturalidade da Pessoa!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          dbUFNaturalidade.SetFocus;
+//          dbUFNaturalidade.SetFocus;
           Exit;
         end;
       end;
@@ -2485,13 +2488,13 @@ begin
         if Length(dbRegistroCNH.Text) <> 11 then
         begin
           Application.MessageBox('Quantidade de caracteres do número do registro da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          dbRegistroCNH.SetFocus;
+//          dbRegistroCNH.SetFocus;
           Exit;
         end;
         if Length(dbNumeroCNH.Text) <> 10 then
         begin
           Application.MessageBox('Quantidade de caracteres do número da cédula da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          dbNumeroCNH.SetFocus;
+//          dbNumeroCNH.SetFocus;
           Exit;
         end;
 //        if Length(textEditSegurancaCNH.Text) <> 11 then
@@ -2503,37 +2506,37 @@ begin
         if dbCategoriaCNH.Text = '' then
         begin
           Application.MessageBox('Informe a categoria da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          dbCategoriaCNH.SetFocus;
+//          dbCategoriaCNH.SetFocus;
           Exit;
         end;
         if dbUFCNH.Text = '' then
         begin
           Application.MessageBox('Informe UF da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          dbUFCNH.SetFocus;
+//          dbUFCNH.SetFocus;
           Exit;
         end;
         if dbEmissaoCNH.Date = 0  then
         begin
           Application.MessageBox('Informe a data da emissão da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          dbEmissaoCNH.SetFocus;
+//          dbEmissaoCNH.SetFocus;
           Exit;
         end;
         if dbValidadeCNH.Date < Now  then
         begin
           Application.MessageBox('Data da validade da CNH inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          dbValidadeCNH.SetFocus;
+//          dbValidadeCNH.SetFocus;
           Exit;
         end;
         if dbPrimeiraCNH.Date = 0  then
         begin
           Application.MessageBox('Informe a data da primeira da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          dbPrimeiraCNH.SetFocus;
+//          dbPrimeiraCNH.SetFocus;
           Exit;
         end;
         if dbPrimeiraCNH.Date > Now  then
         begin
           Application.MessageBox('Data da primeira da CNH inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-          dbPrimeiraCNH.SetFocus;
+//          dbPrimeiraCNH.SetFocus;
           Exit;
         end;
       end

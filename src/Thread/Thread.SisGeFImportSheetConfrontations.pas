@@ -4,8 +4,8 @@ interface
 
 uses
   System.Classes, service.connectionMySQL, Common.Utils, Controller.SisGeFCadastroContratados, System.SysUtils,
-  services.SisGeFSheetConfrontations, Control.Acareacao, Common.ENum, Controller.SisGeFContratadosRH, System.StrUtils,
-  service.sistem;
+  services.SisGeFSheetConfrontations, Common.ENum, Controller.SisGeFContratadosRH, System.StrUtils,
+  service.sistem, Control.Acareacao, FireDAC.Comp.Client;
 
 type
   Thread_ImportConfrontations = class(TThread)
@@ -99,7 +99,7 @@ var
 begin
     FSystem := TSistem.GetInstance;
     case FTMS of
-      1 : ProcessSPXXPRESS;
+      5 : ProcessSPXXPRESS;
       else
         begin
           sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) +
@@ -123,6 +123,7 @@ var
   vParam                : array of variant;
   FAcareacoes           : TAcareacaoControl;
   FEntregadores         : TCadastroContratadosController;
+  FQuery                : TFDQuery;
 begin
   FUtil := TUtils.Create;
   try
@@ -151,14 +152,18 @@ begin
       for i := 0 to FTotalRegistros - 1 do
       begin
         SetLength(vParam,3);
-        vParam := ['FILTRO', ' ID_ACADEACAO = "' + FPlanilha.Planilha[i].IdTicket +
+        vParam := ['FILTRO', ' ID_ACAREACAO = "' + FPlanilha.Planilha[i].IdTicket +
                    '" and NUM_NOSSONUMERO = "' +FPlanilha.Planilha[i].SPXTN + '"'];
-
-        if FAcareacoes.Localizar(vParam).IsEmpty then
+        FQuery := FAcareacoes.Localizar(vParam);
+        if FQuery.IsEmpty then
           FAcareacoes.Acareacoes.Acao := tacIncluir
         else
+        begin
+          FAcareacoes.Acareacoes.Sequencia := FQuery.FieldByName('SEQ_ACAREACAO').AsInteger;
           FAcareacoes.Acareacoes.Acao := tacAlterar;
+        end;
         Finalize(vParam);
+        FQuery.Connection.Close;
         FAcareacoes.Acareacoes.Id := FPlanilha.Planilha[i].IdTicket;
         FAcareacoes.Acareacoes.Data := StrToDateDef(Copy(FPlanilha.Planilha[i].CreatedTime,1,10), Now());
         FAcareacoes.Acareacoes.Nossonumero := FPlanilha.Planilha[i].SPXTN;
@@ -176,12 +181,14 @@ begin
         FAcareacoes.Acareacoes.Manutencao := Now();
         FAcareacoes.Acareacoes.DataRetorno := StrToDateTimeDef(FPlanilha.Planilha[i].SLA + ':00', Now() + 2);
         FAcareacoes.Acareacoes.Unidade := FPlanilha.Planilha[i].Station;
-        if FAcareacoes.Acareacoes.Gravar then
+        if FAcareacoes.GravarImportacao then
         begin
           Inc(FTotalGravados,1)
         end
         else
         begin
+          sMensagem := FAcareacoes.Mensagem;
+          UpdateLog(sMensagem);
           Inc(FTotalInconsistencias,1);
         end;
         iPos := i;
@@ -231,8 +238,8 @@ var
   iPos : integer;
 begin
   Result := 0;
-  iPos := Pos(sDriver,']');
-  sCod := Copy(sDriver,2,iPos - 1);
+  iPos := Pos(']', sDriver);
+  sCod := Copy(sDriver,2,iPos - 2);
   Result := StrToIntDef(sCod, 0);
 end;
 
