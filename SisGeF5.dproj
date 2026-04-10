@@ -147,7 +147,7 @@
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <UWP_DelphiLogo150>src\asserts\Images\Uwp_150.png</UWP_DelphiLogo150>
         <VerInfo_Build>23</VerInfo_Build>
-        <DCC_UnitSearchPath>C:\Program Files (x86)\FastReport 6 VCL Enterprise\LibD26;C:\components\XPad-master\Componentes\XPAd\Pacotes\Win32\Release;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\Program Files (x86)\FastReport 6 VCL Enterprise\LibD26;C:\components\XPad-master\Componentes\XPAd\Pacotes\Win32\Release;D:\OneDrive\workspace\delphi\SisGeF5\modules\Excel4Delphi\source;D:\OneDrive\workspace\delphi\SisGeF5\modules\localcache4d\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -173,7 +173,7 @@
         <Icon_MainIcon>SisGeF5_Icon3.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>src\asserts\Images\Uwp_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>src\asserts\Images\Uwp_150.png</UWP_DelphiLogo150>
-        <DCC_UnitSearchPath>C:\Program Files (x86)\FastReport 6 VCL Enterprise\LibD26;C:\components\XPad-master\Componentes\XPAd\Pacotes\Win32\Release;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\Program Files (x86)\FastReport 6 VCL Enterprise\LibD26;C:\components\XPad-master\Componentes\XPAd\Pacotes\Win32\Release;D:\OneDrive\workspace\delphi\SisGeF5\modules\Excel4Delphi\source;D:\OneDrive\workspace\delphi\SisGeF5\modules\localcache4d\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Build>20</VerInfo_Build>
         <VerInfo_MajorVer>5</VerInfo_MajorVer>
         <VerInfo_MinorVer>7</VerInfo_MinorVer>
@@ -650,9 +650,6 @@
         <DCCReference Include="src\Model\Model.SisGeFDestinationTravel.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFDestinationTravel.pas"/>
         <DCCReference Include="src\Services\Services.SisGeFDAORoutines.pas"/>
-        <DCCReference Include="src\asserts\localcache4d\src\LocalCache4D.Compression.pas"/>
-        <DCCReference Include="src\asserts\localcache4d\src\LocalCache4D.Interfaces.pas"/>
-        <DCCReference Include="src\asserts\localcache4d\src\LocalCache4D.pas"/>
         <DCCReference Include="src\Services\service.sistem.pas"/>
         <DCCReference Include="src\Services\service.connectionMySQL.pas"/>
         <DCCReference Include="src\View\View.SisGeFCadastroUsuarios.pas">
@@ -691,13 +688,6 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="src\Services\services.SisGeFSheetOrderShoppe.pas"/>
-        <DCCReference Include="src\Excel4Delphi\Excel4Delphi.Common.pas"/>
-        <DCCReference Include="src\Excel4Delphi\Excel4Delphi.Formula.pas"/>
-        <DCCReference Include="src\Excel4Delphi\Excel4Delphi.NumberFormats.pas"/>
-        <DCCReference Include="src\Excel4Delphi\Excel4Delphi.pas"/>
-        <DCCReference Include="src\Excel4Delphi\Excel4Delphi.Stream.pas"/>
-        <DCCReference Include="src\Excel4Delphi\Excel4Delphi.Utils.pas"/>
-        <DCCReference Include="src\Excel4Delphi\Excel4Delphi.Xml.pas"/>
         <DCCReference Include="src\Services\services.SisGeFSheetMisplacementShopee.pas"/>
         <DCCReference Include="src\View\View.SisGeFCadastroTerceirizados.pas">
             <Form>viewCadastroTerceirizados</Form>

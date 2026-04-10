@@ -66,8 +66,6 @@ type
     dxLayoutItem6: TdxLayoutItem;
     cxButton4: TcxButton;
     dxLayoutItem4: TdxLayoutItem;
-    cbxAtivos: TcxCheckBox;
-    dxLayoutItem7: TdxLayoutItem;
     dxLayoutSeparatorItem3: TdxLayoutSeparatorItem;
     gridDBTableView1: TcxGridDBTableView;
     gridLevel1: TcxGridLevel;
@@ -537,7 +535,7 @@ type
     dxLayoutItem87: TdxLayoutItem;
     dbUFCNH: TcxDBLookupComboBox;
     dxLayoutItem88: TdxLayoutItem;
-    dbCor: TcxDBTextEdit;
+    dbExercicio: TcxDBTextEdit;
     dxLayoutItem89: TdxLayoutItem;
     dbStatus: TcxDBCheckBox;
     dxLayoutItem90: TdxLayoutItem;
@@ -547,6 +545,11 @@ type
     cxButton14: TcxButton;
     dxLayoutItem92: TdxLayoutItem;
     dxLayoutSeparatorItem13: TdxLayoutSeparatorItem;
+    cboStatus: TcxComboBox;
+    dxLayoutItem93: TdxLayoutItem;
+    dbRG: TcxDBTextEdit;
+    dxLayoutItem7: TdxLayoutItem;
+    dxLayoutSeparatorItem14: TdxLayoutSeparatorItem;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -585,6 +588,7 @@ type
     procedure ExpandGrid();
     procedure CollapseGrid();
     procedure PanelGroup();
+    procedure ChangePerson();
 
     procedure PopulateBank();
     procedure PopulateStates();
@@ -760,6 +764,7 @@ begin
   dsContatos.AutoEdit := False;
   dsFinanceiro.AutoEdit := False;
   saRepresentante.AutoEdit := False;
+  dsCNAE.AutoEdit := False;
 
   FAcao := tacIndefinido;
   mtbCadastro.Cancel;
@@ -795,6 +800,38 @@ begin
   begin
     Self.Caption := StringReplace(Self.Caption, FCaptionComplent, EmptyStr,[rfReplaceAll]);
   end;
+end;
+
+procedure TviewCadastroTerceirizados.ChangePerson;
+begin
+  if dbTipoPessoa.ItemIndex = 1 then
+  begin
+    dbCPFCNPJ.Properties.Buttons[0].Enabled := True;
+    dbCPFCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
+    dbSexo.ItemIndex := 3;
+    dxLayoutGroup14.Visible := False;
+    dxLayoutGroup15.Visible := False;
+    dxLayoutGroup16.Visible := False;
+    dxLayoutGroup4.Visible := False;
+    dxLayoutItem31.Visible := True;
+    dxLayoutItem20.Visible := True;
+    dxLayoutItem24.Visible := True;
+    dxLayoutGroup28.Visible := True;
+  end
+  else
+  begin
+    dxLayoutItem31.Visible := False;
+    dxLayoutItem20.Visible := False;
+    dxLayoutItem24.Visible := False;
+    dxLayoutGroup14.Visible := True;
+    dxLayoutGroup15.Visible := True;
+    dxLayoutGroup16.Visible := True;
+    dxLayoutGroup4.Visible := True;
+    dxLayoutGroup28.Visible := False;
+    dbCPFCNPJ.Properties.Buttons[0].Enabled := False;
+    dbCPFCNPJ.Properties.EditMask := '!000\.000\.000\-00;0; ';
+  end;
+
 end;
 
 procedure TviewCadastroTerceirizados.CollapseGrid;
@@ -896,20 +933,27 @@ begin
     if not sQuery.IsEmpty then
       sQuery := sQuery + ')';
 
-    if cbxAtivos.Checked then
+    if cboStatus.ItemIndex = 1 then
     begin
       if sQueryPadrao.IsEmpty then
         sQueryPadrao := sQueryPadrao + '(';
       sQueryPadrao := sQueryPadrao + ' cod_status = 1';
+    end
+    else if cboStatus.ItemIndex = 2 then
+    begin
+      if sQueryPadrao.IsEmpty then
+        sQueryPadrao := sQueryPadrao + '(';
+      sQueryPadrao := sQueryPadrao + ' cod_status = 0';
     end;
 
-    if lcbCategorias.ItemIndex > 0 then
+
+    if lcbCategorias.EditValue > 0 then
     begin
       if sQueryPadrao.IsEmpty then
         sQueryPadrao := sQueryPadrao + '('
       else
         sQueryPadrao := sQueryPadrao + ' and ';
-      sQueryPadrao := sQueryPadrao + ' id_categoria = ' + lcbCategorias.ItemIndex.ToString ;
+      sQueryPadrao := sQueryPadrao + ' id_categoria = ' + VarToStrDef(lcbCategorias.EditValue, '0');
     end;
 
     if not sQueryPadrao.IsEmpty then
@@ -918,7 +962,11 @@ begin
       if not sQuery.IsEmpty then
         sQueryReturn := sQuery + ' and ' + sQueryPadrao
       else
-        sQueryReturn := sQueryPadrao
+        sQueryReturn := sQueryPadrao;
+    end
+    else
+    begin
+      sQueryReturn := sQuery;
     end;
 
     Result := sQueryReturn;
@@ -937,19 +985,7 @@ end;
 
 procedure TviewCadastroTerceirizados.dbTipoPessoaPropertiesChange(Sender: TObject);
 begin
-  if dbTipoPessoa.ItemIndex = 1 then
-  begin
-    dbCPFCNPJ.Properties.Buttons[0].Enabled := True;
-    dbCPFCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
-    dbSexo.ItemIndex := 3;
-    dxLayoutItem31.Visible := True;
-  end
-  else
-  begin
-    dxLayoutItem31.Visible := False;
-    dbCPFCNPJ.Properties.Buttons[0].Enabled := False;
-    dbCPFCNPJ.Properties.EditMask := '!000\.000\.000\-00;0; ';
-  end;
+  ChangePerson;
 end;
 
 procedure TviewCadastroTerceirizados.dbTipoPessoaVeiculoPropertiesChange(Sender: TObject);
@@ -987,6 +1023,7 @@ begin
   dsContatos.AutoEdit := True;
   dsFinanceiro.AutoEdit := True;
   saRepresentante.AutoEdit := True;
+  dsCNAE.AutoEdit := True;
 
   PopulateAdress(iCadastro);
   PopulateContacts(iCadastro);
@@ -1000,6 +1037,7 @@ begin
   FAcao := tacAlterar;
   mtbCadastro.Edit;
 
+  ChangePerson;
   dxLayoutGroup6.ItemIndex := 0;
   lgpMain.ItemIndex := 1;
 end;
@@ -1305,6 +1343,7 @@ begin
   dsContatos.AutoEdit := True;
   dsFinanceiro.AutoEdit := True;
   saRepresentante.AutoEdit := True;
+  dsCNAE.AutoEdit := True;
   FAcao := tacIncluir;
 
   mtbCadastro.Insert;
@@ -1852,8 +1891,6 @@ begin
     FCadastro.FContratados.ARecord.nom_fantasia_alias := mtbCadastronom_fantasia_alias.AsString;
     FCadastro.FContratados.ARecord.num_cpf_cnpj :=  FUtils.DesmontaCPFCNPJ(mtbCadastronum_cpf_cnpj.AsString);
     FCadastro.FContratados.ARecord.num_rg_ie := mtbCadastronum_rg_ie.AsString;
-    if FCadastro.FContratados.ARecord.num_rg_ie = '' then
-      FCadastro.FContratados.ARecord.num_rg_ie := 'ISENTO';
     if mtbCadastrodat_emissao_rg.AsString = '' then
       FCadastro.FContratados.ARecord.dat_emissao_rg := 0
     else
@@ -1865,7 +1902,7 @@ begin
       FCadastro.FContratados.ARecord.dat_nascimento := 0
     else
       FCadastro.FContratados.ARecord.dat_nascimento := mtbCadastrodat_nascimento.AsDateTime;
-    FCadastro.FContratados.ARecord.des_nacionalidade := 'BRASIL';
+    FCadastro.FContratados.ARecord.des_nacionalidade := mtbCadastrodes_nacionalidade.AsString;
     FCadastro.FContratados.ARecord.des_naturalidade := mtbCadastrodes_naturalidade.AsString;
     FCadastro.FContratados.ARecord.uf_naturalidade := mtbCadastrouf_naturalidade.AsString;
     FCadastro.FContratados.ARecord.nom_pai := mtbCadastronom_pai.AsString;
@@ -2342,6 +2379,13 @@ var
   FUtil : TUTils;
 begin
   try
+    if (mtbCadastro.State = dsInsert) or (mtbCadastro.State = dsEdit) then mtbCadastro.Post;
+    if (memTableEnderecos.State = dsInsert) or (memTableEnderecos.State = dsEdit) then memTableEnderecos.Post;
+    if (memTableContatos.State = dsInsert) or (memTableContatos.State = dsEdit) then memTableContatos.Post;
+    if (mtbRH.State = dsInsert) or (mtbRH.State = dsEdit) then mtbRH.Post;
+    if (memTableVeiculos.State = dsInsert) or (memTableVeiculos.State = dsEdit) then memTableVeiculos.Post;
+    if (mtbRepresentantes.State = dsInsert) or (mtbRepresentantes.State = dsEdit) then mtbRepresentantes.Post;
+    if (mtbFinanceiro.State = dsInsert) or (mtbFinanceiro.State = dsEdit) then mtbFinanceiro.Post;
     Result := False;
     FCadastro := TCadastroContratadosController.Create;
     FUtil := TUtils.Create;

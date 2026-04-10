@@ -1,3 +1,7 @@
+{TODO 1 -oBlink -cCadastros : Verificar API de consulta de CNPJ}
+{TODO 1 -oBlink -cCadastros : Verificar erros de importação da Tatiane}
+{TODO 1 -oBlink -cCadastros : Corrigir mensagem de erro após gravar contratados.}
+{DONE 2 -oBlink -cCadastros : Correção da tela de cadastro de veículos em contratatados. Aparece o campo COR duas vezes}
 {DONE 1 -oBlink -cCadastros : Cadastro de contratados, não permite cadastrar endereço quando é autonomo}
 {DONE 1 -oBlink -cCadastros : Cadastro e Edição de cadastro de bases, corrigir pois não permite editar ou desativar bases.}
 

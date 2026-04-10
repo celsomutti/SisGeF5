@@ -37,7 +37,7 @@ object view_SisGeFImportWorksheetExpress: Tview_SisGeFImportWorksheetExpress
       Height = 51
       BevelKind = bkFlat
       BevelOuter = bvNone
-      Caption = 'Arraste e solte os arquivos das planilhas nesta '#225'rea'
+      Caption = 'Arraste e solte o arquivo da planilha nesta '#225'rea'
       Enabled = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText

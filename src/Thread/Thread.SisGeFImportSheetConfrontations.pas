@@ -113,17 +113,17 @@ end;
 
 procedure Thread_ImportConfrontations.ProcessSPXXPRESS;
 var
-  FPlanilha             : TSheetConfrontations;
-  iTipo, i, iPos        : integer;
-  sOperacao, sMensagem  : string;
-  dPeso                 : double;
-  FUtil                 : TUtils;
-  sDatas, sObs          : string;
-  sParam                : array of string;
-  vParam                : array of variant;
-  FAcareacoes           : TAcareacaoControl;
-  FEntregadores         : TCadastroContratadosController;
-  FQuery                : TFDQuery;
+  FPlanilha                   : TSheetConfrontations;
+  iTipo, i, iPos              : integer;
+  sOperacao, sMensagem, sExt  : string;
+  dPeso                       : double;
+  FUtil                       : TUtils;
+  sDatas, sObs                : string;
+  sParam                      : array of string;
+  vParam                      : array of variant;
+  FAcareacoes                 : TAcareacaoControl;
+  FEntregadores               : TCadastroContratadosController;
+  FQuery                      : TFDQuery;
 begin
   FUtil := TUtils.Create;
   try
@@ -135,9 +135,28 @@ begin
       sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
       UpdateLog(sMensagem);
       FPlanilha.FileName := FArquivo;
-      if not FPLanilha.GetSheet() then
+      sExt := ExtractFileExt(FArquivo);
+      if sExt.Equals('.xlsx') then
       begin
-        UpdateLOG(FPlanilha.Mensagem);
+        if not FPLanilha.GetSheet() then
+        begin
+          UpdateLOG(FPlanilha.Mensagem);
+          FCancelar := True;
+          Exit;
+        end;
+      end
+      else if sExt.Equals('.xls') then
+      begin
+        if not FPLanilha.GetSheetXLS() then
+        begin
+          UpdateLOG(FPlanilha.Mensagem);
+          FCancelar := True;
+          Exit;
+        end;
+      end
+      else
+      begin
+        UpdateLOG('Arquivo de importação inválido!');
         FCancelar := True;
         Exit;
       end;

@@ -94,7 +94,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.OnButtonClick = bteSearchPropertiesButtonClick
       Style.HotTrack = False
       TabOrder = 6
-      Width = 546
+      Width = 497
     end
     object cxButton4: TcxButton
       Left = 270
@@ -106,13 +106,6 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Transparent = True
       TabOrder = 4
-    end
-    object cbxAtivos: TcxCheckBox
-      Left = 935
-      Top = 109
-      State = cbsChecked
-      Style.HotTrack = False
-      TabOrder = 8
     end
     object grid: TcxGrid
       Left = 28
@@ -392,7 +385,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
           Width = 192
         end
         object gridDBTableView1des_funcao: TcxGridDBColumn
-          Caption = 'Fun'#231#227'o'
+          Caption = 'Atividade'
           DataBinding.FieldName = 'des_funcao'
           HeaderAlignmentHorz = taCenter
           Width = 263
@@ -646,9 +639,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsCategoria
       Style.HotTrack = False
-      TabOrder = 32
+      TabOrder = 31
       Visible = False
-      Width = 529
+      Width = 598
     end
     object dbSexo: TcxDBImageComboBox
       Left = 10000
@@ -671,7 +664,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
           Value = 3
         end>
       Style.HotTrack = False
-      TabOrder = 33
+      TabOrder = 37
       Visible = False
       Width = 100
     end
@@ -694,7 +687,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 40
+      TabOrder = 41
       Visible = False
       Width = 100
     end
@@ -705,7 +698,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'nom_emissor_rg'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
-      TabOrder = 41
+      TabOrder = 42
       Visible = False
       Width = 126
     end
@@ -723,7 +716,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 42
+      TabOrder = 43
       Visible = False
       Width = 46
     end
@@ -747,7 +740,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 34
+      TabOrder = 33
       Visible = False
       Width = 95
     end
@@ -757,10 +750,12 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Hint = 'Nacionalidade'
       DataBinding.DataField = 'des_nacionalidade'
       DataBinding.DataSource = dsCadastro
+      Properties.LookupItems.Strings = (
+        'BRASILEIRA')
       Style.HotTrack = False
-      TabOrder = 35
+      TabOrder = 34
       Visible = False
-      Width = 315
+      Width = 159
     end
     object dbNaturalidade: TcxDBTextEdit
       Left = 10000
@@ -769,9 +764,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'des_naturalidade'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
-      TabOrder = 36
+      TabOrder = 35
       Visible = False
-      Width = 320
+      Width = 166
     end
     object dbUFNaturalidade: TcxDBLookupComboBox
       Left = 10000
@@ -787,7 +782,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 37
+      TabOrder = 36
       Visible = False
       Width = 46
     end
@@ -841,7 +836,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 20
       Visible = False
-      Width = 488
+      Width = 586
     end
     object dbSalario: TcxDBCurrencyEdit
       Left = 10000
@@ -850,7 +845,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'val_salario'
       DataBinding.DataSource = daRH
       Style.HotTrack = False
-      TabOrder = 50
+      TabOrder = 51
       Visible = False
       Width = 92
     end
@@ -863,9 +858,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 51
+      TabOrder = 52
       Visible = False
-      Width = 321
+      Width = 191
     end
     object dbDemissao: TcxDBDateEdit
       Left = 10000
@@ -876,9 +871,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 52
+      TabOrder = 53
       Visible = False
-      Width = 310
+      Width = 198
     end
     object dbBase: TcxDBLookupComboBox
       Left = 10000
@@ -893,9 +888,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsBases
       Style.HotTrack = False
-      TabOrder = 53
+      TabOrder = 54
       Visible = False
-      Width = 361
+      Width = 145
     end
     object dbFuncao: TcxDBLookupComboBox
       Left = 10000
@@ -911,16 +906,16 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsFuncoes
       Style.HotTrack = False
-      TabOrder = 54
+      TabOrder = 32
       Visible = False
-      Width = 453
+      Width = 178
     end
     object gridGR: TcxGrid
       Left = 10000
       Top = 10000
       Width = 896
       Height = 260
-      TabOrder = 57
+      TabOrder = 58
       Visible = False
       object gridGRDBTableView1: TcxGridDBTableView
         Navigator.Buttons.ConfirmDelete = True
@@ -1023,9 +1018,10 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Top = 10000
       Width = 896
       Height = 281
-      TabOrder = 58
+      TabOrder = 59
       Visible = False
       object gridCNAEDBTableView1: TcxGridDBTableView
+        Navigator.Buttons.ConfirmDelete = True
         Navigator.Buttons.CustomButtons = <>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
         Navigator.Buttons.First.ImageIndex = 91
@@ -1034,11 +1030,16 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
         Navigator.Buttons.Next.ImageIndex = 93
         Navigator.Buttons.NextPage.Visible = False
         Navigator.Buttons.Last.ImageIndex = 92
-        Navigator.Buttons.Insert.Visible = False
-        Navigator.Buttons.Delete.Visible = False
-        Navigator.Buttons.Edit.Visible = False
-        Navigator.Buttons.Post.Visible = False
-        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Insert.ImageIndex = 97
+        Navigator.Buttons.Insert.Visible = True
+        Navigator.Buttons.Delete.ImageIndex = 130
+        Navigator.Buttons.Delete.Visible = True
+        Navigator.Buttons.Edit.ImageIndex = 95
+        Navigator.Buttons.Edit.Visible = True
+        Navigator.Buttons.Post.ImageIndex = 85
+        Navigator.Buttons.Post.Visible = True
+        Navigator.Buttons.Cancel.ImageIndex = 116
+        Navigator.Buttons.Cancel.Visible = True
         Navigator.Buttons.Refresh.Visible = False
         Navigator.Buttons.SaveBookmark.Visible = False
         Navigator.Buttons.GotoBookmark.Visible = False
@@ -1053,11 +1054,6 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
         OptionsBehavior.FocusFirstCellOnNewRecord = True
         OptionsBehavior.GoToNextCellOnEnter = True
         OptionsBehavior.FocusCellOnCycle = True
-        OptionsData.CancelOnExit = False
-        OptionsData.Deleting = False
-        OptionsData.DeletingConfirmation = False
-        OptionsData.Editing = False
-        OptionsData.Inserting = False
         OptionsSelection.CellSelect = False
         OptionsView.ColumnAutoWidth = True
         OptionsView.GroupByBox = False
@@ -1073,6 +1069,10 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
         end
         object gridCNAEDBTableView1des_tipo_cnae: TcxGridDBColumn
           DataBinding.FieldName = 'des_tipo_cnae'
+          PropertiesClassName = 'TcxComboBoxProperties'
+          Properties.Items.Strings = (
+            'PRINCIPAL'
+            'SECUND'#193'RIA')
           HeaderAlignmentHorz = taCenter
           SortIndex = 0
           SortOrder = soAscending
@@ -1111,7 +1111,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
         end>
       Properties.OnChange = dbTipoPessoaVeiculoPropertiesChange
       Style.HotTrack = False
-      TabOrder = 59
+      TabOrder = 60
       Visible = False
       Width = 98
     end
@@ -1131,7 +1131,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.EditMask = '!00\.000\.000\/0000\-00;1; '
       Style.HotTrack = False
-      TabOrder = 60
+      TabOrder = 61
       Visible = False
       Width = 155
     end
@@ -1142,7 +1142,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'NOM_PROPRIETARIO'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 61
+      TabOrder = 62
       Visible = False
       Width = 501
     end
@@ -1152,7 +1152,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'NUM_RG'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 65
+      TabOrder = 66
       Visible = False
       Width = 121
     end
@@ -1166,7 +1166,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ShowTime = False
       Properties.ShowToday = False
       Style.HotTrack = False
-      TabOrder = 62
+      TabOrder = 63
       Visible = False
       Width = 97
     end
@@ -1177,7 +1177,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'NOM_MAE'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 63
+      TabOrder = 64
       Visible = False
       Width = 327
     end
@@ -1188,7 +1188,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'NOM_MAE'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 64
+      TabOrder = 65
       Visible = False
       Width = 337
     end
@@ -1202,7 +1202,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ShowTime = False
       Properties.ShowToday = False
       Style.HotTrack = False
-      TabOrder = 66
+      TabOrder = 67
       Visible = False
       Width = 95
     end
@@ -1220,7 +1220,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 67
+      TabOrder = 68
       Visible = False
       Width = 56
     end
@@ -1233,7 +1233,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.IgnoreMaskBlank = True
       Properties.EditMask = '!\(99\)90000-0000;1; '
       Style.HotTrack = False
-      TabOrder = 68
+      TabOrder = 69
       Visible = False
       Width = 167
     end
@@ -1246,7 +1246,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.IgnoreMaskBlank = True
       Properties.EditMask = '!\(99\)90000-0000;1; '
       Style.HotTrack = False
-      TabOrder = 69
+      TabOrder = 70
       Visible = False
       Width = 166
     end
@@ -1266,7 +1266,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.EditMask = '00000\-999;1; '
       Style.HotTrack = False
-      TabOrder = 70
+      TabOrder = 71
       Visible = False
       Width = 90
     end
@@ -1277,7 +1277,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'DES_ENDERECO'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 71
+      TabOrder = 72
       Visible = False
       Width = 291
     end
@@ -1288,7 +1288,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'DES_BAIRRO'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 72
+      TabOrder = 73
       Visible = False
       Width = 121
     end
@@ -1299,7 +1299,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'NOM_CIDADE'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 73
+      TabOrder = 74
       Visible = False
       Width = 121
     end
@@ -1317,7 +1317,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 74
+      TabOrder = 75
       Visible = False
       Width = 63
     end
@@ -1356,7 +1356,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
         'YAMAHA')
       Properties.LookupItemsSorted = True
       Style.HotTrack = False
-      TabOrder = 78
+      TabOrder = 79
       Visible = False
       Width = 102
     end
@@ -1367,7 +1367,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'DES_MODELO'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 79
+      TabOrder = 80
       Visible = False
       Width = 99
     end
@@ -1377,7 +1377,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'DES_PLACA'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 75
+      TabOrder = 76
       Visible = False
       Width = 75
     end
@@ -1388,7 +1388,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'NOM_CIDADE_PLACA'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 76
+      TabOrder = 77
       Visible = False
       Width = 129
     end
@@ -1406,7 +1406,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 77
+      TabOrder = 78
       Visible = False
       Width = 47
     end
@@ -1433,7 +1433,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
         'TRICICLO'
         'QUADRICICLO')
       Style.HotTrack = False
-      TabOrder = 80
+      TabOrder = 81
       Visible = False
       Width = 135
     end
@@ -1444,7 +1444,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'NUM_RENAVAN'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 81
+      TabOrder = 82
       Visible = False
       Width = 121
     end
@@ -1455,9 +1455,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'NUM_CHASSIS'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 82
+      TabOrder = 83
       Visible = False
-      Width = 282
+      Width = 249
     end
     object dbAnoVeiculo: TcxDBMaskEdit
       Left = 10000
@@ -1467,7 +1467,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataSource = dsVeiculos
       Properties.EditMask = '9999;1; '
       Style.HotTrack = False
-      TabOrder = 83
+      TabOrder = 84
       Visible = False
       Width = 67
     end
@@ -1475,8 +1475,10 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Left = 10000
       Top = 10000
       Hint = 'Cor predominante do ve'#237'culo'
+      DataBinding.DataField = 'DES_COR'
+      DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 85
+      TabOrder = 86
       Visible = False
       Width = 105
     end
@@ -1510,7 +1512,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Buttons.Filter.ImageIndex = 11
       DataSource = dsVeiculos
       InfoPanel.Visible = True
-      TabOrder = 86
+      TabOrder = 87
       Visible = False
     end
     object cxButton9: TcxButton
@@ -1519,7 +1521,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 121
       Height = 40
       Action = actionDataContracted
-      TabOrder = 87
+      TabOrder = 88
       Visible = False
     end
     object dbCEP: TcxDBButtonEdit
@@ -1538,7 +1540,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.EditMask = '00000\-999;1; '
       Style.HotTrack = False
-      TabOrder = 22
+      TabOrder = 21
       Visible = False
       Width = 90
     end
@@ -1549,7 +1551,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'des_logradouro'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
-      TabOrder = 23
+      TabOrder = 22
       Visible = False
       Width = 425
     end
@@ -1560,7 +1562,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'num_logradouro'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
-      TabOrder = 24
+      TabOrder = 23
       Visible = False
       Width = 98
     end
@@ -1571,7 +1573,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'des_complemento'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
-      TabOrder = 25
+      TabOrder = 24
       Visible = False
       Width = 201
     end
@@ -1582,7 +1584,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'des_bairro'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
-      TabOrder = 26
+      TabOrder = 25
       Visible = False
       Width = 312
     end
@@ -1593,7 +1595,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'nom_cidade'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
-      TabOrder = 27
+      TabOrder = 26
       Visible = False
       Width = 417
     end
@@ -1611,7 +1613,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 28
+      TabOrder = 27
       Visible = False
       Width = 53
     end
@@ -1622,7 +1624,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'des_referencia'
       DataBinding.DataSource = dsEnderecos
       Style.HotTrack = False
-      TabOrder = 29
+      TabOrder = 28
       Visible = False
       Width = 835
     end
@@ -1631,7 +1633,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Top = 10000
       Width = 896
       Height = 114
-      TabOrder = 30
+      TabOrder = 29
       Visible = False
       object gridContatosDBTableView1: TcxGridDBTableView
         Navigator.Buttons.ConfirmDelete = True
@@ -1706,7 +1708,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Top = 10000
       Width = 896
       Height = 281
-      TabOrder = 31
+      TabOrder = 30
       Visible = False
       object gridFinanceiroDBTableView1: TcxGridDBTableView
         Navigator.Buttons.ConfirmDelete = True
@@ -1832,7 +1834,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 87
       Height = 37
       Action = actionReturnGrid
-      TabOrder = 88
+      TabOrder = 89
       Visible = False
     end
     object cxButton11: TcxButton
@@ -1841,7 +1843,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 89
       Height = 37
       Action = actionSaveRegister
-      TabOrder = 91
+      TabOrder = 92
       Visible = False
     end
     object cxButton12: TcxButton
@@ -1850,11 +1852,11 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 103
       Height = 37
       Action = actionContracts
-      TabOrder = 90
+      TabOrder = 91
       Visible = False
     end
     object lcbCategorias: TcxLookupComboBox
-      Left = 694
+      Left = 645
       Top = 108
       Properties.KeyFieldNames = 'id_categoria'
       Properties.ListColumns = <
@@ -1874,9 +1876,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'num_cnh'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
-      TabOrder = 43
+      TabOrder = 44
       Visible = False
-      Width = 93
+      Width = 173
     end
     object dbRegistroCNH: TcxDBTextEdit
       Left = 10000
@@ -1885,9 +1887,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'num_registro_cnh'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
-      TabOrder = 44
+      TabOrder = 45
       Visible = False
-      Width = 128
+      Width = 113
     end
     object dbCategoriaCNH: TcxDBTextEdit
       Left = 10000
@@ -1896,9 +1898,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       DataBinding.DataField = 'des_categoria_cnh'
       DataBinding.DataSource = dsCadastro
       Style.HotTrack = False
-      TabOrder = 45
+      TabOrder = 46
       Visible = False
-      Width = 34
+      Width = 42
     end
     object dbValidadeCNH: TcxDBDateEdit
       Left = 10000
@@ -1910,9 +1912,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ShowTime = False
       Properties.ShowToday = False
       Style.HotTrack = False
-      TabOrder = 46
+      TabOrder = 47
       Visible = False
-      Width = 87
+      Width = 96
     end
     object dbEmissaoCNH: TcxDBDateEdit
       Left = 10000
@@ -1924,9 +1926,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ShowTime = False
       Properties.ShowToday = False
       Style.HotTrack = False
-      TabOrder = 47
+      TabOrder = 48
       Visible = False
-      Width = 92
+      Width = 93
     end
     object dbPrimeiraCNH: TcxDBDateEdit
       Left = 10000
@@ -1938,9 +1940,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ShowTime = False
       Properties.ShowToday = False
       Style.HotTrack = False
-      TabOrder = 48
+      TabOrder = 49
       Visible = False
-      Width = 92
+      Width = 99
     end
     object dbUFCNH: TcxDBLookupComboBox
       Left = 10000
@@ -1956,20 +1958,20 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 49
+      TabOrder = 50
       Visible = False
-      Width = 67
+      Width = 48
     end
-    object dbCor: TcxDBTextEdit
+    object dbExercicio: TcxDBTextEdit
       Left = 10000
       Top = 10000
-      Hint = 'Cor do ve'#237'culo'
-      DataBinding.DataField = 'DES_COR'
+      Hint = 'Ano do licenciamnto'
+      DataBinding.DataField = 'ANO_EXERCICIO_CLRV'
       DataBinding.DataSource = dsVeiculos
       Style.HotTrack = False
-      TabOrder = 84
+      TabOrder = 85
       Visible = False
-      Width = 103
+      Width = 77
     end
     object dbStatus: TcxDBCheckBox
       Left = 10000
@@ -1982,7 +1984,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.ValueUnchecked = '0'
       Properties.OnChange = dbStatusPropertiesChange
       Style.HotTrack = False
-      TabOrder = 21
+      TabOrder = 57
       Visible = False
     end
     object cxButton13: TcxButton
@@ -1991,7 +1993,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Width = 143
       Height = 37
       Action = actionDocuments
-      TabOrder = 89
+      TabOrder = 90
       Visible = False
     end
     object cxButton14: TcxButton
@@ -2004,6 +2006,30 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 5
+    end
+    object cboStatus: TcxComboBox
+      Left = 835
+      Top = 108
+      Properties.DropDownListStyle = lsEditFixedList
+      Properties.Items.Strings = (
+        'TODOS'
+        'ATIVOS'
+        'INATIVOS')
+      Style.HotTrack = False
+      TabOrder = 8
+      Text = 'TODOS'
+      Width = 121
+    end
+    object dbRG: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero do RG'
+      DataBinding.DataField = 'num_rg_ie'
+      DataBinding.DataSource = dsCadastro
+      Style.HotTrack = False
+      TabOrder = 40
+      Visible = False
+      Width = 183
     end
     object lycMainGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -2123,7 +2149,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignHorz = ahClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -2149,18 +2175,6 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalWidth = 65
       ControlOptions.ShowBorder = False
       Index = 6
-    end
-    object dxLayoutItem7: TdxLayoutItem
-      Parent = lgpOptionsSearch
-      AlignHorz = ahLeft
-      AlignVert = avCenter
-      CaptionOptions.Hint = 'Somente cadastros ativos'
-      CaptionOptions.Text = 'Somente Ativos'
-      Control = cbxAtivos
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 21
-      ControlOptions.ShowBorder = False
-      Index = 2
     end
     object dxLayoutSeparatorItem3: TdxLayoutSeparatorItem
       Parent = lgpGridView
@@ -2315,23 +2329,21 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Index = 0
     end
     object dxLayoutItem19: TdxLayoutItem
-      Parent = dxLayoutGroup13
-      AlignHorz = ahLeft
-      AlignVert = avCenter
+      Parent = dxLayoutGroup14
+      AlignVert = avClient
       CaptionOptions.Hint = 'Selecione o sexo'
       CaptionOptions.Text = 'Sexo'
       Control = dbSexo
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 100
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 4
     end
     object dxLayoutItem20: TdxLayoutItem
       Parent = dxLayoutGroup3
       AlignHorz = ahLeft
       AlignVert = avClient
-      CaptionOptions.Hint = 'RG ou inscri'#231#227'o estadual'
-      CaptionOptions.Text = 'RG /Ins. Est.'
+      CaptionOptions.Text = 'Ins. Est.'
       Control = dbRGIE
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 115
@@ -2347,7 +2359,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 100
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object dxLayoutItem22: TdxLayoutItem
       Parent = dxLayoutGroup16
@@ -2359,7 +2371,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 126
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutItem23: TdxLayoutItem
       Parent = dxLayoutGroup16
@@ -2370,7 +2382,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 46
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutItem24: TdxLayoutItem
       Parent = dxLayoutGroup3
@@ -2383,14 +2395,14 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Index = 1
     end
     object dxLayoutItem25: TdxLayoutItem
-      Parent = dxLayoutGroup13
+      Parent = dxLayoutGroup14
       AlignVert = avClient
       CaptionOptions.Text = 'Nascimento'
       Control = dbNascimento
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 95
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 0
     end
     object dxLayoutItem26: TdxLayoutItem
       Parent = dxLayoutGroup14
@@ -2401,7 +2413,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 114
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object dxLayoutItem27: TdxLayoutItem
       Parent = dxLayoutGroup14
@@ -2412,7 +2424,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutItem28: TdxLayoutItem
       Parent = dxLayoutGroup14
@@ -2422,7 +2434,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 46
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutGroup5: TdxLayoutGroup
       Parent = lgpCadastro
@@ -2461,7 +2473,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       CaptionOptions.Text = 'Contrato'
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
-      ItemIndex = 4
+      ItemIndex = 3
       Index = 2
     end
     object lgpBancos: TdxLayoutGroup
@@ -2482,6 +2494,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -2492,6 +2505,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 4
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 1
@@ -2546,7 +2560,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
+      ItemIndex = 4
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 3
@@ -2567,7 +2581,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
+      ItemIndex = 3
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 6
@@ -2576,7 +2590,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Parent = dxLayoutGroup17
       AlignHorz = ahLeft
       AlignVert = avCenter
-      CaptionOptions.Text = 'Sal'#225'rio'
+      CaptionOptions.Text = 'Remunera'#231#227'o'
       Control = dbSalario
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 92
@@ -2598,7 +2612,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Parent = dxLayoutGroup17
       AlignHorz = ahClient
       AlignVert = avCenter
-      CaptionOptions.Text = 'Demiss'#227'o'
+      CaptionOptions.Text = 'Desligamento'
       Control = dbDemissao
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 93
@@ -2607,31 +2621,27 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     end
     object dxLayoutGroup18: TdxLayoutGroup
       Parent = lgpRH
-      AlignHorz = ahClient
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 7
+      Index = 10
     end
     object dxLayoutItem35: TdxLayoutItem
-      Parent = dxLayoutGroup18
-      AlignHorz = ahClient
-      AlignVert = avCenter
+      Parent = dxLayoutGroup17
+      AlignVert = avClient
       CaptionOptions.Text = 'Base'
       Control = dbBase
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 145
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 3
     end
     object dxLayoutItem36: TdxLayoutItem
-      Parent = dxLayoutGroup18
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Hint = 'Fun'#231#227'o'
-      CaptionOptions.Text = 'Fun'#231#227'o'
+      Parent = dxLayoutGroup13
+      CaptionOptions.Hint = 'Atividade'
+      CaptionOptions.Text = 'Atividade'
       Control = dbFuncao
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 178
@@ -3195,7 +3205,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     object dxLayoutSeparatorItem11: TdxLayoutSeparatorItem
       Parent = lgpRH
       CaptionOptions.Text = 'Separator'
-      Index = 8
+      Index = 7
     end
     object dxLayoutItem77: TdxLayoutItem
       Parent = dxLayoutGroup28
@@ -3229,9 +3239,10 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Parent = lgpRH
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 9
+      Index = 8
     end
     object dxLayoutGroup29: TdxLayoutGroup
       Parent = lgpCadastro
@@ -3291,94 +3302,100 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     end
     object dxLayoutItem82: TdxLayoutItem
       Parent = dxLayoutGroup16
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'N'#186' CNH'
       Control = dbNumeroCNH
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 93
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object dxLayoutItem83: TdxLayoutItem
-      Parent = dxLayoutGroup16
-      AlignHorz = ahClient
+      Parent = dxLayoutGroup4
+      AlignVert = avClient
       CaptionOptions.Text = 'Reg. CNH'
       Control = dbRegistroCNH
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 87
+      ControlOptions.OriginalWidth = 113
       ControlOptions.ShowBorder = False
-      Index = 4
+      Index = 0
     end
     object dxLayoutItem84: TdxLayoutItem
-      Parent = dxLayoutGroup16
+      Parent = dxLayoutGroup4
+      AlignVert = avClient
       CaptionOptions.Text = 'Categoria'
       Control = dbCategoriaCNH
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 34
+      ControlOptions.OriginalWidth = 42
       ControlOptions.ShowBorder = False
-      Index = 5
+      Index = 1
     end
     object dxLayoutGroup4: TdxLayoutGroup
       Parent = lgpRH
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 4
     end
     object dxLayoutItem85: TdxLayoutItem
       Parent = dxLayoutGroup4
-      CaptionOptions.Text = 'Validade CNH'
+      CaptionOptions.Text = 'Val. CNH'
       Control = dbValidadeCNH
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 87
+      ControlOptions.OriginalWidth = 96
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 2
     end
     object dxLayoutItem86: TdxLayoutItem
       Parent = dxLayoutGroup4
-      CaptionOptions.Text = 'Emiss'#227'o CNH'
+      CaptionOptions.Text = 'Em. CNH'
       Control = dbEmissaoCNH
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 92
+      ControlOptions.OriginalWidth = 93
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 3
     end
     object dxLayoutItem87: TdxLayoutItem
       Parent = dxLayoutGroup4
-      CaptionOptions.Text = 'Primeira CNH'
+      CaptionOptions.Text = '1'#170' CNH'
       Control = dbPrimeiraCNH
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 92
+      ControlOptions.OriginalWidth = 99
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 4
     end
     object dxLayoutItem88: TdxLayoutItem
       Parent = dxLayoutGroup4
       CaptionOptions.Text = 'UF CNH'
       Control = dbUFCNH
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 67
+      ControlOptions.OriginalWidth = 48
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 5
     end
     object dxLayoutItem89: TdxLayoutItem
       Parent = dxLayoutGroup20
-      CaptionOptions.Text = 'Cor'
-      Control = dbCor
+      CaptionOptions.Text = 'Licenciamento'
+      Control = dbExercicio
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 103
+      ControlOptions.OriginalWidth = 77
       ControlOptions.ShowBorder = False
       Index = 3
     end
     object dxLayoutItem90: TdxLayoutItem
-      Parent = dxLayoutGroup3
+      Parent = dxLayoutGroup18
+      AlignHorz = ahRight
+      AlignVert = avClient
       CaptionOptions.Text = 'STATUS'
       CaptionOptions.Visible = False
       Control = dbStatus
       ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 68
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 0
     end
     object dxLayoutItem91: TdxLayoutItem
       Parent = dxLayoutGroup29
@@ -3406,6 +3423,31 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Parent = lgpMenu
       CaptionOptions.Text = 'Separator'
       Index = 7
+    end
+    object dxLayoutItem93: TdxLayoutItem
+      Parent = lgpOptionsSearch
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Status'
+      Control = cboStatus
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem7: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      AlignVert = avClient
+      CaptionOptions.Text = 'RG'
+      Control = dbRG
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 183
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutSeparatorItem14: TdxLayoutSeparatorItem
+      Parent = lgpRH
+      CaptionOptions.Text = 'Separator'
+      Index = 9
     end
   end
   object actionList: TActionList
@@ -3810,7 +3852,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 384
     Top = 64
     Content = {
-      414442530F00AF44361A0000FF00010001FF02FF030400160000006D00740062
+      414442530F00024D361A0000FF00010001FF02FF030400160000006D00740062
       0043006100640061007300740072006F0005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B040004000000690064
       00050004000000690064000C00010000000E000D000F00011000011100011200
@@ -4426,8 +4468,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 472
-    Top = 104
+    Left = 128
+    Top = 440
     object memTableCNAEid_cnae: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id_cnae'
@@ -4453,8 +4495,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
   object dsCNAE: TDataSource
     AutoEdit = False
     DataSet = memTableCNAE
-    Left = 520
-    Top = 104
+    Left = 176
+    Top = 440
   end
   object memTableVeiculos: TFDMemTable
     FieldDefs = <
@@ -4870,7 +4912,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 544
     Top = 56
     Content = {
-      414442530F00AF44E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00024DE9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005
@@ -5058,8 +5100,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 832
-    Top = 152
+    Left = 480
+    Top = 448
     object mtbFinanceiroid_financeiro: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id_financeiro'
@@ -5095,8 +5137,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
   object dsFinanceiro: TDataSource
     AutoEdit = False
     DataSet = mtbFinanceiro
-    Left = 864
-    Top = 152
+    Left = 512
+    Top = 448
   end
   object mtbRepresentantes: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -5106,8 +5148,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 560
-    Top = 104
+    Left = 216
+    Top = 440
     object mtbRepresentantesid_representante: TIntegerField
       FieldName = 'id_representante'
     end
@@ -5125,7 +5167,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
   object saRepresentante: TDataSource
     AutoEdit = False
     DataSet = mtbRepresentantes
-    Left = 600
-    Top = 104
+    Left = 256
+    Top = 440
   end
 end
