@@ -1977,7 +1977,7 @@ begin
       Exit;
     end;
 
-    if gridFinanceiroDBTableView1.ViewData.RowCount = 0 then
+    if mtbFinanceiro.IsEmpty then
     begin
       Result := True;
       Exit;
@@ -2028,7 +2028,7 @@ begin
       Exit;
     end;
 
-    if gridGRDBTableView1.ViewData.RowCount = 0 then
+    if mtbGR.IsEmpty then
     begin
       Result := True;
       Exit;

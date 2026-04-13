@@ -293,6 +293,7 @@ type
     procedure VerificaVersao;
     procedure GetLogo;
     procedure GetCompany;
+    procedure SetFileVersion;
   public
     { Public declarations }
   end;
@@ -966,6 +967,7 @@ begin
       'Atenção', MB_ICONWARNING + MB_OK);
     Application.Terminate;
   end;
+  SetFileVersion;
 end;
 
 procedure Tview_Main.FormShow(Sender: TObject);
@@ -1166,6 +1168,20 @@ begin
     FreeAndNil(view_CadastraSenha);
     Fusuarios.Free;
   end;
+end;
+
+procedure Tview_Main.SetFileVersion;
+var
+  sFile, sPath : String;
+begin
+  sPath := ExtractFilePath(Application.ExeName);
+  sFile := sPath + 'versionLocal.ini';
+  if FileExists(sFile) then
+    DeleteFile(sFile);
+  Common.Utils.TUtils.GravaIni(sFile, 'version',
+  'number', Common.Utils.TUtils.VersaoExe);
+    Common.Utils.TUtils.GravaIni(sFile, 'version',
+  'internalname', Common.Utils.TUtils.Sistema('InternalName'));
 end;
 
 procedure Tview_Main.TimerTimer(Sender: TObject);
