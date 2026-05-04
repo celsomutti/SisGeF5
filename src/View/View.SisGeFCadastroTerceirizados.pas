@@ -22,7 +22,7 @@ uses
   Controller.SisGeFContratadosRH, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosContatos,
   Controller.SisGeFVehiclesRegistration, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,
   Controller.SisGeFContratadosGR, Controller.APICNPJ, Controller.APICEP, Common.ENum, System.DateUtils, System.StrUtils,
-  Common.Utils;
+  Common.Utils, service.sistem;
 
 type
   TviewCadastroTerceirizados = class(TForm)
@@ -574,8 +574,11 @@ type
     procedure dbStatusPropertiesChange(Sender: TObject);
     procedure actionDocumentsExecute(Sender: TObject);
     procedure gridDBTableView1DblClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure dbFuncaoPropertiesCloseUp(Sender: TObject);
   private
     { Private declarations }
+    FSystem : TSistem;
     FCaptionComplent : String;
     FAcao : TAcao;
 
@@ -618,6 +621,8 @@ type
 
 
     function  ValidateData(): boolean;
+    function  RetornaAtividades(iId: integer): string;
+    function  RetornaCategoria(iId: integer): integer;
 
 
     function  SaveContracted(): boolean;
@@ -628,11 +633,14 @@ type
     function  SaveRH(iCadastro: integer): boolean;
     function  SaveCNAE(iCadastro: integer): boolean;
     function  SaveGR(iCadastro: integer): boolean;
+    function  SaveVehicles(iCadastro: integer): boolean;
 
     procedure SearchCNPJCadastro(sCNPJ: string);
     procedure SearchCNPJVeiculo(sCNPJ: string);
     procedure SearchCEPCadastro(sCEP: string);
     procedure SearchCEPVeiculo(sCEP: string);
+
+
 
   public
     { Public declarations }
@@ -809,25 +817,25 @@ begin
     dbCPFCNPJ.Properties.Buttons[0].Enabled := True;
     dbCPFCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
     dbSexo.ItemIndex := 3;
-    dxLayoutGroup14.Visible := False;
-    dxLayoutGroup15.Visible := False;
-    dxLayoutGroup16.Visible := False;
-    dxLayoutGroup4.Visible := False;
-    dxLayoutItem31.Visible := True;
-    dxLayoutItem20.Visible := True;
-    dxLayoutItem24.Visible := True;
-    dxLayoutGroup28.Visible := True;
+    //dxLayoutGroup14.Visible := False;
+    //dxLayoutGroup15.Visible := False;
+    //dxLayoutGroup16.Visible := False;
+    //dxLayoutGroup4.Visible := False;
+    //dxLayoutItem31.Visible := True;
+    //dxLayoutItem20.Visible := True;
+    //dxLayoutItem24.Visible := True;
+    //dxLayoutGroup28.Visible := True;
   end
   else
   begin
-    dxLayoutItem31.Visible := False;
-    dxLayoutItem20.Visible := False;
-    dxLayoutItem24.Visible := False;
-    dxLayoutGroup14.Visible := True;
-    dxLayoutGroup15.Visible := True;
-    dxLayoutGroup16.Visible := True;
-    dxLayoutGroup4.Visible := True;
-    dxLayoutGroup28.Visible := False;
+    //dxLayoutItem31.Visible := False;
+    //dxLayoutItem20.Visible := False;
+    //dxLayoutItem24.Visible := False;
+    //dxLayoutGroup14.Visible := True;
+    //dxLayoutGroup15.Visible := True;
+    //dxLayoutGroup16.Visible := True;
+    //dxLayoutGroup4.Visible := True;
+    //dxLayoutGroup28.Visible := False;
     dbCPFCNPJ.Properties.Buttons[0].Enabled := False;
     dbCPFCNPJ.Properties.EditMask := '!000\.000\.000\-00;0; ';
   end;
@@ -975,6 +983,12 @@ begin
   end;
 end;
 
+procedure TviewCadastroTerceirizados.dbFuncaoPropertiesCloseUp(Sender: TObject);
+begin
+  if mtbCadastro.State in [dsInsert, dsEdit] then
+    mtbCadastroid_categoria.AsInteger := RetornaCategoria(dbFuncao.EditValue);
+end;
+
 procedure TviewCadastroTerceirizados.dbStatusPropertiesChange(Sender: TObject);
 begin
   if dbStatus.Checked then
@@ -1051,6 +1065,9 @@ begin
     if not Assigned(view_SisGeFContractEmission) then begin
       view_SisGeFContractEmission := Tview_SisGeFContractEmission.Create(Application);
     end;
+    sAtividade := RetornaAtividades(dbFuncao.EditValue);
+    view_SisGeFContractEmission.memoAtividades.Clear;
+    view_SisGeFContractEmission.memoAtividades.Lines.Append(sAtividade);
     if view_SisGeFContractEmission.ShowModal = mrCancel Then
       Exit;
     iTipo := view_SisGeFContractEmission.radioGroup.ItemIndex;
@@ -1136,6 +1153,11 @@ begin
   if mtbCadastro.Active then mtbCadastro.Close;
   Action := caFree;
   viewCadastroTerceirizados := Nil;
+end;
+
+procedure TviewCadastroTerceirizados.FormCreate(Sender: TObject);
+begin
+  FSystem := TSistem.GetInstance;
 end;
 
 procedure TviewCadastroTerceirizados.FormShow(Sender: TObject);
@@ -1364,7 +1386,6 @@ begin
   mtbRepresentantes.Active := True;
   memTableVeiculos.Active := False;
   memTableVeiculos.Active := True;
-  dxLayoutGroup6.ItemIndex := 0;
   lgpMain.ItemIndex := 1;
 end;
 
@@ -1731,6 +1752,56 @@ begin
   end;
 end;
 
+function TviewCadastroTerceirizados.RetornaAtividades(iId: integer): string;
+var
+  FFuncoes : TFuncoesRHController;
+  aParam: array of string;
+  sAtividade: string;
+begin
+  FFuncoes := TFuncoesRHController.Create;
+  Result := '';
+  try
+    sAtividade := EmptyStr;
+    SetLength(aParam,3);
+    aParam := ['des_atividades', 'TABLE','id_funcao = ' + iId.ToString];
+    if FFuncoes.CustomSearch(aParam) then
+    begin
+      if not FFuncoes.FFuncoes.Query.FieldByName('des_atividades').IsNull then
+        sAtividade := FFuncoes.FFuncoes.Query.FieldByName('des_atividades').Value;
+    end;
+    Result := sAtividade;
+  finally
+    Finalize(aParam);
+    if FFuncoes.FFuncoes.Query.Active then
+      FFuncoes.FFuncoes.Query.Connection.Close;
+    FFuncoes.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.RetornaCategoria(iId: integer): integer;
+var
+  FFuncoes : TFuncoesRHController;
+  aParam: array of string;
+  iCategoria: integer;
+begin
+  FFuncoes := TFuncoesRHController.Create;
+  Result := 0;
+  try
+    SetLength(aParam,3);
+    aParam := ['id_categoria', 'TABLE','id_funcao = ' + iId.ToString];
+    if FFuncoes.CustomSearch(aParam) then
+    begin
+      iCategoria := FFuncoes.FFuncoes.Query.FieldByName('id_Categoria').AsInteger;
+    end;
+    Result := iCategoria;
+  finally
+    Finalize(aParam);
+    if FFuncoes.FFuncoes.Query.Active then
+      FFuncoes.FFuncoes.Query.Connection.Close;
+    FFuncoes.Free;
+  end;
+end;
+
 function TviewCadastroTerceirizados.SaveAdress(iCadastro: integer): boolean;
 var
   FEnderecos : TContratadosEnderecosController;
@@ -1748,17 +1819,18 @@ begin
     FEnderecos.FEnderecos.ARecord.id_contratados := iCadastro;
     FEnderecos.FEnderecos.Acao := tacExcluir;
 
+    if not FEnderecos.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um problema ao preparar a gravação dos endereços!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+
     if memTableEnderecos.IsEmpty then
     begin
       Result := True;
       Exit;
     end;
 
-    if not FEnderecos.SaveRecord then
-    begin
-      MessageDlg('Ocorreu um problema ao preparar a gravação dos endereços!', mtError, [mbCancel], 0);
-      Exit;
-    end;
     while not memTableEnderecos.Eof do
     begin
       FEnderecos.FEnderecos.ARecord.des_tipo := 'RESIDENCIAL';
@@ -1773,7 +1845,7 @@ begin
       FEnderecos.FEnderecos.Acao := tacIncluir;
       if not FEnderecos.FEnderecos.SaveRecord then
       begin
-        MessageDlg(FEnderecos.FEnderecos.Mensagem, mtError, [mbCancel], 0);
+        MessageDlg('Ocorreu um erro ao salvar o endereço! ' + FEnderecos.FEnderecos.Mensagem, mtError, [mbCancel], 0);
         Exit;
       end;
       memTableEnderecos.Next;
@@ -1796,7 +1868,7 @@ begin
     FCNAE.FCNAE.Acao                    :=  tacExcluir;
     if not FCNAE.SaveRecord then
     begin
-      MessageDlg(FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
+      MessageDlg('Ocorreu um erro ao salvar os dados do CNAE(1)' + FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
 
@@ -1814,7 +1886,7 @@ begin
       FCNAE.FCNAE.Acao                  :=  tacIncluir;
       if not FCNAE.FCNAE.SaveRecord then
       begin
-        MessageDlg(FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
+        MessageDlg('Ocorreu um erro ao salvar os dados do CNAE(2)! ' + FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
       Exit;
       end;
       memTableCNAE.Next;
@@ -1840,17 +1912,19 @@ begin
     FContatos.FContatos.ARecord.seq_contato := -1;
     FContatos.FContatos.Acao := tacExcluir;
 
-    if gridContatosDBTableView1.ViewData.RowCount = 0 then
+    if not FContatos.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um erro ao salvar os contatos(1)! ' + FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+
+    if memTableContatos.IsEmpty then
     begin
       Result := True;
       Exit;
     end;
 
-    if not FContatos.SaveRecord then
-    begin
-      MessageDlg(FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
-      Exit;
-    end;
     while not memTableContatos.Eof do
     begin
       FContatos.FContatos.ARecord.des_contato := memTableContatosdes_contato.AsString;
@@ -1859,7 +1933,7 @@ begin
       FContatos.FContatos.Acao := tacIncluir;
       if not FContatos.FContatos.SaveRecord then
       begin
-        MessageDlg(FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
+        MessageDlg('Ocorreu um erro ao gravar os contatos! ' + FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
         Exit;
       end;
       memTableContatos.Next;
@@ -1940,14 +2014,14 @@ begin
       mtbCadastro.Post;
     end;
 
-    SaveAdress(FCadastro.FContratados.ARecord.id);
-    SaveContacts(FCadastro.FContratados.ARecord.id);
-    SaveFinance(FCadastro.FContratados.ARecord.id);
-    SaveRepresentative(FCadastro.FContratados.ARecord.id);
-    SaveRH(FCadastro.FContratados.ARecord.id);
-    SaveCNAE(FCadastro.FContratados.ARecord.id);
-    SaveGR(FCadastro.FContratados.ARecord.id);
-
+    Result := SaveAdress(FCadastro.FContratados.ARecord.id);
+    Result := SaveContacts(FCadastro.FContratados.ARecord.id);
+    Result := SaveFinance(FCadastro.FContratados.ARecord.id);
+    Result := SaveRepresentative(FCadastro.FContratados.ARecord.id);
+    Result := SaveRH(FCadastro.FContratados.ARecord.id);
+    Result := SaveCNAE(FCadastro.FContratados.ARecord.id);
+    Result := SaveGR(FCadastro.FContratados.ARecord.id);
+    Result := SaveVehicles(FCadastro.FContratados.ARecord.id);
     Result := True;
   finally
     FCadastro.Free;
@@ -1971,9 +2045,10 @@ begin
     FFinanceiro.FFinanceiro.ARecord.id_contratados  :=  iCadastro;
     FFinanceiro.FFinanceiro.ARecord.id_financeiro   :=  -1;
     FFinanceiro.FFinanceiro.Acao                    :=  tacExcluir;
+
     if not FFinanceiro.SaveRecord then
     begin
-      MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
+      MessageDlg('Ocorreu um erro ao salvar os dados financeiros(1)! ' + FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
 
@@ -1994,7 +2069,7 @@ begin
       FFinanceiro.FFinanceiro.Acao                        :=  tacIncluir;
       if not FFinanceiro.FFinanceiro.SaveRecord then
       begin
-        MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
+        MessageDlg('Ocorreu um erro ao salvar os dados financeiros(2)! ' + FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
         Exit;
       end;
       mtbFinanceiro.Next;
@@ -2024,7 +2099,7 @@ begin
     FGR.FGR.Acao                    :=  tacExcluir;
     if not FGR.SaveRecord then
     begin
-      MessageDlg(FGR.FGR.Mensagem, mtError, [mbCancel], 0);
+      MessageDlg('Ocorreu um erro ao salvar os dados do GR(1)' + FGR.FGR.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
 
@@ -2034,8 +2109,8 @@ begin
       Exit;
     end;
 
-    mtbFinanceiro.First;
-    while not mtbFinanceiro.Eof do
+    mtbGR.First;
+    while not mtbGR.Eof do
     begin
       FGR.FGR.ARecord.dat_consulta      :=  mtbGRdat_consulta.AsDateTime;
       FGR.FGR.ARecord.dat_validade      :=  mtbGRdat_validade.AsDateTime;
@@ -2045,7 +2120,7 @@ begin
       FGR.FGR.Acao                      :=  tacIncluir;
       if not FGR.FGR.SaveRecord then
       begin
-        MessageDlg(FGR.FGR.Mensagem, mtError, [mbCancel], 0);
+        MessageDlg('Ocorreu um erro ao salvar os dados do GR(2)' + FGR.FGR.Mensagem, mtError, [mbCancel], 0);
         Exit;
       end;
       mtbGR.Next;
@@ -2069,7 +2144,7 @@ begin
     FRepresentante.FRepresentante.Acao                      :=  tacExcluir;
     if not FRepresentante.SaveRecord then
     begin
-      MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
+      MessageDlg('Ocorreu um erro ao salvar os dados do representante(1)! ' + FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
     if mtbRepresentantes.IsEmpty then
@@ -2082,7 +2157,7 @@ begin
     FRepresentante.FRepresentante.Acao                      :=  tacIncluir;
     if not FRepresentante.FRepresentante.SaveRecord then
     begin
-      MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
+      MessageDlg('Ocorreu um erro ao salvar os dados do representante(2)! ' + FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
     Result := True;
@@ -2103,7 +2178,7 @@ begin
     FRH.FRH.Acao                    :=  tacExcluir;
     if not FRH.SaveRecord then
     begin
-      MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0);
+      MessageDlg('Ocorreu um erro ao salvar os dados do RH(1)! '+ FRH.FRH.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
     FRH.FRH.ARecord.val_salario     :=  mtbRHval_salario.AsFloat;
@@ -2120,7 +2195,7 @@ begin
     FRH.FRH.Acao                    :=  tacIncluir;
     if not FRH.FRH.SaveRecord then
     begin
-      MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0);
+      MessageDlg('Ocorreu um erro ao salvar os dados do RH(2)' + FRH.FRH.Mensagem, mtError, [mbCancel], 0);
       Exit;
     end;
     Result := True;
@@ -2128,6 +2203,78 @@ begin
     FRH.Free;
   end;
 
+end;
+
+function TviewCadastroTerceirizados.SaveVehicles(iCadastro: integer): boolean;
+var
+  FVeiculos : TControllerSisGeFVehiclesRegistration;
+begin
+  FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
+  Result := False;
+  try
+    FVeiculos.Veiculos.Cadastro :=  iCadastro;
+    FVeiculos.Veiculos.Acao     :=  tacExcluir;
+    if not FVeiculos.Save then
+    begin
+      MessageDlg(FVeiculos.Veiculos.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    if memTableVeiculos.IsEmpty then
+    begin
+      Result := True;
+      Exit;
+    end;
+    memTableVeiculos.First;
+    while not memTableVeiculos.Eof do
+    begin
+      FVeiculos.Veiculos.Acao                     :=  tacIncluir;
+      FVeiculos.Veiculos.ID                       :=  memTableVeiculosCOD_VEICULO.AsInteger;
+      FVeiculos.Veiculos.TipoDos                  :=  memTableVeiculosDES_TIPO_DOC.AsString;
+      FVeiculos.Veiculos.CPFCNPJ                  :=  memTableVeiculosNUM_CNPJ.AsString;
+      FVeiculos.Veiculos.NomeProprietario         :=  memTableVeiculosNOM_PROPRIETARIO.AsString;
+      FVeiculos.Veiculos.DataNascimento           :=  memTableVeiculosDAT_NASCIMENTO.AsDateTime;
+      FVeiculos.Veiculos.Mae                      :=  memTableVeiculosNOM_MAE.AsString;
+      FVeiculos.Veiculos.Pai                      :=  memTableVeiculosNOM_PAI.AsString;
+      FVeiculos.Veiculos.IERG                     :=  memTableVeiculosNUM_RG.AsString;
+      FVeiculos.Veiculos.UFRG                     :=  memTableVeiculosUF_RG.AsString;
+      FVeiculos.Veiculos.DataEmissaoRG            :=  memTableVeiculosDAT_EMISSAO_RG.AsDateTime;
+      FVeiculos.Veiculos.UFEndereco               :=  memTableVeiculosUF_ENDERECO.AsString;
+      FVeiculos.Veiculos.CidadeEndereco           :=  memTableVeiculosNOM_CIDADE.AsString;
+      FVeiculos.Veiculos.LogradouroEndereco       :=  memTableVeiculosDES_ENDERECO.AsString;
+      FVeiculos.Veiculos.CEPEndereco              :=  memTableVeiculosNUM_CEP.AsString;
+      FVeiculos.Veiculos.BairroEndereco           :=  memTableVeiculosDES_BAIRRO.AsString;
+      FVeiculos.Veiculos.Telefone1                :=  memTableVeiculosNUM_TELEFONE_1.AsString;
+      FVeiculos.Veiculos.DescricaoTelefone1       :=  memTableVeiculosDES_TELEFONE_1.AsString;
+      FVeiculos.Veiculos.Telefone2                :=  memTableVeiculosNUM_TELEFONE_2.AsString;
+      FVeiculos.Veiculos.DescricaoTelefone2       :=  memTableVeiculosDES_TELEFONE_2.AsString;
+      FVeiculos.Veiculos.Cadastro                 :=  iCadastro;
+      FVeiculos.Veiculos.MarcaVeiculo             :=  memTableVeiculosDES_MARCA.AsString;
+      FVeiculos.Veiculos.ModeloVeiculo            :=  memTableVeiculosDES_MODELO.AsString;
+      FVeiculos.Veiculos.PlacaVeiculo             :=  memTableVeiculosDES_PLACA.AsString;
+      FVeiculos.Veiculos.UFPlacaVeiculo           :=  memTableVeiculosUF_PLACA.AsString;
+      FVeiculos.Veiculos.MunicipioPlacaVeiculo    :=  memTableVeiculosNOM_CIDADE_PLACA.AsString;
+      FVeiculos.Veiculos.TipoVeiculo              :=  memTableVeiculosDES_TIPO.AsString;
+      FVeiculos.Veiculos.ChassisVeiculo           :=  memTableVeiculosNUM_CHASSIS.AsString;
+      FVeiculos.Veiculos.AnoFabricacaoVeiculo     :=  memTableVeiculosDES_ANO.AsString;
+      FVeiculos.Veiculos.CorVeiculo               :=  memTableVeiculosDES_COR.AsString;
+      FVeiculos.Veiculos.RenavanVeiculo           :=  memTableVeiculosNUM_RENAVAN.AsString;
+      FVeiculos.Veiculos.AnoExercicioCRLVVeiculo  :=  memTableVeiculosANO_EXERCICIO_CLRV.AsString;
+      FVeiculos.Veiculos.CheckRastreador          :=  memTableVeiculosDOM_RASTREAMENTO.AsString;
+      FVeiculos.Veiculos.CheckAbastecimento       :=  memTableVeiculosDOM_ABASTECIMENTO.AsString;
+      FVeiculos.Veiculos.NomeUsuario              :=  FSystem.CurrentLogin;
+      FVeiculos.Veiculos.DataManutencao           :=  Now();
+
+      if not FVeiculos.Veiculos.Save then
+      begin
+        MessageDlg('Ocorreu um erro ao salvar os dados do Veiculos(1) ' + FVeiculos.Veiculos.Mensagem, mtError, [mbCancel], 0);
+      end;
+      memTableVeiculos.Next;
+    end;
+    memTableVeiculos.First;
+    Result := True;
+  finally
+    FVeiculos.Free;
+  end;
 end;
 
 procedure TviewCadastroTerceirizados.SearchCEPCadastro(sCEP: string);
@@ -2345,6 +2492,13 @@ begin
     FreeAndNil(view_ResultadoConsultaCNPJ);
 
     dbNomePropVeiculo.Text := APICNPJ.APICNPJ.Pessoas.Nome;
+    if (memTableVeiculos.State <> dsInsert) and (memTableVeiculos.State <> dsEdit) then
+    begin
+      if memTableVeiculos.IsEmpty then
+        memTableVeiculos.Insert
+      else
+        memTableVeiculos.Edit;
+    end;
 
     memTableVeiculosNUM_CEP.AsString := APICNPJ.APICNPJ.Enderecos.CEP;
 
@@ -2386,6 +2540,9 @@ begin
     if (memTableVeiculos.State = dsInsert) or (memTableVeiculos.State = dsEdit) then memTableVeiculos.Post;
     if (mtbRepresentantes.State = dsInsert) or (mtbRepresentantes.State = dsEdit) then mtbRepresentantes.Post;
     if (mtbFinanceiro.State = dsInsert) or (mtbFinanceiro.State = dsEdit) then mtbFinanceiro.Post;
+    if (mtbGR.State = dsInsert) or (mtbGR.State = dsEdit) then mtbGR.Post;
+    if (memTableCNAE.State = dsInsert) or (memTableCNAE.State = dsEdit) then memTableCNAE.Post;
+
     Result := False;
     FCadastro := TCadastroContratadosController.Create;
     FUtil := TUtils.Create;
@@ -2398,6 +2555,13 @@ begin
 //        Exit;
 //      end;
 //    end;
+
+    if dbTipoPessoa.Text = EmptyStr then
+    begin
+      Application.MessageBox('Informe o tipo de pessoa!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+      dbTipoPessoa.SetFocus;
+      Exit;
+    end;
 
     if dbNome.Text = '' then
     begin

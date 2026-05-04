@@ -11,7 +11,7 @@ type
 
     FAcareacoes: TAcareacoes;
     FMensagem: string;
-
+    function AcareacaoFinalizada(): Boolean;
   public
 
     constructor Create;
@@ -22,6 +22,7 @@ type
     function Finalizar: Boolean;
     function Localizar(aParam: array of variant): TFDQuery;
     function LocalizarView(aParam: array of variant): TFDQuery;
+    function CustomSearch(aParams: array of string): boolean;
     function GetId(): Integer;
     function ValidaCampos(): Boolean;
     function ValidaImportacao(): boolean;
@@ -38,9 +39,19 @@ implementation
 
 { TAcareacaoControl }
 
+function TAcareacaoControl.AcareacaoFinalizada: Boolean;
+begin
+  Result := FAcareacoes.AcareacaoFinalizada();
+end;
+
 constructor TAcareacaoControl.Create;
 begin
   FAcareacoes := TAcareacoes.Create;
+end;
+
+function TAcareacaoControl.CustomSearch(aParams: array of string): boolean;
+begin
+  Result := FAcareacoes.CustomSearch(aParams);
 end;
 
 destructor TAcareacaoControl.Destroy;
@@ -53,6 +64,7 @@ function TAcareacaoControl.Finalizar: Boolean;
 begin
   Result := False;
   if not ValidaFinalizar then Exit;
+  FAcareacoes.Acao := tacAlterar;
   Result := FAcareacoes.Gravar;
 end;
 
@@ -125,31 +137,31 @@ begin
     Application.MessageBox('Informe a data do retorno da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
   end;
-  if (DateTimeToStr(FAcareacoes.DataEntrega).IsEmpty) or (FAcareacoes.DataEntrega = 0) then
-  begin
-    Application.MessageBox('Informe a data da entrega.', 'Atenção', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
-  if FAcareacoes.Entregador = 0 then
-  begin
-    Application.MessageBox('Informe o Entregador.', 'Atenção', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
-  if FAcareacoes.Base = 0 then
-  begin
-    Application.MessageBox('Informe a Base.', 'Atenção', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
+//  if (DateTimeToStr(FAcareacoes.DataEntrega).IsEmpty) or (FAcareacoes.DataEntrega = 0) then
+//  begin
+//    Application.MessageBox('Informe a data da entrega.', 'Atenção', MB_OK + MB_ICONWARNING);
+//    Exit;
+//  end;
+//  if FAcareacoes.Entregador = 0 then
+//  begin
+//    Application.MessageBox('Informe o Entregador.', 'Atenção', MB_OK + MB_ICONWARNING);
+//    Exit;
+//  end;
+//  if FAcareacoes.Base = 0 then
+//  begin
+//    Application.MessageBox('Informe a Base.', 'Atenção', MB_OK + MB_ICONWARNING);
+//    Exit;
+//  end;
   if FAcareacoes.Motivo.IsEmpty then
   begin
     Application.MessageBox('Informe o motivo da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
   end;
-  if FAcareacoes.Tratativa.IsEmpty then
-  begin
-    Application.MessageBox('Informe a tratativa da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
+//  if FAcareacoes.Tratativa.IsEmpty then
+//  begin
+//    Application.MessageBox('Informe a tratativa da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
+//    Exit;
+//  end;
 //  if FAcareacoes.Envio.IsEmpty then
 //  begin
 //    Application.MessageBox('Informe se a correspondência foi enviada.', 'Atenção', MB_OK + MB_ICONWARNING);
@@ -173,14 +185,34 @@ end;
 function TAcareacaoControl.ValidaFinalizar: Boolean;
 begin
   Result := False;
+  if FAcareacoes.AcareacaoFinalizada() then
+  begin
+    Application.MessageBox('Acareação já está finalizada.', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
   if FAcareacoes.Apuracao.IsEmpty then
   begin
     Application.MessageBox('Informe a apuração da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
   end;
+  if FAcareacoes.Motivo.IsEmpty then
+  begin
+    Application.MessageBox('Informe o motivo da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+  if FAcareacoes.Tratativa.IsEmpty then
+  begin
+    Application.MessageBox('Informe a tratativa da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
   if FAcareacoes.Resultado.IsEmpty then
   begin
     Application.MessageBox('Informe o resultado da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+  if FAcareacoes.Cliente = 0 then
+  begin
+    Application.MessageBox('Informe o Cliente.', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
   end;
   if FAcareacoes.Entregador = 0 then
@@ -197,7 +229,7 @@ begin
   begin
     if (Copy(FAcareacoes.Resultado, 0, 2) = '02') or (Copy(FAcareacoes.Resultado, 0, 2) = '03') then
       begin
-        Application.MessageBox('Informe o valor do extravio.', 'Atenção', MB_OK + MB_ICONWARNING);
+        Application.MessageBox('Informe o valor da acareação.', 'Atenção', MB_OK + MB_ICONWARNING);
         Exit;
       end;
   end
@@ -224,16 +256,16 @@ begin
         Exit;
       end;
   end;
-  if FAcareacoes.Envio.IsEmpty then
-  begin
-    Application.MessageBox('Informe a situação do envio da correspondência.', 'Atenção', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
-  if FAcareacoes.Retorno.IsEmpty then
-  begin
-    Application.MessageBox('Informe o tipo de retorno da correspondência.', 'Atenção', MB_OK + MB_ICONWARNING);
-    Exit;
-  end;
+//  if FAcareacoes.Envio.IsEmpty then
+//  begin
+//    Application.MessageBox('Informe a situação do envio da correspondência.', 'Atenção', MB_OK + MB_ICONWARNING);
+//    Exit;
+//  end;
+//  if FAcareacoes.Retorno.IsEmpty then
+//  begin
+//    Application.MessageBox('Informe o tipo de retorno da correspondência.', 'Atenção', MB_OK + MB_ICONWARNING);
+//    Exit;
+//  end;
   Result := True;
 end;
 
@@ -247,23 +279,23 @@ begin
   end;
   if (DateTimeToStr(FAcareacoes.Data).IsEmpty) or (FAcareacoes.Data = 0) then
   begin
-    FMensagem := FAcareacoes.Nossonumero +  ' - sem a data da acareação.';
+    FMensagem := FAcareacoes.Nossonumero +  ' - sem a data da acareação. Não importado.';
     Exit;
   end;
   if (DateTimeToStr(FAcareacoes.DataRetorno).IsEmpty) or (FAcareacoes.DataRetorno = 0) then
   begin
-    FMensagem := FAcareacoes.Nossonumero +  ' - sem a data do retorno da acareação.';
+    FMensagem := FAcareacoes.Nossonumero +  ' - sem a data do retorno da acareação.Não importado';
     Exit;
   end;
   if FAcareacoes.Entregador = 0 then
   begin
     FMensagem := FAcareacoes.Nossonumero +  ' - informe o Entregador.';
-    Exit;
+    //Exit;
   end;
   if FAcareacoes.Base = 0 then
   begin
     FMensagem := FAcareacoes.Nossonumero + ' - informe a Base.';
-    Exit;
+    //Exit;
   end;
   Result := True;
 end;

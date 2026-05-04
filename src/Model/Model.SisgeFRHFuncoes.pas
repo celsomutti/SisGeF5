@@ -12,6 +12,8 @@ type
     FCodigo: integer;
     FQuery: TFDQuery;
     FConexao : TConnectionMySQL;
+    FAtividades: String;
+    FMensagem: string;
 
     function Insert(): boolean;
     function Update(): boolean;
@@ -21,18 +23,23 @@ type
     constructor Create();
     property Codigo: integer read FCodigo write FCodigo;
     property Descricao: string read FDescricao write FDescricao;
+    property Atividades: String read FAtividades write FAtividades;
     property Query: TFDQuery read FQuery write FQuery;
+    property Mensagem: string read FMensagem write FMensagem;
     property Acao: TAcao read FAcao write FAcao;
 
+    function CustomSearch(aParams: array of string): boolean;
     function Search(aParam: array of variant): boolean;
     function Save(): boolean;
     function SetupClass(): boolean;
   end;
   const
     TABLENAME = 'crm_funcoes_rh';
-    SQLSELECT = 'select id_funcao, des_funcao from ' + TABLENAME;
-    SQLINSERT = 'insert into ' + TABLENAME + ' (id_funcao, des_funcao) values (:id_funcao, :des_funcao)';
-    SQLUPDATE = 'update ' + TABLENAME + ' set des_funcao = :des_funcao where id_funcao = :id_funcao';
+    SQLSELECT = 'select id_funcao, des_funcao from, des_atividades ' + TABLENAME;
+    SQLINSERT = 'insert into ' + TABLENAME + ' (id_funcao, des_funcao, des_atividades) values ' +
+                '(:id_funcao, :des_funcao, :des_atividades)';
+    SQLUPDATE = 'update ' + TABLENAME + ' set des_funcao = :des_funcao, des_atividades = :des_atividades ' +
+                'where id_funcao = :id_funcao';
     SQLDELETE = 'delete from ' + TABLENAME + ' where id_funcao = :id_funcao';
 
 implementation
@@ -42,6 +49,34 @@ implementation
 constructor TRHFuncoes.Create;
 begin
   FConexao := TConnectionMySQL.Create;
+end;
+
+function TRHFuncoes.CustomSearch(aParams: array of string): boolean;
+var
+  sSource : string;
+begin
+  Result := False;
+  if Length(aParams) < 2 then
+  begin
+    FMensagem := 'Quantidade de parâmetros incorreta!';
+    Exit
+  end;
+  FQuery := FConexao.GetQuery;
+  FQuery.SQL.Clear;
+  FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
+  if aParams[2] = '' then
+    sSource := TABLENAME;
+  FQuery.MacroByName('colums').AsRaw := aParams[1];
+  FQuery.MacroByName('table').AsRaw := sSource;
+  FQuery.MacroByName('where').AsRaw := aParams[3];
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    FMensagem := 'Nenhum registro encontrado!';
+    FQuery.Connection.Close;
+    Exit;
+  end;
+  Result := True;
 end;
 
 function TRHFuncoes.Delete: boolean;
@@ -62,7 +97,7 @@ begin
   try
     Result := False;
     FQuery := FConexao.GetQuery;
-    FQuery.ExecSQL(SQLUPDATE, [FCodigo]);
+    FQuery.ExecSQL(SQLUPDATE, [FDescricao, FAtividades, FCodigo]);
     Result := True;
   finally
     FQuery.Connection.Connected := False;
@@ -75,7 +110,7 @@ begin
   try
     Result := False;
     FQuery := FConexao.GetQuery;
-    FQuery.ExecSQL(SQLINSERT, [FCodigo, FDescricao]);
+    FQuery.ExecSQL(SQLINSERT, [FCodigo, FDescricao, FAtividades]);
     Result := True;
   finally
     FQuery.Connection.Connected := False;

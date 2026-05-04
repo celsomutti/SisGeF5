@@ -45,17 +45,19 @@ uses
       FConexao : TConnectionMySQL;
       FAcao: TAcao;
       FNumero: String;
-
+      FMensagem: string;
+      FQuery: TFDQuery;
+      FCliente: integer;
 
       function Inserir(): Boolean;
       function Alterar(): Boolean;
       function Excluir(): Boolean;
 
-
     public
 
       property Sequencia: Integer read FSequencia write FSequencia;
       property Id: String read FId write FId;
+      property Cliente: integer read FCliente write FCliente;
       property Data: TDateTime read FData write FData;
       property Nossonumero: String read FNossonumero write FNossonumero;
       property Entregador: Integer read FEntregador write FEntregador;
@@ -87,6 +89,8 @@ uses
       property Identificacao: String read FIdentificacao write FIdentificacao;
       property Documento: String read FDocumento write FDocumento;
       property Acao: TAcao read FAcao write FAcao;
+      property Mensagem: string read FMensagem write FMensagem;
+      property Query: TFDQuery read FQuery write FQuery;
 
       constructor Create();
       function Localizar(aParam: array of variant): TFDQuery;
@@ -94,6 +98,8 @@ uses
       function Gravar(): Boolean;
       function GetID(): Integer;
       function AcareacaoExiste(): Boolean;
+      function AcareacaoFinalizada(): Boolean;
+      function CustomSearch(aParams: array of string): boolean;
 
     end;
   const
@@ -114,8 +120,29 @@ begin
     FDQuery := FConexao.GetQuery();
     FDQuery.SQL.Clear;
     FDQuery.SQL.Add('select * from ' + TABLENAME + ' where ID_ACAREACAO = :ID_ACAREACAO and NUM_NOSSONUMERO = :NUM_NOSSONUMERO');
-    FDQuery.ParamByName('ID_ACAREACAO').AsString := Id;
-    FDQuery.ParamByName('NUM_NOSSONUMERO').AsString := Nossonumero;
+    FDQuery.ParamByName('ID_ACAREACAO').AsString := FId;
+    FDQuery.ParamByName('NUM_NOSSONUMERO').AsString := FNossonumero;
+    FDQuery.Open();
+    if FDQuery.IsEmpty then Exit;
+    Result := True;
+  finally
+    FDQuery.Connection.Close;
+    FDquery.Free;
+  end;
+end;
+
+function TAcareacoes.AcareacaoFinalizada: Boolean;
+var
+  FDQuery: TFDQuery;
+begin
+  try
+    Result := False;
+    FDQuery := FConexao.GetQuery();
+    FDQuery.SQL.Clear;
+    FDQuery.SQL.Add('select DOM_FINALIZAR from ' + TABLENAME + ' where ID_ACAREACAO = :ID_ACAREACAO and ' +
+                    'NUM_NOSSONUMERO = :NUM_NOSSONUMERO AND DOM_FINALIZAR = TRUE');
+    FDQuery.ParamByName('ID_ACAREACAO').AsString := FId;
+    FDQuery.ParamByName('NUM_NOSSONUMERO').AsString := FNossonumero;
     FDQuery.Open();
     if FDQuery.IsEmpty then Exit;
     Result := True;
@@ -133,7 +160,7 @@ begin
     Result := False;
     FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('UPDATE ' + TABLENAME + ' SET ' +
-                    'ID_ACAREACAO = :ID_ACAREACAO, DAT_ACAREACAO = :DAT_ACAREACAO, ' +
+                    'ID_ACAREACAO = :ID_ACAREACAO, COD_CLIENTE = :COD_CLIENTE, DAT_ACAREACAO = :DAT_ACAREACAO, ' +
                     'NUM_NOSSONUMERO = :NUM_NOSSONUMERO, COD_ENTREGADOR = :COD_ENTREGADOR, COD_BASE = :COD_BASE, ' +
                     'DAT_ENTREGA = :DAT_ENTREGA, DES_MOTIVO = :DES_MOTIVO, DES_TRATATIVA = :DES_TRATATIVA, ' +
                     'DES_APURACAO = :DES_APURACAO, DES_RESULTADO = :DES_RESULTADO, VAL_EXTRAVIO = :VAL_EXTRAVIO, ' +
@@ -145,7 +172,7 @@ begin
                     'DES_CIDADE = :DES_CIDADE, NUM_CEP = :NUM_CEP, ' +
                     'DES_REMETENTE = :DES_REMETENTE, DES_PRODUTO = :DES_PRODUTO, NOM_RECEBEDOR = :NOM_RECEBEDOR, ' +
                     'DES_IDENTIFICACAO = :DES_IDENTIFICACAO, DES_DOCUMENTO = :DES_DOCUMENTO ' +
-                    'WHERE SEQ_ACAREACAO = :SEQ_ACAREACAO;',[Id, Data,Nossonumero, Entregador, Base, DataEntrega, Motivo, Tratativa,
+                    'WHERE SEQ_ACAREACAO = :SEQ_ACAREACAO;',[Id, Cliente, Data, Nossonumero, Entregador, Base, DataEntrega, Motivo, Tratativa,
                     Apuracao, Resultado, Extravio, Multa, Envio, Retorno, Obs, Finalizar, Executor, Manutencao, DataRetorno,
                     Unidade, Consumidor, Endereco, Numero, Bairro, Cidade, CEP, Remetente, Produto, Recebedor, Identificacao,
                     Documento, Sequencia]);
@@ -158,6 +185,38 @@ begin
 constructor TAcareacoes.Create;
 begin
   FConexao := TConnectionMySQL.Create();
+end;
+
+function TAcareacoes.CustomSearch(aParams: array of string): boolean;
+var
+  sSource : string;
+begin
+  Result := False;
+  if Length(aParams) < 3 then
+  begin
+    FMensagem := 'Quantidade de parâmetros incorreta!';
+    Exit
+  end;
+  FQuery := FConexao.GetQuery();
+  FQuery.SQL.Clear;
+  FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
+  if aParams[1] = 'VIEW' then
+    sSource := VIEW
+  else if aParams[1] = 'TABLE' then
+    sSource := TABLENAME
+  else
+    sSource := aParams[1];
+  FQuery.MacroByName('colums').AsRaw := aParams[0];
+  FQuery.MacroByName('table').AsRaw := sSource;
+  FQuery.MacroByName('where').AsRaw := aParams[2];
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    FMensagem := 'Nenhum registro encontrado!';
+    FQuery.Connection.Close;
+    Exit;
+  end;
+  Result := True;
 end;
 
 function TAcareacoes.Excluir(): Boolean;
@@ -211,19 +270,19 @@ begin
     Result := False;
     FDQuery := FConexao.GetQuery();
     Self.Sequencia := GetID();
-    FDQuery.ExecSQL('insert into ' + TABLENAME  + '(SEQ_ACAREACAO, ID_ACAREACAO, DAT_ACAREACAO, NUM_NOSSONUMERO, ' +
+    FDQuery.ExecSQL('insert into ' + TABLENAME  + '(SEQ_ACAREACAO, ID_ACAREACAO, COD_CLIENTE, DAT_ACAREACAO, NUM_NOSSONUMERO, ' +
                     'COD_ENTREGADOR, COD_BASE, DAT_ENTREGA, DES_MOTIVO, DES_TRATATIVA, DES_APURACAO, DES_RESULTADO, ' +
                     'VAL_EXTRAVIO, VAL_MULTA, DES_ENVIO_CORRESPONDENCIA, DES_RETORNO_CORRESPONDENCIA, DES_OBSERVACOES, ' +
                     'DOM_FINALIZAR, DES_EXECUTOR, DAT_MANUTENCAO, DAT_RETORNO, DES_UNIDADE, NOM_CONSUMIDOR, DES_ENDERECO, ' +
                     'NUM_ENDERECO, DES_BAIRRO, DES_CIDADE, NUM_CEP, DES_REMETENTE, DES_PRODUTO, NOM_RECEBEDOR, DES_IDENTIFICACAO, ' +
                     'DES_DOCUMENTO) ' +
                     'VALUES ' +
-                    '(:SEQ_ACAREACAO, :ID_ACAREACAO, :DAT_ACAREACAO, :NUM_NOSSONUMERO, ' +
+                    '(:SEQ_ACAREACAO, :ID_ACAREACAO, :COD_CLIENTE, :DAT_ACAREACAO, :NUM_NOSSONUMERO, ' +
                     ':COD_ENTREGADOR, :COD_BASE, :DAT_ENTREGA, :DES_MOTIVO, :DES_TRATATIVA, :DES_APURACAO, :DES_RESULTADO, ' +
                     ':VAL_EXTRAVIO, :VAL_MULTA, :DES_ENVIO_CORRESPONDENCIA, :DES_RETORNO_CORRESPONDENCIA, :DES_OBSERVACOES, ' +
                     ':DOM_FINALIZAR, :DES_EXECUTOR, :DAT_MANUTENCAO, :DAT_RETORNO, :DES_UNIDADE, :NOM_CONSUMIDOR, :DES_ENDERECO, ' +
                     ':NUM_ENDERECO, :DES_BAIRRO, :DES_CIDADE, :NUM_CEP, :DES_REMETENTE, :DES_PRODUTO, :NOM_RECEBEDOR, :DES_IDENTIFICACAO, ' +
-                    ':DES_DOCUMENTO);', [Sequencia, Id, Data, Nossonumero, Entregador, Base, DataEntrega, Motivo, Tratativa,
+                    ':DES_DOCUMENTO);', [Sequencia, Id, Cliente, Data, Nossonumero, Entregador, Base, DataEntrega, Motivo, Tratativa,
                     Apuracao, Resultado, Extravio, Multa, Envio, Retorno, Obs, Finalizar, Executor, Manutencao, DataRetorno,
                     Unidade, Consumidor, Endereco, Numero, Bairro, Cidade, CEP, Remetente, Produto, Recebedor, Identificacao,
                     Documento]);

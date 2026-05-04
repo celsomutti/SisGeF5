@@ -2,7 +2,7 @@ unit Model.Acessos;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, Vcl.ActnList;
+uses Common.ENum, FireDAC.Comp.Client, Vcl.ActnList, service.connectionMySQL;
 
 type
   TAcessos = class
@@ -29,6 +29,7 @@ type
     function VerificaLogin(iMenu: Integer; iUsuario: Integer): Boolean;
     function VerificaModulo(iModulo: Integer; iUsuario: Integer): Boolean;
     function VerificaSistema(iSistema: Integer; iUsuario: Integer): Boolean;
+    function CustomSearch(aParams: array of string): TFDQuery;
 
   end;
 
@@ -48,6 +49,26 @@ begin
   finally
     acessosDAO.Free;
   end;
+end;
+
+function TAcessos.CustomSearch(aParams: array of string): TFDQuery;
+var
+  FQuery : TFDQuery;
+  FConn : TConnectionMySQL;
+begin
+  FConn := TConnectionMySQL.Create;
+  if Length(aParams) < 3 then
+  begin
+    Exit
+  end;
+  FQuery := FConn.GetQuery;
+  FQuery.SQL.Clear;
+  FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
+  FQuery.MacroByName('colums').AsRaw := aParams[0];
+  FQuery.MacroByName('table').AsRaw := aParams[1];
+  FQuery.MacroByName('where').AsRaw := aParams[2];
+  FQuery.Open();
+  Result := FQuery;
 end;
 
 function TAcessos.Gravar: Boolean;

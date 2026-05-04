@@ -3,7 +3,7 @@
         <ProjectGuid>{80D0C50F-5DBA-4F40-B708-356D1E261DC9}</ProjectGuid>
         <MainSource>SisGeF5.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>38017</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
@@ -139,14 +139,15 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=MaMutti Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=5.8.0.0;InternalName=SisGeF5;LegalCopyright=2018 - 2023 © MaMutti;LegalTrademarks=;OriginalFilename=SisGeF;ProductName=$(MSBuildProjectName);ProductVersion=5.3.0.0;Comments=;ProgramID=com.mamutti.$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=MaMutti Sistemas;FileDescription=$(MSBuildProjectName);FileVersion=5.8.0.8;InternalName=SisGeF5;LegalCopyright=2018 - 2023 © MaMutti;LegalTrademarks=;OriginalFilename=SisGeF;ProductName=$(MSBuildProjectName);ProductVersion=5.3.0.0;Comments=;ProgramID=com.mamutti.$(MSBuildProjectName)</VerInfo_Keys>
         <VerInfo_MajorVer>5</VerInfo_MajorVer>
         <VerInfo_MinorVer>8</VerInfo_MinorVer>
         <Icon_MainIcon>SisGeF5_Icon5.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>src\asserts\Images\Uwp_44.png</UWP_DelphiLogo44>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <UWP_DelphiLogo150>src\asserts\Images\Uwp_150.png</UWP_DelphiLogo150>
-        <DCC_UnitSearchPath>C:\Program Files (x86)\FastReport 6 VCL Enterprise\LibD26;C:\components\XPad-master\Componentes\XPAd\Pacotes\Win32\Release;D:\OneDrive\workspace\delphi\SisGeF5\resources\localcache4d\src;D:\OneDrive\workspace\delphi\SisGeF5\resources\Excel4Delphi\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_Build>8</VerInfo_Build>
+        <DCC_UnitSearchPath>C:\Program Files (x86)\FastReport 6 VCL Enterprise\LibD26;C:\components\XPad-master\Componentes\XPAd\Pacotes\Win32\Release;C:\components\Excel4Delphi\source;C:\components\localcache4d\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -172,7 +173,7 @@
         <Icon_MainIcon>src\images\blinklog.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>src\images\Uwp_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>src\images\Uwp_150.png</UWP_DelphiLogo150>
-        <DCC_UnitSearchPath>C:\Program Files (x86)\FastReport 6 VCL Enterprise\LibD26;C:\components\XPad-master\Componentes\XPAd\Pacotes\Win32\Release;D:\OneDrive\workspace\delphi\SisGeF5\resources\localcache4d\src;D:\OneDrive\workspace\delphi\SisGeF5\resources\Excel4Delphi\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\Program Files (x86)\FastReport 6 VCL Enterprise\LibD26;C:\components\XPad-master\Componentes\XPAd\Pacotes\Win32\Release;C:\components\Excel4Delphi\source;C:\components\localcache4d\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Build>25</VerInfo_Build>
         <VerInfo_MajorVer>5</VerInfo_MajorVer>
         <VerInfo_MinorVer>7</VerInfo_MinorVer>
@@ -253,9 +254,6 @@
         </DCCReference>
         <DCCReference Include="src\View\View.Impressao.pas">
             <Form>view_Impressao</Form>
-        </DCCReference>
-        <DCCReference Include="src\View\View.Acareacoes.pas">
-            <Form>view_Acareacoes</Form>
         </DCCReference>
         <DCCReference Include="src\Control\Control.Acareacao.pas"/>
         <DCCReference Include="src\Model\Model.Acareacoes.pas"/>
@@ -579,8 +577,8 @@
         </DCCReference>
         <DCCReference Include="src\Model\Model.SisGeFOrderServices.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFOrderServices.pas"/>
-        <DCCReference Include="src\View\View.PesquisarGeral.pas">
-            <Form>View_PesquisarGeral</Form>
+        <DCCReference Include="src\View\View.SisGeFGeneralsSearch.pas">
+            <Form>viewGeneralSearch</Form>
         </DCCReference>
         <DCCReference Include="src\View\View.SisGeFGeneralSearch.pas">
             <Form>view_SisGefGeneralSearch</Form>
@@ -651,10 +649,6 @@
         <DCCReference Include="src\Services\Services.SisGeFDAORoutines.pas"/>
         <DCCReference Include="src\Services\service.sistem.pas"/>
         <DCCReference Include="src\Services\service.connectionMySQL.pas"/>
-        <DCCReference Include="src\View\View.SisGeFCadastroUsuarios.pas">
-            <Form>viewSisGefCadastroUsuarios</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="src\View\View.SisGeFNomeGrupo.pas">
             <Form>viewSisGeFNomeGrupo</Form>
             <FormType>dfm</FormType>
@@ -694,16 +688,29 @@
         </DCCReference>
         <DCCReference Include="src\Model\Model.SisgeFCategorias.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFCategorias.pas"/>
-        <DCCReference Include="src\View\View.SisGeFCadastroContratados.pas">
-            <Form>viewSisGeFCadastroContratados</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="src\View\View.SisGeFContractedDetail.pas">
-            <Form>view_SisGeFContractedDetail</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="src\Services\services.SisGeFSheetConfrontations.pas"/>
         <DCCReference Include="src\Thread\Thread.SisGeFImportSheetConfrontations.pas"/>
+        <DCCReference Include="src\View\View.SisGeFUsersRegister.pas">
+            <Form>viewCadastroUsuarios</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\View\View.SisGeFUsersGroups.pas">
+            <Form>viewUsersGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\View\View.SisGeFFuncoesAtividades.pas">
+            <Form>viewFuncoesAtividades</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\View\View.SisGeFAcareacoes.pas">
+            <Form>viewAcareacoes</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\Services\service.SisGeFGeneralSearch.pas"/>
+        <DCCReference Include="src\View\View.PesquisarGeral.pas">
+            <Form>View_PesquisarGeral</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
@@ -745,6 +752,12 @@
                     <Platform Name="Win32">
                         <RemoteDir>Assets\</RemoteDir>
                         <RemoteName>Logo44x44.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="SisGeF5.todo" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

@@ -85,9 +85,12 @@ begin
     Exit
   end;
   FQuery := FConn.GetQuery;
+  if aParams[1] = 'TABLE' then
+    sSource := TABLENAME
+  else
+    sSource := aParams[1];
   FQuery.SQL.Clear;
   FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
-  sSource := aParams[1];
   FQuery.MacroByName('colums').AsRaw := aParams[0];
   FQuery.MacroByName('table').AsRaw := sSource;
   FQuery.MacroByName('where').AsRaw := aParams[2];

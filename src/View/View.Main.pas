@@ -223,6 +223,14 @@ type
     btnMinimieForm: TcxButton;
     lblNomeFantasia: TcxLabel;
     lblRazaoSocial: TcxLabel;
+    dxBarSubItem3: TdxBarSubItem;
+    dxBarButton8: TdxBarButton;
+    actGruposUsuarios: TAction;
+    dxBarButton9: TdxBarButton;
+    dxBarSeparator1: TdxBarSeparator;
+    actCadastroFuncoes: TAction;
+    dxBarButton10: TdxBarButton;
+    dxBarLargeButton72: TdxBarLargeButton;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -272,6 +280,8 @@ type
     procedure actCadastroDistribuidoresExecute(Sender: TObject);
     procedure XPAdAutoUpdateAfterUpdate(Sender: TObject);
     procedure XPAdAutoUpdateFound(Sender: TObject; Version, Size: Integer);
+    procedure actGruposUsuariosExecute(Sender: TObject);
+    procedure actCadastroFuncoesExecute(Sender: TObject);
 
   private
     FidFTP : TIdFTP;
@@ -321,10 +331,11 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFEmployeeRegistration, View.SisGeFVehiclesRegistration,
   View.CadastroClientes, View.SisGeFCreditWorksheet, View.SisGeFServiceOrders,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals,
-  View.SisGeFCadastroContratados, View.SisGeFNFsFaturas,
+  View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
-  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroUsuarios, View.SisGeFCadastroFuncionarios,
-  View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.Acareacoes, View.SisGeFCadastroTerceirizados;
+  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroFuncionarios,
+  View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.SisGeFCadastroTerceirizados,
+  View.SisGeFUsersRegister, View.SisGeFUsersGroups, View.SisGeFFuncoesAtividades, View.SisGeFAcareacoes;
 
 procedure Tview_Main.Acessos;
 var
@@ -406,9 +417,13 @@ end;
 
 procedure Tview_Main.actAcareacoesExpressasExecute(Sender: TObject);
 begin
-  if not Assigned(view_Acareacoes) then
-    view_Acareacoes := Tview_Acareacoes.Create(Application);
-  view_Acareacoes.Show;
+  if not Assigned(viewAcareacoes) then
+    viewAcareacoes := TviewAcareacoes.Create(Application);
+  viewAcareacoes.Show;
+
+//  if not Assigned(view_Acareacoes) then
+//    view_Acareacoes := Tview_Acareacoes.Create(Application);
+//  view_Acareacoes.Show;
 end;
 
 procedure Tview_Main.actAlterarSenhaExecute(Sender: TObject);
@@ -501,6 +516,15 @@ begin
   if not Assigned(viewCadastroFuncionarios) then
     viewCadastroFuncionarios := TviewCadastroFuncionarios.Create(Application);
   viewCadastroFuncionarios.Show;
+end;
+
+procedure Tview_Main.actCadastroFuncoesExecute(Sender: TObject);
+begin
+  if not Assigned(viewFuncoesAtividades) then
+  begin
+    viewFuncoesAtividades := TviewFuncoesAtividades.Create(Application);
+  end;
+  viewFuncoesAtividades.Show;
 end;
 
 procedure Tview_Main.actCadastroVeículosExecute(Sender: TObject);
@@ -621,6 +645,15 @@ begin
     view_SisGeFNFsFaturas := Tview_SisGeFNFsFaturas.Create(Application);
   end;
   view_SisGeFNFsFaturas.Show;
+end;
+
+procedure Tview_Main.actGruposUsuariosExecute(Sender: TObject);
+begin
+  if not Assigned(viewUsersGroup) then
+  begin
+    viewUsersGroup := TviewUsersGroup.Create(Application);
+  end;
+  viewUsersGroup.Show;
 end;
 
 procedure Tview_Main.actImportacaoPedidosExecute(Sender: TObject);
@@ -747,16 +780,16 @@ end;
 
 procedure Tview_Main.actUsuariosExecute(Sender: TObject);
 begin
-//  if not Assigned(view_CadastroUsuarios) then
-//  begin
-//    view_CadastroUsuarios := Tview_CadastroUsuarios.Create(Application);
-//  end;
-//  view_CadastroUsuarios.Show;
-  if not Assigned(viewSisGefCadastroUsuarios) then
+  if not Assigned(viewCadastroUsuarios) then
   begin
-    viewSisGefCadastroUsuarios := TviewSisGefCadastroUsuarios.Create(Application);
+    viewCadastroUsuarios := TviewCadastroUsuarios.Create(Application);
   end;
-  viewSisGefCadastroUsuarios.Show;
+  viewCadastroUsuarios.Show;
+//  if not Assigned(viewSisGefCadastroUsuarios) then
+//  begin
+//    viewSisGefCadastroUsuarios := TviewSisGefCadastroUsuarios.Create(Application);
+//  end;
+//  viewSisGefCadastroUsuarios.Show;
 end;
 
 procedure Tview_Main.actVerbasExpressasExecute(Sender: TObject);
@@ -854,7 +887,7 @@ begin
   FidFTP.Username     := FSistem.FTPUser;
   FidFTP.Password     := FSistem.FTPPassword;
   FidFTP.Host         := FSistem.FTPHost;
-  FidFTP.Port         := 21;
+  FidFTP.Port         := StrToIntDef(FSistem.FTPPort, 21);
   FidFTP.Passive      := True;
   FidFTP.TransferType := ftBinary;
   FidFTP.Connect;
@@ -897,6 +930,7 @@ begin
       Global.Parametros.pUser_ID := FDQuery.FieldByName('COD_USUARIO').AsInteger;
       Global.Parametros.pnivel := FDQuery.FieldByName('COD_NIVEL').AsInteger;
       Global.Parametros.pAdmin := FDQuery.FieldByName('DOM_PRIVILEGIO').AsString;
+      FSistem.AdmUser := FDQuery.FieldByName('DOM_PRIVILEGIO').AsString;
       Global.Parametros.pEmailUsuario := FDQuery.FieldByName('DES_EMAIL').AsString;
       sPrimeiroAcesso := FDQuery.FieldByName('DOM_PRIMEIRO_ACESSO').AsString;
       bExpira := (FDQuery.FieldByName('DAT_SENHA').AsDateTime <= Now());
@@ -1016,7 +1050,7 @@ begin
     Acessos;
   end;
   FreeAndNil(view_Login);
-  //VerificaVersao;
+  VerificaVersao;
 end;
 
 procedure Tview_Main.GetCompany;

@@ -18,6 +18,7 @@ type
     function VerificaLogin(iMenu: Integer; iUsuario: Integer): Boolean;
     function VerificaModulo(iModulo: Integer; iUsuario: Integer): Boolean;
     function VerificaSistema(iSistema: Integer; iUsuario: Integer): Boolean;
+    function CustomSearch(aParams: array of string): TFDQuery;
     function Gravar(): Boolean;
   end;
 
@@ -28,6 +29,11 @@ implementation
 constructor TAcessosControl.Create;
 begin
   FAcessos := TAcessos.Create;
+end;
+
+function TAcessosControl.CustomSearch(aParams: array of string): TFDQuery;
+begin
+  Result := Facessos.CustomSearch(aParams);
 end;
 
 destructor TAcessosControl.Destroy;

@@ -34,6 +34,7 @@ type
       FFTPHost: string;
       FFTPUser: string;
       FFTPPort: string;
+      FAdmUser: string;
       class var FInstante : TSistem;
     protected
     public
@@ -59,6 +60,7 @@ type
       property CurrentLogin: string read FCurrentUserLogin write FCurrentUserLogin;
       property CurrentGroup: string read FCurrentGroup write FCurrentGroup;
       property Skin: string read FSkin write FSkin;
+      property AdmUser: string read FAdmUser write FAdmUser;
       property AliasLicence: string read FAliasLicence write FAliasLicence;
       Property NameLicence: string read FNameLicence write FNameLicence;
       property DocLicence: string read FDocLicence write FDocLicence;

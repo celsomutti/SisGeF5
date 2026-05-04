@@ -16,6 +16,7 @@ type
 
     function GetID: Integer;
     function Localizar(aParam: array of variant): TFDQuery;
+    function CustomSearch(aParams: array of string): boolean;
     function Gravar(): Boolean;
     function ValidaLogin(sLogin: String; sSenha: String): Boolean;
     function AlteraSenha(AUsuarios: TUsuarios): Boolean;
@@ -50,6 +51,11 @@ end;
 constructor TUsuarioControl.Create;
 begin
   FUsuarios := TUsuarios.Create;
+end;
+
+function TUsuarioControl.CustomSearch(aParams: array of string): boolean;
+begin
+  Result := FUsuarios.CustomSearch(aParams);
 end;
 
 destructor TUsuarioControl.Destroy;
@@ -108,11 +114,6 @@ begin
     if FUsuarios.EMail.IsEmpty then
     begin
       Application.MessageBox('Informe o E-Mail do usuário.', 'Atenção', MB_OK + MB_ICONASTERISK);
-      Exit;
-    end;
-    if FUsuarios.Senha.IsEmpty then
-    begin
-      Application.MessageBox('Informe a nome do usuário.', 'Atenção', MB_OK + MB_ICONASTERISK);
       Exit;
     end;
     if FUsuarios.Acao = Common.ENum.tacIncluir then

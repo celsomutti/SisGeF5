@@ -5,7 +5,7 @@
   Caption = 'Main'
   ClientHeight = 713
   ClientWidth = 1211
-  Color = clBtnFace
+  Color = clWindow
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
@@ -2589,10 +2589,6 @@
         item
           Visible = True
           ItemName = 'dxBarLargeButton64'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarLargeButton65'
         end>
       OneOnRow = False
       Row = 0
@@ -3011,7 +3007,7 @@
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxBarLargeButton44'
+          ItemName = 'dxBarSubItem3'
         end
         item
           Visible = True
@@ -3058,7 +3054,7 @@
     object bmMainBar2: TdxBar
       Caption = 'Expressas'
       CaptionButtons = <>
-      DockedLeft = 470
+      DockedLeft = 530
       DockedTop = 0
       FloatLeft = 1080
       FloatTop = 8
@@ -3086,7 +3082,7 @@
     object bmMainBar18: TdxBar
       Caption = 'Pessoas'
       CaptionButtons = <>
-      DockedLeft = 301
+      DockedLeft = 220
       DockedTop = 0
       FloatLeft = 801
       FloatTop = 8
@@ -3095,11 +3091,19 @@
       ItemLinks = <
         item
           Visible = True
+          ItemName = 'dxBarLargeButton65'
+        end
+        item
+          Visible = True
           ItemName = 'dxBarLargeButton3'
         end
         item
           Visible = True
           ItemName = 'dxBarLargeButton61'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarLargeButton72'
         end>
       OneOnRow = False
       Row = 0
@@ -3110,7 +3114,7 @@
     object bmMainBar19: TdxBar
       Caption = 'Transportes'
       CaptionButtons = <>
-      DockedLeft = 700
+      DockedLeft = 760
       DockedTop = 0
       FloatLeft = 802
       FloatTop = 8
@@ -3130,7 +3134,7 @@
     object bmMainBar20: TdxBar
       Caption = 'Cadastro Sistema'
       CaptionButtons = <>
-      DockedLeft = 191
+      DockedLeft = 199
       DockedTop = 0
       FloatLeft = 1394
       FloatTop = 2
@@ -3719,6 +3723,47 @@
       Category = 0
       LargeImageIndex = 58
     end
+    object dxBarSubItem3: TdxBarSubItem
+      Caption = 'Usu'#225'rios / Grupos'
+      Category = 0
+      Visible = ivAlways
+      LargeImageIndex = 41
+      Images = Data_Sisgef.lmi_32_32
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton8'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton9'
+        end>
+    end
+    object dxBarButton8: TdxBarButton
+      Action = actUsuarios
+      Category = 0
+    end
+    object dxBarButton9: TdxBarButton
+      Action = actGruposUsuarios
+      Category = 0
+    end
+    object dxBarSeparator1: TdxBarSeparator
+      Caption = '-'
+      Category = 0
+      Hint = '-'
+      Visible = ivAlways
+    end
+    object dxBarButton10: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarLargeButton72: TdxBarLargeButton
+      Action = actCadastroFuncoes
+      Category = 0
+      LargeImageIndex = 34
+    end
   end
   object aclMain: TActionList
     Left = 984
@@ -4009,7 +4054,7 @@
     object actUsuarios: TAction
       Tag = 701010
       Category = 'Sistema'
-      Caption = '&Usu'#225'rios / Grupos'
+      Caption = '&Usu'#225'rios'
       Hint = 'Cadastro de Usu'#225'rios e Grupos de Usu'#225'rios (Acessos)'
       OnExecute = actUsuariosExecute
     end
@@ -4128,6 +4173,19 @@
       Category = 'Financeiro'
       Caption = 'Fa&turamento Recebido'
       OnExecute = actFaturamentoRecebidoExecute
+    end
+    object actGruposUsuarios: TAction
+      Tag = 701015
+      Category = 'Sistema'
+      Caption = '&Grupos'
+      Hint = 'Grupos de Usu'#225'rios (Acessos)'
+      OnExecute = actGruposUsuariosExecute
+    end
+    object actCadastroFuncoes: TAction
+      Category = 'Cadastro'
+      Caption = 'Fun'#231#245'es'
+      Hint = 'Cadastro de fun'#231#245'es e atividades'
+      OnExecute = actCadastroFuncoesExecute
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager

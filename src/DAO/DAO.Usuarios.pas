@@ -40,12 +40,12 @@ begin
     FDQuery := FConexao.ReturnQuery;
     FDQuery.ExecSQL('UPDATE ' + TABLENAME + ' SET '+
                     'NOM_USUARIO = :pNOM_USUARIO, DES_LOGIN = :pDES_LOGIN, DES_EMAIL = :pDES_EMAIL, ' +
-                    'DES_SENHA = AES_ENCRYPT(:pDES_SENHA,' + QuotedStr(CHAVE) + '), COD_GRUPO = :pCOD_GRUPO, ' +
+                    'COD_GRUPO = :pCOD_GRUPO, ' +
                     'DOM_PRIVILEGIO = :pDOM_PRIVILEGIO, DOM_EXPIRA = :pDOM_EXPIRA, QTD_DIAS_EXPIRA = :pQTD_DIAS_EXPIRA, ' +
                     'DOM_PRIMEIRO_ACESSO = :pDOM_PRIMEIRO_ACESSO, DOM_ATIVO = :pDOM_ATIVO, ' +
                     'DAT_SENHA = :pDAT_SENHA, COD_NIVEL = :pCOD_NIVEL,NOM_EXECUTOR = :pNOM_EXECUTOR,NUM_CPF_CNPJ = :PNUM_CPF_CNPJ' +
                     'DAT_MANUTENCAO = :pDAT_MANUTENCAO ' +
-                    'WHERE COD_USUARIO = :pCOD_USUARIO;', [aUsuarios.Nome, aUsuarios.Login, aUsuarios.EMail, aUsuarios.Senha,
+                    'WHERE COD_USUARIO = :pCOD_USUARIO;', [aUsuarios.Nome, aUsuarios.Login, aUsuarios.EMail,
                     aUsuarios.Grupo, aUsuarios.Privilegio, aUsuarios.Expira, aUsuarios.DiasExpira, aUsuarios.PrimeiroAcesso,
                     aUsuarios.Ativo, FloatToDateTime(aUsuarios.DataSenha), aUsuarios.Nivel, aUsuarios.Executor,
                     aUsuarios.cpf, aUsuarios.Manutencao,

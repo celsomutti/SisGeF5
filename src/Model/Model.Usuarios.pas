@@ -2,12 +2,13 @@ unit Model.Usuarios;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, service.sistem;
+uses Common.ENum, FireDAC.Comp.Client, System.SysUtils, service.sistem, service.connectionMySQL;
 
 type
   TUsuarios = class
   private
     FSistem : TSistem;
+    FConn : TConnectionMySQL;
     FCodigo: integer;
     FNome: String;
     FLogin: String;
@@ -25,6 +26,8 @@ type
     FManutencao: TDateTime;
     FAcao: TAcao;
     FCPF: String;
+    FQuery: TFDQuery;
+    FMensagem: string;
   public
     property Codigo: integer read FCodigo write FCodigo;
     property Nome: String read FNome write FNome;
@@ -42,11 +45,14 @@ type
     property Executor: String read FExecutor write FExecutor;
     property CPF: String read FCPF write FCPF;
     property Manutencao: TDateTime read FManutencao write FManutencao;
+    property Query: TFDQuery read FQuery write FQuery;
+    property Mensagem: string read FMensagem write FMensagem;
     property Acao: TAcao read FAcao write FAcao;
 
     constructor Create;
     function GetID: Integer;
     function Localizar(aParam: array of variant): TFDQuery;
+    function CustomSearch(aParams: array of string): boolean;
     function Gravar(): Boolean;
     function ValidaLogin(sLogin: String; sSenha: String): Boolean;
     function AlteraSenha(AUsuarios: TUsuarios): Boolean;
@@ -102,6 +108,34 @@ end;
 constructor TUsuarios.Create;
 begin
   FSistem := TSistem.GetInstance();
+  FConn := TConnectionMySQL.Create;
+end;
+
+function TUsuarios.CustomSearch(aParams: array of string): boolean;
+var
+  sSource : string;
+begin
+  Result := False;
+  if Length(aParams) < 3 then
+  begin
+    FMensagem := 'Quantidade de parâmetros incorreta!';
+    Exit
+  end;
+  FQuery := FConn.GetQuery;
+  FQuery.SQL.Clear;
+  FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
+  sSource := aParams[1];
+  FQuery.MacroByName('colums').AsRaw := aParams[0];
+  FQuery.MacroByName('table').AsRaw := sSource;
+  FQuery.MacroByName('where').AsRaw := aParams[2];
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    FMensagem := 'Nenhum registro encontrado!';
+    FQuery.Connection.Close;
+    Exit;
+  end;
+  Result := True;
 end;
 
 function TUsuarios.EMailExiste(sEMail: String): Boolean;

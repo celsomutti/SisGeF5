@@ -58,7 +58,6 @@ uses
   Control.Lancamentos in 'src\Control\Control.Lancamentos.pas',
   View.Filtro in 'src\View\View.Filtro.pas' {frmFiltro},
   View.Impressao in 'src\View\View.Impressao.pas' {view_Impressao},
-  View.Acareacoes in 'src\View\View.Acareacoes.pas' {view_Acareacoes},
   Control.Acareacao in 'src\Control\Control.Acareacao.pas',
   Model.Acareacoes in 'src\Model\Model.Acareacoes.pas',
   DAO.PlanilhaEntradaCarriers in 'src\DAO\DAO.PlanilhaEntradaCarriers.pas',
@@ -277,7 +276,7 @@ uses
   View.SisGeFServiceOrders in 'src\View\View.SisGeFServiceOrders.pas' {view_SisGeFServiceOrders},
   Model.SisGeFOrderServices in 'src\Model\Model.SisGeFOrderServices.pas',
   Controller.SisGeFOrderServices in 'src\Control\Controller.SisGeFOrderServices.pas',
-  View.PesquisarGeral in 'src\View\View.PesquisarGeral.pas' {View_PesquisarGeral},
+  View.SisGeFGeneralsSearch in 'src\View\View.SisGeFGeneralsSearch.pas' {viewGeneralSearch},
   View.SisGeFGeneralSearch in 'src\View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch},
   View.SisGeFExtractSO in 'src\View\View.SisGeFExtractSO.pas' {view_SisGeFExtractSO},
   Thread.SisGeFProcessExtractSO in 'src\Thread\Thread.SisGeFProcessExtractSO.pas',
@@ -321,7 +320,6 @@ uses
   Services.SisGeFDAORoutines in 'src\Services\Services.SisGeFDAORoutines.pas',
   service.sistem in 'src\Services\service.sistem.pas',
   service.connectionMySQL in 'src\Services\service.connectionMySQL.pas',
-  View.SisGeFCadastroUsuarios in 'src\View\View.SisGeFCadastroUsuarios.pas' {viewSisGefCadastroUsuarios},
   View.SisGeFNomeGrupo in 'src\View\View.SisGeFNomeGrupo.pas' {viewSisGeFNomeGrupo},
   View.SisGeFCadastroFuncionarios in 'src\View\View.SisGeFCadastroFuncionarios.pas' {viewCadastroFuncionarios},
   Model.SisGeFCadastroFuncionarios in 'src\Model\Model.SisGeFCadastroFuncionarios.pas',
@@ -349,10 +347,14 @@ uses
   View.SisGeFCadastroTerceirizados in 'src\View\View.SisGeFCadastroTerceirizados.pas' {viewCadastroTerceirizados},
   Model.SisgeFCategorias in 'src\Model\Model.SisgeFCategorias.pas',
   Controller.SisGeFCategorias in 'src\Control\Controller.SisGeFCategorias.pas',
-  View.SisGeFCadastroContratados in 'src\View\View.SisGeFCadastroContratados.pas' {viewSisGeFCadastroContratados},
-  View.SisGeFContractedDetail in 'src\View\View.SisGeFContractedDetail.pas' {view_SisGeFContractedDetail},
   services.SisGeFSheetConfrontations in 'src\Services\services.SisGeFSheetConfrontations.pas',
-  Thread.SisGeFImportSheetConfrontations in 'src\Thread\Thread.SisGeFImportSheetConfrontations.pas';
+  Thread.SisGeFImportSheetConfrontations in 'src\Thread\Thread.SisGeFImportSheetConfrontations.pas',
+  View.SisGeFUsersRegister in 'src\View\View.SisGeFUsersRegister.pas' {viewCadastroUsuarios},
+  View.SisGeFUsersGroups in 'src\View\View.SisGeFUsersGroups.pas' {viewUsersGroup},
+  View.SisGeFFuncoesAtividades in 'src\View\View.SisGeFFuncoesAtividades.pas' {viewFuncoesAtividades},
+  View.SisGeFAcareacoes in 'src\View\View.SisGeFAcareacoes.pas' {viewAcareacoes},
+  service.SisGeFGeneralSearch in 'src\Services\service.SisGeFGeneralSearch.pas',
+  View.PesquisarGeral in 'src\View\View.PesquisarGeral.pas' {View_PesquisarGeral};
 
 {$R *.res}
 
@@ -362,5 +364,6 @@ begin
   Application.Title := 'Sistema Gerenciador de Faturamento';
   Application.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
+  Application.CreateForm(TView_PesquisarGeral, View_PesquisarGeral);
   Application.Run;
 end.

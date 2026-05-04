@@ -2,7 +2,7 @@ unit Model.SisGeFContratadosGR;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client, service.connectionMySQL, service.sistem;
+uses Common.ENum, FireDAC.Comp.Client, service.connectionMySQL, service.sistem, System.SysUtils;
 
 type
   TGR = record
@@ -24,7 +24,7 @@ type
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
-
+        function Excluir  ()  : boolean;
       public
         ARecord   : TGR;
 
@@ -55,6 +55,7 @@ type
       SQLSELECT = 'select id_gr, id_contratados, dat_consulta, dat_validade, nom_empresa, cod_consulta, cod_seguranca_cnh ' +
                   'from ' +
                   TABLENAME;
+      SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_cintratados';
 
 implementation
 
@@ -107,6 +108,19 @@ begin
   Result := True;
 end;
 
+function TContratadosGRModel.Excluir: boolean;
+begin
+  Result := False;
+  try
+    FQuery := FConn.GetQuery();
+    FQuery.ExecSQL(SQLDELETE,
+                  [ARecord.id_contratados]);
+    Result := True;
+  finally
+    FQuery.Connection.Close;
+  end;
+end;
+
 function TContratadosGRModel.GetNextID(sIdName: string): Integer;
 begin
   try
@@ -130,7 +144,8 @@ begin
     ARecord.id_gr := 0;
     FQuery := FConn.GetQuery();
     FQuery.ExecSQL(SQLINSERT,
-                  [ARecord.id_gr, ARecord.id_contratados, ARecord.dat_consulta, ARecord.dat_validade, ARecord.nom_empresa,
+                  [ARecord.id_gr, ARecord.id_contratados, FloatToDateTime(ARecord.dat_consulta),
+                  FloatToDateTime(ARecord.dat_validade), ARecord.nom_empresa,
                   ARecord.cod_consulta, ARecord.cod_seguranca_cnh]);
     Result := True;
   finally
@@ -143,6 +158,7 @@ begin
   case FAcao of
     tacIncluir: Result := Inserir();
     tacAlterar: Result := Alterar();
+    tacExcluir: Result := Excluir();
   end;
 end;
 

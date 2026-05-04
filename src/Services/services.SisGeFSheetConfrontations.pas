@@ -1,7 +1,8 @@
 unit services.SisGeFSheetConfrontations;
 
 interface
-  uses Generics.Collections, System.Classes, System.SysUtils, Excel4Delphi, Excel4Delphi.Stream, Common.Utils, ComObj;
+  uses Generics.Collections, System.Classes, System.SysUtils, Excel4Delphi, Excel4Delphi.Stream, Common.Utils, ComObj,
+  System.Variants;
 
   type
     TSheetConfrontations = class
@@ -165,9 +166,9 @@ begin
   finally
     Workbook.Close(False);
     ExcelApp.Quit;
-    VarClear(Workbook);
-    VarClear(ExcelApp);
-    VarClear(Sheet);
+    Workbook := Unassigned;
+    ExcelApp := Unassigned;
+    Sheet := Unassigned;
   end;
 end;
 
@@ -250,9 +251,9 @@ begin
   finally
     Workbook.Close(False);
     ExcelApp.Quit;
-    VarClear(Workbook);
-    VarClear(ExcelApp);
-    VarClear(Sheet);
+    Workbook := Unassigned;
+    ExcelApp := Unassigned;
+    Sheet := Unassigned;
   end;
 end;
 

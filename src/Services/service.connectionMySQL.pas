@@ -62,6 +62,7 @@ begin
                             ';Port=' + FSistem.Port +
                             ';User_name=' + FSistem.Username +
                             ';Password=' + FSistem.Password;
+  FConn.Params
 end;
 
 end.

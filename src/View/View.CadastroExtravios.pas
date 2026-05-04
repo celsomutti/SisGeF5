@@ -69,7 +69,7 @@ type
     operacao: TcxLabel;
     Descricao: TcxTextEdit;
     EnvioCorrespondencia: TcxTextEdit;
-    RetornoCorrespondencia: TcxTextEdit;
+    RetornoCorrespondencia: TcxComboBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionFinalizarExecute(Sender: TObject);
     procedure actionGravarExecute(Sender: TObject);

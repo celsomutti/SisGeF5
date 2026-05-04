@@ -131,7 +131,6 @@ begin
       FProcesso   := True;
       FCancelar   := False;
       FPlanilha   := TSheetConfrontations.Create;
-      FAcareacoes := TAcareacaoControl.Create;
       sMensagem := '>> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' - Preparando a importação. Aguarde...';
       UpdateLog(sMensagem);
       FPlanilha.FileName := FArquivo;
@@ -170,6 +169,7 @@ begin
       FProgresso := 0;
       for i := 0 to FTotalRegistros - 1 do
       begin
+        FAcareacoes := TAcareacaoControl.Create;
         SetLength(vParam,3);
         vParam := ['FILTRO', ' ID_ACAREACAO = "' + FPlanilha.Planilha[i].IdTicket +
                    '" and NUM_NOSSONUMERO = "' +FPlanilha.Planilha[i].SPXTN + '"'];
@@ -182,7 +182,9 @@ begin
           FAcareacoes.Acareacoes.Acao := tacAlterar;
         end;
         Finalize(vParam);
-        FQuery.Connection.Close;
+        FQuery.Connection.Connected := False;
+        FAcareacoes.Free;
+        FAcareacoes := TAcareacaoControl.Create;
         FAcareacoes.Acareacoes.Id := FPlanilha.Planilha[i].IdTicket;
         FAcareacoes.Acareacoes.Data := StrToDateDef(Copy(FPlanilha.Planilha[i].CreatedTime,1,10), Now());
         FAcareacoes.Acareacoes.Nossonumero := FPlanilha.Planilha[i].SPXTN;
@@ -210,6 +212,7 @@ begin
           UpdateLog(sMensagem);
           Inc(FTotalInconsistencias,1);
         end;
+        FAcareacoes.Free;
         iPos := i;
         FProgresso := (iPos / (FTotalRegistros - 1)) * 100;
         if Self.Terminated then Abort;
@@ -225,7 +228,6 @@ begin
     end;
   finally
     FPlanilha.Free;
-    FAcareacoes.Free;
     FUtil.Free;
   end;
 end;

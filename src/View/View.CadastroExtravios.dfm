@@ -14,6 +14,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
   KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
+  ShowHint = True
   OnClose = FormClose
   OnKeyPress = FormKeyPress
   OnShow = FormShow
@@ -97,6 +98,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     object Entregador: TcxButtonEdit
       Left = 571
       Top = 50
+      Hint = 'C'#243'digo do motorista'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
         item
@@ -113,6 +115,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     object NomeEntregador: TcxTextEdit
       Left = 648
       Top = 51
+      Hint = 'Nome do motorista'
       TabStop = False
       Properties.ReadOnly = True
       TabOrder = 14
@@ -182,6 +185,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     object Descricao: TcxTextEdit
       Left = 280
       Top = 51
+      Hint = 'Descri'#231#227'o do extravio'
       TabOrder = 16
       Width = 217
     end
@@ -255,7 +259,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     object Total: TcxCurrencyEdit
       Left = 107
       Top = 101
-      Hint = 'Verba do motorista'
+      Hint = 'Valor total do extravio'
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ' ,0.00;- ,0.00'
@@ -274,13 +278,13 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     Height = 138
     Width = 609
     object cxLabel10: TcxLabel
-      Left = 3
-      Top = 22
+      Left = 311
+      Top = 25
       Caption = 'Justificativa:'
       Transparent = True
     end
     object cxLabel11: TcxLabel
-      Left = 328
+      Left = 3
       Top = 22
       Caption = 'Retorno:'
       Transparent = True
@@ -308,23 +312,29 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     object Produto: TcxTextEdit
       Left = 98
       Top = 48
-      Hint = 'Descri'#231#227'o do produto'
+      Hint = 'Nome do respons'#225'vel'
       TabStop = False
       Properties.ReadOnly = True
       TabOrder = 2
       Width = 508
     end
     object EnvioCorrespondencia: TcxTextEdit
-      Left = 98
+      Left = 382
       Top = 21
-      TabOrder = 6
+      Hint = 'Justificativa'
+      TabOrder = 7
       Width = 224
     end
-    object RetornoCorrespondencia: TcxTextEdit
-      Left = 384
-      Top = 22
-      TabOrder = 7
-      Width = 220
+    object RetornoCorrespondencia: TcxComboBox
+      Left = 98
+      Top = 21
+      Hint = 'Retorno'
+      Properties.Items.Strings = (
+        ''
+        'PROCEDENTE'
+        'IMPROCEDENTE')
+      TabOrder = 6
+      Width = 207
     end
   end
   object cxGroupBox5: TcxGroupBox
@@ -353,7 +363,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
     object NumeroExtrato: TcxTextEdit
       Left = 730
       Top = 14
-      Hint = 'N'#250'mero da acarea'#231#227'o'
+      Hint = 'N'#250'mero do extrato de pagamento'
       TabStop = False
       Properties.ReadOnly = True
       TabOrder = 2
@@ -455,6 +465,7 @@ object view_CadastroExtravios: Tview_CadastroExtravios
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = [fsBold]
       Style.IsFontAssigned = True
+      Transparent = True
     end
   end
   object actionListExtravios: TActionList

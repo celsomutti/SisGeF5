@@ -128,7 +128,7 @@ type
                 'NUM_RENAVAN = :NUM_RENAVAN, ANO_EXERCICIO_CLRV = :ANO_EXERCICIO_CLRV, DOM_RASTREAMENTO = :DOM_RASTREAMENTO, ' +
                 'DOM_ABASTECIMENTO = :DOM_ABASTECIMENTO, NOM_EXECUTOR = :NOM_EXECUTOR, DAT_MANUTENCAO = :DAT_MANUTENCAO ' +
                 'WHERE COD_VEICULO = :COD_VEICULO; ';
-    SQLDELETE = 'DELETE FROM ' + TABLENAME + ' WHERE COD_VEICULO';
+    SQLDELETE = 'DELETE FROM ' + TABLENAME + ' WHERE COD_VEICULO = :COD_VEICULO';
     SQLGETID  = 'select coalesce(max(COD_VEICULO),0) + 1 from ' + TABLENAME;
 
 implementation
@@ -217,7 +217,7 @@ function TModelSisGeFVehiclesRegistration.Save: boolean;
 begin
   Result := False;
   if not ValidateData() then
-    eXIT;
+    Exit;
   case FAcao of
     tacIncluir: Result := Insert();
     tacAlterar: Result := Update();
@@ -229,7 +229,7 @@ end;
 
 function TModelSisGeFVehiclesRegistration.Search(aParam: array of variant): boolean;
 begin
-  REsult := False;
+  Result := False;
   FQuery := FConexao.ReturnQuery();
   if Length(aParam) < 2 then Exit;
   FQuery.SQL.Clear;
