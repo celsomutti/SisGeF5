@@ -18,6 +18,13 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Shape1: TShape
+    Left = 0
+    Top = 44
+    Width = 876
+    Height = 1
+    Pen.Color = cl3DDkShadow
+  end
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
@@ -27,57 +34,36 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    object cxLabel1: TcxLabel
-      Left = 10
-      Top = 10
-      Caption = 'Cadastro de Funcion'#225'rios'
-      ParentFont = False
-      Style.Font.Charset = DEFAULT_CHARSET
-      Style.Font.Color = clWindowText
-      Style.Font.Height = -15
-      Style.Font.Name = 'Tahoma'
-      Style.Font.Style = [fsBold]
-      Style.HotTrack = False
-      Style.IsFontAssigned = True
-      Transparent = True
-    end
-    object Shape1: TShape
-      Left = 10
-      Top = 38
-      Width = 876
-      Height = 1
-      Pen.Color = cl3DDkShadow
-    end
     object cxButton1: TcxButton
       Left = 811
-      Top = 587
+      Top = 552
       Width = 75
       Height = 25
       Action = actSair
-      TabOrder = 50
+      TabOrder = 49
     end
     object cxButton2: TcxButton
       Left = 783
-      Top = 79
+      Top = 44
       Width = 89
       Height = 25
       Action = actPesquisar
-      TabOrder = 2
+      TabOrder = 1
     end
     object cxButton3: TcxButton
       Left = 24
-      Top = 542
+      Top = 507
       Width = 75
       Height = 25
       Action = actNovo
-      TabOrder = 6
+      TabOrder = 5
     end
     object gridPesquisa: TcxGrid
       Left = 36
-      Top = 128
+      Top = 93
       Width = 824
       Height = 365
-      TabOrder = 3
+      TabOrder = 2
       object gridPesquisaDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -355,31 +341,31 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
     end
     object cxButton4: TcxButton
       Left = 105
-      Top = 542
+      Top = 507
       Width = 75
       Height = 25
       Action = actionEditar
-      TabOrder = 7
+      TabOrder = 6
     end
     object cxButton5: TcxButton
       Left = 36
-      Top = 499
+      Top = 464
       Width = 75
       Height = 25
       Action = actExportar
-      TabOrder = 4
+      TabOrder = 3
     end
     object cxButton6: TcxButton
       Left = 117
-      Top = 499
+      Top = 464
       Width = 75
       Height = 25
       Action = actAtualizar
-      TabOrder = 5
+      TabOrder = 4
     end
     object textPesquisa: TcxButtonEdit
       Left = 85
-      Top = 79
+      Top = 44
       Properties.Buttons = <
         item
           Default = True
@@ -389,7 +375,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.OnButtonClick = textPesquisaPropertiesButtonClick
       Style.HotTrack = False
-      TabOrder = 1
+      TabOrder = 0
       Width = 692
     end
     object cpf: TcxDBMaskEdit
@@ -398,7 +384,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Hint = 'CPF do funcion'#225'rio'
       Properties.EditMask = '0##\.###\.###\-##;1; '
       Style.HotTrack = False
-      TabOrder = 9
+      TabOrder = 8
       Visible = False
       Width = 121
     end
@@ -411,7 +397,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 8
+      TabOrder = 7
       Visible = False
       Width = 61
     end
@@ -439,7 +425,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
           Value = 'I'
         end>
       Style.HotTrack = False
-      TabOrder = 10
+      TabOrder = 9
       Visible = False
       Width = 94
     end
@@ -450,7 +436,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'nom_razao_social'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 11
+      TabOrder = 10
       Visible = False
       Width = 211
     end
@@ -459,7 +445,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Top = 10000
       Hint = 'Alias do funcion'#225'rio'
       Style.HotTrack = False
-      TabOrder = 12
+      TabOrder = 11
       Visible = False
       Width = 209
     end
@@ -470,7 +456,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'num_rg_ie'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 13
+      TabOrder = 12
       Visible = False
       Width = 110
     end
@@ -483,7 +469,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 14
+      TabOrder = 13
       Visible = False
       Width = 84
     end
@@ -494,7 +480,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'nom_emissor_rg'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 15
+      TabOrder = 14
       Visible = False
       Width = 108
     end
@@ -512,7 +498,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 16
+      TabOrder = 15
       Visible = False
       Width = 39
     end
@@ -527,7 +513,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 17
+      TabOrder = 16
       Visible = False
       Width = 85
     end
@@ -538,7 +524,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'des_nacionalidade'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 18
+      TabOrder = 17
       Visible = False
       Width = 106
     end
@@ -549,7 +535,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'des_naturalidade'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 19
+      TabOrder = 18
       Visible = False
       Width = 165
     end
@@ -567,7 +553,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 20
+      TabOrder = 19
       Visible = False
       Width = 54
     end
@@ -578,7 +564,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'nom_pai'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 21
+      TabOrder = 20
       Visible = False
       Width = 164
     end
@@ -588,7 +574,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Hint = 'Nome da m'#227'e do funcion'#225'rio'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 22
+      TabOrder = 21
       Visible = False
       Width = 165
     end
@@ -599,7 +585,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'num_cnh'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 23
+      TabOrder = 22
       Visible = False
       Width = 85
     end
@@ -610,7 +596,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'num_registro_cnh'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 24
+      TabOrder = 23
       Visible = False
       Width = 83
     end
@@ -621,7 +607,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'des_categoria_cnh'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 25
+      TabOrder = 24
       Visible = False
       Width = 40
     end
@@ -634,7 +620,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 26
+      TabOrder = 25
       Visible = False
       Width = 87
     end
@@ -644,7 +630,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 27
+      TabOrder = 26
       Visible = False
       Width = 101
     end
@@ -655,7 +641,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.SaveTime = False
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 28
+      TabOrder = 27
       Visible = False
       Width = 87
     end
@@ -672,7 +658,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 29
+      TabOrder = 28
       Visible = False
       Width = 45
     end
@@ -683,7 +669,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'dat_cadastro'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 30
+      TabOrder = 29
       Visible = False
       Width = 113
     end
@@ -701,7 +687,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsDepartamentos
       Style.HotTrack = False
-      TabOrder = 31
+      TabOrder = 30
       Visible = False
       Width = 134
     end
@@ -713,7 +699,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataSource = dsEmploye
       Properties.ListColumns = <>
       Style.HotTrack = False
-      TabOrder = 32
+      TabOrder = 31
       Visible = False
       Width = 136
     end
@@ -741,7 +727,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
           Value = 3
         end>
       Style.HotTrack = False
-      TabOrder = 33
+      TabOrder = 32
       Visible = False
       Width = 78
     end
@@ -752,7 +738,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'dat_demissao'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 34
+      TabOrder = 33
       Visible = False
       Width = 113
     end
@@ -768,7 +754,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
           Kind = bkEllipsis
         end>
       Style.HotTrack = False
-      TabOrder = 35
+      TabOrder = 34
       Visible = False
       Width = 105
     end
@@ -778,7 +764,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'des_logradouro'
       DataBinding.DataSource = dsEndereco
       Style.HotTrack = False
-      TabOrder = 36
+      TabOrder = 35
       Visible = False
       Width = 251
     end
@@ -789,7 +775,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'num_logradouro'
       DataBinding.DataSource = dsEndereco
       Style.HotTrack = False
-      TabOrder = 37
+      TabOrder = 36
       Visible = False
       Width = 115
     end
@@ -800,7 +786,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'des_complemento'
       DataBinding.DataSource = dsEndereco
       Style.HotTrack = False
-      TabOrder = 38
+      TabOrder = 37
       Visible = False
       Width = 160
     end
@@ -811,7 +797,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'des_bairro'
       DataBinding.DataSource = dsEndereco
       Style.HotTrack = False
-      TabOrder = 39
+      TabOrder = 38
       Visible = False
       Width = 282
     end
@@ -822,7 +808,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'nom_cidade'
       DataBinding.DataSource = dsEndereco
       Style.HotTrack = False
-      TabOrder = 40
+      TabOrder = 39
       Visible = False
       Width = 287
     end
@@ -840,7 +826,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsEstados
       Style.HotTrack = False
-      TabOrder = 41
+      TabOrder = 40
       Visible = False
       Width = 150
     end
@@ -850,7 +836,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'des_referencia'
       DataBinding.DataSource = dsEndereco
       Style.HotTrack = False
-      TabOrder = 42
+      TabOrder = 41
       Visible = False
       Width = 763
     end
@@ -866,7 +852,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
         'EM ESP'#201'CIE'
         'PIX')
       Style.HotTrack = False
-      TabOrder = 43
+      TabOrder = 42
       Visible = False
       Width = 121
     end
@@ -883,7 +869,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
         'CONTA SAL'#193'RIO'
         'CONTA PJ')
       Style.HotTrack = False
-      TabOrder = 44
+      TabOrder = 43
       Visible = False
       Width = 121
     end
@@ -895,7 +881,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataSource = dsEmploye
       Properties.ListColumns = <>
       Style.HotTrack = False
-      TabOrder = 45
+      TabOrder = 44
       Visible = False
       Width = 145
     end
@@ -905,7 +891,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'cod_agencia'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 46
+      TabOrder = 45
       Visible = False
       Width = 121
     end
@@ -916,7 +902,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'num_conta'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 47
+      TabOrder = 46
       Visible = False
       Width = 121
     end
@@ -927,7 +913,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataField = 'cod_pix'
       DataBinding.DataSource = dsEmploye
       Style.HotTrack = False
-      TabOrder = 48
+      TabOrder = 47
       Visible = False
       Width = 713
     end
@@ -939,7 +925,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       DataBinding.DataSource = dsEmploye
       Properties.ScrollBars = ssVertical
       Style.HotTrack = False
-      TabOrder = 49
+      TabOrder = 48
       Visible = False
       Height = 89
       Width = 848
@@ -954,35 +940,6 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       ShowBorder = False
       Index = -1
     end
-    object lgpHeader: TdxLayoutGroup
-      Parent = dxLayoutControl1Group_Root
-      CaptionOptions.Text = 'New Group'
-      ButtonOptions.Buttons = <>
-      ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem1: TdxLayoutItem
-      Parent = lgpHeader
-      AlignHorz = ahClient
-      AlignVert = avTop
-      CaptionOptions.Text = 'cxLabel1'
-      CaptionOptions.Visible = False
-      Control = cxLabel1
-      ControlOptions.OriginalHeight = 22
-      ControlOptions.OriginalWidth = 46
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem2: TdxLayoutItem
-      Parent = lgpHeader
-      CaptionOptions.Text = 'Shape1'
-      CaptionOptions.Visible = False
-      Control = Shape1
-      ControlOptions.OriginalHeight = 1
-      ControlOptions.OriginalWidth = 65
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
     object lbgTabbed: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       AlignHorz = ahClient
@@ -991,7 +948,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       ButtonOptions.Buttons = <>
       LayoutDirection = ldTabbed
       ShowBorder = False
-      Index = 1
+      Index = 0
     end
     object lgpFooter: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -1001,7 +958,7 @@ object viewCadastroFuncionarios: TviewCadastroFuncionarios
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 2
+      Index = 1
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = lgpFooter

@@ -15,6 +15,7 @@ type
   function Gravar: Boolean;
   function Localizar(aParam: array of variant): TFDQuery;
   function GetId(): Integer;
+  function CustomSearch(aParams: array of string): boolean;
   property Atribuicoes: TAtribuicoesExpressas read FAtribuicoes write FAtribuicoes;
   end;
 
@@ -25,6 +26,11 @@ implementation
 constructor TAtribuicoesExpressasControl.Create;
 begin
   FAtribuicoes := TAtribuicoesExpressas.Create;
+end;
+
+function TAtribuicoesExpressasControl.CustomSearch(aParams: array of string): boolean;
+begin
+  Result := FAtribuicoes.CustomSearch(aParams);
 end;
 
 destructor TAtribuicoesExpressasControl.Destroy;

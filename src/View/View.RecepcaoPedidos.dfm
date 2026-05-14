@@ -1,18 +1,20 @@
 object view_RecepcaoPedidos: Tview_RecepcaoPedidos
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
   Caption = 'Recep'#231#227'o de Pedidos'
-  ClientHeight = 537
-  ClientWidth = 909
-  Color = clBtnFace
+  ClientHeight = 547
+  ClientWidth = 919
+  Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
+  Position = poScreenCenter
   ShowHint = True
   Visible = True
   OnClose = FormClose
@@ -22,63 +24,23 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 909
-    Height = 537
+    Width = 919
+    Height = 547
     Align = alClient
     TabOrder = 0
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    object cxLabel1: TcxLabel
-      Left = 10
-      Top = 10
-      Caption = 'Recep'#231#227'o de Pedidos'
-      ParentFont = False
-      Style.Font.Charset = DEFAULT_CHARSET
-      Style.Font.Color = clWindowText
-      Style.Font.Height = -15
-      Style.Font.Name = 'Tahoma'
-      Style.Font.Style = [fsBold]
-      Style.HotTrack = False
-      Style.IsFontAssigned = True
-      Transparent = True
-    end
     object cxButton2: TcxButton
-      Left = 824
-      Top = 502
+      Left = 834
+      Top = 512
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actFechar
       TabOrder = 11
     end
-    object cboCliente: TcxComboBox
-      Left = 10
-      Top = 56
-      Hint = 'Selecione o cliente'
-      ParentFont = False
-      Properties.DropDownListStyle = lsFixedList
-      Properties.Items.Strings = (
-        'Selecione ...'
-        'TRANSFOLHA'
-        'CARRIERS'
-        'SPLOG'
-        'DIRECT'
-        'RODO'#202)
-      Properties.ReadOnly = False
-      Properties.OnChange = cboClientePropertiesChange
-      Style.Font.Charset = DEFAULT_CHARSET
-      Style.Font.Color = clWindowText
-      Style.Font.Height = -11
-      Style.Font.Name = 'Tahoma'
-      Style.Font.Style = [fsBold]
-      Style.HotTrack = False
-      Style.IsFontAssigned = True
-      TabOrder = 1
-      Text = 'Selecione ...'
-      Width = 889
-    end
     object crbRecepcao: TcxRadioGroup
-      Left = 20
-      Top = 117
+      Left = 24
+      Top = 74
       Hint = 'Selecione o tipo de recep'#231#227'o'
       Caption = 'Tipo de Recep'#231#227'o'
       ParentFont = False
@@ -100,7 +62,6 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
           Caption = 'Pedidos Pesados'
           Value = '4'
         end>
-      Properties.ReadOnly = False
       Properties.OnChange = crbRecepcaoPropertiesChange
       ItemIndex = 0
       Style.Font.Charset = DEFAULT_CHARSET
@@ -111,58 +72,64 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Style.IsFontAssigned = True
       TabOrder = 2
       Height = 43
-      Width = 769
+      Width = 771
     end
     object txtLeitura: TcxTextEdit
-      Left = 58
-      Top = 166
+      Left = 62
+      Top = 123
       ParentFont = False
       Properties.ReadOnly = True
       Properties.OnValidate = txtLeituraPropertiesValidate
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
-      Style.Font.Height = -11
+      Style.Font.Height = -19
       Style.Font.Name = 'Tahoma'
-      Style.Font.Style = [fsBold]
+      Style.Font.Style = []
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 4
-      Width = 831
+      Width = 833
     end
     object cxButton1: TcxButton
-      Left = 795
-      Top = 135
+      Left = 801
+      Top = 74
       Width = 94
-      Height = 25
+      Height = 43
       Cursor = crHandPoint
       Action = actIniciar
       TabOrder = 3
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
     end
     object grdRecepcao: TcxGrid
       Left = 10
-      Top = 203
-      Width = 889
-      Height = 293
-      Font.Charset = DEFAULT_CHARSET
+      Top = 174
+      Width = 899
+      Height = 332
+      Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
       ParentFont = False
       TabOrder = 9
       object tvRecepcao: TcxGridDBTableView
         Navigator.Buttons.OnButtonClick = tvRecepcaoNavigatorButtonsButtonClick
         Navigator.Buttons.CustomButtons = <
           item
-            ImageIndex = 11
+            ImageIndex = 101
           end>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
-        Navigator.Buttons.First.ImageIndex = 5
+        Navigator.Buttons.First.ImageIndex = 91
         Navigator.Buttons.PriorPage.Visible = False
-        Navigator.Buttons.Prior.ImageIndex = 8
-        Navigator.Buttons.Next.ImageIndex = 7
+        Navigator.Buttons.Prior.ImageIndex = 94
+        Navigator.Buttons.Next.ImageIndex = 93
         Navigator.Buttons.NextPage.Visible = False
-        Navigator.Buttons.Last.ImageIndex = 6
+        Navigator.Buttons.Last.ImageIndex = 92
         Navigator.Buttons.Insert.Visible = False
         Navigator.Buttons.Delete.Visible = False
         Navigator.Buttons.Edit.Visible = False
@@ -171,7 +138,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
         Navigator.Buttons.Refresh.Visible = False
         Navigator.Buttons.SaveBookmark.Visible = False
         Navigator.Buttons.GotoBookmark.Visible = False
-        Navigator.Buttons.Filter.ImageIndex = 19
+        Navigator.Buttons.Filter.ImageIndex = 96
         Navigator.InfoPanel.Visible = True
         Navigator.Visible = True
         DataController.DataSource = dsRecepcao
@@ -201,7 +168,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
           PropertiesClassName = 'TcxTextEditProperties'
           FooterAlignmentHorz = taRightJustify
           HeaderAlignmentHorz = taCenter
-          Width = 75
+          Width = 119
         end
         object tvRecepcaocod_cliente: TcxGridDBColumn
           DataBinding.FieldName = 'cod_cliente'
@@ -213,25 +180,33 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
             end>
           Properties.ListOptions.ShowHeader = False
           Properties.ListSource = dsEmbarcadores
+          Visible = False
           HeaderAlignmentHorz = taCenter
-          Width = 103
+          Width = 84
         end
         object tvRecepcaonum_nf: TcxGridDBColumn
           DataBinding.FieldName = 'num_nf'
           HeaderAlignmentHorz = taCenter
-          Width = 59
+          Width = 118
+        end
+        object tvRecepcaonum_pedido: TcxGridDBColumn
+          Caption = 'Pedido'
+          DataBinding.FieldName = 'num_pedido'
+          HeaderAlignmentHorz = taCenter
+          Width = 72
         end
         object tvRecepcaonom_consumidor: TcxGridDBColumn
           DataBinding.FieldName = 'nom_consumidor'
           HeaderAlignmentHorz = taCenter
-          Width = 200
+          Width = 201
         end
         object tvRecepcaodat_expedicao: TcxGridDBColumn
           DataBinding.FieldName = 'dat_expedicao'
           HeaderAlignmentHorz = taCenter
-          Width = 88
+          Width = 89
         end
         object tvRecepcaoqtd_volumes: TcxGridDBColumn
+          Caption = 'Vol.'
           DataBinding.FieldName = 'qtd_volumes'
           HeaderAlignmentHorz = taCenter
           Width = 52
@@ -239,7 +214,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
         object tvRecepcaoqtd_peso_real: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_peso_real'
           HeaderAlignmentHorz = taCenter
-          Width = 83
+          Width = 84
         end
         object tvRecepcaodat_recebido: TcxGridDBColumn
           Caption = 'Recebimento'
@@ -250,12 +225,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
         object tvRecepcaonum_container: TcxGridDBColumn
           DataBinding.FieldName = 'num_container'
           HeaderAlignmentHorz = taCenter
-          Width = 64
-        end
-        object tvRecepcaonum_pedido: TcxGridDBColumn
-          DataBinding.FieldName = 'num_pedido'
-          HeaderAlignmentHorz = taCenter
-          Width = 64
+          Width = 63
         end
       end
       object lvRecepcao: TcxGridLevel
@@ -330,7 +300,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
     end
     object cxButton3: TcxButton
       Left = 10
-      Top = 502
+      Top = 512
       Width = 75
       Height = 25
       Cursor = crHandPoint
@@ -339,15 +309,15 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
     end
     object cxButton4: TcxButton
       Left = 91
-      Top = 502
+      Top = 512
       Width = 75
       Height = 25
       Action = actCancelar
       TabOrder = 12
     end
     object lblResultado: TcxLabel
-      Left = 450
-      Top = 507
+      Left = 455
+      Top = 517
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -358,24 +328,47 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Style.IsFontAssigned = True
       Transparent = True
     end
+    object codCliente: TcxButtonEdit
+      Left = 48
+      Top = 10
+      Hint = 'C'#243'digo do cliente'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.Buttons = <
+        item
+          Action = actPesquisarCliente
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d\d\d'
+      Properties.OnValidate = codClientePropertiesValidate
+      Style.HotTrack = False
+      Style.Shadow = False
+      TabOrder = 0
+      Text = '0'
+      Width = 89
+    end
+    object nomCliente: TcxTextEdit
+      Left = 143
+      Top = 10
+      Hint = 'Nome do cliente'
+      TabStop = False
+      Properties.CharCase = ecUpperCase
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      TabOrder = 1
+      Width = 766
+    end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahParentManaged
       AlignVert = avParentManaged
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 2
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
-    end
-    object dxLayoutItem1: TdxLayoutItem
-      Parent = dxLayoutControl1Group_Root
-      CaptionOptions.Text = 'cxLabel1'
-      CaptionOptions.Visible = False
-      Control = cxLabel1
-      ControlOptions.OriginalHeight = 22
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 0
     end
     object dxLayoutItem7: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup4
@@ -389,16 +382,6 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       ControlOptions.ShowBorder = False
       Index = 1
     end
-    object dxLayoutItem3: TdxLayoutItem
-      Parent = dxLayoutControl1Group_Root
-      CaptionOptions.Text = 'Cliente'
-      CaptionOptions.Layout = clTop
-      Control = cboCliente
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 232
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       AlignHorz = ahClient
@@ -409,7 +392,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       LayoutDirection = ldTabbed
       ShowBorder = False
       OnTabChanged = dxLayoutGroup2TabChanged
-      Index = 2
+      Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = dxLayoutGroup2
@@ -417,7 +400,6 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       AlignVert = avTop
       CaptionOptions.Text = 'Recep'#231#227'o'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       Index = 0
     end
     object dxLayoutAutoCreatedGroup3: TdxLayoutAutoCreatedGroup
@@ -431,7 +413,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
     object dxLayoutItem2: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup3
       AlignHorz = ahClient
-      AlignVert = avBottom
+      AlignVert = avCenter
       CaptionOptions.Text = 'cxRadioGroup1'
       CaptionOptions.Visible = False
       Control = crbRecepcao
@@ -446,7 +428,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       AlignVert = avTop
       CaptionOptions.Text = 'Leitura'
       Control = txtLeitura
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 31
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
@@ -454,7 +436,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
     object dxLayoutItem4: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup3
       AlignHorz = ahClient
-      AlignVert = avBottom
+      AlignVert = avClient
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
@@ -479,7 +461,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       ControlOptions.OriginalHeight = 200
       ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 2
     end
     object dxLayoutItem10: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup2
@@ -546,7 +528,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Parent = dxLayoutControl1Group_Root
       AlignVert = avBottom
       LayoutDirection = ldHorizontal
-      Index = 4
+      Index = 3
       AutoCreated = True
     end
     object dxLayoutItem9: TdxLayoutItem
@@ -574,6 +556,34 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       ControlOptions.ShowBorder = False
       Index = 3
     end
+    object dxLayoutGroup4: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem15: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      CaptionOptions.Text = 'Cliente'
+      Control = codCliente
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 89
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem16: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Nome Cliente'
+      CaptionOptions.Visible = False
+      Control = nomCliente
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
   end
   object aclRecepcao: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -582,14 +592,14 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Category = 'Recep'#231#227'o'
       Caption = 'Fechar'
       Hint = 'Fechar a tela'
-      ImageIndex = 17
+      ImageIndex = 98
       OnExecute = actFecharExecute
     end
     object actIniciar: TAction
       Category = 'Recep'#231#227'o'
       Caption = 'Iniciar'
       Hint = 'Iniciar a recep'#231#227'o'
-      ImageIndex = 1
+      ImageIndex = 83
       OnExecute = actIniciarExecute
     end
     object actGravar: TAction
@@ -597,7 +607,7 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Caption = 'Gravar'
       Enabled = False
       Hint = 'Gravar recep'#231#227'o'
-      ImageIndex = 13
+      ImageIndex = 85
       OnExecute = actGravarExecute
     end
     object actCancelar: TAction
@@ -605,15 +615,22 @@ object view_RecepcaoPedidos: Tview_RecepcaoPedidos
       Caption = 'Cancelar'
       Enabled = False
       Hint = 'Cancelar opera'#231#227'o'
-      ImageIndex = 2
+      ImageIndex = 84
       OnExecute = actCancelarExecute
     end
     object actPesquisar: TAction
       Category = 'Recep'#231#227'o'
       Caption = 'Pesquisar'
       Hint = 'Pesquisar'
-      ImageIndex = 14
+      ImageIndex = 86
       OnExecute = actPesquisarExecute
+    end
+    object actPesquisarCliente: TAction
+      Category = 'Recep'#231#227'o'
+      Caption = 'Pesquisar Cliente'
+      Hint = 'Pesquisar Cliente'
+      ImageIndex = 86
+      OnExecute = actPesquisarClienteExecute
     end
   end
   object dsRecepcao: TDataSource

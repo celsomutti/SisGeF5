@@ -18,14 +18,15 @@ uses
   System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, Vcl.ComCtrls, dxCore, cxDateUtils,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxButtonEdit, Control.AtribuicoesExpressas, Data.DB, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxImageComboBox, cxSpinEdit, cxCheckBox, cxBlobEdit, frxClass, frxDBSet;
+  cxGridDBTableView, cxGrid, cxImageComboBox, cxSpinEdit, cxCheckBox, cxBlobEdit, frxClass, frxDBSet, dxDateRanges,
+  cxDataControllerConditionalFormattingRulesManagerDialog, service.SisGeFGeneralSearch, service.connectionMySQL,
+  Controller.SisGeFContratadosRH, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Stan.StorageBin;
 
 type
   Tview_ControleEntregas = class(TForm)
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
-    cxLabel1: TcxLabel;
-    dxLayoutItem1: TdxLayoutItem;
     dxLayoutGroup1: TdxLayoutGroup;
     dxLayoutGroup2: TdxLayoutGroup;
     dxLayoutGroup3: TdxLayoutGroup;
@@ -40,8 +41,6 @@ type
     dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     txtNomeEntregador: TcxTextEdit;
     dxLayoutItem5: TdxLayoutItem;
-    cboCliente: TcxComboBox;
-    dxLayoutItem6: TdxLayoutItem;
     cxButton2: TcxButton;
     dxLayoutItem7: TdxLayoutItem;
     actIniciar: TAction;
@@ -144,7 +143,83 @@ type
     frxPendencia: TfrxReport;
     chkDANFE: TcxCheckBox;
     dxLayoutItem27: TdxLayoutItem;
-    procedure edtEntregadorPropertiesChange(Sender: TObject);
+    codCliente: TcxButtonEdit;
+    dxLayoutItem1: TdxLayoutItem;
+    nomCliente: TcxTextEdit;
+    dxLayoutItem6: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup5: TdxLayoutAutoCreatedGroup;
+    actPesquisarCliente: TAction;
+    dxLayoutGroup4: TdxLayoutGroup;
+    dxLayoutGroup5: TdxLayoutGroup;
+    bteEntregadorRel: TcxButtonEdit;
+    dxLayoutItem28: TdxLayoutItem;
+    txtnomEntregadorRel: TcxTextEdit;
+    dxLayoutItem29: TdxLayoutItem;
+    datInicialRel: TcxDateEdit;
+    dxLayoutItem30: TdxLayoutItem;
+    datFinalRel: TcxDateEdit;
+    dxLayoutItem31: TdxLayoutItem;
+    actPesquisaEntregadorRel: TAction;
+    actGerar: TAction;
+    dxLayoutGroup6: TdxLayoutGroup;
+    gridRelDBTableView1: TcxGridDBTableView;
+    gridRelLevel1: TcxGridLevel;
+    gridRel: TcxGrid;
+    dxLayoutItem32: TdxLayoutItem;
+    dxLayoutGroup7: TdxLayoutGroup;
+    actExportarRelatorio: TAction;
+    cxButton12: TcxButton;
+    dxLayoutItem33: TdxLayoutItem;
+    cxButton13: TcxButton;
+    dxLayoutItem34: TdxLayoutItem;
+    mtbRel: TFDMemTable;
+    dsRel: TDataSource;
+    mtbRelid_atribuicao: TIntegerField;
+    mtbRelcod_atribuicao: TStringField;
+    mtbReldat_atribuicao: TDateTimeField;
+    mtbRelcod_entregador: TIntegerField;
+    mtbRelnom_entregador: TStringField;
+    mtbRelcod_cliente: TIntegerField;
+    mtbRelnom_cliente: TStringField;
+    mtbRelcod_embarcador: TIntegerField;
+    mtbRelnom_embarcador: TStringField;
+    mtbRelnom_base: TStringField;
+    mtbRelnum_nossosumero: TStringField;
+    mtbRelcod_retorno: TStringField;
+    mtbReldes_endereco: TStringField;
+    mtbRelnum_cep: TStringField;
+    mtbRelnom_bairro: TStringField;
+    mtbRelnom_consumidor: TStringField;
+    mtbRelqtd_volumes: TIntegerField;
+    mtbReldes_telefone: TStringField;
+    mtbRelnum_lote_remessa: TIntegerField;
+    mtbReldat_retorno: TDateTimeField;
+    mtbReldom_retorno: TShortintField;
+    mtbRelcod_informativo: TIntegerField;
+    mtbReldes_log: TMemoField;
+    gridRelDBTableView1id_atribuicao: TcxGridDBColumn;
+    gridRelDBTableView1cod_atribuicao: TcxGridDBColumn;
+    gridRelDBTableView1dat_atribuicao: TcxGridDBColumn;
+    gridRelDBTableView1cod_entregador: TcxGridDBColumn;
+    gridRelDBTableView1nom_entregador: TcxGridDBColumn;
+    gridRelDBTableView1cod_cliente: TcxGridDBColumn;
+    gridRelDBTableView1nom_cliente: TcxGridDBColumn;
+    gridRelDBTableView1cod_embarcador: TcxGridDBColumn;
+    gridRelDBTableView1nom_embarcador: TcxGridDBColumn;
+    gridRelDBTableView1nom_base: TcxGridDBColumn;
+    gridRelDBTableView1num_nossosumero: TcxGridDBColumn;
+    gridRelDBTableView1cod_retorno: TcxGridDBColumn;
+    gridRelDBTableView1des_endereco: TcxGridDBColumn;
+    gridRelDBTableView1num_cep: TcxGridDBColumn;
+    gridRelDBTableView1nom_bairro: TcxGridDBColumn;
+    gridRelDBTableView1nom_consumidor: TcxGridDBColumn;
+    gridRelDBTableView1qtd_volumes: TcxGridDBColumn;
+    gridRelDBTableView1des_telefone: TcxGridDBColumn;
+    gridRelDBTableView1num_lote_remessa: TcxGridDBColumn;
+    gridRelDBTableView1dat_retorno: TcxGridDBColumn;
+    gridRelDBTableView1dom_retorno: TcxGridDBColumn;
+    gridRelDBTableView1cod_informativo: TcxGridDBColumn;
+    gridRelDBTableView1des_log: TcxGridDBColumn;
     procedure actPesquisarExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -171,10 +246,18 @@ type
       var Error: Boolean);
     procedure actExcluirAtribuicaoExecute(Sender: TObject);
     procedure actExcluirPedidoExecute(Sender: TObject);
-    procedure cboClientePropertiesChange(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure actPesquisarClienteExecute(Sender: TObject);
+    procedure codClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure actPesquisaEntregadorRelExecute(Sender: TObject);
+    procedure bteEntregadorRelPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure actExportarRelatorioExecute(Sender: TObject);
+    procedure gridRelDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
+    procedure actGerarExecute(Sender: TObject);
   private
     { Private declarations }
+    FBase: integer;
     function ValidaInicioAtribuicao(): Boolean;
     procedure IniciaAtribuicao;
     procedure LocalizaEntregador;
@@ -196,6 +279,7 @@ type
     procedure LimpaCamposRetorno;
     procedure LocalizaEntregadorRetorno;
     procedure PesquisaEntregadorRetorno;
+    procedure PesquisaEntregadorRel;
     procedure ModoRetorno(iModo: Integer);
     procedure CancelaRetorno;
     procedure GravarRetorno;
@@ -203,6 +287,13 @@ type
     procedure ImprimirPendencia;
     procedure ExportaAtribuicao;
     procedure ExportaPendencia;
+    procedure ProcuraCliente;
+    procedure ProcuraNomeCliente(iId: integer);
+    procedure ProcuraNomeMotorista(iId: integer);
+    procedure ProcuraNomeMotoristaRel(iId: integer);
+    function ValidaRel(): boolean;
+    procedure GerarRel(sQuery: string);
+    function CustomFilter(): string;
   public
     { Public declarations }
   end;
@@ -210,7 +301,7 @@ type
 var
   view_ControleEntregas: Tview_ControleEntregas;
   clientes : TClientesControl;
-  entregador : TEntregadoresExpressasControl;
+  entregador : TContratadosRHController;
   entregas : TEntregasControl;
   atribuicao : TAtribuicoesExpressasControl;
   sCodigoAtribuicao: String;
@@ -219,7 +310,8 @@ implementation
 
 {$R *.dfm}
 
-uses Common.ENum, Common.Utils, Data.SisGeF, View.PesquisarPessoas, TFO.Barras, Global.Parametros, View.Impressao;
+uses Common.ENum, Common.Utils, Data.SisGeF, View.PesquisarPessoas, TFO.Barras, Global.Parametros, View.Impressao,
+  View.SisGeFGeneralsSearch;
 
 { Tview_ControleEntregas }
 
@@ -246,6 +338,24 @@ end;
 procedure Tview_ControleEntregas.actExcluirPedidoExecute(Sender: TObject);
 begin
   ExcluirPedido;
+end;
+
+procedure Tview_ControleEntregas.actExportarRelatorioExecute(Sender: TObject);
+begin
+  SaveDialog.Filter := '';
+  SaveDialog.Filter := 'Excel (*.xls) |*.xls|XML (*.xml) |*.xml|Arquivo Texto (*.txt) |*.txt|Página Web (*.html)|*.html';
+  SaveDialog.Title := 'Exportar Dados';
+  SaveDialog.DefaultExt := 'xls';
+  if SaveDialog.Execute then
+  begin
+    TUtils.ExportarDados(gridRel, SaveDialog.FileName);
+  end;
+end;
+
+procedure Tview_ControleEntregas.actGerarExecute(Sender: TObject);
+begin
+  if ValidaRel then
+    GerarRel(CustomFilter);
 end;
 
 procedure Tview_ControleEntregas.actGravarExecute(Sender: TObject);
@@ -279,6 +389,16 @@ begin
   IniciaRetorno;
 end;
 
+procedure Tview_ControleEntregas.actPesquisaEntregadorRelExecute(Sender: TObject);
+begin
+  PesquisaEntregadorRel;
+end;
+
+procedure Tview_ControleEntregas.actPesquisarClienteExecute(Sender: TObject);
+begin
+  ProcuraCliente;
+end;
+
 procedure Tview_ControleEntregas.actPesquisarEntregadorRetornoExecute(Sender: TObject);
 begin
   PesquisaEntregadorRetorno;
@@ -287,6 +407,21 @@ end;
 procedure Tview_ControleEntregas.actPesquisarExecute(Sender: TObject);
 begin
   PesquisaEntregador;
+end;
+
+procedure Tview_ControleEntregas.bteEntregadorRelPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+  begin
+    DisplayValue := 0;
+    Exit;
+  end;
+  if DisplayValue = 0 then
+  begin
+    Exit;
+  end;
+  ProcuraNomeMotoristaRel(DisplayValue);
 end;
 
 procedure Tview_ControleEntregas.CancelaAtribuicao;
@@ -307,16 +442,58 @@ begin
   end;
 end;
 
-procedure Tview_ControleEntregas.cboClientePropertiesChange(Sender: TObject);
+procedure Tview_ControleEntregas.codClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
 begin
-  if cboCliente.ItemIndex = 3 then
+  if DisplayValue = EmptyStr then
   begin
-    dxLayoutItem27.Visible := True;
+    DisplayValue := 0;
+    Exit;
+  end;
+  if DisplayValue = 0 then
+  begin
+    Exit;
+  end;
+  ProcuraNomeCliente(DisplayValue);
+end;
+
+function Tview_ControleEntregas.CustomFilter: string;
+var
+  sCliente, sEntregador, sDataIni, sDataFim, sFiltro : string;
+begin
+  if (codCliente.EditValue = 0) or (codCliente.Text = EmptyStr)  then
+  begin
+    sCliente := '0';
   end
   else
   begin
-    dxLayoutItem27.Visible := False;
+    sCliente := codCliente.Text;
   end;
+  if (bteEntregadorRel.EditValue = 0) or (bteEntregadorRel.Text = EmptyStr)  then
+  begin
+    sEntregador := '0';
+  end
+  else
+  begin
+    sEntregador := bteEntregadorRel.Text;
+  end;
+  sFiltro := EmptyStr;
+  sDataIni := FormatDateTime('yyyy-mm-dd', datInicialRel.Date);
+  sDataFim := FormatDateTime('yyyy-mm-dd', datFinalRel.Date);
+  if sCliente <> '0' then
+  begin
+    sFiltro := sFiltro + 'cod_cliente = ' + sCliente;
+  end;
+  if sEntregador <> '0' then
+  begin
+    if sFiltro <> EmptyStr then
+      sFiltro := sFiltro + ' and ';
+    sFiltro := sFiltro + 'cod_entregador = ' + sEntregador;
+  end;
+  if sFiltro <> EmptyStr then
+    sFiltro := sFiltro + ' and ';
+  sFiltro := sFiltro + 'dat_atribuicao between ' + QuotedStr(sDataIni) + ' and ' + QuotedStr(sDataFim);
+  Result := sFiltro;
 end;
 
 procedure Tview_ControleEntregas.dxLayoutGroup2TabChanging(Sender: TObject; ANewTabIndex: Integer; var Allow: Boolean);
@@ -331,21 +508,34 @@ begin
   ModoRetorno(0);
 end;
 
-procedure Tview_ControleEntregas.edtEntregadorPropertiesChange(Sender: TObject);
-begin
-  txtNomeEntregador.Clear;
-end;
-
 procedure Tview_ControleEntregas.edtEntregadorPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
   var ErrorText: TCaption; var Error: Boolean);
 begin
-  LocalizaEntregador;
+  if DisplayValue = EmptyStr then
+  begin
+    DisplayValue := 0;
+    Exit;
+  end;
+  if DisplayValue = 0 then
+  begin
+    Exit;
+  end;
+  ProcuraNomeMotorista(DisplayValue);
 end;
 
 procedure Tview_ControleEntregas.edtEntregadorRetornoPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
   var ErrorText: TCaption; var Error: Boolean);
 begin
-  LocalizaEntregadorRetorno;
+  if DisplayValue = EmptyStr then
+  begin
+    DisplayValue := 0;
+    Exit;
+  end;
+  if DisplayValue = 0 then
+  begin
+    Exit;
+  end;
+  ProcuraNomeMotorista(DisplayValue);
 end;
 
 procedure Tview_ControleEntregas.ExcluirAtribuicao;
@@ -431,25 +621,51 @@ begin
   ModoRetorno(0);
 end;
 
+procedure Tview_ControleEntregas.GerarRel(sQuery: string);
+var
+  atribuicao : TAtribuicoesExpressasControl;
+  aParam : Array of String;
+begin
+  atribuicao := TAtribuicoesExpressasControl.Create;
+  SetLength(aParam, 3);
+
+  try
+     aParam[0] := '*';
+     aParam[1] := 'view_atribuicoes';
+     aParam[2] := sQuery;
+
+     if atribuicao.CustomSearch(aParam) then
+     begin
+       mtbRel.Active := False;
+       mtbRel.Data := atribuicao.Atribuicoes.Query;
+     end;
+     atribuicao.Atribuicoes.Query.Close;
+  finally
+    Finalize(aParam);
+    atribuicao.Free;
+  end;
+end;
+
 procedure Tview_ControleEntregas.GravarAtribuicao;
 var
   FDEntregas : TFDQuery;
   FDAtribuicao : TFDQuery;
   FDEntregador : TFDquery;
   aParam: Array of variant;
+  sParam: Array of string;
   iBase: Integer;
+  FConn : TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDEntregas := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    FDAtribuicao := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    FDEntregador := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDEntregas := FConn.GetQuery;
+    FDAtribuicao := FConn.GetQuery;
+    FDEntregador := FConn.GetQuery;
     atribuicao := TAtribuicoesExpressasControl.Create;
     if Application.MessageBox('Confirma gravar a atribuição?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
     begin
       Exit;
     end;
-    entregas := TEntregasControl.Create;
-    entregador := TEntregadoresExpressasControl.Create;
     if Data_Sisgef.mtbAtribuicao.IsEmpty then Exit;
     Data_Sisgef.mtbAtribuicao.First;
     atribuicao.Atribuicoes.ID := 0;
@@ -461,6 +677,7 @@ begin
     end;
     while not Data_Sisgef.mtbAtribuicao.Eof do
     begin
+      entregas := TEntregasControl.Create;
       atribuicao.Atribuicoes.ID := 0;
       atribuicao.Atribuicoes.Codigo := '';
       atribuicao.Atribuicoes.NN := Data_Sisgef.mtbAtribuicaonum_nossonumero.AsString;
@@ -476,18 +693,19 @@ begin
         Application.MessageBox(PChar('Erro ao incluir a atribuição do pedido ' + atribuicao.Atribuicoes.NN + ' !'), 'Erro',
                                MB_OK + MB_ICONERROR);
       end;
+      entregador := TContratadosRHController.Create;
       iBase := 1;
-      entregador := TEntregadoresExpressasControl.Create;
-      FDEntregador := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-      SetLength(aParam,2);
-      aParam[0] := 'ENTREGADOR';
-      aParam[1] := Data_Sisgef.mtbAtribuicaocod_entregador.AsInteger;
-      FDEntregador := entregador.Localizar(aParam);
-      Finalize(aParam);
+      SetLength(sParam,2);
+      aParam[0] := 'CONTRATADO';
+      aParam[1] := Data_Sisgef.mtbAtribuicaocod_entregador.AsString;
+      if entregador.Search(sParam) then
+        FDEntregador := entregador.FRH.Query;
+      Finalize(sParam);
       if not FDEntregas.IsEmpty then
       begin
-        iBase := FDEntregador.FieldByName('COD_AGENTE').AsInteger;
+        iBase := FDEntregador.FieldByName('id_departamento').AsInteger;
       end;
+      entregador.FRH.Query.Close;
       FDEntregador.Close;
       entregador.Free;
       entregas := TEntregasControl.Create;
@@ -535,6 +753,7 @@ begin
     FDAtribuicao.Free;
     FDEntregador.Free;
     atribuicao.Free;
+    FConn.Free;
   end;
 end;
 
@@ -544,55 +763,78 @@ var
   FDAtribuicao : TFDQuery;
   FDEntregador : TFDquery;
   aParam: Array of variant;
+  sParam: Array of string;
   iBase: Integer;
+  FBaixado : Boolean;
+  FConn: TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDEntregas := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    FDAtribuicao := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    FDEntregador := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDEntregas := FConn.GetQuery;
+    FDAtribuicao := FConn.GetQuery;
+    FDEntregador := FConn.GetQuery;
     atribuicao := TAtribuicoesExpressasControl.Create;
+    FBaixado := False;
+    if Application.MessageBox('Gravar os registros pendentes como entregues?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDYES then
+    begin
+      FBaixado := False;
+    end;
     if Application.MessageBox('Confirma gravar a prestação de contas?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
     begin
       Exit;
     end;
-    entregas := TEntregasControl.Create;
-    entregador := TEntregadoresExpressasControl.Create;
     if Data_Sisgef.mtbAtribuicao.IsEmpty then Exit;
     Data_Sisgef.mtbAtribuicao.First;
     while not Data_Sisgef.mtbAtribuicao.Eof do
     begin
       atribuicao.Atribuicoes.Acao := tacAlterar;
       SetupClassAtribuicao;
+      if atribuicao.Atribuicoes.FlagRetorno = 0 then
+      begin
+        if FBaixado then
+          atribuicao.Atribuicoes.FlagRetorno := 1;
+      end;
       if not atribuicao.Gravar then
       begin
         Application.MessageBox(PChar('Erro ao gravar o retorno do pedido ' + atribuicao.Atribuicoes.NN + ' !'), 'Erro',
                                MB_OK + MB_ICONERROR);
       end;
       iBase := 1;
-      entregador := TEntregadoresExpressasControl.Create;
-      FDEntregador := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-      SetLength(aParam,2);
-      aParam[0] := 'ENTREGADOR';
-      aParam[1] := edtEntregadorRetorno.EditingValue;
-      FDEntregador := entregador.Localizar(aParam);
-      Finalize(aParam);
+      entregador := TContratadosRHController.Create;
+      FDEntregador := Fconn.GetQuery;
+      SetLength(sParam,2);
+      sParam[0] := 'CONTRATADO';
+      sParam[1] := edtEntregadorRetorno.EditingValue;
+      if entregador.Search(sParam) then
+        FDEntregador := entregador.FRH.Query;
+      Finalize(sParam);
       if not FDEntregador.IsEmpty then
       begin
-        iBase := FDEntregador.FieldByName('COD_AGENTE').AsInteger;
+        iBase := FDEntregador.FieldByName('id_departamento').AsInteger;
       end;
+      entregador.FRH.Query.Close;
       FDEntregador.Close;
       entregador.Free;
       entregas := TEntregasControl.Create;
-      FDEntregas := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+      FDEntregas := FConn.GetQuery;
       SetLength(aParam,2);
-      aParam[0] := 'NN';
-      aParam[1] := Data_Sisgef.mtbAtribuicaonum_nossonumero.AsString;
+      aParam[0] := 'FILTRO';
+      aParam[1] := 'where NUM_NOSSONUMERO = ' + QuotedStr(atribuicao.Atribuicoes.NN) +
+                   ' and COD_CLIENTE = ' + codCliente.Text;
       FDEntregas := entregas.Localizar(aParam);
       Finalize(aParam);
       if not FDEntregas.IsEmpty then
       begin
         SetupClassEntregas(FDEntregas);
         entregas.Entregas.Distribuidor := iBase;
+        if atribuicao.Atribuicoes.FlagRetorno = 0 then
+        begin
+          if FBaixado then
+          begin
+            entregas.Entregas.Baixado := 'S';
+            entregas.Entregas.Baixa := Now;
+          end;
+        end;
         entregas.Entregas.Entregador := edtEntregadorRetorno.EditingValue;
         entregas.Entregas.Rastreio := entregas.Entregas.Rastreio + #13 +
                                       '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' prestação de contas do entregador ' +
@@ -620,6 +862,16 @@ begin
     FDAtribuicao.Free;
     FDEntregador.Free;
     atribuicao.Free;
+    FConn.Free;
+  end;
+end;
+
+procedure Tview_ControleEntregas.gridRelDBTableView1NavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer;
+  var ADone: Boolean);
+begin
+  case AButtonIndex of
+    16 : gridRelDBTableView1.ViewData.Expand(True);
+    17 : gridRelDBTableView1.ViewData.Collapse(True);
   end;
 end;
 
@@ -718,9 +970,11 @@ procedure Tview_ControleEntregas.IniciaAtribuicao;
 var
   FDQuery : TFDQuery;
   aParam : Array of variant;
+  FConn : TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := FConn.GetQuery;
     atribuicao := TAtribuicoesExpressasControl.Create;
     if not ValidaInicioAtribuicao then Exit;
     sCodigoAtribuicao := '';
@@ -756,6 +1010,7 @@ begin
     txtLeitura.SetFocus;
   finally
     FDQuery.Free;
+    FConn.Free;
     atribuicao.Free;
   end;
 end;
@@ -764,9 +1019,11 @@ procedure Tview_ControleEntregas.IniciaRetorno;
 var
   FDQuery : TFDQuery;
   aParam : Array of variant;
+  FConn : TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := FConn.GetQuery;
     atribuicao := TAtribuicoesExpressasControl.Create;
     if not ValidaInicioRetorno then Exit;
     if Data_Sisgef.mtbAtribuicao.Active then Data_Sisgef.mtbAtribuicao.Active := False;
@@ -796,7 +1053,9 @@ end;
 
 procedure Tview_ControleEntregas.LimpaCamposAtribuicao;
 begin
-  cboCliente.ItemIndex := 0;
+  codCliente.EditValue := 0;
+  nomCliente.Clear;
+  txtNomeEntregador.Clear;
   cboLote.ItemIndex := 0;
   datAtribuicao.Clear;
   edtEntregador.EditValue := 0;
@@ -807,6 +1066,7 @@ end;
 procedure Tview_ControleEntregas.LimpaCamposRetorno;
 begin
   edtEntregadorRetorno.EditValue := 0;
+  txtNomeEntregadorRetorno.Clear;
   datInicio.Clear;
   datFinal.Clear;
   txtLeituraRetorno.Clear;
@@ -816,19 +1076,23 @@ end;
 procedure Tview_ControleEntregas.LocalizaEntregador;
 var
   FDQuery : TFDQuery;
-  aParam : Array of variant;
+  sParam : Array of String;
+  FConn : TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    entregador := TEntregadoresExpressasControl.Create;
-    SetLength(aParam,2);
-    aParam[0] := 'ENTREGADOR';
-    aParam[1] := StrToIntDef(edtEntregador.Text,0);
-    FDQuery := entregador.Localizar(aParam);
-    Finalize(aParam);
+    FDQuery := FConn.GetQuery;
+    entregador := TContratadosRHController.Create;
+    SetLength(sParam,2);
+    sParam[0] := 'ENTREGADOR';
+    sParam[1] := edtEntregador.EditValue;
+    if entregador.Search(sParam) then
+      FDQuery := entregador.FRH.Query;
+    Finalize(sParam);
     if not FDQuery.IsEmpty then
     begin
       txtNomeEntregador.Text := FDQuery.FieldByName('NOM_FANTASIA').AsString;
+      FBase := FDQuery.FieldByName('id_departamento').AsInteger;
     end
     else
     begin
@@ -837,6 +1101,7 @@ begin
     FDQuery.Close;
   finally
     FDQuery.Free;
+    FConn.Free;
     entregador.Free;
   end;
 
@@ -845,19 +1110,22 @@ end;
 procedure Tview_ControleEntregas.LocalizaEntregadorRetorno;
 var
   FDQuery : TFDQuery;
-  aParam : Array of variant;
+  aParam : Array of string;
+  FConn : TConnectionMySQL;
 begin
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    entregador := TEntregadoresExpressasControl.Create;
+    FDQuery := FConn.GetQuery;
+    entregador := TContratadosRHController.Create;
     SetLength(aParam,2);
     aParam[0] := 'ENTREGADOR';
-    aParam[1] := StrToIntDef(edtEntregadorRetorno.Text,0);
-    FDQuery := entregador.Localizar(aParam);
+    aParam[1] := edtEntregadorRetorno.EditValue;
+    if entregador.Search(aParam) then
+      FDQuery := entregador.FRH.Query;
     Finalize(aParam);
     if not FDQuery.IsEmpty then
     begin
       txtNomeEntregadorRetorno.Text := FDQuery.FieldByName('NOM_FANTASIA').AsString;
+      FBase := FDQuery.FieldByName('id_departamento').AsInteger;
     end
     else
     begin
@@ -882,30 +1150,35 @@ begin
     entregas := TEntregasControl.Create;
     atribuicao := TAtribuicoesExpressasControl.Create;
     sNN := '';
-    if cboCliente.ItemIndex <> 3 then
-    begin
-      sNN := RetornaNN(txtLeitura.Text, cboCliente.ItemIndex);
-      SetLength(aPAram,2);
-      aParam[0] := 'NN';
-      aParam[1] := sNN;
-    end
-    else
-    begin
-      if chkDANFE.Checked then
-      begin
-        sNN := Trim(txtLeitura.Text);
-        SetLength(aParam,2);
-        aParam[0] := 'FILTRO';
-        aParam[1] := 'where des_retorno like ' + QuotedStr(sNN + '%');
-      end
-      else
-      begin
-        sNN := RetornaNN(txtLeitura.Text, cboCliente.ItemIndex);
-        SetLength(aPAram,2);
-        aParam[0] := 'NN';
-        aParam[1] := sNN;
-      end;
-    end;
+//    if cboCliente.ItemIndex <> 3 then
+//    begin
+//      sNN := RetornaNN(txtLeitura.Text, cboCliente.ItemIndex);
+//      SetLength(aPAram,2);
+//      aParam[0] := 'NN';
+//      aParam[1] := sNN;
+//    end
+//    else
+//    begin
+//      if chkDANFE.Checked then
+//      begin
+//        sNN := Trim(txtLeitura.Text);
+//        SetLength(aParam,2);
+//        aParam[0] := 'FILTRO';
+//        aParam[1] := 'where des_retorno like ' + QuotedStr(sNN + '%');
+//      end
+//      else
+//      begin
+//        sNN := RetornaNN(txtLeitura.Text, cboCliente.ItemIndex);
+//        SetLength(aPAram,2);
+//        aParam[0] := 'NN';
+//        aParam[1] := sNN;
+//      end;
+//    end;
+    sNN := txtLeitura.Text;
+    SetLength(aParam, 2);
+    aParam[0] := 'FILTRO';
+    aParam[1] := 'where NUM_NOSSONUMERO = ' + QuotedStr(sNN) + ' and COD_CLIENTE = ' + codCliente.Text;
+
     FDQuery := entregas.Localizar(aParam);
     Finalize(aParam);
     if FDQuery.IsEmpty then
@@ -913,15 +1186,15 @@ begin
       Application.MessageBox(PChar('Pedido ' + sNN + ' não encontrado no banco de dados!'), 'Atenção', MB_OK + MB_ICONHAND);
       Exit;
     end;
-    if cboCliente.ItemIndex = 3 then
-    begin
-      sNN := FDQuery.FieldByName('num_nossonumero').AsString;
-    end;
-    if sNN.IsEmpty then
-    begin
-      Application.MessageBox(PChar('Pedido ' + txtLeitura.Text + ' inválido!'), 'Atenção', MB_OK + MB_ICONHAND);
-      Exit;
-    end;
+//    if cboCliente.ItemIndex = 3 then
+//    begin
+//      sNN := FDQuery.FieldByName('num_nossonumero').AsString;
+//    end;
+//    if sNN.IsEmpty then
+//    begin
+//      Application.MessageBox(PChar('Pedido ' + txtLeitura.Text + ' inválido!'), 'Atenção', MB_OK + MB_ICONHAND);
+//      Exit;
+//    end;
     bFlagGravar := True;
     if not Data_Sisgef.mtbAtribuicao.IsEmpty then Data_Sisgef.mtbAtribuicao.First;
     while not Data_Sisgef.mtbAtribuicao.eof do
@@ -958,7 +1231,8 @@ var
 begin
   try
     sNN := '';
-    sNN := RetornaNN(txtLeituraRetorno.Text, cboCliente.ItemIndex);
+//    sNN := RetornaNN(txtLeituraRetorno.Text, cboCliente.ItemIndex);
+    sNN := txtLeituraRetorno.Text;
     if sNN.IsEmpty then
     begin
       Application.MessageBox(PChar('Pedido ' + txtLeitura.Text + ' inválido!'), 'Atenção', MB_OK + MB_ICONHAND);
@@ -969,13 +1243,13 @@ begin
     while not Data_Sisgef.mtbAtribuicao.Eof do
     begin
       sChave :=  Data_Sisgef.mtbAtribuicaonum_nossonumero.AsString;
-      if cboCliente.ItemIndex = 2 then
-      begin
-        if cboRetorno.ItemIndex = 1 then
-        begin
-          sChave :=  Data_Sisgef.mtbAtribuicaocod_retorno.AsString
-        end;
-      end;
+//      if codCliente.EditValue = 2 then
+//      begin
+//        if cboRetorno.ItemIndex = 1 then
+//        begin
+//          sChave :=  Data_Sisgef.mtbAtribuicaocod_retorno.AsString
+//        end;
+//      end;
       if sChave = sNN then
       begin
         bFlagGrava := True;
@@ -1011,7 +1285,7 @@ procedure Tview_ControleEntregas.ModoAtribuicao(iModo: Integer);
 begin
   if iModo = 0 then
   begin
-    cboCliente.Properties.ReadOnly := False;
+    codCliente.Properties.ReadOnly := False;
     datAtribuicao.Properties.ReadOnly := False;
     edtEntregador.Properties.ReadOnly := False;
     cboLote.Properties.ReadOnly := False;
@@ -1025,7 +1299,7 @@ begin
   end
   else
   begin
-    cboCliente.Properties.ReadOnly := True;
+    codCliente.Properties.ReadOnly := True;
     datAtribuicao.Properties.ReadOnly := True;
     edtEntregador.Properties.ReadOnly := True;
     cboLote.Properties.ReadOnly := True;
@@ -1066,86 +1340,148 @@ begin
 end;
 
 procedure Tview_ControleEntregas.PesquisaEntregador;
-var
-  aParam: array of Variant;
-  FDQuery : TFDQuery;
 begin
-  try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    entregador := TEntregadoresExpressasControl.Create;
-    SetLength(aParam,3);
-    aParam[0] := 'APOIO';
-    aParam[1] := 'COD_ENTREGADOR as Código, NOM_FANTASIA as Nome, COD_AGENTE as Base';
-    aparam[2] := ' WHERE COD_CADASTRO <> 0';
-    FDQuery := entregador.Localizar(aParam);
-    Finalize(aParam);
-    if not Assigned(View_PesquisarPessoas) then
-    begin
-      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
-    end;
-    View_PesquisarPessoas.qryPesquisa.CreateFieldsFromDataSet(FDQuery);
-    View_PesquisarPessoas.qryPesquisa.LoadFromDataSet(FDQuery);
-    if not FDQuery.IsEmpty then View_PesquisarPessoas.qryPesquisa.First;
-    FDQuery.Close;
-    View_PesquisarPessoas.tvPesquisa.ClearItems;
-    View_PesquisarPessoas.tvPesquisa.DataController.CreateAllItems;
-    View_PesquisarPessoas.Caption := View_PesquisarPessoas.Caption + ' de Entregadores';
-    if View_PesquisarPessoas.ShowModal = mrOk then
-    begin
-      edtEntregador.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger;
-      txtNomeEntregador.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
-    end
-    else
-    begin
-      edtEntregador.EditValue := 0;
-      txtNomeEntregador.Text := '';
-    end;
-  finally
-    FDQuery.Free;
-    entregador.free;
-    FreeAndNil(View_PesquisarPessoas);
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_entregador as Motorista, nom_motorista as "Nome Motorista", cod_base as Base, nom_base as "Nome Base"';
+  viewGeneralSearch.Tabela := 'view_motoristasbases';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    edtEntregador.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    txtNomeEntregador.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
   end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure Tview_ControleEntregas.PesquisaEntregadorRel;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_entregador as Motorista, nom_motorista as "Nome Motorista", cod_base as Base, nom_base as "Nome Base"';
+  viewGeneralSearch.Tabela := 'view_motoristasbases';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    bteEntregadorRel.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    txtnomEntregadorRel.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+    FBase := viewGeneralSearch.mtbPesquisa.Fields[2].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
 end;
 
 procedure Tview_ControleEntregas.PesquisaEntregadorRetorno;
-var
-  aParam: array of Variant;
-  FDQuery : TFDQuery;
 begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_entregador as Motorista, nom_motorista as "Nome Motorista", cod_base as Base, nom_base as "Nome Base"';
+  viewGeneralSearch.Tabela := 'view_motoristasbases';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    edtEntregadorRetorno.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    txtNomeEntregadorRetorno.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+    FBase := viewGeneralSearch.mtbPesquisa.Fields[2].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure Tview_ControleEntregas.ProcuraCliente;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_Cliente as "Código", nom_fantasia as "Nome Fantasia"';
+  viewGeneralSearch.Tabela := 'crm_clientes';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    codCliente.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    nomCliente.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+
+end;
+
+procedure Tview_ControleEntregas.ProcuraNomeCliente(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  nomCliente.Text := EmptyStr;
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
-    entregador := TEntregadoresExpressasControl.Create;
-    SetLength(aParam,3);
-    aParam[0] := 'APOIO';
-    aParam[1] := 'COD_ENTREGADOR as Código, NOM_FANTASIA as Nome, COD_AGENTE as Base';
-    aparam[2] := ' WHERE COD_CADASTRO <> 0';
-    FDQuery := entregador.Localizar(aParam);
-    Finalize(aParam);
-    if not Assigned(View_PesquisarPessoas) then
+    aParam := ['nom_fantasia', 'crm_clientes', 'cod_cliente = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
     begin
-      View_PesquisarPessoas := TView_PesquisarPessoas.Create(Application);
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      codCliente.SetFocus;
+      Exit;
     end;
-    View_PesquisarPessoas.qryPesquisa.CreateFieldsFromDataSet(FDQuery);
-    View_PesquisarPessoas.qryPesquisa.LoadFromDataSet(FDQuery);
-    if not FDQuery.IsEmpty then View_PesquisarPessoas.qryPesquisa.First;
-    FDQuery.Close;
-    View_PesquisarPessoas.tvPesquisa.ClearItems;
-    View_PesquisarPessoas.tvPesquisa.DataController.CreateAllItems;
-    View_PesquisarPessoas.Caption := View_PesquisarPessoas.Caption + ' de Entregadores';
-    if View_PesquisarPessoas.ShowModal = mrOk then
-    begin
-      edtEntregadorRetorno.EditValue := View_PesquisarPessoas.qryPesquisa.Fields[1].AsInteger;
-      txtNomeEntregadorRetorno.Text := View_PesquisarPessoas.qryPesquisa.Fields[2].AsString;
-    end
-    else
-    begin
-      edtEntregadorRetorno.EditValue := 0;
-      txtNomeEntregadorRetorno.Text := '';
-    end;
+    nomCliente.Text := FSearch.Query.Fields[0].Value;
   finally
-    FDQuery.Free;
-    entregador.free;
-    FreeAndNil(View_PesquisarPessoas);
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+procedure Tview_ControleEntregas.ProcuraNomeMotorista(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['nom_motorista, cod_base', 'view_motoristasbases', 'cod_entregador = ' + iId.ToString];
+    if dxLayoutGroup1.ItemIndex = 0 then
+      txtNomeEntregador.Clear
+    else
+      txtNomeEntregadorRetorno.Clear;
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      if dxLayoutGroup1.ItemIndex = 0 then
+        edtEntregador.SetFocus
+      else
+        edtEntregadorRetorno.SetFocus();
+      Exit;
+    end;
+    if dxLayoutGroup1.ItemIndex = 0 then
+      txtNomeEntregador.Text := FSearch.Query.Fields[0].Value
+    else
+      txtNomeEntregadorRetorno.Text := FSearch.Query.Fields[0].Value;
+    FBase := FSearch.Query.Fields[1].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+procedure Tview_ControleEntregas.ProcuraNomeMotoristaRel(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['nom_motorista, cod_base', 'view_motoristasbases', 'cod_entregador = ' + iId.ToString];
+    if dxLayoutGroup1.ItemIndex = 0 then
+      txtNomeEntregador.Clear
+    else
+      txtNomeEntregadorRetorno.Clear;
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      bteEntregadorRel.SetFocus();
+      Exit;
+    end;
+    txtnomEntregadorRel.Text := FSearch.Query.Fields[0].Value;
+    FBase := FSearch.Query.Fields[1].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
   end;
 end;
 
@@ -1297,7 +1633,7 @@ begin
     Data_Sisgef.mtbAtribuicaodes_log.Text := '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' atribuido ao entregador ' +
                                              edtEntregador.Text + ' - ' + txtNomeEntregador.Text + ' por ' +
                                              Global.Parametros.pUser_Name;
-    Data_Sisgef.mtbAtribuicaocod_cliente.AsInteger := cboCliente.ItemIndex;
+    Data_Sisgef.mtbAtribuicaocod_cliente.AsInteger := codCliente.EditValue;
     Data_Sisgef.mtbAtribuicaocod_embarcador.AsInteger := FDQuery.FieldByName('COD_CLIENTE').AsInteger;
     clientes := TClientesControl.Create;
     SetLength(pParam, 2);
@@ -1356,7 +1692,7 @@ end;
 function Tview_ControleEntregas.ValidaInicioAtribuicao: Boolean;
 begin
   Result := False;
-  if cboCliente.ItemIndex = 0 then
+  if codCliente.EditValue = 0 then
   begin
     Application.MessageBox('Selecione o cliente!', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
@@ -1382,7 +1718,7 @@ end;
 function Tview_ControleEntregas.ValidaInicioRetorno: Boolean;
 begin
   Result := False;
-  if cboCliente.ItemIndex = 0 then
+  if codCliente.EditValue = 0 then
   begin
     Application.MessageBox('Selecione o cliente!', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
@@ -1413,6 +1749,43 @@ begin
     Exit;
   end;
   Result:= True;
+end;
+
+function Tview_ControleEntregas.ValidaRel: boolean;
+begin
+  Result := False;
+  if (codCliente.EditValue <> 0) and (codCliente.Text <> EmptyStr)  then
+  begin
+    if nomCliente.Text = EmptyStr then
+    begin
+      Application.MessageBox('Cliente não cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+  end;
+  if (bteEntregadorRel.EditValue <> 0) and (bteEntregadorRel.Text <> EmptyStr)  then
+  begin
+    if txtnomEntregadorRel.Text = EmptyStr then
+    begin
+      Application.MessageBox('Entegador não cadastrado!', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+  end;
+  if datInicialRel.Text = EmptyStr then
+  begin
+    Application.MessageBox('Informe a data inicial de atribuição!', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+  if datFinalRel.Text = EmptyStr then
+  begin
+    Application.MessageBox('Informe a data final de atribuição!', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+  if datInicialRel.Date > datFinalRel.Date then
+  begin
+    Application.MessageBox('Data inicial de atribuição não pode ser maior que a data final!', 'Atenção', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+  Result := True;
 end;
 
 end.

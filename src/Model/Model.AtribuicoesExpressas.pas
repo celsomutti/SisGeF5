@@ -2,7 +2,7 @@ unit Model.AtribuicoesExpressas;
 
 interface
 
-uses Common.ENum, FireDAC.Comp.Client;
+uses Common.ENum, FireDAC.Comp.Client, service.connectionMySQL;
 
 type
   TAtribuicoesExpressas =  class
@@ -28,6 +28,7 @@ type
     FTelefone: String;
     FCodigoRetorno: String;
     FCodigoInformativo: Integer;
+    FQuery: TFDQuery;
     public
     property ID: Integer read FID write FID;
     property Codigo: String read FCodigo write FCodigo;
@@ -49,11 +50,13 @@ type
     property FlagRetorno: ShortInt read FFlagRetorno write FFlagRetorno;
     property CodigoInformativo: Integer read FCodigoInformativo write FCodigoInformativo;
     property LOG: String read FLOG write FLOG;
+    property Query : TFDQuery read FQuery write FQuery;
     property Acao: TAcao read FAcao write FAcao;
 
     function GetID(): Integer;
     function Localizar(aParam: array of variant): TFDQuery;
     function Gravar(): Boolean;
+    function CustomSearch(aParams: array of string): boolean;
   end;
 
 implementation
@@ -61,6 +64,37 @@ implementation
 { TAtribuicoesExpressas }
 
 uses DAO.AtribuicoesExpressas;
+
+function TAtribuicoesExpressas.CustomSearch(aParams: array of string): boolean;
+var
+  sSource : string;
+  FConexao : TConnectionMySQL;
+begin
+  Result := False;
+  if Length(aParams) < 2 then
+  begin
+    Exit
+  end;
+  FConexao := TConnectionMySQL.Create;
+  FQuery := FConexao.GetQuery;
+  FQuery.SQL.Clear;
+  FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
+  if aParams[1] = 'TABLE' then
+    sSource := TABLENAME
+  else
+    sSource := aParams[1];
+  FQuery.MacroByName('colums').AsRaw := aParams[0];
+  FQuery.MacroByName('table').AsRaw := sSource;
+  FQuery.MacroByName('where').AsRaw := aParams[2];
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    FQuery.Connection.Close;
+    FConexao.Free;
+    Exit;
+  end;
+  Result := True;
+end;
 
 function TAtribuicoesExpressas.GetID: Integer;
 var

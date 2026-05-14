@@ -52,7 +52,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       TabOrder = 5
     end
     object cboUnitizador: TcxComboBox
-      Left = 207
+      Left = 209
       Top = 91
       Hint = 'Selecione o tipo de unitizator'
       ParentFont = False
@@ -71,7 +71,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.IsFontAssigned = True
       TabOrder = 8
       Text = 'Selecione ...'
-      Width = 93
+      Width = 91
     end
     object datExpedicao: TcxDateEdit
       Left = 306
@@ -88,10 +88,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 9
-      Width = 60
+      Width = 59
     end
     object mskCCEP: TcxMaskEdit
-      Left = 372
+      Left = 371
       Top = 91
       Hint = 'C'#243'digo da cabe'#231'a de CEP'
       ParentFont = False
@@ -106,13 +106,13 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 10
-      Width = 56
+      Width = 54
     end
     object grdExpedicao: TcxGrid
       Left = 10
-      Top = 191
+      Top = 195
       Width = 935
-      Height = 291
+      Height = 287
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -331,7 +331,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       TabOrder = 3
     end
     object cxButton2: TcxButton
-      Left = 860
+      Left = 856
       Top = 87
       Width = 75
       Height = 25
@@ -340,7 +340,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       TabOrder = 15
     end
     object txtLeitura: TcxTextEdit
-      Left = 20
+      Left = 24
       Top = 136
       Hint = 'Leitura'
       ParentFont = False
@@ -354,10 +354,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.HotTrack = False
       Style.IsFontAssigned = True
       TabOrder = 16
-      Width = 915
+      Width = 907
     end
     object cboCliente: TcxComboBox
-      Left = 20
+      Left = 24
       Top = 91
       Hint = 'Selecione o cliente'
       ParentFont = False
@@ -379,10 +379,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Style.IsFontAssigned = True
       TabOrder = 6
       Text = 'Selecione ...'
-      Width = 104
+      Width = 102
     end
     object chkDANFE: TcxCheckBox
-      Left = 434
+      Left = 431
       Top = 91
       Hint = 'Pesquisar pela chave da DANFE'
       Caption = 'DANFE'
@@ -489,7 +489,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       AnchorY = 502
     end
     object lcbRoteiros: TcxLookupComboBox
-      Left = 709
+      Left = 705
       Top = 91
       Hint = 'Identifica'#231#227'o o roteiro'
       ParentFont = False
@@ -511,7 +511,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Width = 145
     end
     object lcbMotorista: TcxLookupComboBox
-      Left = 521
+      Left = 517
       Top = 91
       Hint = 'Nome do motorista'
       ParentFont = False
@@ -533,7 +533,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       Width = 145
     end
     object cxButton7: TcxButton
-      Left = 672
+      Left = 668
       Top = 87
       Width = 31
       Height = 25
@@ -543,7 +543,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       TabOrder = 13
     end
     object checkBoxProvisorio: TcxCheckBox
-      Left = 130
+      Left = 132
       Top = 91
       Caption = 'Provis'#243'rio'
       Properties.OnChange = checkBoxProvisorioPropertiesChange
@@ -939,7 +939,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
     Top = 16
   end
   object frxRotulo: TfrxReport
-    Version = '6.6.11'
+    Version = '6.9.15'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
@@ -991,6 +991,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       MirrorMode = []
       object ReportTitle1: TfrxReportTitle
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 79.370130000000000000
         Top = 18.897650000000000000
@@ -1030,6 +1034,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object MasterData1: TfrxMasterData
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 22.677180000000000000
         Top = 158.740260000000000000
@@ -1038,6 +1046,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object PageFooter1: TfrxPageFooter
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 22.677180000000000000
         Top = 241.889920000000000000
@@ -1080,7 +1092,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
     Top = 8
   end
   object frxRomaneio: TfrxReport
-    Version = '6.6.11'
+    Version = '6.9.15'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
@@ -1132,6 +1144,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       MirrorMode = []
       object ReportTitle1: TfrxReportTitle
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 79.370130000000000000
         Top = 18.897650000000000000
@@ -1171,6 +1187,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object MasterData1: TfrxMasterData
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 83.149660000000000000
         Top = 158.740260000000000000
@@ -1199,6 +1219,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object PageFooter1: TfrxPageFooter
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 22.677180000000000000
         Top = 302.362400000000000000
@@ -1245,7 +1269,7 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
     Top = 8
   end
   object frxDIRECT: TfrxReport
-    Version = '6.6.11'
+    Version = '6.9.15'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
@@ -1301,6 +1325,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       MirrorMode = []
       object MasterData1: TfrxMasterData
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 98.267780000000000000
         Top = 181.417440000000000000
@@ -1335,6 +1363,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object PageFooter1: TfrxPageFooter
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 52.913420000000000000
         Top = 411.968770000000000000
@@ -1369,6 +1401,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object PageHeader1: TfrxPageHeader
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 102.047310000000000000
         Top = 18.897650000000000000
@@ -1410,6 +1446,10 @@ object view_ExpedicaoExpressas: Tview_ExpedicaoExpressas
       end
       object ReportSummary1: TfrxReportSummary
         FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
         Frame.Typ = []
         Height = 49.133890000000000000
         Top = 340.157700000000000000

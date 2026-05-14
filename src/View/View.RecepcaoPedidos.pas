@@ -18,18 +18,15 @@ uses
   cxDropDownEdit, cxCalendar, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons, Common.ENum,
   Control.Clientes, Control.Entregas, Control.Sistema, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
   Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  cxDBLookupComboBox, FireDAC.Comp.Client, cxCheckBox, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog;
+  cxDBLookupComboBox, FireDAC.Comp.Client, cxCheckBox, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
+  cxButtonEdit, service.SisGeFGeneralSearch, service.connectionMySQL;
 
 type
   Tview_RecepcaoPedidos = class(TForm)
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
-    cxLabel1: TcxLabel;
-    dxLayoutItem1: TdxLayoutItem;
     crbRecepcao: TcxRadioGroup;
     dxLayoutItem2: TdxLayoutItem;
-    cboCliente: TcxComboBox;
-    dxLayoutItem3: TdxLayoutItem;
     aclRecepcao: TActionList;
     actFechar: TAction;
     actIniciar: TAction;
@@ -79,6 +76,12 @@ type
     dxLayoutAutoCreatedGroup4: TdxLayoutAutoCreatedGroup;
     lblResultado: TcxLabel;
     dxLayoutItem14: TdxLayoutItem;
+    dxLayoutGroup4: TdxLayoutGroup;
+    codCliente: TcxButtonEdit;
+    dxLayoutItem15: TdxLayoutItem;
+    actPesquisarCliente: TAction;
+    nomCliente: TcxTextEdit;
+    dxLayoutItem16: TdxLayoutItem;
     procedure txtLeituraPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure crbRecepcaoPropertiesChange(Sender: TObject);
     procedure cboClientePropertiesChange(Sender: TObject);
@@ -91,12 +94,16 @@ type
     procedure tvRecepcaoNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure actPesquisarExecute(Sender: TObject);
+    procedure codClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure actPesquisarClienteExecute(Sender: TObject);
   private
     { Private declarations }
     procedure PopulaEmbarcadores(iCliente: Integer);
     procedure LocalizaEntrega(sChave: String; iCliente, iOpcao: Integer);
     procedure SetupEntregas(FDQuery: TFDquery);
+    procedure SetupEntregasNew();
     procedure SetupGrade(sNN: String; FDQuery: TFDQuery);
+    procedure SetupGradeNew(sNN: String; iCliente: integer);
     procedure LocalizaContainer(sChave: String; iCliente: Integer);
     procedure PesquisaEntregas(dtInicio: TDate; dtFinal: TDate; iSituacao: Integer; iCliente: Integer);
     procedure Iniciar;
@@ -105,6 +112,8 @@ type
     procedure Exportar;
     procedure LabelResultado(iTipo: Integer; sTexto: String);
     procedure Aviso(sTexto: String);
+    procedure ProcuraCliente;
+    procedure ProcuraNomeCliente(iId: integer);
     function RetornaNN(sLeitura: String; icliente: Integer): String;
   public
     { Public declarations }
@@ -119,7 +128,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, Common.Utils, TFO.Barras, Global.Parametros, View.Aviso;
+uses Data.SisGeF, Common.Utils, TFO.Barras, Global.Parametros, View.Aviso, View.SisGeFGeneralsSearch;
 
 { Tview_RecepcaoPedidos }
 
@@ -145,17 +154,23 @@ begin
   Iniciar;
 end;
 
+procedure Tview_RecepcaoPedidos.actPesquisarClienteExecute(Sender: TObject);
+begin
+  ProcuraCliente;
+end;
+
 procedure Tview_RecepcaoPedidos.actPesquisarExecute(Sender: TObject);
 begin
-  PesquisaEntregas(datInicio.Date, datFinal.Date, cboSituacao.ItemIndex,cboCliente.ItemIndex);
+  PesquisaEntregas(datInicio.Date, datFinal.Date, cboSituacao.ItemIndex,codCliente.EditValue);
 end;
 
 procedure Tview_RecepcaoPedidos.Cancelar;
 begin
   if Data_Sisgef.mtbRecepcaoPedidos.Active then Data_Sisgef.mtbRecepcaoPedidos.Close;
   Data_Sisgef.mtbRecepcaoPedidos.Open;
-  cboCliente.Properties.ReadOnly := False;
-  cboCliente.ItemIndex := 0;
+  codCliente.Properties.ReadOnly := False;
+  codCliente.EditValue := 0;
+  nomCliente.Text := EmptyStr;
   txtLeitura.Properties.ReadOnly := True;
   actGravar.Enabled := False;
   actCancelar.Enabled := False;
@@ -167,6 +182,12 @@ procedure Tview_RecepcaoPedidos.cboClientePropertiesChange(Sender: TObject);
 begin
   if Data_Sisgef.mtbRecepcaoPedidos.Active then Data_Sisgef.mtbRecepcaoPedidos.Close;
   Data_Sisgef.mtbRecepcaoPedidos.Open;
+end;
+
+procedure Tview_RecepcaoPedidos.codClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+  var Error: Boolean);
+begin
+  ProcuraNomeCliente(DisplayValue);
 end;
 
 procedure Tview_RecepcaoPedidos.crbRecepcaoPropertiesChange(Sender: TObject);
@@ -213,17 +234,20 @@ procedure Tview_RecepcaoPedidos.Gravar;
 var
   FDQuery: TFDQuery;
   aParam: array of variant;
+  FConn : TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := FConn.GetQuery;;
     entregas := TEntregasControl.Create;
     if Application.MessageBox('Confirma gravar a recepção?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit;
     if not Data_Sisgef.mtbRecepcaoPedidos.IsEmpty then Data_Sisgef.mtbRecepcaoPedidos.First;
     while not Data_Sisgef.mtbRecepcaoPedidos.eof do
     begin
       SetLength(aParam,2);
-      aParam[0] := 'NN';
-      aParam[1] := Data_Sisgef.mtbRecepcaoPedidosnum_nossonumero.AsString;
+      aParam[0] := 'FILTRO';
+      aParam[1] := 'where NUM_NOSSONUMERO = ' + QuotedStr(Data_Sisgef.mtbRecepcaoPedidosnum_nossonumero.AsString) +
+                   ' and COD_CLIENTE = ' + Data_Sisgef.mtbRecepcaoPedidoscod_cliente.AsString;
       FDQuery := entregas.Localizar(aParam);
       Finalize(aParam);
       if not FDQuery.IsEmpty then
@@ -239,12 +263,28 @@ begin
         begin
           Application.MessageBox(PChar('Erro ao gravar o pedido NN ' + entregas.Entregas.NN + ' !'), 'Erro', MB_OK + MB_ICONERROR);
         end;
+      end
+      else
+      begin
+        SetupEntregasNew;
+        entregas.Entregas.Recebimento := Data_Sisgef.mtbRecepcaoPedidosdat_recebido.AsDateTime;
+        entregas.Entregas.Recebido := 'S';
+        entregas.Entregas.Rastreio := entregas.Entregas.Rastreio + #13 +
+                                      '> ' + FormatDateTime('yyyy/mm/dd hh:mm:ss', Now) + ' pedido recebido por ' +
+                                      Global.Parametros.pUser_Name;
+        entregas.Entregas.Acao := tacIncluir;
+        if not entregas.Gravar then
+        begin
+          Application.MessageBox(PChar('Erro ao gravar o pedido NN ' + entregas.Entregas.NN + ' !'), 'Erro', MB_OK + MB_ICONERROR);
+        end;
+
       end;
       Data_Sisgef.mtbRecepcaoPedidos.Next;
     end;
     Application.MessageBox('Recepção gravada com sucesso!', 'Atenção', MB_OK + MB_ICONINFORMATION);
     Cancelar;
   finally
+    FConn.Free;
     FDQuery.Free;
     entregas.Free;
   end;
@@ -252,7 +292,7 @@ end;
 
 procedure Tview_RecepcaoPedidos.Iniciar;
 begin
-  if cboCliente.ItemIndex = 0 then
+  if codCliente.EditValue = 0 then
   begin
     Application.MessageBox('Selecione o cliente.', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
@@ -262,8 +302,8 @@ begin
     Application.MessageBox('Selecione o tipo de recepção.', 'Atenção', MB_OK + MB_ICONWARNING);
     Exit;
   end;
-  PopulaEmbarcadores(cboCliente.ItemIndex);
-  cboCliente.Properties.ReadOnly := True;
+  PopulaEmbarcadores(codCliente.EditValue);
+  codCliente.Properties.ReadOnly := True;
   crbRecepcao.Properties.ReadOnly := True;
   txtLeitura.Properties.ReadOnly := False;
   actGravar.Enabled := True;
@@ -325,57 +365,65 @@ var
   aParam : Array of variant;
   sNN: String;
   barra : TBarrTFO;
-  bFlagGravar: Boolean;
+  bFlagGravar, bLocalizado: Boolean;
   dPesoMax: Double;
+  FConn : TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := FConn.GetQuery;
     entregas := TEntregasControl.Create;
     sNN := '';
-    if iCliente = 4 then
-    begin
-      dPesoMax := 30;
-    end
-    else
-    begin
-      dPesoMax := 25;
-    end;
-    if cboCliente.ItemIndex <> 3 then
-    begin
-      sNN := RetornaNN(sChave, iCliente);
-      SetLength(aParam,2);
-      aParam[0] := 'NN';
-      aParam[1] := sNN;
-    end
-    else
-    begin
+//    if iCliente = 4 then
+//    begin
+//      dPesoMax := 30;
+//    end
+//    else
+//    begin
+//      dPesoMax := 25;
+//    end;
+//    if iCliente <> 3 then
+//    begin
+//      sNN := RetornaNN(sChave, iCliente);
+//      SetLength(aParam,2);
+//      aParam[0] := 'NN';
+//      aParam[1] := sNN;
+//    end
+//    else
+//    begin
+      bLocalizado := True;
       sNN := Trim(sChave);
       SetLength(aParam,2);
       aParam[0] := 'FILTRO';
-      aParam[1] := 'where des_retorno like ' + QuotedStr(sNN+'%');
-    end;
+      aParam[1] := 'where NUM_NOSSONUMERO = ' + QuotedStr(sNN) + ' and COD_CLIENTE = ' + iCliente.ToString;
+//    end;
     FDQuery := entregas.Localizar(aParam);
     Finalize(aParam);
     if FDQuery.IsEmpty then
     begin
-      LabelResultado(2, 'Pedido ' + sNN + ' não encontrado!');
-      Aviso('Pedido ' + sNN + ' não encontrado!');
-      LabelResultado(0,'');
-     Exit;
-    end;
-    sNN := FDQuery.FieldByName('num_nossonumero').AsString;
-    if sNN.IsEmpty then
+//      LabelResultado(2, 'Pedido ' + sNN + ' não encontrado!');
+//      Aviso('Pedido ' + sNN + ' não encontrado!');
+//      LabelResultado(0,'');
+//      Exit;
+      bLocalizado := False
+    end
+    else
     begin
-      LabelResultado(2, 'Pedido ' + sNN + ' inválido!');
-      Aviso('Pedido ' + sNN + ' inválido!');
-      LabelResultado(0,'');
-      Exit;
+      sNN := FDQuery.FieldByName('num_nossonumero').AsString;
+      if sNN.IsEmpty then
+      begin
+        LabelResultado(2, 'Pedido ' + sNN + ' inválido!');
+        Aviso('Pedido ' + sNN + ' inválido!');
+        LabelResultado(0,'');
+        Exit;
+      end;
     end;
     bFlagGravar := True;
     if not Data_Sisgef.mtbRecepcaoPedidos.IsEmpty then Data_Sisgef.mtbRecepcaoPedidos.First;
     while not Data_Sisgef.mtbRecepcaoPedidos.eof do
     begin
-      if Data_Sisgef.mtbRecepcaoPedidosnum_nossonumero.AsString = sNN then bFlagGravar := False;
+      if Data_Sisgef.mtbRecepcaoPedidosnum_nossonumero.AsString = sNN then
+        bFlagGravar := False;
       Data_Sisgef.mtbRecepcaoPedidos.Next;
     end;
     if not bFlagGravar then
@@ -385,34 +433,41 @@ begin
       LabelResultado(0,'');
       Exit;
     end;
-    if FDQuery.FieldByName('DOM_RECEBIDO').AsString = 'S' then
+    if bLocalizado then
     begin
-      LabelResultado(2, 'Pedido ' + sNN + ' já foi recebido anteriormente!');
-      Aviso('Pedido ' + sNN + ' já foi recebido anteriormente!');
-      LabelResultado(0,'');
-      Exit;
-    end;
-    if iOpcao = 2 then
-    begin
-      if FDQuery.FieldByName('QTD_PESO_COBRADO').AsFloat > dPesoMax then
+      if FDQuery.FieldByName('DOM_RECEBIDO').AsString = 'S' then
       begin
-        LabelResultado(2, 'Categoria do Pedido ' + sNN + ' é PESADO!');
-        Aviso('Categoria do Pedido ' + sNN + ' é PESADO!');
+        LabelResultado(2, 'Pedido ' + sNN + ' já foi recebido anteriormente!');
+        Aviso('Pedido ' + sNN + ' já foi recebido anteriormente!');
         LabelResultado(0,'');
         Exit;
       end;
+      if iOpcao = 2 then
+      begin
+        if FDQuery.FieldByName('QTD_PESO_COBRADO').AsFloat > 30 then
+        begin
+          LabelResultado(2, 'Categoria do Pedido ' + sNN + ' é PESADO!');
+          Aviso('Categoria do Pedido ' + sNN + ' é PESADO!');
+          LabelResultado(0,'');
+          Exit;
+        end;
+      end
+      else if iOpcao = 3 then
+      begin
+        if FDQuery.FieldByName('QTD_PESO_COBRADO').AsFloat <= 30 then
+        begin
+          LabelResultado(2, 'Categoria do Pedido ' + sNN + ' é LEVE!');
+          Aviso('Categoria do Pedido ' + sNN + ' é LEVE!');
+          LabelResultado(0,'');
+          Exit;
+        end;
+      end;
+      SetupGrade(sNN,FDQuery);
     end
-    else if iOpcao = 3 then
+    else
     begin
-      if FDQuery.FieldByName('QTD_PESO_COBRADO').AsFloat <= dPesoMax then
-      begin
-        LabelResultado(2, 'Categoria do Pedido ' + sNN + ' é LEVE!');
-        Aviso('Categoria do Pedido ' + sNN + ' é LEVE!');
-        LabelResultado(0,'');
-        Exit;
-      end;
+      SetupGradeNew(sNN, iCliente);
     end;
-    SetupGrade(sNN,FDQuery);
   finally
     txtLeitura.SetFocus;
     FDQuery.Free;
@@ -425,9 +480,11 @@ var
   FDQuery: TFDQuery;
   aParam: Array of variant;
   sQuery: String;
+  Fconn : TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := Fconn.GetQuery;
     entregas := TEntregasControl.Create;
     if Data_Sisgef.mtbRecepcaoPedidos.Active then Data_Sisgef.mtbRecepcaoPedidos.Close;
     Data_Sisgef.mtbRecepcaoPedidos.Open;
@@ -456,6 +513,7 @@ begin
       FDQuery.Next;
     end;
   finally
+    FConn.Free;
     FDQuery.Free;
     entregas.Free;
   end;
@@ -465,9 +523,11 @@ procedure Tview_RecepcaoPedidos.PopulaEmbarcadores(iCliente: Integer);
 var
   FDQuery : TFDQuery;
   aParam : Array of variant;
+  FConn : TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := FConn.GetQuery;
     clientes := TClientesControl.Create;
     if Data_Sisgef.mtbEmbarcadores.Active then Data_Sisgef.mtbEmbarcadores.Close;
     SetLength(aParam,2);
@@ -480,9 +540,49 @@ begin
     end;
     FDQuery.Close;
   finally
+    FConn.Free;
     clientes.Free;
     FDquery.Free;
   end;end;
+
+procedure Tview_RecepcaoPedidos.ProcuraCliente;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_Cliente as "Código", nom_fantasia as "Nome Fantasia"';
+  viewGeneralSearch.Tabela := 'crm_clientes';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    codCliente.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    nomCliente.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+
+procedure Tview_RecepcaoPedidos.ProcuraNomeCliente(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  nomCliente.Text := EmptyStr;
+  try
+    aParam := ['nom_fantasia', 'crm_clientes', 'cod_cliente = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      codCliente.SetFocus;
+      Exit;
+    end;
+    nomCliente.Text := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
 
 function Tview_RecepcaoPedidos.RetornaNN(sLeitura: String; icliente: Integer): String;
 var
@@ -580,6 +680,64 @@ begin
 end;
 
 
+procedure Tview_RecepcaoPedidos.SetupEntregasNew;
+begin
+  entregas.Entregas.NN := Data_Sisgef.mtbRecepcaoPedidosnum_nossonumero.AsString;
+  entregas.Entregas.Distribuidor := 0;
+  entregas.Entregas.Entregador := 0;
+  entregas.Entregas.Cliente := Data_Sisgef.mtbRecepcaoPedidoscod_cliente.AsInteger;
+  entregas.Entregas.NF := Data_Sisgef.mtbRecepcaoPedidosnum_nf.AsString;
+  entregas.Entregas.Consumidor := Data_Sisgef.mtbRecepcaoPedidosnom_consumidor.AsString;
+  entregas.Entregas.Endereco := '';
+  entregas.Entregas.Complemento := '';
+  entregas.Entregas.Bairro := '';
+  entregas.Entregas.Cidade :=  '';
+  entregas.Entregas.Cep := '';
+  entregas.Entregas.Telefone := '';
+  entregas.Entregas.Expedicao := Data_Sisgef.mtbRecepcaoPedidosdat_expedicao.AsDateTime;
+  entregas.Entregas.Previsao := 0;
+  entregas.Entregas.Volumes := Data_Sisgef.mtbRecepcaoPedidosqtd_volumes.AsInteger;
+  entregas.Entregas.Atribuicao := 0;
+  entregas.Entregas.Baixa := 0;
+  entregas.Entregas.Baixado := 'N';
+  entregas.Entregas.Pagamento := 0;
+  entregas.Entregas.Pago := 'N';
+  entregas.Entregas.Fechado := 'N';
+  entregas.Entregas.Status := 1;
+  entregas.Entregas.Entrega := 0;
+  entregas.Entregas.PesoReal := Data_Sisgef.mtbRecepcaoPedidosqtd_peso_real.AsFloat;
+  entregas.Entregas.PesoFranquia := Data_Sisgef.mtbRecepcaoPedidosqtd_peso_real.AsFloat;
+  entregas.Entregas.VerbaFranquia := 0;
+  entregas.Entregas.Advalorem := 0;
+  entregas.Entregas.PagoFranquia := 0;
+  entregas.Entregas.VerbaEntregador := 0;
+  entregas.Entregas.Extrato := '';
+  entregas.Entregas.Atraso := 0;
+  entregas.Entregas.VolumesExtra := 0;
+  entregas.Entregas.ValorVolumes := 0;
+  entregas.Entregas.PesoCobrado := Data_Sisgef.mtbRecepcaoPedidosqtd_peso_real.AsFloat;
+  entregas.Entregas.TipoPeso := 'NORMAL';
+  entregas.Entregas.Recebimento := Data_Sisgef.mtbRecepcaoPedidosdat_recebido.AsDateTime;
+  entregas.Entregas.Recebido := 'S';
+  entregas.Entregas.CTRC := 0;
+  entregas.Entregas.Manifesto := 0;
+  entregas.Entregas.Rastreio := '';
+  entregas.Entregas.Lote := 0;
+  entregas.Entregas.Retorno := '';
+  entregas.Entregas.Credito := 0;
+  entregas.Entregas.Creditado := 'N';
+  entregas.Entregas.Container := '';
+  entregas.Entregas.ValorProduto := 0;
+  entregas.Entregas.Altura := 0;
+  entregas.Entregas.Largura := 0;
+  entregas.Entregas.Comprimento := 0;
+  entregas.Entregas.CodigoFeedback := 0;
+  entregas.Entregas.DataFeedback := 0;
+  entregas.Entregas.Conferido := 0;
+  entregas.Entregas.Pedido := Data_Sisgef.mtbRecepcaoPedidosnum_pedido.AsString;
+  entregas.Entregas.CodCliente := Data_Sisgef.mtbRecepcaoPedidoscod_cliente.AsInteger;
+end;
+
 procedure Tview_RecepcaoPedidos.SetupGrade(sNN: String; FDQuery: TFDQuery);
 var
   pParam: Array of variant;
@@ -599,6 +757,23 @@ begin
   Data_Sisgef.mtbRecepcaoPedidos.Post;
 end;
 
+procedure Tview_RecepcaoPedidos.SetupGradeNew(sNN: String; iCliente: integer);
+begin
+  if not Data_Sisgef.mtbRecepcaoPedidos.Active then Data_Sisgef.mtbRecepcaoPedidos.Active := True;
+  Data_Sisgef.mtbRecepcaoPedidos.Insert;
+  Data_Sisgef.mtbRecepcaoPedidosnum_nossonumero.AsString := sNN;
+  Data_Sisgef.mtbRecepcaoPedidoscod_cliente.AsInteger := iCliente;
+  Data_Sisgef.mtbRecepcaoPedidosnum_nf.AsString := '0';
+  Data_Sisgef.mtbRecepcaoPedidosnom_consumidor.AsString := 'CONSUMIDOR ' + nomCliente.Text;
+  Data_Sisgef.mtbRecepcaoPedidosdat_expedicao.AsDateTime := 0;
+  Data_Sisgef.mtbRecepcaoPedidosqtd_volumes.AsInteger := 1;
+  Data_Sisgef.mtbRecepcaoPedidosqtd_peso_real.AsFloat := 0;
+  Data_Sisgef.mtbRecepcaoPedidosnum_container.AsString := '';
+  Data_Sisgef.mtbRecepcaoPedidosnum_pedido.AsString := '';
+  Data_Sisgef.mtbRecepcaoPedidosdat_recebido.AsDateTime := Now();
+  Data_Sisgef.mtbRecepcaoPedidos.Post;
+end;
+
 procedure Tview_RecepcaoPedidos.tvRecepcaoNavigatorButtonsButtonClick(Sender: TObject; AButtonIndex: Integer; var ADone: Boolean);
 begin
   case AButtonIndex of
@@ -611,12 +786,12 @@ procedure Tview_RecepcaoPedidos.txtLeituraPropertiesValidate(Sender: TObject; va
 begin
   if crbRecepcao.ItemIndex = 1 then
   begin
-    if DisplayValue <> '' then LocalizaContainer(DisplayValue,cboCliente.ItemIndex);
+    if DisplayValue <> '' then LocalizaContainer(DisplayValue,codCliente.EditValue);
     DisplayValue := '';
   end
   else
   begin
-    if DisplayValue <> '' then LocalizaEntrega(DisplayValue,cboCliente.ItemIndex, crbRecepcao.ItemIndex);
+    if DisplayValue <> '' then LocalizaEntrega(DisplayValue,CodCliente.EditValue, crbRecepcao.ItemIndex);
     DisplayValue := '';
   end;
 end;

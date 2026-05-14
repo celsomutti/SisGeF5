@@ -277,7 +277,6 @@ uses
   Model.SisGeFOrderServices in 'src\Model\Model.SisGeFOrderServices.pas',
   Controller.SisGeFOrderServices in 'src\Control\Controller.SisGeFOrderServices.pas',
   View.SisGeFGeneralsSearch in 'src\View\View.SisGeFGeneralsSearch.pas' {viewGeneralSearch},
-  View.SisGeFGeneralSearch in 'src\View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch},
   View.SisGeFExtractSO in 'src\View\View.SisGeFExtractSO.pas' {view_SisGeFExtractSO},
   Thread.SisGeFProcessExtractSO in 'src\Thread\Thread.SisGeFProcessExtractSO.pas',
   Thread.SisGeFCloseExtractSO in 'src\Thread\Thread.SisGeFCloseExtractSO.pas',
@@ -354,7 +353,9 @@ uses
   View.SisGeFFuncoesAtividades in 'src\View\View.SisGeFFuncoesAtividades.pas' {viewFuncoesAtividades},
   View.SisGeFAcareacoes in 'src\View\View.SisGeFAcareacoes.pas' {viewAcareacoes},
   service.SisGeFGeneralSearch in 'src\Services\service.SisGeFGeneralSearch.pas',
-  View.PesquisarGeral in 'src\View\View.PesquisarGeral.pas' {View_PesquisarGeral};
+  View.PesquisarGeral in 'src\View\View.PesquisarGeral.pas' {View_PesquisarGeral},
+  View.SisGeFGeneralSearch in 'src\View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch},
+  View.SisGeFPNRImport in 'src\View\View.SisGeFPNRImport.pas' {viewPNRImport};
 
 {$R *.res}
 
@@ -364,6 +365,5 @@ begin
   Application.Title := 'Sistema Gerenciador de Faturamento';
   Application.CreateForm(TData_Sisgef, Data_Sisgef);
   Application.CreateForm(Tview_Main, view_Main);
-  Application.CreateForm(TView_PesquisarGeral, View_PesquisarGeral);
   Application.Run;
 end.

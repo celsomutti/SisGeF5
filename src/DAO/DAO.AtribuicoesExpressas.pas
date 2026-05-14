@@ -2,12 +2,12 @@ unit DAO.AtribuicoesExpressas;
 
 interface
 
-uses FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Model.AtribuicoesExpressas;
+uses FireDAC.Comp.Client, System.SysUtils, DAO.Conexao, Model.AtribuicoesExpressas, service.connectionMySQL;
 
 type
   TAtribuicoesExpressasDAO= class
   private
-  FConexao : TConexao;
+    FConexao : TConnectionMySQL;
   public
   constructor Create;
   function GetID(): Integer;
@@ -31,7 +31,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.ExecSQL('update ' + TABLENAME + ' set cod_atribuicao = :cod_atribuicao, dat_atribuicao = :dat_atribuicao, ' +
                     'cod_entregador = :cod_entregador, cod_cliente = :cod_cliente, cod_embarcador = :cod_embarcador, ' +
                     'nom_embarcador = :nom_embarcador, num_nossonumero = :num_nossonumero, cod_retorno = :cod_retorno, ' +
@@ -53,7 +53,7 @@ end;
 
 constructor TAtribuicoesExpressasDAO.Create;
 begin
-  FConexao := TSistemaControl.GetInstance.Conexao;
+  FConexao := TConnectionMySQL.Create;
 end;
 
 function TAtribuicoesExpressasDAO.Excluir(AAtribuicoes: TAtribuicoesExpressas): Boolean;
@@ -62,7 +62,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     if AAtribuicoes.ID <> 0 then
     begin
       FDQuery.ExecSQL('delete from ' + TABLENAME + ' where id_atribuicao = :id_atribuicao', [AAtribuicoes.ID]);
@@ -87,7 +87,7 @@ var
   FDQuery: TFDQuery;
 begin
   try
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     FDQuery.Open('select coalesce(max(id_atribuicao),0) + 1 from ' + TABLENAME);
     try
       Result := FDQuery.Fields[0].AsInteger;
@@ -106,7 +106,7 @@ var
 begin
   try
     Result := False;
-    FDQuery := FConexao.ReturnQuery();
+    FDQuery := FConexao.GetQuery();
     AAtribuicoes.ID := GetID;
     FDQuery.ExecSQL('insert into ' + TABLENAME + ' (' +
                     'id_atribuicao, cod_atribuicao, dat_atribuicao, cod_entregador, cod_cliente, cod_embarcador, nom_embarcador, ' +
@@ -132,7 +132,7 @@ function TAtribuicoesExpressasDAO.Pesquisar(aParam: array of variant): TFDQuery;
 var
   FDQuery: TFDQuery;
 begin
-  FDQuery := FConexao.ReturnQuery();
+  FDQuery := FConexao.GetQuery();
   if Length(aParam) < 2 then Exit;
   FDQuery.SQL.Clear;
   FDQuery.SQL.Add('select * from ' + TABLENAME);

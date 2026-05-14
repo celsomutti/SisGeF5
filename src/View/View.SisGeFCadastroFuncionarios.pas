@@ -17,11 +17,7 @@ type
   TviewCadastroFuncionarios = class(TForm)
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
-    lgpHeader: TdxLayoutGroup;
-    cxLabel1: TcxLabel;
-    dxLayoutItem1: TdxLayoutItem;
     Shape1: TShape;
-    dxLayoutItem2: TdxLayoutItem;
     lbgTabbed: TdxLayoutGroup;
     lgpFooter: TdxLayoutGroup;
     cxButton1: TcxButton;

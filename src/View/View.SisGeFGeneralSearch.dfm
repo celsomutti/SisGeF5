@@ -186,7 +186,6 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end

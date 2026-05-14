@@ -2,7 +2,7 @@ unit services.SisGeFSheetConfrontations;
 
 interface
   uses Generics.Collections, System.Classes, System.SysUtils, Excel4Delphi, Excel4Delphi.Stream, Common.Utils, ComObj,
-  System.Variants;
+  System.Variants, Control.Acareacao, Vcl.Forms;
 
   type
     TSheetConfrontations = class
@@ -38,8 +38,8 @@ interface
         property CreatedTime  : string  read FCreatedTime write FCreatedTime;
         property Status       : string  read FStatus      write FStatus;
 
-        property FileName     : string read FFileName     write FFileName;
-        property Mensagem     : string read FMensagem     write FMensagem;
+        property FileName     : string  read FFileName     write FFileName;
+        property Mensagem     : string  read FMensagem     write FMensagem;
 
         property Planilha: TObjectList<TSheetConfrontations> read FPlanilha write FPlanilha;
 
@@ -66,7 +66,7 @@ begin
   Result    :=  False;
   try
     workBook.LoadFromFile(FFileName);
-    iRows := workBook.Sheets[iSheet].RowCount -1;
+    iRows := workBook.Sheets[iSheet].RowCount - 1;
     FPlanilha := TObjectList<TSheetConfrontations>.Create();
     if iRows < 2 then
     begin
