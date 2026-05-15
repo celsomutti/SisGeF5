@@ -226,6 +226,7 @@ object view_ControleEntregas: Tview_ControleEntregas
         object tvAtribuicaonom_embarcador: TcxGridDBColumn
           DataBinding.FieldName = 'nom_embarcador'
           PropertiesClassName = 'TcxTextEditProperties'
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 174
         end
@@ -517,6 +518,9 @@ object view_ControleEntregas: Tview_ControleEntregas
             Column = tvRetornonum_nossunumero
           end>
         DataController.Summary.SummaryGroups = <>
+        OptionsData.Deleting = False
+        OptionsData.DeletingConfirmation = False
+        OptionsData.Inserting = False
         OptionsView.Footer = True
         OptionsView.GroupByBox = False
         object tvRetornodom_retorno: TcxGridDBColumn
@@ -538,6 +542,7 @@ object view_ControleEntregas: Tview_ControleEntregas
               ImageIndex = 9
               Value = 2
             end>
+          Properties.ReadOnly = True
           Properties.ShowDescriptions = False
           HeaderAlignmentHorz = taCenter
         end
@@ -551,14 +556,30 @@ object view_ControleEntregas: Tview_ControleEntregas
           Visible = False
           HeaderAlignmentHorz = taCenter
         end
+        object tvRetornocod_informativo: TcxGridDBColumn
+          DataBinding.FieldName = 'cod_informativo'
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.KeyFieldNames = 'id'
+          Properties.ListColumns = <
+            item
+              FieldName = 'des_informativo'
+            end>
+          Properties.ListOptions.ShowHeader = False
+          Properties.ListSource = dsInformativo
+          HeaderAlignmentHorz = taCenter
+          Width = 158
+        end
         object tvRetornonum_lote_remessa: TcxGridDBColumn
           DataBinding.FieldName = 'num_lote_remessa'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 59
         end
         object tvRetornodat_atribuicao: TcxGridDBColumn
           DataBinding.FieldName = 'dat_atribuicao'
           PropertiesClassName = 'TcxDateEditProperties'
+          Properties.ReadOnly = True
           Properties.SaveTime = False
           Properties.ShowTime = False
           HeaderAlignmentHorz = taCenter
@@ -583,12 +604,14 @@ object view_ControleEntregas: Tview_ControleEntregas
         object tvRetornonom_embarcador: TcxGridDBColumn
           DataBinding.FieldName = 'nom_embarcador'
           PropertiesClassName = 'TcxTextEditProperties'
+          Visible = False
           HeaderAlignmentHorz = taCenter
           Width = 141
         end
         object tvRetornonum_nossunumero: TcxGridDBColumn
           DataBinding.FieldName = 'num_nossonumero'
           PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           FooterAlignmentHorz = taRightJustify
           HeaderAlignmentHorz = taCenter
           Width = 110
@@ -596,30 +619,35 @@ object view_ControleEntregas: Tview_ControleEntregas
         object tvRetornodes_endereco: TcxGridDBColumn
           DataBinding.FieldName = 'des_endereco'
           PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 302
         end
         object tvRetornonum_cep: TcxGridDBColumn
           DataBinding.FieldName = 'num_cep'
           PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 84
         end
         object tvRetornonom_bairro: TcxGridDBColumn
           DataBinding.FieldName = 'nom_bairro'
           PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 182
         end
         object tvRetornonom_consumidor: TcxGridDBColumn
           DataBinding.FieldName = 'nom_consumidor'
           PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
           Width = 218
         end
         object tvRetornoqtd_volumes: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_volumes'
           PropertiesClassName = 'TcxSpinEditProperties'
+          Properties.ReadOnly = True
           HeaderAlignmentHorz = taCenter
         end
         object tvRetornodes_telefone: TcxGridDBColumn
@@ -723,7 +751,7 @@ object view_ControleEntregas: Tview_ControleEntregas
       Properties.DropDownListStyle = lsFixedList
       Properties.Items.Strings = (
         'Pendente'
-        'Entregue'
+        'Finalizado'
         'Insucesso')
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -999,8 +1027,10 @@ object view_ControleEntregas: Tview_ControleEntregas
         object gridRelDBTableView1cod_retorno: TcxGridDBColumn
           Caption = 'Situa'#231#227'o'
           DataBinding.FieldName = 'cod_retorno'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = False
           HeaderAlignmentHorz = taCenter
-          Width = 104
+          Width = 154
         end
         object gridRelDBTableView1nom_consumidor: TcxGridDBColumn
           Caption = 'Nome do Consumidor'
@@ -1061,8 +1091,16 @@ object view_ControleEntregas: Tview_ControleEntregas
         object gridRelDBTableView1cod_informativo: TcxGridDBColumn
           Caption = 'Informativo'
           DataBinding.FieldName = 'cod_informativo'
+          PropertiesClassName = 'TcxLookupComboBoxProperties'
+          Properties.KeyFieldNames = 'id'
+          Properties.ListColumns = <
+            item
+              FieldName = 'des_informativo'
+            end>
+          Properties.ListOptions.ShowHeader = False
+          Properties.ListSource = dsInformativo
           HeaderAlignmentHorz = taCenter
-          Width = 118
+          Width = 237
         end
         object gridRelDBTableView1des_log: TcxGridDBColumn
           Caption = 'LOG'
@@ -1727,7 +1765,6 @@ object view_ControleEntregas: Tview_ControleEntregas
     end
   end
   object dsAtribuicao: TDataSource
-    AutoEdit = False
     DataSet = Data_Sisgef.mtbAtribuicao
     Left = 320
     Top = 8
@@ -3055,7 +3092,7 @@ object view_ControleEntregas: Tview_ControleEntregas
     Left = 664
     Top = 192
     Content = {
-      414442530F00BD46BB0B0000FF00010001FF02FF0304000C0000006D00740062
+      414442530F009F34BB0B0000FF00010001FF02FF0304000C0000006D00740062
       00520065006C0005000A0000005400610062006C006500060000000000070000
       080032000000090000FF0AFF0B04001A000000690064005F0061007400720069
       00620075006900630061006F0005001A000000690064005F0061007400720069
@@ -3267,5 +3304,29 @@ object view_ControleEntregas: Tview_ControleEntregas
     DataSet = mtbRel
     Left = 712
     Top = 192
+  end
+  object mtbInformativos: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 656
+    Top = 16
+    object mtbInformativosid: TIntegerField
+      FieldName = 'id'
+    end
+    object mtbInformativosdes_informativo: TStringField
+      FieldName = 'des_informativo'
+      Size = 100
+    end
+  end
+  object dsInformativo: TDataSource
+    AutoEdit = False
+    DataSet = mtbInformativos
+    Left = 712
+    Top = 16
   end
 end

@@ -355,7 +355,9 @@ uses
   service.SisGeFGeneralSearch in 'src\Services\service.SisGeFGeneralSearch.pas',
   View.PesquisarGeral in 'src\View\View.PesquisarGeral.pas' {View_PesquisarGeral},
   View.SisGeFGeneralSearch in 'src\View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch},
-  View.SisGeFPNRImport in 'src\View\View.SisGeFPNRImport.pas' {viewPNRImport};
+  View.SisGeFPNRImport in 'src\View\View.SisGeFPNRImport.pas' {viewPNRImport},
+  Model.SisGeFInformativosExpressas in 'src\Model\Model.SisGeFInformativosExpressas.pas',
+  Controller.SisGeFInformativoExpressas in 'src\Control\Controller.SisGeFInformativoExpressas.pas';
 
 {$R *.res}
 

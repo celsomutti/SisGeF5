@@ -1044,8 +1044,7 @@ begin
       'internalname', Common.Utils.TUtils.Sistema('InternalName'));
     dxRibbonStatusBar1.Panels[0].Text := 'Versão ' +
       Common.Utils.TUtils.VersaoExe;
-    dxRibbonStatusBar1.Panels[1].Text := Global.Parametros.pServer + '/' +
-      Global.Parametros.pDatabase;
+    dxRibbonStatusBar1.Panels[1].Text := FSistem.Database;
     dxRibbonStatusBar1.Panels[2].Text := Global.Parametros.pNameUser;
     Acessos;
   end;

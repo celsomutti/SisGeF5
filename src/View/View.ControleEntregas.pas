@@ -21,7 +21,8 @@ uses
   cxGridDBTableView, cxGrid, cxImageComboBox, cxSpinEdit, cxCheckBox, cxBlobEdit, frxClass, frxDBSet, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, service.SisGeFGeneralSearch, service.connectionMySQL,
   Controller.SisGeFContratadosRH, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Stan.StorageBin;
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Stan.StorageBin, cxDBLookupComboBox,
+  Controller.SisGeFInformativoExpressas;
 
 type
   Tview_ControleEntregas = class(TForm)
@@ -220,6 +221,11 @@ type
     gridRelDBTableView1dom_retorno: TcxGridDBColumn;
     gridRelDBTableView1cod_informativo: TcxGridDBColumn;
     gridRelDBTableView1des_log: TcxGridDBColumn;
+    tvRetornocod_informativo: TcxGridDBColumn;
+    mtbInformativos: TFDMemTable;
+    mtbInformativosid: TIntegerField;
+    mtbInformativosdes_informativo: TStringField;
+    dsInformativo: TDataSource;
     procedure actPesquisarExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -294,6 +300,7 @@ type
     function ValidaRel(): boolean;
     procedure GerarRel(sQuery: string);
     function CustomFilter(): string;
+    procedure PopulaInformativos;
   public
     { Public declarations }
   end;
@@ -619,6 +626,7 @@ procedure Tview_ControleEntregas.FormShow(Sender: TObject);
 begin
   ModoAtribuicao(0);
   ModoRetorno(0);
+  PopulaInformativos;
 end;
 
 procedure Tview_ControleEntregas.GerarRel(sQuery: string);
@@ -686,18 +694,11 @@ begin
       begin
         Application.MessageBox('Erro ao excluir o pedido!', 'Erro', MB_OK + MB_ICONERROR);
       end;
-      atribuicao.Atribuicoes.Acao := tacIncluir;
-      SetupClassAtribuicao;
-      if not atribuicao.Gravar then
-      begin
-        Application.MessageBox(PChar('Erro ao incluir a atribuição do pedido ' + atribuicao.Atribuicoes.NN + ' !'), 'Erro',
-                               MB_OK + MB_ICONERROR);
-      end;
       entregador := TContratadosRHController.Create;
       iBase := 1;
       SetLength(sParam,2);
-      aParam[0] := 'CONTRATADO';
-      aParam[1] := Data_Sisgef.mtbAtribuicaocod_entregador.AsString;
+      sParam[0] := 'CONTRATADO';
+      sParam[1] := Data_Sisgef.mtbAtribuicaocod_entregador.AsString;
       if entregador.Search(sParam) then
         FDEntregador := entregador.FRH.Query;
       Finalize(sParam);
@@ -708,8 +709,16 @@ begin
       entregador.FRH.Query.Close;
       FDEntregador.Close;
       entregador.Free;
+      atribuicao.Atribuicoes.Embarcador := iBase;
+      atribuicao.Atribuicoes.Acao := tacIncluir;
+      SetupClassAtribuicao;
+      if not atribuicao.Gravar then
+      begin
+        Application.MessageBox(PChar('Erro ao incluir a atribuição do pedido ' + atribuicao.Atribuicoes.NN + ' !'), 'Erro',
+                               MB_OK + MB_ICONERROR);
+      end;
       entregas := TEntregasControl.Create;
-      FDEntregas := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+      FDEntregas := FConn.GetQuery;
       SetLength(aParam,2);
       aParam[0] := 'NN';
       aParam[1] := Data_Sisgef.mtbAtribuicaonum_nossonumero.AsString;
@@ -775,13 +784,13 @@ begin
     FDEntregador := FConn.GetQuery;
     atribuicao := TAtribuicoesExpressasControl.Create;
     FBaixado := False;
-    if Application.MessageBox('Gravar os registros pendentes como entregues?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDYES then
-    begin
-      FBaixado := False;
-    end;
     if Application.MessageBox('Confirma gravar a prestação de contas?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDNO then
     begin
       Exit;
+    end;
+    if Application.MessageBox('Gravar os registros pendentes como entregues?', 'Gravar', MB_YESNO + MB_ICONQUESTION) = IDYES then
+    begin
+      FBaixado := False;
     end;
     if Data_Sisgef.mtbAtribuicao.IsEmpty then Exit;
     Data_Sisgef.mtbAtribuicao.First;
@@ -792,7 +801,11 @@ begin
       if atribuicao.Atribuicoes.FlagRetorno = 0 then
       begin
         if FBaixado then
+        begin
           atribuicao.Atribuicoes.FlagRetorno := 1;
+          atribuicao.Atribuicoes.CodigoRetorno := 'FINALIZADO';
+          atribuicao.Atribuicoes.CodigoInformativo := 1;
+        end;
       end;
       if not atribuicao.Gravar then
       begin
@@ -1027,11 +1040,12 @@ begin
     atribuicao := TAtribuicoesExpressasControl.Create;
     if not ValidaInicioRetorno then Exit;
     if Data_Sisgef.mtbAtribuicao.Active then Data_Sisgef.mtbAtribuicao.Active := False;
-    SetLength(aParam,4);
+    SetLength(aParam,5);
     aParam[0] := 'RETORNO';
     aParam[1] := edtEntregadorRetorno.EditingValue;
     aParam[2] := datInicio.Date;
     aParam[3] := datFinal.Date;
+    aParam[4] := cboRetorno.Text;
     FDQuery := atribuicao.Localizar(aParam);
     Finalize(aParam);
     if not FDQuery.IsEmpty then
@@ -1144,9 +1158,11 @@ var
   aParam: Array of variant;
   sNN : String;
   bFlagGravar: Boolean;
+  FConn : TConnectionMySQL;
 begin
+  FConn := TConnectionMySQL.Create;
   try
-    FDQuery := TSistemaControl.GetInstance.Conexao.ReturnQuery;
+    FDQuery := FConn.GetQuery;
     entregas := TEntregasControl.Create;
     atribuicao := TAtribuicoesExpressasControl.Create;
     sNN := '';
@@ -1219,6 +1235,7 @@ begin
     FDQuery.Free;
     entregas.Free;
     atribuicao.Free;
+    FConn.Free;
   end;
 end;
 
@@ -1386,6 +1403,30 @@ begin
   FreeAndNil(viewGeneralSearch);
 end;
 
+procedure Tview_ControleEntregas.PopulaInformativos;
+var
+  FConn : TConnectionMySQL;
+  FInfo : TInformativoExpressasController;
+  aParams : array of string;
+begin
+  FConn := TConnectionMySQL.Create;
+  FInfo := TInformativoExpressasController.Create;
+  mtbInformativos.Active := False;
+  try
+    SetLength(aParams, 3);
+    aParams := ['id, des_informativo', '', 'TRUE'];
+    if  FInfo.CustomSearch(aParams) then
+    begin
+      mtbInformativos.Data := FInfo.FInformativo.Query.Data;
+    end;
+    FInfo.FInformativo.Query.Active := False;
+    FInfo.FInformativo.Query.Connection.Connected := False;
+  finally
+    FInfo.Free;
+    FConn.Free;
+  end;
+end;
+
 procedure Tview_ControleEntregas.ProcuraCliente;
 begin
   if not Assigned(viewGeneralSearch) then
@@ -1539,6 +1580,7 @@ begin
     atribuicao.Atribuicoes.Lote := Data_Sisgef.mtbAtribuicaonum_lote_remessa.AsInteger;
     atribuicao.Atribuicoes.Retorno := Data_Sisgef.mtbAtribuicaodat_retorno.AsDateTime;
     atribuicao.Atribuicoes.FlagRetorno := Data_Sisgef.mtbAtribuicaodom_retorno.AsInteger;
+    atribuicao.Atribuicoes.CodigoInformativo := Data_Sisgef.mtbAtribuicaocod_informativo.AsInteger;
     if atribuicao.Atribuicoes.Acao = tacIncluir then
     begin
       atribuicao.Atribuicoes.LOG := Data_Sisgef.mtbAtribuicaodes_log.Text + #13 +
@@ -1624,9 +1666,9 @@ begin
     Data_Sisgef.mtbAtribuicaoid_atribuicao.AsInteger := 0;
     Data_Sisgef.mtbAtribuicaocod_atribuicao.AsString := sCodigoAtribuicao;
     Data_Sisgef.mtbAtribuicaodat_atribuicao.AsDateTime := datAtribuicao.Date;
-    Data_Sisgef.mtbAtribuicaocod_entregador.AsInteger := edtEntregador.EditingValue;
+    Data_Sisgef.mtbAtribuicaocod_entregador.AsInteger := edtEntregador.EditValue;
     Data_Sisgef.mtbAtribuicaonum_nossonumero.AsString := sNN;
-    Data_Sisgef.mtbAtribuicaocod_retorno.AsString := Copy(FDquery.FieldByName('DES_RETORNO').AsString,1,15);
+    Data_Sisgef.mtbAtribuicaocod_retorno.AsString := cboRetorno.Text;
     Data_Sisgef.mtbAtribuicaonum_lote_remessa.AsInteger := cboLote.ItemIndex;
     Data_Sisgef.mtbAtribuicaodat_retorno.AsDateTime := 0;
     Data_Sisgef.mtbAtribuicaodom_retorno.AsInteger := 0;
@@ -1634,18 +1676,18 @@ begin
                                              edtEntregador.Text + ' - ' + txtNomeEntregador.Text + ' por ' +
                                              Global.Parametros.pUser_Name;
     Data_Sisgef.mtbAtribuicaocod_cliente.AsInteger := codCliente.EditValue;
-    Data_Sisgef.mtbAtribuicaocod_embarcador.AsInteger := FDQuery.FieldByName('COD_CLIENTE').AsInteger;
+    Data_Sisgef.mtbAtribuicaocod_embarcador.AsInteger := FDQuery.FieldByName('COD_AGENTE').AsInteger;
     clientes := TClientesControl.Create;
     SetLength(pParam, 2);
     pParam[0] := 'CODIGO';
     pParam[1] := FDQuery.FieldByName('COD_CLIENTE').AsInteger;
-    FDCliente := clientes.Localizar(pParam);
-    Finalize(pParam);
-    if not FDCliente.IsEmpty then
-    begin
-      Data_Sisgef.mtbAtribuicaonom_embarcador.AsString := FDCliente.FieldByName('NOM_CLIENTE').AsString;
-   end;
-    FDCliente.Close;
+//    FDCliente := clientes.Localizar(pParam);
+//    Finalize(pParam);
+//    if not FDCliente.IsEmpty then
+//    begin
+//      Data_Sisgef.mtbAtribuicaonom_embarcador.AsString := FDCliente.FieldByName('NOM_CLIENTE').AsString;
+//   end;
+//    FDCliente.Close;
     Data_Sisgef.mtbAtribuicaodes_endereco.AsString := Trim(FDquery.FieldByName('DES_ENDERECO').AsString) + ' ' +
                                                       Trim(FDquery.FieldByName('DES_COMPLEMENTO').AsString);
     Data_Sisgef.mtbAtribuicaonum_cep.AsString := FDquery.FieldByName('NUM_CEP').AsString;

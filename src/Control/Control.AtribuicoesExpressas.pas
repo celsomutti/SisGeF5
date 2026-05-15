@@ -7,16 +7,17 @@ interface
 type
   TAtribuicoesExpressasControl = class
   private
-  FAtribuicoes : TAtribuicoesExpressas;
+    FAtribuicoes : TAtribuicoesExpressas;
   public
-  constructor Create;
-  destructor Destroy; override;
+    constructor Create;
+    destructor Destroy; override;
 
-  function Gravar: Boolean;
-  function Localizar(aParam: array of variant): TFDQuery;
-  function GetId(): Integer;
-  function CustomSearch(aParams: array of string): boolean;
-  property Atribuicoes: TAtribuicoesExpressas read FAtribuicoes write FAtribuicoes;
+    function Gravar: Boolean;
+    function Localizar(aParam: array of variant): TFDQuery;
+    function GetId(): Integer;
+    function CustomSearch(aParams: array of string): boolean;
+
+    property Atribuicoes: TAtribuicoesExpressas read FAtribuicoes write FAtribuicoes;
   end;
 
 implementation
@@ -25,7 +26,7 @@ implementation
 
 constructor TAtribuicoesExpressasControl.Create;
 begin
-  FAtribuicoes := TAtribuicoesExpressas.Create;
+  FAtribuicoes := TAtribuicoesExpressas.Create();
 end;
 
 function TAtribuicoesExpressasControl.CustomSearch(aParams: array of string): boolean;

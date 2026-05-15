@@ -158,10 +158,12 @@ begin
   end;
   if aParam[0] = 'RETORNO' then
   begin
-    FDQuery.SQL.Add('where cod_entregador = :cod_entregador and dat_atribuicao between :data1 and :data2 and dom_retorno = 0');
+    FDQuery.SQL.Add('where cod_entregador = :cod_entregador and dat_atribuicao between :data1 and :data2 and cod_retorno = :retorno');
     FDQuery.ParamByName('cod_entregador').AsInteger := aParam[1];
     FDQuery.ParamByName('data1').AsDateTime := aParam[2];
     FDQuery.ParamByName('data2').AsDateTime := aParam[3];
+    FDQuery.ParamByName('retorno').AsDateTime := aParam[4];
+
   end;
   if aParam[0] = 'NN' then
   begin
