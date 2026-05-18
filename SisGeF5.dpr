@@ -86,9 +86,6 @@ uses
   Control.PlanilhaEntradaRedeForte in 'src\Control\Control.PlanilhaEntradaRedeForte.pas',
   Thread.ImportarPlanilhaEntradaCarriers in 'src\Thread\Thread.ImportarPlanilhaEntradaCarriers.pas',
   View.ControleEntregas in 'src\View\View.ControleEntregas.pas' {view_ControleEntregas},
-  Model.AtribuicoesExpressas in 'src\Model\Model.AtribuicoesExpressas.pas',
-  DAO.AtribuicoesExpressas in 'src\DAO\DAO.AtribuicoesExpressas.pas',
-  Control.AtribuicoesExpressas in 'src\Control\Control.AtribuicoesExpressas.pas',
   Model.LogradourosCEP in 'src\Model\Model.LogradourosCEP.pas',
   DAO.LogradourosCEP in 'src\DAO\DAO.LogradourosCEP.pas',
   Control.LogradourosCEP in 'src\Control\Control.LogradourosCEP.pas',
@@ -357,7 +354,9 @@ uses
   View.SisGeFGeneralSearch in 'src\View\View.SisGeFGeneralSearch.pas' {view_SisGefGeneralSearch},
   View.SisGeFPNRImport in 'src\View\View.SisGeFPNRImport.pas' {viewPNRImport},
   Model.SisGeFInformativosExpressas in 'src\Model\Model.SisGeFInformativosExpressas.pas',
-  Controller.SisGeFInformativoExpressas in 'src\Control\Controller.SisGeFInformativoExpressas.pas';
+  Controller.SisGeFInformativoExpressas in 'src\Control\Controller.SisGeFInformativoExpressas.pas',
+  Model.SisGefAtribuicoesExpressas in 'src\Model\Model.SisGefAtribuicoesExpressas.pas',
+  Controller.SisGeFAtribuicoesExpressas in 'src\Control\Controller.SisGeFAtribuicoesExpressas.pas';
 
 {$R *.res}
 

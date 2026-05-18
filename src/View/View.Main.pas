@@ -1049,7 +1049,7 @@ begin
     Acessos;
   end;
   FreeAndNil(view_Login);
-  VerificaVersao;
+  //VerificaVersao;
 end;
 
 procedure Tview_Main.GetCompany;

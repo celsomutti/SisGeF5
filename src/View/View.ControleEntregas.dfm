@@ -533,7 +533,7 @@ object view_ControleEntregas: Tview_ControleEntregas
               Value = 0
             end
             item
-              Description = 'Entregue'
+              Description = 'Finalizado'
               ImageIndex = 1
               Value = 1
             end
@@ -1022,7 +1022,7 @@ object view_ControleEntregas: Tview_ControleEntregas
           Caption = 'Nome da Base'
           DataBinding.FieldName = 'nom_base'
           HeaderAlignmentHorz = taCenter
-          Width = 220
+          Width = 184
         end
         object gridRelDBTableView1cod_retorno: TcxGridDBColumn
           Caption = 'Situa'#231#227'o'
@@ -1086,7 +1086,26 @@ object view_ControleEntregas: Tview_ControleEntregas
         object gridRelDBTableView1dom_retorno: TcxGridDBColumn
           Caption = 'Flag'
           DataBinding.FieldName = 'dom_retorno'
+          PropertiesClassName = 'TcxImageComboBoxProperties'
+          Properties.Alignment.Horz = taLeftJustify
+          Properties.Images = Data_Sisgef.iml_16_16
+          Properties.Items = <
+            item
+              Description = 'PENDENTE'
+              Value = 0
+            end
+            item
+              Description = 'FINALIZADO'
+              ImageIndex = 1
+              Value = 1
+            end
+            item
+              Description = 'INSUCESSO'
+              ImageIndex = 9
+              Value = 2
+            end>
           HeaderAlignmentHorz = taCenter
+          Width = 122
         end
         object gridRelDBTableView1cod_informativo: TcxGridDBColumn
           Caption = 'Informativo'
@@ -3092,7 +3111,7 @@ object view_ControleEntregas: Tview_ControleEntregas
     Left = 664
     Top = 192
     Content = {
-      414442530F009F34BB0B0000FF00010001FF02FF0304000C0000006D00740062
+      414442530F004843BB0B0000FF00010001FF02FF0304000C0000006D00740062
       00520065006C0005000A0000005400610062006C006500060000000000070000
       080032000000090000FF0AFF0B04001A000000690064005F0061007400720069
       00620075006900630061006F0005001A000000690064005F0061007400720069

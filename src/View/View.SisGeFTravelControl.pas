@@ -25,19 +25,14 @@ uses
   Controller.SisGeFConsumptionInputs,
   Controller.SisGeFDestinationTravel, Controller.SisGeFFuelSupplies,
   Controller.SisGeFTravelControl, Controller.SisGeFVehiclesRegistration,
-  Services.SisGeFDAORoutines, Common.Utils, Control.Cadastro, Control.Bases,
+  Services.SisGeFDAORoutines, Common.Utils, Control.Bases,
   dxBarBuiltInMenu, cxGridCustomPopupMenu,
-  cxGridPopupMenu, Common.ENum, cxCalc, cxCheckBox, Global.Parametros;
+  cxGridPopupMenu, Common.ENum, cxCalc, cxCheckBox, Global.Parametros, Controller.SisGeFCadastroContratados;
 
 type
   TPageTravelControl = class(TForm)
     LayoutContainerGroup_Root: TdxLayoutGroup;
     LayoutContainer: TdxLayoutControl;
-    LayoutHeader: TdxLayoutGroup;
-    LabelPageTitle: TcxLabel;
-    LayoutPageTitle: TdxLayoutItem;
-    ButtonExit: TcxButton;
-    LayoutButtonExit: TdxLayoutItem;
     actionList: TActionList;
     actionExitPage: TAction;
     actionNewTravel: TAction;
@@ -199,6 +194,9 @@ type
     LayoutFilterStatus: TdxLayoutItem;
     LabelInform: TcxLabel;
     LayoutLabemInform: TdxLayoutItem;
+    dxLayoutGroup1: TdxLayoutGroup;
+    cxButton1: TcxButton;
+    dxLayoutItem1: TdxLayoutItem;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionExitPageExecute(Sender: TObject);
@@ -230,7 +228,6 @@ type
   private
     { Private declarations }
     FAction: TAcao;
-    procedure BuildPageLabel;
     procedure ClosePage;
     procedure BuildInitialList;
     procedure SearchPeriod;
@@ -347,11 +344,6 @@ begin
   dateEditInicial.Date := IncDay(Now, -15);
   dateEditFinalDate.Date := Now;
   SearchPeriod;
-end;
-
-procedure TPageTravelControl.BuildPageLabel;
-begin
-  LabelPageTitle.Caption := Self.Caption;
 end;
 
 procedure TPageTravelControl.ButtonEdittravelCodeTakerPropertiesChange
@@ -553,7 +545,6 @@ end;
 
 procedure TPageTravelControl.FormCreate(Sender: TObject);
 begin
-  BuildPageLabel;
   PopulateInputs;
 end;
 
@@ -565,15 +556,25 @@ end;
 
 function TPageTravelControl.GetDriverName(iId: integer): string;
 var
-  FCadastro: TCadastroControl;
+  FService: TServicesDAORoutines;
+  aParam: array of Variant;
+  sQuery: string;
 begin
-  FCadastro := TCadastroControl.Create;
+  FService := TServicesDAORoutines.Create;
   Result := '';
   try
-    Result := FCadastro.GetField('des_razao_social', 'cod_cadastro',
-      iId.ToString);
+    FService.TableName := '';
+    FService.CRUDSentence := '';
+    sQuery := 'select nom_motorista from view_motoristasbases where cod_entregador = '
+      + iId.ToString;
+    aParam := ['SQL', sQuery];
+    if FService.ExecSentence(aParam) then
+      Result := FService.Query.FieldByName('nom_motorista').AsString
+    else
+      Result := '';
   finally
-    FCadastro.Free;
+    Finalize(aParam);
+    FService.Free;
   end;
 end;
 
@@ -588,7 +589,7 @@ begin
   try
     FService.TableName := '';
     FService.CRUDSentence := '';
-    sQuery := 'select nom_cliente from view_listClientsCompat where cod_cliente = '
+    sQuery := 'select nom_cliente from view_listclientscompat where cod_cliente = '
       + iId.ToString;
     aParam := ['SQL', sQuery];
     if FService.ExecSentence(aParam) then
@@ -1019,7 +1020,7 @@ var
   sQuery, sName: string;
   iId: integer;
 begin
-  sQuery := 'select cod_cadastro as "Código", des_razao_social as Nome from tbentregadores ';
+  sQuery := 'select cod_entregador as "Código", nom_motorista as Nome from view_motoristasbases ';
 
   if not Assigned(view_SisGefGeneralSearch) then
     view_SisGefGeneralSearch := Tview_SisGefGeneralSearch.Create(Application);
@@ -1028,7 +1029,7 @@ begin
   if view_SisGefGeneralSearch.ShowModal = mrOk then
   begin
     iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].Value;
-    sName := GetDriverName(iId);
+    sName := view_SisGefGeneralSearch.memTablePesquisa.Fields[1].Value;
     ButtonEditTravelDriverCode.EditValue := iId;
     TextEditTravelDriverName.Text := sName;
   end;
@@ -1081,7 +1082,7 @@ begin
   if view_SisGefGeneralSearch.ShowModal = mrOk then
   begin
     iId := view_SisGefGeneralSearch.memTablePesquisa.Fields[0].Value;
-    sName := GetNameTaker(iId);
+    sName := view_SisGefGeneralSearch.memTablePesquisa.Fields[1].Value;
     ButtonEdittravelCodeTaker.EditValue := iId;
     TextEditTravelNameTaker.Text := sName;
   end;

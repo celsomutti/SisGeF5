@@ -1,18 +1,20 @@
 object PageTravelControl: TPageTravelControl
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
   Caption = 'Controle de Viagens'
-  ClientHeight = 497
-  ClientWidth = 1041
+  ClientHeight = 507
+  ClientWidth = 1070
   Color = clWhite
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Verdana'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
+  Position = poScreenCenter
   Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
@@ -22,75 +24,49 @@ object PageTravelControl: TPageTravelControl
   object LayoutContainer: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 1041
-    Height = 497
+    Width = 1070
+    Height = 507
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    object LabelPageTitle: TcxLabel
-      AlignWithMargins = True
-      Left = 11
-      Top = 11
-      Caption = 'LabelPageTitle'
-      ParentFont = False
-      Style.Font.Charset = ANSI_CHARSET
-      Style.Font.Color = clGray
-      Style.Font.Height = -19
-      Style.Font.Name = 'Verdana'
-      Style.Font.Style = [fsItalic]
-      Style.HotTrack = False
-      Style.Shadow = False
-      Style.TextColor = clGrayText
-      Style.IsFontAssigned = True
-      Transparent = True
-    end
-    object ButtonExit: TcxButton
-      Left = 930
-      Top = 12
-      Width = 100
-      Height = 25
-      Cursor = crHandPoint
-      Action = actionExitPage
-      TabOrder = 1
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Verdana'
-      Font.Style = []
-      ParentFont = False
-    end
+    ExplicitWidth = 1041
+    ExplicitHeight = 497
     object dateEditInicial: TcxDateEdit
-      Left = 107
-      Top = 60
+      Left = 10000
+      Top = 10000
       Properties.ShowTime = False
       Style.HotTrack = False
-      TabOrder = 2
+      TabOrder = 0
+      Visible = False
       Width = 100
     end
     object dateEditFinalDate: TcxDateEdit
-      Left = 287
-      Top = 60
+      Left = 10000
+      Top = 10000
       Properties.SaveTime = False
       Style.HotTrack = False
-      TabOrder = 3
+      TabOrder = 1
+      Visible = False
       Width = 100
     end
     object ButtonSearch: TcxButton
-      Left = 673
-      Top = 59
+      Left = 10000
+      Top = 10000
       Width = 100
       Height = 25
       Cursor = crHandPoint
       Action = actionSearch
-      TabOrder = 5
+      TabOrder = 3
+      Visible = False
     end
     object gridTravels: TcxGrid
-      Left = 26
-      Top = 121
-      Width = 989
-      Height = 350
-      TabOrder = 9
+      Left = 10000
+      Top = 10000
+      Width = 1018
+      Height = 362
+      TabOrder = 7
+      Visible = False
       object gridTravelsDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -130,7 +106,7 @@ object PageTravelControl: TPageTravelControl
           HeaderAlignmentHorz = taCenter
           SortIndex = 0
           SortOrder = soDescending
-          Width = 52
+          Width = 53
         end
         object gridTravelsDBTableView1dat_transporte: TcxGridDBColumn
           DataBinding.FieldName = 'dat_transporte'
@@ -142,19 +118,19 @@ object PageTravelControl: TPageTravelControl
           DataBinding.FieldName = 'des_operacao'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 149
+          Width = 125
         end
         object gridTravelsDBTableView1des_placa: TcxGridDBColumn
           DataBinding.FieldName = 'des_placa'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 62
+          Width = 64
         end
         object gridTravelsDBTableView1nom_motorista: TcxGridDBColumn
           DataBinding.FieldName = 'nom_motorista'
           PropertiesClassName = 'TcxTextEditProperties'
           HeaderAlignmentHorz = taCenter
-          Width = 220
+          Width = 201
         end
         object gridTravelsDBTableView1qtd_km_saida: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_km_saida'
@@ -162,14 +138,14 @@ object PageTravelControl: TPageTravelControl
           Properties.DecimalPlaces = 3
           Properties.DisplayFormat = ',0.;- ,0.'
           HeaderAlignmentHorz = taCenter
-          Width = 58
+          Width = 75
         end
         object gridTravelsDBTableView1hor_saida: TcxGridDBColumn
           DataBinding.FieldName = 'hor_saida'
           PropertiesClassName = 'TcxTimeEditProperties'
           Properties.TimeFormat = tfHourMin
           HeaderAlignmentHorz = taCenter
-          Width = 59
+          Width = 93
         end
         object gridTravelsDBTableView1qtd_km_retorno: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_km_retorno'
@@ -177,14 +153,14 @@ object PageTravelControl: TPageTravelControl
           Properties.DecimalPlaces = 3
           Properties.DisplayFormat = ',0.;- ,0.'
           HeaderAlignmentHorz = taCenter
-          Width = 65
+          Width = 89
         end
         object gridTravelsDBTableView1hor_retorno: TcxGridDBColumn
           DataBinding.FieldName = 'hor_retorno'
           PropertiesClassName = 'TcxTimeEditProperties'
           Properties.TimeFormat = tfHourMin
           HeaderAlignmentHorz = taCenter
-          Width = 69
+          Width = 100
         end
         object gridTravelsDBTableView1qtd_km_rodado: TcxGridDBColumn
           DataBinding.FieldName = 'qtd_km_rodado'
@@ -192,7 +168,7 @@ object PageTravelControl: TPageTravelControl
           Properties.DecimalPlaces = 3
           Properties.DisplayFormat = ',0.;- ,0.'
           HeaderAlignmentHorz = taCenter
-          Width = 61
+          Width = 67
         end
         object gridTravelsDBTableView1cod_status: TcxGridDBColumn
           DataBinding.FieldName = 'cod_status'
@@ -216,7 +192,7 @@ object PageTravelControl: TPageTravelControl
               Value = 2
             end>
           HeaderAlignmentHorz = taCenter
-          Width = 126
+          Width = 64
         end
       end
       object gridTravelsLevel1: TcxGridLevel
@@ -224,35 +200,38 @@ object PageTravelControl: TPageTravelControl
       end
     end
     object ButtonNewTravel: TcxButton
-      Left = 26
-      Top = 90
+      Left = 10000
+      Top = 10000
       Width = 120
       Height = 25
       Cursor = crHandPoint
       Action = actionNewTravel
-      TabOrder = 6
+      TabOrder = 4
+      Visible = False
     end
     object ButtonExportation: TcxButton
-      Left = 258
-      Top = 90
+      Left = 10000
+      Top = 10000
       Width = 100
       Height = 25
       Cursor = crHandPoint
       Action = actionExport
-      TabOrder = 8
+      TabOrder = 6
+      Visible = False
     end
     object ButtonEditTravel: TcxButton
-      Left = 152
-      Top = 90
+      Left = 10000
+      Top = 10000
       Width = 100
       Height = 25
       Cursor = crHandPoint
       Action = actionEditTravel
-      TabOrder = 7
+      TabOrder = 5
+      Visible = False
     end
     object maskEditTravelID: TcxMaskEdit
-      Left = 10000
-      Top = 10000
+      Left = 61
+      Top = 27
       Hint = 'ID da viagem'
       TabStop = False
       Properties.Alignment.Horz = taRightJustify
@@ -261,23 +240,21 @@ object PageTravelControl: TPageTravelControl
       Properties.EditMask = '\d\d\d\d\d\d'
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 10
+      TabOrder = 9
       Text = '0'
-      Visible = False
       Width = 60
     end
     object DateEditTravelDate: TcxDateEdit
-      Left = 10000
-      Top = 10000
+      Left = 168
+      Top = 27
       Hint = 'Data da viagem'
       Style.HotTrack = False
-      TabOrder = 11
-      Visible = False
+      TabOrder = 10
       Width = 100
     end
     object ComboBoxTravelOperation: TcxComboBox
-      Left = 10000
-      Top = 10000
+      Left = 346
+      Top = 27
       Hint = 'Tipo de opera'#231#227'o'
       Properties.Items.Strings = (
         'Selecione ...'
@@ -287,14 +264,13 @@ object PageTravelControl: TPageTravelControl
         'MANUTEN'#199#195'O'
         'TRANSFER'#202'NCIA')
       Style.HotTrack = False
-      TabOrder = 12
+      TabOrder = 11
       Text = 'Selecione ...'
-      Visible = False
       Width = 139
     end
     object ButtonEdittravelCodeTaker: TcxButtonEdit
-      Left = 10000
-      Top = 10000
+      Left = 557
+      Top = 26
       Hint = 'C'#243'digo do tomador do servi'#231'o'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
@@ -310,25 +286,23 @@ object PageTravelControl: TPageTravelControl
       Properties.OnChange = ButtonEdittravelCodeTakerPropertiesChange
       Properties.OnValidate = ButtonEdittravelCodeTakerPropertiesValidate
       Style.HotTrack = False
-      TabOrder = 13
+      TabOrder = 12
       Text = '0'
-      Visible = False
       Width = 93
     end
     object TextEditTravelNameTaker: TcxTextEdit
-      Left = 10000
-      Top = 10000
+      Left = 656
+      Top = 27
       Hint = 'Nome do tomador do servi'#231'o'
       TabStop = False
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 14
-      Visible = False
-      Width = 359
+      TabOrder = 13
+      Width = 388
     end
     object ButtonEditTravelDriverCode: TcxButtonEdit
-      Left = 10000
-      Top = 10000
+      Left = 96
+      Top = 56
       Hint = 'C'#243'digo do motorista'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
@@ -344,24 +318,22 @@ object PageTravelControl: TPageTravelControl
       Properties.OnChange = ButtonEditTravelDriverCodePropertiesChange
       Properties.OnValidate = ButtonEditTravelDriverCodePropertiesValidate
       Style.HotTrack = False
-      TabOrder = 15
+      TabOrder = 14
       Text = '0'
-      Visible = False
-      Width = 111
+      Width = 116
     end
     object TextEditTravelDriverName: TcxTextEdit
-      Left = 10000
-      Top = 10000
+      Left = 218
+      Top = 57
       TabStop = False
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 16
-      Visible = False
-      Width = 254
+      TabOrder = 15
+      Width = 263
     end
     object ButtonEditTavelVehicle: TcxButtonEdit
-      Left = 10000
-      Top = 10000
+      Left = 542
+      Top = 56
       Hint = 'Placa do ve'#237'culo'
       Properties.Buttons = <
         item
@@ -372,38 +344,34 @@ object PageTravelControl: TPageTravelControl
       Properties.CharCase = ecUpperCase
       Properties.Images = Data_Sisgef.iml_16_16
       Style.HotTrack = False
-      TabOrder = 17
-      Visible = False
-      Width = 120
+      TabOrder = 16
+      Width = 125
     end
     object CurrencyEditTravelInitialKM: TcxCurrencyEdit
-      Left = 10000
-      Top = 10000
+      Left = 737
+      Top = 57
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DecimalPlaces = 0
       Properties.DisplayFormat = ',0.;-,0.'
       Style.HotTrack = False
-      TabOrder = 18
-      Visible = False
-      Width = 110
+      TabOrder = 17
+      Width = 115
     end
     object TimeEditTravelDepartureTime: TcxTimeEdit
-      Left = 10000
-      Top = 10000
+      Left = 938
+      Top = 57
       Properties.TimeFormat = tfHourMin
       Style.HotTrack = False
-      TabOrder = 19
-      Visible = False
-      Width = 101
+      TabOrder = 18
+      Width = 106
     end
     object GridTravelDestinations: TcxGrid
-      Left = 10000
-      Top = 10000
-      Width = 326
+      Left = 26
+      Top = 106
+      Width = 335
       Height = 200
-      TabOrder = 20
-      Visible = False
+      TabOrder = 19
       object GridTravelDestinationsDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -478,12 +446,11 @@ object PageTravelControl: TPageTravelControl
       end
     end
     object GridFuelSupplies: TcxGrid
-      Left = 10000
-      Top = 10000
-      Width = 325
+      Left = 367
+      Top = 106
+      Width = 336
       Height = 200
-      TabOrder = 21
-      Visible = False
+      TabOrder = 20
       object GridFuelSuppliesDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -551,12 +518,11 @@ object PageTravelControl: TPageTravelControl
       end
     end
     object GridInputs: TcxGrid
-      Left = 10000
-      Top = 10000
-      Width = 326
+      Left = 709
+      Top = 106
+      Width = 335
       Height = 200
-      TabOrder = 22
-      Visible = False
+      TabOrder = 21
       object GridInputsDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         Navigator.Buttons.Images = Data_Sisgef.iml_16_16
@@ -621,68 +587,62 @@ object PageTravelControl: TPageTravelControl
       end
     end
     object MemoObs: TcxMemo
-      Left = 10000
-      Top = 10000
+      Left = 26
+      Top = 332
       Properties.ScrollBars = ssVertical
       Style.HotTrack = False
-      TabOrder = 23
-      Visible = False
+      TabOrder = 22
       Height = 50
-      Width = 387
+      Width = 416
     end
     object CurrencyEditFinalKM: TcxCurrencyEdit
-      Left = 10000
-      Top = 10000
+      Left = 510
+      Top = 360
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DisplayFormat = ',0.;-,0.'
       Style.HotTrack = False
-      TabOrder = 25
-      Visible = False
+      TabOrder = 24
       Width = 121
     end
     object TimeEditreturnTime: TcxTimeEdit
-      Left = 10000
-      Top = 10000
+      Left = 732
+      Top = 360
       Properties.TimeFormat = tfHourMin
       Style.HotTrack = False
-      TabOrder = 26
-      Visible = False
+      TabOrder = 25
       Width = 121
     end
     object ButtonReturn: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 26
+      Top = 456
       Width = 90
       Height = 25
       Cursor = crHandPoint
       Action = actionPriorPage
-      TabOrder = 28
-      Visible = False
+      TabOrder = 27
     end
     object ButtonSaveTravel: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 122
+      Top = 456
       Width = 90
       Height = 25
       Cursor = crHandPoint
       Action = actionSaveTravel
-      TabOrder = 29
-      Visible = False
+      TabOrder = 28
     end
     object ButtonFinalizeTravel: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 395
+      Top = 456
       Width = 90
       Height = 25
       Cursor = crHandPoint
       Action = actionEndTravel
-      TabOrder = 31
-      Visible = False
+      TabOrder = 30
     end
     object CurrencyEditTotalKM: TcxCurrencyEdit
-      Left = 10000
-      Top = 10000
+      Left = 923
+      Top = 360
       Hint = 'KM total'
       TabStop = False
       EditValue = 0.000000000000000000
@@ -690,13 +650,12 @@ object PageTravelControl: TPageTravelControl
       Properties.DisplayFormat = ',0.;-,0.'
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 27
-      Visible = False
+      TabOrder = 26
       Width = 121
     end
     object ImageComboBox1Status: TcxImageComboBox
-      Left = 10000
-      Top = 10000
+      Left = 500
+      Top = 332
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.Items = <
         item
@@ -716,23 +675,21 @@ object PageTravelControl: TPageTravelControl
         end>
       Properties.ReadOnly = True
       Style.HotTrack = False
-      TabOrder = 24
-      Visible = False
+      TabOrder = 23
       Width = 544
     end
     object ButtonCancelTravel: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 218
+      Top = 456
       Width = 171
       Height = 25
       Cursor = crHandPoint
       Action = actionCancelTravel
-      TabOrder = 30
-      Visible = False
+      TabOrder = 29
     end
     object ImageComboBoxFilterStatus: TcxImageComboBox
-      Left = 455
-      Top = 60
+      Left = 10000
+      Top = 10000
       EditValue = '-1'
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.Items = <
@@ -757,12 +714,13 @@ object PageTravelControl: TPageTravelControl
           Value = 2
         end>
       Style.HotTrack = False
-      TabOrder = 4
+      TabOrder = 2
+      Visible = False
       Width = 202
     end
     object LabelInform: TcxLabel
-      Left = 10000
-      Top = 10000
+      Left = 968
+      Top = 459
       Caption = 'Aguarde ...'
       ParentFont = False
       Style.Font.Charset = ANSI_CHARSET
@@ -772,6 +730,14 @@ object PageTravelControl: TPageTravelControl
       Style.Font.Style = [fsBold, fsItalic]
       Style.HotTrack = False
       Style.IsFontAssigned = True
+    end
+    object cxButton1: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 90
+      Height = 25
+      Action = actionExitPage
+      TabOrder = 8
       Visible = False
     end
     object LayoutContainerGroup_Root: TdxLayoutGroup
@@ -780,45 +746,8 @@ object PageTravelControl: TPageTravelControl
       LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
       ShowBorder = False
       Index = -1
-    end
-    object LayoutHeader: TdxLayoutGroup
-      Parent = LayoutContainerGroup_Root
-      AlignHorz = ahClient
-      AlignVert = avTop
-      CaptionOptions.Text = 'New Group'
-      CaptionOptions.Visible = False
-      ButtonOptions.Buttons = <>
-      LayoutDirection = ldHorizontal
-      Padding.AssignedValues = [lpavLeft]
-      ShowBorder = False
-      Index = 0
-    end
-    object LayoutPageTitle: TdxLayoutItem
-      Parent = LayoutHeader
-      CaptionOptions.Text = 'cxLabel1'
-      CaptionOptions.Visible = False
-      Padding.AssignedValues = [lpavLeft]
-      Control = LabelPageTitle
-      ControlOptions.OriginalHeight = 27
-      ControlOptions.OriginalWidth = 139
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object LayoutButtonExit: TdxLayoutItem
-      Parent = LayoutHeader
-      AlignHorz = ahRight
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxButton1'
-      CaptionOptions.Visible = False
-      Padding.AssignedValues = [lpavBottom, lpavLeft, lpavRight, lpavTop]
-      Control = ButtonExit
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 100
-      ControlOptions.ShowBorder = False
-      Index = 1
     end
     object LayoutFilter: TdxLayoutGroup
       Parent = LayoutGrid
@@ -852,17 +781,18 @@ object PageTravelControl: TPageTravelControl
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldTabbed
       ShowBorder = False
       TabbedOptions.HideTabs = True
       OnTabChanged = LayoutBodyTabChanged
-      Index = 1
+      Index = 0
     end
     object LayoutGrid: TdxLayoutGroup
       Parent = LayoutBody
       CaptionOptions.Text = 'Pesquisa'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 3
       Index = 0
     end
     object LayoutEdit: TdxLayoutGroup
@@ -1357,6 +1287,26 @@ object PageTravelControl: TPageTravelControl
       ControlOptions.OriginalWidth = 76
       ControlOptions.ShowBorder = False
       Index = 4
+    end
+    object dxLayoutGroup1: TdxLayoutGroup
+      Parent = LayoutGrid
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem1: TdxLayoutItem
+      Parent = dxLayoutGroup1
+      AlignHorz = ahRight
+      AlignVert = avClient
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 90
+      ControlOptions.ShowBorder = False
+      Index = 0
     end
   end
   object actionList: TActionList
