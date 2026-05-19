@@ -55,16 +55,14 @@ type
     property Log: string read FLog write FLog;
     property Acao: TAcao read FAction write FAction;
     property Query: TFDQuery read FQuery write FQuery;
-    property Mensagem: string read FMessage;
+    property Mensagem: string read FMessage write FMessage;
 
     constructor Create;
     function Save(): boolean;
     function Search(aParam: array of variant): boolean;
     function SetupFieldsClass(): boolean;
     function GetValueField(aParam: array of variant): string;
-    function ValidateData(): boolean;
     function SetupFieldsData(aParam: array of variant): boolean;
-    function ValidateFinalization(): boolean;
     function GetId: integer;
   end;
 
@@ -275,81 +273,5 @@ begin
   end;
 end;
 
-function TTravelControl.ValidateData: boolean;
-begin
-  Result := False;
-  if FData = 0 then
-  begin
-    FMessage := 'Informe a data da viagem.';
-    Exit;
-  end;
-  if Pos('Selecione', FOperacao) <> 0 then
-  begin
-    FMessage := 'Selecione o tipo de operação.';
-    Exit;
-  end;
-  if FCliente = 0 then
-  begin
-    FMessage := 'Informe o Cliente / Tomador.';
-    Exit;
-  end;
-  if FMotorista = 0 then
-  begin
-    FMessage := 'Informe o motorista.';
-    Exit;
-  end;
-  if FPlacaVeiculo.IsEmpty then
-  begin
-    FMessage := 'Informe o veículo.';
-    Exit;
-  end;
-  if FKMRetorno > 0 then
-  begin
-    if FKMRetorno < FKMSaida then
-    begin
-      FMessage := 'KM Final menor que KM inicial.';
-      Exit;
-    end;
-  end;
-  Result := True;
-end;
-
-function TTravelControl.ValidateFinalization: boolean;
-begin
-  Result := false;
-  if FHoraSaida = 0 then
-  begin
-    FMessage := 'Informe a hora de saída.';
-    Exit;
-  end;
-  if FHoraRetorno = 0 then
-  begin
-    FMessage := 'Informe a hora de retorno.';
-    Exit;
-  end;
-  if FHoraRetorno < FHoraSaida then
-  begin
-    FMessage := 'Hora de retorno menor que hora de saída.';
-    Exit;
-  end;
-  if KMSaida = 0 then
-  begin
-    FMessage := 'Informe KM de saída.';
-    Exit;
-  end;
-  if KMRetorno = 0 then
-  begin
-    FMessage := 'Informe KM de chegada.';
-    Exit;
-  end;
-  if KMRetorno < KMSaida then
-  begin
-    FMessage := 'KM de chegada menor que KM de saída.';
-    Exit;
-  end;
-  KMRodado := KMRetorno - KMSaida;
-  Result := true;
-
-end;
 
 end.

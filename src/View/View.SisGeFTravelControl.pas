@@ -614,6 +614,9 @@ begin
   ClearForm;
   FAction := tacIncluir;
   Mode;
+  MemTableTravelInputs.Active := True;
+  MemTableFuelSupplies.Active := True;
+  MemTableTravelDestination.Active := True;
   LayoutBody.ItemIndex := 1;
   DateEditTravelDate.Date := Now;
   DateEditTravelDate.SetFocus;

@@ -13,12 +13,12 @@ type
     FDescricao: string;
     FID: integer;
     FLog: string;
-    FBase: integer;
     FAction: TAcao;
     FQuery: TFDQuery;
     FInsertFields: array of variant;
     FUpdateFields: array of variant;
     FFieldsQuery: array of variant;
+    FBase: integer;
 
     function GetId(): integer;
     function Insert(): boolean;
@@ -42,11 +42,11 @@ type
 
   const
     TABLENAME = 'trs_destinos';
-    CRUDSELECT = 'SELECT COD_DESTINO, DES_DESTINO, COD_AGENTE, DES_LOG, ID_CONTROLE ' +
+    CRUDSELECT = 'SELECT COD_DESTINO, DES_DESTINO, COD_BASE, DES_LOG, ID_CONTROLE ' +
                  'FROM ' + TABLENAME;
-    CRUDINSERT = 'INSERT INTO ' + TABLENAME + ' (COD_DESTINO, DES_DESTINO, COD_AGENTE, DES_LOG, ID_CONTROLE) ' +
-                 'VALUES (:COD_DESTINO, :DES_DESTINO, :COD_AGENTE, :DES_LOG, :ID_CONTROLE)';
-    CRUDUPDATE = 'UPDATE ' + TABLENAME  + ' SET DES_DESTINO = :DES_DESTINO, COD_AGENTE = :COD_AGENTE, DES_LOG = :DES_LOG,' +
+    CRUDINSERT = 'INSERT INTO ' + TABLENAME + ' (COD_DESTINO, DES_DESTINO, COD_BASE, DES_LOG, ID_CONTROLE) ' +
+                 'VALUES (:COD_DESTINO, :DES_DESTINO, :COD_BASE, :DES_LOG, :ID_CONTROLE)';
+    CRUDUPDATE = 'UPDATE ' + TABLENAME  + ' SET DES_DESTINO = :DES_DESTINO, COD_BASE = :COD_BASE, DES_LOG = :DES_LOG,' +
                  'ID_CONTROLE = :ID_CONTROLE ' +
                  'WHERE COD_DESTINO = :COD_DESTINO ';
     CRUDDELETE = 'DELETE FROM ' + TABLENAME;
@@ -59,7 +59,7 @@ type
 
 constructor TDestinationTravel.Create;
 begin
-  FFieldsQuery := ['COD_DESTINO', 'DES_DESTINO', 'COD_AGENTE', 'DES_LOG', 'ID_CONTROLE'];
+  FFieldsQuery := ['COD_DESTINO', 'DES_DESTINO', 'COD_BASE', 'DES_LOG', 'ID_CONTROLE'];
 end;
 
 function TDestinationTravel.Delete: boolean;
@@ -164,11 +164,11 @@ begin
   if FAction = tacIncluir then
   begin
     FID := GetId;
-    FInsertFields := [FID, FDescricao, FBase, Log, Viagem]
+    FInsertFields := [FID, FDescricao, FBase, FLog, FViagem]
   end
   else if FAction = tacAlterar then
   begin
-    FUpdateFields := [FDescricao, FBase, Log, Viagem, FID];
+    FUpdateFields := [FDescricao, FBase, FLog, FViagem, FID];
   end;
 end;
 

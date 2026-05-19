@@ -80,12 +80,78 @@ end;
 
 function TControllerTravelControl.ValidateData: boolean;
 begin
-  Result := FTravel.ValidateData;
+  Result := False;
+  if FTravel.Data = 0 then
+  begin
+    FTravel.Mensagem := 'Informe a data da viagem.';
+    Exit;
+  end;
+  if Pos('Selecione', FTravel.Operacao) <> 0 then
+  begin
+    FTravel.Mensagem := 'Selecione o tipo de operação.';
+    Exit;
+  end;
+  if FTravel.Cliente = 0 then
+  begin
+    FTravel.Mensagem := 'Informe o Cliente / Tomador.';
+    Exit;
+  end;
+  if FTravel.Motorista = 0 then
+  begin
+    FTravel.Mensagem := 'Informe o motorista.';
+    Exit;
+  end;
+  if FTravel.PlacaVeiculo.IsEmpty then
+  begin
+    FTravel.Mensagem := 'Informe o veículo.';
+    Exit;
+  end;
+  if FTravel.KMRetorno > 0 then
+  begin
+    if FTravel.KMRetorno < FTravel.KMSaida then
+    begin
+      FTravel.Mensagem := 'KM Final menor que KM inicial.';
+      Exit;
+    end;
+  end;
+  Result := True;
 end;
 
 function TControllerTravelControl.ValidateFinalization: boolean;
 begin
-  Result := FTravel.ValidateFinalization;
+  Result := false;
+  if FTravel.HoraSaida = 0 then
+  begin
+    FTravel.Mensagem := 'Informe a hora de saída.';
+    Exit;
+  end;
+  if FTravel.HoraRetorno = 0 then
+  begin
+    FTravel.Mensagem := 'Informe a hora de retorno.';
+    Exit;
+  end;
+  if FTravel.HoraRetorno < FTravel.HoraSaida then
+  begin
+    FTravel.Mensagem := 'Hora de retorno menor que hora de saída.';
+    Exit;
+  end;
+  if FTravel.KMSaida = 0 then
+  begin
+    FTravel.Mensagem := 'Informe KM de saída.';
+    Exit;
+  end;
+  if FTravel.KMRetorno = 0 then
+  begin
+    FTravel.Mensagem := 'Informe KM de chegada.';
+    Exit;
+  end;
+  if FTravel.KMRetorno < FTravel.KMSaida then
+  begin
+    FTravel.Mensagem := 'KM de chegada menor que KM de saída.';
+    Exit;
+  end;
+  FTravel.KMRodado := FTravel.KMRetorno - FTravel.KMSaida;
+  Result := true;
 end;
 
 end.
