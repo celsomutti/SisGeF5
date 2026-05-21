@@ -718,6 +718,10 @@
         <DCCReference Include="src\Control\Controller.SisGeFInformativoExpressas.pas"/>
         <DCCReference Include="src\Model\Model.SisGefAtribuicoesExpressas.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFAtribuicoesExpressas.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionarios.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionarios.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosContatos.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosContatos.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>

@@ -85,7 +85,7 @@ var
   sSource : string;
 begin
   Result := False;
-  if Length(aParams) < 2 then
+  if Length(aParams) < 3 then
   begin
     FMensagem := 'Quantidade de parâmetros incorreta!';
     Exit
@@ -93,11 +93,11 @@ begin
   FQuery := FConn.GetQuery;
   FQuery.SQL.Clear;
   FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
-  if aParams[2] = '' then
+  if aParams[1] = '' then
     sSource := TABLENAME;
-  FQuery.MacroByName('colums').AsRaw := aParams[1];
+  FQuery.MacroByName('colums').AsRaw := aParams[0];
   FQuery.MacroByName('table').AsRaw := sSource;
-  FQuery.MacroByName('where').AsRaw := aParams[3];
+  FQuery.MacroByName('where').AsRaw := aParams[2];
   FQuery.Open();
   if FQuery.IsEmpty then
   begin

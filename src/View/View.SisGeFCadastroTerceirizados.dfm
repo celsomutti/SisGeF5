@@ -2071,7 +2071,6 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignVert = avClient
       CaptionOptions.Text = 'Grid'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
       Index = 0
     end
     object lgpMenu: TdxLayoutGroup
@@ -2081,7 +2080,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
-      ItemIndex = 7
+      ItemIndex = 6
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -2154,6 +2153,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       ShowBorder = False
       Index = 2
     end
@@ -3867,7 +3867,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 384
     Top = 64
     Content = {
-      414442530F00B851361A0000FF00010001FF02FF030400160000006D00740062
+      414442530F008007361A0000FF00010001FF02FF030400160000006D00740062
       0043006100640061007300740072006F0005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B040004000000690064
       00050004000000690064000C00010000000E000D000F00011000011100011200
@@ -4927,7 +4927,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 544
     Top = 56
     Content = {
-      414442530F00B851E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F008007E9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005

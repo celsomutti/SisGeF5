@@ -356,7 +356,11 @@ uses
   Model.SisGeFInformativosExpressas in 'src\Model\Model.SisGeFInformativosExpressas.pas',
   Controller.SisGeFInformativoExpressas in 'src\Control\Controller.SisGeFInformativoExpressas.pas',
   Model.SisGefAtribuicoesExpressas in 'src\Model\Model.SisGefAtribuicoesExpressas.pas',
-  Controller.SisGeFAtribuicoesExpressas in 'src\Control\Controller.SisGeFAtribuicoesExpressas.pas';
+  Controller.SisGeFAtribuicoesExpressas in 'src\Control\Controller.SisGeFAtribuicoesExpressas.pas',
+  Model.SisGeFFuncionarios in 'src\Model\Model.SisGeFFuncionarios.pas',
+  Controller.SisGeFFuncionarios in 'src\Control\Controller.SisGeFFuncionarios.pas',
+  Model.SisGeFFuncionariosContatos in 'src\Model\Model.SisGeFFuncionariosContatos.pas',
+  Controller.SisGeFFuncionariosContatos in 'src\Control\Controller.SisGeFFuncionariosContatos.pas';
 
 {$R *.res}
 
