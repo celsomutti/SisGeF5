@@ -360,7 +360,19 @@ uses
   Model.SisGeFFuncionarios in 'src\Model\Model.SisGeFFuncionarios.pas',
   Controller.SisGeFFuncionarios in 'src\Control\Controller.SisGeFFuncionarios.pas',
   Model.SisGeFFuncionariosContatos in 'src\Model\Model.SisGeFFuncionariosContatos.pas',
-  Controller.SisGeFFuncionariosContatos in 'src\Control\Controller.SisGeFFuncionariosContatos.pas';
+  Controller.SisGeFFuncionariosContatos in 'src\Control\Controller.SisGeFFuncionariosContatos.pas',
+  Model.SisGeFFuncionariosEnderecos in 'src\Model\Model.SisGeFFuncionariosEnderecos.pas',
+  Controller.SisGeFFuncionariosEnderecos in 'src\Control\Controller.SisGeFFuncionariosEnderecos.pas',
+  Model.SisGeFFuncionariosFinaceiro in 'src\Model\Model.SisGeFFuncionariosFinaceiro.pas',
+  Controller.SisGeFFuncionariosFinanceiro in 'src\Control\Controller.SisGeFFuncionariosFinanceiro.pas',
+  Model.SisGeFFuncionariosEmpresas in 'src\Model\Model.SisGeFFuncionariosEmpresas.pas',
+  Controller.SsGeFFuncionariosEmpresas in 'src\Control\Controller.SsGeFFuncionariosEmpresas.pas',
+  Model.SisGeFFuncionariosDocumentosRH in 'src\Model\Model.SisGeFFuncionariosDocumentosRH.pas',
+  Controller.SisGeFFuncionariosDocumentosRH in 'src\Control\Controller.SisGeFFuncionariosDocumentosRH.pas',
+  Model.SisGeFFuncionariosGR in 'src\Model\Model.SisGeFFuncionariosGR.pas',
+  Controller.SisGeFFuncionariosGR in 'src\Control\Controller.SisGeFFuncionariosGR.pas',
+  Model.SisGeFFuncionariosCNAE in 'src\Model\Model.SisGeFFuncionariosCNAE.pas',
+  Controller.SisGeFFuncionariosCNAE in 'src\Control\Controller.SisGeFFuncionariosCNAE.pas';
 
 {$R *.res}
 

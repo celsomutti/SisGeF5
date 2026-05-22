@@ -722,6 +722,18 @@
         <DCCReference Include="src\Control\Controller.SisGeFFuncionarios.pas"/>
         <DCCReference Include="src\Model\Model.SisGeFFuncionariosContatos.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFFuncionariosContatos.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosEnderecos.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosEnderecos.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosFinaceiro.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosFinanceiro.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosEmpresas.pas"/>
+        <DCCReference Include="src\Control\Controller.SsGeFFuncionariosEmpresas.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosDocumentosRH.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosDocumentosRH.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosGR.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosGR.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosCNAE.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosCNAE.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>

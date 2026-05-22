@@ -63,7 +63,7 @@ implementation
 
 function TFuncionariosContatosModel.Alterar: boolean;
 begin
-try
+  try
   FQuery := FConn.GetQuery;
     FQuery.ExecSQL(SQLUPDATE,
                   [FRecord.id_funcionario, FRecord.des_contato, FRecord.num_telefone,
@@ -129,7 +129,6 @@ function TFuncionariosContatosModel.Inserir: boolean;
 begin
   Result := False;
   try
-    FRecord.seq_contato := 0;
     FQuery := FConn.GetQuery();
     FQuery.ExecSQL(SQLINSERT,
                   [FRecord.seq_contato, FRecord.id_funcionario, FRecord.des_contato, FRecord.num_telefone,
