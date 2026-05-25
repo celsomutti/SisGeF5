@@ -11,7 +11,7 @@ uses
   dxLayoutControlAdapters, Vcl.StdCtrls, cxCheckBox, System.Actions, Vcl.ActnList, Vcl.Menus, cxButtons, cxLabel, Vcl.Buttons,
   System.StrUtils, Control.Estados, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Control.Cadastro, dxStatusBar,
-  Controller.SisGeFCadastroContratados;
+  Controller.SisGeFCadastroContratados, cxMemo;
 
 type
   Tview_SisGeFVehiclesRegistrationDetail = class(TForm)
@@ -114,6 +114,8 @@ type
     dxStatusBar2Container0: TdxStatusBarContainerControl;
     labelOperation: TcxLabel;
     dxLayoutGroup12: TdxLayoutGroup;
+    memObs: TcxMemo;
+    dxLayoutItem34: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure pessoaPropertiesChange(Sender: TObject);
@@ -183,9 +185,11 @@ end;
 procedure Tview_SisGeFVehiclesRegistrationDetail.cadastroPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
   var ErrorText: TCaption; var Error: Boolean);
 begin
+  if DisplayValue = '' then
+    DisplayValue := 0;
   if (Facao =  tacIncluir) or (FAcao = tacAlterar) then
   begin
-    nomeCadastro.Text := ReturnNamePerson(StrToIntDef(cadastro.Text,0));
+    nomeCadastro.Text := ReturnNamePerson(DisplayValue);
   end;
 end;
 
@@ -352,7 +356,8 @@ begin
   abastecimento.EditValue := FVehicle.Veiculos.CheckAbastecimento;
   id.EditValue := FVehicle.Veiculos.ID;
   cadastro.EditValue := FVehicle.Veiculos.Cadastro;
-  nomeCadastro.Text := ReturnNamePerson(StrToIntDef(cadastro.Text,0));
+  nomeCadastro.Text := ReturnNamePerson(FVehicle.Veiculos.Cadastro);
+  memObs.Text := FVehicle.Veiculos.Observacao;
 end;
 
 procedure Tview_SisGeFVehiclesRegistrationDetail.PopulateUF;
@@ -406,9 +411,8 @@ begin
     end;
     Result := sRetorno;
   finally
-    cadastro.FContratados.Query.Connection.Close;
+    cadastro.Free;
     Finalize(aParam);
-    cadastro.free;
   end;
 end;
 
@@ -546,6 +550,7 @@ begin
   FVehicle.Veiculos.CheckAbastecimento := abastecimento.EditValue;
   FVehicle.Veiculos.ID := id.EditValue;
   FVehicle.Veiculos.Cadastro := cadastro.EditValue;
+  FVehicle.Veiculos.Observacao := memObs.Text;
   FVehicle.Veiculos.NomeUsuario := Global.Parametros.pUser_Name;
   FVehicle.Veiculos.DataManutencao := Now;
   FVehicle.Veiculos.Acao := FAcao;

@@ -4,7 +4,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Cadastro de Ve'#237'culos'
-  ClientHeight = 412
+  ClientHeight = 436
   ClientWidth = 810
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -31,7 +31,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     Left = 0
     Top = 0
     Width = 810
-    Height = 392
+    Height = 416
     Align = alClient
     ParentBackground = True
     TabOrder = 0
@@ -418,25 +418,25 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object cxButton1: TcxButton
       Left = 644
-      Top = 333
+      Top = 357
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actionOK
-      TabOrder = 35
+      TabOrder = 36
     end
     object cxButton2: TcxButton
       Left = 725
-      Top = 333
+      Top = 357
       Width = 75
       Height = 25
       Cursor = crHandPoint
       Action = actionCancel
-      TabOrder = 36
+      TabOrder = 37
     end
     object labelMessage: TcxLabel
       Left = 398
-      Top = 337
+      Top = 361
       Caption = '   '
       Style.HotTrack = False
       Transparent = True
@@ -498,7 +498,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
     end
     object dxStatusBar2: TdxStatusBar
       Left = 10
-      Top = 364
+      Top = 388
       Width = 790
       Height = 18
       Panels = <
@@ -551,12 +551,22 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
         end
       end
     end
+    object memObs: TcxMemo
+      Left = 82
+      Top = 295
+      Hint = 'Observa'#231#245'es'
+      Properties.ScrollBars = ssVertical
+      Style.HotTrack = False
+      TabOrder = 34
+      Height = 50
+      Width = 718
+    end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 4
+      ItemIndex = 3
       ShowBorder = False
       Index = -1
     end
@@ -982,7 +992,7 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object dxLayoutItem32: TdxLayoutItem
       Parent = dxLayoutGroup11
@@ -1077,12 +1087,22 @@ object view_SisGeFVehiclesRegistrationDetail: Tview_SisGeFVehiclesRegistrationDe
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ShowBorder = False
-      Index = 4
+      Index = 5
+    end
+    object dxLayoutItem34: TdxLayoutItem
+      Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Observa'#231#245'es:'
+      Control = memObs
+      ControlOptions.OriginalHeight = 50
+      ControlOptions.OriginalWidth = 185
+      ControlOptions.ShowBorder = False
+      Index = 3
     end
   end
   object dxStatusBar1: TdxStatusBar
     Left = 0
-    Top = 392
+    Top = 416
     Width = 810
     Height = 20
     Panels = <>

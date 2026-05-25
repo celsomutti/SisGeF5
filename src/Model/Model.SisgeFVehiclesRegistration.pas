@@ -47,6 +47,7 @@ type
     FConexao: TConexao;
     FUtils: Common.Utils.TUtils;
     FMensagem: string;
+    FObservacao: string;
     function Insert(): boolean;
     function Update(): boolean;
     function Delete: boolean;
@@ -84,6 +85,7 @@ type
     property AnoExercicioCRLVVeiculo: string read FAnoExercicioCRLVVeiculo write FAnoExercicioCRLVVeiculo;
     property CheckRastreador: string read FCheckRastreador write FCheckRastreador;
     property CheckAbastecimento: string read FCheckAbastecimento write FCheckAbastecimento;
+    property Observacao: string read FObservacao write FObservacao;
     property NomeUsuario: string read FNomeUsuario write FNomeUsuario;
     property DataManutencao: TDateTime read FDataManutencao write FDataManutencao;
     property Query: TFDQuery read FQuery write FQuery;
@@ -105,18 +107,18 @@ type
                 'DAT_EMISSAO_RG, UF_ENDERECO, NOM_CIDADE, DES_ENDERECO, NUM_CEP, DES_BAIRRO, NUM_TELEFONE_1, DES_TELEFONE_1, ' +
                 'NUM_TELEFONE_2, DES_TELEFONE_2, COD_ENTREGADOR, DES_MARCA, DES_MODELO, DES_PLACA, UF_PLACA, NOM_CIDADE_PLACA, ' +
                 'DES_TIPO, NUM_CHASSIS, DES_ANO, DES_COR, NUM_RENAVAN, ANO_EXERCICIO_CLRV, DOM_RASTREAMENTO, DOM_ABASTECIMENTO, ' +
-                'NOM_EXECUTOR, DAT_MANUTENCAO FROM ' + TABLENAME;
+                'DES_OBS, NOM_EXECUTOR, DAT_MANUTENCAO FROM ' + TABLENAME;
     SQLINSERT = 'INSERT INTO ' + TABLENAME + '(COD_VEICULO, DES_TIPO_DOC, NUM_CNPJ, NOM_PROPRIETARIO, DAT_NASCIMENTO, NOM_MAE, ' +
                 'NOM_PAI, NUM_RG, UF_RG, DAT_EMISSAO_RG, UF_ENDERECO, NOM_CIDADE, DES_ENDERECO, NUM_CEP, DES_BAIRRO, ' +
                 'NUM_TELEFONE_1, DES_TELEFONE_1, NUM_TELEFONE_2, DES_TELEFONE_2, COD_ENTREGADOR, DES_MARCA, DES_MODELO, ' +
                 'DES_PLACA, UF_PLACA, NOM_CIDADE_PLACA, DES_TIPO, NUM_CHASSIS, DES_ANO, DES_COR, NUM_RENAVAN, ' +
-                'ANO_EXERCICIO_CLRV, DOM_RASTREAMENTO, DOM_ABASTECIMENTO, NOM_EXECUTOR, DAT_MANUTENCAO) ' +
+                'ANO_EXERCICIO_CLRV, DOM_RASTREAMENTO, DOM_ABASTECIMENTO, DES_OBS, NOM_EXECUTOR, DAT_MANUTENCAO) ' +
                 'VALUES ' +
                 '(:COD_VEICULO, :DES_TIPO_DOC, :NUM_CNPJ, :NOM_PROPRIETARIO, :DAT_NASCIMENTO, :NOM_MAE, :NOM_PAI, :NUM_RG, ' +
                 ':UF_RG, :DAT_EMISSAO_RG, :UF_ENDERECO, :NOM_CIDADE, :DES_ENDERECO, :NUM_CEP, :DES_BAIRRO, :NUM_TELEFONE_1, ' +
                 ':DES_TELEFONE_1, :NUM_TELEFONE_2, :DES_TELEFONE_2, :COD_ENTREGADOR, :DES_MARCA, :DES_MODELO, :DES_PLACA, ' +
                 ':UF_PLACA, :NOM_CIDADE_PLACA, :DES_TIPO, :NUM_CHASSIS, :DES_ANO, :DES_COR, :NUM_RENAVAN, :ANO_EXERCICIO_CLRV, ' +
-                ':DOM_RASTREAMENTO, :DOM_ABASTECIMENTO, :NOM_EXECUTOR, :DAT_MANUTENCAO); ';
+                ':DOM_RASTREAMENTO, :DOM_ABASTECIMENTO, :DES_OBS, :NOM_EXECUTOR, :DAT_MANUTENCAO); ';
     SQLUPDATE = 'UPDATE ' + TABLENAME + ' SET DES_TIPO_DOC = :DES_TIPO_DOC, NUM_CNPJ = :NUM_CNPJ, ' +
                 'NOM_PROPRIETARIO = :NOM_PROPRIETARIO, DAT_NASCIMENTO = :DAT_NASCIMENTO, NOM_MAE = :NOM_MAE, NOM_PAI = :NOM_PAI, ' +
                 'NUM_RG = :NUM_RG, UF_RG = :UF_RG, DAT_EMISSAO_RG = :DAT_EMISSAO_RG, UF_ENDERECO = :UF_ENDERECO, ' +
@@ -126,7 +128,8 @@ type
                 'DES_MODELO = :DES_MODELO, DES_PLACA = :DES_PLACA, UF_PLACA = :UF_PLACA, NOM_CIDADE_PLACA = :NOM_CIDADE_PLACA, ' +
                 'DES_TIPO = :DES_TIPO, NUM_CHASSIS = :NUM_CHASSIS, DES_ANO = :DES_ANO, DES_COR = :DES_COR, ' +
                 'NUM_RENAVAN = :NUM_RENAVAN, ANO_EXERCICIO_CLRV = :ANO_EXERCICIO_CLRV, DOM_RASTREAMENTO = :DOM_RASTREAMENTO, ' +
-                'DOM_ABASTECIMENTO = :DOM_ABASTECIMENTO, NOM_EXECUTOR = :NOM_EXECUTOR, DAT_MANUTENCAO = :DAT_MANUTENCAO ' +
+                'DOM_ABASTECIMENTO = :DOM_ABASTECIMENTO, DES_OBS = :DES_OBS, NOM_EXECUTOR = :NOM_EXECUTOR, ' +
+                'DAT_MANUTENCAO = :DAT_MANUTENCAO ' +
                 'WHERE COD_VEICULO = :COD_VEICULO; ';
     SQLDELETE = 'DELETE FROM ' + TABLENAME + ' WHERE COD_VEICULO = :COD_VEICULO';
     SQLGETID  = 'select coalesce(max(COD_VEICULO),0) + 1 from ' + TABLENAME;
@@ -205,7 +208,7 @@ begin
                     Ftelefone1, FDescricaoTelefone1, FTelefone2, FDescricaoTelefone2, FCadastro, FMarcaVeiculo, FModeloVeiculo,
                     FPlacaVeiculo, FUFPlacaVeiculo, FMunicipioPlacaVeiculo, FTipoVeiculo, FChassisVeiculo, FAnoFabricacaoVeiculo,
                     FCorVeiculo, FRenavanVeiculo, FAnoExercicioCRLVVeiculo, FCheckRastreador, FCheckAbastecimento,
-                    FNomeUsuario, FDataManutencao]);
+                    FObservacao, FNomeUsuario, FDataManutencao]);
     Result := True;
   finally
     FDQuery.Connection.Close;
@@ -394,6 +397,7 @@ begin
   FCheckAbastecimento := FQuery.FieldByName('DOM_ABASTECIMENTO').Asstring;
   FChassisVeiculo := FQuery.FieldByName('NUM_CHASSIS').Asstring;
   FDescricaoTelefone2 := FQuery.FieldByName('DES_TELEFONE_2').Asstring;
+  FObservacao := FQuery.FieldByName('DES_OBS').Asstring;
   Result := True;
 end;
 
@@ -410,7 +414,7 @@ begin
                     Ftelefone1, FDescricaoTelefone1, FTelefone2, FDescricaoTelefone2, FCadastro, FMarcaVeiculo, FModeloVeiculo,
                     FPlacaVeiculo, FUFPlacaVeiculo, FMunicipioPlacaVeiculo, FTipoVeiculo, FChassisVeiculo, FAnoFabricacaoVeiculo,
                     FCorVeiculo, FRenavanVeiculo, FAnoExercicioCRLVVeiculo, FCheckRastreador, FCheckAbastecimento,
-                    FNomeUsuario, FDataManutencao,FID]);
+                    FObservacao, FNomeUsuario, FDataManutencao,FID]);
     Result := True;
   finally
     FDQuery.Connection.Close;

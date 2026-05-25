@@ -75,7 +75,7 @@ type
                   'from ' + TABLENAME;
       SQLINSERT = 'insert into ' + TABLENAME + ' (id_funcionario, nom_funcionario, nom_alias, cod_tipo_pessoa, num_cpf, num_rg, dat_emissao_rg, ' +
                   'nom_emissor_rg, uf_emissor_rg, dat_nascimento, des_nacionalidade, des_naturalidade, uf_naturalidade, nom_pai, ' +
-                  ' nom_mae, num_cnh, num_registro_cnh, des_categoria_cnh, dat_validade_cnh, dat_emissao_cnh, uf_cnh, ' +
+                  'nom_mae, num_cnh, num_registro_cnh, des_categoria_cnh, dat_validade_cnh, dat_emissao_cnh, uf_cnh, ' +
                   'dat_primeira_cnh, cod_seguranca_cnh, cod_status, des_obs, id_departamento, id_funcao, dat_admissao, ' +
                   'val_remuneracao, dat_demissao, createdAt, updatedAt) ' +
                   'values  '  +
@@ -85,18 +85,20 @@ type
                   ':dat_primeira_cnh, :cod_seguranca_cnh, :cod_status, :des_obs, :id_departamento, :id_funcao, :dat_admissao, ' +
                   ':val_remuneracao, :dat_demissao, :createdAt, :updatedAt)';
       SQLUPDATE = 'update ' + TABLENAME +
-                  'set ' +
-                  'nom_funcionario = :nom_funcionario, nom_alias = :nom_alias, cod_tipo_pessoa = :cod_tipo_pessoa, num_cpf = :num_cpf, num_rg = :num_rg, ' +
-                  'dat_emissao_rg = :dat_emissao_rg, nom_emissor_rg = :nom_emissor_rg, uf_emissor_rg = :uf_emissor_rg,' +
-                  'dat_nascimento = :dat_nascimento, des_nacionalidade = :des_nacionalidade, des_naturalidade = :des_naturalidade,'+
-                  'uf_naturalidade = :uf_naturalidade, nom_pai = :nom_pai, nom_mae = :nom_mae, num_cnh = :num_cnh, ' +
-                  'num_registro_cnh = :num_registro_cnh, des_categoria_cnh = :des_categoria_cnh, ' +
-                  'dat_validade_cnh = :dat_validade_cnh, dat_emissao_cnh = :dat_emissao_cnh, uf_cnh = :uf_cnh, ' +
-                  'dat_primeira_cnh = :dat_primeira_cnh, cod_seguranca_cnh = :cod_seguranca_cnh, cod_status = :cod_status, ' +
-                  'des_obs = :des_obs, id_departamento = :id_departamento, id_funcao = :id_funcao, dat_admissao = :dat_admissao, ' +
-                  'val_remuneracao = :val_remuneracao, dat_demissao = :dat_demissao, createdAt = :createdAt, updatedAt = :updatedAt ' +
+                  ' set ' +
+                  'nom_funcionario = :nom_funcionario, nom_alias = :nom_alias, cod_tipo_pessoa = :cod_tipo_pessoa, ' +
+                  'num_cpf = :num_cpf, num_rg = :num_rg, dat_emissao_rg = :dat_emissao_rg, nom_emissor_rg = :nom_emissor_rg, ' +
+                  'uf_emissor_rg = :uf_emissor_rg, dat_nascimento = :dat_nascimento, des_nacionalidade = :des_nacionalidade, ' +
+                  'des_naturalidade = :des_naturalidade, uf_naturalidade = :uf_naturalidade, nom_pai = :nom_pai, ' +
+                  'nom_mae = :nom_mae, num_cnh = :num_cnh, num_registro_cnh = :num_registro_cnh, ' +
+                  'des_categoria_cnh = :des_categoria_cnh, dat_validade_cnh = :dat_validade_cnh, ' +
+                  'dat_emissao_cnh = :dat_emissao_cnh, uf_cnh = :uf_cnh, dat_primeira_cnh = :dat_primeira_cnh, ' +
+                  'cod_seguranca_cnh = :cod_seguranca_cnh, cod_status = :cod_status, des_obs = :des_obs, ' +
+                  'id_departamento = :id_departamento, id_funcao = :id_funcao, dat_admissao = :dat_admissao, ' +
+                  'val_remuneracao = :val_remuneracao, dat_demissao = :dat_demissao, createdAt = :createdAt, ' +
+                  'updatedAt = :updatedAt ' +
                   'where id_funcionario = :id_funcionario';
-      SQLDELETE = 'delete from ' + TABLENAME + 'where id_funcionario = :id_funcionario';
+      SQLDELETE = 'delete from ' + TABLENAME + ' where id_funcionario = :id_funcionario';
 
 
 implementation
@@ -110,13 +112,13 @@ begin
     FQuery := FConn.GetQuery;
     FRecord.updatedAt := Now();
     FQuery.ExecSQL(SQLUPDATE,
-                  [FRecord.nom_funcionario, FRecord.nom_alias, FRecord.cod_tipo_pessoa ,FRecord.num_cpf, FRecord.num_rg,
+                  [FRecord.nom_funcionario, FRecord.nom_alias, FRecord.cod_tipo_pessoa, FRecord.num_cpf, FRecord.num_rg,
                   FRecord.dat_emissao_rg, FRecord.nom_emissor_rg, FRecord.uf_emissor_rg, FRecord.dat_nascimento,
-                  FRecord.des_nacionalidade, FRecord.des_naturalidade, FRecord.uf_naturalidade, FRecord.nom_pai, FRecord.nom_mae,
-                  FRecord.num_cnh, FRecord.num_registro_cnh, FRecord.des_categoria_cnh, FRecord.dat_validade_cnh,
+                  FRecord.des_nacionalidade, FRecord.des_naturalidade, FRecord.uf_naturalidade, FRecord.nom_pai,
+                  FRecord.nom_mae, FRecord.num_cnh, FRecord.num_registro_cnh, FRecord.des_categoria_cnh, FRecord.dat_validade_cnh,
                   FRecord.dat_emissao_cnh, FRecord.uf_cnh, FRecord.dat_primeira_cnh, FRecord.cod_seguranca_cnh,
                   FRecord.cod_status, FRecord.des_obs, FRecord.id_departamento, FRecord.id_funcao, FRecord.dat_admissao,
-                  FRecord.val_remuneracao, FRecord.dat_demissao, FRecord.createdAt, FRecord.updatedAt,FRecord.id_funcionario]);
+                  FRecord.val_remuneracao, FRecord.dat_demissao, FRecord.createdAt, FRecord.updatedAt, FRecord.id_funcionario]);
     if FQuery.RowsAffected = 0 then
       Exit;
     Result := True;
