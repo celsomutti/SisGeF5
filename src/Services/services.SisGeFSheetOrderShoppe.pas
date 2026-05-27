@@ -2,7 +2,7 @@ unit services.SisGeFSheetOrderShoppe;
 
 interface
 
-  uses Generics.Collections, System.Classes, System.SysUtils, Excel4Delphi, Excel4Delphi.Stream, Common.Utils;
+  uses Generics.Collections, System.Classes, System.SysUtils, Excel4Delphi, Excel4Delphi.Stream, ComObj, System.Variants;
 
   type
     TSheetOrdersShopee = class
@@ -19,6 +19,8 @@ interface
         FMensagem     : string;
 
         function ValidaPlanilha(): boolean;
+        function ValidaPlanilhaXLS(): boolean;
+        function ValidaPlanilhaCSV(): boolean;
       public
         property HoraEntrega  : string  read FHoraEntrega write FHoraEntrega;
         property Pedido       : string  read FPedido      write FPedido;
@@ -33,6 +35,8 @@ interface
         property Planilha: TObjectList<TSheetOrdersShopee> read FPlanilha write FPlanilha;
 
         function GetSheet(): boolean;
+        function GetSheetXLS(): boolean;
+        function GetSheetCSV(): boolean;
     end;
 implementation
 
@@ -88,6 +92,104 @@ begin
   end;
 end;
 
+function TSheetOrdersShopee.GetSheetCSV: boolean;
+var
+  sLinhas: TStringList;
+  sColunas: TStringList;
+  i: Integer;
+begin
+  Result := False;
+  sLinhas := TStringList.Create;
+  sColunas := TStringList.Create;
+   try
+     if not ValidaPlanilhaCSV() then
+      begin
+        FMensagem := 'Sheet : Planilha informada não é válida!';
+      end;
+      sLinhas.LoadFromFile(FFileName);
+      sColunas.Delimiter := ';';
+      sColunas.StrictDelimiter := True;
+      for i := 1 to Pred(sLinhas.Count) do
+      begin
+        sColunas.DelimitedText := sLinhas[i];
+        FPlanilha.Add(TSheetOrdersShopee.Create);
+        FPlanilha[i].FHoraEntrega  :=  sColunas[0];
+        FPlanilha[i].FPedido       :=  sColunas[1];
+        FPlanilha[i].FOrigem       :=  sColunas[2];
+        FPlanilha[i].FDestino      :=  sColunas[3];
+        FPlanilha[i].FNumeroTO     :=  sColunas[4];
+        FPlanilha[i].FRotaLH       :=  sColunas[5];
+      end;
+      Result := True;
+   finally
+    sLinhas.Free;
+    sColunas.Free;
+   end;
+end;
+
+function TSheetOrdersShopee.GetSheetXLS: boolean;
+var
+  ExcelApp, Workbook, Sheet: Variant;
+  iRow, iRows, iSheet, iSheets, iCol, iCols, iStart: integer;
+begin
+  iCol      :=  0;
+  iCols     :=  0;
+  iRow      :=  0;
+  iRows     :=  0;
+  iSheet    :=  0;
+  iSheets   :=  0;
+  iStart    :=  0;
+  Result    :=  False;
+  try
+    try
+      if not ValidaPlanilhaXLS() then
+      begin
+        FMensagem := 'Sheet : Planilha informada não é válida!';
+        Exit
+      end;
+      ExcelApp := CreateOleObject('Excel.Application');
+      // ExcelApp.Visible := True; // Opcional: torna o Excel visível
+      Workbook := ExcelApp.Workbooks.Open(FileName);
+      iSheet := 1;
+      Sheet := Workbook.WorkSheets[iSheet];
+      iRows := Sheet.UsedRange.Rows.Count;
+      if iRows < 2 then
+      begin
+        FMensagem := 'Sheet : Planilha está vazia!';
+        Exit;
+      end;
+      FPlanilha := TObjectList<TSheetOrdersShopee>.Create();
+      iStart := 2;
+      for iRow := iStart to iRows do
+      begin
+        FPlanilha.Add(TSheetOrdersShopee.Create);
+        FPlanilha[iRow - 2].FHoraEntrega  :=  Sheet.Cells[iRow,1].Value;
+        FPlanilha[iRow - 2].FPedido       :=  Sheet.Cells[iRow,2].Value;
+        FPlanilha[iRow - 2].FOrigem       :=  Sheet.Cells[iRow,3].Value;
+        FPlanilha[iRow - 2].FDestino      :=  Sheet.Cells[iRow,4].Value;
+        FPlanilha[iRow - 2].FNumeroTO     :=  Sheet.Cells[iRow,5].Value;
+        FPlanilha[iRow - 2].FRotaLH       :=  Sheet.Cells[iRow,6].Value;
+      end;
+      if FPlanilha.Count = 0 then
+      begin
+        FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
+        Exit;
+      end;
+    except
+      on E: Exception do
+        FMensagem := 'Sheet : ' + E.Message;
+    end;
+    Result := True;
+  finally
+    Workbook.Close(False);
+    ExcelApp.Quit;
+    Workbook := Unassigned;
+    ExcelApp := Unassigned;
+    Sheet := Unassigned;
+  end;
+
+end;
+
 function TSheetOrdersShopee.ValidaPlanilha: boolean;
 var
   workBook  : TZWorkBook;
@@ -112,6 +214,77 @@ begin
     Result := True;
   finally
     workBook.Free;
+  end;
+end;
+
+function TSheetOrdersShopee.ValidaPlanilhaCSV: boolean;
+var
+  sLinhas: TStringList;
+  sColunas: TStringList;
+begin
+  Result := False;
+  sLinhas := TStringList.Create;
+  sColunas := TStringList.Create;
+  try
+    sLinhas.LoadFromFile(FFileName);
+    sColunas.Delimiter := ';';
+    sColunas.StrictDelimiter := True;
+    sColunas.DelimitedText := sLinhas[0];
+
+    if sColunas[0] <> 'Horario de entrega' then
+      Exit;
+    if sColunas[1] <> 'Pedido (TN)' then
+      Exit;
+    if sColunas[2] <> 'Origem' then
+      Exit;
+    if sColunas[3] <> 'Destino' then
+      Exit;
+    if sColunas[4] <> 'Número da TO' then
+      Exit;
+    if sColunas[5] <> 'Rota de LH' then
+      Exit;
+    Result := True;
+  finally
+    sLinhas.Free;
+    sColunas.Free;
+  end;
+end;
+
+function TSheetOrdersShopee.ValidaPlanilhaXLS: boolean;
+var
+  ExcelApp, Workbook, Sheet: Variant;
+  iSheet : Integer;
+begin
+  Result    :=  False;
+  try
+    try
+      iSheet := 1;
+      ExcelApp := CreateOleObject('Excel.Application');
+      Workbook := ExcelApp.Workbooks.Open(FileName);
+      Sheet := Workbook.WorkSheets[iSheet];
+      if Sheet.Cells[1,1].Value <> 'Horario de entrega' then
+        Exit;
+      if Sheet.Cells[1,2].Value <> 'Pedido (TN)' then
+        Exit;
+      if Sheet.Cells[1,3].Value <> 'Origem' then
+        Exit;
+      if Sheet.Cells[1,4].Value <> 'Destino' then
+        Exit;
+      if Sheet.Cells[1,5].Value <> 'Número da TO' then
+        Exit;
+      if Sheet.Cells[1,6].Value <> 'Rota de LH' then
+        Exit;
+    except
+      on E: Exception do
+        FMensagem := 'Sheet : ' + E.Message;
+    end;
+    Result := True;
+  finally
+    Workbook.Close(False);
+    ExcelApp.Quit;
+    Workbook := Unassigned;
+    ExcelApp := Unassigned;
+    Sheet := Unassigned;
   end;
 end;
 

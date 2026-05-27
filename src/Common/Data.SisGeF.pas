@@ -738,6 +738,7 @@ type
     queryFuncionariosdom_retorno: TShortintField;
     queryFuncionarioscod_informativo: TIntegerField;
     queryFuncionariosdes_log: TMemoField;
+    memPedidosBlink: TFDMemTable;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

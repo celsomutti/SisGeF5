@@ -356,7 +356,8 @@ uses
   Model.SisGeFInformativosExpressas in 'src\Model\Model.SisGeFInformativosExpressas.pas',
   Controller.SisGeFInformativoExpressas in 'src\Control\Controller.SisGeFInformativoExpressas.pas',
   Model.SisGefAtribuicoesExpressas in 'src\Model\Model.SisGefAtribuicoesExpressas.pas',
-  Controller.SisGeFAtribuicoesExpressas in 'src\Control\Controller.SisGeFAtribuicoesExpressas.pas';
+  Controller.SisGeFAtribuicoesExpressas in 'src\Control\Controller.SisGeFAtribuicoesExpressas.pas',
+  View.SisGeFImportaPedidos in 'src\View\View.SisGeFImportaPedidos.pas' {viewImportaPedidos};
 
 {$R *.res}
 
