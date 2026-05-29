@@ -357,7 +357,8 @@ uses
   Controller.SisGeFInformativoExpressas in 'src\Control\Controller.SisGeFInformativoExpressas.pas',
   Model.SisGefAtribuicoesExpressas in 'src\Model\Model.SisGefAtribuicoesExpressas.pas',
   Controller.SisGeFAtribuicoesExpressas in 'src\Control\Controller.SisGeFAtribuicoesExpressas.pas',
-  View.SisGeFImportaPedidos in 'src\View\View.SisGeFImportaPedidos.pas' {viewImportaPedidos};
+  View.SisGeFImportaPedidos in 'src\View\View.SisGeFImportaPedidos.pas' {viewImportaPedidos},
+  services.SisGeFImportOrderShopee in 'src\Services\services.SisGeFImportOrderShopee.pas';
 
 {$R *.res}
 

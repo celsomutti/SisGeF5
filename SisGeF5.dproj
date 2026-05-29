@@ -722,6 +722,7 @@
             <Form>viewImportaPedidos</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="src\Services\services.SisGeFImportOrderShopee.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>

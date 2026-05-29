@@ -27,10 +27,6 @@ object viewImportaPedidos: TviewImportaPedidos
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitLeft = 128
-    ExplicitTop = 144
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object bteArquivo: TcxButtonEdit
       Left = 52
       Top = 10
@@ -70,14 +66,20 @@ object viewImportaPedidos: TviewImportaPedidos
       Action = aclSair
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 2
+      TabOrder = 3
+    end
+    object cxLabel1: TcxLabel
+      Left = 22
+      Top = 71
+      Caption = 'cxLabel1'
+      Style.HotTrack = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 2
+      ItemIndex = 3
       ShowBorder = False
       Index = -1
     end
@@ -125,7 +127,7 @@ object viewImportaPedidos: TviewImportaPedidos
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 3
+      Index = 5
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = dxLayoutGroup2
@@ -143,8 +145,55 @@ object viewImportaPedidos: TviewImportaPedidos
       Parent = dxLayoutControl1Group_Root
       AlignVert = avBottom
       CaptionOptions.Text = 'Separator'
+      Index = 4
+    end
+    object dxLayoutGroup3: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
       Index = 2
     end
+    object dxLayoutItem4: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      CaptionOptions.Text = 'cxLabel1'
+      CaptionOptions.Visible = False
+      Control = cxLabel1
+      ControlOptions.OriginalHeight = 17
+      ControlOptions.OriginalWidth = 46
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup4: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      Index = 3
+    end
+  end
+  object cxNavigator1: TcxNavigator
+    Left = 0
+    Top = 22
+    Width = 2
+    Height = 25
+    Buttons.CustomButtons = <>
+    Buttons.First.Visible = False
+    Buttons.PriorPage.Visible = False
+    Buttons.Prior.Visible = False
+    Buttons.Next.Visible = False
+    Buttons.NextPage.Visible = False
+    Buttons.Last.Visible = False
+    Buttons.Insert.Visible = False
+    Buttons.Delete.Visible = False
+    Buttons.Edit.Visible = False
+    Buttons.Post.Visible = False
+    Buttons.Cancel.Visible = False
+    Buttons.Refresh.Visible = False
+    Buttons.SaveBookmark.Visible = False
+    Buttons.GotoBookmark.Visible = False
+    Buttons.Filter.Visible = False
+    InfoPanel.Visible = True
+    InfoPanel.Width = 10
+    TabOrder = 1
   end
   object aclImportacao: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -154,6 +203,7 @@ object viewImportaPedidos: TviewImportaPedidos
       Caption = '&Importar'
       Hint = 'Importar o arquivo'
       ImageIndex = 103
+      OnExecute = aclImportarExecute
     end
     object aclSair: TAction
       Caption = 'Sair'
@@ -173,5 +223,88 @@ object viewImportaPedidos: TviewImportaPedidos
       ImageIndex = 84
       OnExecute = actLimparExecute
     end
+  end
+  object batchMoveDataSetReader: TFDBatchMoveDataSetReader
+    DataSet = Data_Sisgef.memPedidosBlink
+    Left = 480
+    Top = 160
+  end
+  object batchMoveSQLWriter: TFDBatchMoveSQLWriter
+    TableName = 'tbentregas'
+    Left = 480
+    Top = 216
+  end
+  object batchMove: TFDBatchMove
+    Reader = batchMoveDataSetReader
+    Writer = batchMoveSQLWriter
+    Mode = dmAppendUpdate
+    Options = [poIdentityInsert]
+    Mappings = <
+      item
+        SourceFieldName = 'Pedido'
+        DestinationFieldName = 'NUM_NOSSONUMERO'
+      end
+      item
+        SourceExpression = '0'
+        DestinationFieldName = 'COD_AGENTE'
+      end
+      item
+        SourceExpression = '0'
+        DestinationFieldName = 'COD_ENTREGADOR'
+      end
+      item
+        SourceExpression = '0'
+        DestinationFieldName = 'COD_CLIENTE'
+      end
+      item
+        SourceExpression = #39'0'#39
+        DestinationFieldName = 'NUM_NF'
+      end
+      item
+        SourceExpression = #39'CONSUMIDOR'#39
+        DestinationFieldName = 'NOM_CONSUMIDOR'
+      end
+      item
+        SourceExpression = #39'00000-000'#39
+        DestinationFieldName = 'NOM_CIDADE'
+      end
+      item
+        SourceExpression = '1'
+        DestinationFieldName = 'QTD_VOLUMES'
+      end
+      item
+        SourceFieldName = 'HoraEntrega'
+        DestinationFieldName = 'DAT_EXPEDICAO'
+      end
+      item
+        SourceFieldName = 'RotaLH'
+        DestinationFieldName = 'DES_RETORNO'
+      end
+      item
+        SourceFieldName = 'NumeroTO'
+        DestinationFieldName = 'NUM_PEDIDO'
+      end
+      item
+        SourceFieldName = 'Origem'
+        DestinationFieldName = 'DES_RASTREIO'
+      end
+      item
+        SourceFieldName = 'HoraEntrega'
+        DestinationFieldName = 'DAT_RECEBIDO'
+      end
+      item
+        SourceExpression = #39'S'#39
+        DestinationFieldName = 'DOM_RECEBIDO'
+      end
+      item
+        SourceFieldName = 'idCliente'
+        DestinationFieldName = 'COD_CLIENTE_EMPRESA'
+      end>
+    LogFileName = 'Data.log'
+    StatisticsInterval = 1
+    MaxErrors = -1
+    OnProgress = batchMoveProgress
+    Left = 478
+    Top = 104
   end
 end

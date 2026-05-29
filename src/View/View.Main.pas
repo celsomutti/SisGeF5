@@ -335,7 +335,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
   View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroFuncionarios,
   View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.SisGeFCadastroTerceirizados,
-  View.SisGeFUsersRegister, View.SisGeFUsersGroups, View.SisGeFFuncoesAtividades, View.SisGeFAcareacoes;
+  View.SisGeFUsersRegister, View.SisGeFUsersGroups, View.SisGeFFuncoesAtividades, View.SisGeFAcareacoes, View.SisGeFImportaPedidos;
 
 procedure Tview_Main.Acessos;
 var
@@ -664,12 +664,20 @@ begin
   // end;
   // view_ImporEDIClient.Show;
 
-  if not Assigned(view_SisGeFImportWorksheetExpress) then
+//  if not Assigned(view_SisGeFImportWorksheetExpress) then
+//  begin
+//    view_SisGeFImportWorksheetExpress :=
+//      Tview_SisGeFImportWorksheetExpress.Create(Application);
+//  end;
+//  view_SisGeFImportWorksheetExpress.Show;
+
+  if not Assigned(viewImportaPedidos) then
   begin
-    view_SisGeFImportWorksheetExpress :=
-      Tview_SisGeFImportWorksheetExpress.Create(Application);
+    viewImportaPedidos :=
+      TviewImportaPedidos.Create(Application);
   end;
-  view_SisGeFImportWorksheetExpress.Show;
+  viewImportaPedidos.Show;
+
 
 end;
 

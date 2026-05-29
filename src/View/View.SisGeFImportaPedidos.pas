@@ -7,7 +7,10 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, services.SisGeFSheetOrderShoppe, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxSkinsCore, dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, cxContainer, cxEdit,
   dxLayoutcxEditAdapters, cxTextEdit, cxMaskEdit, cxButtonEdit, System.Actions, Vcl.ActnList, dxLayoutControlAdapters, Vcl.Menus,
-  Vcl.StdCtrls, cxButtons;
+  Vcl.StdCtrls, cxButtons, services.SisGeFImportOrderShopee, Vcl.ExtCtrls, cxLabel, FireDAC.Stan.Intf, FireDAC.Comp.BatchMove,
+  FireDAC.Comp.BatchMove.SQL, FireDAC.Comp.BatchMove.DataSet, service.connectionMySQL, cxStyles, cxCustomData, cxFilter, cxData,
+  cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel, cxGridCustomView, cxGrid, cxDBNavigator;
 
 type
   TviewImportaPedidos = class(TForm)
@@ -28,12 +31,23 @@ type
     cxButton2: TcxButton;
     dxLayoutItem3: TdxLayoutItem;
     dxLayoutSeparatorItem2: TdxLayoutSeparatorItem;
+    dxLayoutGroup3: TdxLayoutGroup;
+    cxLabel1: TcxLabel;
+    dxLayoutItem4: TdxLayoutItem;
+    batchMoveDataSetReader: TFDBatchMoveDataSetReader;
+    batchMoveSQLWriter: TFDBatchMoveSQLWriter;
+    batchMove: TFDBatchMove;
+    dxLayoutGroup4: TdxLayoutGroup;
+    cxNavigator1: TcxNavigator;
     procedure actAbrirExecute(Sender: TObject);
     procedure actLimparExecute(Sender: TObject);
     procedure aclSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure aclImportarExecute(Sender: TObject);
+    procedure batchMoveProgress(ASender: TObject; APhase: TFDBatchMovePhase);
   private
     procedure AbrirArquivo;
+    procedure Importar;
   public
     { Public declarations }
   end;
@@ -61,6 +75,11 @@ begin
   end;
 end;
 
+procedure TviewImportaPedidos.aclImportarExecute(Sender: TObject);
+begin
+  Importar;
+end;
+
 procedure TviewImportaPedidos.aclSairExecute(Sender: TObject);
 begin
   Close;
@@ -76,10 +95,46 @@ begin
   bteArquivo.Clear;
 end;
 
+procedure TviewImportaPedidos.batchMoveProgress(ASender: TObject; APhase: TFDBatchMovePhase);
+begin
+  if APhase = psProgress then
+  begin
+    cxLabel1.Caption := IntToStr(batchMove.WriteCount);
+    Application.ProcessMessages;
+  end;
+end;
+
 procedure TviewImportaPedidos.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
   viewImportaPedidos := nil;
+end;
+
+procedure TviewImportaPedidos.Importar;
+var
+  FImport : TImportOrderShopee;
+  FConn : TConnectionMySQL;
+begin
+  FImport := TImportOrderShopee.Create;
+  FConn := TConnectionMySQL.Create;
+  try
+    if bteArquivo.Text = EmptyStr then
+      Exit;
+    FImport.FileName := bteArquivo.Text;
+    FImport.Cliente := 2;
+    if not FImport.Importar() then
+    begin
+      Application.MessageBox(PChar(FImport.Mensagem), 'Atenção', MB_OK + MB_ICONERROR);
+      Exit;
+    end;
+    Data_Sisgef.memPedidosBlink.First;
+    ShowMessage('Estou no primeiro registro, vou começar.');
+    batchMoveSQLWriter.Connection := FConn.GetConnection;
+    batchMove.Execute;
+  finally
+    FConn.Free;
+    FImport.Free;
+  end;
 end;
 
 end.

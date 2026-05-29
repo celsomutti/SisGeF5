@@ -22,7 +22,7 @@ uses
   IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, ScBridge, ScSSHClient,
   ScSFTPClient, Dialogs, ScSSHUtils, ScUtils, ScSFTPUtils, FireDAC.DApt, frxRich, System.DateUtils,
   frxExportBaseDialog, cxImageList, Control.Bases, Control.Sistema, REST.Types, REST.Client, REST.Response.Adapter,
-  Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes, frxOLE, service.sistem;
+  Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes, frxOLE, service.sistem, FireDAC.Comp.BatchMove.SQL;
 
 type
   TData_Sisgef = class(TDataModule)
@@ -713,32 +713,74 @@ type
     queryBancoscod_modalidade: TStringField;
     queryBancoscod_modalidade_cp: TStringField;
     frxBarCodeObject1: TfrxBarCodeObject;
-    queryFuncionarios: TFDQuery;
     frxReport: TfrxReport;
-    queryFuncionariosid_atribuicao: TIntegerField;
-    queryFuncionarioscod_atribuicao: TStringField;
-    queryFuncionariosdat_atribuicao: TDateTimeField;
-    queryFuncionarioscod_entregador: TIntegerField;
-    queryFuncionariosnom_entregador: TStringField;
-    queryFuncionarioscod_cliente: TIntegerField;
-    queryFuncionariosnom_cliente: TStringField;
-    queryFuncionarioscod_embarcador: TIntegerField;
-    queryFuncionariosnom_embarcador: TStringField;
-    queryFuncionariosnom_base: TStringField;
-    queryFuncionariosnum_nossosumero: TStringField;
-    queryFuncionarioscod_retorno: TStringField;
-    queryFuncionariosdes_endereco: TStringField;
-    queryFuncionariosnum_cep: TStringField;
-    queryFuncionariosnom_bairro: TStringField;
-    queryFuncionariosnom_consumidor: TStringField;
-    queryFuncionariosqtd_volumes: TIntegerField;
-    queryFuncionariosdes_telefone: TStringField;
-    queryFuncionariosnum_lote_remessa: TIntegerField;
-    queryFuncionariosdat_retorno: TDateTimeField;
-    queryFuncionariosdom_retorno: TShortintField;
-    queryFuncionarioscod_informativo: TIntegerField;
-    queryFuncionariosdes_log: TMemoField;
     memPedidosBlink: TFDMemTable;
+    memPedidosBlinkOrigem: TStringField;
+    memPedidosBlinkDestino: TStringField;
+    memPedidosBlinkNumeroTO: TStringField;
+    memPedidosBlinkRotaLH: TStringField;
+    memPedidosBlinkPedido: TStringField;
+    memPedidosBlinkHoraEntrega: TDateTimeField;
+    batchMoveOrdersShopee: TFDBatchMove;
+    batchMoveDataSetReaderOrdersShopee: TFDBatchMoveDataSetReader;
+    batchMoveDataSetWriterOrdersShopee: TFDBatchMoveDataSetWriter;
+    memPedidosBlinkidCliente: TIntegerField;
+    queryFuncionarios: TFDQuery;
+    StringField9: TStringField;
+    IntegerField6: TIntegerField;
+    IntegerField7: TIntegerField;
+    IntegerField8: TIntegerField;
+    StringField10: TStringField;
+    StringField11: TStringField;
+    StringField12: TStringField;
+    StringField13: TStringField;
+    StringField14: TStringField;
+    StringField15: TStringField;
+    StringField16: TStringField;
+    StringField17: TStringField;
+    DateField1: TDateField;
+    DateField2: TDateField;
+    IntegerField9: TIntegerField;
+    DateTimeField1: TDateTimeField;
+    DateField3: TDateField;
+    StringField18: TStringField;
+    DateField4: TDateField;
+    StringField19: TStringField;
+    StringField20: TStringField;
+    IntegerField10: TIntegerField;
+    DateField5: TDateField;
+    FloatField1: TFloatField;
+    FloatField2: TFloatField;
+    FloatField3: TFloatField;
+    FloatField4: TFloatField;
+    FloatField5: TFloatField;
+    FloatField6: TFloatField;
+    StringField21: TStringField;
+    IntegerField11: TIntegerField;
+    SingleField1: TSingleField;
+    FloatField7: TFloatField;
+    FloatField8: TFloatField;
+    StringField22: TStringField;
+    DateTimeField2: TDateTimeField;
+    StringField23: TStringField;
+    IntegerField12: TIntegerField;
+    IntegerField13: TIntegerField;
+    MemoField1: TMemoField;
+    IntegerField14: TIntegerField;
+    StringField24: TStringField;
+    DateField6: TDateField;
+    StringField25: TStringField;
+    StringField26: TStringField;
+    SingleField2: TSingleField;
+    IntegerField15: TIntegerField;
+    IntegerField16: TIntegerField;
+    IntegerField17: TIntegerField;
+    IntegerField18: TIntegerField;
+    DateTimeField3: TDateTimeField;
+    IntegerField19: TIntegerField;
+    StringField27: TStringField;
+    IntegerField20: TIntegerField;
+    batchMoveSQLWriterOrdersShopee: TFDBatchMoveSQLWriter;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
@@ -747,9 +789,11 @@ type
     procedure memTableExtractsCalcFields(DataSet: TDataSet);
     procedure memTableExtractSOCalcFields(DataSet: TDataSet);
     procedure FDConnectionMySQLAfterConnect(Sender: TObject);
+    procedure batchMoveOrdersShopeeProgress(ASender: TObject; APhase: TFDBatchMovePhase);
   private
     { Private declarations }
     FSistem : TSistem;
+    FProcessados: integer;
     procedure DoServerKeyValidate(FileStorage: TScFileStorage;  const HostKeyName: string; NewServerKey: TScKey;
                                   var Accept: Boolean);
   public
@@ -761,6 +805,8 @@ type
     function ImportDIRECTEntregas(FFile: string): boolean;
     function ImportDIRECTBaixas(FFile: string): boolean;
     function ImportDIRECTBaixasLojas(FFile: string): boolean;
+
+    property Processados: integer read FProcessados write FProcessados;
   end;
 
 var
@@ -773,6 +819,14 @@ implementation
 uses Global.Parametros;
 
 {$R *.dfm}
+
+procedure TData_Sisgef.batchMoveOrdersShopeeProgress(ASender: TObject; APhase: TFDBatchMovePhase);
+begin
+  if APhase = psProgress then
+  begin
+    FProcessados := batchMoveOrdersShopee.WriteCount;
+  end;
+end;
 
 procedure TData_Sisgef.DataModuleCreate(Sender: TObject);
 begin
