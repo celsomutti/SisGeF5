@@ -66,20 +66,49 @@ object viewImportaPedidos: TviewImportaPedidos
       Action = aclSair
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 3
+      TabOrder = 2
     end
-    object cxLabel1: TcxLabel
+    object progressBar: TcxDBProgressBar
       Left = 22
+      Top = 128
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      TabOrder = 5
+      Width = 606
+    end
+    object txtEncontrados: TcxTextEdit
+      Left = 131
       Top = 71
-      Caption = 'cxLabel1'
+      Hint = 'Quantidade de pedidos encontrados'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
       Style.HotTrack = False
+      Style.Shadow = False
+      Style.TransparentBorder = True
+      TabOrder = 3
+      Text = '0'
+      Width = 70
+    end
+    object txtProcessados: TcxTextEdit
+      Left = 316
+      Top = 71
+      Hint = 'Quantidade de pedidos processados'
+      Properties.Alignment.Horz = taRightJustify
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 4
+      Text = '0'
+      Width = 70
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 3
+      ItemIndex = 5
       ShowBorder = False
       Index = -1
     end
@@ -127,7 +156,7 @@ object viewImportaPedidos: TviewImportaPedidos
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 5
+      Index = 3
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = dxLayoutGroup2
@@ -145,29 +174,50 @@ object viewImportaPedidos: TviewImportaPedidos
       Parent = dxLayoutControl1Group_Root
       AlignVert = avBottom
       CaptionOptions.Text = 'Separator'
-      Index = 4
-    end
-    object dxLayoutGroup3: TdxLayoutGroup
-      Parent = dxLayoutControl1Group_Root
-      CaptionOptions.Text = 'New Group'
-      ButtonOptions.Buttons = <>
       Index = 2
-    end
-    object dxLayoutItem4: TdxLayoutItem
-      Parent = dxLayoutGroup3
-      CaptionOptions.Text = 'cxLabel1'
-      CaptionOptions.Visible = False
-      Control = cxLabel1
-      ControlOptions.OriginalHeight = 17
-      ControlOptions.OriginalWidth = 46
-      ControlOptions.ShowBorder = False
-      Index = 0
     end
     object dxLayoutGroup4: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
+      CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
-      Index = 3
+      Index = 5
+    end
+    object dxLayoutItem6: TdxLayoutItem
+      Parent = dxLayoutGroup4
+      CaptionOptions.Text = 'cxDBProgressBar1'
+      CaptionOptions.Visible = False
+      Control = progressBar
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup3: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'New Group'
+      CaptionOptions.Visible = False
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      Index = 4
+    end
+    object dxLayoutItem4: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      CaptionOptions.Text = 'Pedidos encontrados:'
+      Control = txtEncontrados
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 70
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem5: TdxLayoutItem
+      Parent = dxLayoutGroup3
+      CaptionOptions.Text = 'Pedidos Processados:'
+      Control = txtProcessados
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 70
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object cxNavigator1: TcxNavigator
@@ -229,16 +279,11 @@ object viewImportaPedidos: TviewImportaPedidos
     Left = 480
     Top = 160
   end
-  object batchMoveSQLWriter: TFDBatchMoveSQLWriter
-    TableName = 'tbentregas'
-    Left = 480
-    Top = 216
-  end
   object batchMove: TFDBatchMove
     Reader = batchMoveDataSetReader
-    Writer = batchMoveSQLWriter
+    Writer = batchMoveDataSetWriter
     Mode = dmAppendUpdate
-    Options = [poIdentityInsert]
+    Options = []
     Mappings = <
       item
         SourceFieldName = 'Pedido'
@@ -302,9 +347,15 @@ object viewImportaPedidos: TviewImportaPedidos
       end>
     LogFileName = 'Data.log'
     StatisticsInterval = 1
-    MaxErrors = -1
+    Analyze = [taDelimSep, taHeader, taFields]
     OnProgress = batchMoveProgress
+    OnFindDestRecord = batchMoveFindDestRecord
     Left = 478
     Top = 104
+  end
+  object batchMoveDataSetWriter: TFDBatchMoveDataSetWriter
+    Optimise = False
+    Left = 472
+    Top = 272
   end
 end

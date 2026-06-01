@@ -10,7 +10,8 @@ uses
   Vcl.StdCtrls, cxButtons, services.SisGeFImportOrderShopee, Vcl.ExtCtrls, cxLabel, FireDAC.Stan.Intf, FireDAC.Comp.BatchMove,
   FireDAC.Comp.BatchMove.SQL, FireDAC.Comp.BatchMove.DataSet, service.connectionMySQL, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
-  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel, cxGridCustomView, cxGrid, cxDBNavigator;
+  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel, cxGridCustomView, cxGrid, cxDBNavigator,
+  FireDac.Comp.Client, FireDAC.Stan.Option, cxProgressBar, cxDBProgressBar;
 
 type
   TviewImportaPedidos = class(TForm)
@@ -31,23 +32,32 @@ type
     cxButton2: TcxButton;
     dxLayoutItem3: TdxLayoutItem;
     dxLayoutSeparatorItem2: TdxLayoutSeparatorItem;
-    dxLayoutGroup3: TdxLayoutGroup;
-    cxLabel1: TcxLabel;
-    dxLayoutItem4: TdxLayoutItem;
     batchMoveDataSetReader: TFDBatchMoveDataSetReader;
-    batchMoveSQLWriter: TFDBatchMoveSQLWriter;
     batchMove: TFDBatchMove;
     dxLayoutGroup4: TdxLayoutGroup;
     cxNavigator1: TcxNavigator;
+    batchMoveDataSetWriter: TFDBatchMoveDataSetWriter;
+    progressBar: TcxDBProgressBar;
+    dxLayoutItem6: TdxLayoutItem;
+    dxLayoutGroup3: TdxLayoutGroup;
+    txtEncontrados: TcxTextEdit;
+    dxLayoutItem4: TdxLayoutItem;
+    txtProcessados: TcxTextEdit;
+    dxLayoutItem5: TdxLayoutItem;
     procedure actAbrirExecute(Sender: TObject);
     procedure actLimparExecute(Sender: TObject);
     procedure aclSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure aclImportarExecute(Sender: TObject);
     procedure batchMoveProgress(ASender: TObject; APhase: TFDBatchMovePhase);
+    procedure batchMoveFindDestRecord(ASender: TObject; var AFound: Boolean);
   private
+    FProgress : integer;
+    FTotal: double;
+
     procedure AbrirArquivo;
     procedure Importar;
+    procedure LimpaCampos;
   public
     { Public declarations }
   end;
@@ -95,11 +105,25 @@ begin
   bteArquivo.Clear;
 end;
 
+procedure TviewImportaPedidos.batchMoveFindDestRecord(ASender: TObject; var AFound: Boolean);
+var
+  sCampos: string;
+  vKeys : array of variant;
+begin
+  SetLength(vKeys,2);
+  vKeys[0] := batchMoveDataSetReader.DataSet.FieldByName('Pedido').Value;
+  vKeys[1] := batchMoveDataSetReader.DataSet.FieldByName('idCliente').Value;
+  AFound := batchMoveDataSetWriter.DataSet.Locate('NUM_NOSSONUMERO;COD_CLIENTE_EMPRESA', vKeys, []);
+  Finalize(vKeys);
+end;
+
 procedure TviewImportaPedidos.batchMoveProgress(ASender: TObject; APhase: TFDBatchMovePhase);
 begin
   if APhase = psProgress then
   begin
-    cxLabel1.Caption := IntToStr(batchMove.WriteCount);
+    txtProcessados.Text := IntToStr(batchMove.WriteCount);
+    FProgress := Trunc((batchMove.WriteCount / FTotal) * 100);
+    progressBar.Position := FProgress;
     Application.ProcessMessages;
   end;
 end;
@@ -114,9 +138,11 @@ procedure TviewImportaPedidos.Importar;
 var
   FImport : TImportOrderShopee;
   FConn : TConnectionMySQL;
+  FQuery : TFDQuery;
 begin
   FImport := TImportOrderShopee.Create;
   FConn := TConnectionMySQL.Create;
+  FQuery := FConn.GetQuery;
   try
     if bteArquivo.Text = EmptyStr then
       Exit;
@@ -127,14 +153,33 @@ begin
       Application.MessageBox(PChar(FImport.Mensagem), 'Atenção', MB_OK + MB_ICONERROR);
       Exit;
     end;
+    FTotal := Data_Sisgef.memPedidosBlink.RecordCount;
+    txtEncontrados.Text := FloatToStr(FTotal);
+    Application.ProcessMessages;
+    if Application.MessageBox('Confirma a importação?', 'Importar', MB_YESNO + MB_ICONQUESTION) = mrNo then
+      Exit;
     Data_Sisgef.memPedidosBlink.First;
-    ShowMessage('Estou no primeiro registro, vou começar.');
-    batchMoveSQLWriter.Connection := FConn.GetConnection;
+    FQuery.SQL.Text := 'select * from tbentregas';
+    batchMoveDataSetWriter.DataSet := FQuery;
+    batchMove.Mode := dmAppendUpdate;
     batchMove.Execute;
+    Application.MessageBox('Importação concluída.', 'Importação', MB_OK + MB_ICONINFORMATION);
+    LimpaCampos;
   finally
+    Data_Sisgef.memPedidosBlink.Active := False;
+    FQuery.Connection.Connected := False;
+    FQuery.Free;
     FConn.Free;
     FImport.Free;
   end;
+end;
+
+procedure TviewImportaPedidos.LimpaCampos;
+begin
+  bteArquivo.Clear;
+  progressBar.Position := 0;
+  txtEncontrados.Clear;
+  txtProcessados.Clear;
 end;
 
 end.
