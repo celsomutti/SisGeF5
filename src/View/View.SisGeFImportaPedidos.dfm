@@ -29,7 +29,8 @@ object viewImportaPedidos: TviewImportaPedidos
     Transparent = True
     object bteArquivo: TcxButtonEdit
       Left = 52
-      Top = 10
+      Top = 40
+      ParentFont = False
       Properties.Buttons = <
         item
           Action = actAbrir
@@ -43,20 +44,26 @@ object viewImportaPedidos: TviewImportaPedidos
       Properties.Images = Data_Sisgef.iml_16_16
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 0
+      Style.IsFontAssigned = True
+      TabOrder = 2
       Width = 492
     end
     object cxButton1: TcxButton
       Left = 550
-      Top = 10
+      Top = 40
       Width = 90
       Height = 25
       Action = aclImportar
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 1
+      TabOrder = 3
     end
     object cxButton2: TcxButton
       Left = 541
@@ -66,49 +73,119 @@ object viewImportaPedidos: TviewImportaPedidos
       Action = aclSair
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 2
+      TabOrder = 4
     end
     object progressBar: TcxDBProgressBar
       Left = 22
-      Top = 128
+      Top = 159
+      ParentFont = False
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
-      TabOrder = 5
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.IsFontAssigned = True
+      TabOrder = 7
       Width = 606
     end
     object txtEncontrados: TcxTextEdit
       Left = 131
-      Top = 71
+      Top = 101
       Hint = 'Quantidade de pedidos encontrados'
+      ParentFont = False
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
       Style.HotTrack = False
       Style.Shadow = False
       Style.TransparentBorder = True
-      TabOrder = 3
+      Style.IsFontAssigned = True
+      TabOrder = 5
       Text = '0'
       Width = 70
     end
     object txtProcessados: TcxTextEdit
       Left = 316
-      Top = 71
+      Top = 101
       Hint = 'Quantidade de pedidos processados'
+      ParentFont = False
       Properties.Alignment.Horz = taRightJustify
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
       Style.HotTrack = False
-      TabOrder = 4
+      Style.IsFontAssigned = True
+      TabOrder = 6
       Text = '0'
       Width = 70
+    end
+    object bteCodigoCliente: TcxButtonEdit
+      Left = 52
+      Top = 10
+      ParentFont = False
+      Properties.Alignment.Horz = taRightJustify
+      Properties.Buttons = <
+        item
+          Action = actPesquisarCliente
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d\d\d\d\d\d\d\d\d'
+      Properties.OnChange = bteCodigoClientePropertiesChange
+      Properties.OnValidate = bteCodigoClientePropertiesValidate
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.IsFontAssigned = True
+      TabOrder = 0
+      Text = '0'
+      Width = 93
+    end
+    object txtNomeCliente: TcxTextEdit
+      Left = 151
+      Top = 10
+      TabStop = False
+      ParentFont = False
+      Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.HotTrack = False
+      Style.IsFontAssigned = True
+      TabOrder = 1
+      Width = 489
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 5
+      ItemControlAreaAlignment = catNone
       ShowBorder = False
       Index = -1
     end
@@ -120,7 +197,7 @@ object viewImportaPedidos: TviewImportaPedidos
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object dxLayoutItem1: TdxLayoutItem
       Parent = dxLayoutGroup1
@@ -147,7 +224,7 @@ object viewImportaPedidos: TviewImportaPedidos
     object dxLayoutSeparatorItem1: TdxLayoutSeparatorItem
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'Separator'
-      Index = 1
+      Index = 2
     end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
@@ -156,7 +233,7 @@ object viewImportaPedidos: TviewImportaPedidos
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 3
+      Index = 4
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = dxLayoutGroup2
@@ -174,21 +251,21 @@ object viewImportaPedidos: TviewImportaPedidos
       Parent = dxLayoutControl1Group_Root
       AlignVert = avBottom
       CaptionOptions.Text = 'Separator'
-      Index = 2
+      Index = 3
     end
     object dxLayoutGroup4: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
-      Index = 5
+      Index = 6
     end
     object dxLayoutItem6: TdxLayoutItem
       Parent = dxLayoutGroup4
       CaptionOptions.Text = 'cxDBProgressBar1'
       CaptionOptions.Visible = False
       Control = progressBar
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 22
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
@@ -199,13 +276,13 @@ object viewImportaPedidos: TviewImportaPedidos
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
-      Index = 4
+      Index = 5
     end
     object dxLayoutItem4: TdxLayoutItem
       Parent = dxLayoutGroup3
       CaptionOptions.Text = 'Pedidos encontrados:'
       Control = txtEncontrados
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 22
       ControlOptions.OriginalWidth = 70
       ControlOptions.ShowBorder = False
       Index = 0
@@ -214,8 +291,42 @@ object viewImportaPedidos: TviewImportaPedidos
       Parent = dxLayoutGroup3
       CaptionOptions.Text = 'Pedidos Processados:'
       Control = txtProcessados
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 22
       ControlOptions.OriginalWidth = 70
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutGroup5: TdxLayoutGroup
+      Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ItemIndex = 1
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem7: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Cliente:'
+      Control = bteCodigoCliente
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 93
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem8: TdxLayoutItem
+      Parent = dxLayoutGroup5
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'Nome'
+      CaptionOptions.Visible = False
+      Control = txtNomeCliente
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -273,17 +384,22 @@ object viewImportaPedidos: TviewImportaPedidos
       ImageIndex = 84
       OnExecute = actLimparExecute
     end
+    object actPesquisarCliente: TAction
+      Caption = 'Pesquisar Cliente'
+      Hint = 'Pesquisar cliente'
+      ImageIndex = 86
+      OnExecute = actPesquisarClienteExecute
+    end
   end
-  object batchMoveDataSetReader: TFDBatchMoveDataSetReader
+  object batchMoveDataSetReaderPedidos: TFDBatchMoveDataSetReader
     DataSet = Data_Sisgef.memPedidosBlink
     Left = 480
-    Top = 160
+    Top = 128
   end
-  object batchMove: TFDBatchMove
-    Reader = batchMoveDataSetReader
-    Writer = batchMoveDataSetWriter
-    Mode = dmAppendUpdate
-    Options = []
+  object batchMovePedidos: TFDBatchMove
+    Reader = batchMoveDataSetReaderPedidos
+    Writer = batchMoveDataSetWriterPedidos
+    Options = [poIdentityInsert]
     Mappings = <
       item
         SourceFieldName = 'Pedido'
@@ -348,14 +464,14 @@ object viewImportaPedidos: TviewImportaPedidos
     LogFileName = 'Data.log'
     StatisticsInterval = 1
     Analyze = [taDelimSep, taHeader, taFields]
-    OnProgress = batchMoveProgress
-    OnFindDestRecord = batchMoveFindDestRecord
+    OnProgress = batchMovePedidosProgress
+    OnFindDestRecord = batchMovePedidosFindDestRecord
     Left = 478
-    Top = 104
+    Top = 72
   end
-  object batchMoveDataSetWriter: TFDBatchMoveDataSetWriter
+  object batchMoveDataSetWriterPedidos: TFDBatchMoveDataSetWriter
     Optimise = False
-    Left = 472
-    Top = 272
+    Left = 480
+    Top = 184
   end
 end

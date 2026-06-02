@@ -11,7 +11,7 @@ uses
   FireDAC.Comp.BatchMove.SQL, FireDAC.Comp.BatchMove.DataSet, service.connectionMySQL, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel, cxGridCustomView, cxGrid, cxDBNavigator,
-  FireDac.Comp.Client, FireDAC.Stan.Option, cxProgressBar, cxDBProgressBar;
+  FireDac.Comp.Client, FireDAC.Stan.Option, cxProgressBar, cxDBProgressBar, service.SisGeFGeneralSearch;
 
 type
   TviewImportaPedidos = class(TForm)
@@ -32,11 +32,11 @@ type
     cxButton2: TcxButton;
     dxLayoutItem3: TdxLayoutItem;
     dxLayoutSeparatorItem2: TdxLayoutSeparatorItem;
-    batchMoveDataSetReader: TFDBatchMoveDataSetReader;
-    batchMove: TFDBatchMove;
+    batchMoveDataSetReaderPedidos: TFDBatchMoveDataSetReader;
+    batchMovePedidos: TFDBatchMove;
     dxLayoutGroup4: TdxLayoutGroup;
     cxNavigator1: TcxNavigator;
-    batchMoveDataSetWriter: TFDBatchMoveDataSetWriter;
+    batchMoveDataSetWriterPedidos: TFDBatchMoveDataSetWriter;
     progressBar: TcxDBProgressBar;
     dxLayoutItem6: TdxLayoutItem;
     dxLayoutGroup3: TdxLayoutGroup;
@@ -44,13 +44,23 @@ type
     dxLayoutItem4: TdxLayoutItem;
     txtProcessados: TcxTextEdit;
     dxLayoutItem5: TdxLayoutItem;
+    dxLayoutGroup5: TdxLayoutGroup;
+    bteCodigoCliente: TcxButtonEdit;
+    dxLayoutItem7: TdxLayoutItem;
+    actPesquisarCliente: TAction;
+    txtNomeCliente: TcxTextEdit;
+    dxLayoutItem8: TdxLayoutItem;
     procedure actAbrirExecute(Sender: TObject);
     procedure actLimparExecute(Sender: TObject);
     procedure aclSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure aclImportarExecute(Sender: TObject);
-    procedure batchMoveProgress(ASender: TObject; APhase: TFDBatchMovePhase);
-    procedure batchMoveFindDestRecord(ASender: TObject; var AFound: Boolean);
+    procedure batchMovePedidosProgress(ASender: TObject; APhase: TFDBatchMovePhase);
+    procedure batchMovePedidosFindDestRecord(ASender: TObject; var AFound: Boolean);
+    procedure bteCodigoClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure actPesquisarClienteExecute(Sender: TObject);
+    procedure bteCodigoClientePropertiesChange(Sender: TObject);
   private
     FProgress : integer;
     FTotal: double;
@@ -58,6 +68,8 @@ type
     procedure AbrirArquivo;
     procedure Importar;
     procedure LimpaCampos;
+    procedure ProcuraCliente;
+    procedure ProcuraNomeCliente(iId: integer);
   public
     { Public declarations }
   end;
@@ -69,7 +81,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, View.SisGeFGeneralsSearch;
 
 { TviewImportaPedidos }
 
@@ -105,27 +117,45 @@ begin
   bteArquivo.Clear;
 end;
 
-procedure TviewImportaPedidos.batchMoveFindDestRecord(ASender: TObject; var AFound: Boolean);
+procedure TviewImportaPedidos.actPesquisarClienteExecute(Sender: TObject);
+begin
+  ProcuraCliente;
+end;
+
+procedure TviewImportaPedidos.batchMovePedidosFindDestRecord(ASender: TObject; var AFound: Boolean);
 var
   sCampos: string;
   vKeys : array of variant;
 begin
   SetLength(vKeys,2);
-  vKeys[0] := batchMoveDataSetReader.DataSet.FieldByName('Pedido').Value;
-  vKeys[1] := batchMoveDataSetReader.DataSet.FieldByName('idCliente').Value;
-  AFound := batchMoveDataSetWriter.DataSet.Locate('NUM_NOSSONUMERO;COD_CLIENTE_EMPRESA', vKeys, []);
+  vKeys[0] := batchMoveDataSetReaderPedidos.DataSet.FieldByName('Pedido').Value;
+  vKeys[1] := batchMoveDataSetReaderPedidos.DataSet.FieldByName('idCliente').Value;
+  AFound := batchMoveDataSetWriterPedidos.DataSet.Locate('NUM_NOSSONUMERO;COD_CLIENTE_EMPRESA', vKeys, []);
   Finalize(vKeys);
 end;
 
-procedure TviewImportaPedidos.batchMoveProgress(ASender: TObject; APhase: TFDBatchMovePhase);
+procedure TviewImportaPedidos.batchMovePedidosProgress(ASender: TObject; APhase: TFDBatchMovePhase);
 begin
   if APhase = psProgress then
   begin
-    txtProcessados.Text := IntToStr(batchMove.WriteCount);
-    FProgress := Trunc((batchMove.WriteCount / FTotal) * 100);
+    txtProcessados.Text := IntToStr(batchMovePedidos.WriteCount);
+    FProgress := Trunc((batchMovePedidos.WriteCount / FTotal) * 100);
     progressBar.Position := FProgress;
     Application.ProcessMessages;
   end;
+end;
+
+procedure TviewImportaPedidos.bteCodigoClientePropertiesChange(Sender: TObject);
+begin
+  txtNomeCliente.Clear;
+end;
+
+procedure TviewImportaPedidos.bteCodigoClientePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  ProcuraNomeCliente(DisplayValue);
 end;
 
 procedure TviewImportaPedidos.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -146,8 +176,13 @@ begin
   try
     if bteArquivo.Text = EmptyStr then
       Exit;
+    if (bteCodigoCliente.Text = EmptyStr) or (bteCodigoCliente.EditValue = 0) then
+    begin
+      Application.MessageBox('Informe o cliente', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
     FImport.FileName := bteArquivo.Text;
-    FImport.Cliente := 2;
+    FImport.Cliente := bteCodigoCliente.EditValue;
     if not FImport.Importar() then
     begin
       Application.MessageBox(PChar(FImport.Mensagem), 'Atenção', MB_OK + MB_ICONERROR);
@@ -160,9 +195,9 @@ begin
       Exit;
     Data_Sisgef.memPedidosBlink.First;
     FQuery.SQL.Text := 'select * from tbentregas';
-    batchMoveDataSetWriter.DataSet := FQuery;
-    batchMove.Mode := dmAppendUpdate;
-    batchMove.Execute;
+    batchMoveDataSetWriterPedidos.DataSet := FQuery;
+    batchMovePedidos.Mode := dmAppendUpdate;
+    batchMovePedidos.Execute;
     Application.MessageBox('Importação concluída.', 'Importação', MB_OK + MB_ICONINFORMATION);
     LimpaCampos;
   finally
@@ -180,6 +215,43 @@ begin
   progressBar.Position := 0;
   txtEncontrados.Clear;
   txtProcessados.Clear;
+end;
+
+procedure TviewImportaPedidos.ProcuraCliente;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_Cliente as "Código", nom_fantasia as "Nome Fantasia"';
+  viewGeneralSearch.Tabela := 'crm_clientes';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    bteCodigoCliente.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    txtNomeCliente.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure TviewImportaPedidos.ProcuraNomeCliente(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['nom_fantasia', 'crm_clientes', 'cod_cliente = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      bteCodigoCliente.SetFocus;
+      Exit;
+    end;
+    txtNomeCliente.Text := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
 end;
 
 end.
