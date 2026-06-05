@@ -25,6 +25,7 @@ interface
 
         function ValidaPlanilha(): boolean;
         function ValidaPlanilhaXLS(): boolean;
+        function ValidaPlanilhaCSV(): boolean;
       public
         property IdTicket     : string  read FIdTicket    write FIdTicket;
         property Assignment   : string  read FAssignment  write FAssignment;
@@ -45,6 +46,7 @@ interface
 
         function GetSheet(): boolean;
         function GetSheetXLS(): boolean;
+        function GetSheetCSV(): boolean;
     end;
 implementation
 
@@ -103,6 +105,46 @@ begin
   finally
     workBook.Free;
   end;
+end;
+
+function TSheetConfrontations.GetSheetCSV: boolean;
+var
+  sLinhas: TStringList;
+  sColunas: TStringList;
+  i: Integer;
+begin
+  Result := False;
+  sLinhas := TStringList.Create;
+  sColunas := TStringList.Create;
+   try
+     if not ValidaPlanilhaCSV() then
+      begin
+        FMensagem := 'Sheet : Planilha informada não é válida!';
+      end;
+      sLinhas.LoadFromFile(FFileName);
+      sColunas.Delimiter := ';';
+      sColunas.StrictDelimiter := True;
+      for i := 1 to Pred(sLinhas.Count) do
+      begin
+        sColunas.DelimitedText := sLinhas[i];
+        FPlanilha.Add(TSheetConfrontations.Create);
+        FPlanilha[i].FIdTicket   :=  sColunas[0];
+        FPlanilha[i].FAssignment :=  sColunas[1];
+        FPlanilha[i].FSPXTN      :=  sColunas[2];
+        FPlanilha[i].FDriver     :=  sColunas[3];
+        FPlanilha[i].FStation    :=  sColunas[4];
+        FPlanilha[i].FSLA        :=  sColunas[5];
+        FPlanilha[i].FAssignee   :=  sColunas[6];
+        FPlanilha[i].Value       :=  sColunas[7];
+        FPlanilha[i].FRejection  :=  sColunas[8];
+        FPlanilha[i].CreatedTime :=  sColunas[9];
+        FPlanilha[i].FStatus     :=  sColunas[10];
+      end;
+      Result := True;
+   finally
+    sLinhas.Free;
+    sColunas.Free;
+   end;
 end;
 
 function TSheetConfrontations.GetSheetXLS: boolean;
@@ -209,6 +251,50 @@ begin
     workBook.Free;
   end;
 end;
+function TSheetConfrontations.ValidaPlanilhaCSV: boolean;
+var
+  sLinhas: TStringList;
+  sColunas: TStringList;
+begin
+  Result := False;
+  sLinhas := TStringList.Create;
+  sColunas := TStringList.Create;
+  try
+    sLinhas.LoadFromFile(FFileName);
+    sColunas.Delimiter := ';';
+    sColunas.StrictDelimiter := True;
+    sColunas.DelimitedText := sLinhas[0];
+
+    if sColunas[0] <> 'IHS Ticket ID' then
+      Exit;
+    if sColunas[1] <> 'Assignment Task ID' then
+      Exit;
+    if sColunas[2] <> 'SPXTN' then
+      Exit;
+    if sColunas[3] <> 'Driver' then
+      Exit;
+    if sColunas[4] <> 'Station' then
+      Exit;
+    if sColunas[5] <> 'SLA Deadline' then
+      Exit;
+    if sColunas[6] <> 'Assignee' then
+      Exit;
+    if sColunas[7] <> 'PNR Order Value' then
+      Exit;
+    if sColunas[8] <> 'Rejection Reason' then
+      Exit;
+    if sColunas[9] <> 'Created Time' then
+      Exit;
+    if sColunas[10] <> 'Status' then
+      Exit;
+    Result := True;
+  finally
+    sLinhas.Free;
+    sColunas.Free;
+  end;
+
+end;
+
 function TSheetConfrontations.ValidaPlanilhaXLS: boolean;
 var
   ExcelApp, Workbook, Sheet: Variant;

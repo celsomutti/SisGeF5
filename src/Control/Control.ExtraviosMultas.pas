@@ -162,50 +162,50 @@ begin
     Application.MessageBox('Informe o código da Base do entregador!', 'Atenção', MB_OK + MB_ICONASTERISK);
     Exit;
   end;
-  if FExtravios.Tipo = 0 then
-  begin
-    if FExtravios.ValorProduto = 0 then
-    begin
-      Application.MessageBox('Informe o valor do produto!', 'Atenção', MB_OK + MB_ICONASTERISK);
-      Exit;
-    end;
-  end;
-  if FExtravios.Tipo = 1 then
-  begin
-    if FExtravios.ValorProduto = 0 then
-    begin
-      Application.MessageBox('Informe o valor do produto!', 'Atenção', MB_OK + MB_ICONASTERISK);
-      Exit;
-    end;
-    if FExtravios.Multa > 0 then
-    begin
-      Application.MessageBox('Não se aplica a multa neste tipo de extravio!', 'Atenção', MB_OK + MB_ICONASTERISK);
-      Exit;
-    end;
-    if FExtravios.Verba > 0 then
-    begin
-      Application.MessageBox('Não se aplica o débito da verba neste tipo de extravio!', 'Atenção', MB_OK + MB_ICONASTERISK);
-      Exit;
-    end;
-  end;
-  if FExtravios.Tipo = 2 then
-  begin
-    if FExtravios.ValorProduto > 0 then
-    begin
-      Application.MessageBox('Não se aplica o valor do produto neste tipo de extravio!', 'Atenção', MB_OK + MB_ICONASTERISK);
-      Exit;
-    end;
-    if FExtravios.Multa = 0 then
-    begin
-      Application.MessageBox('Informe o valor da multa!', 'Atenção', MB_OK + MB_ICONASTERISK);
-      Exit;
-    end;
-    if FExtravios.Verba > 0 then
-    begin
-      Application.MessageBox('Não se aplica o débito da verba neste tipo de extravio!', 'Atenção', MB_OK + MB_ICONASTERISK);
-      Exit;
-    end;
-  end;
+//  if FExtravios.Tipo = 0 then
+//  begin
+//    if FExtravios.ValorProduto = 0 then
+//    begin
+//      Application.MessageBox('Informe o valor do produto!', 'Atenção', MB_OK + MB_ICONASTERISK);
+//      Exit;
+//    end;
+//  end;
+//  if FExtravios.Tipo = 1 then
+//  begin
+//    if FExtravios.ValorProduto = 0 then
+//    begin
+//      Application.MessageBox('Informe o valor do produto!', 'Atenção', MB_OK + MB_ICONASTERISK);
+//      Exit;
+//    end;
+//    if FExtravios.Multa > 0 then
+//    begin
+//      Application.MessageBox('Não se aplica a multa neste tipo de extravio!', 'Atenção', MB_OK + MB_ICONASTERISK);
+//      Exit;
+//    end;
+//    if FExtravios.Verba > 0 then
+//    begin
+//      Application.MessageBox('Não se aplica o débito da verba neste tipo de extravio!', 'Atenção', MB_OK + MB_ICONASTERISK);
+//      Exit;
+//    end;
+//  end;
+//  if FExtravios.Tipo = 2 then
+//  begin
+//    if FExtravios.ValorProduto > 0 then
+//    begin
+//      Application.MessageBox('Não se aplica o valor do produto neste tipo de extravio!', 'Atenção', MB_OK + MB_ICONASTERISK);
+//      Exit;
+//    end;
+//    if FExtravios.Multa = 0 then
+//    begin
+//      Application.MessageBox('Informe o valor da multa!', 'Atenção', MB_OK + MB_ICONASTERISK);
+//      Exit;
+//    end;
+//    if FExtravios.Verba > 0 then
+//    begin
+//      Application.MessageBox('Não se aplica o débito da verba neste tipo de extravio!', 'Atenção', MB_OK + MB_ICONASTERISK);
+//      Exit;
+//    end;
+//  end;
   if Fextravios.Descricao.IsEmpty then
   begin
     Application.MessageBox('Informe o motivo/descrição do extravio/multa!', 'Atenção', MB_OK + MB_ICONASTERISK);

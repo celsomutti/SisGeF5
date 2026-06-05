@@ -1,9 +1,9 @@
-object viewImportaPedidos: TviewImportaPedidos
+object viewImportaAcareacoes: TviewImportaAcareacoes
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Impota'#231#227'o de Pedidos'
+  Caption = 'Impota'#231#227'o de Acarea'#231#245'es'
   ClientHeight = 412
   ClientWidth = 650
   Color = clWindow
@@ -302,6 +302,7 @@ object viewImportaPedidos: TviewImportaPedidos
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -390,85 +391,86 @@ object viewImportaPedidos: TviewImportaPedidos
       OnExecute = actPesquisarClienteExecute
     end
   end
-  object batchMoveDataSetReaderPedidos: TFDBatchMoveDataSetReader
-    DataSet = Data_Sisgef.memPedidosBlink
+  object batchMoveDataSetReader: TFDBatchMoveDataSetReader
+    DataSet = Data_Sisgef.memAcareacoesBlink
     Left = 480
     Top = 128
   end
-  object batchMovePedidos: TFDBatchMove
-    Reader = batchMoveDataSetReaderPedidos
-    Writer = batchMoveDataSetWriterPedidos
+  object batchMove: TFDBatchMove
+    Reader = batchMoveDataSetReader
+    Writer = batchMoveDataSetWriter
+    Mode = dmAppendUpdate
     Options = [poIdentityInsert, poSkipUnmatchedDestFields]
     Mappings = <
       item
-        SourceFieldName = 'Pedido'
-        DestinationFieldName = 'NUM_NOSSONUMERO'
-      end
-      item
-        SourceExpression = '0'
-        DestinationFieldName = 'COD_AGENTE'
-      end
-      item
-        SourceExpression = '0'
-        DestinationFieldName = 'COD_ENTREGADOR'
-      end
-      item
-        SourceExpression = '0'
-        DestinationFieldName = 'COD_CLIENTE'
-      end
-      item
-        SourceExpression = #39'0'#39
-        DestinationFieldName = 'NUM_NF'
-      end
-      item
-        SourceExpression = #39'CONSUMIDOR'#39
-        DestinationFieldName = 'NOM_CONSUMIDOR'
-      end
-      item
-        SourceExpression = #39'00000-000'#39
-        DestinationFieldName = 'NOM_CIDADE'
-      end
-      item
-        SourceExpression = '1'
-        DestinationFieldName = 'QTD_VOLUMES'
-      end
-      item
-        SourceFieldName = 'HoraEntrega'
-        DestinationFieldName = 'DAT_EXPEDICAO'
-      end
-      item
-        SourceFieldName = 'RotaLH'
-        DestinationFieldName = 'DES_RETORNO'
-      end
-      item
-        SourceFieldName = 'NumeroTO'
-        DestinationFieldName = 'NUM_PEDIDO'
-      end
-      item
-        SourceFieldName = 'Origem'
-        DestinationFieldName = 'DES_RASTREIO'
-      end
-      item
-        SourceFieldName = 'HoraEntrega'
-        DestinationFieldName = 'DAT_RECEBIDO'
-      end
-      item
-        SourceExpression = #39'S'#39
-        DestinationFieldName = 'DOM_RECEBIDO'
+        SourceFieldName = 'FIdTicket'
+        DestinationFieldName = 'ID_ACAREACAO'
       end
       item
         SourceFieldName = 'idCliente'
-        DestinationFieldName = 'COD_CLIENTE_EMPRESA'
+        DestinationFieldName = 'COD_CLIENTE'
+      end
+      item
+        SourceFieldName = 'CreatedTime'
+        DestinationFieldName = 'DAT_ACAREACAO'
+      end
+      item
+        SourceFieldName = 'FSPXTN'
+        DestinationFieldName = 'NUM_NOSSONUMERO'
+      end
+      item
+        SourceFieldName = 'FDriver'
+        DestinationFieldName = 'COD_ENTREGADOR'
+      end
+      item
+        SourceFieldName = 'idBase'
+        DestinationFieldName = 'COD_BASE'
+      end
+      item
+        SourceExpression = #39'N'#195'O RECEBIMENTO'#39
+        DestinationFieldName = 'DES_MOTIVO'
+      end
+      item
+        SourceFieldName = 'Value'
+        DestinationFieldName = 'VAL_EXTRAVIO'
+      end
+      item
+        SourceExpression = '0'
+        DestinationFieldName = 'VAL_MULTA'
+      end
+      item
+        SourceFieldName = 'FAssignee'
+        DestinationFieldName = 'DES_OBSERVACOES'
+      end
+      item
+        SourceFieldName = 'FRejection'
+        DestinationFieldName = 'DES_APURACAO'
+      end
+      item
+        SourceFieldName = 'FStatus'
+        DestinationFieldName = 'DES_RESULTADO'
+      end
+      item
+        SourceExpression = '0'
+        DestinationFieldName = 'DOM_FINALIZAR'
+      end
+      item
+        SourceFieldName = 'FSLA'
+        DestinationFieldName = 'DAT_RETORNO'
+      end
+      item
+        SourceFieldName = 'FStation'
+        DestinationFieldName = 'DES_UNIDADE'
       end>
     LogFileName = 'Data.log'
     StatisticsInterval = 1
     Analyze = [taDelimSep, taHeader, taFields]
-    OnProgress = batchMovePedidosProgress
-    OnFindDestRecord = batchMovePedidosFindDestRecord
+    OnProgress = batchMoveProgress
+    OnFindDestRecord = batchMoveFindDestRecord
     Left = 478
     Top = 72
   end
-  object batchMoveDataSetWriterPedidos: TFDBatchMoveDataSetWriter
+  object batchMoveDataSetWriter: TFDBatchMoveDataSetWriter
     Optimise = False
     Left = 480
     Top = 184

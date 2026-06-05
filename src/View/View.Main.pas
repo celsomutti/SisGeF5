@@ -231,6 +231,12 @@ type
     actCadastroFuncoes: TAction;
     dxBarButton10: TdxBarButton;
     dxBarLargeButton72: TdxBarLargeButton;
+    dxBarButton11: TdxBarButton;
+    dxBarSubItem4: TdxBarSubItem;
+    dxBarSubItem5: TdxBarSubItem;
+    dxBarButton12: TdxBarButton;
+    actImportarAcareacoes: TAction;
+    dxBarButton13: TdxBarButton;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -282,6 +288,7 @@ type
     procedure XPAdAutoUpdateFound(Sender: TObject; Version, Size: Integer);
     procedure actGruposUsuariosExecute(Sender: TObject);
     procedure actCadastroFuncoesExecute(Sender: TObject);
+    procedure actImportarAcareacoesExecute(Sender: TObject);
 
   private
     FidFTP : TIdFTP;
@@ -335,7 +342,8 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
   View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroFuncionarios,
   View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.SisGeFCadastroTerceirizados,
-  View.SisGeFUsersRegister, View.SisGeFUsersGroups, View.SisGeFFuncoesAtividades, View.SisGeFAcareacoes, View.SisGeFImportaPedidos;
+  View.SisGeFUsersRegister, View.SisGeFUsersGroups, View.SisGeFFuncoesAtividades, View.SisGeFAcareacoes, View.SisGeFImportaPedidos,
+  View.SisGeFImportaAcareacoes;
 
 procedure Tview_Main.Acessos;
 var
@@ -689,6 +697,16 @@ begin
       (Application);
   end;
   view_SisGeFPrintRunsImports.Show;
+end;
+
+procedure Tview_Main.actImportarAcareacoesExecute(Sender: TObject);
+begin
+  if not Assigned(viewImportaAcareacoes) then
+  begin
+    viewImportaAcareacoes :=
+      TviewImportaAcareacoes.Create(Application);
+  end;
+  viewImportaAcareacoes.Show;
 end;
 
 procedure Tview_Main.actImportarBaixasTFOExecute(Sender: TObject);

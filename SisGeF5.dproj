@@ -718,11 +718,16 @@
         <DCCReference Include="src\Control\Controller.SisGeFInformativoExpressas.pas"/>
         <DCCReference Include="src\Model\Model.SisGefAtribuicoesExpressas.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFAtribuicoesExpressas.pas"/>
+        <DCCReference Include="src\View\View.SisGeFImportaAcareacoes.pas">
+            <Form>viewImportaAcareacoes</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\Services\services.SisGeFImportOrderShopee.pas"/>
         <DCCReference Include="src\View\View.SisGeFImportaPedidos.pas">
             <Form>viewImportaPedidos</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="src\Services\services.SisGeFImportOrderShopee.pas"/>
+        <DCCReference Include="src\Services\services.SisGeFImportConfrontations.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>

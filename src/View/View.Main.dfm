@@ -2609,7 +2609,7 @@
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxBarLargeButton6'
+          ItemName = 'dxBarSubItem5'
         end
         item
           BeginGroup = True
@@ -3764,6 +3764,42 @@
       Category = 0
       LargeImageIndex = 34
     end
+    object dxBarButton11: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarSubItem4: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxBarSubItem5: TdxBarSubItem
+      Caption = '&Importa'#231#227'o Planilhas'
+      Category = 0
+      Visible = ivAlways
+      LargeImageIndex = 70
+      Images = Data_Sisgef.lmi_32_32
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton12'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton13'
+        end>
+    end
+    object dxBarButton12: TdxBarButton
+      Action = actImportacaoPedidos
+      Category = 0
+    end
+    object dxBarButton13: TdxBarButton
+      Action = actImportarAcareacoes
+      Category = 0
+    end
   end
   object aclMain: TActionList
     Left = 984
@@ -3805,7 +3841,7 @@
     object actImportacaoPedidos: TAction
       Tag = 201010
       Category = 'Expressas'
-      Caption = '&Importa'#231#227'o Planilhas'
+      Caption = '&Importar Pedidos'
       Hint = 'Importa'#231#227'o de planilhas de expressas'
       OnExecute = actImportacaoPedidosExecute
     end
@@ -4186,6 +4222,12 @@
       Caption = 'Fun'#231#245'es'
       Hint = 'Cadastro de fun'#231#245'es e atividades'
       OnExecute = actCadastroFuncoesExecute
+    end
+    object actImportarAcareacoes: TAction
+      Category = 'Expressas'
+      Caption = 'Importar &Acarea'#231#245'es'
+      Hint = 'Importar acarea'#231#245'es'
+      OnExecute = actImportarAcareacoesExecute
     end
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager
