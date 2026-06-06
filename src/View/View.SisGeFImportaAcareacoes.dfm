@@ -461,6 +461,18 @@ object viewImportaAcareacoes: TviewImportaAcareacoes
       item
         SourceFieldName = 'FStation'
         DestinationFieldName = 'DES_UNIDADE'
+      end
+      item
+        SourceExpression = '0'
+        DestinationFieldName = 'SEQ_ACAREACAO'
+      end
+      item
+        SourceExpression = #39#39
+        DestinationFieldName = 'DES_MOTIVO'
+      end
+      item
+        SourceExpression = #39#39
+        DestinationFieldName = 'DES_TRATATIVA'
       end>
     LogFileName = 'Data.log'
     StatisticsInterval = 1

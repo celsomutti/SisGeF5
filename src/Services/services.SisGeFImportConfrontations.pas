@@ -78,6 +78,7 @@ begin
         memAcareacoesBlinkFRejection.AsString := sheet.Planilha[i].Rejection;
         memAcareacoesBlinkCreatedTime.AsDateTime := StrToDateDef(Copy(sheet.Planilha[i].CreatedTime,1,10), Now());
         memAcareacoesBlinkFStatus.AsString := sheet.Planilha[i].Status;
+        memAcareacoesBlinkidCliente.AsInteger := FCliente;
         memAcareacoesBlinkidBase.AsInteger := ReturnCodeBase(iDriver);
         memAcareacoesBlink.Post;
       end;

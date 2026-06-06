@@ -128,8 +128,8 @@ var
   vKeys : array of variant;
 begin
   SetLength(vKeys,2);
-  vKeys[0] := batchMoveDataSetReader.DataSet.FieldByName('FSPXTN').Value;
-  vKeys[1] := batchMoveDataSetReader.DataSet.FieldByName('idCliente').Value;
+  vKeys[0] := batchMoveDataSetReader.DataSet.FieldByName('idCliente').Value;
+  vKeys[1] := batchMoveDataSetReader.DataSet.FieldByName('FSPXTN').Value;
   AFound := batchMoveDataSetWriter.DataSet.Locate('COD_CLIENTE;NUM_NOSSONUMERO', vKeys, []);
   Finalize(vKeys);
 end;
@@ -204,6 +204,7 @@ begin
     batchMove.Mode := dmAppendUpdate;
     batchMove.Execute;
     Application.MessageBox('Importação concluída.', 'Importação', MB_OK + MB_ICONINFORMATION);
+    RenemaFiles(bteArquivo.Text);
     LimpaCampos;
   finally
     Data_Sisgef.memAcareacoesBlink.Active := False;
