@@ -473,4 +473,42 @@ object viewImportaPedidos: TviewImportaPedidos
     Left = 480
     Top = 184
   end
+  object batchMoveTextReader: TFDBatchMoveTextReader
+    DataDef.Fields = <
+      item
+        FieldName = 'Horario de entrega'
+        DataType = atString
+        FieldSize = 19
+      end
+      item
+        FieldName = 'Pedido (TN)'
+        DataType = atString
+        FieldSize = 30
+      end
+      item
+        FieldName = 'Origem'
+        DataType = atString
+        FieldSize = 50
+      end
+      item
+        FieldName = 'Destino'
+        DataType = atString
+        FieldSize = 60
+      end
+      item
+        FieldName = 'N'#250'mero da TO'
+        DataType = atString
+        FieldSize = 50
+      end
+      item
+        FieldName = 'Rota de LH'
+        DataType = atString
+        FieldSize = 50
+      end>
+    DataDef.Delimiter = '"'
+    DataDef.Separator = ';'
+    DataDef.RecordFormat = rfCustom
+    Left = 480
+    Top = 240
+  end
 end

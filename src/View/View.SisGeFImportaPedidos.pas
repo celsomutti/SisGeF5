@@ -11,7 +11,7 @@ uses
   FireDAC.Comp.BatchMove.SQL, FireDAC.Comp.BatchMove.DataSet, service.connectionMySQL, cxStyles, cxCustomData, cxFilter, cxData,
   cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel, cxGridCustomView, cxGrid, cxDBNavigator,
-  FireDac.Comp.Client, FireDAC.Stan.Option, cxProgressBar, cxDBProgressBar, service.SisGeFGeneralSearch;
+  FireDac.Comp.Client, FireDAC.Stan.Option, cxProgressBar, cxDBProgressBar, service.SisGeFGeneralSearch, FireDAC.Comp.BatchMove.Text;
 
 type
   TviewImportaPedidos = class(TForm)
@@ -50,6 +50,7 @@ type
     actPesquisarCliente: TAction;
     txtNomeCliente: TcxTextEdit;
     dxLayoutItem8: TdxLayoutItem;
+    batchMoveTextReader: TFDBatchMoveTextReader;
     procedure actAbrirExecute(Sender: TObject);
     procedure actLimparExecute(Sender: TObject);
     procedure aclSairExecute(Sender: TObject);
