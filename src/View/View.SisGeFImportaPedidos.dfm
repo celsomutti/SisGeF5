@@ -392,11 +392,11 @@ object viewImportaPedidos: TviewImportaPedidos
   end
   object batchMoveDataSetReaderPedidos: TFDBatchMoveDataSetReader
     DataSet = Data_Sisgef.memPedidosBlink
-    Left = 480
-    Top = 128
+    Left = 56
+    Top = 200
   end
   object batchMovePedidos: TFDBatchMove
-    Reader = batchMoveDataSetReaderPedidos
+    Reader = Data_Sisgef.batchMoveDataSetReaderOrdersShopee
     Writer = batchMoveDataSetWriterPedidos
     Options = [poIdentityInsert, poSkipUnmatchedDestFields]
     Mappings = <
@@ -445,7 +445,7 @@ object viewImportaPedidos: TviewImportaPedidos
         DestinationFieldName = 'NUM_PEDIDO'
       end
       item
-        SourceFieldName = 'Origem'
+        SourceFieldName = 'Rastreio'
         DestinationFieldName = 'DES_RASTREIO'
       end
       item
@@ -465,50 +465,12 @@ object viewImportaPedidos: TviewImportaPedidos
     Analyze = [taDelimSep, taHeader, taFields]
     OnProgress = batchMovePedidosProgress
     OnFindDestRecord = batchMovePedidosFindDestRecord
-    Left = 478
-    Top = 72
+    Left = 150
+    Top = 200
   end
   object batchMoveDataSetWriterPedidos: TFDBatchMoveDataSetWriter
     Optimise = False
-    Left = 480
-    Top = 184
-  end
-  object batchMoveTextReader: TFDBatchMoveTextReader
-    DataDef.Fields = <
-      item
-        FieldName = 'Horario de entrega'
-        DataType = atString
-        FieldSize = 19
-      end
-      item
-        FieldName = 'Pedido (TN)'
-        DataType = atString
-        FieldSize = 30
-      end
-      item
-        FieldName = 'Origem'
-        DataType = atString
-        FieldSize = 50
-      end
-      item
-        FieldName = 'Destino'
-        DataType = atString
-        FieldSize = 60
-      end
-      item
-        FieldName = 'N'#250'mero da TO'
-        DataType = atString
-        FieldSize = 50
-      end
-      item
-        FieldName = 'Rota de LH'
-        DataType = atString
-        FieldSize = 50
-      end>
-    DataDef.Delimiter = '"'
-    DataDef.Separator = ';'
-    DataDef.RecordFormat = rfCustom
-    Left = 480
-    Top = 240
+    Left = 240
+    Top = 200
   end
 end

@@ -715,12 +715,9 @@ type
     frxBarCodeObject1: TfrxBarCodeObject;
     frxReport: TfrxReport;
     memPedidosBlink: TFDMemTable;
-    memPedidosBlinkOrigem: TStringField;
-    memPedidosBlinkDestino: TStringField;
     memPedidosBlinkNumeroTO: TStringField;
     memPedidosBlinkRotaLH: TStringField;
     memPedidosBlinkPedido: TStringField;
-    memPedidosBlinkHoraEntrega: TDateTimeField;
     batchMoveOrdersShopee: TFDBatchMove;
     batchMoveDataSetReaderOrdersShopee: TFDBatchMoveDataSetReader;
     batchMoveDataSetWriterOrdersShopee: TFDBatchMoveDataSetWriter;
@@ -795,6 +792,8 @@ type
     memAcareacoesBlinkFSLA: TDateTimeField;
     memAcareacoesBlinkidBase: TIntegerField;
     memAcareacoesBlinkValue: TFloatField;
+    memPedidosBlinkHoraEntrega: TDateTimeField;
+    memPedidosBlinkRastreio: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

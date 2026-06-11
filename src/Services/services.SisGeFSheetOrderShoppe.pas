@@ -2,7 +2,8 @@ unit services.SisGeFSheetOrderShoppe;
 
 interface
 
-  uses Generics.Collections, System.Classes, System.SysUtils, Excel4Delphi, Excel4Delphi.Stream, ComObj, System.Variants;
+  uses Generics.Collections, System.Classes, System.SysUtils, Excel4Delphi, Excel4Delphi.Stream, ComObj, System.Variants,
+  FireDAC.Comp.Client;
 
   type
     TSheetOrdersShopee = class
@@ -17,20 +18,27 @@ interface
         FOrigem       : string;
         FFileName     : string;
         FMensagem     : string;
+        FTable        : TFDMemTable;
+        FToTable      : boolean;
+        FCliente      : integer;
+        FDate         : string;
 
         function ValidaPlanilha(): boolean;
         function ValidaPlanilhaXLS(): boolean;
         function ValidaPlanilhaCSV(): boolean;
       public
-        property HoraEntrega  : string  read FHoraEntrega write FHoraEntrega;
-        property Pedido       : string  read FPedido      write FPedido;
-        property Origem       : string  read FOrigem      write FOrigem;
-        property Destino      : string  read FDestino     write FDestino;
-        property NumeroTO     : string  read FNumeroTO    write FNumeroTO;
-        property RotaLH       : string  read FRotaLH      write FRotaLH;
+        property HoraEntrega  : string      read FHoraEntrega   write FHoraEntrega;
+        property Pedido       : string      read FPedido        write FPedido;
+        property Origem       : string      read FOrigem        write FOrigem;
+        property Destino      : string      read FDestino       write FDestino;
+        property NumeroTO     : string      read FNumeroTO      write FNumeroTO;
+        property RotaLH       : string      read FRotaLH        write FRotaLH;
 
-        property FileName     : string read FFileName     write FFileName;
-        property Mensagem     : string read FMensagem     write FMensagem;
+        property ToTable      : boolean     read FToTable       write FToTable;
+        property FileName     : string      read FFileName      write FFileName;
+        property Mensagem     : string      read FMensagem      write FMensagem;
+        property Table        : TFDMemTable read FTable         write FTable;
+        property Cliente      : integer     read FCliente       write FCliente;
 
         property Planilha: TObjectList<TSheetOrdersShopee> read FPlanilha write FPlanilha;
 
@@ -59,7 +67,15 @@ begin
   try
     workBook.LoadFromFile(FFileName);
     iRows := workBook.Sheets[iSheet].RowCount -1;
-    FPlanilha := TObjectList<TSheetOrdersShopee>.Create();
+
+    if FToTable then
+    begin
+      if FTable.FieldCount = 0 then
+      begin
+        FMensagem := 'Sheet : Tabela não está definida!';
+        Exit;
+      end;
+    end;
     if iRows < 2 then
     begin
       FMensagem := 'Sheet : Planilha está vazia!';
@@ -70,21 +86,51 @@ begin
       FMensagem := 'Sheet : Planilha informada não é válida!';
     end;
     iStart := 1;
-    for iRow := iStart to iRows - 1 do
+    if not FToTable then
     begin
-      FPlanilha.Add(TSheetOrdersShopee.Create);
-      FPlanilha[Pred(iRow)].FHoraEntrega  := workBook.Sheets[iSheet].CellRef['A', iRow].AsString;
-      FPlanilha[Pred(iRow)].FPedido       := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
-      FPlanilha[Pred(iRow)].FOrigem       := workBook.Sheets[iSheet].CellRef['C', iRow].AsString;
-      FPlanilha[Pred(iRow)].FDestino      := workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
-      FPlanilha[Pred(iRow)].FNumeroTO     := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
-      FPlanilha[Pred(iRow)].FRotaLH       := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
+      FPlanilha := TObjectList<TSheetOrdersShopee>.Create();
+      for iRow := iStart to iRows - 1 do
+      begin
+        FPlanilha.Add(TSheetOrdersShopee.Create);
+        FPlanilha[Pred(iRow)].FHoraEntrega  := workBook.Sheets[iSheet].CellRef['A', iRow].AsString;
+        FPlanilha[Pred(iRow)].FPedido       := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
+        FPlanilha[Pred(iRow)].FOrigem       := workBook.Sheets[iSheet].CellRef['C', iRow].AsString;
+        FPlanilha[Pred(iRow)].FDestino      := workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
+        FPlanilha[Pred(iRow)].FNumeroTO     := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
+        FPlanilha[Pred(iRow)].FRotaLH       := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
+        if FPlanilha.Count = 0 then
+        begin
+          FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
+          Exit;
+        end;
+      end;
+    end
+    else
+    begin
+      FTable.Active := False;
+      FTable.Active := True;
+      for iRow := iStart to iRows - 1 do
+      begin
+        FDate := Copy(workBook.Sheets[iSheet].CellRef['A', iRow].AsString,9,2) + '/' +
+                 Copy(workBook.Sheets[iSheet].CellRef['A', iRow].AsString,6,2) + '/' +
+                 Copy(workBook.Sheets[iSheet].CellRef['A', iRow].AsString,1,4) + ' ' +
+                 Copy(workBook.Sheets[iSheet].CellRef['A', iRow].AsString,12,8);
 
-    end;
-    if FPlanilha.Count = 0 then
-    begin
-      FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
-      Exit;
+        FTable.Insert;
+        FTable.FieldByName('HoraEntrega').AsDateTime  := StrToDateTime(FDate);
+        FTable.FieldByName('Pedido').AsString         := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
+        FTable.FieldByName('Rastreio').AsString       := 'Origem: ' +  workBook.Sheets[iSheet].CellRef['C', iRow].AsString + chr(13) +
+                                                         'Destino: ' + workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
+        FTable.FieldByName('NumeroTO').AsString       := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
+        FTable.FieldByName('RotaLH').AsString         := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
+        FTable.FieldByName('idCliente').AsInteger     := FCliente;
+        FTable.Post;
+      end;
+      if FTable.RecordCount = 0 then
+      begin
+        FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
+        Exit;
+      end;
     end;
     Result := True;
   finally
@@ -109,16 +155,60 @@ begin
       sLinhas.LoadFromFile(FFileName);
       sColunas.Delimiter := ';';
       sColunas.StrictDelimiter := True;
-      for i := 1 to Pred(sLinhas.Count) do
+      if FToTable then
       begin
-        sColunas.DelimitedText := sLinhas[i];
-        FPlanilha.Add(TSheetOrdersShopee.Create);
-        FPlanilha[i].FHoraEntrega  :=  sColunas[0];
-        FPlanilha[i].FPedido       :=  sColunas[1];
-        FPlanilha[i].FOrigem       :=  sColunas[2];
-        FPlanilha[i].FDestino      :=  sColunas[3];
-        FPlanilha[i].FNumeroTO     :=  sColunas[4];
-        FPlanilha[i].FRotaLH       :=  sColunas[5];
+        if FTable.FieldCount = 0 then
+        begin
+          FMensagem := 'Sheet : Tabela não está definida!';
+          Exit;
+        end;
+      end;
+      if sLinhas.Count < 2 then
+      begin
+        FMensagem := 'Sheet : Planilha está vazia!';
+        Exit;
+      end;
+      if not FToTable then
+      begin
+        for i := 1 to Pred(sLinhas.Count) do
+        begin
+          sColunas.DelimitedText := sLinhas[i];
+          FPlanilha.Add(TSheetOrdersShopee.Create);
+          FPlanilha[i].FHoraEntrega  :=  sColunas[0];
+          FPlanilha[i].FPedido       :=  sColunas[1];
+          FPlanilha[i].FOrigem       :=  sColunas[2];
+          FPlanilha[i].FDestino      :=  sColunas[3];
+          FPlanilha[i].FNumeroTO     :=  sColunas[4];
+          FPlanilha[i].FRotaLH       :=  sColunas[5];
+        end;
+      end
+      else
+      begin
+        FTable.Active := False;
+        FTable.Active := True;
+        for i := 1 to Pred(sLinhas.Count) do
+        begin
+          FDate := Copy(sColunas[0],9,2) + '/' +
+                   Copy(sColunas[0],6,2) + '/' +
+                   Copy(sColunas[0],1,4) + ' ' +
+                   Copy(sColunas[0],12,8);
+
+          FTable.Insert;
+          FTable.FieldByName('HoraEntrega').AsDateTime  := StrToDateTime(FDate);
+          FTable.FieldByName('Pedido').AsString         := sColunas[1];
+          FTable.FieldByName('Rastreio').AsString       := 'Origem: ' +  sColunas[2] + chr(13) +
+                                                           'Destino: ' + sColunas[3];
+          FTable.FieldByName('NumeroTO').AsString       := sColunas[4];
+          FTable.FieldByName('RotaLH').AsString         := sColunas[5];
+          FTable.FieldByName('idCliente').AsInteger     := FCliente;
+          FTable.Post;
+        end;
+        if FTable.RecordCount = 0 then
+        begin
+
+          FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
+          Exit;
+        end;
       end;
       Result := True;
    finally
@@ -153,27 +243,65 @@ begin
       iSheet := 1;
       Sheet := Workbook.WorkSheets[iSheet];
       iRows := Sheet.UsedRange.Rows.Count;
+      if FToTable then
+      begin
+        if FTable.FieldCount = 0 then
+        begin
+          FMensagem := 'Sheet : Tabela não está definida!';
+          Exit;
+        end;
+      end;
       if iRows < 2 then
       begin
         FMensagem := 'Sheet : Planilha está vazia!';
         Exit;
       end;
-      FPlanilha := TObjectList<TSheetOrdersShopee>.Create();
-      iStart := 2;
-      for iRow := iStart to iRows do
+      if not FToTable then
       begin
-        FPlanilha.Add(TSheetOrdersShopee.Create);
-        FPlanilha[iRow - 2].FHoraEntrega  :=  Sheet.Cells[iRow,1].Value;
-        FPlanilha[iRow - 2].FPedido       :=  Sheet.Cells[iRow,2].Value;
-        FPlanilha[iRow - 2].FOrigem       :=  Sheet.Cells[iRow,3].Value;
-        FPlanilha[iRow - 2].FDestino      :=  Sheet.Cells[iRow,4].Value;
-        FPlanilha[iRow - 2].FNumeroTO     :=  Sheet.Cells[iRow,5].Value;
-        FPlanilha[iRow - 2].FRotaLH       :=  Sheet.Cells[iRow,6].Value;
-      end;
-      if FPlanilha.Count = 0 then
+        FPlanilha := TObjectList<TSheetOrdersShopee>.Create();
+        iStart := 2;
+        for iRow := iStart to iRows do
+        begin
+          FPlanilha.Add(TSheetOrdersShopee.Create);
+          FPlanilha[iRow - 2].FHoraEntrega  :=  Sheet.Cells[iRow,1].Value;
+          FPlanilha[iRow - 2].FPedido       :=  Sheet.Cells[iRow,2].Value;
+          FPlanilha[iRow - 2].FOrigem       :=  Sheet.Cells[iRow,3].Value;
+          FPlanilha[iRow - 2].FDestino      :=  Sheet.Cells[iRow,4].Value;
+          FPlanilha[iRow - 2].FNumeroTO     :=  Sheet.Cells[iRow,5].Value;
+          FPlanilha[iRow - 2].FRotaLH       :=  Sheet.Cells[iRow,6].Value;
+        end;
+        if FPlanilha.Count = 0 then
+        begin
+          FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
+          Exit;
+        end;
+      end
+      else
       begin
-        FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
-        Exit;
+        FTable.Active := False;
+        FTable.Active := True;
+         for iRow := iStart to iRows do
+        begin
+          FDate := Copy(Sheet.Cells[iRow,1].Value,9,2) + '/' +
+                   Copy(Sheet.Cells[iRow,1].Value,6,2) + '/' +
+                   Copy(Sheet.Cells[iRow,1].Value,1,4) + ' ' +
+                   Copy(Sheet.Cells[iRow,1].Value,12,8);
+          FTable.Insert;
+          FTable.FieldByName('HoraEntrega').AsDateTime  := StrToDateTime(FDate);
+          FTable.FieldByName('Pedido').AsString         := Sheet.Cells[iRow,2].Value;
+          FTable.FieldByName('Rastreio').AsString       := 'Origem: ' +  Sheet.Cells[iRow,3].Value + chr(13) +
+                                                           'Destino: ' + Sheet.Cells[iRow,4].Value;
+          FTable.FieldByName('NumeroTO').AsString       := Sheet.Cells[iRow,5].Value;
+          FTable.FieldByName('RotaLH').AsString         := Sheet.Cells[iRow,6].Value;
+          FTable.FieldByName('idCliente').AsInteger     := FCliente;
+          FTable.Post;
+        end;
+        if FTable.RecordCount = 0 then
+        begin
+
+          FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
+          Exit;
+        end;
       end;
     except
       on E: Exception do

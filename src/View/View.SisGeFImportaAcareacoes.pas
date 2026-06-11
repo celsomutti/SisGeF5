@@ -188,6 +188,9 @@ begin
     end;
     FImport.FileName := bteArquivo.Text;
     FImport.Cliente := bteCodigoCliente.EditValue;
+    FImport.ToTable := true;
+    FImport.Table := Data_Sisgef.memAcareacoesBlink;
+
     if not FImport.Importar() then
     begin
       Application.MessageBox(PChar(FImport.Mensagem), 'Atenção', MB_OK + MB_ICONERROR);

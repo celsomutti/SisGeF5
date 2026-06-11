@@ -2,7 +2,7 @@ unit services.SisGeFImportConfrontations;
 
 interface
   uses Generics.Collections, System.Classes, System.SysUtils, service.connectionMySQL, services.SisGeFSheetConfrontations,
-  Controller.SisGeFContratadosRH, System.StrUtils;
+       Controller.SisGeFContratadosRH, System.StrUtils, FireDAC.Comp.Client;
 
   type
     TImportConfontatinsShopee = class
@@ -10,10 +10,9 @@ interface
       FFileName: string;
       FMessage: string;
       FCliente: integer;
+      FTable: TFDMemtable;
+      FToTable: boolean;
 
-      function ReturnCodeDriver(sDriver: string): integer;
-      function ReturnCodeBase(iDriver: integer): integer;
-      function ReturnValue(sValue: string): double;
     public
 
       function Importar(): boolean;
@@ -21,6 +20,9 @@ interface
       property Cliente  : integer read FCliente write FCliente;
       property FileName : string read FFileName write FFileName;
       property Mensagem : string read FMessage write FMessage;
+      property Table    : TFDMemtable read FTable write FTable;
+      property ToTable  : boolean read FToTable write FToTable;
+
     end;
 
 implementation
@@ -43,6 +45,9 @@ begin
   sExt := EmptyStr;
   sDate := EmptyStr;
   bFlag := False;
+  sheet.Cliente := FCliente;
+  sheet.ToTable := FToTable;
+  sheet.Table := FTable;
   try
     sExt := ExtractFileExt(FFileName);
     sheet.FileName := FFileName;
@@ -58,34 +63,37 @@ begin
     begin
       Exit;
     end;
-    with Data_Sisgef do
+    if not FToTable then
     begin
-      memAcareacoesBlink.Active := False;
-      memAcareacoesBlink.Active := True;
-      for i := 0 to Pred(sheet.Planilha.Count) do
+      with Data_Sisgef do
       begin
-        memAcareacoesBlink.Append;
-        memAcareacoesBlinkFIdTicket.AsString := sheet.Planilha[i].IdTicket;
-        memAcareacoesBlinkFAssignment.AsString := sheet.Planilha[i].Assignment;
-        memAcareacoesBlinkFSPXTN.AsString := sheet.Planilha[i].SPXTN;
-        iDriver := ReturnCodeDriver(sheet.Planilha[i].Driver);
-        memAcareacoesBlinkFDriver.AsInteger := iDriver;
-        memAcareacoesBlinkFStation.AsString := sheet.Planilha[i].Station;
-        memAcareacoesBlinkFSLA.AsDateTime := StrToDateTimeDef(sheet.Planilha[i].SLA + ':00', Now() + 2);
-        memAcareacoesBlinkFAssignee.AsString := 'Assignment Task ID ' + sheet.Planilha[i].Assignment + ', ' + Chr(13) +
-                                      'Assignee ' + sheet.Planilha[i].Assignee;
-        memAcareacoesBlinkValue.AsFloat := ReturnValue(sheet.Planilha[i].Value);
-        memAcareacoesBlinkFRejection.AsString := sheet.Planilha[i].Rejection;
-        memAcareacoesBlinkCreatedTime.AsDateTime := StrToDateDef(Copy(sheet.Planilha[i].CreatedTime,1,10), Now());
-        memAcareacoesBlinkFStatus.AsString := sheet.Planilha[i].Status;
-        memAcareacoesBlinkidCliente.AsInteger := FCliente;
-        memAcareacoesBlinkidBase.AsInteger := ReturnCodeBase(iDriver);
-        memAcareacoesBlink.Post;
-      end;
-      if memAcareacoesBlink.IsEmpty then
-      begin
-        FMessage := 'Nenhum pedido encontrado no arquivo de origem.';
-        Exit;
+        memAcareacoesBlink.Active := False;
+        memAcareacoesBlink.Active := True;
+        for i := 0 to Pred(sheet.Planilha.Count) do
+        begin
+          memAcareacoesBlink.Append;
+          memAcareacoesBlinkFIdTicket.AsString := sheet.Planilha[i].IdTicket;
+          memAcareacoesBlinkFAssignment.AsString := sheet.Planilha[i].Assignment;
+          memAcareacoesBlinkFSPXTN.AsString := sheet.Planilha[i].SPXTN;
+          iDriver := sheet.ReturnCodeDriver(sheet.Planilha[i].Driver);
+          memAcareacoesBlinkFDriver.AsInteger := iDriver;
+          memAcareacoesBlinkFStation.AsString := sheet.Planilha[i].Station;
+          memAcareacoesBlinkFSLA.AsDateTime := StrToDateTimeDef(sheet.Planilha[i].SLA + ':00', Now() + 2);
+          memAcareacoesBlinkFAssignee.AsString := 'Assignment Task ID ' + sheet.Planilha[i].Assignment + ', ' + Chr(13) +
+                                        'Assignee ' + sheet.Planilha[i].Assignee;
+          memAcareacoesBlinkValue.AsFloat := sheet.ReturnValue(sheet.Planilha[i].Value);
+          memAcareacoesBlinkFRejection.AsString := sheet.Planilha[i].Rejection;
+          memAcareacoesBlinkCreatedTime.AsDateTime := StrToDateDef(Copy(sheet.Planilha[i].CreatedTime,1,10), Now());
+          memAcareacoesBlinkFStatus.AsString := sheet.Planilha[i].Status;
+          memAcareacoesBlinkidCliente.AsInteger := FCliente;
+          memAcareacoesBlinkidBase.AsInteger := sheet.ReturnCodeBase(iDriver);
+          memAcareacoesBlink.Post;
+        end;
+        if memAcareacoesBlink.IsEmpty then
+        begin
+          FMessage := 'Nenhum pedido encontrado no arquivo de origem.';
+          Exit;
+        end;
       end;
     end;
     Result := True;
@@ -93,50 +101,6 @@ begin
     Fconn.Free;
     sheet.Free;
   end;
-end;
-function TImportConfontatinsShopee.ReturnCodeBase(iDriver: integer): integer;
-var
-  FCadastro : TContratadosRHController;
-  sParam: array of string;
-begin
-  Result := 0;
-  FCadastro := TContratadosRHController.Create;
-  SetLength(sParam,2);
-  try
-    sParam := ['CONTRATADO', iDriver.ToString];
-    if FCadastro.Search(sParam) then
-    begin
-      if FCadastro.FRH.SetupRecords then
-        Result := FCadastro.FRH.ARecord.id_departamento;
-    end;
-  finally
-    Finalize(sParam);
-    FCadastro.Free;
-  end;
-end;
-
-function TImportConfontatinsShopee.ReturnCodeDriver(sDriver: string): integer;
-var
-  sCod : String;
-  iPos : integer;
-begin
-  Result := 0;
-  iPos := Pos(']', sDriver);
-  sCod := Copy(sDriver,2,iPos - 2);
-  Result := StrToIntDef(sCod, 0);
-end;
-
-function TImportConfontatinsShopee.ReturnValue(sValue: string): double;
-var
-  dVal: double;
-  sVal: string;
-begin
-  Result := 0;
-  dVal := 0;
-  sVal := EmptyStr;
-  sVal := ReplaceStr(sValue, '.', ',');
-  dVal := StrToFloatDef(sVal,0);
-  Result := dVal;
 end;
 
 end.

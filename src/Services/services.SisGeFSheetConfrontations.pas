@@ -2,7 +2,7 @@ unit services.SisGeFSheetConfrontations;
 
 interface
   uses Generics.Collections, System.Classes, System.SysUtils, Excel4Delphi, Excel4Delphi.Stream, Common.Utils, ComObj,
-  System.Variants, Control.Acareacao, Vcl.Forms;
+  System.Variants, Control.Acareacao, Vcl.Forms, FireDAC.Comp.Client, Controller.SisGeFContratadosRH, System.StrUtils;
 
   type
     TSheetConfrontations = class
@@ -22,10 +22,14 @@ interface
         FStatus       : string;
         FFileName     : string;
         FMensagem     : string;
+        FTable        : TFDMemTable;
+        FToTable      : boolean;
+        FCliente      : integer;
 
         function ValidaPlanilha(): boolean;
         function ValidaPlanilhaXLS(): boolean;
         function ValidaPlanilhaCSV(): boolean;
+
       public
         property IdTicket     : string  read FIdTicket    write FIdTicket;
         property Assignment   : string  read FAssignment  write FAssignment;
@@ -39,14 +43,21 @@ interface
         property CreatedTime  : string  read FCreatedTime write FCreatedTime;
         property Status       : string  read FStatus      write FStatus;
 
+        property ToTable      : boolean     read FToTable       write FToTable;
         property FileName     : string  read FFileName     write FFileName;
         property Mensagem     : string  read FMensagem     write FMensagem;
+        property Table        : TFDMemTable read FTable         write FTable;
+        property Cliente      : integer     read FCliente       write FCliente;
 
         property Planilha: TObjectList<TSheetConfrontations> read FPlanilha write FPlanilha;
 
         function GetSheet(): boolean;
         function GetSheetXLS(): boolean;
         function GetSheetCSV(): boolean;
+
+        function ReturnCodeDriver(sDriver: string): integer;
+        function ReturnValue(sValue: string): double;
+        function ReturnCodeBase(iDriver: integer): integer;
     end;
 implementation
 
@@ -55,7 +66,7 @@ implementation
 function TSheetConfrontations.GetSheet(): boolean;
 var
   workBook: TZWorkBook;
-  iRow, iRows, iSheet, iSheets, iCol, iCols, iStart: integer;
+  iRow, iRows, iSheet, iSheets, iCol, iCols, iStart, iDriver: integer;
 begin
   workBook  :=  TZWorkBook.Create(nil);
   iCol      :=  0;
@@ -69,7 +80,15 @@ begin
   try
     workBook.LoadFromFile(FFileName);
     iRows := workBook.Sheets[iSheet].RowCount - 1;
-    FPlanilha := TObjectList<TSheetConfrontations>.Create();
+    if FToTable then
+    begin
+      if FTable.FieldCount = 0 then
+      begin
+        FMensagem := 'Sheet : Tabela não está definida!';
+        Exit;
+      end;
+    end;
+
     if iRows < 2 then
     begin
       FMensagem := 'Sheet : Planilha está vazia!';
@@ -80,27 +99,63 @@ begin
       FMensagem := 'Sheet : Planilha informada não é válida!';
       Exit;
     end;
-    iStart := 1;
-    for iRow := iStart to iRows - 1 do
+    if not FToTable then
     begin
-      FPlanilha.Add(TSheetConfrontations.Create);
-      FPlanilha[Pred(iRow)].FIdTicket   := workBook.Sheets[iSheet].CellRef['A', iRow].AsString;
-      FPlanilha[Pred(iRow)].FAssignment := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
-      FPlanilha[Pred(iRow)].FSPXTN      := workBook.Sheets[iSheet].CellRef['C', iRow].AsString;
-      FPlanilha[Pred(iRow)].FDriver     := workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
-      FPlanilha[Pred(iRow)].FStation    := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
-      FPlanilha[Pred(iRow)].FSLA        := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
-      FPlanilha[Pred(iRow)].FAssignee   := workBook.Sheets[iSheet].CellRef['G', iRow].AsString;
-      FPlanilha[Pred(iRow)].Value       := workBook.Sheets[iSheet].CellRef['H', iRow].AsString;
-      FPlanilha[Pred(iRow)].FRejection  := workBook.Sheets[iSheet].CellRef['I', iRow].AsString;
-      FPlanilha[Pred(iRow)].CreatedTime := workBook.Sheets[iSheet].CellRef['J', iRow].AsString;
-      FPlanilha[Pred(iRow)].FStatus     := workBook.Sheets[iSheet].CellRef['K', iRow].AsString;
-    end;
-    if FPlanilha.Count = 0 then
+      FPlanilha := TObjectList<TSheetConfrontations>.Create();
+      iStart := 1;
+      for iRow := iStart to iRows - 1 do
+      begin
+        FPlanilha.Add(TSheetConfrontations.Create);
+        FPlanilha[Pred(iRow)].FIdTicket   := workBook.Sheets[iSheet].CellRef['A', iRow].AsString;
+        FPlanilha[Pred(iRow)].FAssignment := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
+        FPlanilha[Pred(iRow)].FSPXTN      := workBook.Sheets[iSheet].CellRef['C', iRow].AsString;
+        FPlanilha[Pred(iRow)].FDriver     := workBook.Sheets[iSheet].CellRef['D', iRow].AsString;
+        FPlanilha[Pred(iRow)].FStation    := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
+        FPlanilha[Pred(iRow)].FSLA        := workBook.Sheets[iSheet].CellRef['F', iRow].AsString;
+        FPlanilha[Pred(iRow)].FAssignee   := workBook.Sheets[iSheet].CellRef['G', iRow].AsString;
+        FPlanilha[Pred(iRow)].Value       := workBook.Sheets[iSheet].CellRef['H', iRow].AsString;
+        FPlanilha[Pred(iRow)].FRejection  := workBook.Sheets[iSheet].CellRef['I', iRow].AsString;
+        FPlanilha[Pred(iRow)].CreatedTime := workBook.Sheets[iSheet].CellRef['J', iRow].AsString;
+        FPlanilha[Pred(iRow)].FStatus     := workBook.Sheets[iSheet].CellRef['K', iRow].AsString;
+      end;
+      if FPlanilha.Count = 0 then
+      begin
+        FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
+        Exit;
+      end;
+    end
+    else
     begin
-      FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
-      Exit;
+      FTable.Active := False;
+      FTable.Active := True;
+      iStart := 1;
+      for iRow := iStart to iRows - 1 do
+      begin
+        FTable.Append;
+        FTable.FieldByName('FIdTicket').AsString := workBook.Sheets[iSheet].CellRef['A', iRow].AsString;
+        FTable.FieldByName('FAssignment').AsString := workBook.Sheets[iSheet].CellRef['B', iRow].AsString;
+        FTable.FieldByName('FSPXTN').AsString := workBook.Sheets[iSheet].CellRef['C', iRow].AsString;
+        iDriver := ReturnCodeDriver(workBook.Sheets[iSheet].CellRef['D', iRow].AsString);
+        FTable.FieldByName('FDriver').AsInteger := iDriver;
+        FTable.FieldByName('FStation').AsString := workBook.Sheets[iSheet].CellRef['E', iRow].AsString;
+        FTable.FieldByName('FSLA').AsDateTime := StrToDateTimeDef(workBook.Sheets[iSheet].CellRef['F', iRow].AsString + ':00', Now() + 2);
+        FTable.FieldByName('FAssignee').AsString := 'Assignment Task ID ' + workBook.Sheets[iSheet].CellRef['B', iRow].AsString + ', ' + Chr(13) +
+                                      'Assignee ' + workBook.Sheets[iSheet].CellRef['G', iRow].AsString;
+        FTable.FieldByName('Value').AsFloat := ReturnValue(workBook.Sheets[iSheet].CellRef['H', iRow].AsString);
+        FTable.FieldByName('FRejection').AsString := workBook.Sheets[iSheet].CellRef['I', iRow].AsString;
+        FTable.FieldByName('CreatedTime').AsDateTime := StrToDateDef(Copy(workBook.Sheets[iSheet].CellRef['J', iRow].AsString,1,10), Now());
+        FTable.FieldByName('FStatus').AsString := workBook.Sheets[iSheet].CellRef['K', iRow].AsString;
+        FTable.FieldByName('idCliente').AsInteger := FCliente;
+        FTable.FieldByName('idBase').AsInteger := ReturnCodeBase(iDriver);
+        FTable.Post;
+      end;
+      if FTable.IsEmpty then
+      begin
+        FMensagem := 'Nenhum pedido encontrado no arquivo de origem.';
+        Exit;
+      end;
     end;
+
     Result := True;
   finally
     workBook.Free;
@@ -111,12 +166,25 @@ function TSheetConfrontations.GetSheetCSV: boolean;
 var
   sLinhas: TStringList;
   sColunas: TStringList;
-  i: Integer;
+  i, iDriver: Integer;
 begin
   Result := False;
   sLinhas := TStringList.Create;
   sColunas := TStringList.Create;
    try
+     if FToTable then
+      begin
+        if FTable.FieldCount = 0 then
+        begin
+          FMensagem := 'Sheet : Tabela não está definida!';
+          Exit;
+        end;
+      end;
+      if sLinhas.Count < 2 then
+      begin
+        FMensagem := 'Sheet : Planilha está vazia!';
+        Exit;
+      end;
      if not ValidaPlanilhaCSV() then
       begin
         FMensagem := 'Sheet : Planilha informada não é válida!';
@@ -124,21 +192,48 @@ begin
       sLinhas.LoadFromFile(FFileName);
       sColunas.Delimiter := ';';
       sColunas.StrictDelimiter := True;
-      for i := 1 to Pred(sLinhas.Count) do
+      if not FToTable then
       begin
-        sColunas.DelimitedText := sLinhas[i];
-        FPlanilha.Add(TSheetConfrontations.Create);
-        FPlanilha[i].FIdTicket   :=  sColunas[0];
-        FPlanilha[i].FAssignment :=  sColunas[1];
-        FPlanilha[i].FSPXTN      :=  sColunas[2];
-        FPlanilha[i].FDriver     :=  sColunas[3];
-        FPlanilha[i].FStation    :=  sColunas[4];
-        FPlanilha[i].FSLA        :=  sColunas[5];
-        FPlanilha[i].FAssignee   :=  sColunas[6];
-        FPlanilha[i].Value       :=  sColunas[7];
-        FPlanilha[i].FRejection  :=  sColunas[8];
-        FPlanilha[i].CreatedTime :=  sColunas[9];
-        FPlanilha[i].FStatus     :=  sColunas[10];
+        for i := 1 to Pred(sLinhas.Count) do
+        begin
+          sColunas.DelimitedText := sLinhas[i];
+          FPlanilha.Add(TSheetConfrontations.Create);
+          FPlanilha[i].FIdTicket   :=  sColunas[0];
+          FPlanilha[i].FAssignment :=  sColunas[1];
+          FPlanilha[i].FSPXTN      :=  sColunas[2];
+          FPlanilha[i].FDriver     :=  sColunas[3];
+          FPlanilha[i].FStation    :=  sColunas[4];
+          FPlanilha[i].FSLA        :=  sColunas[5];
+          FPlanilha[i].FAssignee   :=  sColunas[6];
+          FPlanilha[i].Value       :=  sColunas[7];
+          FPlanilha[i].FRejection  :=  sColunas[8];
+          FPlanilha[i].CreatedTime :=  sColunas[9];
+          FPlanilha[i].FStatus     :=  sColunas[10];
+        end;
+      end
+      else
+      begin
+        for i := 1 to Pred(sLinhas.Count) do
+        begin
+          sColunas.DelimitedText := sLinhas[i];
+          FTable.Append;
+          FTable.FieldByName('FIdTicket.AsString').AsString := sColunas[0];
+          FTable.FieldByName('FAssignment').AsString := sColunas[1];
+          FTable.FieldByName('FSPXTN').AsString := sColunas[2];
+          iDriver := ReturnCodeDriver(sColunas[3]);
+          FTable.FieldByName('FDriver').AsInteger := iDriver;
+          FTable.FieldByName('FStation').AsString := sColunas[4];
+          FTable.FieldByName('FSLA').AsDateTime := StrToDateTimeDef(sColunas[5] + ':00', Now() + 2);
+          FTable.FieldByName('FAssignee').AsString := 'Assignment Task ID ' + sColunas[1] + ', ' + Chr(13) +
+                                        'Assignee ' + sColunas[6];
+          FTable.FieldByName('Value').AsFloat := ReturnValue(sColunas[7]);
+          FTable.FieldByName('FRejection').AsString := sColunas[8];
+          FTable.FieldByName('CreatedTime').AsDateTime := StrToDateDef(Copy(sColunas[9],1,10), Now());
+          FTable.FieldByName('FStatus').AsString := sColunas[10];
+          FTable.FieldByName('idCliente').AsInteger := FCliente;
+          FTable.FieldByName('idBase').AsInteger := ReturnCodeBase(iDriver);
+          FTable.Post;
+        end;
       end;
       Result := True;
    finally
@@ -150,7 +245,7 @@ end;
 function TSheetConfrontations.GetSheetXLS: boolean;
 var
   ExcelApp, Workbook, Sheet: Variant;
-  iRow, iRows, iSheet, iSheets, iCol, iCols, iStart: integer;
+  iRow, iRows, iSheet, iSheets, iCol, iCols, iStart, iDriver: integer;
 begin
   iCol      :=  0;
   iCols     :=  0;
@@ -170,6 +265,14 @@ begin
       ExcelApp := CreateOleObject('Excel.Application');
       // ExcelApp.Visible := True; // Opcional: torna o Excel visível
       Workbook := ExcelApp.Workbooks.Open(FileName);
+      if FToTable then
+      begin
+        if FTable.FieldCount = 0 then
+        begin
+          FMensagem := 'Sheet : Tabela não está definida!';
+          Exit;
+        end;
+      end;
       iSheet := 1;
       Sheet := Workbook.WorkSheets[iSheet];
       iRows := Sheet.UsedRange.Rows.Count;
@@ -178,27 +281,54 @@ begin
         FMensagem := 'Sheet : Planilha está vazia!';
         Exit;
       end;
-      FPlanilha := TObjectList<TSheetConfrontations>.Create();
-      iStart := 2;
-      for iRow := iStart to iRows do
+      if not FToTable then
       begin
-        FPlanilha.Add(TSheetConfrontations.Create);
-        FPlanilha[iRow - 2].FIdTicket   :=  Sheet.Cells[iRow,1].Value;
-        FPlanilha[iRow - 2].FAssignment :=  Sheet.Cells[iRow,2].Value;
-        FPlanilha[iRow - 2].FSPXTN      :=  Sheet.Cells[iRow,3].Value;
-        FPlanilha[iRow - 2].FDriver     :=  Sheet.Cells[iRow,4].Value;
-        FPlanilha[iRow - 2].FStation    :=  Sheet.Cells[iRow,5].Value;
-        FPlanilha[iRow - 2].FSLA        :=  Sheet.Cells[iRow,6].Value;
-        FPlanilha[iRow - 2].FAssignee   :=  Sheet.Cells[iRow,7].Value;
-        FPlanilha[iRow - 2].Value       :=  Sheet.Cells[iRow,8].Value;
-        FPlanilha[iRow - 2].FRejection  :=  Sheet.Cells[iRow,9].Value;
-        FPlanilha[iRow - 2].CreatedTime :=  Sheet.Cells[iRow,10].Value;
-        FPlanilha[iRow - 2].FStatus     :=  Sheet.Cells[iRow,11].Value;
-      end;
-      if FPlanilha.Count = 0 then
+        FPlanilha := TObjectList<TSheetConfrontations>.Create();
+        iStart := 2;
+        for iRow := iStart to iRows do
+        begin
+          FPlanilha.Add(TSheetConfrontations.Create);
+          FPlanilha[iRow - 2].FIdTicket   :=  Sheet.Cells[iRow,1].Value;
+          FPlanilha[iRow - 2].FAssignment :=  Sheet.Cells[iRow,2].Value;
+          FPlanilha[iRow - 2].FSPXTN      :=  Sheet.Cells[iRow,3].Value;
+          FPlanilha[iRow - 2].FDriver     :=  Sheet.Cells[iRow,4].Value;
+          FPlanilha[iRow - 2].FStation    :=  Sheet.Cells[iRow,5].Value;
+          FPlanilha[iRow - 2].FSLA        :=  Sheet.Cells[iRow,6].Value;
+          FPlanilha[iRow - 2].FAssignee   :=  Sheet.Cells[iRow,7].Value;
+          FPlanilha[iRow - 2].Value       :=  Sheet.Cells[iRow,8].Value;
+          FPlanilha[iRow - 2].FRejection  :=  Sheet.Cells[iRow,9].Value;
+          FPlanilha[iRow - 2].CreatedTime :=  Sheet.Cells[iRow,10].Value;
+          FPlanilha[iRow - 2].FStatus     :=  Sheet.Cells[iRow,11].Value;
+        end;
+        if FPlanilha.Count = 0 then
+        begin
+          FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
+          Exit;
+        end;
+      end
+      else
       begin
-        FMensagem := 'Sheet : Nenhuma informação foi encontrada!';
-        Exit;
+        iStart := 2;
+        for iRow := iStart to iRows do
+        begin
+          FTable.Append;
+          FTable.FieldByName('FIdTicket.AsString').AsString := Sheet.Cells[iRow,1].Value;
+          FTable.FieldByName('FAssignment').AsString := Sheet.Cells[iRow,2].Value;
+          FTable.FieldByName('FSPXTN').AsString := Sheet.Cells[iRow,3].Value;
+          iDriver := ReturnCodeDriver(Sheet.Cells[iRow,4].Value);
+          FTable.FieldByName('FDriver').AsInteger := iDriver;
+          FTable.FieldByName('FStation').AsString := Sheet.Cells[iRow,5].Value;
+          FTable.FieldByName('FSLA').AsDateTime := StrToDateTimeDef(Sheet.Cells[iRow,6].Value + ':00', Now() + 2);
+          FTable.FieldByName('FAssignee').AsString := 'Assignment Task ID ' + Sheet.Cells[iRow,2].Value + ', ' + Chr(13) +
+                                        'Assignee ' + Sheet.Cells[iRow,7].Value;
+          FTable.FieldByName('Value').AsFloat := ReturnValue(Sheet.Cells[iRow,8].Value);
+          FTable.FieldByName('FRejection').AsString := Sheet.Cells[iRow,9].Value;
+          FTable.FieldByName('CreatedTime').AsDateTime := StrToDateDef(Copy(Sheet.Cells[iRow,10].Value,1,10), Now());
+          FTable.FieldByName('FStatus').AsString := Sheet.Cells[iRow,11].Value;
+          FTable.FieldByName('idCliente').AsInteger := FCliente;
+          FTable.FieldByName('idBase').AsInteger := ReturnCodeBase(iDriver);
+          FTable.Post;
+        end;
       end;
     except
       on E: Exception do
@@ -212,6 +342,51 @@ begin
     ExcelApp := Unassigned;
     Sheet := Unassigned;
   end;
+end;
+
+function TSheetConfrontations.ReturnCodeBase(iDriver: integer): integer;
+var
+  FCadastro : TContratadosRHController;
+  sParam: array of string;
+begin
+  Result := 0;
+  FCadastro := TContratadosRHController.Create;
+  SetLength(sParam,2);
+  try
+    sParam := ['CONTRATADO', iDriver.ToString];
+    if FCadastro.Search(sParam) then
+    begin
+        Result := FCadastro.FRH.Query.FieldByName('id_departamento').AsInteger;
+    end;
+  finally
+    Finalize(sParam);
+    FCadastro.FRH.Query.Connection.Connected := False;
+    FCadastro.Free;
+  end;
+end;
+
+function TSheetConfrontations.ReturnCodeDriver(sDriver: string): integer;
+var
+  sCod : String;
+  iPos : integer;
+begin
+  Result := 0;
+  iPos := Pos(']', sDriver);
+  sCod := Copy(sDriver,2,iPos - 2);
+  Result := StrToIntDef(sCod, 0);
+end;
+
+function TSheetConfrontations.ReturnValue(sValue: string): double;
+var
+  dVal: double;
+  sVal: string;
+begin
+  Result := 0;
+  dVal := 0;
+  sVal := EmptyStr;
+  sVal := ReplaceStr(sValue, '.', ',');
+  dVal := StrToFloatDef(sVal,0);
+  Result := dVal;
 end;
 
 function TSheetConfrontations.ValidaPlanilha: boolean;

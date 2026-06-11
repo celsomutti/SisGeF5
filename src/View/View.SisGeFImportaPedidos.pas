@@ -50,7 +50,6 @@ type
     actPesquisarCliente: TAction;
     txtNomeCliente: TcxTextEdit;
     dxLayoutItem8: TdxLayoutItem;
-    batchMoveTextReader: TFDBatchMoveTextReader;
     procedure actAbrirExecute(Sender: TObject);
     procedure actLimparExecute(Sender: TObject);
     procedure aclSairExecute(Sender: TObject);
@@ -188,6 +187,7 @@ begin
     end;
     FImport.FileName := bteArquivo.Text;
     FImport.Cliente := bteCodigoCliente.EditValue;
+    FImport.ToTable := True;
     if not FImport.Importar() then
     begin
       Application.MessageBox(PChar(FImport.Mensagem), 'Atenção', MB_OK + MB_ICONERROR);

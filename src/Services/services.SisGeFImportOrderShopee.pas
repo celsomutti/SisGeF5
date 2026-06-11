@@ -2,7 +2,8 @@ unit services.SisGeFImportOrderShopee;
 
 interface
 
-  uses Generics.Collections, System.Classes, System.SysUtils, services.SisGeFSheetOrderShoppe, service.connectionMySQL;
+  uses Generics.Collections, System.Classes, System.SysUtils, services.SisGeFSheetOrderShoppe, service.connectionMySQL,
+       FireDAC.Comp.Client;
 
   type
     TImportOrderShopee = class
@@ -10,6 +11,8 @@ interface
       FFileName: string;
       FMessage: string;
       FCliente: integer;
+      FTable: TFDMemtable;
+      FToTable: boolean;
     public
 
       function Importar(): boolean;
@@ -17,6 +20,9 @@ interface
       property Cliente  : integer read FCliente write FCliente;
       property FileName : string read FFileName write FFileName;
       property Mensagem : string read FMessage write FMessage;
+      property Table    : TFDMemtable read FTable write FTable;
+      property ToTable  : boolean read FToTable write FToTable;
+
     end;
 
 implementation
@@ -43,6 +49,12 @@ begin
   try
     sExt := ExtractFileExt(FFileName);
     sheet.FileName := FFileName;
+    sheet.Cliente := FCliente;
+    sheet.ToTable := FToTable;
+    if FToTable then
+    begin
+      sheet.Table := Data_Sisgef.memPedidosBlink;
+    end;
     if sExt = '.xls' then
       bFlag := sheet.GetSheetXLS()
     else if sExt = '.xlsx' then
@@ -53,33 +65,37 @@ begin
       FMessage := 'Erro ao determinar o tipo de arquivo.';
     if not bFlag then
     begin
+      FMessage := sheet.Mensagem;
       Exit;
     end;
-    with Data_Sisgef do
+    if not FToTable then
     begin
-      memPedidosBlink.Active := False;
-      memPedidosBlink.Active := True;
-      for i := 0 to Pred(sheet.Planilha.Count) do
+      with Data_Sisgef do
       begin
-        sDate := Copy(sheet.Planilha[i].HoraEntrega,9,2) + '/' +
-                 Copy(sheet.Planilha[i].HoraEntrega,6,2) + '/' +
-                 Copy(sheet.Planilha[i].HoraEntrega,1,4) + ' ' +
-                 Copy(sheet.Planilha[i].HoraEntrega,12,8);
-        dtDate := StrToDateTime(sDate);
-        memPedidosBlink.Append;
-        memPedidosBlinkHoraEntrega.AsDateTime := dtDate;
-        memPedidosBlinkPedido.AsString := sheet.Planilha[i].Pedido;
-        memPedidosBlinkOrigem.AsString := sheet.Planilha[i].Origem;
-        memPedidosBlinkDestino.AsString := sheet.Planilha[i].Destino;
-        memPedidosBlinkNumeroTO.AsString := sheet.Planilha[i].NumeroTO;
-        memPedidosBlinkRotaLH.AsString := sheet.Planilha[i].RotaLH;
-        memPedidosBlinkidCliente.AsInteger := FCliente;
-        memPedidosBlink.Post;
-      end;
-      if memPedidosBlink.IsEmpty then
-      begin
-        FMessage := 'Nenhum pedido encontrado no arquivo de origem.';
-        Exit;
+        memPedidosBlink.Active := False;
+        memPedidosBlink.Active := True;
+        for i := 0 to Pred(sheet.Planilha.Count) do
+        begin
+          sDate := Copy(sheet.Planilha[i].HoraEntrega,9,2) + '/' +
+                   Copy(sheet.Planilha[i].HoraEntrega,6,2) + '/' +
+                   Copy(sheet.Planilha[i].HoraEntrega,1,4) + ' ' +
+                   Copy(sheet.Planilha[i].HoraEntrega,12,8);
+          dtDate := StrToDateTime(sDate);
+          memPedidosBlink.Append;
+          memPedidosBlinkHoraEntrega.AsDateTime := dtDate;
+          memPedidosBlinkPedido.AsString := sheet.Planilha[i].Pedido;
+          memPedidosBlinkRastreio.AsString := 'Origem: ' + sheet.Planilha[i].Origem + chr(13) +
+                                              'Destgino: ' + sheet.Planilha[i].Destino;
+          memPedidosBlinkNumeroTO.AsString := sheet.Planilha[i].NumeroTO;
+          memPedidosBlinkRotaLH.AsString := sheet.Planilha[i].RotaLH;
+          memPedidosBlinkidCliente.AsInteger := FCliente;
+          memPedidosBlink.Post;
+        end;
+        if memPedidosBlink.IsEmpty then
+        begin
+          FMessage := 'Nenhum pedido encontrado no arquivo de origem.';
+          Exit;
+        end;
       end;
     end;
     Result := True;
