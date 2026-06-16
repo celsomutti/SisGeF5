@@ -2609,7 +2609,7 @@
       ItemLinks = <
         item
           Visible = True
-          ItemName = 'dxBarSubItem5'
+          ItemName = 'dxBarLargeButton73'
         end
         item
           BeginGroup = True
@@ -2639,7 +2639,7 @@
       Tag = 2020
       Caption = 'Opera'#231#227'o Expressas'
       CaptionButtons = <>
-      DockedLeft = 378
+      DockedLeft = 363
       DockedTop = 0
       FloatLeft = 1129
       FloatTop = 8
@@ -2676,7 +2676,7 @@
       Tag = 2030
       Caption = 'Demonstrativos Expressas'
       CaptionButtons = <>
-      DockedLeft = 738
+      DockedLeft = 723
       DockedTop = 0
       FloatLeft = 1129
       FloatTop = 8
@@ -2701,7 +2701,7 @@
       Tag = 2040
       Caption = 'Verbas Expressas'
       CaptionButtons = <>
-      DockedLeft = 910
+      DockedLeft = 895
       DockedTop = 0
       FloatLeft = 844
       FloatTop = 8
@@ -3799,6 +3799,11 @@
     object dxBarButton13: TdxBarButton
       Action = actImportarAcareacoes
       Category = 0
+    end
+    object dxBarLargeButton73: TdxBarLargeButton
+      Action = actImportacaoPedidos
+      Category = 0
+      LargeImageIndex = 70
     end
   end
   object aclMain: TActionList

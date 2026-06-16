@@ -207,7 +207,7 @@ begin
   try
     Result := False;
     FDQuery := FConexao.GetQuery();
-    FDQuery.Connection.Ping;
+    //FDQuery.Connection.Ping;
     FDQuery.ExecSQL(SQLUPDATE,[Self.Distribuidor, Self.Entregador, Self.Cliente, Self.NF, Self.Consumidor, Self.Endereco,
                     Self.Complemento, Self.Bairro, Self.Cidade, Self.CEP, Self.Telefone, Self.Expedicao, Self.Previsao,
                     Self.Volumes, Self.Atribuicao, Self.Baixa, Self.Baixado, Self.Pagamento, Self.Pago, Self.Fechado,
@@ -547,7 +547,7 @@ begin
   try
     Result := False;
     FDQuery := FConexao.GetQuery();
-    FDQuery.Connection.Ping;
+    //FDQuery.Connection.Ping;
     FDQuery.ExecSQL(SQLINSERT, [Self.NN, Self.Distribuidor, Self.Entregador, Self.Cliente, Self.NF, Self.Consumidor, Self.Endereco,
                     Self.Complemento, Self.Bairro, Self.Cidade, Self.CEP, Self.Telefone, Self.Expedicao, Self.Previsao,
                              Self.Volumes, Self.Atribuicao, Self.Baixa, Self.Baixado, Self.Pagamento, Self.Pago, Self.Fechado,

@@ -237,6 +237,7 @@ type
     dxBarButton12: TdxBarButton;
     actImportarAcareacoes: TAction;
     dxBarButton13: TdxBarButton;
+    dxBarLargeButton73: TdxBarLargeButton;
     procedure actSairSistemaExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -672,19 +673,19 @@ begin
   // end;
   // view_ImporEDIClient.Show;
 
-//  if not Assigned(view_SisGeFImportWorksheetExpress) then
-//  begin
-//    view_SisGeFImportWorksheetExpress :=
-//      Tview_SisGeFImportWorksheetExpress.Create(Application);
-//  end;
-//  view_SisGeFImportWorksheetExpress.Show;
-
-  if not Assigned(viewImportaPedidos) then
+  if not Assigned(view_SisGeFImportWorksheetExpress) then
   begin
-    viewImportaPedidos :=
-      TviewImportaPedidos.Create(Application);
+    view_SisGeFImportWorksheetExpress :=
+      Tview_SisGeFImportWorksheetExpress.Create(Application);
   end;
-  viewImportaPedidos.Show;
+  view_SisGeFImportWorksheetExpress.Show;
+//
+//  if not Assigned(viewImportaPedidos) then
+//  begin
+//    viewImportaPedidos :=
+//      TviewImportaPedidos.Create(Application);
+//  end;
+//  viewImportaPedidos.Show;
 
 
 end;

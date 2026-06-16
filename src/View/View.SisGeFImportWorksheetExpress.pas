@@ -121,8 +121,11 @@ uses Data.SisGeF;
 
 procedure Tview_SisGeFImportWorksheetExpress.actionCancelImportExecute(Sender: TObject);
 begin
-  importws.Cancelar := True;
-  importws.Terminate;
+  if Assigned(importws) then
+  begin
+    importws.Cancelar := True;
+    importws.Terminate;
+  end;
 end;
 
 procedure Tview_SisGeFImportWorksheetExpress.actionCloseFormExecute(Sender: TObject);
