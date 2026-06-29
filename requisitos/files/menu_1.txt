@@ -1,0 +1,91 @@
+Cadastro
+  Financeiro
+    Empresas
+    Clientes
+    Fornecedores
+  Pessoas
+    Contratados
+    Candidatos
+    Funcionarios
+    Funcoes
+  Expressas
+    Embarcadores
+    Bases
+    Entregadores
+  Transportes
+    Veiculos
+
+Expressas
+  Controle
+    Importação de Planilhas
+    Pesquisa de Pedidos
+    Acareações
+    Extravios
+   Resposta CTNC
+  Operacao
+    Recepcao de Pedidos
+    Controle de Expressas
+    Expedicao
+    Roteiros
+    Analise de Roteiros
+  Demonstrativos
+    Extrato de Expressas
+    Demonstrativo Individual
+  Verbas Expressas
+    Verbas
+
+Periodicos
+  Jornal
+    Importacao de Tiragem
+    Assinantes Jornal
+    Ocorrencias
+  Revistas
+    Etiquetas e Protocolos
+    Assinantes Revistas
+  Operacao
+    Roteiros
+    Recados
+    Operacional (ponto dos entregadores)
+    Atribuicoes
+  Demonstrativos
+    Extrato de Tiragens
+  Verbas
+    Verbas
+
+Servicos
+  Servicos
+    Servicos
+    Ordens de Servicos
+    Malotes
+    Extrato
+
+Transportes
+  Controle
+    Controle KM
+    Controle de Viagens
+    Manutencao
+  Insumos
+    Insumos
+    Abastecimentos
+    Estoque de Insumos
+
+Financeiro
+  Controle
+    Importar Financeiro DIRECT
+    Centro de Custo
+    Debitos e Creditos
+    Contas a Receber
+    Contas a Pagar
+    Caixa Pequeno
+    Faturamento Recebido
+    Planilha de Credito
+Sistema
+  Seguranca
+    Usuarios / Grupos
+      Usuarios
+      Grupos
+    Alterar Senha
+    Trocar Usuario
+  Cadastros
+    Abrangência Expressas
+    Prazos Extratos
