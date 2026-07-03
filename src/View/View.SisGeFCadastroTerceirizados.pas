@@ -22,7 +22,7 @@ uses
   Controller.SisGeFContratadosRH, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosContatos,
   Controller.SisGeFVehiclesRegistration, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,
   Controller.SisGeFContratadosGR, Controller.APICNPJ, Controller.APICEP, Common.ENum, System.DateUtils, System.StrUtils,
-  Common.Utils, service.sistem;
+  Common.Utils, service.sistem, service.SisGeFGeneralSearch;
 
 type
   TviewCadastroTerceirizados = class(TForm)
@@ -196,12 +196,6 @@ type
     dbAlias: TcxDBTextEdit;
     dxLayoutItem17: TdxLayoutItem;
     dxLayoutGroup3: TdxLayoutGroup;
-    mtbCategorias: TFDMemTable;
-    dsCategoria: TDataSource;
-    mtbCategoriasid_categoria: TIntegerField;
-    mtbCategoriasdes_categoria: TStringField;
-    dbCategoria: TcxDBLookupComboBox;
-    dxLayoutItem18: TdxLayoutItem;
     dbSexo: TcxDBImageComboBox;
     dxLayoutItem19: TdxLayoutItem;
     dbRGIE: TcxDBTextEdit;
@@ -243,10 +237,6 @@ type
     dxLayoutItem31: TdxLayoutItem;
     dxLayoutGroup16: TdxLayoutGroup;
     dxLayoutSeparatorItem4: TdxLayoutSeparatorItem;
-    memTableFuncoes: TFDMemTable;
-    memTableFuncoesid_funcao: TIntegerField;
-    memTableFuncoesdes_funcao: TStringField;
-    dsFuncoes: TDataSource;
     mtbRH: TFDMemTable;
     dxLayoutSeparatorItem5: TdxLayoutSeparatorItem;
     dxLayoutGroup17: TdxLayoutGroup;
@@ -263,15 +253,7 @@ type
     dxLayoutItem33: TdxLayoutItem;
     dbDemissao: TcxDBDateEdit;
     dxLayoutItem34: TdxLayoutItem;
-    memTableBases: TFDMemTable;
-    memTableBasescod_agente: TIntegerField;
-    memTableBasesnom_fantasia: TStringField;
-    dsBases: TDataSource;
     dxLayoutGroup18: TdxLayoutGroup;
-    dbBase: TcxDBLookupComboBox;
-    dxLayoutItem35: TdxLayoutItem;
-    dbFuncao: TcxDBLookupComboBox;
-    dxLayoutItem36: TdxLayoutItem;
     lgpCNAE: TdxLayoutGroup;
     lgpVeiculos: TdxLayoutGroup;
     mtbGR: TFDMemTable;
@@ -436,10 +418,6 @@ type
     gridContatosDBTableView1des_contato: TcxGridDBColumn;
     gridContatosDBTableView1num_telefone: TcxGridDBColumn;
     gridContatosDBTableView1des_email: TcxGridDBColumn;
-    dsBancos: TDataSource;
-    memTableBancos: TFDMemTable;
-    memTableBancoscod_banco: TStringField;
-    memTableBancosnom_banco: TStringField;
     mtbFinanceiro: TFDMemTable;
     dsFinanceiro: TDataSource;
     mtbFinanceiroid_financeiro: TIntegerField;
@@ -550,6 +528,24 @@ type
     dbRG: TcxDBTextEdit;
     dxLayoutItem7: TdxLayoutItem;
     dxLayoutSeparatorItem14: TdxLayoutSeparatorItem;
+    mtbFinanceirodes_banco: TStringField;
+    gridFinanceiroDBTableView1des_banco: TcxGridDBColumn;
+    acrSearchBank: TAction;
+    dbCodCategoria: TcxDBButtonEdit;
+    dxLayoutItem94: TdxLayoutItem;
+    dbDescricaoCategoria: TcxDBTextEdit;
+    dxLayoutItem18: TdxLayoutItem;
+    actSearchCategory: TAction;
+    dbCodigoBase: TcxDBButtonEdit;
+    dxLayoutItem95: TdxLayoutItem;
+    txtNomeBase: TcxTextEdit;
+    dxLayoutItem35: TdxLayoutItem;
+    actSearchBase: TAction;
+    dbCodigoAtividade: TcxDBButtonEdit;
+    dxLayoutItem96: TdxLayoutItem;
+    txtAtividade: TcxTextEdit;
+    dxLayoutItem36: TdxLayoutItem;
+    actSearchFunction: TAction;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -576,6 +572,22 @@ type
     procedure gridDBTableView1DblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure dbFuncaoPropertiesCloseUp(Sender: TObject);
+    procedure acrSearchBankExecute(Sender: TObject);
+    procedure gridFinanceiroDBTableView1cod_bancoPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+      var ErrorText: TCaption; var Error: Boolean);
+    procedure gridFinanceiroDBTableView1cod_bancoPropertiesChange(Sender: TObject);
+    procedure dbCodCategoriaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure dbCodCategoriaPropertiesChange(Sender: TObject);
+    procedure actSearchCategoryExecute(Sender: TObject);
+    procedure dbCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure dbCodigoBasePropertiesChange(Sender: TObject);
+    procedure actSearchBaseExecute(Sender: TObject);
+    procedure dbCodigoAtividadePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure dbCodigoAtividadePropertiesChange(Sender: TObject);
+    procedure actSearchFunctionExecute(Sender: TObject);
   private
     { Private declarations }
     FSystem : TSistem;
@@ -593,11 +605,7 @@ type
     procedure PanelGroup();
     procedure ChangePerson();
 
-    procedure PopulateBank();
     procedure PopulateStates();
-    procedure PopulateCategories();
-    procedure PopulateBases();
-    procedure PopulateFunctions();
 
     procedure PopulateCNAE(iCadastro: integer);
     procedure PopulateRH(iCadastro: integer);
@@ -639,6 +647,16 @@ type
     procedure SearchCNPJVeiculo(sCNPJ: string);
     procedure SearchCEPCadastro(sCEP: string);
     procedure SearchCEPVeiculo(sCEP: string);
+    procedure SearchBanks;
+    procedure SearchBankName(sId: string);
+    function  ReturnBankName(sId: string): string;
+    procedure SearcchCategory;
+    procedure SearchNameCategory(iId: integer);
+    procedure SearchBase;
+    procedure SearchNameBase(iId: integer);
+    function  ReturnBaseName(iId: integer): string;
+    procedure SearchFunction;
+    procedure SearchNameFunction(iId: integer);
 
 
 
@@ -654,9 +672,14 @@ implementation
 {$R *.dfm}
 
 uses Data.SisGeF, View.ListaCEPs, View.ResultadoConsultaCNPJ, View.Impressao, View.SisGeFContractEmission,
-  View.SisaGeFAttachDocuments;
+  View.SisaGeFAttachDocuments, View.SisGeFGeneralsSearch;
 
 { TviewCadastroTerceirizados }
+
+procedure TviewCadastroTerceirizados.acrSearchBankExecute(Sender: TObject);
+begin
+  SearchBanks;
+end;
 
 procedure TviewCadastroTerceirizados.actionCloseFormExecute(Sender: TObject);
 begin
@@ -751,6 +774,21 @@ end;
 procedure TviewCadastroTerceirizados.actionSearchRecordsExecute(Sender: TObject);
 begin
   ExecSarch(CustomSearchStr(bteSearch.Text));
+end;
+
+procedure TviewCadastroTerceirizados.actSearchBaseExecute(Sender: TObject);
+begin
+  SearchBase;
+end;
+
+procedure TviewCadastroTerceirizados.actSearchCategoryExecute(Sender: TObject);
+begin
+  SearcchCategory;
+end;
+
+procedure TviewCadastroTerceirizados.actSearchFunctionExecute(Sender: TObject);
+begin
+  SearchFunction;
 end;
 
 procedure TviewCadastroTerceirizados.bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
@@ -983,10 +1021,50 @@ begin
   end;
 end;
 
+procedure TviewCadastroTerceirizados.dbCodCategoriaPropertiesChange(Sender: TObject);
+begin
+  if dsCadastro.State in [dsEdit, dsInsert] then
+    mtbCadastrodes_categoria.AsString:= EmptyStr;
+end;
+
+procedure TviewCadastroTerceirizados.dbCodCategoriaPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  SearchNameCategory(DisplayValue);
+end;
+
+procedure TviewCadastroTerceirizados.dbCodigoAtividadePropertiesChange(Sender: TObject);
+begin
+  txtAtividade.Text := EmptyStr;
+end;
+
+procedure TviewCadastroTerceirizados.dbCodigoAtividadePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  SearchNameFunction(DisplayValue);
+end;
+
+procedure TviewCadastroTerceirizados.dbCodigoBasePropertiesChange(Sender: TObject);
+begin
+  txtNomeBase.Text := EmptyStr;
+end;
+
+procedure TviewCadastroTerceirizados.dbCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  SearchNameBase(DisplayValue);
+end;
+
 procedure TviewCadastroTerceirizados.dbFuncaoPropertiesCloseUp(Sender: TObject);
 begin
   if mtbCadastro.State in [dsInsert, dsEdit] then
-    mtbCadastroid_categoria.AsInteger := RetornaCategoria(dbFuncao.EditValue);
+    mtbCadastroid_categoria.AsInteger := RetornaCategoria(dbCodigoAtividade.EditValue);
 end;
 
 procedure TviewCadastroTerceirizados.dbStatusPropertiesChange(Sender: TObject);
@@ -1065,7 +1143,7 @@ begin
     if not Assigned(view_SisGeFContractEmission) then begin
       view_SisGeFContractEmission := Tview_SisGeFContractEmission.Create(Application);
     end;
-    sAtividade := RetornaAtividades(dbFuncao.EditValue);
+    sAtividade := RetornaAtividades(dbCodigoAtividade.EditValue);
     view_SisGeFContractEmission.memoAtividades.Clear;
     view_SisGeFContractEmission.memoAtividades.Lines.Append(sAtividade);
     if view_SisGeFContractEmission.ShowModal = mrCancel Then
@@ -1075,7 +1153,7 @@ begin
     sValor := Self.dbSalario.Text;
     sAtividade := view_SisGeFContractEmission.memoAtividades.Text;
     sLocal := view_SisGeFContractEmission.txtLocal.Text;
-    sFuncao := dbFuncao.Text;
+    sFuncao := dbCodigoAtividade.Text;
     case iTipo of
       0 : ImprimeContratoColaborador(sData, sAtividade, sLocal);
       1 : ImprimeContratoEntregador(sData, sLocal);
@@ -1170,6 +1248,19 @@ begin
   Editar(mtbCadastroid.AsInteger);
 end;
 
+procedure TviewCadastroTerceirizados.gridFinanceiroDBTableView1cod_bancoPropertiesChange(Sender: TObject);
+begin
+  mtbFinanceirodes_banco.AsString := EmptyStr;
+end;
+
+procedure TviewCadastroTerceirizados.gridFinanceiroDBTableView1cod_bancoPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := '';
+  SearchBankName(DisplayValue);
+end;
+
 procedure TviewCadastroTerceirizados.ImprimeContratoAutonomo(sData, sAtividade, sLocal: String);
 var
   sEndereco: String;
@@ -1212,7 +1303,7 @@ begin
     sEndereco := sEndereco + ', bairro ' + dbBairro.Text;
     sEndereco := sEndereco + ', cidade ' + dbCidade.Text + '/' + dbUF.Text;
     sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
-    sFuncao := dbFuncao.Text;
+    sFuncao := txtAtividade.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
     Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
     Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(FFuncao.FormataCPF(dbCPFCNPJ.Text));
@@ -1281,7 +1372,7 @@ begin
     sEndereco := sEndereco + ', bairro ' + dbBairro.Text;
     sEndereco := sEndereco + ', cidade ' + dbCidade.Text + '/' + dbUF.Text;
     sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
-    sFuncao := dbFuncao.Text;
+    sFuncao := txtAtividade.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
     Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
     Variables.Items[Variables.IndexOf('pDocContratado')].Value := QuotedStr(FFuncao.FormataCNPJ(dbCPFCNPJ.Text));
@@ -1397,11 +1488,7 @@ end;
 procedure TviewCadastroTerceirizados.LoadForm;
 begin
   FCaptionComplent := EmptyStr;
-  PopulateBank;
   PopulateStates;
-  PopulateCategories;
-  PopulateBases;
-  PopulateFunctions;
   lcbCategorias.EditValue := 0;
 end;
 
@@ -1432,76 +1519,6 @@ begin
       memTableEnderecos.Active := True;
   finally
     FEnderecos.Free;
-  end;
-end;
-
-procedure TviewCadastroTerceirizados.PopulateBank;
-var
-  FBancos : TBancosControl;
-  aParam : array of variant;
-begin
-  try
-    FBancos := TBancosControl.Create;
-    SetLength(aParam,3);
-    aParam := ['APOIO','*',''];
-    if FBancos.LocalizarExt(aParam)  then
-    begin
-      if memTableBancos.Active then
-      begin
-        memTableBancos.Close;
-      end;
-      memTableBancos.Data := FBancos.Bancos.Query;
-      FBancos.Bancos.Query.Close;
-      FBancos.Bancos.Query.Connection.Close;
-    end;
-    Finalize(aParam);
-  finally
-    FBancos.Free;
-  end;end;
-
-procedure TviewCadastroTerceirizados.PopulateBases;
-var
-  FBases : TBasesControl;
-  aParam : array of variant;
-begin
-  try
-    FBases := TBasesControl.Create;
-    SetLength(aParam,3);
-    aParam := ['APOIO','*',''];
-    memTableBases.Active := False;
-    memTableBases.Data := FBases.Localizar(aParam);
-    Finalize(aParam);
-  finally
-    FBases.Free;
-  end;
-end;
-
-procedure TviewCadastroTerceirizados.PopulateCategories;
-var
-  FCategorias : TCategoriasController;
-  aParam : array of string;
-begin
-  try
-    FCategorias := TCategoriasController.Create;
-    SetLength(aParam,3);
-    aParam := [''];
-    if FCategorias.Search(aParam)  then
-    begin
-      if memTableFuncoes.Active then
-      begin
-        memTableFuncoes.Close;
-      end;
-      mtbCategorias.Data := FCategorias.FCategorias.Query;
-      mtbCategorias.Insert;
-      mtbCategoriasid_categoria.AsInteger := 0;
-      mtbCategoriasdes_categoria.AsString := 'TODOS';
-      mtbCategorias.Post;
-      FCategorias.FCategorias.Query.Close;
-      FCategorias.FCategorias.Query.Connection.Close;
-    end;
-    Finalize(aParam);
-  finally
-    FCategorias.Free;
   end;
 end;
 
@@ -1551,53 +1568,34 @@ begin
     FFinanceiro := TContratadosFinanceiroController.Create;
     SetLength(aParam,2);
     aParam := ['CONTRATADO',iCadastro.ToString];
+    mtbFinanceiro.Active := False;
     if FFinanceiro.Search(aParam) then
     begin
-
-      mtbFinanceiro.Data := FFinanceiro.FFinanceiro.Query.Data;
-//      if FFinanceiro.SetupRecord then
-//      begin
-//        comboBoxFormaPagamento.Text := FFinanceiro.FFinanceiro.ARecord.des_forma_pagamento;
-//        lookupComboBoxBanco.EditValue := FFinanceiro.FFinanceiro.ARecord.cod_banco;
-//        textEditAgencia.Text := FFinanceiro.FFinanceiro.ARecord.cod_agencia;
-//        textEditConta.Text := FFinanceiro.FFinanceiro.ARecord.num_conta;
-//        textEditChavePIX.Text := FFinanceiro.FFinanceiro.ARecord.chave_pix;
-//      end
-//      else
-//      begin
-//        MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0)
-//      end;
+//      mtbFinanceiro.Data := FFinanceiro.FFinanceiro.Query.Data;
+      mtbFinanceiro.Active := True;
+      FFinanceiro.FFinanceiro.Query.First;
+      while not FFinanceiro.FFinanceiro.Query.Eof do
+      begin
+        if FFinanceiro.SetupRecord then
+        begin
+          mtbFinanceiro.Insert;
+          mtbFinanceirodes_forma_pagamento.AsString := FFinanceiro.FFinanceiro.ARecord.des_forma_pagamento;
+          mtbFinanceirocod_banco.AsString := FFinanceiro.FFinanceiro.ARecord.cod_banco;
+          mtbFinanceirocod_agencia.AsString := FFinanceiro.FFinanceiro.ARecord.cod_agencia;
+          mtbFinanceironum_conta.AsString := FFinanceiro.FFinanceiro.ARecord.num_conta;
+          mtbFinanceirochave_pix.AsString := FFinanceiro.FFinanceiro.ARecord.chave_pix;
+          mtbFinanceirodes_banco.AsString := ReturnBankName(FFinanceiro.FFinanceiro.ARecord.cod_banco);
+          mtbFinanceiroid_financeiro.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_financeiro;
+          mtbFinanceiroid_contratados.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_contratados;
+          mtbFinanceiro.Post;
+          FFinanceiro.FFinanceiro.Query.Next;
+        end;
+      end;
     end;
     FFinanceiro.FFinanceiro.Query.Connection.Close;
     if not mtbFinanceiro.Active then mtbFinanceiro.Active := True;
-
   finally
     FFinanceiro.Free;
-  end;
-end;
-
-procedure TviewCadastroTerceirizados.PopulateFunctions;
-var
-  FFuncoes : TFuncoesRHController;
-  aParam : array of string;
-begin
-  try
-    FFuncoes := TFuncoesRHController.Create;
-    SetLength(aParam,3);
-    aParam := [''];
-    if FFuncoes.Search(aParam)  then
-    begin
-      if memTableFuncoes.Active then
-      begin
-        memTableFuncoes.Close;
-      end;
-      memTableFuncoes.Data := FFuncoes.FFuncoes.Query;
-      FFuncoes.FFuncoes.Query.Close;
-      FFuncoes.FFuncoes.Query.Connection.Close;
-    end;
-    Finalize(aParam);
-  finally
-    FFuncoes.Free;
   end;
 end;
 
@@ -1674,7 +1672,9 @@ begin
         mtbRHdat_admissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_admissao').AsDateTime;
         mtbRHdat_demissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_demissao').AsDateTime;
         mtbRHid_departamento.AsInteger := FRH.FRH.Query.FieldByName('id_departamento').AsInteger;
+        SearchNameBase(FRH.FRH.Query.FieldByName('id_departamento').AsInteger);
         mtbRHid_funcao.AsInteger := FRH.FRH.Query.FieldByName('id_funcao').AsInteger;
+        SearchNameFunction(FRH.FRH.Query.FieldByName('id_funcao').AsInteger);
         mtbRHval_salario.AsFloat := FRH.FRH.Query.FieldByName('val_salario').AsFloat;
         mtbRH.Post;
         FRH.FRH.Query.Next;
@@ -1799,6 +1799,48 @@ begin
     if FFuncoes.FFuncoes.Query.Active then
       FFuncoes.FFuncoes.Query.Connection.Close;
     FFuncoes.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.ReturnBankName(sId: string): string;
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  Result := EmptyStr;
+  try
+    aParam := ['nom_banco', 'tbbancos', 'cod_banco = "' + sId + '"'];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Exit;
+    end;
+    Result := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+function TviewCadastroTerceirizados.ReturnBaseName(iId: integer): string;
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  Result := EmptyStr;
+  try
+    aParam := ['des_razao_social', 'tbagentes', 'cod_agente = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Exit;
+    end;
+    Result := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
   end;
 end;
 
@@ -2277,6 +2319,76 @@ begin
   end;
 end;
 
+procedure TviewCadastroTerceirizados.SearcchCategory;
+begin
+if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'id_categoria as "Código", des_categoria as "Descrição"';
+  viewGeneralSearch.Tabela := 'crm_categorias';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    mtbCadastro.Edit;
+    mtbCadastroid_categoria.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    mtbCadastrodes_categoria.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure TviewCadastroTerceirizados.SearchBankName(sId: string);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['nom_banco', 'tbbancos', 'cod_banco = ' + sId];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    mtbFinanceirodes_banco.AsString := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+
+end;
+
+procedure TviewCadastroTerceirizados.SearchBanks;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_banco as "Código", nom_banco as "Nome"';
+  viewGeneralSearch.Tabela := 'tbbancos';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    mtbFinanceiro.Edit;
+    mtbFinanceirocod_banco.AsString := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    mtbFinanceirodes_banco.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure TviewCadastroTerceirizados.SearchBase;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_agente as "Código", des_razao_social as "Nome"';
+  viewGeneralSearch.Tabela := 'tbagentes';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+     mtbRH.Edit;
+    mtbRHid_departamento.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    txtNomeBase.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
 procedure TviewCadastroTerceirizados.SearchCEPCadastro(sCEP: string);
 var
   APICEP : TAPICEPController;
@@ -2523,6 +2635,85 @@ begin
       Data_Sisgef.memTableCNPJ.Active := False;
     utils.Free;
     APICNPJ.DisposeOf;
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.SearchFunction;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'id_funcao as "Código", des_funcao as "Descrição"';
+  viewGeneralSearch.Tabela := 'crm_funcoes_rh';
+  viewGeneralSearch.Criterio := 'id_categoria = ' + mtbCadastroid_categoria.AsString;
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    mtbRH.Edit;
+    mtbRHid_funcao.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    txtAtividade.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure TviewCadastroTerceirizados.SearchNameBase(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['des_razao_social', 'tbagentes', 'cod_agente = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    txtNomeBase.Text := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.SearchNameCategory(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['des_categoria', 'crm_categorias', 'id_categoria = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    mtbCadastrodes_categoria.AsString := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+procedure TviewCadastroTerceirizados.SearchNameFunction(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['des_funcao', 'crm_funcoes_rh  ', 'id_funcao = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    txtAtividade.Text := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
   end;
 end;
 

@@ -794,6 +794,11 @@ type
     memAcareacoesBlinkValue: TFloatField;
     memPedidosBlinkHoraEntrega: TDateTimeField;
     memPedidosBlinkRastreio: TStringField;
+    mtbUserAccess: TFDMemTable;
+    mtbUserAccesscod_sistema: TStringField;
+    mtbUserAccesscod_modulo: TIntegerField;
+    mtbUserAccesscod_menu: TIntegerField;
+    mtbUserAccesscod_usuario: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
