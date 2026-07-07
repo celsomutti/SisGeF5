@@ -538,14 +538,16 @@ type
     actSearchCategory: TAction;
     dbCodigoBase: TcxDBButtonEdit;
     dxLayoutItem95: TdxLayoutItem;
-    txtNomeBase: TcxTextEdit;
-    dxLayoutItem35: TdxLayoutItem;
     actSearchBase: TAction;
     dbCodigoAtividade: TcxDBButtonEdit;
     dxLayoutItem96: TdxLayoutItem;
-    txtAtividade: TcxTextEdit;
-    dxLayoutItem36: TdxLayoutItem;
     actSearchFunction: TAction;
+    mtbRHdes_departamento: TStringField;
+    mtbRHdes_funcao: TStringField;
+    dbDescricaoAtividade: TcxDBTextEdit;
+    dxLayoutItem97: TdxLayoutItem;
+    dbNomeDepartamento: TcxDBTextEdit;
+    dxLayoutItem36: TdxLayoutItem;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -604,8 +606,6 @@ type
     procedure CollapseGrid();
     procedure PanelGroup();
     procedure ChangePerson();
-
-    procedure PopulateStates();
 
     procedure PopulateCNAE(iCadastro: integer);
     procedure PopulateRH(iCadastro: integer);
@@ -1037,7 +1037,7 @@ end;
 
 procedure TviewCadastroTerceirizados.dbCodigoAtividadePropertiesChange(Sender: TObject);
 begin
-  txtAtividade.Text := EmptyStr;
+  dbDescricaoAtividade.Text := EmptyStr;
 end;
 
 procedure TviewCadastroTerceirizados.dbCodigoAtividadePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -1050,7 +1050,7 @@ end;
 
 procedure TviewCadastroTerceirizados.dbCodigoBasePropertiesChange(Sender: TObject);
 begin
-  txtNomeBase.Text := EmptyStr;
+  dbNomeDepartamento.Text := EmptyStr;
 end;
 
 procedure TviewCadastroTerceirizados.dbCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -1153,7 +1153,7 @@ begin
     sValor := Self.dbSalario.Text;
     sAtividade := view_SisGeFContractEmission.memoAtividades.Text;
     sLocal := view_SisGeFContractEmission.txtLocal.Text;
-    sFuncao := dbCodigoAtividade.Text;
+    sFuncao := mtbRHid_funcao.AsString;
     case iTipo of
       0 : ImprimeContratoColaborador(sData, sAtividade, sLocal);
       1 : ImprimeContratoEntregador(sData, sLocal);
@@ -1303,7 +1303,7 @@ begin
     sEndereco := sEndereco + ', bairro ' + dbBairro.Text;
     sEndereco := sEndereco + ', cidade ' + dbCidade.Text + '/' + dbUF.Text;
     sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
-    sFuncao := txtAtividade.Text;
+    sFuncao := dbDescricaoAtividade.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
     Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
     Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(FFuncao.FormataCPF(dbCPFCNPJ.Text));
@@ -1372,7 +1372,7 @@ begin
     sEndereco := sEndereco + ', bairro ' + dbBairro.Text;
     sEndereco := sEndereco + ', cidade ' + dbCidade.Text + '/' + dbUF.Text;
     sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
-    sFuncao := txtAtividade.Text;
+    sFuncao := dbDescricaoAtividade.Text;
     LoadFromFile(view_Impressao.cxArquivo.Text);
     Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
     Variables.Items[Variables.IndexOf('pDocContratado')].Value := QuotedStr(FFuncao.FormataCNPJ(dbCPFCNPJ.Text));
@@ -1488,7 +1488,6 @@ end;
 procedure TviewCadastroTerceirizados.LoadForm;
 begin
   FCaptionComplent := EmptyStr;
-  PopulateStates;
   lcbCategorias.EditValue := 0;
 end;
 
@@ -1571,7 +1570,6 @@ begin
     mtbFinanceiro.Active := False;
     if FFinanceiro.Search(aParam) then
     begin
-//      mtbFinanceiro.Data := FFinanceiro.FFinanceiro.Query.Data;
       mtbFinanceiro.Active := True;
       FFinanceiro.FFinanceiro.Query.First;
       while not FFinanceiro.FFinanceiro.Query.Eof do
@@ -1584,12 +1582,12 @@ begin
           mtbFinanceirocod_agencia.AsString := FFinanceiro.FFinanceiro.ARecord.cod_agencia;
           mtbFinanceironum_conta.AsString := FFinanceiro.FFinanceiro.ARecord.num_conta;
           mtbFinanceirochave_pix.AsString := FFinanceiro.FFinanceiro.ARecord.chave_pix;
-          mtbFinanceirodes_banco.AsString := ReturnBankName(FFinanceiro.FFinanceiro.ARecord.cod_banco);
+          mtbFinanceirodes_banco.AsString := FFinanceiro.FFinanceiro.ARecord.des_banco;
           mtbFinanceiroid_financeiro.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_financeiro;
           mtbFinanceiroid_contratados.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_contratados;
           mtbFinanceiro.Post;
-          FFinanceiro.FFinanceiro.Query.Next;
         end;
+        FFinanceiro.FFinanceiro.Query.Next;
       end;
     end;
     FFinanceiro.FFinanceiro.Query.Connection.Close;
@@ -1632,15 +1630,6 @@ begin
     if FRepresentante.Search(aParam) then
     begin
       mtbRepresentantes.Data := FRepresentante.FRepresentante.Query.Data;
-//      if FRepresentante.SetupRecord then
-//      begin
-//        txtRepresentante.Text := FRepresentante.FRepresentante.ARecord.nom_representante;
-//        mskCPFRepresentante.EditValue := FRepresentante.FRepresentante.ARecord.cpf_representante;
-//      end
-//      else
-//      begin
-//        MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0)
-//      end;
     end;
     FRepresentante.FRepresentante.Query.Connection.Close;
     if not mtbRepresentantes.Active then mtbRepresentantes.Active := True;
@@ -1661,68 +1650,24 @@ begin
     aParam := ['CONTRATADO',iCadastro.ToString];
     if FRH.Search(aParam) then
     begin
-//      if mtbRH.Active then mtbRH.Close;
-//      mtbRH.Data := FRH.FRH.Query.Data;
       mtbRH.Open;
-      while not FRH.FRH.Query.Eof do
-      begin
-        mtbRH.Insert;
-        mtbRHid_rh.AsInteger := FRH.FRH.Query.FieldByName('id_rh').AsInteger;
-        mtbRHid_contratados.AsInteger := FRH.FRH.Query.FieldByName('id_contratados').AsInteger;
-        mtbRHdat_admissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_admissao').AsDateTime;
-        mtbRHdat_demissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_demissao').AsDateTime;
-        mtbRHid_departamento.AsInteger := FRH.FRH.Query.FieldByName('id_departamento').AsInteger;
-        SearchNameBase(FRH.FRH.Query.FieldByName('id_departamento').AsInteger);
-        mtbRHid_funcao.AsInteger := FRH.FRH.Query.FieldByName('id_funcao').AsInteger;
-        SearchNameFunction(FRH.FRH.Query.FieldByName('id_funcao').AsInteger);
-        mtbRHval_salario.AsFloat := FRH.FRH.Query.FieldByName('val_salario').AsFloat;
-        mtbRH.Post;
-        FRH.FRH.Query.Next;
-      end;
-
-//      if FRH.SetupRecord then
-//      begin
-//        cedSalario.Value    := FRH.FRH.ARecord.val_salario;
-//        lcbBase.EditValue   := FRH.FRH.ARecord.id_departamento;
-//        lcbFuncao.EditValue := FRH.FRH.ARecord.id_funcao;
-//        datAdmissao.Date    := FRH.FRH.ARecord.dat_admissao;
-//        datDemissao.Date    := FRH.FRH.ARecord.dat_demissao;
-//      end
-//      else
-//      begin
-//        MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0)
-//      end;
+      mtbRH.Insert;
+      mtbRHid_rh.AsInteger := FRH.FRH.Query.FieldByName('id_rh').AsInteger;
+      mtbRHid_contratados.AsInteger := FRH.FRH.Query.FieldByName('id_contratados').AsInteger;
+      mtbRHdat_admissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_admissao').AsDateTime;
+      mtbRHdat_demissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_demissao').AsDateTime;
+      mtbRHid_departamento.AsInteger := FRH.FRH.Query.FieldByName('id_departamento').AsInteger;
+      mtbRHdes_departamento.AsString := FRH.FRH.Query.FieldByName('des_departamento').AsString;
+      mtbRHid_funcao.AsInteger := FRH.FRH.Query.FieldByName('id_funcao').AsInteger;
+      mtbRHdes_funcao.AsString := FRH.FRH.Query.FieldByName('des_funcao').AsString;
+      mtbRHval_salario.AsFloat := FRH.FRH.Query.FieldByName('val_salario').AsFloat;
+      mtbRH.Post;
     end;
     if not mtbRH.Active then
       mtbRH.Active := True;
     FRH.FRH.Query.Connection.Close;
   finally
     FRH.Free;
-  end;
-end;
-
-procedure TviewCadastroTerceirizados.PopulateStates;
-var
-  FEstados : TEstadosControl;
-  aParam : array of variant;
-begin
-  try
-    FEstados := TEstadosControl.Create;
-    SetLength(aParam,3);
-    aParam := ['APOIO','*',''];
-    if FEstados.PesquisarExt(aParam)  then
-    begin
-      if memTableEstados.Active then
-      begin
-        memTableEstados.Close;
-      end;
-      memTableEstados.Data := FEstados.Estados.Query;
-      FEstados.Estados.Query.Close;
-      FEstados.Estados.Query.Connection.Close;
-    end;
-    Finalize(aParam);
-  finally
-    FEstados.Free;
   end;
 end;
 
@@ -2384,7 +2329,7 @@ begin
   begin
      mtbRH.Edit;
     mtbRHid_departamento.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
-    txtNomeBase.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+    mtbRHdes_departamento.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
   end;
   FreeAndNil(viewGeneralSearch);
 end;
@@ -2649,7 +2594,7 @@ begin
   begin
     mtbRH.Edit;
     mtbRHid_funcao.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
-    txtAtividade.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+    mtbRHdes_funcao.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
   end;
   FreeAndNil(viewGeneralSearch);
 end;
@@ -2668,7 +2613,7 @@ begin
       Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    txtNomeBase.Text := FSearch.Query.Fields[0].Value;
+    mtbRHdes_departamento.AsString := FSearch.Query.Fields[0].Value;
   finally
     Finalize(aParam);
     FSearch.Free;
@@ -2710,7 +2655,7 @@ begin
       Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    txtAtividade.Text := FSearch.Query.Fields[0].Value;
+    mtbRHdes_funcao.AsString := FSearch.Query.Fields[0].Value;
   finally
     Finalize(aParam);
     FSearch.Free;

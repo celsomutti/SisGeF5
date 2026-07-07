@@ -3,7 +3,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'Cadastro de Contratados'
-  ClientHeight = 514
+  ClientHeight = 520
   ClientWidth = 984
   Color = clWindow
   Font.Charset = ANSI_CHARSET
@@ -25,7 +25,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 0
     Top = 0
     Width = 984
-    Height = 514
+    Height = 520
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -37,8 +37,9 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     TabOrder = 0
     Transparent = True
     CustomizeFormTabbedView = True
+    ExplicitHeight = 514
     object cxButton1: TcxButton
-      Left = 874
+      Left = 891
       Top = 28
       Width = 65
       Height = 60
@@ -96,7 +97,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.OnButtonClick = bteSearchPropertiesButtonClick
       Style.HotTrack = False
       TabOrder = 6
-      Width = 480
+      Width = 497
     end
     object cxButton4: TcxButton
       Left = 270
@@ -112,8 +113,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     object grid: TcxGrid
       Left = 28
       Top = 184
-      Width = 911
-      Height = 303
+      Width = 928
+      Height = 308
       TabOrder = 12
       object gridDBTableView1: TcxGridDBTableView
         OnDblClick = gridDBTableView1DblClick
@@ -844,7 +845,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 56
       Visible = False
-      Width = 107
+      Width = 119
     end
     object dbDemissao: TcxDBDateEdit
       Left = 10000
@@ -857,13 +858,13 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 57
       Visible = False
-      Width = 107
+      Width = 119
     end
     object gridGR: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 896
-      Height = 265
+      Width = 879
+      Height = 266
       TabOrder = 62
       Visible = False
       object gridGRDBTableView1: TcxGridDBTableView
@@ -965,8 +966,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     object gridCNAE: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 896
-      Height = 286
+      Width = 879
+      Height = 287
       TabOrder = 63
       Visible = False
       object gridCNAEDBTableView1: TcxGridDBTableView
@@ -1093,7 +1094,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 66
       Visible = False
-      Width = 501
+      Width = 484
     end
     object dbRGIEVeiculo: TcxDBTextEdit
       Left = 10000
@@ -1128,7 +1129,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 68
       Visible = False
-      Width = 327
+      Width = 319
     end
     object dbMaePriprietario: TcxDBTextEdit
       Left = 10000
@@ -1139,7 +1140,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 69
       Visible = False
-      Width = 337
+      Width = 328
     end
     object dbEmissaoRGProprietario: TcxDBDateEdit
       Left = 10000
@@ -1184,7 +1185,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 73
       Visible = False
-      Width = 167
+      Width = 158
     end
     object dbTelefone2Veiculo: TcxDBMaskEdit
       Left = 10000
@@ -1197,7 +1198,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 74
       Visible = False
-      Width = 166
+      Width = 158
     end
     object dbCEPVeiculo: TcxDBButtonEdit
       Left = 10000
@@ -1228,7 +1229,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 76
       Visible = False
-      Width = 291
+      Width = 274
     end
     object dbBairroVeiculo: TcxDBTextEdit
       Left = 10000
@@ -1384,7 +1385,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 85
       Visible = False
-      Width = 135
+      Width = 118
     end
     object dbRENAVAN: TcxDBTextEdit
       Left = 10000
@@ -1406,7 +1407,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 87
       Visible = False
-      Width = 249
+      Width = 232
     end
     object dbAnoVeiculo: TcxDBMaskEdit
       Left = 10000
@@ -1825,7 +1826,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Visible = False
     end
     object lcbCategorias: TcxLookupComboBox
-      Left = 628
+      Left = 645
       Top = 108
       Properties.KeyFieldNames = 'id_categoria'
       Properties.ListColumns = <
@@ -1980,7 +1981,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       TabOrder = 5
     end
     object cboStatus: TcxComboBox
-      Left = 818
+      Left = 835
       Top = 108
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -2038,7 +2039,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 32
       Visible = False
-      Width = 328
+      Width = 291
     end
     object dbCodigoBase: TcxDBButtonEdit
       Left = 10000
@@ -2065,16 +2066,6 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Visible = False
       Width = 87
     end
-    object txtNomeBase: TcxTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Nome da base'
-      Properties.ReadOnly = True
-      Style.HotTrack = False
-      TabOrder = 54
-      Visible = False
-      Width = 209
-    end
     object dbCodigoAtividade: TcxDBButtonEdit
       Left = 10000
       Top = 10000
@@ -2099,15 +2090,31 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Visible = False
       Width = 87
     end
-    object txtAtividade: TcxTextEdit
+    object dbDescricaoAtividade: TcxDBTextEdit
       Left = 10000
       Top = 10000
+      Hint = 'Descri'#231#227'o da atividade'
       TabStop = False
+      DataBinding.DataField = 'des_funcao'
+      DataBinding.DataSource = daRH
       Properties.ReadOnly = True
       Style.HotTrack = False
       TabOrder = 34
       Visible = False
-      Width = 254
+      Width = 291
+    end
+    object dbNomeDepartamento: TcxDBTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Nome do departamento'
+      TabStop = False
+      DataBinding.DataField = 'des_departamento'
+      DataBinding.DataSource = daRH
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      TabOrder = 54
+      Visible = False
+      Width = 185
     end
     object lycMainGroup_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -2524,6 +2531,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       SizeOptions.Height = 332
       SizeOptions.Width = 453
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       LayoutDirection = ldTabbed
       ShowBorder = False
       Index = 0
@@ -3528,16 +3536,6 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.ShowBorder = False
       Index = 0
     end
-    object dxLayoutItem35: TdxLayoutItem
-      Parent = dxLayoutGroup17
-      CaptionOptions.Text = 'Nome base'
-      CaptionOptions.Visible = False
-      Control = txtNomeBase
-      ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 209
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
     object dxLayoutItem96: TdxLayoutItem
       Parent = dxLayoutGroup13
       CaptionOptions.Text = 'Atividade'
@@ -3547,16 +3545,26 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       ControlOptions.ShowBorder = False
       Index = 2
     end
-    object dxLayoutItem36: TdxLayoutItem
+    object dxLayoutItem97: TdxLayoutItem
       Parent = dxLayoutGroup13
-      AlignVert = avClient
+      AlignHorz = ahClient
       CaptionOptions.Text = 'Descri'#231#227'o'
       CaptionOptions.Visible = False
-      Control = txtAtividade
+      Control = dbDescricaoAtividade
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 254
+      ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 3
+    end
+    object dxLayoutItem36: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      CaptionOptions.Text = 'Nome'
+      CaptionOptions.Visible = False
+      Control = dbNomeDepartamento
+      ControlOptions.OriginalHeight = 23
+      ControlOptions.OriginalWidth = 185
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object actionList: TActionList
@@ -3981,7 +3989,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 384
     Top = 64
     Content = {
-      414442530F00F534361A0000FF00010001FF02FF030400160000006D00740062
+      414442530F00872A361A0000FF00010001FF02FF030400160000006D00740062
       0043006100640061007300740072006F0005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B040004000000690064
       00050004000000690064000C00010000000E000D000F00011000011100011200
@@ -4416,7 +4424,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
   end
   object dsEstados: TDataSource
     AutoEdit = False
-    DataSet = memTableEstados
+    DataSet = Data_Sisgef.mtbEstadosProv
     Left = 472
     Top = 65534
   end
@@ -4470,6 +4478,14 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     end
     object mtbRHid_funcao: TIntegerField
       FieldName = 'id_funcao'
+    end
+    object mtbRHdes_departamento: TStringField
+      FieldName = 'des_departamento'
+      Size = 70
+    end
+    object mtbRHdes_funcao: TStringField
+      FieldName = 'des_funcao'
+      Size = 70
     end
   end
   object daRH: TDataSource
@@ -4969,7 +4985,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 544
     Top = 56
     Content = {
-      414442530F00F534E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00872AE9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005

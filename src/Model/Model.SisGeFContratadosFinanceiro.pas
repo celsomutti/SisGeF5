@@ -13,6 +13,7 @@ type
     num_conta           : string[20];
     chave_pix           : string[125];
     des_forma_pagamento : string[20];
+    des_banco           : string[70];
   end;
 
   type TContratadosFinanceiroModel = class
@@ -57,7 +58,12 @@ type
       SQLSELECT = 'select id_financeiro, id_contratados, cod_banco, cod_agencia, num_conta, chave_pix, des_forma_pagamento ' +
                   'from ' +
                   TABLENAME;
-      SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_contratados';
+      SQLVIEW   = 'select a.id_financeiro, a.id_contratados, a.cod_banco, a.cod_agencia, a.num_conta, a.chave_pix, ' +
+                  'a.des_forma_pagamento, b.nom_banco as des_banco ' +
+                  'from ' +
+                  TABLENAME + ' as a ' +
+                  'left join tbbancos as b on b.cod_banco = a.cod_banco';
+      SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_contratados ';
 
 
 implementation
@@ -166,7 +172,7 @@ function TContratadosFinanceiroModel.Search(aParams: array of string): boolean;
 begin
   Result := False;
   FQuery := FConn.GetQuery;
-  FQuery.SQL.Add(SQLSELECT);
+  FQuery.SQL.Add(SQLVIEW);
   if Length(aParams) >= 2 then
   begin
     FQuery.SQL.Add('where');
@@ -203,6 +209,7 @@ begin
   Arecord.num_conta           :=  FQuery.FieldByName('num_conta').AsString;
   ARecord.chave_pix           :=  FQuery.FieldByName('chave_pix').AsString;
   ARecord.des_forma_pagamento :=  FQuery.FieldByName('des_forma_pagamento').AsString;
+  ARecord.des_banco           :=  FQuery.FieldByName('des_banco').AsString;
   Result := True;
 end;
 

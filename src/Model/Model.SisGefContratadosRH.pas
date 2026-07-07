@@ -13,6 +13,8 @@ type
     dat_demissao    : TDateTime;
     id_departamento : integer;
     id_funcao       : integer;
+    des_departamento: string;
+    des_funcao      : string;
   end;
 
   type TContratadosRHModel = class
@@ -57,6 +59,13 @@ type
       SQLSELECT = 'select id_rh, id_contratados, val_salario, dat_admissao, dat_demissao, id_departamento, id_funcao ' +
                   'from ' +
                   TABLENAME;
+      SQLVIEW   = 'select a.id_rh, a.id_contratados, a.val_salario, a.dat_admissao, a.dat_demissao, a.id_departamento, ' +
+                  'a.id_funcao, b.des_razao_social as des_departamento, c.des_funcao as des_funcao ' +
+                  'from ' +
+                  TABLENAME + ' as a ' +
+                  'left join tbagentes as b on b.cod_agente = a.id_departamento ' +
+                  'left join crm_funcoes_rh as c on c.id_funcao = a.id_funcao ';
+
       SQLDELETE = 'delete from ' + TABLENAME + ' where id_contratados = :id_contratados';
 
 
@@ -166,7 +175,7 @@ function TContratadosRHModel.Search(aParams: array of string): boolean;
 begin
   Result := False;
   FQuery := FConn.GetQuery;
-  FQuery.SQL.Add(SQLSELECT);
+  FQuery.SQL.Add(SQLVIEW);
   if Length(aParams) >= 2 then
   begin
     FQuery.SQL.Add('where');
@@ -199,6 +208,8 @@ begin
   Arecord.dat_demissao    :=  FQuery.FieldByName('dat_demissao').AsDateTime;
   ARecord.id_departamento :=  FQuery.FieldByName('id_departamento').AsInteger;
   ARecord.id_funcao       :=  FQuery.FieldByName('id_funcao').AsInteger;
+  ARecord.des_departamento:=  FQuery.FieldByName('des_departamento').AsString;
+  ARecord.des_funcao      :=  FQuery.FieldByName('des_funcao').AsString;
   Result := True;
 end;
 

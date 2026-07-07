@@ -799,6 +799,9 @@ type
     mtbUserAccesscod_modulo: TIntegerField;
     mtbUserAccesscod_menu: TIntegerField;
     mtbUserAccesscod_usuario: TIntegerField;
+    mtbEstadosProv: TFDMemTable;
+    StringField28: TStringField;
+    StringField29: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
