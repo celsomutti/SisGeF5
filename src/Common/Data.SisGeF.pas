@@ -802,6 +802,7 @@ type
     mtbEstadosProv: TFDMemTable;
     StringField28: TStringField;
     StringField29: TStringField;
+    FDManager1: TFDManager;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
@@ -809,8 +810,8 @@ type
     procedure memTableResumoRoteirosCalcFields(DataSet: TDataSet);
     procedure memTableExtractsCalcFields(DataSet: TDataSet);
     procedure memTableExtractSOCalcFields(DataSet: TDataSet);
-    procedure FDConnectionMySQLAfterConnect(Sender: TObject);
     procedure batchMoveOrdersShopeeProgress(ASender: TObject; APhase: TFDBatchMovePhase);
+    procedure FDConnectionMySQLBeforeConnect(Sender: TObject);
   private
     { Private declarations }
     FSistem : TSistem;
@@ -891,16 +892,15 @@ begin
 end;
 
 
-procedure TData_Sisgef.FDConnectionMySQLAfterConnect(Sender: TObject);
+procedure TData_Sisgef.FDConnectionMySQLBeforeConnect(Sender: TObject);
 begin
-  with Data_Sisgef.FDConnectionMySQL.Params do begin
-    Clear;
-    Add('DriverID=' + FSistem.DriverId);
-    Add('Database=' + FSistem.Database);
-    Add('User_Name=' + FSistem.Username);
-    Add('Password=' + FSistem.Password);
-  end;
-  Data_Sisgef.FDPhysMySQLDriverLink.VendorLib := '.\libmysql.dll';
+  FDPhysMySQLDriverLink.VendorLib := ExtractFilePath(Application.ExeName) +  'libmysql.dll';
+  FDConnectionMySQL.ConnectionString := 'DriverID=' + FSistem.DriverId +
+                            ';Server=' + FSistem.Hostname +
+                            ';Database=' + FSistem.Database +
+                            ';Port=' + FSistem.Port +
+                            ';User_name=' + FSistem.Username +
+                            ';Password=' + FSistem.Password;
 end;
 
 function TData_Sisgef.ImportDIRECTBaixas(FFile: String): boolean;

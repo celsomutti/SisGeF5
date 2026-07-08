@@ -37,7 +37,6 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     TabOrder = 0
     Transparent = True
     CustomizeFormTabbedView = True
-    ExplicitHeight = 514
     object cxButton1: TcxButton
       Left = 891
       Top = 28
@@ -615,7 +614,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 16
       Visible = False
-      Width = 205
+      Width = 214
     end
     object dbAlias: TcxDBTextEdit
       Left = 10000
@@ -626,7 +625,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 17
       Visible = False
-      Width = 201
+      Width = 209
     end
     object dbSexo: TcxDBImageComboBox
       Left = 10000
@@ -740,7 +739,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 36
       Visible = False
-      Width = 151
+      Width = 159
     end
     object dbNaturalidade: TcxDBTextEdit
       Left = 10000
@@ -751,7 +750,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 37
       Visible = False
-      Width = 157
+      Width = 166
     end
     object dbUFNaturalidade: TcxDBLookupComboBox
       Left = 10000
@@ -780,7 +779,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 40
       Visible = False
-      Width = 404
+      Width = 412
     end
     object dbNomeMae: TcxDBTextEdit
       Left = 10000
@@ -791,7 +790,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 41
       Visible = False
-      Width = 417
+      Width = 426
     end
     object dbCRT: TcxDBImageComboBox
       Left = 10000
@@ -821,7 +820,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 20
       Visible = False
-      Width = 569
+      Width = 586
     end
     object dbSalario: TcxDBCurrencyEdit
       Left = 10000
@@ -845,7 +844,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 56
       Visible = False
-      Width = 119
+      Width = 127
     end
     object dbDemissao: TcxDBDateEdit
       Left = 10000
@@ -858,7 +857,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 57
       Visible = False
-      Width = 119
+      Width = 128
     end
     object gridGR: TcxGrid
       Left = 10000
@@ -1503,7 +1502,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 22
       Visible = False
-      Width = 408
+      Width = 425
     end
     object dbNumero: TcxDBTextEdit
       Left = 10000
@@ -1536,7 +1535,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 25
       Visible = False
-      Width = 305
+      Width = 312
     end
     object dbCidade: TcxDBTextEdit
       Left = 10000
@@ -1547,7 +1546,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 26
       Visible = False
-      Width = 407
+      Width = 417
     end
     object dbUF: TcxDBLookupComboBox
       Left = 10000
@@ -1576,12 +1575,12 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 28
       Visible = False
-      Width = 818
+      Width = 835
     end
     object gridContatos: TcxGrid
       Left = 10000
       Top = 10000
-      Width = 879
+      Width = 896
       Height = 114
       TabOrder = 29
       Visible = False
@@ -1778,7 +1777,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 58
       Visible = False
-      Width = 616
+      Width = 633
     end
     object dbCPFRepresentante: TcxDBMaskEdit
       Left = 10000
@@ -1847,7 +1846,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 46
       Visible = False
-      Width = 156
+      Width = 173
     end
     object dbRegistroCNH: TcxDBTextEdit
       Left = 10000
@@ -2039,7 +2038,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 32
       Visible = False
-      Width = 291
+      Width = 300
     end
     object dbCodigoBase: TcxDBButtonEdit
       Left = 10000
@@ -2101,7 +2100,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Style.HotTrack = False
       TabOrder = 34
       Visible = False
-      Width = 291
+      Width = 299
     end
     object dbNomeDepartamento: TcxDBTextEdit
       Left = 10000
@@ -2144,6 +2143,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignVert = avClient
       CaptionOptions.Text = 'Grid'
       ButtonOptions.Buttons = <>
+      ItemIndex = 2
       Index = 0
     end
     object lgpMenu: TdxLayoutGroup
@@ -2226,7 +2226,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 3
       ShowBorder = False
       Index = 2
     end
@@ -2531,7 +2531,6 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       SizeOptions.Height = 332
       SizeOptions.Width = 453
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
       LayoutDirection = ldTabbed
       ShowBorder = False
       Index = 0
@@ -3989,7 +3988,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 384
     Top = 64
     Content = {
-      414442530F00872A361A0000FF00010001FF02FF030400160000006D00740062
+      414442530F00824D361A0000FF00010001FF02FF030400160000006D00740062
       0043006100640061007300740072006F0005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B040004000000690064
       00050004000000690064000C00010000000E000D000F00011000011100011200
@@ -4985,7 +4984,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 544
     Top = 56
     Content = {
-      414442530F00872AE9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00824DE9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005
