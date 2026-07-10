@@ -360,7 +360,8 @@ uses
   View.SisGeFImportaAcareacoes in 'src\View\View.SisGeFImportaAcareacoes.pas' {viewImportaAcareacoes},
   services.SisGeFImportOrderShopee in 'src\Services\services.SisGeFImportOrderShopee.pas',
   View.SisGeFImportaPedidos in 'src\View\View.SisGeFImportaPedidos.pas' {viewImportaPedidos},
-  services.SisGeFImportConfrontations in 'src\Services\services.SisGeFImportConfrontations.pas';
+  services.SisGeFImportConfrontations in 'src\Services\services.SisGeFImportConfrontations.pas',
+  view.sisgefCadastroCandidatos in 'src\View\view.sisgefCadastroCandidatos.pas' {viewCadastroCandidatos};
 
 {$R *.res}
 

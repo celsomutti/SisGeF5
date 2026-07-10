@@ -802,7 +802,6 @@ type
     mtbEstadosProv: TFDMemTable;
     StringField28: TStringField;
     StringField29: TStringField;
-    FDManager1: TFDManager;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);

@@ -17,7 +17,6 @@ type
       destructor Destroy; override;
       function GetConnection: TFDConnection;
       function GetQuery: TFDQuery;
-      procedure SetupConnectionPool;
   end;
 
 implementation
@@ -58,67 +57,12 @@ begin
   FConn.FetchOptions.Mode := fmAll;
   FConn.FetchOptions.RowsetSize := 200;
   FConn.ResourceOptions.AutoReconnect := True;
-//  FConn.ConnectionString := 'DriverID=' + FSistem.DriverId +
-//                            ';Server=' + FSistem.Hostname +
-//                            ';Database=' + FSistem.Database +
-//                            ';Port=' + FSistem.Port +
-//                            ';User_name=' + FSistem.Username +
-//                            ';Password=' + FSistem.Password;
-  SetupConnectionPool;
+  FConn.ConnectionString := 'DriverID=' + FSistem.DriverId +
+                            ';Server=' + FSistem.Hostname +
+                            ';Database=' + FSistem.Database +
+                            ';Port=' + FSistem.Port +
+                            ';User_name=' + FSistem.Username +
+                            ';Password=' + FSistem.Password;
 end;
-
-procedure TConnectionMySQL.SetupConnectionPool;
-var
-  oParams: TStrings;
-begin
-  oParams := TStringList.Create;
-  try
-    oParams.Add('DriverID=' + FSistem.DriverId);
-    oParams.Add('Server=' + FSistem.Hostname);
-    oParams.Add('Database=' + FSistem.Database);
-    oParams.Add('User_name=' + FSistem.Username);
-    oParams.Add('Password=' + FSistem.Password);
-    oParams.Add('CharacterSet=utf8');
-
-    // Add temporary definition
-    //FDManager.ConnectionDefFileName := 'Test.ini';
-    //FDManager.ConnectionDefs.AddConnectionDef('MyMySQLDef', 'MySQL', oParams).MarkPersistent;
-
-    with FDManager.ConnectionDefs.AddConnectionDef do begin
-      Name := 'MyMySQLDef';
-      Params.Add(oParams.ToString);                  // using Params
-      // mark persistent to save this connection definition to file later
-      MarkPersistent;
-    end;
-   // to make new definition persistent call following:
-    FDManager.ConnectionDefs.Save;
-    FConn.ConnectionDefName := 'MyMySQLDef';
-  finally
-    oParams.Free;
-  end;
-end;
-
-//var
-//  LDef: IFDStanConnectionDef;
-//begin
-//  // Add a new connection definition to the global manager
-//  LDef := FDManager.ConnectionDefs.AddConnectionDef;
-//  LDef.Name := 'MyPooledPool';
-//
-//
-//
-//  // Set your standard DBMS parameters
-//  LDef.Params.DriverID := FSistem.DriverId;
-//  LDef.Params.Database := FSistem.Database;
-//  LDef.Params.UserName := FSistem.Username;
-//  LDef.Params.Password := FSistem.Password;
-//
-//  // Enable the pooling mechanism
-//  LDef.Params.Pooled := True;
-//
-//  // Optional: Fine-tune the pool limits
-//  LDef.Params.Add('PoolMaximumItems=50');
-//  LDef.Params.Add('PoolCleanupTimeout=30000');
-//  LDef.Params.Add('Server=' + FSistem.Hostname);
 
 end.
