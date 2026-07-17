@@ -548,6 +548,7 @@ type
     dxLayoutItem97: TdxLayoutItem;
     dbNomeDepartamento: TcxDBTextEdit;
     dxLayoutItem36: TdxLayoutItem;
+    dsCategoria: TDataSource;
     procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -2585,6 +2586,11 @@ end;
 
 procedure TviewCadastroTerceirizados.SearchFunction;
 begin
+    if mtbCadastroid_categoria.AsInteger = 0 then
+    begin
+      Application.MessageBox('Informe uma categoria.', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
   if not Assigned(viewGeneralSearch) then
     viewGeneralSearch := TviewGeneralSearch.Create(Application);
   viewGeneralSearch.Campos := 'id_funcao as "Código", des_funcao as "Descrição"';
@@ -2649,6 +2655,12 @@ begin
   FSearch := TSearch.Create;
   SetLength(aParam, 3);
   try
+    if mtbCadastroid_categoria.AsInteger = 0 then
+    begin
+      Application.MessageBox('Informe uma categoria.', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
     aParam := ['des_funcao', 'crm_funcoes_rh  ', 'id_funcao = ' + iId.ToString];
     if not FSearch.ReturnSearch(aParam) then
     begin

@@ -3828,6 +3828,7 @@
       Category = 'Cadastro'
       Caption = 'C&andidatos'
       Hint = 'Cadastro de Candidatos'
+      OnExecute = actCadastroCandidatosExecute
     end
     object actCadastroClientes: TAction
       Tag = 101040

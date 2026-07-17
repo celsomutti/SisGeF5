@@ -22,7 +22,8 @@ uses
   IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, ScBridge, ScSSHClient,
   ScSFTPClient, Dialogs, ScSSHUtils, ScUtils, ScSFTPUtils, FireDAC.DApt, frxRich, System.DateUtils,
   frxExportBaseDialog, cxImageList, Control.Bases, Control.Sistema, REST.Types, REST.Client, REST.Response.Adapter,
-  Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes, frxOLE, service.sistem, FireDAC.Comp.BatchMove.SQL;
+  Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes, frxOLE, service.sistem, FireDAC.Comp.BatchMove.SQL,
+  service.auxTable;
 
 type
   TData_Sisgef = class(TDataModule)
@@ -802,6 +803,42 @@ type
     mtbEstadosProv: TFDMemTable;
     StringField28: TStringField;
     StringField29: TStringField;
+    mtbCategoriasRHProv: TFDMemTable;
+    mtbCategoriasRHProvid_categoria: TIntegerField;
+    mtbCategoriasRHProvdes_categoria: TStringField;
+    FDMemTable1: TFDMemTable;
+    StringField30: TStringField;
+    StringField31: TStringField;
+    qryCandidatos: TFDQuery;
+    qryCandidatosCOD_CANDIDATO: TFDAutoIncField;
+    qryCandidatosid_categoria: TIntegerField;
+    qryCandidatosNOM_CANDIDATO: TStringField;
+    qryCandidatosDES_EMAIL: TStringField;
+    qryCandidatosDES_ENDERECO: TStringField;
+    qryCandidatosNUM_ENDERECO: TStringField;
+    qryCandidatosDES_COMPLEMENTO: TStringField;
+    qryCandidatosDES_BAIRRO: TStringField;
+    qryCandidatosDES_CIDADE: TStringField;
+    qryCandidatosDES_UF: TStringField;
+    qryCandidatosNUM_TELEFONE: TStringField;
+    qryCandidatosNUM_CELULAR: TStringField;
+    qryCandidatosDOM_EXPERIENCIA: TStringField;
+    qryCandidatosDES_EXPERIENCIA: TMemoField;
+    qryCandidatosDES_REGIOES: TMemoField;
+    qryCandidatosDOM_ANTECEDENTES: TStringField;
+    qryCandidatosDOM_RESTRICOES: TStringField;
+    qryCandidatosDAT_VALIDADE_CNH: TDateField;
+    qryCandidatosDES_CATEGORIA_CNH: TStringField;
+    qryCandidatosDOM_VEICULO_PROPRIO: TStringField;
+    qryCandidatosDES_ANO_VEICULO: TStringField;
+    qryCandidatosDES_TIPO_VEICULO: TStringField;
+    qryCandidatosDES_MODELO_VEICULO: TStringField;
+    qryCandidatosDES_TIPO_COMBUSTIVEL: TStringField;
+    qryCandidatosDOM_LICENCIAMENTO_IPVA: TStringField;
+    qryCandidatosDOM_RASTREADO: TStringField;
+    qryCandidatosDOM_DISPONIBILIDADE: TStringField;
+    qryCandidatoscreatedAt: TDateTimeField;
+    qryCandidatosupdatedAt: TDateTimeField;
     procedure DataModuleCreate(Sender: TObject);
     procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
@@ -817,6 +854,8 @@ type
     FProcessados: integer;
     procedure DoServerKeyValidate(FileStorage: TScFileStorage;  const HostKeyName: string; NewServerKey: TScKey;
                                   var Accept: Boolean);
+    procedure PopulaCategorias;
+    procedure PopulaEstados;
   public
     { Public declarations }
     procedure PopulaClientesEmpresa;
@@ -858,6 +897,8 @@ begin
     cxLocalizer.LanguageIndex := 1; // MUDA DE LINGUAGEM
     cxLocalizer.Active := TRUE;     // ATIVA O COMPONENTE
   end;
+  PopulaEstados;
+  PopulaCategorias;
 end;
 
 procedure TData_Sisgef.DoServerKeyValidate(FileStorage: TScFileStorage;
@@ -1058,6 +1099,28 @@ begin
   end;
 end;
 
+procedure TData_Sisgef.PopulaCategorias;
+var
+  aux : TAuxTable;
+  aParam: array of string;
+begin
+  aux := TAuxTable.Create;
+  SetLength(aParam,4);
+  try
+    aParam[0] := 'id_categoria, des_categoria';
+    aParam[1] := 'crm_categorias';
+    aParam[2] := 'TRUE';
+    aParam[3] := 'CAT';
+    if not aux.PopulateAuxTable(aParam) then
+    begin
+      ShowMessage(aux.Mensagem);
+    end;
+  finally
+    Finalize(aParam);
+    aux.Free;
+  end;
+end;
+
 procedure TData_Sisgef.PopulaClientesEmpresa;
 var
   Fclientes : TCRMClientesController;
@@ -1136,6 +1199,28 @@ begin
 //  Data_Sisgef.mtbClientesEmpresanom_cliente.AsString := 'MANDAÊ';
 //  Data_Sisgef.mtbClientesEmpresa.Post;
 //  Data_Sisgef.mtbClientesEmpresa.First;
+end;
+
+procedure TData_Sisgef.PopulaEstados;
+var
+  aux : TAuxTable;
+  aParam: array of string;
+begin
+  aux := TAuxTable.Create;
+  SetLength(aParam,4);
+  try
+    aParam[0] := 'uf_estado, nom_estado';
+    aParam[1] := 'tbestados';
+    aParam[2] := 'TRUE';
+    aParam[3] := 'UF';
+    if not aux.PopulateAuxTable(aParam) then
+    begin
+      ShowMessage(aux.Mensagem);
+    end;
+  finally
+    Finalize(aParam);
+    aux.Free;
+  end;
 end;
 
 procedure TData_Sisgef.ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);

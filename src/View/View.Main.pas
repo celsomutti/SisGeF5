@@ -290,6 +290,7 @@ type
     procedure actGruposUsuariosExecute(Sender: TObject);
     procedure actCadastroFuncoesExecute(Sender: TObject);
     procedure actImportarAcareacoesExecute(Sender: TObject);
+    procedure actCadastroCandidatosExecute(Sender: TObject);
 
   private
     FidFTP : TIdFTP;
@@ -344,7 +345,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroFuncionarios,
   View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.SisGeFCadastroTerceirizados,
   View.SisGeFUsersRegister, View.SisGeFUsersGroups, View.SisGeFFuncoesAtividades, View.SisGeFAcareacoes, View.SisGeFImportaPedidos,
-  View.SisGeFImportaAcareacoes;
+  View.SisGeFImportaAcareacoes, view.sisgefCadastroCandidatos;
 
 procedure Tview_Main.Acessos;
 var
@@ -458,6 +459,15 @@ begin
       Tview_CadastroAbrangenciaExpressas.Create(Application);
   end;
   view_CadastroAbrangenciaExpressas.Show;
+end;
+
+procedure Tview_Main.actCadastroCandidatosExecute(Sender: TObject);
+begin
+  if not Assigned(viewCadastroCandidatos) then
+  begin
+    viewCadastroCandidatos := TviewCadastroCandidatos.Create(Application);
+  end;
+  viewCadastroCandidatos.Show;
 end;
 
 procedure Tview_Main.actCadastroClientesExecute(Sender: TObject);

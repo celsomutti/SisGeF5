@@ -361,7 +361,8 @@ uses
   services.SisGeFImportOrderShopee in 'src\Services\services.SisGeFImportOrderShopee.pas',
   View.SisGeFImportaPedidos in 'src\View\View.SisGeFImportaPedidos.pas' {viewImportaPedidos},
   services.SisGeFImportConfrontations in 'src\Services\services.SisGeFImportConfrontations.pas',
-  view.sisgefCadastroCandidatos in 'src\View\view.sisgefCadastroCandidatos.pas' {viewCadastroCandidatos};
+  view.sisgefCadastroCandidatos in 'src\View\view.sisgefCadastroCandidatos.pas' {viewCadastroCandidatos},
+  service.auxTable in 'src\Services\service.auxTable.pas';
 
 {$R *.res}
 
