@@ -32,7 +32,8 @@ end;
 
 destructor TConnectionMySQL.Destroy;
 begin
-   FConn.Free;
+  FConn.Connected := False;
+  FConn.Free;
   inherited;
 end;
 
