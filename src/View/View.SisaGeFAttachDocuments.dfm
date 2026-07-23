@@ -27,9 +27,6 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
     Align = alClient
     Items = <>
     TabOrder = 1
-    ExplicitLeft = -16
-    ExplicitTop = -6
-    ExplicitWidth = 775
   end
   object Panel1: TPanel
     Left = 0
@@ -41,7 +38,6 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 369
     DesignSize = (
       413
       32)
@@ -54,7 +50,6 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
       Action = actionClose
       Anchors = [akRight, akBottom]
       TabOrder = 1
-      ExplicitLeft = 294
     end
     object cxButton2: TcxButton
       Left = 0
@@ -119,6 +114,7 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
   end
   object IdFTPDocs: TIdFTP
     IPVersion = Id_IPv4
+    Passive = True
     ConnectTimeout = 0
     TransferType = ftBinary
     NATKeepAlive.UseKeepAlive = False

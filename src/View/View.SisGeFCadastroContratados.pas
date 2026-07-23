@@ -1,781 +1,2866 @@
-ï»¿unit View.SisGeFCadastroContratados;
+unit View.SisGeFCadastroContratados;
 
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore,
-  dxSkinsDefaultPainters, cxClasses, dxLayoutContainer, dxLayoutControl, System.Actions, Vcl.ActnList, dxBar, cxContainer, cxEdit,
-  dxLayoutcxEditAdapters, cxTextEdit, cxMaskEdit, cxDropDownEdit, dxLayoutControlAdapters, Vcl.Menus, Vcl.StdCtrls, cxButtons,
-  Vcl.ExtCtrls, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
-  cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
-  FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGridBandedTableView,
-  cxGridDBBandedTableView, cxCheckBox, cxFilterControl, cxDBFilterControl, Vcl.FileCtrl, cxCalendar, Common.Utils,
-  FireDAC.Stan.Async, FireDAC.DApt, System.DateUtils, Common.ENum, FireDAC.Stan.StorageBin, Controller.SisGeFCadastroContratados,
-  Controller.SisGeFContratadosContatos, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosCNAE,
-  Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes, Controller.SisGeFContratadosRH,
-  cxImageComboBox;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, dxSkinsCore, dxSkinsDefaultPainters, cxClasses,
+  dxLayoutContainer, dxLayoutControl, dxLayoutControlAdapters, Vcl.ExtCtrls,
+  System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.StdCtrls, cxButtons,
+  dxLayoutcxEditAdapters, cxContainer, cxEdit, cxTextEdit, cxMaskEdit,
+  cxButtonEdit, cxCheckBox, cxDropDownEdit, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxNavigator, dxDateRanges,
+  cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
+  cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGrid, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, cxCalendar, cxBlobEdit, Controller.SisGeFCadastroContratados, cxDBEdit, cxImageComboBox,
+  cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxCurrencyEdit, cxDBNavigator, Control.Bancos, Control.Estados,
+  Controller.SisGeFCategorias, Control.Bases, Controller.SisGeFFuncoesRH, Controller.SisGeFContratadosCNAE,
+  Controller.SisGeFContratadosRH, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosContatos,
+  Controller.SisGeFVehiclesRegistration, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,
+  Controller.SisGeFContratadosGR, Controller.APICNPJ, Controller.APICEP, Common.ENum, System.DateUtils, System.StrUtils,
+  Common.Utils, service.sistem, service.SisGeFGeneralSearch;
 
 type
-  TviewSisGefCadastroContratados = class(TForm)
-    dxLayoutControl1Group_Root: TdxLayoutGroup;
-    dxLayoutControl1: TdxLayoutControl;
+  TviewCadastroContratados = class(TForm)
+    lycMainGroup_Root: TdxLayoutGroup;
+    lycMain: TdxLayoutControl;
     actionList: TActionList;
     actionNewRegister: TAction;
     actionEditRegister: TAction;
-    actionSetFilter: TAction;
-    actionApplyFilter: TAction;
-    actionCancelFilter: TAction;
     actionLocateRecord: TAction;
     actionDocumentsToExpire: TAction;
     actionRiskManagement: TAction;
     actionLocation: TAction;
     actionCloseForm: TAction;
-    barManager: TdxBarManager;
-    barManagerBar1: TdxBar;
-    dxBarLargeButton1: TdxBarLargeButton;
-    dxBarLargeButton2: TdxBarLargeButton;
-    dxBarLargeButton3: TdxBarLargeButton;
-    dxBarLargeButton4: TdxBarLargeButton;
-    dxBarLargeButton5: TdxBarLargeButton;
-    dxBarLargeButton6: TdxBarLargeButton;
-    dxLayoutGroup1: TdxLayoutGroup;
-    dxLayoutGroup3: TdxLayoutGroup;
-    dxLayoutGroup4: TdxLayoutGroup;
-    dxLayoutGroup5: TdxLayoutGroup;
-    camposPesquisa: TcxComboBox;
-    dxLayoutItem1: TdxLayoutItem;
-    parametroPesquisa: TcxTextEdit;
-    dxLayoutItem2: TdxLayoutItem;
-    cxButton1: TcxButton;
-    dxLayoutItem4: TdxLayoutItem;
-    dxLayoutGroup2: TdxLayoutGroup;
-    Panel1: TPanel;
-    dxLayoutItem3: TdxLayoutItem;
-    Panel2: TPanel;
-    viewCadastro: TcxGridDBTableView;
-    gridCadastroLevel1: TcxGridLevel;
-    gridCadastro: TcxGrid;
-    cxButton2: TcxButton;
     actionExpandGrid: TAction;
     actionRetractGrid: TAction;
-    cxButton3: TcxButton;
     actionGroupPanel: TAction;
-    cxButton4: TcxButton;
     actionExportGrid: TAction;
-    dxBarLargeButton7: TdxBarLargeButton;
-    memTableRecords: TFDMemTable;
-    dsRecords: TDataSource;
-    viewDocumentos: TcxGridDBTableView;
-    viewGR: TcxGridDBTableView;
-    dxBarLargeButton8: TdxBarLargeButton;
-    dxBarLargeButton9: TdxBarLargeButton;
-    viewDocumentoscod_cadastro: TcxGridDBColumn;
-    viewDocumentosnum_cnpj: TcxGridDBColumn;
-    viewDocumentosdes_razao_social: TcxGridDBColumn;
-    viewDocumentosnum_cnh: TcxGridDBColumn;
-    viewDocumentosnum_registro_cnh: TcxGridDBColumn;
-    viewDocumentosdes_categoria_cnh: TcxGridDBColumn;
-    viewDocumentosdat_validade_cnh: TcxGridDBColumn;
-    viewDocumentoscod_cnh: TcxGridDBColumn;
-    viewDocumentosdes_placa: TcxGridDBColumn;
-    viewDocumentosano_exercicio_clrv: TcxGridDBColumn;
-    viewDocumentosnum_renavan: TcxGridDBColumn;
-    viewGRcod_cadastro: TcxGridDBColumn;
-    viewGRdat_gv: TcxGridDBColumn;
-    viewGRnum_cnpj: TcxGridDBColumn;
-    viewGRdes_razao_social: TcxGridDBColumn;
-    viewGRnum_cnh: TcxGridDBColumn;
-    viewGRnum_registro_cnh: TcxGridDBColumn;
-    viewGRdes_categoria_cnh: TcxGridDBColumn;
-    viewGRdat_validade_cnh: TcxGridDBColumn;
-    viewGRcod_cnh: TcxGridDBColumn;
-    viewGRdes_placa: TcxGridDBColumn;
-    viewGRano_exercicio_clrv: TcxGridDBColumn;
-    viewGRnum_renavan: TcxGridDBColumn;
-    statusRegistro: TcxCheckBox;
-    dxLayoutItem5: TdxLayoutItem;
-    filterControl: TcxDBFilterControl;
-    dxLayoutItem6: TdxLayoutItem;
-    dxBarLargeButton10: TdxBarLargeButton;
     actionSearchRecords: TAction;
-    dxLayoutGroup6: TdxLayoutGroup;
-    cxButton5: TcxButton;
-    dxLayoutItem7: TdxLayoutItem;
     actionReturnGrid: TAction;
     actionSaveFilterParam: TAction;
     actionLoadFilterParam: TAction;
-    cxButton6: TcxButton;
-    dxLayoutItem8: TdxLayoutItem;
-    cxButton7: TcxButton;
-    dxLayoutItem9: TdxLayoutItem;
     actionClearSearch: TAction;
-    cxButton8: TcxButton;
-    dxLayoutItem10: TdxLayoutItem;
-    viewDocumentosnom_base: TcxGridDBColumn;
-    viewDocumentoscod_entregador: TcxGridDBColumn;
-    viewDocumentosnom_entregador: TcxGridDBColumn;
-    viewGRnom_base: TcxGridDBColumn;
-    viewGRcod_entregador: TcxGridDBColumn;
-    viewGRnom_entregador: TcxGridDBColumn;
-    dxBarLargeButton11: TdxBarLargeButton;
     actionDeleteRegister: TAction;
-    memTableRecordsid: TIntegerField;
-    memTableRecordscod_erp_contratados: TStringField;
-    memTableRecordsdes_categoria: TStringField;
-    memTableRecordscod_pessoa: TIntegerField;
-    memTableRecordsdes_tipo_doc: TStringField;
-    memTableRecordsnom_razao_social: TStringField;
-    memTableRecordsnom_fantasia_alias: TStringField;
-    memTableRecordsnum_cpf_cnpj: TStringField;
-    memTableRecordsnum_rg_ie: TStringField;
-    memTableRecordsnum_im: TStringField;
-    memTableRecordsdat_emissao_rg: TDateTimeField;
-    memTableRecordsnom_emissor_rg: TStringField;
-    memTableRecordsuf_emissor_rg: TStringField;
-    memTableRecordsdat_nascimento: TDateField;
-    memTableRecordsdes_nacionalidade: TStringField;
-    memTableRecordsdes_naturalidade: TStringField;
-    memTableRecordsuf_naturalidade: TStringField;
-    memTableRecordsnom_pai: TStringField;
-    memTableRecordsnom_mae: TStringField;
-    memTableRecordscod_crt: TIntegerField;
-    memTableRecordsnum_cnh: TStringField;
-    memTableRecordsnum_registro_cnh: TStringField;
-    memTableRecordsdes_categoria_cnh: TStringField;
-    memTableRecordsdat_validade_cnh: TDateField;
-    memTableRecordsdat_emissao_cnh: TDateField;
-    memTableRecordsuf_cnh: TStringField;
-    memTableRecordsdat_primeira_cnh: TDateField;
-    memTableRecordscod_status: TIntegerField;
-    memTableRecordsdat_cadastro: TDateTimeField;
-    memTableRecordsdes_obs: TMemoField;
-    memTableRecordsnom_base: TStringField;
-    memTableRecordsdes_funcao: TStringField;
-    viewCadastroid: TcxGridDBColumn;
-    viewCadastrocod_erp_contratados: TcxGridDBColumn;
-    viewCadastrodes_categoria: TcxGridDBColumn;
-    viewCadastrocod_pessoa: TcxGridDBColumn;
-    viewCadastrodes_tipo_doc: TcxGridDBColumn;
-    viewCadastronom_razao_social: TcxGridDBColumn;
-    viewCadastronom_fantasia_alias: TcxGridDBColumn;
-    viewCadastronum_cpf_cnpj: TcxGridDBColumn;
-    viewCadastronum_rg_ie: TcxGridDBColumn;
-    viewCadastronum_im: TcxGridDBColumn;
-    viewCadastrodat_emissao_rg: TcxGridDBColumn;
-    viewCadastronom_emissor_rg: TcxGridDBColumn;
-    viewCadastrouf_emissor_rg: TcxGridDBColumn;
-    viewCadastrodat_nascimento: TcxGridDBColumn;
-    viewCadastrodes_nacionalidade: TcxGridDBColumn;
-    viewCadastrodes_naturalidade: TcxGridDBColumn;
-    viewCadastrouf_naturalidade: TcxGridDBColumn;
-    viewCadastronom_pai: TcxGridDBColumn;
-    viewCadastronom_mae: TcxGridDBColumn;
-    viewCadastrocod_crt: TcxGridDBColumn;
-    viewCadastronum_cnh: TcxGridDBColumn;
-    viewCadastronum_registro_cnh: TcxGridDBColumn;
-    viewCadastrodes_categoria_cnh: TcxGridDBColumn;
-    viewCadastrodat_validade_cnh: TcxGridDBColumn;
-    viewCadastrodat_emissao_cnh: TcxGridDBColumn;
-    viewCadastrouf_cnh: TcxGridDBColumn;
-    viewCadastrodat_primeira_cnh: TcxGridDBColumn;
-    viewCadastrocod_status: TcxGridDBColumn;
-    viewCadastrodat_cadastro: TcxGridDBColumn;
-    viewCadastrodes_obs: TcxGridDBColumn;
-    viewCadastronom_base: TcxGridDBColumn;
-    viewCadastrodes_funcao: TcxGridDBColumn;
+    actionSaveRegister: TAction;
+    lgpMain: TdxLayoutGroup;
+    lgpGrid: TdxLayoutGroup;
+    lgpMenu: TdxLayoutGroup;
+    cxButton1: TcxButton;
+    dxLayoutItem1: TdxLayoutItem;
+    cxButton2: TcxButton;
+    dxLayoutItem2: TdxLayoutItem;
+    cxButton3: TcxButton;
+    dxLayoutItem3: TdxLayoutItem;
+    cxButton5: TcxButton;
+    dxLayoutItem5: TdxLayoutItem;
+    dxLayoutSeparatorItem1: TdxLayoutSeparatorItem;
+    dxLayoutSeparatorItem2: TdxLayoutSeparatorItem;
+    lgpGridView: TdxLayoutGroup;
+    lgpOptionsSearch: TdxLayoutGroup;
+    bteSearch: TcxButtonEdit;
+    dxLayoutItem6: TdxLayoutItem;
+    cxButton4: TcxButton;
+    dxLayoutItem4: TdxLayoutItem;
+    dxLayoutSeparatorItem3: TdxLayoutSeparatorItem;
+    gridDBTableView1: TcxGridDBTableView;
+    gridLevel1: TcxGridLevel;
+    grid: TcxGrid;
+    dxLayoutItem9: TdxLayoutItem;
+    dsCadastro: TDataSource;
+    gridDBTableView1id: TcxGridDBColumn;
+    gridDBTableView1cod_erp_contratados: TcxGridDBColumn;
+    gridDBTableView1id_categoria: TcxGridDBColumn;
+    gridDBTableView1des_categoria: TcxGridDBColumn;
+    gridDBTableView1cod_pessoa: TcxGridDBColumn;
+    gridDBTableView1des_tipo_doc: TcxGridDBColumn;
+    gridDBTableView1nom_razao_social: TcxGridDBColumn;
+    gridDBTableView1nom_fantasia_alias: TcxGridDBColumn;
+    gridDBTableView1num_cpf_cnpj: TcxGridDBColumn;
+    gridDBTableView1num_rg_ie: TcxGridDBColumn;
+    gridDBTableView1num_im: TcxGridDBColumn;
+    gridDBTableView1dat_emissao_rg: TcxGridDBColumn;
+    gridDBTableView1nom_emissor_rg: TcxGridDBColumn;
+    gridDBTableView1uf_emissor_rg: TcxGridDBColumn;
+    gridDBTableView1dat_nascimento: TcxGridDBColumn;
+    gridDBTableView1des_nacionalidade: TcxGridDBColumn;
+    gridDBTableView1des_naturalidade: TcxGridDBColumn;
+    gridDBTableView1uf_naturalidade: TcxGridDBColumn;
+    gridDBTableView1nom_pai: TcxGridDBColumn;
+    gridDBTableView1nom_mae: TcxGridDBColumn;
+    gridDBTableView1cod_crt: TcxGridDBColumn;
+    gridDBTableView1num_cnh: TcxGridDBColumn;
+    gridDBTableView1num_registro_cnh: TcxGridDBColumn;
+    gridDBTableView1des_categoria_cnh: TcxGridDBColumn;
+    gridDBTableView1dat_validade_cnh: TcxGridDBColumn;
+    gridDBTableView1dat_emissao_cnh: TcxGridDBColumn;
+    gridDBTableView1uf_cnh: TcxGridDBColumn;
+    gridDBTableView1dat_primeira_cnh: TcxGridDBColumn;
+    gridDBTableView1cod_status: TcxGridDBColumn;
+    gridDBTableView1dat_cadastro: TcxGridDBColumn;
+    gridDBTableView1des_obs: TcxGridDBColumn;
+    gridDBTableView1nom_base: TcxGridDBColumn;
+    gridDBTableView1des_funcao: TcxGridDBColumn;
+    gridDBTableView1id_gr: TcxGridDBColumn;
+    gridDBTableView1dat_consulta_gr: TcxGridDBColumn;
+    gridDBTableView1dat_validade_gr: TcxGridDBColumn;
+    gridDBTableView1nom_empresa: TcxGridDBColumn;
+    gridDBTableView1cod_consulta_gr: TcxGridDBColumn;
+    gridDBTableView1id_representante: TcxGridDBColumn;
+    gridDBTableView1nom_representante: TcxGridDBColumn;
+    gridDBTableView1cpf_representante: TcxGridDBColumn;
+    gridDBTableView1cod_veiculo: TcxGridDBColumn;
+    gridDBTableView1des_marca: TcxGridDBColumn;
+    gridDBTableView1des_modelo: TcxGridDBColumn;
+    gridDBTableView1des_placa: TcxGridDBColumn;
+    gridDBTableView1des_tipo_veiculo: TcxGridDBColumn;
+    gridDBTableView1num_chassis: TcxGridDBColumn;
+    gridDBTableView1des_ano: TcxGridDBColumn;
+    gridDBTableView1des_cor: TcxGridDBColumn;
+    gridDBTableView1num_renavan: TcxGridDBColumn;
+    gridDBTableView1ano_exervicio_clrv: TcxGridDBColumn;
+    dxLayoutGroup1: TdxLayoutGroup;
+    cxButton6: TcxButton;
+    dxLayoutItem10: TdxLayoutItem;
+    cxButton7: TcxButton;
+    dxLayoutItem11: TdxLayoutItem;
+    cxButton8: TcxButton;
+    dxLayoutItem12: TdxLayoutItem;
+    lgpCadastro: TdxLayoutGroup;
+    dxLayoutGroup2: TdxLayoutGroup;
+    dbId: TcxDBTextEdit;
+    dxLayoutItem13: TdxLayoutItem;
+    dbTipoPessoa: TcxDBImageComboBox;
+    dxLayoutItem14: TdxLayoutItem;
+    dbCPFCNPJ: TcxDBButtonEdit;
+    dxLayoutItem15: TdxLayoutItem;
+    actionSearchDoc: TAction;
+    dbNome: TcxDBTextEdit;
+    dxLayoutItem16: TdxLayoutItem;
+    dbAlias: TcxDBTextEdit;
+    dxLayoutItem17: TdxLayoutItem;
+    dxLayoutGroup3: TdxLayoutGroup;
+    dbSexo: TcxDBImageComboBox;
+    dxLayoutItem19: TdxLayoutItem;
+    dbRGIE: TcxDBTextEdit;
+    dxLayoutItem20: TdxLayoutItem;
+    dbEmissaoRG: TcxDBDateEdit;
+    dxLayoutItem21: TdxLayoutItem;
+    dbEmissorRG: TcxDBTextEdit;
+    dxLayoutItem22: TdxLayoutItem;
+    dsEstados: TDataSource;
+    memTableEstados: TFDMemTable;
+    memTableEstadosuf_estado: TStringField;
+    memTableEstadosnom_estado: TStringField;
+    dbUFRG: TcxDBLookupComboBox;
+    dxLayoutItem23: TdxLayoutItem;
+    dbIM: TcxDBTextEdit;
+    dxLayoutItem24: TdxLayoutItem;
+    dbNascimento: TcxDBDateEdit;
+    dxLayoutItem25: TdxLayoutItem;
+    dbNacionalidade: TcxDBTextEdit;
+    dxLayoutItem26: TdxLayoutItem;
+    dbNaturalidade: TcxDBTextEdit;
+    dxLayoutItem27: TdxLayoutItem;
+    dbUFNaturalidade: TcxDBLookupComboBox;
+    dxLayoutItem28: TdxLayoutItem;
+    dxLayoutGroup5: TdxLayoutGroup;
+    dxLayoutGroup6: TdxLayoutGroup;
+    lgpEnderecos: TdxLayoutGroup;
+    lgpRH: TdxLayoutGroup;
+    lgpBancos: TdxLayoutGroup;
+    lgpGR: TdxLayoutGroup;
+    dxLayoutGroup13: TdxLayoutGroup;
+    dxLayoutGroup14: TdxLayoutGroup;
+    dxLayoutGroup15: TdxLayoutGroup;
+    dbNomePai: TcxDBTextEdit;
+    dxLayoutItem29: TdxLayoutItem;
+    dbNomeMae: TcxDBTextEdit;
+    dxLayoutItem30: TdxLayoutItem;
+    dbCRT: TcxDBImageComboBox;
+    dxLayoutItem31: TdxLayoutItem;
+    dxLayoutGroup16: TdxLayoutGroup;
+    dxLayoutSeparatorItem4: TdxLayoutSeparatorItem;
+    mtbRH: TFDMemTable;
+    dxLayoutSeparatorItem5: TdxLayoutSeparatorItem;
+    dxLayoutGroup17: TdxLayoutGroup;
+    dbSalario: TcxDBCurrencyEdit;
+    dxLayoutItem32: TdxLayoutItem;
+    mtbRHid_rh: TIntegerField;
+    mtbRHid_contratados: TIntegerField;
+    mtbRHdat_admissao: TDateField;
+    mtbRHdat_demissao: TDateField;
+    mtbRHid_departamento: TIntegerField;
+    mtbRHid_funcao: TIntegerField;
+    daRH: TDataSource;
+    dbAdmissao: TcxDBDateEdit;
+    dxLayoutItem33: TdxLayoutItem;
+    dbDemissao: TcxDBDateEdit;
+    dxLayoutItem34: TdxLayoutItem;
+    dxLayoutGroup18: TdxLayoutGroup;
+    lgpCNAE: TdxLayoutGroup;
+    lgpVeiculos: TdxLayoutGroup;
+    mtbGR: TFDMemTable;
+    dataGR: TDataSource;
+    mtbGRid_gr: TIntegerField;
+    mtbGRid_contratados: TIntegerField;
+    mtbGRdat_consulta: TDateField;
+    mtbGRdat_validade: TDateField;
+    mtbGRnom_empresa: TStringField;
+    mtbGRcod_consulta: TStringField;
+    mtbGRcod_seguranca_cnh: TStringField;
+    dxLayoutGroup9: TdxLayoutGroup;
+    gridGRDBTableView1: TcxGridDBTableView;
+    gridGRLevel1: TcxGridLevel;
+    gridGR: TcxGrid;
+    dxLayoutItem42: TdxLayoutItem;
+    gridGRDBTableView1id_gr: TcxGridDBColumn;
+    gridGRDBTableView1id_contratados: TcxGridDBColumn;
+    gridGRDBTableView1dat_consulta: TcxGridDBColumn;
+    gridGRDBTableView1dat_validade: TcxGridDBColumn;
+    gridGRDBTableView1nom_empresa: TcxGridDBColumn;
+    gridGRDBTableView1cod_consulta: TcxGridDBColumn;
+    gridGRDBTableView1cod_seguranca_cnh: TcxGridDBColumn;
+    memTableCNAE: TFDMemTable;
+    memTableCNAEid_cnae: TIntegerField;
+    memTableCNAEid_contratados: TIntegerField;
+    memTableCNAEdes_tipo_cnae: TStringField;
+    memTableCNAEcod_cnae: TStringField;
+    memTableCNAEdes_cnae: TStringField;
+    dxLayoutGroup7: TdxLayoutGroup;
+    gridCNAEDBTableView1: TcxGridDBTableView;
+    gridCNAELevel1: TcxGridLevel;
+    gridCNAE: TcxGrid;
+    dxLayoutItem37: TdxLayoutItem;
+    dsCNAE: TDataSource;
+    gridCNAEDBTableView1id_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1id_contratados: TcxGridDBColumn;
+    gridCNAEDBTableView1des_tipo_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1cod_cnae: TcxGridDBColumn;
+    gridCNAEDBTableView1des_cnae: TcxGridDBColumn;
+    memTableVeiculos: TFDMemTable;
+    dsVeiculos: TDataSource;
+    dbTipoPessoaVeiculo: TcxDBImageComboBox;
+    dxLayoutItem38: TdxLayoutItem;
+    dbCPFCNPJVeiculo: TcxDBButtonEdit;
+    dxLayoutItem39: TdxLayoutItem;
+    dxLayoutGroup10: TdxLayoutGroup;
+    actionSearchDocVehicle: TAction;
+    dbNomePropVeiculo: TcxDBTextEdit;
+    dxLayoutItem40: TdxLayoutItem;
+    dxLayoutSeparatorItem6: TdxLayoutSeparatorItem;
+    dbRGIEVeiculo: TcxDBTextEdit;
+    dxLayoutItem41: TdxLayoutItem;
+    dxLayoutGroup8: TdxLayoutGroup;
+    dbNascimentoVeiculo: TcxDBDateEdit;
+    dxLayoutItem43: TdxLayoutItem;
+    dbPaiProprietario: TcxDBTextEdit;
+    dxLayoutItem44: TdxLayoutItem;
+    dbMaePriprietario: TcxDBTextEdit;
+    dxLayoutItem45: TdxLayoutItem;
+    dxLayoutGroup11: TdxLayoutGroup;
+    dbEmissaoRGProprietario: TcxDBDateEdit;
+    dxLayoutItem46: TdxLayoutItem;
+    dbUFRGProprietario: TcxDBLookupComboBox;
+    dxLayoutItem47: TdxLayoutItem;
+    dbTelefone1Veiculo: TcxDBMaskEdit;
+    dxLayoutItem48: TdxLayoutItem;
+    dbTelefone2Veiculo: TcxDBMaskEdit;
+    dxLayoutItem49: TdxLayoutItem;
+    dxLayoutGroup12: TdxLayoutGroup;
+    dbCEPVeiculo: TcxDBButtonEdit;
+    dxLayoutItem50: TdxLayoutItem;
+    actionSearchCEPVeiculo: TAction;
+    actionSearchCEPContracted: TAction;
+    dbEnderecoVeiculo: TcxDBTextEdit;
+    dxLayoutItem51: TdxLayoutItem;
+    dbBairroVeiculo: TcxDBTextEdit;
+    dxLayoutItem52: TdxLayoutItem;
+    dbCidadeVeiculo: TcxDBTextEdit;
+    dxLayoutItem53: TdxLayoutItem;
+    dbUFEnderecoVeiculo: TcxDBLookupComboBox;
+    dxLayoutItem54: TdxLayoutItem;
+    dxLayoutSeparatorItem7: TdxLayoutSeparatorItem;
+    dxLayoutGroup19: TdxLayoutGroup;
+    dnMarcaVeiculo: TcxDBTextEdit;
+    dxLayoutItem55: TdxLayoutItem;
+    dbModeloVeiculo: TcxDBTextEdit;
+    dxLayoutItem56: TdxLayoutItem;
+    dbPlacaVeiculo: TcxDBTextEdit;
+    dxLayoutItem57: TdxLayoutItem;
+    dbCidadePlaca: TcxDBTextEdit;
+    dxLayoutItem58: TdxLayoutItem;
+    dbUFPlaca: TcxDBLookupComboBox;
+    dxLayoutItem59: TdxLayoutItem;
+    dbTipoVeiculo: TcxDBComboBox;
+    dxLayoutItem60: TdxLayoutItem;
+    dxLayoutGroup20: TdxLayoutGroup;
+    dbRENAVAN: TcxDBTextEdit;
+    dxLayoutItem61: TdxLayoutItem;
+    dbChassis: TcxDBTextEdit;
+    dxLayoutItem62: TdxLayoutItem;
+    dbAnoVeiculo: TcxDBMaskEdit;
+    dxLayoutItem63: TdxLayoutItem;
+    dbCorVeiculo: TcxDBTextEdit;
+    dxLayoutItem64: TdxLayoutItem;
+    dxLayoutSeparatorItem8: TdxLayoutSeparatorItem;
+    dxLayoutGroup21: TdxLayoutGroup;
+    cxDBNavigator1: TcxDBNavigator;
+    dxLayoutItem65: TdxLayoutItem;
+    actionDataContracted: TAction;
+    cxButton9: TcxButton;
+    dxLayoutItem66: TdxLayoutItem;
+    dsEnderecos: TDataSource;
+    memTableEnderecos: TFDMemTable;
+    memTableEnderecos_id_endereco: TIntegerField;
+    memTableEnderecos_id_contratados: TIntegerField;
+    memTableEnderecos_des_tipo: TStringField;
+    memTableEnderecosnum_cep: TStringField;
+    memTableEnderecosdes_logradouro: TStringField;
+    memTableEnderecosnum_logradouro: TStringField;
+    memTableEnderecosdes_complemento: TStringField;
+    memTableEnderecos_des_bairro: TStringField;
+    memTableEnderecosnom_cidade: TStringField;
+    memTableEnderecosuf_estado: TStringField;
+    memTableEnderecosdes_referencia: TStringField;
+    dxLayoutGroup22: TdxLayoutGroup;
+    dbCEP: TcxDBButtonEdit;
+    dxLayoutItem67: TdxLayoutItem;
+    dxLayoutGroup23: TdxLayoutGroup;
+    dbEndereco: TcxDBTextEdit;
+    dxLayoutItem68: TdxLayoutItem;
+    dbNumero: TcxDBTextEdit;
+    dxLayoutItem69: TdxLayoutItem;
+    dbComplemento: TcxDBTextEdit;
+    dxLayoutItem70: TdxLayoutItem;
+    dxLayoutGroup24: TdxLayoutGroup;
+    dbBairro: TcxDBTextEdit;
+    dxLayoutItem71: TdxLayoutItem;
+    dbCidade: TcxDBTextEdit;
+    dxLayoutItem72: TdxLayoutItem;
+    dbUF: TcxDBLookupComboBox;
+    dxLayoutItem73: TdxLayoutItem;
+    dxLayoutGroup25: TdxLayoutGroup;
+    dbReferencia: TcxDBTextEdit;
+    dxLayoutItem74: TdxLayoutItem;
+    dxLayoutSeparatorItem9: TdxLayoutSeparatorItem;
+    dxLayoutSeparatorItem10: TdxLayoutSeparatorItem;
+    dxLayoutGroup26: TdxLayoutGroup;
+    gridContatosDBTableView1: TcxGridDBTableView;
+    gridContatosLevel1: TcxGridLevel;
+    gridContatos: TcxGrid;
+    dxLayoutItem75: TdxLayoutItem;
+    dsContatos: TDataSource;
+    memTableContatos: TFDMemTable;
+    memTableContatosseq_contato: TIntegerField;
+    memTableContatosid_contratados: TIntegerField;
+    memTableContatosdes_contato: TStringField;
+    memTableContatosnum_telefone: TStringField;
+    memTableContatosdes_email: TStringField;
+    gridContatosDBTableView1seq_contato: TcxGridDBColumn;
+    gridContatosDBTableView1id_contratados: TcxGridDBColumn;
+    gridContatosDBTableView1des_contato: TcxGridDBColumn;
+    gridContatosDBTableView1num_telefone: TcxGridDBColumn;
+    gridContatosDBTableView1des_email: TcxGridDBColumn;
+    mtbFinanceiro: TFDMemTable;
+    dsFinanceiro: TDataSource;
+    mtbFinanceiroid_financeiro: TIntegerField;
+    mtbFinanceiroid_contratados: TIntegerField;
+    mtbFinanceirocod_banco: TStringField;
+    mtbFinanceirocod_agencia: TStringField;
+    mtbFinanceironum_conta: TStringField;
+    mtbFinanceirochave_pix: TStringField;
+    mtbFinanceirodes_forma_pagamento: TStringField;
+    gridFinanceiroDBTableView1: TcxGridDBTableView;
+    gridFinanceiroLevel1: TcxGridLevel;
+    gridFinanceiro: TcxGrid;
+    dxLayoutItem76: TdxLayoutItem;
+    gridFinanceiroDBTableView1id_financeiro: TcxGridDBColumn;
+    gridFinanceiroDBTableView1id_contratados: TcxGridDBColumn;
+    gridFinanceiroDBTableView1cod_banco: TcxGridDBColumn;
+    gridFinanceiroDBTableView1cod_agencia: TcxGridDBColumn;
+    gridFinanceiroDBTableView1num_conta: TcxGridDBColumn;
+    gridFinanceiroDBTableView1chave_pix: TcxGridDBColumn;
+    gridFinanceiroDBTableView1des_forma_pagamento: TcxGridDBColumn;
+    dxLayoutSeparatorItem11: TdxLayoutSeparatorItem;
+    dbRepresentante: TcxDBTextEdit;
+    dxLayoutItem77: TdxLayoutItem;
+    mtbRepresentantes: TFDMemTable;
+    saRepresentante: TDataSource;
+    mtbRepresentantesid_representante: TIntegerField;
+    mtbRepresentantesid_contratados: TIntegerField;
+    mtbRepresentantesnom_representante: TStringField;
+    mtbRepresentantescpf_representante: TStringField;
+    dbCPFRepresentante: TcxDBMaskEdit;
+    dxLayoutItem78: TdxLayoutItem;
+    dxLayoutGroup27: TdxLayoutGroup;
+    dxLayoutGroup28: TdxLayoutGroup;
+    dxLayoutGroup29: TdxLayoutGroup;
+    cxButton10: TcxButton;
+    dxLayoutItem79: TdxLayoutItem;
+    cxButton11: TcxButton;
+    dxLayoutItem80: TdxLayoutItem;
+    cxButton12: TcxButton;
+    dxLayoutItem81: TdxLayoutItem;
+    actionContracts: TAction;
+    lcbCategorias: TcxLookupComboBox;
+    dxLayoutItem8: TdxLayoutItem;
+    mtbRHval_salario: TFloatField;
+    dxLayoutSeparatorItem12: TdxLayoutSeparatorItem;
+    memTableVeiculosCOD_VEICULO: TIntegerField;
+    memTableVeiculosDES_TIPO_DOC: TStringField;
+    memTableVeiculosNUM_CNPJ: TStringField;
+    memTableVeiculosNOM_PROPRIETARIO: TStringField;
+    memTableVeiculosDAT_NASCIMENTO: TDateField;
+    memTableVeiculosNOM_MAE: TStringField;
+    memTableVeiculosNOM_PAI: TStringField;
+    memTableVeiculosNUM_RG: TStringField;
+    memTableVeiculosUF_RG: TStringField;
+    memTableVeiculosDAT_EMISSAO_RG: TDateField;
+    memTableVeiculosUF_ENDERECO: TStringField;
+    memTableVeiculosNOM_CIDADE: TStringField;
+    memTableVeiculosDES_ENDERECO: TStringField;
+    memTableVeiculosNUM_CEP: TStringField;
+    memTableVeiculosDES_BAIRRO: TStringField;
+    memTableVeiculosNUM_TELEFONE_1: TStringField;
+    memTableVeiculosDES_TELEFONE_1: TStringField;
+    memTableVeiculosNUM_TELEFONE_2: TStringField;
+    memTableVeiculosDES_TELEFONE_2: TStringField;
+    memTableVeiculosCOD_ENTREGADOR: TIntegerField;
+    memTableVeiculosDES_MARCA: TStringField;
+    memTableVeiculosDES_MODELO: TStringField;
+    memTableVeiculosDES_PLACA: TStringField;
+    memTableVeiculosUF_PLACA: TStringField;
+    memTableVeiculosNOM_CIDADE_PLACA: TStringField;
+    memTableVeiculosDES_TIPO: TStringField;
+    memTableVeiculosNUM_CHASSIS: TStringField;
+    memTableVeiculosDES_ANO: TStringField;
+    memTableVeiculosDES_COR: TStringField;
+    memTableVeiculosNUM_RENAVAN: TStringField;
+    memTableVeiculosANO_EXERCICIO_CLRV: TStringField;
+    memTableVeiculosDOM_RASTREAMENTO: TStringField;
+    memTableVeiculosDOM_ABASTECIMENTO: TStringField;
+    memTableVeiculosNOM_EXECUTOR: TStringField;
+    memTableVeiculosDAT_MANUTENCAO: TDateTimeField;
+    dbNumeroCNH: TcxDBTextEdit;
+    dxLayoutItem82: TdxLayoutItem;
+    dbRegistroCNH: TcxDBTextEdit;
+    dxLayoutItem83: TdxLayoutItem;
+    dbCategoriaCNH: TcxDBTextEdit;
+    dxLayoutItem84: TdxLayoutItem;
+    dxLayoutGroup4: TdxLayoutGroup;
+    dbValidadeCNH: TcxDBDateEdit;
+    dxLayoutItem85: TdxLayoutItem;
+    dbEmissaoCNH: TcxDBDateEdit;
+    dxLayoutItem86: TdxLayoutItem;
+    dbPrimeiraCNH: TcxDBDateEdit;
+    dxLayoutItem87: TdxLayoutItem;
+    dbUFCNH: TcxDBLookupComboBox;
+    dxLayoutItem88: TdxLayoutItem;
+    dbExercicio: TcxDBTextEdit;
+    dxLayoutItem89: TdxLayoutItem;
+    dbStatus: TcxDBCheckBox;
+    dxLayoutItem90: TdxLayoutItem;
+    actionDocuments: TAction;
+    cxButton13: TcxButton;
+    dxLayoutItem91: TdxLayoutItem;
+    cxButton14: TcxButton;
+    dxLayoutItem92: TdxLayoutItem;
+    dxLayoutSeparatorItem13: TdxLayoutSeparatorItem;
+    cboStatus: TcxComboBox;
+    dxLayoutItem93: TdxLayoutItem;
+    dbRG: TcxDBTextEdit;
+    dxLayoutItem7: TdxLayoutItem;
+    dxLayoutSeparatorItem14: TdxLayoutSeparatorItem;
+    mtbFinanceirodes_banco: TStringField;
+    gridFinanceiroDBTableView1des_banco: TcxGridDBColumn;
+    acrSearchBank: TAction;
+    dbCodCategoria: TcxDBButtonEdit;
+    dxLayoutItem94: TdxLayoutItem;
+    dbDescricaoCategoria: TcxDBTextEdit;
+    dxLayoutItem18: TdxLayoutItem;
+    actSearchCategory: TAction;
+    dbCodigoBase: TcxDBButtonEdit;
+    dxLayoutItem95: TdxLayoutItem;
+    actSearchBase: TAction;
+    dbCodigoAtividade: TcxDBButtonEdit;
+    dxLayoutItem96: TdxLayoutItem;
+    actSearchFunction: TAction;
+    mtbRHdes_departamento: TStringField;
+    mtbRHdes_funcao: TStringField;
+    dbDescricaoAtividade: TcxDBTextEdit;
+    dxLayoutItem97: TdxLayoutItem;
+    dbNomeDepartamento: TcxDBTextEdit;
+    dxLayoutItem36: TdxLayoutItem;
+    dsCategoria: TDataSource;
+    procedure bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
+    procedure actionSearchRecordsExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionCloseFormExecute(Sender: TObject);
-    procedure actionSetFilterExecute(Sender: TObject);
-    procedure actionApplyFilterExecute(Sender: TObject);
-    procedure actionCancelFilterExecute(Sender: TObject);
-    procedure actionDocumentsToExpireExecute(Sender: TObject);
-    procedure actionRiskManagementExecute(Sender: TObject);
-    procedure actionSearchRecordsExecute(Sender: TObject);
-    procedure actionReturnGridExecute(Sender: TObject);
     procedure actionExportGridExecute(Sender: TObject);
-    procedure actionLocateRecordExecute(Sender: TObject);
     procedure actionExpandGridExecute(Sender: TObject);
     procedure actionRetractGridExecute(Sender: TObject);
     procedure actionGroupPanelExecute(Sender: TObject);
-    procedure actionClearSearchExecute(Sender: TObject);
-    procedure actionNewRegisterExecute(Sender: TObject);
+    procedure actionReturnGridExecute(Sender: TObject);
     procedure actionEditRegisterExecute(Sender: TObject);
-    procedure viewCadastroDblClick(Sender: TObject);
-    procedure viewDocumentosDblClick(Sender: TObject);
-    procedure viewGRDblClick(Sender: TObject);
-    procedure actionDeleteRegisterExecute(Sender: TObject);
-    procedure camposPesquisaPropertiesChange(Sender: TObject);
-    procedure parametroPesquisaPropertiesChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure actionNewRegisterExecute(Sender: TObject);
+    procedure lgpMainTabChanged(Sender: TObject);
+    procedure dbTipoPessoaPropertiesChange(Sender: TObject);
+    procedure dbTipoPessoaVeiculoPropertiesChange(Sender: TObject);
+    procedure actionSearchDocExecute(Sender: TObject);
+    procedure actionSearchDocVehicleExecute(Sender: TObject);
+    procedure actionSearchCEPContractedExecute(Sender: TObject);
+    procedure actionSearchCEPVeiculoExecute(Sender: TObject);
+    procedure actionSaveRegisterExecute(Sender: TObject);
+    procedure actionContractsExecute(Sender: TObject);
+    procedure dbStatusPropertiesChange(Sender: TObject);
+    procedure actionDocumentsExecute(Sender: TObject);
+    procedure gridDBTableView1DblClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure dbFuncaoPropertiesCloseUp(Sender: TObject);
+    procedure acrSearchBankExecute(Sender: TObject);
+    procedure gridFinanceiroDBTableView1cod_bancoPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+      var ErrorText: TCaption; var Error: Boolean);
+    procedure gridFinanceiroDBTableView1cod_bancoPropertiesChange(Sender: TObject);
+    procedure dbCodCategoriaPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure dbCodCategoriaPropertiesChange(Sender: TObject);
+    procedure actSearchCategoryExecute(Sender: TObject);
+    procedure dbCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure dbCodigoBasePropertiesChange(Sender: TObject);
+    procedure actSearchBaseExecute(Sender: TObject);
+    procedure dbCodigoAtividadePropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption;
+      var Error: Boolean);
+    procedure dbCodigoAtividadePropertiesChange(Sender: TObject);
+    procedure actSearchFunctionExecute(Sender: TObject);
   private
     { Private declarations }
-    procedure StartForm;
-    procedure EndForm;
-    procedure SetFilter;
-    procedure ApplyFilter;
-    procedure CancelFilter;
-    procedure SearchRecords;
-    procedure SearchDocuments;
-    Procedure SearchGR;
-    procedure ExportGrid;
-    procedure LocateRegister(iIndex: integer; sFilterAux: String);
-    procedure ExpandGrid;
-    procedure CollapseGrid;
-    procedure PanelGroup;
-    procedure SaveFilter;
-    procedure LoadFilter;
-    procedure ClearSearch;
-    procedure NewRegister;
-    procedure EditRegister;
-    procedure DeleteRegister;
+    FSystem : TSistem;
+    FCaptionComplent : String;
+    FAcao : TAcao;
+
+    function CustomSearchStr(sParam: string): string;
+
+    procedure LoadForm();
+
+    procedure ExecSarch(sQuery: string);
+    procedure ExportGrid();
+    procedure ExpandGrid();
+    procedure CollapseGrid();
+    procedure PanelGroup();
+    procedure ChangePerson();
+
+    procedure PopulateCNAE(iCadastro: integer);
+    procedure PopulateRH(iCadastro: integer);
+    procedure PopulateAdress(iCadastro: integer);
+    procedure PopulateContacts(iCadastro: integer);
+    procedure PopulateVehicles(iCadastro: integer);
+    procedure PopulateFinances(iCadastro: integer);
+    procedure PopulateRepresentative(iCadastro: integer);
+    procedure PopulateGR(iCadastro: integer);
+
+    procedure ChangeCaptionForm();
+    procedure Editar(iCadastro: integer);
+    procedure Inserir();
+    procedure Cancelar;
+    procedure EmitirContratos;
+    procedure Documentos;
+
+    procedure ImprimeContratoColaborador(sData, sAtividade, sLocal: String);
+    procedure ImprimeContratoAutonomo(sData, sAtividade, sLocal: String);
+    procedure ImprimeContratoEntregador(sData, sLocal: String);
+
+
+    function  ValidateData(): boolean;
+    function  RetornaAtividades(iId: integer): string;
+    function  RetornaCategoria(iId: integer): integer;
+
+
+    function  SaveContracted(): boolean;
+    function  SaveAdress(iCadastro: integer): boolean;
+    function  SaveContacts(iCadastro: integer): boolean;
+    function  SaveFinance(iCadastro: integer): boolean;
+    function  SaveRepresentative(iCadastro: integer): boolean;
+    function  SaveRH(iCadastro: integer): boolean;
+    function  SaveCNAE(iCadastro: integer): boolean;
+    function  SaveGR(iCadastro: integer): boolean;
+    function  SaveVehicles(iCadastro: integer): boolean;
+
+    procedure SearchCNPJCadastro(sCNPJ: string);
+    procedure SearchCNPJVeiculo(sCNPJ: string);
+    procedure SearchCEPCadastro(sCEP: string);
+    procedure SearchCEPVeiculo(sCEP: string);
+    procedure SearchBanks;
+    procedure SearchBankName(sId: string);
+    function  ReturnBankName(sId: string): string;
+    procedure SearcchCategory;
+    procedure SearchNameCategory(iId: integer);
+    procedure SearchBase;
+    procedure SearchNameBase(iId: integer);
+    function  ReturnBaseName(iId: integer): string;
+    procedure SearchFunction;
+    procedure SearchNameFunction(iId: integer);
+
+
+
   public
     { Public declarations }
   end;
 
 var
-  viewSisGeFCadastroContratados: TviewSisGeFCadastroContratados;
-  FSearch: integer;
+  viewCadastroContratados: TviewCadastroContratados;
 
 implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.SisGeFContractedDetail;
+uses Data.SisGeF, View.ListaCEPs, View.ResultadoConsultaCNPJ, View.Impressao, View.SisGeFContractEmission,
+  View.SisaGeFAttachDocuments, View.SisGeFGeneralsSearch;
 
- { TviewSisGefCadastroContratados }
+{ TviewCadastroTerceirizados }
 
-procedure TviewSisGefCadastroContratados.actionApplyFilterExecute(Sender: TObject);
+procedure TviewCadastroContratados.acrSearchBankExecute(Sender: TObject);
 begin
-  ApplyFilter;
+  SearchBanks;
 end;
 
-procedure TviewSisGefCadastroContratados.actionCancelFilterExecute(Sender: TObject);
-begin
-  CancelFilter;
-end;
-
-procedure TviewSisGefCadastroContratados.actionClearSearchExecute(Sender: TObject);
-begin
-  ClearSearch;
-end;
-
-procedure TviewSisGefCadastroContratados.actionCloseFormExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionCloseFormExecute(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TviewSisGefCadastroContratados.actionDeleteRegisterExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionContractsExecute(Sender: TObject);
 begin
-  DeleteRegister;
+  EmitirContratos;
 end;
 
-procedure TviewSisGefCadastroContratados.actionDocumentsToExpireExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionDocumentsExecute(Sender: TObject);
 begin
-  SearchDocuments;
+  if not mtbCadastro.IsEmpty then  
+    Documentos;
 end;
 
-procedure TviewSisGefCadastroContratados.actionEditRegisterExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionEditRegisterExecute(Sender: TObject);
 begin
-  EditRegister;
+  Editar(mtbCadastroid.AsInteger);
 end;
 
-procedure TviewSisGefCadastroContratados.actionExpandGridExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionExpandGridExecute(Sender: TObject);
 begin
-  ExpandGrid;
+   ExpandGrid;
 end;
 
-procedure TviewSisGefCadastroContratados.actionExportGridExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionExportGridExecute(Sender: TObject);
 begin
   ExportGrid;
 end;
 
-procedure TviewSisGefCadastroContratados.actionGroupPanelExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionGroupPanelExecute(Sender: TObject);
 begin
   PanelGroup;
 end;
 
-procedure TviewSisGefCadastroContratados.actionLocateRecordExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionNewRegisterExecute(Sender: TObject);
 begin
-  LocateRegister(camposPesquisa.ItemIndex, parametroPesquisa.Text);
+  Inserir;
 end;
 
-procedure TviewSisGefCadastroContratados.actionNewRegisterExecute(Sender: TObject);
-begin
-  NewRegister;
-end;
-
-procedure TviewSisGefCadastroContratados.actionRetractGridExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionRetractGridExecute(Sender: TObject);
 begin
   CollapseGrid;
 end;
 
-procedure TviewSisGefCadastroContratados.actionReturnGridExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionReturnGridExecute(Sender: TObject);
 begin
-  dxLayoutGroup1.ItemIndex := 0;
-  FSearch := 0;
+  Cancelar;
 end;
 
-procedure TviewSisGefCadastroContratados.actionRiskManagementExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionSaveRegisterExecute(Sender: TObject);
 begin
-  SearchGR;
+  if not ValidateData() then Exit;
+
+  if MessageDlg('Confirma salvar os dados ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
+     Exit;
+
+  if not SaveContracted() then
+  begin
+    Application.MessageBox('Ocorreu algum problema ao gravar os dados!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end
+  else
+  begin
+    Application.MessageBox('Dados gravados com sucesso','Gravar',MB_OK + MB_ICONINFORMATION);
+  end;
+
 end;
 
-procedure TviewSisGefCadastroContratados.actionSearchRecordsExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionSearchCEPContractedExecute(Sender: TObject);
 begin
-  SearchRecords;
+  SearchCEPCadastro(dbCEP.Text);
 end;
 
-procedure TviewSisGefCadastroContratados.actionSetFilterExecute(Sender: TObject);
+procedure TviewCadastroContratados.actionSearchCEPVeiculoExecute(Sender: TObject);
 begin
-  SetFilter;
- end;
+  SearchCEPVeiculo(dbCEPVeiculo.Text);
+end;
 
-procedure TviewSisGefCadastroContratados.ApplyFilter;
+procedure TviewCadastroContratados.actionSearchDocExecute(Sender: TObject);
+begin
+  SearchCNPJCadastro(dbCPFCNPJ.Text);
+end;
+
+procedure TviewCadastroContratados.actionSearchDocVehicleExecute(Sender: TObject);
+begin
+  SearchCNPJVeiculo(dbCPFCNPJVeiculo.Text);
+end;
+
+procedure TviewCadastroContratados.actionSearchRecordsExecute(Sender: TObject);
+begin
+  ExecSarch(CustomSearchStr(bteSearch.Text));
+end;
+
+procedure TviewCadastroContratados.actSearchBaseExecute(Sender: TObject);
+begin
+  SearchBase;
+end;
+
+procedure TviewCadastroContratados.actSearchCategoryExecute(Sender: TObject);
+begin
+  SearcchCategory;
+end;
+
+procedure TviewCadastroContratados.actSearchFunctionExecute(Sender: TObject);
+begin
+  SearchFunction;
+end;
+
+procedure TviewCadastroContratados.bteSearchPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
+begin
+  if AButtonIndex = 0 then
+  begin
+    bteSearch.Clear;
+    bteSearch.SetFocus;
+  end;
+end;
+
+procedure TviewCadastroContratados.Cancelar;
+begin
+  dsCadastro.AutoEdit := False;
+  daRH.AutoEdit := False;
+  dataGR.AutoEdit := False;
+  dsVeiculos.AutoEdit := False;
+  dsEnderecos.AutoEdit := False;
+  dsContatos.AutoEdit := False;
+  dsFinanceiro.AutoEdit := False;
+  saRepresentante.AutoEdit := False;
+  dsCNAE.AutoEdit := False;
+
+  FAcao := tacIndefinido;
+  mtbCadastro.Cancel;
+
+  memTableEnderecos.Active := False;
+  memTableContatos.Active := False;
+  mtbFinanceiro.Active := False;
+  memTableCNAE.Active := False;
+  mtbRepresentantes.Active := False;
+  memTableVeiculos.Active := False;
+  mtbGR.Active := False;
+  lgpMain.ItemIndex := 0;
+end;
+
+
+procedure TviewCadastroContratados.ChangeCaptionForm;
 var
-  FFilter: String;
-  FCadastro : TCadastroContratadosController;
-  aParams : Array of string;
+  sState: string;
+begin
+  sState := EmptyStr;
+  case dsCadastro.State of
+    dsInsert  : sState  := 'INCLUIR';
+    dsEdit    : sState  := 'EDITAR';
+  else
+    sState := EmptyStr;
+  end;
+  if lgpMain.ItemIndex = 1 then
+  begin
+    FCaptionComplent := ' - ' + sState;
+    Self.Caption := Self.Caption + FCaptionComplent;
+  end
+  else
+  begin
+    Self.Caption := StringReplace(Self.Caption, FCaptionComplent, EmptyStr,[rfReplaceAll]);
+  end;
+end;
+
+procedure TviewCadastroContratados.ChangePerson;
+begin
+  if dbTipoPessoa.ItemIndex = 1 then
+  begin
+    dbCPFCNPJ.Properties.Buttons[0].Enabled := True;
+    dbCPFCNPJ.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
+    dbSexo.ItemIndex := 3;
+    //dxLayoutGroup14.Visible := False;
+    //dxLayoutGroup15.Visible := False;
+    //dxLayoutGroup16.Visible := False;
+    //dxLayoutGroup4.Visible := False;
+    //dxLayoutItem31.Visible := True;
+    //dxLayoutItem20.Visible := True;
+    //dxLayoutItem24.Visible := True;
+    //dxLayoutGroup28.Visible := True;
+  end
+  else
+  begin
+    //dxLayoutItem31.Visible := False;
+    //dxLayoutItem20.Visible := False;
+    //dxLayoutItem24.Visible := False;
+    //dxLayoutGroup14.Visible := True;
+    //dxLayoutGroup15.Visible := True;
+    //dxLayoutGroup16.Visible := True;
+    //dxLayoutGroup4.Visible := True;
+    //dxLayoutGroup28.Visible := False;
+    dbCPFCNPJ.Properties.Buttons[0].Enabled := False;
+    dbCPFCNPJ.Properties.EditMask := '!000\.000\.000\-00;0; ';
+  end;
+
+end;
+
+procedure TviewCadastroContratados.CollapseGrid;
+begin
+  gridDBTableView1.ViewData.Collapse(True);
+end;
+
+procedure TviewCadastroContratados.PopulateContacts(iCadastro: integer);
+var
+  FContatos : TContratadosContatosController;
+  aParam: array of string;
 begin
   try
-    FCadastro := TCadastroContratadosController.Create;
-    FFilter := filterControl.FilterText;
-    if FFilter.IsEmpty then
-      Exit;
-    SetLength(aParams,9);
-    aParams[0] := '*';
-    aParams[1] := 'VIEW';
-    aParams[2] := FFilter;
-    if FCadastro.CustomSearch(aParams) then
+    FContatos := TContratadosContatosController.Create;
+    if memTableContatos.Active then
     begin
-      memTableRecords.Active := False;
-      memTableRecords.Active := True;
-      memTableRecords.CopyDataSet(FCadastro.FContratados.Query);
-      dxLayoutGroup1.ItemIndex := 0;
-      viewCadastro.ViewData.Expand(True);
-      viewCadastro.DataController.DataSource.DataSet.First;
-      gridCadastro.SetFocus;
+      memTableContatos.Close;
+    end;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro.ToString];
+    if not FContatos.Search(aParam) then
+    begin
+      Exit;
+    end;
+    memTableContatos.Active := True;
+    while not FContatos.FContatos.Query.Eof do
+    begin
+      memTableContatos.Insert;
+      memTableContatosseq_contato.AsInteger := FContatos.FContatos.Query.FieldByName('seq_contato').AsInteger;
+      memTableContatosid_contratados.AsInteger := FContatos.FContatos.Query.FieldByName('id_contratados').AsInteger;
+      memTableContatosdes_contato.AsString := FContatos.FContatos.Query.FieldByName('des_contato').AsString;
+      memTableContatosnum_telefone.AsString := FContatos.FContatos.Query.FieldByName('num_telefone').AsString;
+      memTableContatosdes_email.AsString := FContatos.FContatos.Query.FieldByName('des_email').AsString;
+      memTableContatos.Post;
+      FContatos.FContatos.Query.Next;
+    end;
+    if not memTableContatos.Active then
+      memTableContatos.Active := True;
+  finally
+    FContatos.FContatos.Query.Connection.Close;
+    FContatos.Free;
+  end;
+end;
+
+function TviewCadastroContratados.CustomSearchStr(sParam: string): string;
+var
+  utils : TUtils;
+  i : integer;
+  sType, sField, sQuery, sQueryPadrao, sQueryReturn : string;
+  date : TDateTime;
+begin
+  utils := TUtils.Create;
+  sQuery := '';
+  sQueryPadrao := '';
+  sQueryReturn := '';
+  Result := '';
+  try
+    if not sParam.IsEmpty then
+    begin
+      for i := 0 to gridDBTableView1.ColumnCount - 1 do
+      begin
+        if gridDBTableView1.Columns[i].Visible then
+        begin
+          sType := gridDBTableView1.Columns[i].DataBinding.ValueType;
+          sField := gridDBTableView1.Columns[i].DataBinding.FieldName;
+          if sType = 'String' then
+          begin
+            if not sQuery.IsEmpty then
+              sQuery := sQuery + ' or '
+            else
+              sQuery := sQuery + '(';
+            sQuery := sQuery + sField + ' like ' +  QuotedStr('%' + sParam + '%')
+          end
+          else if sType = 'DateTime' then
+          begin
+            if TryStrToDate(sParam, date) then
+            begin
+              if not sQuery.IsEmpty then
+              sQuery := sQuery + ' or '
+            else
+              sQuery := sQuery + '(';
+              sQuery := sQuery + sField + ' like ' +  QuotedStr(FormatDateTime('yyyy-mm-dd', date));
+            end;
+          end
+          else
+          begin
+            if utils.ENumero(sParam) then
+            begin
+              if not sQuery.IsEmpty then
+                sQuery := sQuery + ' or '
+              else
+                sQuery := sQuery + '(';
+              sQuery := sQuery + sField + ' like ' +  sParam;
+            end;
+          end;
+        end;
+      end;
+    end;
+    if not sQuery.IsEmpty then
+      sQuery := sQuery + ')';
+
+    if cboStatus.ItemIndex = 1 then
+    begin
+      if sQueryPadrao.IsEmpty then
+        sQueryPadrao := sQueryPadrao + '(';
+      sQueryPadrao := sQueryPadrao + ' cod_status = 1';
+    end
+    else if cboStatus.ItemIndex = 2 then
+    begin
+      if sQueryPadrao.IsEmpty then
+        sQueryPadrao := sQueryPadrao + '(';
+      sQueryPadrao := sQueryPadrao + ' cod_status = 0';
+    end;
+
+
+    if lcbCategorias.EditValue > 0 then
+    begin
+      if sQueryPadrao.IsEmpty then
+        sQueryPadrao := sQueryPadrao + '('
+      else
+        sQueryPadrao := sQueryPadrao + ' and ';
+      sQueryPadrao := sQueryPadrao + ' id_categoria = ' + VarToStrDef(lcbCategorias.EditValue, '0');
+    end;
+
+    if not sQueryPadrao.IsEmpty then
+    begin
+      sQueryPadrao := sQueryPadrao + ')';
+      if not sQuery.IsEmpty then
+        sQueryReturn := sQuery + ' and ' + sQueryPadrao
+      else
+        sQueryReturn := sQueryPadrao;
     end
     else
     begin
-      MessageDlg('Nenhum registro encontrado!', mtInformation, [mbOK], 0);
+      sQueryReturn := sQuery;
     end;
+
+    Result := sQueryReturn;
   finally
-    FCadastro.Free;
+    utils.Free;
   end;
 end;
 
-procedure TviewSisGefCadastroContratados.camposPesquisaPropertiesChange(Sender: TObject);
+procedure TviewCadastroContratados.dbCodCategoriaPropertiesChange(Sender: TObject);
 begin
-  if camposPesquisa.ItemIndex = 0 then
-    parametroPesquisa.Enabled := False
+  if dsCadastro.State in [dsEdit, dsInsert] then
+    mtbCadastrodes_categoria.AsString:= EmptyStr;
+end;
+
+procedure TviewCadastroContratados.dbCodCategoriaPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  SearchNameCategory(DisplayValue);
+end;
+
+procedure TviewCadastroContratados.dbCodigoAtividadePropertiesChange(Sender: TObject);
+begin
+  dbDescricaoAtividade.Text := EmptyStr;
+end;
+
+procedure TviewCadastroContratados.dbCodigoAtividadePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  SearchNameFunction(DisplayValue);
+end;
+
+procedure TviewCadastroContratados.dbCodigoBasePropertiesChange(Sender: TObject);
+begin
+  dbNomeDepartamento.Text := EmptyStr;
+end;
+
+procedure TviewCadastroContratados.dbCodigoBasePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
+  var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  SearchNameBase(DisplayValue);
+end;
+
+procedure TviewCadastroContratados.dbFuncaoPropertiesCloseUp(Sender: TObject);
+begin
+  if mtbCadastro.State in [dsInsert, dsEdit] then
+    mtbCadastroid_categoria.AsInteger := RetornaCategoria(dbCodigoAtividade.EditValue);
+end;
+
+procedure TviewCadastroContratados.dbStatusPropertiesChange(Sender: TObject);
+begin
+  if dbStatus.Checked then
+    dbStatus.Caption := 'ATIVO'
   else
-    parametroPesquisa.Enabled := True;
+    dbStatus.Caption := 'INATIVO';
 end;
 
-procedure TviewSisGefCadastroContratados.CancelFilter;
+procedure TviewCadastroContratados.dbTipoPessoaPropertiesChange(Sender: TObject);
 begin
-  if not filterControl.FilterText.IsEmpty then
+  ChangePerson;
+end;
+
+procedure TviewCadastroContratados.dbTipoPessoaVeiculoPropertiesChange(Sender: TObject);
+begin
+  if dbTipoPessoaVeiculo.ItemIndex = 1 then
   begin
-    Data_Sisgef.FDConnectionMySQL.Connected := False;
-    filterControl.Clear;
-    memTableRecords.Active := False;
-  end;
-end;
-
-procedure TviewSisGefCadastroContratados.ClearSearch;
-begin
-  camposPesquisa.ItemIndex := 0;
-  parametroPesquisa.Clear;
-  memTableRecords.Active := False;
-  statusRegistro.Checked := True;
-end;
-
-procedure TviewSisGefCadastroContratados.CollapseGrid;
-begin
-  case FSearch of
-    0 : viewCadastro.ViewData.Collapse(True);
-    1 : viewDocumentos.ViewData.Collapse(True);
-    2 : viewGR.ViewData.Collapse(True);
-    else
-      Exit;
-  end;
-end;
-
-procedure TviewSisGefCadastroContratados.DeleteRegister;
-var
-  FCadastro       : TCadastroContratadosController;
-  FEnderecos      : TContratadosEnderecosController;
-  FContatos       : TContratadosContatosController;
-  FFinanceiro     : TContratadosFinanceiroController;
-  FRepresentante  : TContratadosRepresentanteController;
-  FRH             : TContratadosRHController;
-  FCNAE           : TCadastroContratadosCNAEController;
-  iID             : integer;
-  sMensagem       : string;
-begin
-  FCadastro       :=  TCadastroContratadosController.Create;
-  FEnderecos      :=  TContratadosEnderecosController.Create;
-  FContatos       :=  TContratadosContatosController.Create;
-  FFinanceiro     :=  TContratadosFinanceiroController.Create;
-  FRepresentante  :=  TContratadosRepresentanteController.Create;
-  FRH             :=  TContratadosRHController.Create;
-  FCNAE           :=  TCadastroContratadosCNAEController.Create;
-  try
-
-    if memTableRecords.IsEmpty then
-      Exit;
-
-    sMensagem :=  'Confirma excluir o contratado ' + memTableRecordsnom_razao_social.Value + ' ?';
-    if Application.MessageBox(PChar(sMensagem), 'Excluir', MB_YESNO + MB_ICONQUESTION) = mrNo then
-      Exit;
-
-    iID := memTableRecordsid.AsInteger;
-
-    FEnderecos.FEnderecos.ARecord.id_contratados          :=  iID;
-    FEnderecos.FEnderecos.Acao                            := tacExcluir;
-    if not FEnderecos.SaveRecord then
-    begin
-      MessageDlg('Ocorreu um problema ao excluir os endereÃ§os!', mtError, [mbCancel], 0);
-      Exit;
-    end;
-    FContatos.FContatos.ARecord.id_contratados            :=  iID;
-    FContatos.FContatos.Acao                              :=  tacExcluir;
-    if not FContatos.SaveRecord then
-    begin
-      MessageDlg(FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
-      Exit;
-    end;
-    FFinanceiro.FFinanceiro.ARecord.id_contratados        :=  iID;
-    FFinanceiro.FFinanceiro.Acao                          :=  tacExcluir;
-    if not FFinanceiro.SaveRecord then
-    begin
-      MessageDlg(FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
-      Exit;
-    end;
-    FRepresentante.FRepresentante.ARecord.id_contratados  :=  iID;
-    FRepresentante.FRepresentante.Acao                    :=  tacExcluir;
-    if not FRepresentante.SaveRecord then
-    begin
-      MessageDlg(FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
-      Exit;
-    end;
-    FRH.FRH.ARecord.id_contratados                        :=  iID;
-    FRH.FRH.Acao                                          :=  tacExcluir;
-    if not FRH.SaveRecord then
-    begin
-      MessageDlg(FRH.FRH.Mensagem, mtError, [mbCancel], 0);
-      Exit;
-    end;
-    FCNAE.FCNAE.ARecord.id_contratados                    :=  iID;
-    FCNAE.FCNAE.Acao                                      :=  tacExcluir;
-    if not FCNAE.SaveRecord then
-    begin
-      MessageDlg(FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
-      Exit;
-    end;
-
-    FCadastro.FContratados.ARecord.id                     :=  iID;
-    FCadastro.FContratados.Acao                           :=  tacExcluir;
-    if not FCadastro.SaveRecord then
-    begin
-      MessageDlg(FCadastro.FContratados.Mensagem, mtError, [mbCancel], 0);
-      Exit;
-    end;
-
-
-  finally
-    FCadastro.Free;
-    FEnderecos.Free;
-    FContatos.Free;
-    FFinanceiro.Free;
-    FRepresentante.Free;
-    FRH.Free;
-    FCNAE.Free;
-    MessageDlg('Cadastro excluÃ­do com sucesso!', mtInformation, [mbOK], 0);
-    LocateRegister(camposPesquisa.ItemIndex, parametroPesquisa.Text);
-
-  end;
-end;
-
-procedure TviewSisGefCadastroContratados.EditRegister;
-var
-  iID : integer;
-begin
-  case FSearch of
-    0 : iID := memTableRecordsid.AsInteger;
-    1 : iID := 0;
-    else
-      iID := 0;
-  end;
-  if iID = 0 then
-    Exit;
-  if not Assigned(view_SisGeFContractedDetail) then
+    dbCPFCNPJVeiculo.Properties.Buttons[0].Enabled := True;
+    dbCPFCNPJVeiculo.Properties.EditMask := '!00\.000\.000\/0000\-00;0; ';
+  end
+  else
   begin
-    view_SisGeFContractedDetail := Tview_SisGeFContractedDetail.Create(Application);
+    dbCPFCNPJVeiculo.Properties.Buttons[0].Enabled := False;
+    dbCPFCNPJVeiculo.Properties.EditMask := '!000\.000\.000\-00;0; ';
   end;
-  view_SisGeFContractedDetail.ID := iID;
-  view_SisGeFContractedDetail.Acao := tacAlterar;
-  view_SisGeFContractedDetail.ShowModal;
-  FreeAndNil(view_SisGeFContractedDetail);
+
 end;
 
-procedure TviewSisGefCadastroContratados.EndForm;
+procedure TviewCadastroContratados.Documentos;
 begin
-  memTableRecords.Active := False;
+  if not Assigned(view_SisgeFAttachDocuments) then
+    view_SisgeFAttachDocuments := Tview_SisgeFAttachDocuments.Create(Application);
+  view_SisgeFAttachDocuments.Pasta := dbId.Text;
+  view_SisgeFAttachDocuments.Show;
 end;
 
-procedure TviewSisGefCadastroContratados.ExpandGrid;
+procedure TviewCadastroContratados.Editar(iCadastro: integer);
 begin
-  case FSearch of
-    0 : viewCadastro.ViewData.Expand(True);
-    1 : viewDocumentos.ViewData.Expand(True);
-    2 : viewGR.ViewData.Expand(True);
-    else
-      Exit;
-  end;
+  if gridDBTableView1.ViewData.RowCount = 0 then Exit;
+
+  dsCadastro.AutoEdit := True;
+  daRH.AutoEdit := True;
+  dataGR.AutoEdit := True;
+  dsVeiculos.AutoEdit := True;
+  dsEnderecos.AutoEdit := True;
+  dsContatos.AutoEdit := True;
+  dsFinanceiro.AutoEdit := True;
+  saRepresentante.AutoEdit := True;
+  dsCNAE.AutoEdit := True;
+
+  PopulateAdress(iCadastro);
+  PopulateContacts(iCadastro);
+  PopulateFinances(iCadastro);
+  PopulateGR(iCadastro);
+  PopulateRH(iCadastro);
+  PopulateCNAE(iCadastro);
+  PopulateRepresentative(iCadastro);
+  PopulateVehicles(iCadastro);
+
+  FAcao := tacAlterar;
+  mtbCadastro.Edit;
+
+  ChangePerson;
+  dxLayoutGroup6.ItemIndex := 0;
+  lgpMain.ItemIndex := 1;
 end;
 
-procedure TviewSisGefCadastroContratados.ExportGrid;
+procedure TviewCadastroContratados.EmitirContratos;
 var
-  fnUtil : Common.Utils.TUtils;
-  sMensagem: String;
+  iTipo: integer;
+  sData, sValor, sAtividade, sFuncao, sLocal: String;
 begin
   try
-    fnUtil := Common.Utils.TUtils.Create;
-
-    case FSearch of
-      0 : if viewCadastro.ViewData.RowCount = 0 then Exit;
-      1 : if viewDocumentos.ViewData.RowCount = 0 then Exit;
-      2 : if viewGR.ViewData.RowCount = 0 then Exit;
+    if not Assigned(view_SisGeFContractEmission) then begin
+      view_SisGeFContractEmission := Tview_SisGeFContractEmission.Create(Application);
+    end;
+    sAtividade := RetornaAtividades(dbCodigoAtividade.EditValue);
+    view_SisGeFContractEmission.memoAtividades.Clear;
+    view_SisGeFContractEmission.memoAtividades.Lines.Append(sAtividade);
+    if view_SisGeFContractEmission.ShowModal = mrCancel Then
+      Exit;
+    iTipo := view_SisGeFContractEmission.radioGroup.ItemIndex;
+    sData := view_SisGeFContractEmission.dateContrato.Text;
+    sValor := Self.dbSalario.Text;
+    sAtividade := view_SisGeFContractEmission.memoAtividades.Text;
+    sLocal := view_SisGeFContractEmission.txtLocal.Text;
+    sFuncao := mtbRHid_funcao.AsString;
+    case iTipo of
+      0 : ImprimeContratoColaborador(sData, sAtividade, sLocal);
+      1 : ImprimeContratoEntregador(sData, sLocal);
+      2 : ImprimeContratoAutonomo(sData, sAtividade, sLocal);
       else
         Exit;
     end;
+  finally
+    FreeAndNil(view_SisGeFContractEmission);
+  end;
+end;
+
+procedure TviewCadastroContratados.ExecSarch(sQuery: string);
+var
+  cadastro : TCadastroContratadosController;
+  aParam : Array of String;
+begin
+  cadastro := TCadastroContratadosController.Create;
+  SetLength(aParam, 3);
+
+  try
+     aParam[0] := '*';
+     aParam[1] := 'VIEW';
+     aParam[2] := sQuery;
+
+     if mtbCadastro.Active then mtbCadastro.Active := False;
+
+
+     if cadastro.CustomSearch(aParam) then
+     begin
+       if mtbCadastro.Active then mtbCadastro.Close;
+       mtbCadastro.Data := cadastro.FContratados.Query.Data;
+     end;
+     cadastro.FContratados.Query.Close;
+     cadastro.FContratados.Query.Connection.Close;
+  finally
+    Finalize(aParam);
+    cadastro.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.ExpandGrid;
+begin
+  gridDBTableView1.ViewData.Expand(True);
+end;
+
+procedure TviewCadastroContratados.ExportGrid;
+var
+  utils : TUtils;
+  sMensagem: String;
+begin
+  try
+    utils := TUtils.Create;
+
+    if gridDBTableView1.ViewData.RowCount = 0 then Exit;
 
     if Data_Sisgef.SaveDialog.Execute() then
     begin
       if FileExists(Data_Sisgef.SaveDialog.FileName) then
       begin
-        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' jÃ¡ existe! Sobrepor ?';
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
         if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
       end;
 
-      fnUtil.ExportarDados(gridCadastro,Data_Sisgef.SaveDialog.FileName);
+      utils.ExportarDados(grid,Data_Sisgef.SaveDialog.FileName);
 
     end;
   finally
-    fnUtil.Free;
-  end;end;
-
-procedure TviewSisGefCadastroContratados.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  EndForm;
-  Action := caFree;
-  viewSisGefCadastroContratados := nil;
-end;
-
-procedure TviewSisGefCadastroContratados.LoadFilter;
-begin
-  with Data_SisGeF do
-  begin
-    if OpenDialog.Execute then
-    begin
-      if not FileExists(OpenDialog.FileName) then
-      begin
-          MessageDlg('Arquivo ' + OpenDialog.FileName + ' nÃ£o foi encontrado', mtWarning, [mbCancel], 0);
-          Exit;
-      end;
-      filterControl.LoadFromFile(OpenDialog.FileName);
-    end;
+    utils.Free;
   end;
 end;
 
-procedure TviewSisGefCadastroContratados.LocateRegister(iIndex: integer; sFilterAux: String);
+procedure TviewCadastroContratados.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if mtbCadastro.Active then mtbCadastro.Close;
+  Action := caFree;
+  viewCadastroTerceirizados := Nil;
+end;
+
+procedure TviewCadastroContratados.FormCreate(Sender: TObject);
+begin
+  FSystem := TSistem.GetInstance;
+end;
+
+procedure TviewCadastroContratados.FormShow(Sender: TObject);
+begin
+  LoadForm;
+end;
+
+procedure TviewCadastroContratados.gridDBTableView1DblClick(Sender: TObject);
+begin
+  Editar(mtbCadastroid.AsInteger);
+end;
+
+procedure TviewCadastroContratados.gridFinanceiroDBTableView1cod_bancoPropertiesChange(Sender: TObject);
+begin
+  mtbFinanceirodes_banco.AsString := EmptyStr;
+end;
+
+procedure TviewCadastroContratados.gridFinanceiroDBTableView1cod_bancoPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := '';
+  SearchBankName(DisplayValue);
+end;
+
+procedure TviewCadastroContratados.ImprimeContratoAutonomo(sData, sAtividade, sLocal: String);
 var
-  FCadastro : TCadastroContratadosController;
-  aParams   : Array of string;
-  FUtil     : TUtils;
+  sEndereco: String;
+  sDataExtenso: String;
+  dtData: TDate;
+  sExtenco: String;
+  sValor: string;
+  sFuncao : string;
+  FFuncao: TUtils;
+begin
+  FFuncao := TUtils.Create;
+  sEndereco := '';
+  dtData := StrToDateDef(sData,0);
+  sDataExtenso :=  sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', Now());
+  with Data_Sisgef.frxReport do begin
+    if not Assigned(view_Impressao) then begin
+      view_Impressao := Tview_Impressao.Create(Application);
+    end;
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - AUTÔNOMO';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoAutonomo.fr3';
+    if view_Impressao.ShowModal <> mrOk then
+    begin
+      FreeAndNil(view_Impressao);
+      Exit;
+    end
+    else begin
+      if (not FileExists(view_Impressao.cxArquivo.Text)) then begin
+        Application.MessageBox(PChar('Arquivo ' + view_Impressao.cxArquivo.Text +
+                               ' não foi encontrado!'), 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    sValor := dbSalario.Text;
+    sExtenco := FFuncao.valorPorExtenso(StrToFloatDef(ReplaceStr(sValor,'.',''),0));
+    sEndereco := dbEndereco.Text + ', ' + dbNumero.Text;
+    if dbComplemento.Text = '' then
+    begin
+      sEndereco := sEndereco + ', ' + dbComplemento.Text;
+    end;
+    sEndereco := sEndereco + ', bairro ' + dbBairro.Text;
+    sEndereco := sEndereco + ', cidade ' + dbCidade.Text + '/' + dbUF.Text;
+    sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
+    sFuncao := dbDescricaoAtividade.Text;
+    LoadFromFile(view_Impressao.cxArquivo.Text);
+    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(FFuncao.FormataCPF(dbCPFCNPJ.Text));
+    Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('pFuncao')].Value :=  QuotedStr(sFuncao);
+    Variables.Items[Variables.IndexOf('pAtividades')].Value :=  QuotedStr(sAtividade);
+    Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
+    Variables.Items[Variables.IndexOf('pValorNumeral')].Value :=  QuotedStr(sValor);
+    Variables.Items[Variables.IndexOf('pValorExtencao')].Value :=  QuotedStr(sExtenco);
+    Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+    Variables.Items[Variables.IndexOf('pLocal')].Value :=  QuotedStr(sLocal);
+
+    FFuncao.Free;
+    FreeAndNil(view_Impressao);
+    ShowReport(True);
+  end;
+end;
+
+procedure TviewCadastroContratados.ImprimeContratoColaborador(sData, sAtividade, sLocal: String);
+var
+  sEndereco: String;
+  sDataExtenso: String;
+  dtData: TDate;
+  sExtenco: String;
+  sValor: string;
+  sFuncao : string;
+  FFuncao: TUtils;
+  dValor : Double;
+begin
+  FFuncao := TUtils.Create;
+  sEndereco := '';
+  dValor := 0;
+  dtData := StrToDateDef(sData,0);
+  sLocal := EmptyStr;
+  if sLocal = EmptyStr then
+    sDataExtenso := FormatDateTime('dd "de" mmmm "de" yyyy', Now)
+  else
+    sDataExtenso := sLocal + ', ' + FormatDateTime('dd "de" mmmm "de" yyyy', Now);
+  with Data_Sisgef.frxReport do begin
+    if not Assigned(view_Impressao) then begin
+      view_Impressao := Tview_Impressao.Create(Application);
+    end;
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - CONTRATADO';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoColaboradorV2.fr3';
+    if view_Impressao.ShowModal <> mrOk then
+    begin
+      FreeAndNil(view_Impressao);
+      Exit;
+    end
+    else begin
+      if (not FileExists(view_Impressao.cxArquivo.Text)) then begin
+        Application.MessageBox(PChar('Arquivo ' + view_Impressao.cxArquivo.Text +
+                               ' não foi encontrado!'), 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    sValor := ReplaceStr(dbSalario.Text,'R$ ','') ;
+    sValor := ReplaceStr(sValor,'.','') ;
+    dValor :=  StrToFloatDef(sValor,0);
+    sExtenco := FFuncao.valorPorExtenso(dValor);
+    sEndereco := dbEndereco.Text + ', ' + dbNumero.Text;
+    if dbComplemento.Text <> '' then
+    begin
+      sEndereco := sEndereco + ', ' + dbComplemento.Text;
+    end;
+    sEndereco := sEndereco + ', bairro ' + dbBairro.Text;
+    sEndereco := sEndereco + ', cidade ' + dbCidade.Text + '/' + dbUF.Text;
+    sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
+    sFuncao := dbDescricaoAtividade.Text;
+    LoadFromFile(view_Impressao.cxArquivo.Text);
+    Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value := QuotedStr(FFuncao.FormataCNPJ(dbCPFCNPJ.Text));
+    Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(dbRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(dbCPFRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pFuncao')].Value :=  QuotedStr(sFuncao);
+    Variables.Items[Variables.IndexOf('pAtividades')].Value :=  QuotedStr(sAtividade);
+    Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
+    Variables.Items[Variables.IndexOf('pValorNumeral')].Value :=  QuotedStr(sValor);
+    Variables.Items[Variables.IndexOf('pValorExtencao')].Value :=  QuotedStr(sExtenco);
+    Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+    Variables.Items[Variables.IndexOf('pLocal')].Value :=  QuotedStr(sLocal);
+    FFuncao.Free;
+    FreeAndNil(view_Impressao);
+    ShowReport(True);
+  end;
+end;
+
+procedure TviewCadastroContratados.ImprimeContratoEntregador(sData, sLocal: String);
+var
+  sEndereco: String;
+  sDataExtenso: String;
+  dtData: TDate;
+  FFuncao : TUtils;
+
+begin
+  FFuncao := TUtils.Create;
+  sEndereco := '';
+  dtData := StrToDateDef(sData,0);
+  sDataExtenso := sLocal + ',' + FormatDateTime('dd "de" mmmm "de" yyyy', Now);
+  with Data_Sisgef.frxReport do begin
+    if not Assigned(view_Impressao) then begin
+      view_Impressao := Tview_Impressao.Create(Application);
+    end;
+    view_Impressao.cxLabel1.Caption := 'CONTRATO DE PRESTAÇÃO DE SERVIÇO - MOTORISTA / ENTREGADOR';
+    view_Impressao.cxArquivo.Text := ExtractFilePath(Application.ExeName) + 'Reports\contratoEntregador.fr3';
+    if view_Impressao.ShowModal <> mrOk then
+    begin
+      FreeAndNil(view_Impressao);
+      Exit;
+    end
+    else begin
+      if (not FileExists(view_Impressao.cxArquivo.Text)) then begin
+        Application.MessageBox(PChar('Arquivo ' + view_Impressao.cxArquivo.Text +
+                               ' não foi encontrado!'), 'Atenção', MB_OK + MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+    sEndereco := dbEndereco.Text + ', ' + dbNumero.Text;
+    if dbComplemento.Text = '' then
+    begin
+      sEndereco := sEndereco + ', ' + dbComplemento.Text;
+    end;
+    sEndereco := sEndereco + ', ' + dbBairro.Text;
+    sEndereco := sEndereco + ', ' + dbCidade.Text + '/' + dbUF.Text;
+    sEndereco := sEndereco + ', CEP: ' + dbCEP.Text;
+    LoadFromFile(view_Impressao.cxArquivo.Text);
+   Variables.Items[Variables.IndexOf('pNomeContratado')].Value :=  QuotedStr(dbNome.Text);
+    Variables.Items[Variables.IndexOf('pDocContratado')].Value :=  QuotedStr(FFuncao.FormataCNPJ(dbCPFCNPJ.Text));
+    Variables.Items[Variables.IndexOf('pEnderecoContratado')].Value :=  QuotedStr(sEndereco);
+    Variables.Items[Variables.IndexOf('pNomeRepresentante')].Value :=  QuotedStr(dbRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pDocRepresentante')].Value :=  QuotedStr(dbCPFRepresentante.Text);
+    Variables.Items[Variables.IndexOf('pDataInicio')].Value :=  QuotedStr(sData);
+    Variables.Items[Variables.IndexOf('pDataExtenco')].Value :=  QuotedStr(sDataExtenso);
+    Variables.Items[Variables.IndexOf('pLocal')].Value :=  QuotedStr(sLocal);
+    FreeAndNil(view_Impressao);
+    FFuncao.Free;
+    ShowReport(True);
+  end;
+
+end;
+
+procedure TviewCadastroContratados.Inserir;
+begin
+  dsCadastro.AutoEdit := True;
+  daRH.AutoEdit := True;
+  dataGR.AutoEdit := True;
+  dsVeiculos.AutoEdit := True;
+  dsEnderecos.AutoEdit := True;
+  dsContatos.AutoEdit := True;
+  dsFinanceiro.AutoEdit := True;
+  saRepresentante.AutoEdit := True;
+  dsCNAE.AutoEdit := True;
+  FAcao := tacIncluir;
+
+  mtbCadastro.Insert;
+  mtbCadastrocod_status.AsInteger := 1;
+  memTableEnderecos.Active := False;
+  memTableEnderecos.Active := True;
+  memTableContatos.Active := False;
+  memTableContatos.Active := True;
+  mtbFinanceiro.Active := False;
+  mtbFinanceiro.Active := True;
+  mtbGR.Active := False;
+  mtbGR.Active := True;
+  mtbRH.Active := False;
+  mtbRH.Active := True;
+  memTableCNAE.Active := False;
+  memTableCNAE.Active := True;
+  mtbRepresentantes.Active := False;
+  mtbRepresentantes.Active := True;
+  memTableVeiculos.Active := False;
+  memTableVeiculos.Active := True;
+  lgpMain.ItemIndex := 1;
+end;
+
+procedure TviewCadastroContratados.lgpMainTabChanged(Sender: TObject);
+begin
+  ChangeCaptionForm();
+end;
+
+procedure TviewCadastroContratados.LoadForm;
+begin
+  FCaptionComplent := EmptyStr;
+  lcbCategorias.EditValue := 0;
+end;
+
+procedure TviewCadastroContratados.PanelGroup;
+begin
+  gridDBTableView1.OptionsView.GroupByBox := (not gridDBTableView1.OptionsView.GroupByBox);
+end;
+
+procedure TviewCadastroContratados.PopulateAdress(iCadastro: integer);
+var
+  FEnderecos : TContratadosEnderecosController;
+  aParam: array of string;
 begin
   try
-    FUtil := TUtils.Create;
-    FCadastro := TCadastroContratadosController.Create;
-    SetLength(aParams, 2);
-    case iIndex of
-      0 : aParams[0] := 'ALL';
-      1 : aParams[0] := 'ID';
-      2 : aParams[0] := 'CNPJ';
-      3 : aParams[0] := 'RG';
-      4 : aParams[0] := 'NOME';
-      5 : aParams[0] := 'ALIAS';
-      6 : aParams[0] := 'CNH';
-      7 : aParams[0] := 'REGISTRO';
-      else
-        aParams [0] := 'NONE';
-    end;
-    if iIndex = 5 then
-      sFilterAux := FUtil.DesmontaCPFCNPJ(sFilterAux);
-    aParams[1] := sFilterAux;
-    if FCadastro.Search(aParams) then
+    FEnderecos := TContratadosEnderecosController.Create;
+    if memTableEnderecos.Active then
     begin
-      memTableRecords.Active := False;
-      memTableRecords.Active := True;
-      memTableRecords.CopyDataSet(FCadastro.FContratados.Query);
-      viewCadastro.ViewData.Expand(True);
-      viewCadastro.ViewData.Rows[1].Selected := True;;
-      gridCadastro.SetFocus;
+      memTableEnderecos.Close;
+    end;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro.ToString];
+    if FEnderecos.Search(aParam) then
+    begin
+      memTableEnderecos.CopyDataSet(FEnderecos.FEnderecos.Query);
+    end;
+    FEnderecos.FEnderecos.Query.Connection.Close;
+    if not memTableEnderecos.Active then
+      memTableEnderecos.Active := True;
+  finally
+    FEnderecos.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.PopulateCNAE(iCadastro: integer);
+var
+  FCNAE : TCadastroContratadosCNAEController;
+  aParam: array of string;
+begin
+  try
+    FCNAE := TCadastroContratadosCNAEController.Create;
+    if memTableCNAE.Active then
+    begin
+      memTableCNAE.Close;
+    end;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro.ToString];
+    if not FCNAE.Search(aParam) then
+    begin
+      Exit;
+    end;
+    memTableCNAE.Active := True;;
+    while not FCNAE.FCNAE.Query.Eof do
+    begin
+      memTableCNAE.Insert;
+      memTableCNAEid_cnae.AsInteger         :=  FCNAE.FCNAE.Query.FieldByName('id_cnae').AsInteger;
+      memTableCNAEid_contratados.AsInteger  :=  FCNAE.FCNAE.Query.FieldByName('id_contratados').AsInteger;
+      memTableCNAEdes_tipo_cnae.AsString    :=  FCNAE.FCNAE.Query.FieldByName('des_tipo_cnae').AsString;
+      memTableCNAEcod_cnae.AsString         :=  FCNAE.FCNAE.Query.FieldByName('cod_cnae').AsString;
+      memTableCNAEdes_cnae.AsString         :=  FCNAE.FCNAE.Query.FieldByName('des_cnae').AsString;
+      memTableCNAE.Post;
+      FCNAE.FCNAE.Query.Next;
+    end;
+    if not memTableCNAE.Active then
+      memTableCNAE.Active := True
+  finally
+    FCNAE.FCNAE.Query.Connection.Close;
+    FCNAE.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.PopulateFinances(iCadastro: integer);
+var
+  FFinanceiro : TContratadosFinanceiroController;
+  aParam: array of string;
+begin
+  try
+    FFinanceiro := TContratadosFinanceiroController.Create;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro.ToString];
+    mtbFinanceiro.Active := False;
+    if FFinanceiro.Search(aParam) then
+    begin
+      mtbFinanceiro.Active := True;
+      FFinanceiro.FFinanceiro.Query.First;
+      while not FFinanceiro.FFinanceiro.Query.Eof do
+      begin
+        if FFinanceiro.SetupRecord then
+        begin
+          mtbFinanceiro.Insert;
+          mtbFinanceirodes_forma_pagamento.AsString := FFinanceiro.FFinanceiro.ARecord.des_forma_pagamento;
+          mtbFinanceirocod_banco.AsString := FFinanceiro.FFinanceiro.ARecord.cod_banco;
+          mtbFinanceirocod_agencia.AsString := FFinanceiro.FFinanceiro.ARecord.cod_agencia;
+          mtbFinanceironum_conta.AsString := FFinanceiro.FFinanceiro.ARecord.num_conta;
+          mtbFinanceirochave_pix.AsString := FFinanceiro.FFinanceiro.ARecord.chave_pix;
+          mtbFinanceirodes_banco.AsString := FFinanceiro.FFinanceiro.ARecord.des_banco;
+          mtbFinanceiroid_financeiro.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_financeiro;
+          mtbFinanceiroid_contratados.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_contratados;
+          mtbFinanceiro.Post;
+        end;
+        FFinanceiro.FFinanceiro.Query.Next;
+      end;
+    end;
+    FFinanceiro.FFinanceiro.Query.Connection.Close;
+    if not mtbFinanceiro.Active then mtbFinanceiro.Active := True;
+  finally
+    FFinanceiro.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.PopulateGR(iCadastro: integer);
+var
+  FGR : TContratadosGRController;
+  aParam: array of string;
+begin
+  try
+    fgr := TContratadosGRController.Create;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro.ToString];
+    if FGR.Search(aParam) then
+    begin
+      mtbGR.Data := FGR.FGR.Query.Data;
+    end;
+    FGR.FGR.Query.Connection.Close;
+    if not mtbGR.Active then mtbGR.Active := True;
+
+  finally
+    FGR.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.PopulateRepresentative(iCadastro: integer);
+var
+  FRepresentante : TContratadosRepresentanteController;
+  aParam: array of string;
+begin
+  try
+    FRepresentante := TContratadosRepresentanteController.Create;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro.ToString];
+    if FRepresentante.Search(aParam) then
+    begin
+      mtbRepresentantes.Data := FRepresentante.FRepresentante.Query.Data;
+    end;
+    FRepresentante.FRepresentante.Query.Connection.Close;
+    if not mtbRepresentantes.Active then mtbRepresentantes.Active := True;
+
+  finally
+    FRepresentante.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.PopulateRH(iCadastro: integer);
+var
+  FRH : TContratadosRHController;
+  aParam: array of string;
+begin
+  try
+    FRH := TContratadosRHController.Create;
+    SetLength(aParam,2);
+    aParam := ['CONTRATADO',iCadastro.ToString];
+    if FRH.Search(aParam) then
+    begin
+      mtbRH.Open;
+      mtbRH.Insert;
+      mtbRHid_rh.AsInteger := FRH.FRH.Query.FieldByName('id_rh').AsInteger;
+      mtbRHid_contratados.AsInteger := FRH.FRH.Query.FieldByName('id_contratados').AsInteger;
+      mtbRHdat_admissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_admissao').AsDateTime;
+      mtbRHdat_demissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_demissao').AsDateTime;
+      mtbRHid_departamento.AsInteger := FRH.FRH.Query.FieldByName('id_departamento').AsInteger;
+      mtbRHdes_departamento.AsString := FRH.FRH.Query.FieldByName('des_departamento').AsString;
+      mtbRHid_funcao.AsInteger := FRH.FRH.Query.FieldByName('id_funcao').AsInteger;
+      mtbRHdes_funcao.AsString := FRH.FRH.Query.FieldByName('des_funcao').AsString;
+      mtbRHval_salario.AsFloat := FRH.FRH.Query.FieldByName('val_salario').AsFloat;
+      mtbRH.Post;
+    end;
+    if not mtbRH.Active then
+      mtbRH.Active := True;
+    FRH.FRH.Query.Connection.Close;
+  finally
+    FRH.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.PopulateVehicles(iCadastro: integer);
+var
+  sMensagem: String;
+  FVeiculos: TControllerSisGeFVehiclesRegistration;
+  aParam : array of variant;
+begin
+  try
+    memTableVeiculos.Active := False;
+    FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
+    SetLength(aParam,2);
+    aParam := ['CADASTRO',iCadastro];
+    if FVeiculos.Search(aParam) then
+    begin
+      memTableVeiculos.Active := True;
+      memTableVeiculos.CopyDataSet(FVeiculos.Veiculos.Query);
+      FVeiculos.Veiculos.Query.Connection.Connected := False;
+//      if not memTableVeiculos.IsEmpty then
+//        gridVeiculosDBTableView1.DataController.DataSource.DataSet.First;
+    end;
+    if not memTableVeiculos.Active then memTableVeiculos.Active := True;
+
+  finally
+    FVeiculos.Free;
+  end;
+end;
+
+function TviewCadastroContratados.RetornaAtividades(iId: integer): string;
+var
+  FFuncoes : TFuncoesRHController;
+  aParam: array of string;
+  sAtividade: string;
+begin
+  FFuncoes := TFuncoesRHController.Create;
+  Result := '';
+  try
+    sAtividade := EmptyStr;
+    SetLength(aParam,3);
+    aParam := ['des_atividades', 'TABLE','id_funcao = ' + iId.ToString];
+    if FFuncoes.CustomSearch(aParam) then
+    begin
+      if not FFuncoes.FFuncoes.Query.FieldByName('des_atividades').IsNull then
+        sAtividade := FFuncoes.FFuncoes.Query.FieldByName('des_atividades').Value;
+    end;
+    Result := sAtividade;
+  finally
+    Finalize(aParam);
+    if FFuncoes.FFuncoes.Query.Active then
+      FFuncoes.FFuncoes.Query.Connection.Close;
+    FFuncoes.Free;
+  end;
+end;
+
+function TviewCadastroContratados.RetornaCategoria(iId: integer): integer;
+var
+  FFuncoes : TFuncoesRHController;
+  aParam: array of string;
+  iCategoria: integer;
+begin
+  FFuncoes := TFuncoesRHController.Create;
+  Result := 0;
+  try
+    SetLength(aParam,3);
+    aParam := ['id_categoria', 'TABLE','id_funcao = ' + iId.ToString];
+    if FFuncoes.CustomSearch(aParam) then
+    begin
+      iCategoria := FFuncoes.FFuncoes.Query.FieldByName('id_Categoria').AsInteger;
+    end;
+    Result := iCategoria;
+  finally
+    Finalize(aParam);
+    if FFuncoes.FFuncoes.Query.Active then
+      FFuncoes.FFuncoes.Query.Connection.Close;
+    FFuncoes.Free;
+  end;
+end;
+
+function TviewCadastroContratados.ReturnBankName(sId: string): string;
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  Result := EmptyStr;
+  try
+    aParam := ['nom_banco', 'tbbancos', 'cod_banco = "' + sId + '"'];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Exit;
+    end;
+    Result := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+function TviewCadastroContratados.ReturnBaseName(iId: integer): string;
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  Result := EmptyStr;
+  try
+    aParam := ['des_razao_social', 'tbagentes', 'cod_agente = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Exit;
+    end;
+    Result := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+function TviewCadastroContratados.SaveAdress(iCadastro: integer): boolean;
+var
+  FEnderecos : TContratadosEnderecosController;
+  FUtil : TUtils;
+begin
+  FEnderecos := TContratadosEnderecosController.Create;
+  FUtil := TUtils.Create;
+  Result := False;
+  try
+    if iCadastro = 0 then
+    begin
+      MessageDlg('ID não informado!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FEnderecos.FEnderecos.ARecord.id_contratados := iCadastro;
+    FEnderecos.FEnderecos.Acao := tacExcluir;
+
+    if not FEnderecos.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um problema ao preparar a gravação dos endereços!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    if memTableEnderecos.IsEmpty then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    while not memTableEnderecos.Eof do
+    begin
+      FEnderecos.FEnderecos.ARecord.des_tipo := 'RESIDENCIAL';
+      FEnderecos.FEnderecos.ARecord.num_cep := FUtil.DesmontaCPFCNPJ(memTableEnderecosnum_cep.AsString);
+      FEnderecos.FEnderecos.ARecord.des_logradouro := memTableEnderecosdes_logradouro.AsString;
+      FEnderecos.FEnderecos.ARecord.num_logradouro := memTableEnderecosnum_logradouro.AsString;
+      FEnderecos.FEnderecos.ARecord.des_complemento := memTableEnderecosdes_complemento.AsString;
+      FEnderecos.FEnderecos.ARecord.des_bairro := memTableEnderecos_des_bairro.AsString;
+      FEnderecos.FEnderecos.ARecord.nom_cidade := memTableEnderecosnom_cidade.AsString;
+      FEnderecos.FEnderecos.ARecord.uf_estado := memTableEnderecosuf_estado.AsString;
+      FEnderecos.FEnderecos.ARecord.des_referencia := memTableEnderecosdes_referencia.AsString;
+      FEnderecos.FEnderecos.Acao := tacIncluir;
+      if not FEnderecos.FEnderecos.SaveRecord then
+      begin
+        MessageDlg('Ocorreu um erro ao salvar o endereço! ' + FEnderecos.FEnderecos.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      memTableEnderecos.Next;
+    end;
+    Result := True;
+  finally
+    FEnderecos.Free;
+  end;
+end;
+
+function TviewCadastroContratados.SaveCNAE(iCadastro: integer): boolean;
+var
+  FCNAE : TCadastroContratadosCNAEController;
+begin
+  FCNAE := TCadastroContratadosCNAEController.Create;
+  Result := False;
+  try
+    FCNAE.FCNAE.ARecord.id_contratados  :=  iCadastro;
+    FCNAE.FCNAE.ARecord.id_CNAE         :=  -1;
+    FCNAE.FCNAE.Acao                    :=  tacExcluir;
+    if not FCNAE.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um erro ao salvar os dados do CNAE(1)' + FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    if gridCNAEDBTableView1.ViewData.RowCount = 0 then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    while not memTableCNAE.Eof do
+    begin
+      FCNAE.FCNAE.ARecord.des_tipo_cnae :=  memTableCNAEdes_tipo_cnae.AsString;
+      FCNAE.FCNAE.ARecord.cod_cnae      :=  memTableCNAEcod_cnae.AsString;
+      FCNAE.FCNAE.ARecord.des_cnae      :=  memTableCNAEdes_cnae.AsString;
+      FCNAE.FCNAE.Acao                  :=  tacIncluir;
+      if not FCNAE.FCNAE.SaveRecord then
+      begin
+        MessageDlg('Ocorreu um erro ao salvar os dados do CNAE(2)! ' + FCNAE.FCNAE.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+      end;
+      memTableCNAE.Next;
+    end;
+  finally
+    FCNAE.Free;
+  end;
+end;
+
+function TviewCadastroContratados.SaveContacts(iCadastro: integer): boolean;
+var
+  FContatos : TContratadosContatosController;
+begin
+  FContatos := TContratadosContatosController.Create;
+  Result := False;
+  try
+    if iCadastro = 0 then
+    begin
+      MessageDlg('ID não informado!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FContatos.FContatos.ARecord.id_contratados := iCadastro;
+    FContatos.FContatos.ARecord.seq_contato := -1;
+    FContatos.FContatos.Acao := tacExcluir;
+
+    if not FContatos.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um erro ao salvar os contatos(1)! ' + FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+
+    if memTableContatos.IsEmpty then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    while not memTableContatos.Eof do
+    begin
+      FContatos.FContatos.ARecord.des_contato := memTableContatosdes_contato.AsString;
+      FContatos.FContatos.ARecord.num_telefone := memTableContatosnum_telefone.AsString;
+      FContatos.FContatos.ARecord.des_email := memTableContatosdes_email.AsString;
+      FContatos.FContatos.Acao := tacIncluir;
+      if not FContatos.FContatos.SaveRecord then
+      begin
+        MessageDlg('Ocorreu um erro ao gravar os contatos! ' + FContatos.FContatos.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      memTableContatos.Next;
+    end;
+    memTableContatos.First;
+    Result := True;
+  finally
+    FContatos.Free;
+  end;
+end;
+
+function TviewCadastroContratados.SaveContracted: boolean;
+var
+  FCadastro : TCadastroContratadosController;
+  FUtils : TUtils;
+begin
+  FCadastro := TCadastroContratadosController.Create;
+  FUtils := TUtils.Create;
+  Result := False;
+
+  try
+    FCadastro.FContratados.Acao := FAcao;
+    FCadastro.FContratados.ARecord.id := mtbCadastroid.AsInteger;
+    FCadastro.FContratados.ARecord.cod_erp_contratados := '0';
+    FCadastro.FContratados.ARecord.id_categoria := mtbCadastroid_categoria.AsInteger;
+    FCadastro.FContratados.ARecord.cod_pessoa := mtbCadastrocod_pessoa.AsInteger;
+    FCadastro.FContratados.ARecord.des_tipo_doc := mtbCadastrodes_tipo_doc.AsString;
+    FCadastro.FContratados.ARecord.nom_razao_social := mtbCadastronom_razao_social.AsString;
+    FCadastro.FContratados.ARecord.nom_fantasia_alias := mtbCadastronom_fantasia_alias.AsString;
+    FCadastro.FContratados.ARecord.num_cpf_cnpj :=  FUtils.DesmontaCPFCNPJ(mtbCadastronum_cpf_cnpj.AsString);
+    FCadastro.FContratados.ARecord.num_rg_ie := mtbCadastronum_rg_ie.AsString;
+    if mtbCadastrodat_emissao_rg.AsString = '' then
+      FCadastro.FContratados.ARecord.dat_emissao_rg := 0
+    else
+      FCadastro.FContratados.ARecord.dat_emissao_rg := mtbCadastrodat_emissao_rg.AsDateTime;
+    FCadastro.FContratados.ARecord.num_im := mtbCadastronum_im.AsString;
+    FCadastro.FContratados.ARecord.nom_emissor_rg := mtbCadastronom_emissor_rg.AsString;
+    FCadastro.FContratados.ARecord.uf_emissor_rg := mtbCadastrouf_emissor_rg.AsString;
+    if mtbCadastrodat_nascimento.AsString = '' then
+      FCadastro.FContratados.ARecord.dat_nascimento := 0
+    else
+      FCadastro.FContratados.ARecord.dat_nascimento := mtbCadastrodat_nascimento.AsDateTime;
+    FCadastro.FContratados.ARecord.des_nacionalidade := mtbCadastrodes_nacionalidade.AsString;
+    FCadastro.FContratados.ARecord.des_naturalidade := mtbCadastrodes_naturalidade.AsString;
+    FCadastro.FContratados.ARecord.uf_naturalidade := mtbCadastrouf_naturalidade.AsString;
+    FCadastro.FContratados.ARecord.nom_pai := mtbCadastronom_pai.AsString;
+    FCadastro.FContratados.ARecord.nom_mae := mtbCadastronom_mae.AsString;
+    FCadastro.FContratados.ARecord.cod_crt  := mtbCadastrocod_crt.AsInteger;
+    FCadastro.FContratados.ARecord.num_cnh := mtbCadastronum_cnh.AsString;
+    FCadastro.FContratados.ARecord.num_registro_cnh := mtbCadastronum_registro_cnh.AsString;
+    FCadastro.FContratados.ARecord.des_categoria_cnh := mtbCadastrodes_categoria_cnh.AsString;
+    if mtbCadastrodat_emissao_cnh.AsDateTime = 0 then
+      FCadastro.FContratados.ARecord.dat_emissao_cnh := 0
+    else
+      FCadastro.FContratados.ARecord.dat_emissao_cnh := mtbCadastrodat_emissao_cnh.AsDateTime;
+    if mtbCadastrodat_validade_cnh.AsDateTime = 0 then
+      FCadastro.FContratados.ARecord.dat_validade_cnh := 0
+    else
+      FCadastro.FContratados.ARecord.dat_validade_cnh := mtbCadastrodat_validade_cnh.AsDateTime;
+    if mtbCadastrodat_primeira_cnh.AsDateTime = 0 then
+      FCadastro.FContratados.ARecord.dat_primeira_cnh := 0
+    else
+      FCadastro.FContratados.ARecord.dat_primeira_cnh := mtbCadastrodat_primeira_cnh.AsDateTime;
+    FCadastro.FContratados.ARecord.uf_cnh := mtbCadastrouf_cnh.AsString;
+    FCadastro.FContratados.ARecord.des_obs := mtbCadastrodes_obs.AsString;
+    FCadastro.FContratados.ARecord.cod_status := mtbCadastrocod_status.AsInteger;
+    if FCadastro.FContratados.Acao = tacIncluir then
+      FCadastro.FContratados.ARecord.dat_cadastro := Now();
+    if not FCadastro.SaveRecord() then
+    begin
+      MessageDlg(FCadastro.FContratados.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    if FAcao = tacIncluir then
+    begin
+      mtbCadastro.Edit;
+      mtbCadastroid.AsInteger := FCadastro.FContratados.ARecord.id;
+      mtbCadastro.Post;
+    end;
+
+    Result := SaveAdress(FCadastro.FContratados.ARecord.id);
+    Result := SaveContacts(FCadastro.FContratados.ARecord.id);
+    Result := SaveFinance(FCadastro.FContratados.ARecord.id);
+    Result := SaveRepresentative(FCadastro.FContratados.ARecord.id);
+    Result := SaveRH(FCadastro.FContratados.ARecord.id);
+    Result := SaveCNAE(FCadastro.FContratados.ARecord.id);
+    Result := SaveGR(FCadastro.FContratados.ARecord.id);
+    Result := SaveVehicles(FCadastro.FContratados.ARecord.id);
+    Result := True;
+  finally
+    FCadastro.Free;
+    FUtils.Free;
+  end;
+end;
+
+function TviewCadastroContratados.SaveFinance(iCadastro: integer): boolean;
+var
+  FFinanceiro : TContratadosFinanceiroController;
+begin
+  FFinanceiro := TContratadosFinanceiroController.Create;
+  Result := False;
+  try
+    if iCadastro = 0 then
+    begin
+      MessageDlg('ID não informado!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    FFinanceiro.FFinanceiro.ARecord.id_contratados  :=  iCadastro;
+    FFinanceiro.FFinanceiro.ARecord.id_financeiro   :=  -1;
+    FFinanceiro.FFinanceiro.Acao                    :=  tacExcluir;
+
+    if not FFinanceiro.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um erro ao salvar os dados financeiros(1)! ' + FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    if mtbFinanceiro.IsEmpty then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    mtbFinanceiro.First;
+    while not mtbFinanceiro.Eof do
+    begin
+      FFinanceiro.FFinanceiro.ARecord.cod_banco           :=  mtbFinanceirocod_banco.AsString;
+      FFinanceiro.FFinanceiro.ARecord.cod_agencia         :=  mtbFinanceirocod_agencia.AsString;
+      FFinanceiro.FFinanceiro.ARecord.num_conta           :=  mtbFinanceironum_conta.AsString;
+      FFinanceiro.FFinanceiro.ARecord.chave_pix           :=  mtbFinanceirochave_pix.AsString;
+      FFinanceiro.FFinanceiro.ARecord.des_forma_pagamento :=  mtbFinanceirodes_forma_pagamento.AsString;
+      FFinanceiro.FFinanceiro.Acao                        :=  tacIncluir;
+      if not FFinanceiro.FFinanceiro.SaveRecord then
+      begin
+        MessageDlg('Ocorreu um erro ao salvar os dados financeiros(2)! ' + FFinanceiro.FFinanceiro.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      mtbFinanceiro.Next;
+    end;
+    mtbFinanceiro.First;
+    Result := True;
+  finally
+    FFinanceiro.Free;
+  end;
+end;
+
+function TviewCadastroContratados.SaveGR(iCadastro: integer): boolean;
+var
+  FGR : TContratadosGRController;
+begin
+  FGR := TContratadosGRController.Create;
+  Result := False;
+  try
+    if iCadastro = 0 then
+    begin
+      MessageDlg('ID não informado!', mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    FGR.FGR.ARecord.id_contratados  :=  iCadastro;
+    FGR.FGR.ARecord.id_gr           :=  -1;
+    FGR.FGR.Acao                    :=  tacExcluir;
+    if not FGR.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um erro ao salvar os dados do GR(1)' + FGR.FGR.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+
+    if mtbGR.IsEmpty then
+    begin
+      Result := True;
+      Exit;
+    end;
+
+    mtbGR.First;
+    while not mtbGR.Eof do
+    begin
+      FGR.FGR.ARecord.dat_consulta      :=  mtbGRdat_consulta.AsDateTime;
+      FGR.FGR.ARecord.dat_validade      :=  mtbGRdat_validade.AsDateTime;
+      FGR.FGR.ARecord.nom_empresa       :=  mtbGRnom_empresa.AsString;
+      FGR.FGR.ARecord.cod_consulta      :=  mtbGRcod_consulta.AsString;
+      FGR.FGR.ARecord.cod_seguranca_cnh :=  mtbGRcod_seguranca_cnh.AsString;
+      FGR.FGR.Acao                      :=  tacIncluir;
+      if not FGR.FGR.SaveRecord then
+      begin
+        MessageDlg('Ocorreu um erro ao salvar os dados do GR(2)' + FGR.FGR.Mensagem, mtError, [mbCancel], 0);
+        Exit;
+      end;
+      mtbGR.Next;
+    end;
+    mtbGR.First;
+    Result := True;
+  finally
+    FGR.Free;
+  end;
+end;
+
+function TviewCadastroContratados.SaveRepresentative(iCadastro: integer): boolean;
+var
+  FRepresentante : TContratadosRepresentanteController;
+begin
+  FRepresentante := TContratadosRepresentanteController.Create;
+  Result := False;
+  try
+    FRepresentante.FRepresentante.ARecord.id_contratados    :=  iCadastro;
+    FRepresentante.FRepresentante.ARecord.id_REpresentante  :=  -1;
+    FRepresentante.FRepresentante.Acao                      :=  tacExcluir;
+    if not FRepresentante.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um erro ao salvar os dados do representante(1)! ' + FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    if mtbRepresentantes.IsEmpty then
+    begin
+      Result := True;
+      Exit;
+    end;
+    FRepresentante.FRepresentante.ARecord.nom_representante :=  mtbRepresentantesnom_representante.AsString;
+    FRepresentante.FRepresentante.ARecord.cpf_representante :=  mtbRepresentantescpf_representante.AsString;
+    FRepresentante.FRepresentante.Acao                      :=  tacIncluir;
+    if not FRepresentante.FRepresentante.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um erro ao salvar os dados do representante(2)! ' + FRepresentante.FRepresentante.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    Result := True;
+  finally
+    FRepresentante.Free;
+  end;
+end;
+
+function TviewCadastroContratados.SaveRH(iCadastro: integer): boolean;
+var
+  FRH : TContratadosRHController;
+begin
+  FRH := TContratadosRHController.Create;
+  Result := False;
+  try
+    FRH.FRH.ARecord.id_contratados  :=  iCadastro;
+    FRH.FRH.ARecord.id_RH           :=  -1;
+    FRH.FRH.Acao                    :=  tacExcluir;
+    if not FRH.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um erro ao salvar os dados do RH(1)! '+ FRH.FRH.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    FRH.FRH.ARecord.val_salario     :=  mtbRHval_salario.AsFloat;
+    if mtbRHdat_admissao.Text = '' then
+      FRH.FRH.ARecord.dat_admissao    :=  0
+    else
+      FRH.FRH.ARecord.dat_admissao    :=  mtbRHdat_admissao.AsDateTime;
+    if mtbRHdat_demissao.Text = '' then
+      FRH.FRH.ARecord.dat_demissao  :=  0
+    else
+      FRH.FRH.ARecord.dat_demissao  :=  mtbRHdat_demissao.AsDateTime;
+    FRH.FRH.ARecord.id_departamento :=  mtbRHid_departamento.AsInteger;
+    FRH.FRH.ARecord.id_funcao       :=  mtbRHid_funcao.AsInteger;
+    FRH.FRH.Acao                    :=  tacIncluir;
+    if not FRH.FRH.SaveRecord then
+    begin
+      MessageDlg('Ocorreu um erro ao salvar os dados do RH(2)' + FRH.FRH.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    Result := True;
+  finally
+    FRH.Free;
+  end;
+
+end;
+
+function TviewCadastroContratados.SaveVehicles(iCadastro: integer): boolean;
+var
+  FVeiculos : TControllerSisGeFVehiclesRegistration;
+begin
+  FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
+  Result := False;
+  try
+    FVeiculos.Veiculos.Cadastro :=  iCadastro;
+    FVeiculos.Veiculos.Acao     :=  tacExcluir;
+    if not FVeiculos.Save then
+    begin
+      MessageDlg(FVeiculos.Veiculos.Mensagem, mtError, [mbCancel], 0);
+      Exit;
+    end;
+    if memTableVeiculos.IsEmpty then
+    begin
+      Result := True;
+      Exit;
+    end;
+    memTableVeiculos.First;
+    while not memTableVeiculos.Eof do
+    begin
+      FVeiculos.Veiculos.Acao                     :=  tacIncluir;
+      FVeiculos.Veiculos.ID                       :=  memTableVeiculosCOD_VEICULO.AsInteger;
+      FVeiculos.Veiculos.TipoDos                  :=  memTableVeiculosDES_TIPO_DOC.AsString;
+      FVeiculos.Veiculos.CPFCNPJ                  :=  memTableVeiculosNUM_CNPJ.AsString;
+      FVeiculos.Veiculos.NomeProprietario         :=  memTableVeiculosNOM_PROPRIETARIO.AsString;
+      FVeiculos.Veiculos.DataNascimento           :=  memTableVeiculosDAT_NASCIMENTO.AsDateTime;
+      FVeiculos.Veiculos.Mae                      :=  memTableVeiculosNOM_MAE.AsString;
+      FVeiculos.Veiculos.Pai                      :=  memTableVeiculosNOM_PAI.AsString;
+      FVeiculos.Veiculos.IERG                     :=  memTableVeiculosNUM_RG.AsString;
+      FVeiculos.Veiculos.UFRG                     :=  memTableVeiculosUF_RG.AsString;
+      FVeiculos.Veiculos.DataEmissaoRG            :=  memTableVeiculosDAT_EMISSAO_RG.AsDateTime;
+      FVeiculos.Veiculos.UFEndereco               :=  memTableVeiculosUF_ENDERECO.AsString;
+      FVeiculos.Veiculos.CidadeEndereco           :=  memTableVeiculosNOM_CIDADE.AsString;
+      FVeiculos.Veiculos.LogradouroEndereco       :=  memTableVeiculosDES_ENDERECO.AsString;
+      FVeiculos.Veiculos.CEPEndereco              :=  memTableVeiculosNUM_CEP.AsString;
+      FVeiculos.Veiculos.BairroEndereco           :=  memTableVeiculosDES_BAIRRO.AsString;
+      FVeiculos.Veiculos.Telefone1                :=  memTableVeiculosNUM_TELEFONE_1.AsString;
+      FVeiculos.Veiculos.DescricaoTelefone1       :=  memTableVeiculosDES_TELEFONE_1.AsString;
+      FVeiculos.Veiculos.Telefone2                :=  memTableVeiculosNUM_TELEFONE_2.AsString;
+      FVeiculos.Veiculos.DescricaoTelefone2       :=  memTableVeiculosDES_TELEFONE_2.AsString;
+      FVeiculos.Veiculos.Cadastro                 :=  iCadastro;
+      FVeiculos.Veiculos.MarcaVeiculo             :=  memTableVeiculosDES_MARCA.AsString;
+      FVeiculos.Veiculos.ModeloVeiculo            :=  memTableVeiculosDES_MODELO.AsString;
+      FVeiculos.Veiculos.PlacaVeiculo             :=  memTableVeiculosDES_PLACA.AsString;
+      FVeiculos.Veiculos.UFPlacaVeiculo           :=  memTableVeiculosUF_PLACA.AsString;
+      FVeiculos.Veiculos.MunicipioPlacaVeiculo    :=  memTableVeiculosNOM_CIDADE_PLACA.AsString;
+      FVeiculos.Veiculos.TipoVeiculo              :=  memTableVeiculosDES_TIPO.AsString;
+      FVeiculos.Veiculos.ChassisVeiculo           :=  memTableVeiculosNUM_CHASSIS.AsString;
+      FVeiculos.Veiculos.AnoFabricacaoVeiculo     :=  memTableVeiculosDES_ANO.AsString;
+      FVeiculos.Veiculos.CorVeiculo               :=  memTableVeiculosDES_COR.AsString;
+      FVeiculos.Veiculos.RenavanVeiculo           :=  memTableVeiculosNUM_RENAVAN.AsString;
+      FVeiculos.Veiculos.AnoExercicioCRLVVeiculo  :=  memTableVeiculosANO_EXERCICIO_CLRV.AsString;
+      FVeiculos.Veiculos.CheckRastreador          :=  memTableVeiculosDOM_RASTREAMENTO.AsString;
+      FVeiculos.Veiculos.CheckAbastecimento       :=  memTableVeiculosDOM_ABASTECIMENTO.AsString;
+      FVeiculos.Veiculos.NomeUsuario              :=  FSystem.CurrentLogin;
+      FVeiculos.Veiculos.DataManutencao           :=  Now();
+
+      if not FVeiculos.Veiculos.Save then
+      begin
+        MessageDlg('Ocorreu um erro ao salvar os dados do Veiculos(1) ' + FVeiculos.Veiculos.Mensagem, mtError, [mbCancel], 0);
+      end;
+      memTableVeiculos.Next;
+    end;
+    memTableVeiculos.First;
+    Result := True;
+  finally
+    FVeiculos.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.SearcchCategory;
+begin
+if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'id_categoria as "Código", des_categoria as "Descrição"';
+  viewGeneralSearch.Tabela := 'crm_categorias';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    mtbCadastro.Edit;
+    mtbCadastroid_categoria.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    mtbCadastrodes_categoria.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure TviewCadastroContratados.SearchBankName(sId: string);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['nom_banco', 'tbbancos', 'cod_banco = ' + sId];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    mtbFinanceirodes_banco.AsString := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+
+end;
+
+procedure TviewCadastroContratados.SearchBanks;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_banco as "Código", nom_banco as "Nome"';
+  viewGeneralSearch.Tabela := 'tbbancos';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    mtbFinanceiro.Edit;
+    mtbFinanceirocod_banco.AsString := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    mtbFinanceirodes_banco.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure TviewCadastroContratados.SearchBase;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_agente as "Código", des_razao_social as "Nome"';
+  viewGeneralSearch.Tabela := 'tbagentes';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+     mtbRH.Edit;
+    mtbRHid_departamento.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    mtbRHdes_departamento.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure TviewCadastroContratados.SearchCEPCadastro(sCEP: string);
+var
+  APICEP : TAPICEPController;
+  utils : TUtils;
+begin
+  try
+    APICEP := TAPICEPController.Create;
+    utils := TUtils.Create;
+    sCEP := utils.DesmontaCPFCNPJ(sCEP);
+    if not APICEP.GetAdressByCEP(sCEP) then
+    begin
+      MessageDlg(APICEP.APICEP.Mensagem, mtWarning, [mbCancel], 0);
+      Exit;
+    end;
+    if Data_Sisgef.memTableCEP.Active then
+    begin
+      if not Data_Sisgef.memTableCEP.IsEmpty then
+      begin
+        if not Assigned(view_ListaCEPs) then
+        begin
+          view_ListaCEPs := Tview_ListaCEPs.Create(Application);
+        end;
+        if view_ListaCEPs.ShowModal = mrOK then
+        begin
+          memTableEnderecosdes_logradouro.AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
+          memTableEnderecosdes_complemento.AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
+          memTableEnderecos_des_bairro.AsString := Data_Sisgef.memTableCEPbairro.AsString;
+          memTableEnderecosnom_cidade.AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
+          memTableEnderecosuf_estado.AsString := Data_Sisgef.memTableCEPuf.AsString;
+          memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
+        end;
+        Data_Sisgef.memTableCEP.Active := False;
+        FreeAndNil(view_ListaCEPs);
+      end;
     end
     else
     begin
-      MessageDlg('Nenhum registro encontrado!', mtWarning, [mbCancel], 0);
+      memTableEnderecosdes_logradouro.AsString := APICEP.APICEP.Enderecos.Logradouro;
+      memTableEnderecosdes_complemento.AsString := APICEP.APICEP.Enderecos.Complemento;
+      memTableEnderecos_des_bairro.AsString := APICEP.APICEP.Enderecos.Bairro;
+      memTableEnderecosnom_cidade.AsString := APICEP.APICEP.Enderecos.Cidade;
+      memTableEnderecosuf_estado.AsString := APICEP.APICEP.Enderecos.UF;
+      //memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
     end;
   finally
-    FUtil.Free;
+    APICEP.Free;
+    utils.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.SearchCEPVeiculo(sCEP: string);
+var
+  APICEP : TAPICEPController;
+  utils : TUtils;
+  sEndereco : string;
+begin
+  try
+    APICEP := TAPICEPController.Create;
+    utils := TUtils.Create;
+    sCEP := utils.DesmontaCPFCNPJ(sCEP);
+    if not APICEP.GetAdressByCEP(sCEP) then
+    begin
+      MessageDlg(APICEP.APICEP.Mensagem, mtWarning, [mbCancel], 0);
+      Exit;
+    end;
+    if Data_Sisgef.memTableCEP.Active then
+    begin
+      if not Data_Sisgef.memTableCEP.IsEmpty then
+      begin
+        if not Assigned(view_ListaCEPs) then
+        begin
+          view_ListaCEPs := Tview_ListaCEPs.Create(Application);
+        end;
+        if view_ListaCEPs.ShowModal = mrOK then
+        begin
+          sEndereco := EmptyStr;
+          if not Data_Sisgef.memTableCEPlogradouro.AsString.IsEmpty then
+            sEndereco := sEndereco +  Data_Sisgef.memTableCEPlogradouro.AsString;
+          if not Data_Sisgef.memTableCEPcomplemento.AsString.IsEmpty then
+            sEndereco := sEndereco +  ' - ' + Data_Sisgef.memTableCEPcomplemento.AsString;
+          memTableVeiculosDES_ENDERECO.AsString := sEndereco;
+          memTableVeiculosDES_BAIRRO.AsString := Data_Sisgef.memTableCEPbairro.AsString;
+          memTableVeiculosNOM_CIDADE.AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
+          memTableEnderecosuf_estado.AsString := Data_Sisgef.memTableCEPuf.AsString;
+          memTableEnderecosnum_cep.AsString := Data_Sisgef.memTableCEPcep.AsString;
+        end;
+        Data_Sisgef.memTableCEP.Active := False;
+        FreeAndNil(view_ListaCEPs);
+      end;
+    end
+    else
+    begin
+      sEndereco := EmptyStr;
+      if not APICEP.APICEP.Enderecos.Logradouro.IsEmpty then
+        sEndereco := sEndereco +  APICEP.APICEP.Enderecos.Logradouro;
+      if not APICEP.APICEP.Enderecos.Complemento.IsEmpty then
+        sEndereco := sEndereco +  ' - ' + APICEP.APICEP.Enderecos.Complemento;
+      memTableVeiculosDES_ENDERECO.AsString := sEndereco;
+      memTableVeiculosDES_BAIRRO.AsString := APICEP.APICEP.Enderecos.Bairro;
+      memTableVeiculosNOM_CIDADE.AsString := APICEP.APICEP.Enderecos.Cidade;
+      memTableEnderecosuf_estado.AsString := APICEP.APICEP.Enderecos.UF;
+    end;
+  finally
+    APICEP.Free;
+    utils.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.SearchCNPJCadastro(sCNPJ: string);
+var
+  APICNPJ : TAPICNPJController;
+  utils : TUtils;
+begin
+  try
+    APICNPJ := TAPICNPJController.Create;
+    utils := TUtils.Create;
+    sCNPJ := utils.DesmontaCPFCNPJ(sCNPJ);
+
+    if not APICNPJ.GetCNPJ(sCNPJ) then
+    begin
+      MessageDlg(APICNPJ.APICNPJ.Mensagem, mtWarning, [mbCancel], 0);
+      Exit;
+    end;
+
+    if not Assigned(view_ResultadoConsultaCNPJ) then
+    begin
+      view_ResultadoConsultaCNPJ := Tview_ResultadoConsultaCNPJ.Create(Application);
+    end;
+    if view_ResultadoConsultaCNPJ.ShowModal = mrCancel then
+    begin
+      FreeAndNil(view_ResultadoConsultaCNPJ);
+      Exit;
+    end;
+    if not view_ResultadoConsultaCNPJ.memTableAP.IsEmpty then
+    begin
+      memTableCNAE.Active := False;
+      memTableCNAE.Active := True;
+      view_ResultadoConsultaCNPJ.memTableAP.First;
+      while not view_ResultadoConsultaCNPJ.memTableAP.Eof do
+      begin
+        memTableCNAE.Insert;
+        memTableCNAEdes_tipo_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPdes_tipo.AsString;
+        memTableCNAEcod_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPcod_cnae.AsString;
+        memTableCNAEdes_cnae.AsString := view_ResultadoConsultaCNPJ.memTableAPdes_cnae.AsString;
+        memTableCNAE.Post;
+        view_ResultadoConsultaCNPJ.memTableAP.Next;
+      end;
+
+    end;
+
+    FreeAndNil(view_ResultadoConsultaCNPJ);
+
+    mtbCadastronom_razao_social.AsString := APICNPJ.APICNPJ.Pessoas.Nome;
+    mtbCadastronom_fantasia_alias.AsString := APICNPJ.APICNPJ.Pessoas.Fantasia;
+    mtbCadastrocod_status.AsInteger := 1;
+    if not  memTableEnderecos.Active then  memTableEnderecos.Active := True;
+
+    memTableEnderecos.Insert;
+    memTableEnderecos_des_tipo.AsString := APICNPJ.APICNPJ.Enderecos.Tipo;
+    memTableEnderecosnum_cep.AsString := APICNPJ.APICNPJ.Enderecos.CEP;
+    memTableEnderecosdes_logradouro.AsString := APICNPJ.APICNPJ.Enderecos.Logradouro;
+    memTableEnderecosnum_logradouro.AsString := APICNPJ.APICNPJ.Enderecos.Numero;
+    memTableEnderecosdes_complemento.AsString := APICNPJ.APICNPJ.Enderecos.Complemento;
+    memTableEnderecos_des_bairro.AsString := APICNPJ.APICNPJ.Enderecos.Bairro;
+    memTableEnderecosnom_cidade.AsString := APICNPJ.APICNPJ.Enderecos.Cidade;
+    memTableEnderecosuf_estado.AsString := APICNPJ.APICNPJ.Enderecos.UF;
+    memTableEnderecos.Post;
+
+    if not memTableContatos.Active then memTableContatos.Active := True;
+    if APICNPJ.APICNPJ.Contatos.Descricao <> '' then
+    begin
+      memTableContatos.Insert;
+      memTableContatosdes_contato.AsString := APICNPJ.APICNPJ.Contatos.Descricao;
+      memTableContatosnum_telefone.AsString := APICNPJ.APICNPJ.Contatos.Telefone;
+      memTableContatosdes_email.AsString := APICNPJ.APICNPJ.Contatos.EMail;
+      memTableContatos.Post;
+    end;
+
+  finally
+    if Data_Sisgef.memTableCNPJ.Active then
+      Data_Sisgef.memTableCNPJ.Active := False;
+    APICNPJ.DisposeOf;
+  end;
+end;
+
+procedure TviewCadastroContratados.SearchCNPJVeiculo(sCNPJ: string);
+var
+  APICNPJ : TAPICNPJController;
+  utils : TUtils;
+  sEndereco : string;
+begin
+  try
+    APICNPJ := TAPICNPJController.Create;
+    utils := TUtils.Create;
+    sCNPJ := utils.DesmontaCPFCNPJ(sCNPJ);
+
+    if not APICNPJ.GetCNPJ(sCNPJ) then
+    begin
+      MessageDlg(APICNPJ.APICNPJ.Mensagem, mtWarning, [mbCancel], 0);
+      Exit;
+    end;
+
+    if not Assigned(view_ResultadoConsultaCNPJ) then
+    begin
+      view_ResultadoConsultaCNPJ := Tview_ResultadoConsultaCNPJ.Create(Application);
+    end;
+    if view_ResultadoConsultaCNPJ.ShowModal = mrCancel then
+    begin
+      FreeAndNil(view_ResultadoConsultaCNPJ);
+      Exit;
+    end;
+
+    FreeAndNil(view_ResultadoConsultaCNPJ);
+
+    dbNomePropVeiculo.Text := APICNPJ.APICNPJ.Pessoas.Nome;
+    if (memTableVeiculos.State <> dsInsert) and (memTableVeiculos.State <> dsEdit) then
+    begin
+      if memTableVeiculos.IsEmpty then
+        memTableVeiculos.Insert
+      else
+        memTableVeiculos.Edit;
+    end;
+
+    memTableVeiculosNUM_CEP.AsString := APICNPJ.APICNPJ.Enderecos.CEP;
+
+    sEndereco := EmptyStr;
+
+    if not APICNPJ.APICNPJ.Enderecos.Logradouro.IsEmpty then
+      sEndereco := sEndereco +  APICNPJ.APICNPJ.Enderecos.Logradouro;
+    if not APICNPJ.APICNPJ.Enderecos.Numero.IsEmpty then
+      sEndereco := sEndereco +  ', ' + APICNPJ.APICNPJ.Enderecos.Numero
+    else
+      sEndereco := sEndereco +  ', SN';
+    if not APICNPJ.APICNPJ.Enderecos.Complemento.IsEmpty then
+      sEndereco := sEndereco +  ' - ' + APICNPJ.APICNPJ.Enderecos.Complemento;
+
+    memTableVeiculosDES_ENDERECO.AsString := sEndereco;
+    memTableVeiculosDES_BAIRRO.AsString := APICNPJ.APICNPJ.Enderecos.Bairro;
+    memTableVeiculosNOM_CIDADE.AsString := APICNPJ.APICNPJ.Enderecos.Cidade;
+    memTableVeiculosUF_ENDERECO.AsString := APICNPJ.APICNPJ.Enderecos.UF;
+
+  finally
+    if Data_Sisgef.memTableCNPJ.Active then
+      Data_Sisgef.memTableCNPJ.Active := False;
+    utils.Free;
+    APICNPJ.DisposeOf;
+  end;
+end;
+
+procedure TviewCadastroContratados.SearchFunction;
+begin
+    if mtbCadastroid_categoria.AsInteger = 0 then
+    begin
+      Application.MessageBox('Informe uma categoria.', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'id_funcao as "Código", des_funcao as "Descrição"';
+  viewGeneralSearch.Tabela := 'crm_funcoes_rh';
+  viewGeneralSearch.Criterio := 'id_categoria = ' + mtbCadastroid_categoria.AsString;
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    mtbRH.Edit;
+    mtbRHid_funcao.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    mtbRHdes_funcao.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure TviewCadastroContratados.SearchNameBase(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['des_razao_social', 'tbagentes', 'cod_agente = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    mtbRHdes_departamento.AsString := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.SearchNameCategory(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['des_categoria', 'crm_categorias', 'id_categoria = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    mtbCadastrodes_categoria.AsString := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+procedure TviewCadastroContratados.SearchNameFunction(iId: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    if mtbCadastroid_categoria.AsInteger = 0 then
+    begin
+      Application.MessageBox('Informe uma categoria.', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+
+    aParam := ['des_funcao', 'crm_funcoes_rh  ', 'id_funcao = ' + iId.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    mtbRHdes_funcao.AsString := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+function TviewCadastroContratados.ValidateData: boolean;
+var
+  FCadastro : TCadastroContratadosController;
+  sCPF: string;
+  FUtil : TUTils;
+begin
+  try
+    if (mtbCadastro.State = dsInsert) or (mtbCadastro.State = dsEdit) then mtbCadastro.Post;
+    if (memTableEnderecos.State = dsInsert) or (memTableEnderecos.State = dsEdit) then memTableEnderecos.Post;
+    if (memTableContatos.State = dsInsert) or (memTableContatos.State = dsEdit) then memTableContatos.Post;
+    if (mtbRH.State = dsInsert) or (mtbRH.State = dsEdit) then mtbRH.Post;
+    if (memTableVeiculos.State = dsInsert) or (memTableVeiculos.State = dsEdit) then memTableVeiculos.Post;
+    if (mtbRepresentantes.State = dsInsert) or (mtbRepresentantes.State = dsEdit) then mtbRepresentantes.Post;
+    if (mtbFinanceiro.State = dsInsert) or (mtbFinanceiro.State = dsEdit) then mtbFinanceiro.Post;
+    if (mtbGR.State = dsInsert) or (mtbGR.State = dsEdit) then mtbGR.Post;
+    if (memTableCNAE.State = dsInsert) or (memTableCNAE.State = dsEdit) then memTableCNAE.Post;
+
+    Result := False;
+    FCadastro := TCadastroContratadosController.Create;
+    FUtil := TUtils.Create;
+//    if FAcao = tacIncluir then
+//    begin
+//      if not Common.Utils.TUtils.CPF(maskEditCPCNPJ.Text) then
+//      begin
+//        Application.MessageBox('CPF incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+//        maskEditCPCNPJ.SetFocus;
+//        Exit;
+//      end;
+//    end;
+
+    if dbTipoPessoa.Text = EmptyStr then
+    begin
+      Application.MessageBox('Informe o tipo de pessoa!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+      dbTipoPessoa.SetFocus;
+      Exit;
+    end;
+
+    if dbNome.Text = '' then
+    begin
+      Application.MessageBox('Informe o nome ou razão social!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+      dbNome.SetFocus;
+      Exit;
+    end;
+
+    if dbTipoPessoa.EditValue = 'CNPJ' then
+    begin
+      if dbAlias.Text = '' then
+      begin
+        Application.MessageBox('Informe o nome fantasia!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        dbAlias.SetFocus;
+        Exit;
+      end;
+      sCPF := Common.Utils.TUtils.DesmontaCPFCNPJ(dbCPFCNPJ.Text);
+      if Length(Trim(sCPF)) = 11 then
+      begin
+        if not Common.Utils.TUtils.CPF(sCPF) then
+        begin
+          Application.MessageBox('CPF do Contratado incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          dbCPFCNPJ.SetFocus;
+          Exit;
+        end;
+      end
+      else if Length(Trim(sCPF)) >= 14 then
+      begin
+        if not Common.Utils.TUtils.CNPJ(sCPF) then
+        begin
+          Application.MessageBox('CNPJ do Contratado incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          dbCPFCNPJ.SetFocus;
+          Exit;
+        end;
+      end;
+    end;
+
+    if FAcao = tacIncluir then
+    begin
+      if FCadastro.Search(['CNPJ', FUtil.DesmontaCPFCNPJ(dbCPFCNPJ.Text)]) then
+      begin
+        Application.MessageBox('CNPJ/CPF já cadastrado!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+    end;
+
+
+    if dbTipoPessoa.EditValue = 'CPF' then
+    begin
+      if Facao = tacIncluir then
+      begin
+        if dbRGIE.Text <> '' then
+        begin
+          if dbEmissorRG.Text = '' then
+          begin
+            Application.MessageBox('Informe o orgão expedidor do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//            dbEmissorRG.SetFocus;
+            Exit;
+          end;
+          if dbEmissaoRG.Date = 0 then
+          begin
+            Application.MessageBox('Informe o data da emissão do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//            dbEmissaoRG.SetFocus;
+            Exit;
+          end;
+          if dbEmissaoRG.Date > Now then
+          begin
+            Application.MessageBox('Data da emissão do RG inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//            dbEmissaoRG.SetFocus;
+            Exit;
+          end;
+          if dbUFRG.EditText = '' then
+          begin
+            Application.MessageBox('Informe a UF do RG!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//            dbUFRG.SetFocus;
+            Exit;
+          end;
+        end
+        else
+        begin
+          dbEmissorRG.Clear;
+          dbEmissaoRG.Clear;
+          dbUFRG.Clear;
+        end;
+        if dbNascimento.Date <> 0 then
+        begin
+          if dbNascimento.Date >= Now then
+          begin
+            Application.MessageBox('Data de nascimento inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//            dbNascimento.SetFocus;
+            Exit;
+          end;
+          if YearsBetween(Now,dbNascimento.Date) < 18 then
+          begin
+            if Application.MessageBox('Data de nascimento indica que pessoa é menor! Ignorar?', 'Atenção', MB_YESNO + MB_ICONEXCLAMATION + MB_DEFBUTTON2) = IDNO then
+            begin
+//              dbNascimento.SetFocus;
+              Exit;
+            end;
+          end;
+        end;
+      end;
+      if Length(Trim(sCPF)) = 11 then
+      begin
+        if not Common.Utils.TUtils.CPF(dbCPFCNPJ.Text) then
+        begin
+          Application.MessageBox('CPF do Contratado incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          dbCPFCNPJ.SetFocus;
+          Exit;
+        end;
+      end
+      else if Length(Trim(sCPF)) >= 14 then
+      begin
+        if not Common.Utils.TUtils.CNPJ(dbCPFCNPJ.Text) then
+        begin
+          Application.MessageBox('CNPJ do Contratado incorreto!','Atenção',MB_OK + MB_ICONEXCLAMATION);
+          dbCPFCNPJ.SetFocus;
+          Exit;
+        end;
+      end;
+      if dbNaturalidade.Text <> '' then
+      begin
+        if dbUFNaturalidade.Text = '' then
+        begin
+          Application.MessageBox('Informe a UF da naturalidade da Pessoa!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          dbUFNaturalidade.SetFocus;
+          Exit;
+        end;
+      end;
+      if dbRegistroCNH.Text <> '' then
+      begin
+        if Length(dbRegistroCNH.Text) <> 11 then
+        begin
+          Application.MessageBox('Quantidade de caracteres do número do registro da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          dbRegistroCNH.SetFocus;
+          Exit;
+        end;
+        if Length(dbNumeroCNH.Text) <> 10 then
+        begin
+          Application.MessageBox('Quantidade de caracteres do número da cédula da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          dbNumeroCNH.SetFocus;
+          Exit;
+        end;
+//        if Length(textEditSegurancaCNH.Text) <> 11 then
+//        begin
+//          Application.MessageBox('Quantidade de caracteres do código de segurança da CNH incorreto!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          textEditSegurancaCNH.SetFocus;
+//          Exit;
+//        end;
+        if dbCategoriaCNH.Text = '' then
+        begin
+          Application.MessageBox('Informe a categoria da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          dbCategoriaCNH.SetFocus;
+          Exit;
+        end;
+        if dbUFCNH.Text = '' then
+        begin
+          Application.MessageBox('Informe UF da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          dbUFCNH.SetFocus;
+          Exit;
+        end;
+        if dbEmissaoCNH.Date = 0  then
+        begin
+          Application.MessageBox('Informe a data da emissão da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          dbEmissaoCNH.SetFocus;
+          Exit;
+        end;
+        if dbValidadeCNH.Date < Now  then
+        begin
+          Application.MessageBox('Data da validade da CNH inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          dbValidadeCNH.SetFocus;
+          Exit;
+        end;
+        if dbPrimeiraCNH.Date = 0  then
+        begin
+          Application.MessageBox('Informe a data da primeira da CNH!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          dbPrimeiraCNH.SetFocus;
+          Exit;
+        end;
+        if dbPrimeiraCNH.Date > Now  then
+        begin
+          Application.MessageBox('Data da primeira da CNH inválida!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//          dbPrimeiraCNH.SetFocus;
+          Exit;
+        end;
+      end
+      else
+      begin
+//        textEditSegurancaCNH.Clear;
+        dbNumeroCNH.Clear;
+        dbRegistroCNH.Clear;
+        dbCategoriaCNH.Clear;
+        dbEmissaoCNH.Clear;
+        dbValidadeCNH.Clear;
+        dbPrimeiraCNH.Clear;
+        dbUFCNH.Clear;
+      end;
+    end;
+    Result := True;
+  finally
     FCadastro.Free;
   end;
-end;
 
-procedure TviewSisGefCadastroContratados.NewRegister;
-begin
-  if not Assigned(view_SisGeFContractedDetail) then
-  begin
-    view_SisGeFContractedDetail := Tview_SisGeFContractedDetail.Create(Application);
-  end;
-  view_SisGeFContractedDetail.ID := 0;
-  view_SisGeFContractedDetail.Acao := tacIncluir;
-  view_SisGeFContractedDetail.ShowModal;
-  FreeAndNil(view_SisGeFContractedDetail);
-end;
-
-procedure TviewSisGefCadastroContratados.PanelGroup;
-begin
-  case FSearch of
-    0 : viewCadastro.OptionsView.GroupByBox := (not viewCadastro.OptionsView.GroupByBox);
-    1 : viewDocumentos.OptionsView.GroupByBox := (not viewDocumentos.OptionsView.GroupByBox);
-    2 : viewGR.OptionsView.GroupByBox := (not viewGR.OptionsView.GroupByBox);
-    else
-      Exit;
-  end;
-end;
-
-procedure TviewSisGefCadastroContratados.parametroPesquisaPropertiesChange(Sender: TObject);
-begin
-  if parametroPesquisa.Text = '' then
-    actionClearSearch.Enabled := False
-  else
-    actionClearSearch.Enabled := True;
-end;
-
-procedure TviewSisGefCadastroContratados.SaveFilter;
-begin
-  with Data_SisGeF do
-  begin
-    if SaveDialog.Execute then
-    begin
-      if FileExists(SaveDialog.FileName) then
-      begin
-        if MessageDlg('Arquivo ' + SaveDialog.FileName + ' jÃ¡ existe. Sobrepor ?', mtConfirmation, [mbYes,mbNo], 0) = mrNo then
-          Exit;
-      end;
-      filterControl.SaveToFile(SaveDialog.FileName);
-    end;
-  end;
-end;
-
-procedure TviewSisGefCadastroContratados.SearchDocuments;
-//var
-//  FCadastro: TCadastroControl;
-//  sFilterAux : String;
-begin
-//  try
-//    gridCadastroLevel1.GridView := viewDocumentos;
-//    dxLayoutGroup5.Visible := False;
-//    FSearch := 1;
-//    memTableGR.Active := False;
-//    Data_Sisgef.FDConnectionMySQL.Connected := False;
-//    FCadastro := TCadastroControl.Create;
-//
-//    sFilterAux := '(dat_validade_cnh <> ' + QuotedStr('1899-12-30') + ' and ano_exercicio_clrv <> 0) and ' +
-//    '(dat_validade_cnh <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', IncDay(Now -7))) + ' or ' +
-//    'ano_exercicio_clrv <= ' + IntToStr(YearOf(IncYear(Now, -1))) + ')';
-//    if FCadastro.SearchRegister(0, '', sFilterAux, statusRegistro.Checked) then
-//    begin
-//      memTableDocuments.Active := False;
-//      memTableDocuments.Active := True;
-//      memTableDocuments.CopyDataSet(FCadastro.Cadastro.Query);
-//      FCadastro.Cadastro.Query.Connection.Connected := False;
-//      viewDocumentos.ViewData.Expand(True);
-//      viewDocumentos.DataController.DataSource.DataSet.First;
-//      gridCadastro.SetFocus;
-//    end;
-//  finally
-//    FCadastro.DisposeOf;
-//  end;
-end;
-
-procedure TviewSisGefCadastroContratados.SearchGR;
-// var
-//  FCadastro: TCadastroControl;
-//  sFilterAux : String;
-begin
-//  try
-//    gridCadastroLevel1.GridView := viewGR;
-//    dxLayoutGroup5.Visible := False;
-//    FSearch := 2;
-//    memTableDocuments.Active := False;
-//    Data_Sisgef.FDConnectionMySQL.Connected := False;
-//    FCadastro := TCadastroControl.Create;
-//    sFilterAux := '(dat_gv > ' + QuotedStr('1899-12-30') + ') and ' +
-//    '(dat_gv <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', IncDay(Now -7))) + ')';
-//    if FCadastro.SearchRegister(0, '', sFilterAux, statusRegistro.Checked) then
-//    begin
-//      memTableGR.Active := False;
-//      memTableGR.Active := True;
-//      memTableGR.CopyDataSet(FCadastro.Cadastro.Query);
-//      FCadastro.Cadastro.Query.Connection.Connected := False;
-//      viewGR.ViewData.Expand(True);
-//      viewGR.DataController.DataSource.DataSet.First;
-//      gridCadastro.SetFocus;
-//    end;
-//  finally
-//    FCadastro.DisposeOf;
-//  end;
-
-end;
-
-procedure TviewSisGefCadastroContratados.SearchRecords;
-begin
-  LocateRegister(camposPesquisa.ItemIndex, parametroPesquisa.Text);
-//  gridCadastroLevel1.GridView := viewCadastro;
-//  dxLayoutGroup5.Visible := True;
-//  FSearch := 0;
-//  memTableDocuments.Active := False;
-//  Data_Sisgef.FDConnectionMySQL.Connected := False;
-end;
-
-procedure TviewSisGefCadastroContratados.SetFilter;
-begin
-  dxLayoutGroup1.ItemIndex := 1;
-  FSearch := 0;
-end;
-
-procedure TviewSisGefCadastroContratados.StartForm;
-begin
-  //SearchRecords;
-end;
-
-procedure TviewSisGefCadastroContratados.viewCadastroDblClick(Sender: TObject);
-begin
-  EditRegister;
-end;
-
-procedure TviewSisGefCadastroContratados.viewDocumentosDblClick(Sender: TObject);
-begin
-  EditRegister;
-end;
-
-procedure TviewSisGefCadastroContratados.viewGRDblClick(Sender: TObject);
-begin
-  EditRegister;
 end;
 
 end.

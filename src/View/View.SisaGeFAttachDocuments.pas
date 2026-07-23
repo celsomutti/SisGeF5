@@ -15,6 +15,7 @@ uses
   cxCheckListBox, IdFTPList, Vcl.FileCtrl;
 
 type
+
   Tview_SisgeFAttachDocuments = class(TForm)
     Panel1: TPanel;
     actionListAttach: TActionList;
