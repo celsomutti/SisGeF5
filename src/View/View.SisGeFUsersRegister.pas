@@ -116,8 +116,6 @@ type
     dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     dbStatus: TcxDBCheckBox;
     dxLayoutItem20: TdxLayoutItem;
-    cboNivel: TcxComboBox;
-    dxLayoutItem12: TdxLayoutItem;
     dxLayoutGroup5: TdxLayoutGroup;
     cxButton5: TcxButton;
     dxLayoutItem13: TdxLayoutItem;
@@ -133,7 +131,6 @@ type
     procedure actLimparPesquisaExecute(Sender: TObject);
     procedure actEditarExecute(Sender: TObject);
     procedure dbStatusPropertiesChange(Sender: TObject);
-    procedure dbAdministradorPropertiesChange(Sender: TObject);
     procedure actRetornarExecute(Sender: TObject);
     procedure gridUsuariosDBTableView1DblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -300,14 +297,6 @@ begin
   end;
 end;
 
-procedure TviewCadastroUsuarios.dbAdministradorPropertiesChange(Sender: TObject);
-begin
-  if dbAdministrador.Checked then
-    cboNivel.ItemIndex := 0
-  else
-    cboNivel.ItemIndex := 1;
-end;
-
 procedure TviewCadastroUsuarios.dbStatusPropertiesChange(Sender: TObject);
 begin
   if dbStatus.Checked then
@@ -320,7 +309,6 @@ procedure TviewCadastroUsuarios.Editar;
 begin
   if gridUsuariosDBTableView1.DataController.RowCount = 0 then
     Exit;
-  cboNivel.ItemIndex := mtbUsuariosCOD_NIVEL.AsInteger;
   actResetarSenha.Enabled := True;
   lgpContainer.ItemIndex := 1;
   dsUsuarios.Edit;
@@ -409,6 +397,11 @@ begin
     Exit;
   FCadastro := TUsuarioControl.Create;
   try
+    if dbGrupo.Text = '' then
+    begin
+      Application.MessageBox('Informe o grupo do usuário.', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
     FCadastro.Usuarios.Acao := FAction;
     FCadastro.Usuarios.Codigo := mtbUsuariosCOD_USUARIO.AsInteger;
     FCadastro.Usuarios.Nome := mtbUsuariosNOM_USUARIO.AsString;
@@ -425,12 +418,9 @@ begin
       FCadastro.Usuarios.PrimeiroAcesso := 'S';
       FCadastro.Usuarios.DataSenha := Now();
     end;
-    if dbGrupo.Text = '' then
-      FCadastro.Usuarios.Grupo := 0
-    else
-      FCadastro.Usuarios.Grupo := mtbUsuariosCOD_GRUPO.AsInteger;
+    FCadastro.Usuarios.Grupo := mtbUsuariosCOD_GRUPO.AsInteger;
     FCadastro.Usuarios.Privilegio := mtbUsuariosDOM_PRIVILEGIO.AsString;
-    FCadastro.Usuarios.Nivel := cboNivel.ItemIndex;
+    FCadastro.Usuarios.Nivel := 0;
     FCadastro.Usuarios.Expira := mtbUsuariosDOM_EXPIRA.AsString;
     FCadastro.Usuarios.DiasExpira := mtbUsuariosQTD_DIAS_EXPIRA.AsInteger;
     FCadastro.Usuarios.Ativo := mtbUsuariosDOM_ATIVO.AsString;

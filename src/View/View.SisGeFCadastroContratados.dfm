@@ -37,8 +37,6 @@ object viewCadastroContratados: TviewCadastroContratados
     TabOrder = 0
     Transparent = True
     CustomizeFormTabbedView = True
-    ExplicitWidth = 984
-    ExplicitHeight = 520
     object cxButton1: TcxButton
       Left = 915
       Top = 50
@@ -132,7 +130,8 @@ object viewCadastroContratados: TviewCadastroContratados
         Navigator.Buttons.Edit.Visible = False
         Navigator.Buttons.Post.Visible = False
         Navigator.Buttons.Cancel.Visible = False
-        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.Refresh.ImageIndex = 105
+        Navigator.Buttons.Refresh.Visible = True
         Navigator.Buttons.SaveBookmark.Visible = False
         Navigator.Buttons.GotoBookmark.Visible = False
         Navigator.Buttons.Filter.ImageIndex = 96
@@ -200,6 +199,8 @@ object viewCadastroContratados: TviewCadastroContratados
           Caption = 'Nome / Raz'#227'o Social'
           DataBinding.FieldName = 'nom_razao_social'
           HeaderAlignmentHorz = taCenter
+          SortIndex = 0
+          SortOrder = soAscending
           Width = 274
         end
         object gridDBTableView1nom_fantasia_alias: TcxGridDBColumn
@@ -4295,7 +4296,7 @@ object viewCadastroContratados: TviewCadastroContratados
     Left = 544
     Top = 56
     Content = {
-      414442530F00133FE9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F00E243E9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005

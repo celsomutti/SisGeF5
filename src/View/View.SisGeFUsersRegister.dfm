@@ -37,7 +37,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       Action = actSair
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 20
+      TabOrder = 19
     end
     object cxButton2: TcxButton
       Left = 24
@@ -312,7 +312,6 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       Properties.NullStyle = nssUnchecked
       Properties.ValueChecked = 'S'
       Properties.ValueUnchecked = 'N'
-      Properties.OnChange = dbAdministradorPropertiesChange
       Style.HotTrack = False
       TabOrder = 13
       Visible = False
@@ -346,7 +345,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       Properties.ListOptions.ShowHeader = False
       Properties.ListSource = dsGrupos
       Style.HotTrack = False
-      TabOrder = 15
+      TabOrder = 14
       Visible = False
       Width = 365
     end
@@ -388,25 +387,8 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       Properties.ValueUnchecked = 'N'
       Properties.OnChange = dbStatusPropertiesChange
       Style.HotTrack = False
-      TabOrder = 16
+      TabOrder = 15
       Visible = False
-    end
-    object cboNivel: TcxComboBox
-      Left = 10000
-      Top = 10000
-      Hint = 'N'#237'vel do usu'#225'rio'
-      Properties.DropDownListStyle = lsEditFixedList
-      Properties.Items.Strings = (
-        'Master'
-        'User'
-        'Guest'
-        'Custom'
-        'External')
-      Style.HotTrack = False
-      TabOrder = 14
-      Text = 'User'
-      Visible = False
-      Width = 365
     end
     object cxButton5: TcxButton
       Left = 10000
@@ -416,7 +398,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       Action = actRetornar
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 17
+      TabOrder = 16
       Visible = False
     end
     object cxButton6: TcxButton
@@ -427,7 +409,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       Action = actGravar
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 18
+      TabOrder = 17
       Visible = False
     end
     object cxButton7: TcxButton
@@ -438,7 +420,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       Action = actResetarSenha
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 19
+      TabOrder = 18
       Visible = False
     end
     object lcMainGroup_Root: TdxLayoutGroup
@@ -662,7 +644,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       CaptionOptions.Visible = False
       Control = dbAdministrador
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 90
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -674,7 +656,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       CaptionOptions.Visible = False
       Control = dbPrimeiroAcesso
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 182
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -695,7 +677,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 145
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 1
     end
     object dxLayoutItem18: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup1
@@ -704,7 +686,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       CaptionOptions.Visible = False
       Control = dbSenhaExpira
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 87
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -732,18 +714,9 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
       CaptionOptions.Visible = False
       Control = dbStatus
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
+      ControlOptions.OriginalWidth = 66
       ControlOptions.ShowBorder = False
-      Index = 3
-    end
-    object dxLayoutItem12: TdxLayoutItem
-      Parent = dxLayoutGroup4
-      CaptionOptions.Text = 'N'#237'vel'
-      Control = cboNivel
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutGroup5: TdxLayoutGroup
       Parent = lgpCadastro
@@ -952,7 +925,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
     Left = 384
     Top = 8
     Content = {
-      414442530F00A44E31080000FF00010001FF02FF030400160000006D00740062
+      414442530F00874231080000FF00010001FF02FF030400160000006D00740062
       005500730075006100720069006F00730005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B04001600000043004F
       0044005F005500530055004100520049004F0005001600000043004F0044005F
@@ -1140,7 +1113,7 @@ object viewCadastroUsuarios: TviewCadastroUsuarios
     Left = 472
     Top = 8
     Content = {
-      414442530F00A44EC0010000FF00010001FF02FF030400120000006D00740062
+      414442530F008742C0010000FF00010001FF02FF030400120000006D00740062
       0047007200750070006F00730005000A0000005400610062006C006500060000
       000000070000080032000000090000FF0AFF0B04001600000043004F0044005F
       005500530055004100520049004F0005001600000043004F0044005F00550053

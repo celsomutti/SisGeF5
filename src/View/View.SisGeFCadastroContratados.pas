@@ -22,7 +22,7 @@ uses
   Controller.SisGeFContratadosRH, Controller.SisGeFContratadosEnderecos, Controller.SisGeFContratadosContatos,
   Controller.SisGeFVehiclesRegistration, Controller.SisGeFContratadosFinanceiro, Controller.SisGeFContratadosRepresentantes,
   Controller.SisGeFContratadosGR, Controller.APICNPJ, Controller.APICEP, Common.ENum, System.DateUtils, System.StrUtils,
-  Common.Utils, service.sistem, service.SisGeFGeneralSearch;
+  Common.Utils, service.sistem, service.SisGeFGeneralSearch, service.connectionMySQL;
 
 type
   TviewCadastroContratados = class(TForm)
@@ -544,6 +544,7 @@ type
     FSystem : TSistem;
     FCaptionComplent : String;
     FAcao : TAcao;
+    FConn : TConnectionMySQL;
 
     function CustomSearchStr(sParam: string): string;
 
@@ -642,13 +643,13 @@ end;
 
 procedure TviewCadastroContratados.actionDocumentsExecute(Sender: TObject);
 begin
-  if not mtbCadastro.IsEmpty then  
+  if not Data_Sisgef.qryContratados.IsEmpty then
     Documentos;
 end;
 
 procedure TviewCadastroContratados.actionEditRegisterExecute(Sender: TObject);
 begin
-  Editar(mtbCadastroid.AsInteger);
+  Editar(Data_Sisgef.qryContratadosid.AsInteger);
 end;
 
 procedure TviewCadastroContratados.actionExpandGridExecute(Sender: TObject);
@@ -762,7 +763,7 @@ begin
   dsCNAE.AutoEdit := False;
 
   FAcao := tacIndefinido;
-  mtbCadastro.Cancel;
+  Data_Sisgef.qryContratados.Cancel;
 
   memTableEnderecos.Active := False;
   memTableContatos.Active := False;
@@ -973,7 +974,7 @@ end;
 procedure TviewCadastroContratados.dbCodCategoriaPropertiesChange(Sender: TObject);
 begin
   if dsCadastro.State in [dsEdit, dsInsert] then
-    mtbCadastrodes_categoria.AsString:= EmptyStr;
+    //mtbCadastrodes_categoria.AsString:= EmptyStr;
 end;
 
 procedure TviewCadastroContratados.dbCodCategoriaPropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -1012,8 +1013,8 @@ end;
 
 procedure TviewCadastroContratados.dbFuncaoPropertiesCloseUp(Sender: TObject);
 begin
-  if mtbCadastro.State in [dsInsert, dsEdit] then
-    mtbCadastroid_categoria.AsInteger := RetornaCategoria(dbCodigoAtividade.EditValue);
+  if Data_Sisgef.qryContratados.State in [dsInsert, dsEdit] then
+    Data_Sisgef.qryContratadosid_categoria.AsInteger := RetornaCategoria(dbCodigoAtividade.EditValue);
 end;
 
 procedure TviewCadastroContratados.dbStatusPropertiesChange(Sender: TObject);
@@ -1076,7 +1077,7 @@ begin
   PopulateVehicles(iCadastro);
 
   FAcao := tacAlterar;
-  mtbCadastro.Edit;
+  Data_Sisgef.qryContratados.Edit;
 
   ChangePerson;
   dxLayoutGroup6.ItemIndex := 0;
@@ -1116,31 +1117,28 @@ begin
 end;
 
 procedure TviewCadastroContratados.ExecSarch(sQuery: string);
-var
-  cadastro : TCadastroContratadosController;
-  aParam : Array of String;
 begin
-  cadastro := TCadastroContratadosController.Create;
-  SetLength(aParam, 3);
-
-  try
-     aParam[0] := '*';
-     aParam[1] := 'VIEW';
-     aParam[2] := sQuery;
-
-     if mtbCadastro.Active then mtbCadastro.Active := False;
-
-
-     if cadastro.CustomSearch(aParam) then
-     begin
-       if mtbCadastro.Active then mtbCadastro.Close;
-       mtbCadastro.Data := cadastro.FContratados.Query.Data;
-     end;
-     cadastro.FContratados.Query.Close;
-     cadastro.FContratados.Query.Connection.Close;
-  finally
-    Finalize(aParam);
-    cadastro.Free;
+  FConn := TConnectionMySQL.Create;
+  with Data_Sisgef do
+  begin
+    if not qryContratados.Active then
+    begin
+      qryContratados.Connection := FConn.GetConnection;
+      qryContratados.Filtered := True;
+      qryContratados.Filter := sQuery;
+      qryContratados.Open();
+    end
+    else
+    begin
+      qryContratados.Filter := sQuery;
+      qryContratados.Refresh;
+    end;
+    if not qryContratados.IsEmpty then
+    begin
+      gridDBTableView1.DataController.GotoFirst;
+      grid.SetFocus;
+    end;
+    
   end;
 end;
 
@@ -1177,9 +1175,10 @@ end;
 
 procedure TviewCadastroContratados.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if mtbCadastro.Active then mtbCadastro.Close;
+  if Data_Sisgef.qryContratados.Active then Data_Sisgef.qryContratados.Close;
+  FConn.Free;
   Action := caFree;
-  viewCadastroTerceirizados := Nil;
+  viewCadastroContratados := Nil;
 end;
 
 procedure TviewCadastroContratados.FormCreate(Sender: TObject);
@@ -1194,7 +1193,7 @@ end;
 
 procedure TviewCadastroContratados.gridDBTableView1DblClick(Sender: TObject);
 begin
-  Editar(mtbCadastroid.AsInteger);
+  Editar(Data_Sisgef.qryContratadosid.AsInteger);
 end;
 
 procedure TviewCadastroContratados.gridFinanceiroDBTableView1cod_bancoPropertiesChange(Sender: TObject);
@@ -1408,8 +1407,8 @@ begin
   dsCNAE.AutoEdit := True;
   FAcao := tacIncluir;
 
-  mtbCadastro.Insert;
-  mtbCadastrocod_status.AsInteger := 1;
+  Data_Sisgef.qryContratados.Insert;
+  Data_Sisgef.qryContratadoscod_status.AsInteger := 1;
   memTableEnderecos.Active := False;
   memTableEnderecos.Active := True;
   memTableContatos.Active := False;
@@ -1472,203 +1471,203 @@ end;
 
 procedure TviewCadastroContratados.PopulateCNAE(iCadastro: integer);
 var
-  FCNAE : TCadastroContratadosCNAEController;
+//  FCNAE : TCadastroContratadosCNAEController;
   aParam: array of string;
 begin
   try
-    FCNAE := TCadastroContratadosCNAEController.Create;
-    if memTableCNAE.Active then
-    begin
-      memTableCNAE.Close;
-    end;
-    SetLength(aParam,2);
-    aParam := ['CONTRATADO',iCadastro.ToString];
-    if not FCNAE.Search(aParam) then
-    begin
-      Exit;
-    end;
-    memTableCNAE.Active := True;;
-    while not FCNAE.FCNAE.Query.Eof do
-    begin
-      memTableCNAE.Insert;
-      memTableCNAEid_cnae.AsInteger         :=  FCNAE.FCNAE.Query.FieldByName('id_cnae').AsInteger;
-      memTableCNAEid_contratados.AsInteger  :=  FCNAE.FCNAE.Query.FieldByName('id_contratados').AsInteger;
-      memTableCNAEdes_tipo_cnae.AsString    :=  FCNAE.FCNAE.Query.FieldByName('des_tipo_cnae').AsString;
-      memTableCNAEcod_cnae.AsString         :=  FCNAE.FCNAE.Query.FieldByName('cod_cnae').AsString;
-      memTableCNAEdes_cnae.AsString         :=  FCNAE.FCNAE.Query.FieldByName('des_cnae').AsString;
-      memTableCNAE.Post;
-      FCNAE.FCNAE.Query.Next;
-    end;
-    if not memTableCNAE.Active then
-      memTableCNAE.Active := True
+//    FCNAE := TCadastroContratadosCNAEController.Create;
+//    if memTableCNAE.Active then
+//    begin
+//      memTableCNAE.Close;
+//    end;
+//    SetLength(aParam,2);
+//    aParam := ['CONTRATADO',iCadastro.ToString];
+//    if not FCNAE.Search(aParam) then
+//    begin
+//      Exit;
+//    end;
+//    memTableCNAE.Active := True;;
+//    while not FCNAE.FCNAE.Query.Eof do
+//    begin
+//      memTableCNAE.Insert;
+//      memTableCNAEid_cnae.AsInteger         :=  FCNAE.FCNAE.Query.FieldByName('id_cnae').AsInteger;
+//      memTableCNAEid_contratados.AsInteger  :=  FCNAE.FCNAE.Query.FieldByName('id_contratados').AsInteger;
+//      memTableCNAEdes_tipo_cnae.AsString    :=  FCNAE.FCNAE.Query.FieldByName('des_tipo_cnae').AsString;
+//      memTableCNAEcod_cnae.AsString         :=  FCNAE.FCNAE.Query.FieldByName('cod_cnae').AsString;
+//      memTableCNAEdes_cnae.AsString         :=  FCNAE.FCNAE.Query.FieldByName('des_cnae').AsString;
+//      memTableCNAE.Post;
+//      FCNAE.FCNAE.Query.Next;
+//    end;
+//    if not memTableCNAE.Active then
+//      memTableCNAE.Active := True
   finally
-    FCNAE.FCNAE.Query.Connection.Close;
-    FCNAE.Free;
+//    FCNAE.FCNAE.Query.Connection.Close;
+//    FCNAE.Free;
   end;
 end;
 
 procedure TviewCadastroContratados.PopulateFinances(iCadastro: integer);
 var
-  FFinanceiro : TContratadosFinanceiroController;
+//  FFinanceiro : TContratadosFinanceiroController;
   aParam: array of string;
 begin
   try
-    FFinanceiro := TContratadosFinanceiroController.Create;
-    SetLength(aParam,2);
-    aParam := ['CONTRATADO',iCadastro.ToString];
-    mtbFinanceiro.Active := False;
-    if FFinanceiro.Search(aParam) then
-    begin
-      mtbFinanceiro.Active := True;
-      FFinanceiro.FFinanceiro.Query.First;
-      while not FFinanceiro.FFinanceiro.Query.Eof do
-      begin
-        if FFinanceiro.SetupRecord then
-        begin
-          mtbFinanceiro.Insert;
-          mtbFinanceirodes_forma_pagamento.AsString := FFinanceiro.FFinanceiro.ARecord.des_forma_pagamento;
-          mtbFinanceirocod_banco.AsString := FFinanceiro.FFinanceiro.ARecord.cod_banco;
-          mtbFinanceirocod_agencia.AsString := FFinanceiro.FFinanceiro.ARecord.cod_agencia;
-          mtbFinanceironum_conta.AsString := FFinanceiro.FFinanceiro.ARecord.num_conta;
-          mtbFinanceirochave_pix.AsString := FFinanceiro.FFinanceiro.ARecord.chave_pix;
-          mtbFinanceirodes_banco.AsString := FFinanceiro.FFinanceiro.ARecord.des_banco;
-          mtbFinanceiroid_financeiro.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_financeiro;
-          mtbFinanceiroid_contratados.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_contratados;
-          mtbFinanceiro.Post;
-        end;
-        FFinanceiro.FFinanceiro.Query.Next;
-      end;
-    end;
-    FFinanceiro.FFinanceiro.Query.Connection.Close;
-    if not mtbFinanceiro.Active then mtbFinanceiro.Active := True;
+//    FFinanceiro := TContratadosFinanceiroController.Create;
+//    SetLength(aParam,2);
+//    aParam := ['CONTRATADO',iCadastro.ToString];
+//    mtbFinanceiro.Active := False;
+//    if FFinanceiro.Search(aParam) then
+//    begin
+//      mtbFinanceiro.Active := True;
+//      FFinanceiro.FFinanceiro.Query.First;
+//      while not FFinanceiro.FFinanceiro.Query.Eof do
+//      begin
+//        if FFinanceiro.SetupRecord then
+//        begin
+//          mtbFinanceiro.Insert;
+//          mtbFinanceirodes_forma_pagamento.AsString := FFinanceiro.FFinanceiro.ARecord.des_forma_pagamento;
+//          mtbFinanceirocod_banco.AsString := FFinanceiro.FFinanceiro.ARecord.cod_banco;
+//          mtbFinanceirocod_agencia.AsString := FFinanceiro.FFinanceiro.ARecord.cod_agencia;
+//          mtbFinanceironum_conta.AsString := FFinanceiro.FFinanceiro.ARecord.num_conta;
+//          mtbFinanceirochave_pix.AsString := FFinanceiro.FFinanceiro.ARecord.chave_pix;
+//          mtbFinanceirodes_banco.AsString := FFinanceiro.FFinanceiro.ARecord.des_banco;
+//          mtbFinanceiroid_financeiro.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_financeiro;
+//          mtbFinanceiroid_contratados.AsInteger := FFinanceiro.FFinanceiro.ARecord.id_contratados;
+//          mtbFinanceiro.Post;
+//        end;
+//        FFinanceiro.FFinanceiro.Query.Next;
+//      end;
+//    end;
+//    FFinanceiro.FFinanceiro.Query.Connection.Close;
+//    if not mtbFinanceiro.Active then mtbFinanceiro.Active := True;
   finally
-    FFinanceiro.Free;
+//    FFinanceiro.Free;
   end;
 end;
 
 procedure TviewCadastroContratados.PopulateGR(iCadastro: integer);
 var
-  FGR : TContratadosGRController;
+//  FGR : TContratadosGRController;
   aParam: array of string;
 begin
   try
-    fgr := TContratadosGRController.Create;
-    SetLength(aParam,2);
-    aParam := ['CONTRATADO',iCadastro.ToString];
-    if FGR.Search(aParam) then
-    begin
-      mtbGR.Data := FGR.FGR.Query.Data;
-    end;
-    FGR.FGR.Query.Connection.Close;
-    if not mtbGR.Active then mtbGR.Active := True;
-
+//    fgr := TContratadosGRController.Create;
+//    SetLength(aParam,2);
+//    aParam := ['CONTRATADO',iCadastro.ToString];
+//    if FGR.Search(aParam) then
+//    begin
+//      mtbGR.Data := FGR.FGR.Query.Data;
+//    end;
+//    FGR.FGR.Query.Connection.Close;
+//    if not mtbGR.Active then mtbGR.Active := True;
+//
   finally
-    FGR.Free;
+//    FGR.Free;
   end;
 end;
 
 procedure TviewCadastroContratados.PopulateRepresentative(iCadastro: integer);
 var
-  FRepresentante : TContratadosRepresentanteController;
+//  FRepresentante : TContratadosRepresentanteController;
   aParam: array of string;
 begin
   try
-    FRepresentante := TContratadosRepresentanteController.Create;
-    SetLength(aParam,2);
-    aParam := ['CONTRATADO',iCadastro.ToString];
-    if FRepresentante.Search(aParam) then
-    begin
-      mtbRepresentantes.Data := FRepresentante.FRepresentante.Query.Data;
-    end;
-    FRepresentante.FRepresentante.Query.Connection.Close;
-    if not mtbRepresentantes.Active then mtbRepresentantes.Active := True;
+//    FRepresentante := TContratadosRepresentanteController.Create;
+//    SetLength(aParam,2);
+//    aParam := ['CONTRATADO',iCadastro.ToString];
+//    if FRepresentante.Search(aParam) then
+//    begin
+//      mtbRepresentantes.Data := FRepresentante.FRepresentante.Query.Data;
+//    end;
+//    FRepresentante.FRepresentante.Query.Connection.Close;
+//    if not mtbRepresentantes.Active then mtbRepresentantes.Active := True;
 
   finally
-    FRepresentante.Free;
+//    FRepresentante.Free;
   end;
 end;
 
 procedure TviewCadastroContratados.PopulateRH(iCadastro: integer);
 var
-  FRH : TContratadosRHController;
+//  FRH : TContratadosRHController;
   aParam: array of string;
 begin
   try
-    FRH := TContratadosRHController.Create;
-    SetLength(aParam,2);
-    aParam := ['CONTRATADO',iCadastro.ToString];
-    if FRH.Search(aParam) then
-    begin
-      mtbRH.Open;
-      mtbRH.Insert;
-      mtbRHid_rh.AsInteger := FRH.FRH.Query.FieldByName('id_rh').AsInteger;
-      mtbRHid_contratados.AsInteger := FRH.FRH.Query.FieldByName('id_contratados').AsInteger;
-      mtbRHdat_admissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_admissao').AsDateTime;
-      mtbRHdat_demissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_demissao').AsDateTime;
-      mtbRHid_departamento.AsInteger := FRH.FRH.Query.FieldByName('id_departamento').AsInteger;
-      mtbRHdes_departamento.AsString := FRH.FRH.Query.FieldByName('des_departamento').AsString;
-      mtbRHid_funcao.AsInteger := FRH.FRH.Query.FieldByName('id_funcao').AsInteger;
-      mtbRHdes_funcao.AsString := FRH.FRH.Query.FieldByName('des_funcao').AsString;
-      mtbRHval_salario.AsFloat := FRH.FRH.Query.FieldByName('val_salario').AsFloat;
-      mtbRH.Post;
-    end;
-    if not mtbRH.Active then
-      mtbRH.Active := True;
-    FRH.FRH.Query.Connection.Close;
+//    FRH := TContratadosRHController.Create;
+//    SetLength(aParam,2);
+//    aParam := ['CONTRATADO',iCadastro.ToString];
+//    if FRH.Search(aParam) then
+//    begin
+//      mtbRH.Open;
+//      mtbRH.Insert;
+//      mtbRHid_rh.AsInteger := FRH.FRH.Query.FieldByName('id_rh').AsInteger;
+//      mtbRHid_contratados.AsInteger := FRH.FRH.Query.FieldByName('id_contratados').AsInteger;
+//      mtbRHdat_admissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_admissao').AsDateTime;
+//      mtbRHdat_demissao.AsDateTime := FRH.FRH.Query.FieldByName('dat_demissao').AsDateTime;
+//      mtbRHid_departamento.AsInteger := FRH.FRH.Query.FieldByName('id_departamento').AsInteger;
+//      mtbRHdes_departamento.AsString := FRH.FRH.Query.FieldByName('des_departamento').AsString;
+//      mtbRHid_funcao.AsInteger := FRH.FRH.Query.FieldByName('id_funcao').AsInteger;
+//      mtbRHdes_funcao.AsString := FRH.FRH.Query.FieldByName('des_funcao').AsString;
+//      mtbRHval_salario.AsFloat := FRH.FRH.Query.FieldByName('val_salario').AsFloat;
+//      mtbRH.Post;
+//    end;
+//    if not mtbRH.Active then
+//      mtbRH.Active := True;
+//    FRH.FRH.Query.Connection.Close;
   finally
-    FRH.Free;
+//    FRH.Free;
   end;
 end;
 
 procedure TviewCadastroContratados.PopulateVehicles(iCadastro: integer);
 var
-  sMensagem: String;
-  FVeiculos: TControllerSisGeFVehiclesRegistration;
+//  sMensagem: String;
+//  FVeiculos: TControllerSisGeFVehiclesRegistration;
   aParam : array of variant;
 begin
   try
-    memTableVeiculos.Active := False;
-    FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
-    SetLength(aParam,2);
-    aParam := ['CADASTRO',iCadastro];
-    if FVeiculos.Search(aParam) then
-    begin
-      memTableVeiculos.Active := True;
-      memTableVeiculos.CopyDataSet(FVeiculos.Veiculos.Query);
-      FVeiculos.Veiculos.Query.Connection.Connected := False;
-//      if not memTableVeiculos.IsEmpty then
-//        gridVeiculosDBTableView1.DataController.DataSource.DataSet.First;
-    end;
-    if not memTableVeiculos.Active then memTableVeiculos.Active := True;
+//    memTableVeiculos.Active := False;
+//    FVeiculos := TControllerSisGeFVehiclesRegistration.Create;
+//    SetLength(aParam,2);
+//    aParam := ['CADASTRO',iCadastro];
+//    if FVeiculos.Search(aParam) then
+//    begin
+//      memTableVeiculos.Active := True;
+//      memTableVeiculos.CopyDataSet(FVeiculos.Veiculos.Query);
+//      FVeiculos.Veiculos.Query.Connection.Connected := False;
+////      if not memTableVeiculos.IsEmpty then
+////        gridVeiculosDBTableView1.DataController.DataSource.DataSet.First;
+//    end;
+//    if not memTableVeiculos.Active then memTableVeiculos.Active := True;
 
   finally
-    FVeiculos.Free;
+//    FVeiculos.Free;
   end;
 end;
 
 function TviewCadastroContratados.RetornaAtividades(iId: integer): string;
 var
-  FFuncoes : TFuncoesRHController;
+//  FFuncoes : TFuncoesRHController;
   aParam: array of string;
-  sAtividade: string;
+//  sAtividade: string;
 begin
-  FFuncoes := TFuncoesRHController.Create;
-  Result := '';
+//  FFuncoes := TFuncoesRHController.Create;
+//  Result := '';
   try
-    sAtividade := EmptyStr;
-    SetLength(aParam,3);
-    aParam := ['des_atividades', 'TABLE','id_funcao = ' + iId.ToString];
-    if FFuncoes.CustomSearch(aParam) then
-    begin
-      if not FFuncoes.FFuncoes.Query.FieldByName('des_atividades').IsNull then
-        sAtividade := FFuncoes.FFuncoes.Query.FieldByName('des_atividades').Value;
-    end;
-    Result := sAtividade;
+//    sAtividade := EmptyStr;
+//    SetLength(aParam,3);
+//    aParam := ['des_atividades', 'TABLE','id_funcao = ' + iId.ToString];
+//    if FFuncoes.CustomSearch(aParam) then
+//    begin
+//      if not FFuncoes.FFuncoes.Query.FieldByName('des_atividades').IsNull then
+//        sAtividade := FFuncoes.FFuncoes.Query.FieldByName('des_atividades').Value;
+//    end;
+//    Result := sAtividade;
   finally
-    Finalize(aParam);
-    if FFuncoes.FFuncoes.Query.Active then
-      FFuncoes.FFuncoes.Query.Connection.Close;
-    FFuncoes.Free;
+//    Finalize(aParam);
+//    if FFuncoes.FFuncoes.Query.Active then
+//      FFuncoes.FFuncoes.Query.Connection.Close;
+//    FFuncoes.Free;
   end;
 end;
 
@@ -1883,84 +1882,84 @@ end;
 
 function TviewCadastroContratados.SaveContracted: boolean;
 var
-  FCadastro : TCadastroContratadosController;
+//  FCadastro : TCadastroContratadosController;
   FUtils : TUtils;
 begin
-  FCadastro := TCadastroContratadosController.Create;
+//  FCadastro := TCadastroContratadosController.Create;
   FUtils := TUtils.Create;
   Result := False;
 
   try
-    FCadastro.FContratados.Acao := FAcao;
-    FCadastro.FContratados.ARecord.id := mtbCadastroid.AsInteger;
-    FCadastro.FContratados.ARecord.cod_erp_contratados := '0';
-    FCadastro.FContratados.ARecord.id_categoria := mtbCadastroid_categoria.AsInteger;
-    FCadastro.FContratados.ARecord.cod_pessoa := mtbCadastrocod_pessoa.AsInteger;
-    FCadastro.FContratados.ARecord.des_tipo_doc := mtbCadastrodes_tipo_doc.AsString;
-    FCadastro.FContratados.ARecord.nom_razao_social := mtbCadastronom_razao_social.AsString;
-    FCadastro.FContratados.ARecord.nom_fantasia_alias := mtbCadastronom_fantasia_alias.AsString;
-    FCadastro.FContratados.ARecord.num_cpf_cnpj :=  FUtils.DesmontaCPFCNPJ(mtbCadastronum_cpf_cnpj.AsString);
-    FCadastro.FContratados.ARecord.num_rg_ie := mtbCadastronum_rg_ie.AsString;
-    if mtbCadastrodat_emissao_rg.AsString = '' then
-      FCadastro.FContratados.ARecord.dat_emissao_rg := 0
-    else
-      FCadastro.FContratados.ARecord.dat_emissao_rg := mtbCadastrodat_emissao_rg.AsDateTime;
-    FCadastro.FContratados.ARecord.num_im := mtbCadastronum_im.AsString;
-    FCadastro.FContratados.ARecord.nom_emissor_rg := mtbCadastronom_emissor_rg.AsString;
-    FCadastro.FContratados.ARecord.uf_emissor_rg := mtbCadastrouf_emissor_rg.AsString;
-    if mtbCadastrodat_nascimento.AsString = '' then
-      FCadastro.FContratados.ARecord.dat_nascimento := 0
-    else
-      FCadastro.FContratados.ARecord.dat_nascimento := mtbCadastrodat_nascimento.AsDateTime;
-    FCadastro.FContratados.ARecord.des_nacionalidade := mtbCadastrodes_nacionalidade.AsString;
-    FCadastro.FContratados.ARecord.des_naturalidade := mtbCadastrodes_naturalidade.AsString;
-    FCadastro.FContratados.ARecord.uf_naturalidade := mtbCadastrouf_naturalidade.AsString;
-    FCadastro.FContratados.ARecord.nom_pai := mtbCadastronom_pai.AsString;
-    FCadastro.FContratados.ARecord.nom_mae := mtbCadastronom_mae.AsString;
-    FCadastro.FContratados.ARecord.cod_crt  := mtbCadastrocod_crt.AsInteger;
-    FCadastro.FContratados.ARecord.num_cnh := mtbCadastronum_cnh.AsString;
-    FCadastro.FContratados.ARecord.num_registro_cnh := mtbCadastronum_registro_cnh.AsString;
-    FCadastro.FContratados.ARecord.des_categoria_cnh := mtbCadastrodes_categoria_cnh.AsString;
-    if mtbCadastrodat_emissao_cnh.AsDateTime = 0 then
-      FCadastro.FContratados.ARecord.dat_emissao_cnh := 0
-    else
-      FCadastro.FContratados.ARecord.dat_emissao_cnh := mtbCadastrodat_emissao_cnh.AsDateTime;
-    if mtbCadastrodat_validade_cnh.AsDateTime = 0 then
-      FCadastro.FContratados.ARecord.dat_validade_cnh := 0
-    else
-      FCadastro.FContratados.ARecord.dat_validade_cnh := mtbCadastrodat_validade_cnh.AsDateTime;
-    if mtbCadastrodat_primeira_cnh.AsDateTime = 0 then
-      FCadastro.FContratados.ARecord.dat_primeira_cnh := 0
-    else
-      FCadastro.FContratados.ARecord.dat_primeira_cnh := mtbCadastrodat_primeira_cnh.AsDateTime;
-    FCadastro.FContratados.ARecord.uf_cnh := mtbCadastrouf_cnh.AsString;
-    FCadastro.FContratados.ARecord.des_obs := mtbCadastrodes_obs.AsString;
-    FCadastro.FContratados.ARecord.cod_status := mtbCadastrocod_status.AsInteger;
-    if FCadastro.FContratados.Acao = tacIncluir then
-      FCadastro.FContratados.ARecord.dat_cadastro := Now();
-    if not FCadastro.SaveRecord() then
-    begin
-      MessageDlg(FCadastro.FContratados.Mensagem, mtError, [mbCancel], 0);
-      Exit;
-    end;
-    if FAcao = tacIncluir then
-    begin
-      mtbCadastro.Edit;
-      mtbCadastroid.AsInteger := FCadastro.FContratados.ARecord.id;
-      mtbCadastro.Post;
-    end;
+//    FCadastro.FContratados.Acao := FAcao;
+//    FCadastro.FContratados.ARecord.id := mtbCadastroid.AsInteger;
+//    FCadastro.FContratados.ARecord.cod_erp_contratados := '0';
+//    FCadastro.FContratados.ARecord.id_categoria := mtbCadastroid_categoria.AsInteger;
+//    FCadastro.FContratados.ARecord.cod_pessoa := mtbCadastrocod_pessoa.AsInteger;
+//    FCadastro.FContratados.ARecord.des_tipo_doc := mtbCadastrodes_tipo_doc.AsString;
+//    FCadastro.FContratados.ARecord.nom_razao_social := mtbCadastronom_razao_social.AsString;
+//    FCadastro.FContratados.ARecord.nom_fantasia_alias := mtbCadastronom_fantasia_alias.AsString;
+//    FCadastro.FContratados.ARecord.num_cpf_cnpj :=  FUtils.DesmontaCPFCNPJ(mtbCadastronum_cpf_cnpj.AsString);
+//    FCadastro.FContratados.ARecord.num_rg_ie := mtbCadastronum_rg_ie.AsString;
+//    if mtbCadastrodat_emissao_rg.AsString = '' then
+//      FCadastro.FContratados.ARecord.dat_emissao_rg := 0
+//    else
+//      FCadastro.FContratados.ARecord.dat_emissao_rg := mtbCadastrodat_emissao_rg.AsDateTime;
+//    FCadastro.FContratados.ARecord.num_im := mtbCadastronum_im.AsString;
+//    FCadastro.FContratados.ARecord.nom_emissor_rg := mtbCadastronom_emissor_rg.AsString;
+//    FCadastro.FContratados.ARecord.uf_emissor_rg := mtbCadastrouf_emissor_rg.AsString;
+//    if mtbCadastrodat_nascimento.AsString = '' then
+//      FCadastro.FContratados.ARecord.dat_nascimento := 0
+//    else
+//      FCadastro.FContratados.ARecord.dat_nascimento := mtbCadastrodat_nascimento.AsDateTime;
+//    FCadastro.FContratados.ARecord.des_nacionalidade := mtbCadastrodes_nacionalidade.AsString;
+//    FCadastro.FContratados.ARecord.des_naturalidade := mtbCadastrodes_naturalidade.AsString;
+//    FCadastro.FContratados.ARecord.uf_naturalidade := mtbCadastrouf_naturalidade.AsString;
+//    FCadastro.FContratados.ARecord.nom_pai := mtbCadastronom_pai.AsString;
+//    FCadastro.FContratados.ARecord.nom_mae := mtbCadastronom_mae.AsString;
+//    FCadastro.FContratados.ARecord.cod_crt  := mtbCadastrocod_crt.AsInteger;
+//    FCadastro.FContratados.ARecord.num_cnh := mtbCadastronum_cnh.AsString;
+//    FCadastro.FContratados.ARecord.num_registro_cnh := mtbCadastronum_registro_cnh.AsString;
+//    FCadastro.FContratados.ARecord.des_categoria_cnh := mtbCadastrodes_categoria_cnh.AsString;
+//    if mtbCadastrodat_emissao_cnh.AsDateTime = 0 then
+//      FCadastro.FContratados.ARecord.dat_emissao_cnh := 0
+//    else
+//      FCadastro.FContratados.ARecord.dat_emissao_cnh := mtbCadastrodat_emissao_cnh.AsDateTime;
+//    if mtbCadastrodat_validade_cnh.AsDateTime = 0 then
+//      FCadastro.FContratados.ARecord.dat_validade_cnh := 0
+//    else
+//      FCadastro.FContratados.ARecord.dat_validade_cnh := mtbCadastrodat_validade_cnh.AsDateTime;
+//    if mtbCadastrodat_primeira_cnh.AsDateTime = 0 then
+//      FCadastro.FContratados.ARecord.dat_primeira_cnh := 0
+//    else
+//      FCadastro.FContratados.ARecord.dat_primeira_cnh := mtbCadastrodat_primeira_cnh.AsDateTime;
+//    FCadastro.FContratados.ARecord.uf_cnh := mtbCadastrouf_cnh.AsString;
+//    FCadastro.FContratados.ARecord.des_obs := mtbCadastrodes_obs.AsString;
+//    FCadastro.FContratados.ARecord.cod_status := mtbCadastrocod_status.AsInteger;
+//    if FCadastro.FContratados.Acao = tacIncluir then
+//      FCadastro.FContratados.ARecord.dat_cadastro := Now();
+//    if not FCadastro.SaveRecord() then
+//    begin
+//      MessageDlg(FCadastro.FContratados.Mensagem, mtError, [mbCancel], 0);
+//      Exit;
+//    end;
+//    if FAcao = tacIncluir then
+//    begin
+//      mtbCadastro.Edit;
+//      mtbCadastroid.AsInteger := FCadastro.FContratados.ARecord.id;
+//      mtbCadastro.Post;
+//    end;
 
-    Result := SaveAdress(FCadastro.FContratados.ARecord.id);
-    Result := SaveContacts(FCadastro.FContratados.ARecord.id);
-    Result := SaveFinance(FCadastro.FContratados.ARecord.id);
-    Result := SaveRepresentative(FCadastro.FContratados.ARecord.id);
-    Result := SaveRH(FCadastro.FContratados.ARecord.id);
-    Result := SaveCNAE(FCadastro.FContratados.ARecord.id);
-    Result := SaveGR(FCadastro.FContratados.ARecord.id);
-    Result := SaveVehicles(FCadastro.FContratados.ARecord.id);
+//    Result := SaveAdress(FCadastro.FContratados.ARecord.id);
+//    Result := SaveContacts(FCadastro.FContratados.ARecord.id);
+//    Result := SaveFinance(FCadastro.FContratados.ARecord.id);
+//    Result := SaveRepresentative(FCadastro.FContratados.ARecord.id);
+//    Result := SaveRH(FCadastro.FContratados.ARecord.id);
+//    Result := SaveCNAE(FCadastro.FContratados.ARecord.id);
+//    Result := SaveGR(FCadastro.FContratados.ARecord.id);
+//    Result := SaveVehicles(FCadastro.FContratados.ARecord.id);
     Result := True;
   finally
-    FCadastro.Free;
+//    FCadastro.Free;
     FUtils.Free;
   end;
 end;
@@ -2222,9 +2221,9 @@ if not Assigned(viewGeneralSearch) then
   viewGeneralSearch.Criterio := 'TRUE';
   if viewGeneralSearch.ShowModal = mrOk then
   begin
-    mtbCadastro.Edit;
-    mtbCadastroid_categoria.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
-    mtbCadastrodes_categoria.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+//    mtbCadastro.Edit;
+//    mtbCadastroid_categoria.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+//    mtbCadastrodes_categoria.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
   end;
   FreeAndNil(viewGeneralSearch);
 end;
@@ -2435,9 +2434,10 @@ begin
 
     FreeAndNil(view_ResultadoConsultaCNPJ);
 
-    mtbCadastronom_razao_social.AsString := APICNPJ.APICNPJ.Pessoas.Nome;
-    mtbCadastronom_fantasia_alias.AsString := APICNPJ.APICNPJ.Pessoas.Fantasia;
-    mtbCadastrocod_status.AsInteger := 1;
+
+    Data_Sisgef.qryContratadosnom_razao_social.AsString := APICNPJ.APICNPJ.Pessoas.Nome;
+    Data_Sisgef.qryContratadosnom_fantasia_alias.AsString := APICNPJ.APICNPJ.Pessoas.Fantasia;
+    Data_Sisgef.qryContratadoscod_status.AsInteger := 1;
     if not  memTableEnderecos.Active then  memTableEnderecos.Active := True;
 
     memTableEnderecos.Insert;
@@ -2534,7 +2534,7 @@ end;
 
 procedure TviewCadastroContratados.SearchFunction;
 begin
-    if mtbCadastroid_categoria.AsInteger = 0 then
+    if Data_Sisgef.qryContratadosid_categoria.AsInteger = 0 then
     begin
       Application.MessageBox('Informe uma categoria.', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
@@ -2543,7 +2543,7 @@ begin
     viewGeneralSearch := TviewGeneralSearch.Create(Application);
   viewGeneralSearch.Campos := 'id_funcao as "Código", des_funcao as "Descrição"';
   viewGeneralSearch.Tabela := 'crm_funcoes_rh';
-  viewGeneralSearch.Criterio := 'id_categoria = ' + mtbCadastroid_categoria.AsString;
+  viewGeneralSearch.Criterio := 'id_categoria = ' + Data_Sisgef.qryContratadosid_categoria.AsString;
   if viewGeneralSearch.ShowModal = mrOk then
   begin
     mtbRH.Edit;
@@ -2588,7 +2588,7 @@ begin
       Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
     end;
-    mtbCadastrodes_categoria.AsString := FSearch.Query.Fields[0].Value;
+    //mtbCadastrodes_categoria.AsString := FSearch.Query.Fields[0].Value;
   finally
     Finalize(aParam);
     FSearch.Free;
@@ -2603,7 +2603,7 @@ begin
   FSearch := TSearch.Create;
   SetLength(aParam, 3);
   try
-    if mtbCadastroid_categoria.AsInteger = 0 then
+    if Data_Sisgef.qryContratadosid_categoria.AsInteger = 0 then
     begin
       Application.MessageBox('Informe uma categoria.', 'Atenção', MB_OK + MB_ICONWARNING);
       Exit;
@@ -2629,7 +2629,8 @@ var
   FUtil : TUTils;
 begin
   try
-    if (mtbCadastro.State = dsInsert) or (mtbCadastro.State = dsEdit) then mtbCadastro.Post;
+    if (Data_Sisgef.qryContratados.State = dsInsert) or (Data_Sisgef.qryContratados.State = dsEdit) then
+      Data_Sisgef.qryContratados.Post;
     if (memTableEnderecos.State = dsInsert) or (memTableEnderecos.State = dsEdit) then memTableEnderecos.Post;
     if (memTableContatos.State = dsInsert) or (memTableContatos.State = dsEdit) then memTableContatos.Post;
     if (mtbRH.State = dsInsert) or (mtbRH.State = dsEdit) then mtbRH.Post;

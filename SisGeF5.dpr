@@ -340,7 +340,6 @@ uses
   View.SisGeFCadastroBases in 'src\View\View.SisGeFCadastroBases.pas' {viewCadastroBases},
   services.SisGeFSheetOrderShoppe in 'src\Services\services.SisGeFSheetOrderShoppe.pas',
   services.SisGeFSheetMisplacementShopee in 'src\Services\services.SisGeFSheetMisplacementShopee.pas',
-  View.SisGeFCadastroContratados in 'src\View\View.SisGeFCadastroContratados.pas' {viewCadastroContratados},
   Model.SisgeFCategorias in 'src\Model\Model.SisgeFCategorias.pas',
   Controller.SisGeFCategorias in 'src\Control\Controller.SisGeFCategorias.pas',
   services.SisGeFSheetConfrontations in 'src\Services\services.SisGeFSheetConfrontations.pas',
@@ -363,7 +362,9 @@ uses
   services.SisGeFImportConfrontations in 'src\Services\services.SisGeFImportConfrontations.pas',
   view.sisgefCadastroCandidatos in 'src\View\view.sisgefCadastroCandidatos.pas' {viewCadastroCandidatos},
   service.auxTable in 'src\Services\service.auxTable.pas',
-  View.SisGeFCadastroTerceirizados in 'src\View\View.SisGeFCadastroTerceirizados.pas' {viewCadastroTerceirizados};
+  View.SisGeFCadastroTerceirizados in 'src\View\View.SisGeFCadastroTerceirizados.pas' {viewCadastroTerceirizados},
+  services.SisGeFUserAccess in 'src\Services\services.SisGeFUserAccess.pas',
+  View.SisGeFCadastroContratados in 'src\View\View.SisGeFCadastroContratados.pas' {viewCadastroContratados};
 
 {$R *.res}
 

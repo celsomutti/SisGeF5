@@ -677,10 +677,6 @@
         </DCCReference>
         <DCCReference Include="src\Services\services.SisGeFSheetOrderShoppe.pas"/>
         <DCCReference Include="src\Services\services.SisGeFSheetMisplacementShopee.pas"/>
-        <DCCReference Include="src\View\View.SisGeFCadastroContratados.pas">
-            <Form>viewCadastroContratados</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="src\Model\Model.SisgeFCategorias.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFCategorias.pas"/>
         <DCCReference Include="src\Services\services.SisGeFSheetConfrontations.pas"/>
@@ -735,6 +731,11 @@
         <DCCReference Include="src\Services\service.auxTable.pas"/>
         <DCCReference Include="src\View\View.SisGeFCadastroTerceirizados.pas">
             <Form>viewCadastroTerceirizados</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\Services\services.SisGeFUserAccess.pas"/>
+        <DCCReference Include="src\View\View.SisGeFCadastroContratados.pas">
+            <Form>viewCadastroContratados</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="SisGeF5.todo"/>

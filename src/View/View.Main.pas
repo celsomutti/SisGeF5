@@ -32,7 +32,8 @@ uses
   Vcl.ExtCtrls, Control.Acessos, System.DateUtils, dxBarExtItems,
   dxNavBarOfficeNavigationBar, View.SisGeFExtractSO, Winapi.WinInet, IdBaseComponent, IdComponent,
   IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, IdException, IniFiles, ShellAPI, idftpcommon, service.sistem,
-  service.connectionMySQL, cxContainer, cxEdit, cxImage, dxGDIPlusClasses, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxLabel;
+  service.connectionMySQL, cxContainer, cxEdit, cxImage, dxGDIPlusClasses, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxLabel,
+  services.SisGeFUserAccess;
 
 type
   Tview_Main = class(TForm)
@@ -345,31 +346,47 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroFuncionarios,
   View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.SisGeFCadastroTerceirizados,
   View.SisGeFUsersRegister, View.SisGeFUsersGroups, View.SisGeFFuncoesAtividades, View.SisGeFAcareacoes, View.SisGeFImportaPedidos,
-  View.SisGeFImportaAcareacoes, view.sisgefCadastroCandidatos;
+  View.SisGeFImportaAcareacoes, view.sisgefCadastroCandidatos, View.SisGeFCadastroContratados;
 
 procedure Tview_Main.Acessos;
 var
-  FAcessos: TAcessosControl;
   i: Integer;
   iTag: Integer;
   iGroup: integer;
+  bFlag: boolean;
+  FUserAcess : TUserAcces;
 begin
+  FUserAcess := TUserAcces.Create;
   try
     iTag := 0;
-    FAcessos := TAcessosControl.Create;
     iGroup := StrToIntDef(FSistem.CurrentGroup,0);
+    bFlag := False;
+    if FUserAcess.ReturnAccess(iGroup) then
+      Data_Sisgef.mtbUserAccess.First
+    else
+      Data_Sisgef.mtbUserAccess.Active := True;
     for i := 0 to aclMain.ActionCount - 1 do
     begin
       if Global.Parametros.pAdmin = 'S' then
+      begin
+        TAction(aclMain.Actions[i]).Enabled := True;
         dxBarCombo1.Visible := ivAlways
+      end
       else
+      begin
+        TAction(aclMain.Actions[i]).Enabled := False;
         dxBarCombo1.Visible := ivNever;
+      end;
       iTag := TAction(aclMain.Actions[i]).Tag;
       if Global.Parametros.pAdmin <> 'S' then
       begin
         if iTag > 0 then
         begin
-          TAction(aclMain.Actions[i]).Enabled := FAcessos.VerificaLogin(iTag, iGroup);
+          with Data_Sisgef do
+          begin
+            bFlag := mtbUserAccess.Locate('cod_menu', iTag, []);
+            TAction(aclMain.Actions[i]).Enabled := bFlag;
+          end;
         end
         else
         begin
@@ -381,47 +398,8 @@ begin
         TAction(aclMain.Actions[i]).Enabled := True;
       end;
     end;
-//    for i := 0 to bmMain.Bars.Count - 1 do
-//    begin
-//      iTag := bmMain.Bars[i].Tag;
-//      if Global.Parametros.pAdmin <> 'S' then
-//      begin
-//        if iTag > 0 then
-//        begin
-//          bmMain.Bars[i].Visible := FAcessos.VerificaModulo(iTag, iGroup);
-//        end
-//        else
-//        begin
-//          bmMain.Bars[i].Visible := True;
-//        end;
-//      end
-//      else
-//      begin
-//        bmMain.Bars[i].Visible := True;
-//      end;
-//    end;
-//    for i := 0 to dxRibbon1.Tabs.Count - 1 do
-//    begin
-//      iTag := dxRibbon1.Tabs[i].Tag;
-//      if Global.Parametros.pAdmin <> 'S' then
-//      begin
-//        dxRibbon1.Tabs[i].Visible := FAcessos.VerificaSistema(iTag, iGroup);
-//      end
-//      else
-//      begin
-//        dxRibbon1.Tabs[i].Visible := True;
-//      end;
-//    end;
-//    for i := 0 to dxRibbon1.Tabs.Count - 1 do
-//    begin
-//      if dxRibbon1.Tabs[i].Visible then
-//      begin
-//        dxRibbon1.Tabs[i].Active := True;
-//        Break;
-//      end;
-//    end;
   finally
-    FAcessos.Free;
+    FUserAcess.Free;
   end;
 end;
 
@@ -481,19 +459,19 @@ end;
 
 procedure Tview_Main.actCadastroContratadosExecute(Sender: TObject);
 begin
-//  if not Assigned(viewSisGeFCadastroContratados) then
-//  begin
-//    viewSisGeFCadastroContratados := TviewSisGeFCadastroContratados.Create
-//      (Application);
-//  end;
-//  viewSisGeFCadastroContratados.Show;
-
-if not Assigned(viewCadastroTerceirizados) then
+  if not Assigned(viewCadastroContratados) then
   begin
-    viewCadastroTerceirizados := TviewCadastroTerceirizados.Create
+    viewCadastroContratados := TviewCadastroContratados.Create
       (Application);
   end;
-  viewCadastroTerceirizados.Show;
+  viewCadastroContratados.Show;
+
+//if not Assigned(viewCadastroTerceirizados) then
+//  begin
+//    viewCadastroTerceirizados := TviewCadastroTerceirizados.Create
+//      (Application);
+//  end;
+//  viewCadastroTerceirizados.Show;
 
 
 end;
