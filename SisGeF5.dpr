@@ -364,7 +364,7 @@ uses
   service.auxTable in 'src\Services\service.auxTable.pas',
   View.SisGeFCadastroTerceirizados in 'src\View\View.SisGeFCadastroTerceirizados.pas' {viewCadastroTerceirizados},
   services.SisGeFUserAccess in 'src\Services\services.SisGeFUserAccess.pas',
-  View.SisGeFCadastroContratados in 'src\View\View.SisGeFCadastroContratados.pas' {viewCadastroContratados};
+  Model.SisGeFCadastroCandidatos in 'src\Model\Model.SisGeFCadastroCandidatos.pas';
 
 {$R *.res}
 

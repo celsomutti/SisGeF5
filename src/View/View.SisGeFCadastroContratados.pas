@@ -684,7 +684,7 @@ end;
 
 procedure TviewCadastroContratados.actionSaveRegisterExecute(Sender: TObject);
 begin
-  if not ValidateData() then Exit;
+//  if not ValidateData() then Exit;
 
   if MessageDlg('Confirma salvar os dados ?', mtConfirmation, [mbOK, mbCancel], 0) = mrCancel then
      Exit;
@@ -1407,6 +1407,7 @@ begin
   dsCNAE.AutoEdit := True;
   FAcao := tacIncluir;
 
+  Data_Sisgef.qryContratados.Active := True;
   Data_Sisgef.qryContratados.Insert;
   Data_Sisgef.qryContratadoscod_status.AsInteger := 1;
   memTableEnderecos.Active := False;
@@ -1881,87 +1882,23 @@ begin
 end;
 
 function TviewCadastroContratados.SaveContracted: boolean;
-var
-//  FCadastro : TCadastroContratadosController;
-  FUtils : TUtils;
 begin
-//  FCadastro := TCadastroContratadosController.Create;
-  FUtils := TUtils.Create;
   Result := False;
-
-  try
-//    FCadastro.FContratados.Acao := FAcao;
-//    FCadastro.FContratados.ARecord.id := mtbCadastroid.AsInteger;
-//    FCadastro.FContratados.ARecord.cod_erp_contratados := '0';
-//    FCadastro.FContratados.ARecord.id_categoria := mtbCadastroid_categoria.AsInteger;
-//    FCadastro.FContratados.ARecord.cod_pessoa := mtbCadastrocod_pessoa.AsInteger;
-//    FCadastro.FContratados.ARecord.des_tipo_doc := mtbCadastrodes_tipo_doc.AsString;
-//    FCadastro.FContratados.ARecord.nom_razao_social := mtbCadastronom_razao_social.AsString;
-//    FCadastro.FContratados.ARecord.nom_fantasia_alias := mtbCadastronom_fantasia_alias.AsString;
-//    FCadastro.FContratados.ARecord.num_cpf_cnpj :=  FUtils.DesmontaCPFCNPJ(mtbCadastronum_cpf_cnpj.AsString);
-//    FCadastro.FContratados.ARecord.num_rg_ie := mtbCadastronum_rg_ie.AsString;
-//    if mtbCadastrodat_emissao_rg.AsString = '' then
-//      FCadastro.FContratados.ARecord.dat_emissao_rg := 0
-//    else
-//      FCadastro.FContratados.ARecord.dat_emissao_rg := mtbCadastrodat_emissao_rg.AsDateTime;
-//    FCadastro.FContratados.ARecord.num_im := mtbCadastronum_im.AsString;
-//    FCadastro.FContratados.ARecord.nom_emissor_rg := mtbCadastronom_emissor_rg.AsString;
-//    FCadastro.FContratados.ARecord.uf_emissor_rg := mtbCadastrouf_emissor_rg.AsString;
-//    if mtbCadastrodat_nascimento.AsString = '' then
-//      FCadastro.FContratados.ARecord.dat_nascimento := 0
-//    else
-//      FCadastro.FContratados.ARecord.dat_nascimento := mtbCadastrodat_nascimento.AsDateTime;
-//    FCadastro.FContratados.ARecord.des_nacionalidade := mtbCadastrodes_nacionalidade.AsString;
-//    FCadastro.FContratados.ARecord.des_naturalidade := mtbCadastrodes_naturalidade.AsString;
-//    FCadastro.FContratados.ARecord.uf_naturalidade := mtbCadastrouf_naturalidade.AsString;
-//    FCadastro.FContratados.ARecord.nom_pai := mtbCadastronom_pai.AsString;
-//    FCadastro.FContratados.ARecord.nom_mae := mtbCadastronom_mae.AsString;
-//    FCadastro.FContratados.ARecord.cod_crt  := mtbCadastrocod_crt.AsInteger;
-//    FCadastro.FContratados.ARecord.num_cnh := mtbCadastronum_cnh.AsString;
-//    FCadastro.FContratados.ARecord.num_registro_cnh := mtbCadastronum_registro_cnh.AsString;
-//    FCadastro.FContratados.ARecord.des_categoria_cnh := mtbCadastrodes_categoria_cnh.AsString;
-//    if mtbCadastrodat_emissao_cnh.AsDateTime = 0 then
-//      FCadastro.FContratados.ARecord.dat_emissao_cnh := 0
-//    else
-//      FCadastro.FContratados.ARecord.dat_emissao_cnh := mtbCadastrodat_emissao_cnh.AsDateTime;
-//    if mtbCadastrodat_validade_cnh.AsDateTime = 0 then
-//      FCadastro.FContratados.ARecord.dat_validade_cnh := 0
-//    else
-//      FCadastro.FContratados.ARecord.dat_validade_cnh := mtbCadastrodat_validade_cnh.AsDateTime;
-//    if mtbCadastrodat_primeira_cnh.AsDateTime = 0 then
-//      FCadastro.FContratados.ARecord.dat_primeira_cnh := 0
-//    else
-//      FCadastro.FContratados.ARecord.dat_primeira_cnh := mtbCadastrodat_primeira_cnh.AsDateTime;
-//    FCadastro.FContratados.ARecord.uf_cnh := mtbCadastrouf_cnh.AsString;
-//    FCadastro.FContratados.ARecord.des_obs := mtbCadastrodes_obs.AsString;
-//    FCadastro.FContratados.ARecord.cod_status := mtbCadastrocod_status.AsInteger;
-//    if FCadastro.FContratados.Acao = tacIncluir then
-//      FCadastro.FContratados.ARecord.dat_cadastro := Now();
-//    if not FCadastro.SaveRecord() then
+  with Data_Sisgef do
+  begin
+//    if qryContratados.ChangeCount > 0 then
 //    begin
-//      MessageDlg(FCadastro.FContratados.Mensagem, mtError, [mbCancel], 0);
-//      Exit;
-//    end;
-//    if FAcao = tacIncluir then
-//    begin
-//      mtbCadastro.Edit;
-//      mtbCadastroid.AsInteger := FCadastro.FContratados.ARecord.id;
-//      mtbCadastro.Post;
-//    end;
-
-//    Result := SaveAdress(FCadastro.FContratados.ARecord.id);
-//    Result := SaveContacts(FCadastro.FContratados.ARecord.id);
-//    Result := SaveFinance(FCadastro.FContratados.ARecord.id);
-//    Result := SaveRepresentative(FCadastro.FContratados.ARecord.id);
-//    Result := SaveRH(FCadastro.FContratados.ARecord.id);
-//    Result := SaveCNAE(FCadastro.FContratados.ARecord.id);
-//    Result := SaveGR(FCadastro.FContratados.ARecord.id);
-//    Result := SaveVehicles(FCadastro.FContratados.ARecord.id);
-    Result := True;
-  finally
-//    FCadastro.Free;
-    FUtils.Free;
+      try
+        updateSQLContratados.Connection := qryContratados.Connection;
+        qryContratados.ApplyUpdates(0);
+        qryContratados.CommitUpdates;
+      except
+        qryContratados.CancelUpdates;
+        raise;
+      end;
+//  end;
   end;
+  Result := True;
 end;
 
 function TviewCadastroContratados.SaveFinance(iCadastro: integer): boolean;
@@ -2221,6 +2158,11 @@ if not Assigned(viewGeneralSearch) then
   viewGeneralSearch.Criterio := 'TRUE';
   if viewGeneralSearch.ShowModal = mrOk then
   begin
+    with Data_Sisgef do
+    begin
+      qryContratadosid_categoria.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+      qryContratadosdes_categoria.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+    end;
 //    mtbCadastro.Edit;
 //    mtbCadastroid_categoria.AsInteger := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
 //    mtbCadastrodes_categoria.AsString := viewGeneralSearch.mtbPesquisa.Fields[1].Value;

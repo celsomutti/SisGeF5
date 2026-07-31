@@ -346,7 +346,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroFuncionarios,
   View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.SisGeFCadastroTerceirizados,
   View.SisGeFUsersRegister, View.SisGeFUsersGroups, View.SisGeFFuncoesAtividades, View.SisGeFAcareacoes, View.SisGeFImportaPedidos,
-  View.SisGeFImportaAcareacoes, view.sisgefCadastroCandidatos, View.SisGeFCadastroContratados;
+  View.SisGeFImportaAcareacoes, view.sisgefCadastroCandidatos;
 
 procedure Tview_Main.Acessos;
 var
@@ -459,21 +459,12 @@ end;
 
 procedure Tview_Main.actCadastroContratadosExecute(Sender: TObject);
 begin
-  if not Assigned(viewCadastroContratados) then
+if not Assigned(viewCadastroTerceirizados) then
   begin
-    viewCadastroContratados := TviewCadastroContratados.Create
+    viewCadastroTerceirizados := TviewCadastroTerceirizados.Create
       (Application);
   end;
-  viewCadastroContratados.Show;
-
-//if not Assigned(viewCadastroTerceirizados) then
-//  begin
-//    viewCadastroTerceirizados := TviewCadastroTerceirizados.Create
-//      (Application);
-//  end;
-//  viewCadastroTerceirizados.Show;
-
-
+  viewCadastroTerceirizados.Show;
 end;
 
 procedure Tview_Main.actCadastroDistribuidoresExecute(Sender: TObject);
