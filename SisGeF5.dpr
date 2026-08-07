@@ -317,7 +317,6 @@ uses
   service.sistem in 'src\Services\service.sistem.pas',
   service.connectionMySQL in 'src\Services\service.connectionMySQL.pas',
   View.SisGeFNomeGrupo in 'src\View\View.SisGeFNomeGrupo.pas' {viewSisGeFNomeGrupo},
-  View.SisGeFCadastroFuncionarios in 'src\View\View.SisGeFCadastroFuncionarios.pas' {viewCadastroFuncionarios},
   Model.SisGeFCadastroFuncionarios in 'src\Model\Model.SisGeFCadastroFuncionarios.pas',
   Model.SisGeFCadastroFuncoesRH in 'src\Model\Model.SisGeFCadastroFuncoesRH.pas',
   Controller.SisGeFFuncoesRH in 'src\Control\Controller.SisGeFFuncoesRH.pas',
@@ -364,7 +363,8 @@ uses
   service.auxTable in 'src\Services\service.auxTable.pas',
   View.SisGeFCadastroTerceirizados in 'src\View\View.SisGeFCadastroTerceirizados.pas' {viewCadastroTerceirizados},
   services.SisGeFUserAccess in 'src\Services\services.SisGeFUserAccess.pas',
-  Model.SisGeFCadastroCandidatos in 'src\Model\Model.SisGeFCadastroCandidatos.pas';
+  Model.SisGeFCadastroCandidatos in 'src\Model\Model.SisGeFCadastroCandidatos.pas',
+  Controller.SisGeFCadastroCandidatos in 'src\Control\Controller.SisGeFCadastroCandidatos.pas';
 
 {$R *.res}
 

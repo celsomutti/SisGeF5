@@ -343,7 +343,7 @@ uses Data.SisGeF, View.Login, Global.Parametros, Common.Utils,
   View.SisGeFPrintRunsImports, View.SisGeFExtractPeriodicals,
   View.SisGeFNFsFaturas,
   View.SisGeFImportWorksheetExpress, View.SisGeFExpressExtract,
-  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl, View.SisGeFCadastroFuncionarios,
+  View.SisGeFOcorrenciasJornal, View.SisGeFTravelControl,
   View.SisGeFCadastroBases, View.PesquisaRemessas_201040, View.SisGeFCadastroTerceirizados,
   View.SisGeFUsersRegister, View.SisGeFUsersGroups, View.SisGeFFuncoesAtividades, View.SisGeFAcareacoes, View.SisGeFImportaPedidos,
   View.SisGeFImportaAcareacoes, view.sisgefCadastroCandidatos;
@@ -501,9 +501,9 @@ begin
 //    view_SisGeFEmployeeRegistration := Tview_SisGeFEmployeeRegistration.Create
 //      (Application);
 //  view_SisGeFEmployeeRegistration.Show;
-  if not Assigned(viewCadastroFuncionarios) then
-    viewCadastroFuncionarios := TviewCadastroFuncionarios.Create(Application);
-  viewCadastroFuncionarios.Show;
+//  if not Assigned(viewCadastroFuncionarios) then
+//    viewCadastroFuncionarios := TviewCadastroFuncionarios.Create(Application);
+//  viewCadastroFuncionarios.Show;
 end;
 
 procedure Tview_Main.actCadastroFuncoesExecute(Sender: TObject);

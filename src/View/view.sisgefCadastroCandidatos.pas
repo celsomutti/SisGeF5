@@ -10,7 +10,7 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
   Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Common.Utils,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxCheckBox, cxMemo, cxCalendar, service.connectionMySQL,
-  cxDBEdit, Controller.APICEP;
+  cxDBEdit, Controller.APICEP, Controller.SisGeFCadastroCandidatos;
 
 type
   TviewCadastroCandidatos = class(TForm)
@@ -196,6 +196,7 @@ type
     procedure gridDBTableView1DblClick(Sender: TObject);
   private
     FConn : TConnectionMySQL;
+    FCandidatos: TCadastroCandidatosController;
 
     procedure ShowForm;
     procedure ExportGrid;
@@ -208,7 +209,6 @@ type
     procedure Save;
 
     function CustomSearchStr(sParam: string): string;
-    function Validate(): boolean;
   public
     { Public declarations }
   end;
@@ -245,7 +245,7 @@ end;
 
 procedure TviewCadastroCandidatos.actionDocumentsExecute(Sender: TObject);
 begin
-  if not Data_Sisgef.qryCandidatos.IsEmpty then
+  if not FCandidatos.FCandidatos.Query.IsEmpty then
     Documents;
 end;
 
@@ -303,7 +303,7 @@ end;
 procedure TviewCadastroCandidatos.Cancel;
 begin
   if dsCandidatos.State in [dsInsert, dsEdit] then
-    Data_Sisgef.qryCandidatos.Cancel;
+    FCandidatos.FCandidatos.Query.Cancel;
 end;
 
 function TviewCadastroCandidatos.CustomSearchStr(sParam: string): string;
@@ -401,11 +401,11 @@ end;
 
 procedure TviewCadastroCandidatos.Edit;
 begin
-  with Data_Sisgef do
+  with FCandidatos do
   begin
-    if qryCandidatos.Connection = nil then
+    if FCandidatos.Query.Connection = nil then
       Exit;
-    qryCandidatos.Edit;
+    FCandidatos.Query.Edit;
   end;
   lgpContainer.ItemIndex := 1;
   dbNome.SetFocus;
@@ -439,10 +439,11 @@ end;
 
 procedure TviewCadastroCandidatos.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  with Data_Sisgef do
+  with FCandidatos do
   begin
-    qryCandidatos.Active := False;
-    qryCandidatos.Filtered := False;
+    FCandidatos.Query.Active := False;
+    FCandidatos.Query.Filtered := False;
+    FCandidatos.Free;
     FConn.Free;
   end;
   Action := caFree;
@@ -461,12 +462,12 @@ end;
 
 procedure TviewCadastroCandidatos.Insert;
 begin
-  with Data_Sisgef do
+  with FCandidatos do
   begin
-    if qryCandidatos.Connection = nil then
-      qryCandidatos.Connection := FConn.GetConnection;
-    qryCandidatos.Open();
-    qryCandidatos.Insert;
+    if FCandidatos.Query.Connection = nil then
+      FCandidatos.Query.Connection := FConn.GetConnection;
+    FCandidatos.Query.Open();
+    FCandidatos.Query.Insert;
   end;
   lgpContainer.ItemIndex := 1;
   dbCategoria.SetFocus;
@@ -476,30 +477,35 @@ procedure TviewCadastroCandidatos.Save;
 var
   sMensagem: string;
 begin
-  if not Validate() then
+  if not FCandidatos.Validate() then
+  begin
+    Application.MessageBox(PChar(FCandidatos.FCandidatos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     Exit;
+  end;
   if dsCandidatos.State = dsEdit then
     sMensagem := 'Confirma alterar os dados do candidato '  + dbNome.Text + ' ?'
   else if dsCandidatos.State = dsInsert then
     sMensagem := 'Confirma incluir os dados do candidato '  + dbNome.Text + ' ?';
   if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
     Exit;
-  if Data_Sisgef.qryCandidatos.State in [dsEdit, dsInsert] then
+  if FCandidatos.FCandidatos.Query.State in [dsEdit, dsInsert] then
   begin
-    Data_Sisgef.qryCandidatos.Post;
+    FCandidatos.FCandidatos.Query.Post;
     lgpContainer.ItemIndex := 0;
   end;
 end;
 
 procedure TviewCadastroCandidatos.Search(sParam: string);
+var
+  aParams : array of string;
 begin
-  with Data_Sisgef do
+  aParams
+  with FCandidatos do
   begin
-    if qryCandidatos.Connection = nil then
-      qryCandidatos.Connection := FConn.GetConnection;
-    qryCandidatos.Filtered := True;
-    qryCandidatos.Filter := sParam;
-    qryCandidatos.Open();
+    FCandidatos.Query := FCandidatos.FConn.GetQuery;
+    FCandidatos.Query.Filtered := True;
+    FCandidatos.Query.Filter := sParam;
+    FCandidatos.Query.Open();
   end;
 end;
 
@@ -527,12 +533,12 @@ begin
         end;
         if view_ListaCEPs.ShowModal = mrOK then
         begin
-          Data_Sisgef.qryCandidatosDES_ENDERECO.AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
-          Data_Sisgef.qryCandidatosDES_COMPLEMENTO.AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
-          Data_Sisgef.qryCandidatosDES_BAIRRO.AsString := Data_Sisgef.memTableCEPbairro.AsString;
-          Data_Sisgef.qryCandidatosDES_CIDADE.AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
-          Data_Sisgef.qryCandidatosDES_UF.AsString := Data_Sisgef.memTableCEPuf.AsString;
-          Data_Sisgef.qryCandidatosNUM_CEP.AsString := Data_Sisgef.memTableCEPcep.AsString;
+          FCandidatos.FCandidatos.Query.FieldByName('DES_ENDERECO').AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
+          FCandidatos.FCandidatos.Query.FieldByName('DES_COMPLEMENTO').AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
+          FCandidatos.FCandidatos.Query.FieldByName('DES_BAIRRO').AsString := Data_Sisgef.memTableCEPbairro.AsString;
+          FCandidatos.FCandidatos.Query.FieldByName('DES_CIDADE').AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
+          FCandidatos.FCandidatos.Query.FieldByName('DES_UF').AsString := Data_Sisgef.memTableCEPuf.AsString;
+          FCandidatos.FCandidatos.Query.FieldByName('NUM_CEP').AsString := Data_Sisgef.memTableCEPcep.AsString;
         end;
         Data_Sisgef.memTableCEP.Active := False;
         FreeAndNil(view_ListaCEPs);
@@ -540,11 +546,11 @@ begin
     end
     else
     begin
-      Data_Sisgef.qryCandidatosDES_ENDERECO.AsString := APICEP.APICEP.Enderecos.Logradouro;
-      Data_Sisgef.qryCandidatosDES_COMPLEMENTO.AsString := APICEP.APICEP.Enderecos.Complemento;
-      Data_Sisgef.qryCandidatosDES_BAIRRO.AsString := APICEP.APICEP.Enderecos.Bairro;
-      Data_Sisgef.qryCandidatosDES_CIDADE.AsString := APICEP.APICEP.Enderecos.Cidade;
-      Data_Sisgef.qryCandidatosDES_UF.AsString := APICEP.APICEP.Enderecos.UF;
+      FCandidatos.FCandidatos.Query.FieldByName('DES_ENDERECO').AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
+      FCandidatos.FCandidatos.Query.FieldByName('DES_COMPLEMENTO').AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
+      FCandidatos.FCandidatos.Query.FieldByName('DES_BAIRRO').AsString := Data_Sisgef.memTableCEPbairro.AsString;
+      FCandidatos.FCandidatos.Query.FieldByName('DES_CIDADE').AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
+      FCandidatos.FCandidatos.Query.FieldByName('DES_UF').AsString := Data_Sisgef.memTableCEPuf.AsString;
     end;
   finally
     APICEP.Free;
@@ -556,40 +562,8 @@ procedure TviewCadastroCandidatos.ShowForm;
 begin
   lcbCategorias.EditValue := 0;
   FConn := TConnectionMySQL.Create;
-end;
-
-function TviewCadastroCandidatos.Validate: boolean;
-begin
-  Result := False;
-  if dbNome.Text = EmptyStr then
-  begin
-    Application.MessageBox('Informe o nome do candidato.', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
-  end;
-  if dbEmail.Text = EmptyStr then
-  begin
-    Application.MessageBox('Informe o endereço de e-mail do candidato.', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
-  end;
-  if dbLogradouro.Text <> EmptyStr then
-  begin
-    if dbBairro.Text = EmptyStr then
-    begin
-      Application.MessageBox('Informe o bairro do endereço.', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      Exit;
-    end;
-    if dbCidade.Text = EmptyStr then
-    begin
-      Application.MessageBox('Informe a cidade do endereço.', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      Exit;
-    end;
-    if dbEstado.Text = EmptyStr then
-    begin
-      Application.MessageBox('Informe o estado do endereço.', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      Exit;
-    end;
-  end;
-  Result := True;
+  FCandidatos := TCadastroCandidatosController.Create;
+  dsCandidatos.DataSet := FCandidatos.FCandidatos.Query;
 end;
 
 end.

@@ -1686,7 +1686,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
   end
   object dsCandidatos: TDataSource
     AutoEdit = False
-    DataSet = Data_Sisgef.qryCandidatos
     Left = 848
     Top = 24
   end

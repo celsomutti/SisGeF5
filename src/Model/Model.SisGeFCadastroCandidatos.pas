@@ -42,14 +42,15 @@ interface
         private
           FAcao     : TAcao;
           FMensagem : string;
-          FConn     : TConnectionMySQL;
+
           FQuery    : TFDQuery;
 
           function UpdateRecord(): boolean;
 
         public
 
-          aRecord : TCandidatos;
+          FConn     : TConnectionMySQL;
+          aRecord   : TCandidatos;
 
           Constructor Create();
           function    GetNextID   (sIdName: string)         : Integer;
