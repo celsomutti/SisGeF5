@@ -10,7 +10,7 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
   Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Common.Utils,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxCheckBox, cxMemo, cxCalendar, service.connectionMySQL,
-  cxDBEdit, Controller.APICEP, Controller.SisGeFCadastroCandidatos;
+  cxDBEdit, Controller.APICEP, Controller.SisGeFCadastroCandidatos, Vcl.ComCtrls, dxCore, cxDateUtils;
 
 type
   TviewCadastroCandidatos = class(TForm)
@@ -103,79 +103,79 @@ type
     dxLayoutGroup7: TdxLayoutGroup;
     cxButton9: TcxButton;
     dxLayoutItem12: TdxLayoutItem;
-    dbId: TcxDBTextEdit;
-    dxLayoutItem13: TdxLayoutItem;
-    dbCategoria: TcxDBLookupComboBox;
-    dxLayoutItem14: TdxLayoutItem;
-    dbNome: TcxDBTextEdit;
-    dxLayoutItem15: TdxLayoutItem;
     dxLayoutSeparatorItem3: TdxLayoutSeparatorItem;
     dxLayoutGroup8: TdxLayoutGroup;
-    dbEmail: TcxDBTextEdit;
-    dxLayoutItem16: TdxLayoutItem;
-    dbTelefone: TcxDBMaskEdit;
-    dxLayoutItem17: TdxLayoutItem;
-    dbCelular: TcxDBMaskEdit;
-    dxLayoutItem18: TdxLayoutItem;
     dxLayoutGroup9: TdxLayoutGroup;
-    dbLogradouro: TcxDBTextEdit;
-    dxLayoutItem19: TdxLayoutItem;
-    dbNumero: TcxDBTextEdit;
-    dxLayoutItem20: TdxLayoutItem;
-    dbComplemento: TcxDBTextEdit;
-    dxLayoutItem21: TdxLayoutItem;
     dxLayoutGroup10: TdxLayoutGroup;
-    dbBairro: TcxDBTextEdit;
-    dxLayoutItem22: TdxLayoutItem;
-    dbCidade: TcxDBTextEdit;
-    dxLayoutItem23: TdxLayoutItem;
-    dbEstado: TcxDBLookupComboBox;
-    dxLayoutItem24: TdxLayoutItem;
-    dbCEP: TcxDBButtonEdit;
-    dxLayoutItem25: TdxLayoutItem;
     dsEstados: TDataSource;
     dxLayoutSeparatorItem4: TdxLayoutSeparatorItem;
     dxLayoutGroup11: TdxLayoutGroup;
-    dbExperiencia: TcxDBCheckBox;
-    dxLayoutItem26: TdxLayoutItem;
-    dbAntecedentes: TcxDBCheckBox;
-    dxLayoutItem27: TdxLayoutItem;
-    dbRestricoes: TcxDBCheckBox;
-    dxLayoutItem28: TdxLayoutItem;
-    dbVeiculo: TcxDBCheckBox;
-    dxLayoutItem29: TdxLayoutItem;
-    dbRestreamento: TcxDBCheckBox;
-    dxLayoutItem30: TdxLayoutItem;
-    dbLicenciamento: TcxDBCheckBox;
-    dxLayoutItem31: TdxLayoutItem;
-    dbDisponibilidade: TcxDBCheckBox;
-    dxLayoutItem32: TdxLayoutItem;
     dxLayoutSeparatorItem5: TdxLayoutSeparatorItem;
     dxLayoutGroup12: TdxLayoutGroup;
-    dbValidadeCNH: TcxDBDateEdit;
-    dxLayoutItem33: TdxLayoutItem;
-    dbCategoriaCNH: TcxDBTextEdit;
-    dxLayoutItem34: TdxLayoutItem;
-    sbTipoVeiculo: TcxDBComboBox;
-    dxLayoutItem35: TdxLayoutItem;
-    dbModelo: TcxDBTextEdit;
-    dxLayoutItem36: TdxLayoutItem;
-    dbAno: TcxDBTextEdit;
-    dxLayoutItem37: TdxLayoutItem;
-    dbCombustivel: TcxDBComboBox;
-    dxLayoutItem38: TdxLayoutItem;
     dxLayoutSeparatorItem6: TdxLayoutSeparatorItem;
     dxLayoutGroup13: TdxLayoutGroup;
     dxLayoutGroup14: TdxLayoutGroup;
     dxLayoutGroup15: TdxLayoutGroup;
-    dbRegioes: TcxDBMemo;
-    dxLayoutItem40: TdxLayoutItem;
-    dbObservacoes: TcxDBMemo;
-    dxLayoutItem39: TdxLayoutItem;
     cxButton10: TcxButton;
     dxLayoutItem41: TdxLayoutItem;
     cxButton11: TcxButton;
     dxLayoutItem42: TdxLayoutItem;
+    id: TcxTextEdit;
+    dxLayoutItem43: TdxLayoutItem;
+    categoria: TcxLookupComboBox;
+    dxLayoutItem13: TdxLayoutItem;
+    nome: TcxTextEdit;
+    dxLayoutItem14: TdxLayoutItem;
+    email: TcxTextEdit;
+    dxLayoutItem44: TdxLayoutItem;
+    telefone: TcxMaskEdit;
+    dxLayoutItem15: TdxLayoutItem;
+    celular: TcxMaskEdit;
+    dxLayoutItem16: TdxLayoutItem;
+    cep: TcxButtonEdit;
+    dxLayoutItem17: TdxLayoutItem;
+    logradouro: TcxTextEdit;
+    dxLayoutItem18: TdxLayoutItem;
+    numero: TcxTextEdit;
+    dxLayoutItem19: TdxLayoutItem;
+    complemento: TcxTextEdit;
+    dxLayoutItem20: TdxLayoutItem;
+    bairro: TcxTextEdit;
+    dxLayoutItem21: TdxLayoutItem;
+    cidade: TcxTextEdit;
+    dxLayoutItem22: TdxLayoutItem;
+    uf: TcxLookupComboBox;
+    dxLayoutItem23: TdxLayoutItem;
+    validadeCNH: TcxDateEdit;
+    dxLayoutItem24: TdxLayoutItem;
+    categoriaCNH: TcxTextEdit;
+    dxLayoutItem25: TdxLayoutItem;
+    tipoVeiculo: TcxComboBox;
+    dxLayoutItem33: TdxLayoutItem;
+    modelo: TcxTextEdit;
+    dxLayoutItem34: TdxLayoutItem;
+    anoVeiculo: TcxMaskEdit;
+    dxLayoutItem35: TdxLayoutItem;
+    combustivel: TcxComboBox;
+    dxLayoutItem36: TdxLayoutItem;
+    observacoes: TcxMemo;
+    dxLayoutItem37: TdxLayoutItem;
+    regioes: TcxMemo;
+    dxLayoutItem38: TdxLayoutItem;
+    experiencia: TcxCheckBox;
+    dxLayoutItem39: TdxLayoutItem;
+    antecedente: TcxCheckBox;
+    dxLayoutItem26: TdxLayoutItem;
+    restricoes: TcxCheckBox;
+    dxLayoutItem27: TdxLayoutItem;
+    veiculo: TcxCheckBox;
+    dxLayoutItem28: TdxLayoutItem;
+    rastreador: TcxCheckBox;
+    dxLayoutItem29: TdxLayoutItem;
+    licenciado: TcxCheckBox;
+    dxLayoutItem30: TdxLayoutItem;
+    disponibilidade: TcxCheckBox;
+    dxLayoutItem31: TdxLayoutItem;
     procedure actCadastroLimparExecute(Sender: TObject);
     procedure actCadastroSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -395,7 +395,7 @@ procedure TviewCadastroCandidatos.Documents;
 begin
   if not Assigned(view_SisgeFAttachDocuments) then
     view_SisgeFAttachDocuments := Tview_SisgeFAttachDocuments.Create(Application);
-  view_SisgeFAttachDocuments.Pasta := 'Cand' + dbId.Text;
+  view_SisgeFAttachDocuments.Pasta := 'Cand' + id.Text;
   view_SisgeFAttachDocuments.Show;
 end;
 
@@ -408,7 +408,7 @@ begin
     FCandidatos.Query.Edit;
   end;
   lgpContainer.ItemIndex := 1;
-  dbNome.SetFocus;
+  nome.SetFocus;
 end;
 
 procedure TviewCadastroCandidatos.ExportGrid;
@@ -470,7 +470,7 @@ begin
     FCandidatos.Query.Insert;
   end;
   lgpContainer.ItemIndex := 1;
-  dbCategoria.SetFocus;
+  categoria.SetFocus;
 end;
 
 procedure TviewCadastroCandidatos.Save;
@@ -483,9 +483,9 @@ begin
     Exit;
   end;
   if dsCandidatos.State = dsEdit then
-    sMensagem := 'Confirma alterar os dados do candidato '  + dbNome.Text + ' ?'
+    sMensagem := 'Confirma alterar os dados do candidato '  + nome.Text + ' ?'
   else if dsCandidatos.State = dsInsert then
-    sMensagem := 'Confirma incluir os dados do candidato '  + dbNome.Text + ' ?';
+    sMensagem := 'Confirma incluir os dados do candidato '  + nome.Text + ' ?';
   if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
     Exit;
   if FCandidatos.FCandidatos.Query.State in [dsEdit, dsInsert] then
@@ -496,16 +496,17 @@ begin
 end;
 
 procedure TviewCadastroCandidatos.Search(sParam: string);
-var
-  aParams : array of string;
 begin
-  aParams
   with FCandidatos do
   begin
     FCandidatos.Query := FCandidatos.FConn.GetQuery;
     FCandidatos.Query.Filtered := True;
     FCandidatos.Query.Filter := sParam;
     FCandidatos.Query.Open();
+    if not FCandidatos.Query.IsEmpty then
+    begin
+
+    end;
   end;
 end;
 

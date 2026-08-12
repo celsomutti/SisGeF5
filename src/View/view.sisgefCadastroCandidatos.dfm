@@ -27,6 +27,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     ParentBackground = True
     TabOrder = 0
     Transparent = True
+    CustomizeFormTabbedView = True
     object parametro: TcxButtonEdit
       Left = 75
       Top = 55
@@ -432,477 +433,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       TabOrder = 38
       Visible = False
     end
-    object dbId: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Id do candidato'
-      DataBinding.DataField = 'COD_CANDIDATO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.Alignment.Horz = taRightJustify
-      Properties.ReadOnly = True
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 10
-      Visible = False
-      Width = 77
-    end
-    object dbCategoria: TcxDBLookupComboBox
-      Left = 10000
-      Top = 10000
-      Hint = 'Categoria do candidato'
-      DataBinding.DataField = 'id_categoria'
-      DataBinding.DataSource = dsCandidatos
-      Properties.KeyFieldNames = 'id_categoria'
-      Properties.ListColumns = <
-        item
-          FieldName = 'des_categoria'
-        end>
-      Properties.ListOptions.ShowHeader = False
-      Properties.ListSource = dsCategorias
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 11
-      Visible = False
-      Width = 118
-    end
-    object dbNome: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Nome do candidato'
-      DataBinding.DataField = 'NOM_CANDIDATO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 12
-      Visible = False
-      Width = 600
-    end
-    object dbEmail: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'E-mail do candidato'
-      DataBinding.DataField = 'DES_EMAIL'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecLowerCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 13
-      Visible = False
-      Width = 547
-    end
-    object dbTelefone: TcxDBMaskEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Telefone do candidato'
-      DataBinding.DataField = 'NUM_TELEFONE'
-      DataBinding.DataSource = dsCandidatos
-      Properties.IgnoreMaskBlank = True
-      Properties.EditMask = '!\(99\)0000-0000;1; '
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 14
-      Visible = False
-      Width = 123
-    end
-    object dbCelular: TcxDBMaskEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'CElular do candidato'
-      DataBinding.DataField = 'NUM_CELULAR'
-      DataBinding.DataSource = dsCandidatos
-      Properties.IgnoreMaskBlank = True
-      Properties.EditMask = '!\(99\)90000-0000;1; '
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 15
-      Visible = False
-      Width = 124
-    end
-    object dbLogradouro: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Logradouro do endere'#231'o do candidato'
-      DataBinding.DataField = 'DES_ENDERECO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 17
-      Visible = False
-      Width = 382
-    end
-    object dbNumero: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'N'#250'mero do logradouro do endere'#231'o do candidato'
-      DataBinding.DataField = 'NUM_ENDERECO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 18
-      Visible = False
-      Width = 89
-    end
-    object dbComplemento: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Complemento do endere'#231'o do candidato'
-      DataBinding.DataField = 'DES_COMPLEMENTO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 19
-      Visible = False
-      Width = 173
-    end
-    object dbBairro: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Bairro do endere'#231'o do candidato'
-      DataBinding.DataField = 'DES_BAIRRO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 20
-      Visible = False
-      Width = 271
-    end
-    object dbCidade: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Cidade do endere'#231'o do candidato'
-      DataBinding.DataField = 'DES_CIDADE'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 21
-      Visible = False
-      Width = 485
-    end
-    object dbEstado: TcxDBLookupComboBox
-      Left = 10000
-      Top = 10000
-      DataBinding.DataField = 'DES_UF'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Properties.KeyFieldNames = 'uf_estado'
-      Properties.ListColumns = <
-        item
-          FieldName = 'uf_estado'
-        end>
-      Properties.ListOptions.ShowHeader = False
-      Properties.ListSource = dsEstados
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 22
-      Visible = False
-      Width = 67
-    end
-    object dbCEP: TcxDBButtonEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'CEP do endere'#231'o do candidato'
-      DataBinding.DataField = 'NUM_CEP'
-      DataBinding.DataSource = dsCandidatos
-      Properties.Buttons = <
-        item
-          Action = actionSearchCEP
-          Default = True
-          Kind = bkGlyph
-        end>
-      Properties.Images = Data_Sisgef.iml_16_16
-      Properties.EditMask = '00000\-999;0; '
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      TabOrder = 16
-      Visible = False
-      Width = 88
-    end
-    object dbExperiencia: TcxDBCheckBox
-      Left = 10000
-      Top = 10000
-      Hint = 'Selecione se o candidato possui experi'#234'ncia no cargo pretendido'
-      Caption = 'Possui Experi'#234'ncia'
-      DataBinding.DataField = 'DOM_EXPERIENCIA'
-      DataBinding.DataSource = dsCandidatos
-      Properties.NullStyle = nssUnchecked
-      Properties.ValueChecked = 'S'
-      Properties.ValueUnchecked = 'N'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 23
-      Visible = False
-    end
-    object dbAntecedentes: TcxDBCheckBox
-      Left = 10000
-      Top = 10000
-      Hint = 'Selecione se o candidato possui antecedentes'
-      Caption = 'Antecedentes'
-      DataBinding.DataField = 'DOM_ANTECEDENTES'
-      DataBinding.DataSource = dsCandidatos
-      Properties.NullStyle = nssUnchecked
-      Properties.ValueChecked = 'S'
-      Properties.ValueUnchecked = 'N'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 24
-      Visible = False
-    end
-    object dbRestricoes: TcxDBCheckBox
-      Left = 10000
-      Top = 10000
-      Hint = 'candidato possui restri'#231#245'es'
-      Caption = 'Restri'#231#245'es'
-      DataBinding.DataField = 'DOM_RESTRICOES'
-      DataBinding.DataSource = dsCandidatos
-      Properties.NullStyle = nssUnchecked
-      Properties.ValueChecked = 'S'
-      Properties.ValueUnchecked = 'N'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 25
-      Visible = False
-    end
-    object dbVeiculo: TcxDBCheckBox
-      Left = 10000
-      Top = 10000
-      Hint = 'candidato possui ve'#237'culo pr'#243'prio'
-      Caption = 'Ve'#237'culo Pr'#243'prio'
-      DataBinding.DataField = 'DOM_VEICULO_PROPRIO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.NullStyle = nssUnchecked
-      Properties.ValueChecked = 'S'
-      Properties.ValueUnchecked = 'N'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 26
-      Visible = False
-    end
-    object dbRestreamento: TcxDBCheckBox
-      Left = 10000
-      Top = 10000
-      Hint = 've'#237'culo do candidato possui rastreamento'
-      Caption = 'Ratreamento'
-      DataBinding.DataField = 'DOM_RASTREADO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.NullStyle = nssUnchecked
-      Properties.ValueChecked = 'S'
-      Properties.ValueUnchecked = 'N'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 27
-      Visible = False
-    end
-    object dbLicenciamento: TcxDBCheckBox
-      Left = 10000
-      Top = 10000
-      Hint = 've'#237'culo do candidato est'#225' licenciado'
-      Caption = 'Licenciado'
-      DataBinding.DataField = 'DOM_LICENCIAMENTO_IPVA'
-      DataBinding.DataSource = dsCandidatos
-      Properties.NullStyle = nssUnchecked
-      Properties.ValueChecked = 'S'
-      Properties.ValueUnchecked = 'N'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 28
-      Visible = False
-    end
-    object dbDisponibilidade: TcxDBCheckBox
-      Left = 10000
-      Top = 10000
-      Hint = 'candidato possui disponibilidade'
-      Caption = 'Disponibilidade'
-      DataBinding.DataField = 'DOM_DISPONIBILIDADE'
-      DataBinding.DataSource = dsCandidatos
-      Properties.NullStyle = nssUnchecked
-      Properties.ValueChecked = 'S'
-      Properties.ValueUnchecked = 'N'
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 29
-      Visible = False
-    end
-    object dbValidadeCNH: TcxDBDateEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'data de validade da CNH do candidato'
-      DataBinding.DataField = 'DAT_VALIDADE_CNH'
-      DataBinding.DataSource = dsCandidatos
-      Properties.SaveTime = False
-      Properties.ShowTime = False
-      Properties.ShowToday = False
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 30
-      Visible = False
-      Width = 91
-    end
-    object dbCategoriaCNH: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'categoria da CNH do candidato'
-      DataBinding.DataField = 'DES_CATEGORIA_CNH'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 31
-      Visible = False
-      Width = 56
-    end
-    object sbTipoVeiculo: TcxDBComboBox
-      Left = 10000
-      Top = 10000
-      Hint = 'selecione o tipo de ve'#237'culo do candidado'
-      DataBinding.DataField = 'DES_TIPO_VEICULO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Properties.Items.Strings = (
-        ''
-        'PASSEIO'
-        'MOTOCICLETA'
-        'BICICLETA'
-        'TRUCK ABERTO'
-        'TRUCK BA'#218
-        'TRUCK SIDER'
-        'TOCO ABERTO'
-        'TOCO BA'#218
-        'TOCO SIDER'
-        '3/4 ABERTO'
-        '3/4 BA'#218
-        '3/4 SIDER'
-        'FURG'#195'O/VAN'
-        'UTILIT'#193'RIO'
-        'TRICICLO'
-        'QUADRICICLO'
-        '')
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 32
-      Visible = False
-      Width = 121
-    end
-    object dbModelo: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'modelo do veiculo do candidato'
-      DataBinding.DataField = 'DES_MODELO_VEICULO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 33
-      Visible = False
-      Width = 140
-    end
-    object dbAno: TcxDBTextEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'ano de fabrica'#231#227'o do ve'#237'culo do candidato'
-      DataBinding.DataField = 'DES_ANO_VEICULO'
-      DataBinding.DataSource = dsCandidatos
-      Properties.CharCase = ecUpperCase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 34
-      Visible = False
-      Width = 59
-    end
-    object dbCombustivel: TcxDBComboBox
-      Left = 10000
-      Top = 10000
-      Hint = 'tipo de combust'#237'vel do ve'#237'culo do candidato'
-      DataBinding.DataField = 'DES_TIPO_COMBUSTIVEL'
-      DataBinding.DataSource = dsCandidatos
-      Properties.Items.Strings = (
-        ''
-        'GASOLINA'
-        'ETANOL'
-        'FLEX (GASOLINA/ETANOL)'
-        'DIESEL'
-        'GNV FLEX'
-        'GNV GASOLINA'
-        'GNV ETANOL'
-        'ELETRICO')
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      Style.ButtonStyle = bts3D
-      Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 35
-      Visible = False
-      Width = 155
-    end
-    object dbRegioes: TcxDBMemo
-      Left = 10000
-      Top = 10000
-      Hint = 'Regi'#245'es que o candidado conhece'
-      DataBinding.DataField = 'DES_REGIOES'
-      DataBinding.DataSource = dsCandidatos
-      Properties.ScrollBars = ssVertical
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 37
-      Visible = False
-      Height = 169
-      Width = 477
-    end
-    object dbObservacoes: TcxDBMemo
-      Left = 10000
-      Top = 10000
-      Hint = 'Observa'#231#245's sobre o candidato'
-      DataBinding.DataField = 'DES_EXPERIENCIA'
-      DataBinding.DataSource = dsCandidatos
-      Properties.ScrollBars = ssVertical
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 36
-      Visible = False
-      Height = 169
-      Width = 477
-    end
     object cxButton10: TcxButton
       Left = 10000
       Top = 10000
@@ -925,6 +455,445 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
       TabOrder = 40
+      Visible = False
+    end
+    object id: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'ID do candidato no banco de dados'
+      TabStop = False
+      Properties.Alignment.Horz = taRightJustify
+      Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 10
+      Text = '0'
+      Visible = False
+      Width = 73
+    end
+    object categoria: TcxLookupComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Categoria do candidato'
+      Properties.KeyFieldNames = 'id_categoria'
+      Properties.ListColumns = <
+        item
+          FieldName = 'des_categoria'
+        end>
+      Properties.ListOptions.ShowHeader = False
+      Properties.ListSource = dsCategorias
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 11
+      Visible = False
+      Width = 145
+    end
+    object nome: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Nome completo do candidato'
+      ParentFont = False
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 70
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -11
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.HotTrack = False
+      Style.IsFontAssigned = True
+      TabOrder = 12
+      Visible = False
+      Width = 630
+    end
+    object email: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Endere'#231'o de e-mail do candidato'
+      Properties.CharCase = ecLowerCase
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 13
+      Visible = False
+      Width = 588
+    end
+    object telefone: TcxMaskEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero do telefone do candidato'
+      Properties.IgnoreMaskBlank = True
+      Properties.EditMask = '!\(99\)0000-0000;1; '
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 14
+      Text = '(  )    -    '
+      Visible = False
+      Width = 121
+    end
+    object celular: TcxMaskEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero do celular do candidato'
+      Properties.EditMask = '!\(99\)00000-0000;1; '
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 15
+      Text = '(  )     -    '
+      Visible = False
+      Width = 121
+    end
+    object cep: TcxButtonEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'CEP do endere'#231'o do candidato'
+      Properties.Buttons = <
+        item
+          Action = actionSearchCEP
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.EditMask = '00000\-999;0; '
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 16
+      Text = '        '
+      Visible = False
+      Width = 97
+    end
+    object logradouro: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Logradouro do endere'#231'o do candidato'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 70
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 17
+      Visible = False
+      Width = 392
+    end
+    object numero: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero do logradouro do endere'#231'o do candidato'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 11
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 18
+      Visible = False
+      Width = 103
+    end
+    object complemento: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Complemento do endere'#231'o do cliente'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 50
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 19
+      Visible = False
+      Width = 164
+    end
+    object bairro: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Bairro do endere'#231'o do candidato'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 70
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 20
+      Visible = False
+      Width = 392
+    end
+    object cidade: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Cidade do endere'#231'o do candidato'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 70
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 21
+      Visible = False
+      Width = 401
+    end
+    object uf: TcxLookupComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Sigla do estado do endere'#231'o do candidato'
+      Properties.KeyFieldNames = 'uf_estado'
+      Properties.ListColumns = <
+        item
+          FieldName = 'uf_estado'
+        end>
+      Properties.ListOptions.ShowHeader = False
+      Properties.ListSource = dsEstados
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 22
+      Visible = False
+      Width = 66
+    end
+    object validadeCNH: TcxDateEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Validade da CNH do candidato'
+      Properties.SaveTime = False
+      Properties.ShowTime = False
+      Properties.ShowToday = False
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 30
+      Visible = False
+      Width = 97
+    end
+    object categoriaCNH: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Catergoria(s) da CNH do candidato'
+      Properties.CharCase = ecUpperCase
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 31
+      Visible = False
+      Width = 44
+    end
+    object tipoVeiculo: TcxComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Tipo de ve'#237'culo do candidato'
+      Properties.CharCase = ecUpperCase
+      Properties.Items.Strings = (
+        ''
+        'PASSEIO'
+        'MOTOCICLETA'
+        'BICICLETA'
+        'TRUCK ABERTO'
+        'TRUCK BA'#218
+        'TRUCK SIDER'
+        'TOCO ABERTO'
+        'TOCO BA'#218
+        'TOCO SIDER'
+        '3/4 ABERTO'
+        '3/4 BA'#218
+        '3/4 SIDER'
+        'FURG'#195'O/VAN'
+        'UTILIT'#193'RIO'
+        'TRICICLO'
+        'QUADRICICLO')
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 32
+      Visible = False
+      Width = 121
+    end
+    object modelo: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Modelo do ve'#237'culo do candidato'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 30
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 33
+      Visible = False
+      Width = 153
+    end
+    object anoVeiculo: TcxMaskEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Ano de fabrica'#231#227'o do ve'#237'culo do candidato'
+      Properties.EditMask = '!9999;1; '
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 34
+      Text = '    '
+      Visible = False
+      Width = 44
+    end
+    object combustivel: TcxComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Tipo de combust'#237'vel do ve'#237'culo do candidatop'
+      Properties.Items.Strings = (
+        ''
+        'GASOLINA'
+        'ETANOL'
+        'FLEX (GASOLINA/ETANOL)'
+        'DIESEL'
+        'GNV FLEX'
+        'GNV GASOLINA'
+        'GNV ETANOL'
+        'ELETRICO')
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 35
+      Visible = False
+      Width = 139
+    end
+    object observacoes: TcxMemo
+      Left = 10000
+      Top = 10000
+      Properties.ScrollBars = ssVertical
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 36
+      Visible = False
+      Height = 169
+      Width = 477
+    end
+    object regioes: TcxMemo
+      Left = 10000
+      Top = 10000
+      Properties.ScrollBars = ssVertical
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 37
+      Visible = False
+      Height = 169
+      Width = 477
+    end
+    object experiencia: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Candidato possui experi'#234'ncia ?'
+      Caption = 'Experi'#234'ncia'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 23
+      Visible = False
+    end
+    object antecedente: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Candidato possui algum antecedente ?'
+      Caption = 'Antecedentes'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 24
+      Visible = False
+    end
+    object restricoes: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Candidato possui restri'#231#245'es ?'
+      Caption = 'Restri'#231#245'es'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 25
+      Visible = False
+    end
+    object veiculo: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Candidato possui ve'#237'culo pr'#243'prio ?'
+      Caption = 'Ve'#237'culo'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 26
+      Visible = False
+    end
+    object rastreador: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Ve'#237'culo do candidato possui rastreador ?'
+      Caption = 'Rastreamento'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 27
+      Visible = False
+    end
+    object licenciado: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Ve'#237'culo do candidto est'#225' licenciado ?'
+      Caption = 'Licenciado'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 28
+      Visible = False
+    end
+    object disponibilidade: TcxCheckBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Candidato tem disponibilidde ?'
+      Caption = 'Disponibilidade'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = 'S'
+      Properties.ValueUnchecked = 'N'
+      State = cbsGrayed
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 29
       Visible = False
     end
     object lrgRoot: TdxLayoutGroup
@@ -971,6 +940,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       AlignVert = avClient
       CaptionOptions.Text = 'Cadastro'
       ButtonOptions.Buttons = <>
+      ItemControlAreaAlignment = catNone
       ItemIndex = 10
       Index = 1
     end
@@ -1186,34 +1156,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ControlOptions.ShowBorder = False
       Index = 0
     end
-    object dxLayoutItem13: TdxLayoutItem
-      Parent = dxLayoutGroup7
-      CaptionOptions.Text = 'ID'
-      Control = dbId
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 77
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem14: TdxLayoutItem
-      Parent = dxLayoutGroup7
-      CaptionOptions.Text = 'Categoria'
-      Control = dbCategoria
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 118
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem15: TdxLayoutItem
-      Parent = dxLayoutGroup7
-      AlignHorz = ahClient
-      CaptionOptions.Text = 'Nome'
-      Control = dbNome
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 626
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
     object dxLayoutSeparatorItem3: TdxLayoutSeparatorItem
       Parent = lgpCadastro
       CaptionOptions.Text = 'Separator'
@@ -1227,34 +1169,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ShowBorder = False
       Index = 1
     end
-    object dxLayoutItem16: TdxLayoutItem
-      Parent = dxLayoutGroup8
-      AlignHorz = ahClient
-      CaptionOptions.Text = 'E-Mail'
-      Control = dbEmail
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 348
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem17: TdxLayoutItem
-      Parent = dxLayoutGroup8
-      CaptionOptions.Text = 'Telefone'
-      Control = dbTelefone
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 123
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem18: TdxLayoutItem
-      Parent = dxLayoutGroup8
-      CaptionOptions.Text = 'Celular'
-      Control = dbCelular
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 124
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
     object dxLayoutGroup9: TdxLayoutGroup
       Parent = lgpCadastro
       AlignHorz = ahClient
@@ -1265,35 +1179,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ShowBorder = False
       Index = 3
     end
-    object dxLayoutItem19: TdxLayoutItem
-      Parent = dxLayoutGroup9
-      AlignHorz = ahClient
-      CaptionOptions.Text = 'Endere'#231'o'
-      Control = dbLogradouro
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem20: TdxLayoutItem
-      Parent = dxLayoutGroup9
-      CaptionOptions.Hint = 'N'#250'mero do logradouro do endere'#231'o do candidato'
-      CaptionOptions.Text = 'N'#186'.'
-      Control = dbNumero
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 89
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
-    object dxLayoutItem21: TdxLayoutItem
-      Parent = dxLayoutGroup9
-      CaptionOptions.Text = 'Complemento'
-      Control = dbComplemento
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 173
-      ControlOptions.ShowBorder = False
-      Index = 3
-    end
     object dxLayoutGroup10: TdxLayoutGroup
       Parent = lgpCadastro
       AlignVert = avTop
@@ -1302,47 +1187,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 4
-    end
-    object dxLayoutItem22: TdxLayoutItem
-      Parent = dxLayoutGroup10
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'Bairro'
-      Control = dbBairro
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 212
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem23: TdxLayoutItem
-      Parent = dxLayoutGroup10
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'Cidade'
-      Control = dbCidade
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 395
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem24: TdxLayoutItem
-      Parent = dxLayoutGroup10
-      CaptionOptions.Text = 'UF'
-      Control = dbEstado
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 67
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
-    object dxLayoutItem25: TdxLayoutItem
-      Parent = dxLayoutGroup9
-      CaptionOptions.Hint = 'CEP do endere'#231'o do candidato'
-      CaptionOptions.Text = 'CEP'
-      Control = dbCEP
-      ControlOptions.OriginalHeight = 24
-      ControlOptions.OriginalWidth = 88
-      ControlOptions.ShowBorder = False
-      Index = 0
     end
     object dxLayoutSeparatorItem4: TdxLayoutSeparatorItem
       Parent = lgpCadastro
@@ -1358,90 +1202,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ShowBorder = False
       Index = 6
     end
-    object dxLayoutItem26: TdxLayoutItem
-      Parent = dxLayoutGroup11
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxDBCheckBox1'
-      CaptionOptions.Visible = False
-      Control = dbExperiencia
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 112
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem27: TdxLayoutItem
-      Parent = dxLayoutGroup11
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxDBCheckBox1'
-      CaptionOptions.Visible = False
-      Control = dbAntecedentes
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 91
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem28: TdxLayoutItem
-      Parent = dxLayoutGroup11
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxDBCheckBox1'
-      CaptionOptions.Visible = False
-      Control = dbRestricoes
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 74
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
-    object dxLayoutItem29: TdxLayoutItem
-      Parent = dxLayoutGroup11
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxDBCheckBox1'
-      CaptionOptions.Visible = False
-      Control = dbVeiculo
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 94
-      ControlOptions.ShowBorder = False
-      Index = 3
-    end
-    object dxLayoutItem30: TdxLayoutItem
-      Parent = dxLayoutGroup11
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxDBCheckBox1'
-      CaptionOptions.Visible = False
-      Control = dbRestreamento
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 87
-      ControlOptions.ShowBorder = False
-      Index = 4
-    end
-    object dxLayoutItem31: TdxLayoutItem
-      Parent = dxLayoutGroup11
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxDBCheckBox1'
-      CaptionOptions.Visible = False
-      Control = dbLicenciamento
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 73
-      ControlOptions.ShowBorder = False
-      Index = 5
-    end
-    object dxLayoutItem32: TdxLayoutItem
-      Parent = dxLayoutGroup11
-      AlignHorz = ahClient
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxDBCheckBox2'
-      CaptionOptions.Visible = False
-      Control = dbDisponibilidade
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 94
-      ControlOptions.ShowBorder = False
-      Index = 6
-    end
     object dxLayoutSeparatorItem5: TdxLayoutSeparatorItem
       Parent = lgpCadastro
       CaptionOptions.Text = 'Separator'
@@ -1455,62 +1215,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ShowBorder = False
       Index = 8
     end
-    object dxLayoutItem33: TdxLayoutItem
-      Parent = dxLayoutGroup12
-      CaptionOptions.Text = 'Validade CNH'
-      Control = dbValidadeCNH
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 91
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem34: TdxLayoutItem
-      Parent = dxLayoutGroup12
-      CaptionOptions.Text = 'Categoria'
-      Control = dbCategoriaCNH
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 56
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem35: TdxLayoutItem
-      Parent = dxLayoutGroup12
-      CaptionOptions.Text = 'Tipo Ve'#237'culo'
-      Control = sbTipoVeiculo
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
-    object dxLayoutItem36: TdxLayoutItem
-      Parent = dxLayoutGroup12
-      AlignHorz = ahClient
-      CaptionOptions.Text = 'Modelo'
-      Control = dbModelo
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 121
-      ControlOptions.ShowBorder = False
-      Index = 3
-    end
-    object dxLayoutItem37: TdxLayoutItem
-      Parent = dxLayoutGroup12
-      CaptionOptions.Text = 'Ano'
-      Control = dbAno
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 59
-      ControlOptions.ShowBorder = False
-      Index = 4
-    end
-    object dxLayoutItem38: TdxLayoutItem
-      Parent = dxLayoutGroup12
-      AlignHorz = ahClient
-      CaptionOptions.Text = 'Combust'#237'vel'
-      Control = dbCombustivel
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 131
-      ControlOptions.ShowBorder = False
-      Index = 5
-    end
     object dxLayoutSeparatorItem6: TdxLayoutSeparatorItem
       Parent = lgpCadastro
       CaptionOptions.Text = 'Separator'
@@ -1521,6 +1225,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 10
@@ -1543,26 +1248,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ShowBorder = False
       Index = 1
     end
-    object dxLayoutItem40: TdxLayoutItem
-      Parent = dxLayoutGroup15
-      CaptionOptions.Text = 'Regi'#245'es'
-      CaptionOptions.Layout = clTop
-      Control = dbRegioes
-      ControlOptions.OriginalHeight = 169
-      ControlOptions.OriginalWidth = 185
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem39: TdxLayoutItem
-      Parent = dxLayoutGroup14
-      CaptionOptions.Text = 'Observa'#231#245'es'
-      CaptionOptions.Layout = clTop
-      Control = dbObservacoes
-      ControlOptions.OriginalHeight = 169
-      ControlOptions.OriginalWidth = 185
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
     object dxLayoutItem41: TdxLayoutItem
       Parent = dxLayoutGroup6
       AlignHorz = ahRight
@@ -1584,6 +1269,281 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ControlOptions.OriginalWidth = 82
       ControlOptions.ShowBorder = False
       Index = 2
+    end
+    object dxLayoutItem43: TdxLayoutItem
+      Parent = dxLayoutGroup7
+      CaptionOptions.Text = 'ID'
+      Control = id
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 73
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem13: TdxLayoutItem
+      Parent = dxLayoutGroup7
+      CaptionOptions.Hint = 'Categoria do candidato'
+      CaptionOptions.Text = 'Categoria'
+      Control = categoria
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 145
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem14: TdxLayoutItem
+      Parent = dxLayoutGroup7
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Nome'
+      Control = nome
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem44: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'E-Mail'
+      Control = email
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem15: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      CaptionOptions.Text = 'Telefone'
+      Control = telefone
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem16: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      CaptionOptions.Text = 'Celular'
+      Control = celular
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem17: TdxLayoutItem
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'CEP'
+      Control = cep
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 97
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem18: TdxLayoutItem
+      Parent = dxLayoutGroup9
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Endere'#231'o'
+      Control = logradouro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem19: TdxLayoutItem
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'N'#250'mero'
+      Control = numero
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 103
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem20: TdxLayoutItem
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'Complemento'
+      Control = complemento
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 164
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem21: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Bairro'
+      Control = bairro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem22: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Cidade'
+      Control = cidade
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem23: TdxLayoutItem
+      Parent = dxLayoutGroup10
+      CaptionOptions.Text = 'UF'
+      Control = uf
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 66
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem24: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      CaptionOptions.Text = 'Validade CNH'
+      Control = validadeCNH
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 97
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem25: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      CaptionOptions.Text = 'Categoria CNH'
+      Control = categoriaCNH
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 44
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem33: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      CaptionOptions.Text = 'Tipo Ve'#237'culo'
+      Control = tipoVeiculo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem34: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Modelo'
+      Control = modelo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem35: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      CaptionOptions.Text = 'Ano'
+      Control = anoVeiculo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 44
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutItem36: TdxLayoutItem
+      Parent = dxLayoutGroup12
+      CaptionOptions.Text = 'Combust'#237'vel'
+      Control = combustivel
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 139
+      ControlOptions.ShowBorder = False
+      Index = 5
+    end
+    object dxLayoutItem37: TdxLayoutItem
+      Parent = dxLayoutGroup14
+      CaptionOptions.Text = 'Observa'#231#245'es'
+      CaptionOptions.Layout = clTop
+      Control = observacoes
+      ControlOptions.OriginalHeight = 169
+      ControlOptions.OriginalWidth = 185
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem38: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      CaptionOptions.Text = 'Regi'#245'es'
+      CaptionOptions.Layout = clTop
+      Control = regioes
+      ControlOptions.OriginalHeight = 169
+      ControlOptions.OriginalWidth = 185
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem39: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = experiencia
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 79
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem26: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = antecedente
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 91
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem27: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = restricoes
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 74
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem28: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = veiculo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 57
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem29: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = rastreador
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 92
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutItem30: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = licenciado
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 73
+      ControlOptions.ShowBorder = False
+      Index = 5
+    end
+    object dxLayoutItem31: TdxLayoutItem
+      Parent = dxLayoutGroup11
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'cxCheckBox1'
+      CaptionOptions.Visible = False
+      Control = disponibilidade
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 94
+      ControlOptions.ShowBorder = False
+      Index = 6
     end
   end
   object actionList: TActionList
