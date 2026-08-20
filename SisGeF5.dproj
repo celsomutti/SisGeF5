@@ -732,6 +732,7 @@
         <DCCReference Include="src\Services\services.SisGeFUserAccess.pas"/>
         <DCCReference Include="src\Model\Model.SisGeFCadastroCandidatos.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFCadastroCandidatos.pas"/>
+        <DCCReference Include="src\Services\services.SisGeFTabelaCandidatos.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>

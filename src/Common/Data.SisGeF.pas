@@ -19,8 +19,8 @@ uses
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Stan.StorageBin, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Comp.BatchMove.Text, FireDAC.Comp.BatchMove, FireDAC.Comp.BatchMove.DataSet, cxLookAndFeelPainters,
   dxAlertWindow, Xml.xmldom, Datasnap.Provider, Datasnap.Xmlxform, Datasnap.DBClient, Xml.XMLIntf, Xml.Win.msxmldom, Xml.XMLDoc,
-  IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP, ScBridge, ScSSHClient,
-  ScSFTPClient, Dialogs, ScSSHUtils, ScUtils, ScSFTPUtils, FireDAC.DApt, frxRich, System.DateUtils,
+  IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP,
+  Dialogs, FireDAC.DApt, frxRich, System.DateUtils,
   frxExportBaseDialog, cxImageList, Control.Bases, Control.Sistema, REST.Types, REST.Client, REST.Response.Adapter,
   Data.Bind.Components, Data.Bind.ObjectScope, Controller.CRMClientes, frxOLE, service.sistem, FireDAC.Comp.BatchMove.SQL,
   service.auxTable;
@@ -198,9 +198,6 @@ type
     mtbAtribuicaodom_retorno: TShortintField;
     mtbAtribuicaocod_retorno: TStringField;
     mtbAtribuicaocod_informativo: TIntegerField;
-    ScSFTPClient: TScSFTPClient;
-    ScSSHClient: TScSSHClient;
-    ScFileStorage: TScFileStorage;
     mtbRecepcaoPedidos: TFDMemTable;
     mtbRecepcaoPedidosnum_nossonumero: TStringField;
     mtbRecepcaoPedidoscod_cliente: TIntegerField;
@@ -750,7 +747,6 @@ type
     mtbCategoriasRHProvid_categoria: TIntegerField;
     mtbCategoriasRHProvdes_categoria: TStringField;
     procedure DataModuleCreate(Sender: TObject);
-    procedure ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
     procedure mtbFechamentoExpressasCalcFields(DataSet: TDataSet);
     procedure mtbExtratosExpressasCalcFields(DataSet: TDataSet);
     procedure memTableResumoRoteirosCalcFields(DataSet: TDataSet);
@@ -762,8 +758,6 @@ type
     { Private declarations }
     FSistem : TSistem;
     FProcessados: integer;
-    procedure DoServerKeyValidate(FileStorage: TScFileStorage;  const HostKeyName: string; NewServerKey: TScKey;
-                                  var Accept: Boolean);
     procedure PopulaCategorias;
     procedure PopulaEstados;
   public
@@ -810,37 +804,6 @@ begin
   PopulaEstados;
   PopulaCategorias;
 end;
-
-procedure TData_Sisgef.DoServerKeyValidate(FileStorage: TScFileStorage;
-  const HostKeyName: string; NewServerKey: TScKey; var Accept: Boolean);
-var
-  Key: TScKey;
-  fp, msg: string;
-begin
-  Key := FileStorage.Keys.FindKey(HostKeyName);
-  if (Key = nil) or not Key.Ready then begin
-    {NewServerKey.GetFingerPrint(haMD5, fp);
-    msg := 'A autenticidade do servidor não pode ser verificada.'#13#10 +
-           'Impressão digital da chave recebida do servidor: ' + fp + '.'#13#10 +
-           'Comprimento da chave: ' + IntToStr(NewServerKey.BitCount) + ' bits.'#13#10 +
-           'Tem certeza de que deseja continuar conectando?';
-
-    if MessageDlg(msg, mtConfirmation, [mbOk, mbCancel], 0) = mrOk then begin}
-      Key := TScKey.Create(nil);
-      try
-        Key.Assign(NewServerKey);
-        Key.KeyName := HostKeyName;
-        FileStorage.Keys.Add(Key);
-      except
-        Key.Free;
-        raise;
-      end;
-
-      Accept := True;
-   // end;
-  end;
-end;
-
 
 procedure TData_Sisgef.FDConnectionMySQLBeforeConnect(Sender: TObject);
 begin
@@ -1131,17 +1094,6 @@ begin
     Finalize(aParam);
     aux.Free;
   end;
-end;
-
-procedure TData_Sisgef.ScSSHClientServerKeyValidate(Sender: TObject; NewServerKey: TScKey; var Accept: Boolean);
-var
-  CurHostKeyName: string;
-begin
-  if ScSSHClient.HostKeyName = '' then
-    CurHostKeyName := ScSSHClient.HostName
-  else
-    CurHostKeyName := ScSSHClient.HostKeyName;
-  Data_Sisgef.DoServerKeyValidate(ScFileStorage, CurHostKeyName, NewServerKey, Accept);
 end;
 
 

@@ -897,13 +897,13 @@ begin
     begin
       memTableContatos.Close;
     end;
+    memTableContatos.Active := True;
     SetLength(aParam,2);
     aParam := ['CONTRATADO',iCadastro.ToString];
     if not FContatos.Search(aParam) then
     begin
       Exit;
     end;
-    memTableContatos.Active := True;
     while not FContatos.FContatos.Query.Eof do
     begin
       memTableContatos.Insert;
@@ -1565,13 +1565,12 @@ var
   aParam: array of string;
 begin
   try
+    mtbFinanceiro.Active := True;
     FFinanceiro := TContratadosFinanceiroController.Create;
     SetLength(aParam,2);
     aParam := ['CONTRATADO',iCadastro.ToString];
-    mtbFinanceiro.Active := False;
     if FFinanceiro.Search(aParam) then
     begin
-      mtbFinanceiro.Active := True;
       FFinanceiro.FFinanceiro.Query.First;
       while not FFinanceiro.FFinanceiro.Query.Eof do
       begin
@@ -1646,12 +1645,12 @@ var
   aParam: array of string;
 begin
   try
+    mtbRH.Active := True;
     FRH := TContratadosRHController.Create;
     SetLength(aParam,2);
     aParam := ['CONTRATADO',iCadastro.ToString];
     if FRH.Search(aParam) then
     begin
-      mtbRH.Open;
       mtbRH.Insert;
       mtbRHid_rh.AsInteger := FRH.FRH.Query.FieldByName('id_rh').AsInteger;
       mtbRHid_contratados.AsInteger := FRH.FRH.Query.FieldByName('id_contratados').AsInteger;

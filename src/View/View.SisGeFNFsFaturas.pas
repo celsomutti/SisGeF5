@@ -321,11 +321,11 @@ begin
   begin
     try
       begin
-        ScSSHClient.Connect;
-        ScSFTPClient.SSHClient := ScSSHClient;
-        ScSFTPClient.Initialize;
-        ScSFTPClient.DownloadFile(sPath + sFile, sDestino ,True);
-        ScSSHClient.Disconnect;
+//        ScSSHClient.Connect;
+//        ScSFTPClient.SSHClient := ScSSHClient;
+//        ScSFTPClient.Initialize;
+//        ScSFTPClient.DownloadFile(sPath + sFile, sDestino ,True);
+//        ScSSHClient.Disconnect;
         labelAviso.Caption := '';
         labelAviso.Refresh;
         if FileExists(sDestino) then

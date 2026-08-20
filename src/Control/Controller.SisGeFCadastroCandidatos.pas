@@ -2,13 +2,14 @@ unit Controller.SisGeFCadastroCandidatos;
 
 interface
 
-  uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFCadastroCandidatos;
+  uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFCadastroCandidatos, services.SisGeFTabelaCandidatos;
 
   type
     TCadastroCandidatosController = class
       private
       public
         FCandidatos : TCadastroCandidatosModel;
+        FTabela : TTabelaCandidatos;
         Constructor Create();
         function    GetNextID   (sIdName: string)         : Integer;
         function    CustomSearch(aParams: array of string): boolean;
@@ -24,6 +25,7 @@ implementation
 constructor TCadastroCandidatosController.Create;
 begin
   FCandidatos := TCadastroCandidatosModel.Create;
+  FTabela := TTabelaCandidatos.Create;
 end;
 
 function TCadastroCandidatosController.CustomSearch(aParams: array of string): boolean;

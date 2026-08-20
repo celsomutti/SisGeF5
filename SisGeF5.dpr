@@ -364,7 +364,8 @@ uses
   View.SisGeFCadastroTerceirizados in 'src\View\View.SisGeFCadastroTerceirizados.pas' {viewCadastroTerceirizados},
   services.SisGeFUserAccess in 'src\Services\services.SisGeFUserAccess.pas',
   Model.SisGeFCadastroCandidatos in 'src\Model\Model.SisGeFCadastroCandidatos.pas',
-  Controller.SisGeFCadastroCandidatos in 'src\Control\Controller.SisGeFCadastroCandidatos.pas';
+  Controller.SisGeFCadastroCandidatos in 'src\Control\Controller.SisGeFCadastroCandidatos.pas',
+  services.SisGeFTabelaCandidatos in 'src\Services\services.SisGeFTabelaCandidatos.pas';
 
 {$R *.res}
 
