@@ -10,7 +10,9 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
   Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Common.Utils,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxCheckBox, cxMemo, cxCalendar, service.connectionMySQL,
-  cxDBEdit, Controller.APICEP, Controller.SisGeFCadastroCandidatos, Vcl.ComCtrls, dxCore, cxDateUtils, services.SisGeFTabelaCandidatos;
+  cxDBEdit, Controller.APICEP, Controller.SisGeFCadastroCandidatos, Vcl.ComCtrls, dxCore, cxDateUtils, services.SisGeFTabelaCandidatos, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Common.ENum, Generics.Collections;
 
 type
   TviewCadastroCandidatos = class(TForm)
@@ -176,6 +178,37 @@ type
     dxLayoutItem30: TdxLayoutItem;
     disponibilidade: TcxCheckBox;
     dxLayoutItem31: TdxLayoutItem;
+    mtbCandidatos: TFDMemTable;
+    mtbCandidatosCOD_CANDIDATO: TIntegerField;
+    mtbCandidatosid_categoria: TIntegerField;
+    mtbCandidatosNOM_CANDIDATO: TStringField;
+    mtbCandidatosDES_EMAIL: TStringField;
+    mtbCandidatosNUM_CEP: TStringField;
+    mtbCandidatosDES_ENDERECO: TStringField;
+    mtbCandidatosNUM_ENDERECO: TStringField;
+    mtbCandidatosDES_COMPLEMENTO: TStringField;
+    mtbCandidatosDES_BAIRRO: TStringField;
+    mtbCandidatosDES_CIDADE: TStringField;
+    mtbCandidatosDES_UF: TStringField;
+    mtbCandidatosNUM_TELEFONE: TStringField;
+    mtbCandidatosNUM_CELULAR: TStringField;
+    mtbCandidatosDOM_EXPERIENCIA: TStringField;
+    mtbCandidatosDES_EXPERIENCIA: TMemoField;
+    mtbCandidatosDES_REGIOES: TMemoField;
+    mtbCandidatosDOM_ANTECEDENTES: TStringField;
+    mtbCandidatosDOM_RESTRICOES: TStringField;
+    mtbCandidatosDAT_VALIDADE_CNH: TDateField;
+    mtbCandidatosDES_CATEGORIA_CNH: TStringField;
+    mtbCandidatosDOM_VEICULO_PROPRIO: TStringField;
+    mtbCandidatosDES_ANO_VEICULO: TStringField;
+    mtbCandidatosDES_TIPO_VEICULO: TStringField;
+    mtbCandidatosDES_MODELO_VEICULO: TStringField;
+    mtbCandidatosDES_TIPO_COMBUSTIVEL: TStringField;
+    mtbCandidatosDOM_LICENCIAMENTO_IPVA: TStringField;
+    mtbCandidatosDOM_RASTREADO: TStringField;
+    mtbCandidatosDOM_DISPONIBILIDADE: TStringField;
+    mtbCandidatoscreatedAt: TDateTimeField;
+    mtbCandidatosupdatedAt: TDateTimeField;
     procedure actCadastroLimparExecute(Sender: TObject);
     procedure actCadastroSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -197,13 +230,14 @@ type
   private
     FConn : TConnectionMySQL;
     FCandidatos: TCadastroCandidatosController;
-    FTabela: TTabelaCandidatos;
+    FTabela : TObjectList<TTabelaCandidatos>;
+    FAcao : TAcao;
 
     procedure ShowForm;
     procedure ExportGrid;
     procedure ClearFields;
     procedure SetupTabela;
-    procedure SetupFields(iId: integer);
+    function  SetupFields(iId: integer): boolean;
     procedure Search(sParam: string);
     procedure Insert;
     procedure Edit;
@@ -437,12 +471,8 @@ end;
 
 procedure TviewCadastroCandidatos.Edit;
 begin
-  with FCandidatos do
-  begin
-    if FCandidatos.Query.Connection = nil then
-      Exit;
-    FCandidatos.Query.Edit;
-  end;
+  ClearFields;
+  SetupFields(mtbCandidatosCOD_CANDIDATO.AsInteger);
   lgpContainer.ItemIndex := 1;
   nome.SetFocus;
 end;
@@ -477,7 +507,6 @@ procedure TviewCadastroCandidatos.FormClose(Sender: TObject; var Action: TCloseA
 begin
   with FCandidatos do
   begin
-    FCandidatos.Query.Active := False;
     FCandidatos.Free;
     FTabela.Free;
     FConn.Free;
@@ -498,6 +527,7 @@ end;
 
 procedure TviewCadastroCandidatos.Insert;
 begin
+  FAcao := tacIncluir;
   ClearFields;
   lgpContainer.ItemIndex := 1;
   categoria.SetFocus;
@@ -507,22 +537,28 @@ procedure TviewCadastroCandidatos.Save;
 var
   sMensagem: string;
 begin
+  SetupTabela;
   if not FCandidatos.Validate() then
   begin
     Application.MessageBox(PChar(FCandidatos.FCandidatos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     Exit;
   end;
-  if dsCandidatos.State = dsEdit then
+  if FAcao = tacAlterar then
     sMensagem := 'Confirma alterar os dados do candidato '  + nome.Text + ' ?'
-  else if dsCandidatos.State = dsInsert then
+  else if FAcao = tacIncluir then
     sMensagem := 'Confirma incluir os dados do candidato '  + nome.Text + ' ?';
   if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
     Exit;
-  if FCandidatos.FCandidatos.Query.State in [dsEdit, dsInsert] then
+  FCandidatos.FCandidatos.Acao := FAcao;
+  if not FCandidatos.SaveRecord then
   begin
-    FCandidatos.FCandidatos.Query.Post;
-    lgpContainer.ItemIndex := 0;
+    Application.MessageBox(PChar(FCandidatos.FCandidatos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
   end;
+  Application.MessageBox('Cadastro salvo.', 'Salvar', MB_OK + MB_ICONINFORMATION);
+  FAcao := tacIndefinido;
+  Search(CustomSearchStr(parametro.Text));
+  lgpContainer.ItemIndex := 0;
 end;
 
 procedure TviewCadastroCandidatos.Search(sParam: string);
@@ -531,17 +567,17 @@ var
 begin
   SetLength(aParam, 3);
   aParam[0] := '*';
-  aParam[1] := 'VIEW';
+  aParam[1] := 'TABLE';
   aParam[2] := sParam;
   with FCandidatos do
   begin
-    if not FCandidatos.CustomSearch(sParam) then
+    if not FCandidatos.CustomSearch(aParam) then
     begin
       Application.MessageBox('Nenhum registro encontrado!', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
     end
     else
     begin
-      dsCandidatos.DataSet := FCandidatos.Query;
+      mtbCandidatos.Data := FCandidatos.Query.Data;
     end;
   end;
   Finalize(aParam);
@@ -571,12 +607,12 @@ begin
         end;
         if view_ListaCEPs.ShowModal = mrOK then
         begin
-          FCandidatos.FCandidatos.Query.FieldByName('DES_ENDERECO').AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
-          FCandidatos.FCandidatos.Query.FieldByName('DES_COMPLEMENTO').AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
-          FCandidatos.FCandidatos.Query.FieldByName('DES_BAIRRO').AsString := Data_Sisgef.memTableCEPbairro.AsString;
-          FCandidatos.FCandidatos.Query.FieldByName('DES_CIDADE').AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
-          FCandidatos.FCandidatos.Query.FieldByName('DES_UF').AsString := Data_Sisgef.memTableCEPuf.AsString;
-          FCandidatos.FCandidatos.Query.FieldByName('NUM_CEP').AsString := Data_Sisgef.memTableCEPcep.AsString;
+          logradouro.Text := Data_Sisgef.memTableCEPlogradouro.AsString;
+          numero.Text := Data_Sisgef.memTableCEPcomplemento.AsString;
+          bairro.Text := Data_Sisgef.memTableCEPbairro.AsString;
+          cidade.Text := Data_Sisgef.memTableCEPlocalidade.AsString;
+          uf.Text := Data_Sisgef.memTableCEPuf.AsString;
+          cep.Text := Data_Sisgef.memTableCEPcep.AsString;
         end;
         Data_Sisgef.memTableCEP.Active := False;
         FreeAndNil(view_ListaCEPs);
@@ -584,11 +620,12 @@ begin
     end
     else
     begin
-      FCandidatos.FCandidatos.Query.FieldByName('DES_ENDERECO').AsString := Data_Sisgef.memTableCEPlogradouro.AsString;
-      FCandidatos.FCandidatos.Query.FieldByName('DES_COMPLEMENTO').AsString := Data_Sisgef.memTableCEPcomplemento.AsString;
-      FCandidatos.FCandidatos.Query.FieldByName('DES_BAIRRO').AsString := Data_Sisgef.memTableCEPbairro.AsString;
-      FCandidatos.FCandidatos.Query.FieldByName('DES_CIDADE').AsString := Data_Sisgef.memTableCEPlocalidade.AsString;
-      FCandidatos.FCandidatos.Query.FieldByName('DES_UF').AsString := Data_Sisgef.memTableCEPuf.AsString;
+      logradouro.Text := Data_Sisgef.memTableCEPlogradouro.AsString;
+      numero.Text := Data_Sisgef.memTableCEPcomplemento.AsString;
+      bairro.Text := Data_Sisgef.memTableCEPbairro.AsString;
+      cidade.Text := Data_Sisgef.memTableCEPlocalidade.AsString;
+      uf.Text := Data_Sisgef.memTableCEPuf.AsString;
+      cep.Text := Data_Sisgef.memTableCEPcep.AsString;
     end;
   finally
     APICEP.Free;
@@ -596,85 +633,94 @@ begin
   end;
 end;
 
-procedure TviewCadastroCandidatos.SetupFields(iId: integer);
+function TviewCadastroCandidatos.SetupFields(iId: integer): boolean;
 var
   aParam : Array of String;
 begin
-  SetLength(aParam, 3);
-  aParam[0] := '*';
-  aParam[1] := 'TABLE';
-  aParam[2] := 'cod_candidato = ' + iId.ToString;
-  with FCandidatos do
-  begin
-    if FCandidatos.CustomSearch(aParam) then
+  Result := False;
+  try
+    SetLength(aParam, 3);
+    aParam[0] := '*';
+    aParam[1] := 'TABLE';
+    aParam[2] := 'cod_candidato = ' + iId.ToString;
+    with FCandidatos do
     begin
-      id.EditValue := FTabela.COD_CANDIDATO;
-      categoria.EditValue := FTabela.id_categoria;
-      nome.Text := FTabela.NOM_CANDIDATO;
-      email.Text := FTabela.DES_EMAIL;
-      telefone.EditValue := FTabela.NUM_TELEFONE;
-      celular.EditValue := FTabela.NUM_CELULAR;
-      cep.EditValue := FTabela.NUM_CEP;
-      logradouro.Text := FTabela.DES_ENDERECO;
-      numero.Text := FTabela.NUM_ENDERECO;
-      complemento.Text := FTabela.DES_COMPLEMENTO;
-      bairro.Text := FTabela.DES_BAIRRO;
-      cidade.Text := FTabela.DES_CIDADE;
-      uf.Text := FTabela.DES_UF;
-      validadeCNH.Date := FTabela.DAT_VALIDADE_CNH;
-      categoriaCNH.Text := FTabela.DES_CATEGORIA_CNH;
-      tipoVeiculo.Text := FTabela.DES_TIPO_VEICULO;
-      modelo.Text := FTabela.DES_MODELO_VEICULO;
-      anoVeiculo.Text := FTabela.DES_ANO_VEICULO;
-      combustivel.Text := FTabela.DES_TIPO_COMBUSTIVEL;
-      observacoes.Text := FTabela.DES_EXPERIENCIA;
-      regioes.Text := FTabela.DES_REGIOES;
-      experiencia.EditValue := FTabela.DOM_EXPERIENCIA;
-      antecedente.EditValue := FTabela.DOM_ANTECEDENTES;
-      restricoes.EditValue := FTabela.DOM_RESTRICOES;
-      veiculo.EditValue := FTabela.DOM_VEICULO_PROPRIO;
-      rastreador.EditValue := FTabela.DOM_RASTREADO;
-      licenciado.EditValue := FTabela.DOM_LICENCIAMENTO_IPVA;
-      disponibilidade.EditValue := FTabela.DOM_DISPONIBILIDADE;
-    end
-    else
-    begin
-      Application.MessageBox('Registro não encontrado', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      if FCandidatos.CustomSearch(aParam) then
+      begin
+        SetupTabela;
+        id.EditValue := FTabela[0].COD_CANDIDATO;
+        categoria.EditValue := FTabela[0].id_categoria;
+        nome.Text := FTabela[0].NOM_CANDIDATO;
+        email.Text := FTabela[0].DES_EMAIL;
+        telefone.EditValue := FTabela[0].NUM_TELEFONE;
+        celular.EditValue := FTabela[0].NUM_CELULAR;
+        cep.EditValue := FTabela[0].NUM_CEP;
+        logradouro.Text := FTabela[0].DES_ENDERECO;
+        numero.Text := FTabela[0].NUM_ENDERECO;
+        complemento.Text := FTabela[0].DES_COMPLEMENTO;
+        bairro.Text := FTabela[0].DES_BAIRRO;
+        cidade.Text := FTabela[0].DES_CIDADE;
+        uf.Text := FTabela[0].DES_UF;
+        validadeCNH.Date := FTabela[0].DAT_VALIDADE_CNH;
+        categoriaCNH.Text := FTabela[0].DES_CATEGORIA_CNH;
+        tipoVeiculo.Text := FTabela[0].DES_TIPO_VEICULO;
+        modelo.Text := FTabela[0].DES_MODELO_VEICULO;
+        anoVeiculo.Text := FTabela[0].DES_ANO_VEICULO;
+        combustivel.Text := FTabela[0].DES_TIPO_COMBUSTIVEL;
+        observacoes.Text := FTabela[0].DES_EXPERIENCIA;
+        regioes.Text := FTabela[0].DES_REGIOES;
+        experiencia.EditValue := FTabela[0].DOM_EXPERIENCIA;
+        antecedente.EditValue := FTabela[0].DOM_ANTECEDENTES;
+        restricoes.EditValue := FTabela[0].DOM_RESTRICOES;
+        veiculo.EditValue := FTabela[0].DOM_VEICULO_PROPRIO;
+        rastreador.EditValue := FTabela[0].DOM_RASTREADO;
+        licenciado.EditValue := FTabela[0].DOM_LICENCIAMENTO_IPVA;
+        disponibilidade.EditValue := FTabela[0].DOM_DISPONIBILIDADE;
+      end
+      else
+      begin
+        Application.MessageBox('Registro não encontrado', 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
     end;
-    Finalize(aParam);
+  finally
+
   end;
+    Finalize(aParam);
 end;
 
 procedure TviewCadastroCandidatos.SetupTabela;
 begin
-    FTabela.COD_CANDIDATO := id.EditValue;
-    FTabela.id_categoria := categoria.EditValue;
-    FTabela.NOM_CANDIDATO := nome.Text;
-    FTabela.DES_EMAIL := email.Text;
-    FTabela.NUM_TELEFONE := telefone.EditValue;
-    FTabela.NUM_CELULAR := celular.EditValue;
-    FTabela.NUM_CEP :=  cep.EditValue;
-    FTabela.DES_ENDERECO := logradouro.Text;
-    FTabela.NUM_ENDERECO :=  numero.Text;
-    FTabela.DES_COMPLEMENTO := complemento.Text;
-    FTabela.DES_BAIRRO := bairro.Text;
-    FTabela.DES_CIDADE := cidade.Text;
-    FTabela.DES_UF := uf.Text;
-    FTabela.DAT_VALIDADE_CNH := validadeCNH.Date;
-    FTabela.DES_CATEGORIA_CNH := categoriaCNH.Text;
-    FTabela.DES_TIPO_VEICULO := tipoVeiculo.Text;
-    FTabela.DES_MODELO_VEICULO := modelo.Text;
-    FTabela.DES_ANO_VEICULO := anoVeiculo.Text;
-    FTabela.DES_TIPO_COMBUSTIVEL := combustivel.Text;
-    FTabela.DES_EXPERIENCIA := observacoes.Text;
-    FTabela.DES_REGIOES := regioes.Text;
-    FTabela.DOM_EXPERIENCIA := experiencia.EditValue;
-    FTabela.DOM_ANTECEDENTES := antecedente.EditValue;
-    FTabela.DOM_RESTRICOES := restricoes.EditValue;
-    FTabela.DOM_VEICULO_PROPRIO := veiculo.EditValue;
-    FTabela.DOM_RASTREADO := rastreador.EditValue;
-    FTabela.DOM_LICENCIAMENTO_IPVA := licenciado.EditValue;
-    FTabela.DOM_DISPONIBILIDADE :=  disponibilidade.EditValue;
+    FTabela := TObjectList<TTabelaCandidatos>.Create;
+    FTabela.Add(TTabelaCandidatos.Create);
+    FTabela[0].COD_CANDIDATO := id.EditValue;
+    FTabela[0].id_categoria := categoria.EditValue;
+    FTabela[0].NOM_CANDIDATO := nome.Text;
+    FTabela[0].DES_EMAIL := email.Text;
+    FTabela[0].NUM_TELEFONE := telefone.EditValue;
+    FTabela[0].NUM_CELULAR := celular.EditValue;
+    FTabela[0].NUM_CEP :=  cep.EditValue;
+    FTabela[0].DES_ENDERECO := logradouro.Text;
+    FTabela[0].NUM_ENDERECO :=  numero.Text;
+    FTabela[0].DES_COMPLEMENTO := complemento.Text;
+    FTabela[0].DES_BAIRRO := bairro.Text;
+    FTabela[0].DES_CIDADE := cidade.Text;
+    FTabela[0].DES_UF := uf.Text;
+    FTabela[0].DAT_VALIDADE_CNH := validadeCNH.Date;
+    FTabela[0].DES_CATEGORIA_CNH := categoriaCNH.Text;
+    FTabela[0].DES_TIPO_VEICULO := tipoVeiculo.Text;
+    FTabela[0].DES_MODELO_VEICULO := modelo.Text;
+    FTabela[0].DES_ANO_VEICULO := anoVeiculo.Text;
+    FTabela[0].DES_TIPO_COMBUSTIVEL := combustivel.Text;
+    FTabela[0].DES_EXPERIENCIA := observacoes.Text;
+    FTabela[0].DES_REGIOES := regioes.Text;
+    FTabela[0].DOM_EXPERIENCIA := experiencia.EditValue;
+    FTabela[0].DOM_ANTECEDENTES := antecedente.EditValue;
+    FTabela[0].DOM_RESTRICOES := restricoes.EditValue;
+    FTabela[0].DOM_VEICULO_PROPRIO := veiculo.EditValue;
+    FTabela[0].DOM_RASTREADO := rastreador.EditValue;
+    FTabela[0].DOM_LICENCIAMENTO_IPVA := licenciado.EditValue;
+    FTabela[0].DOM_DISPONIBILIDADE :=  disponibilidade.EditValue;
 end;
 
 procedure TviewCadastroCandidatos.ShowForm;
@@ -682,7 +728,7 @@ begin
   lcbCategorias.EditValue := 0;
   FConn := TConnectionMySQL.Create;
   FCandidatos := TCadastroCandidatosController.Create;
-  FTabela := TTabelaCandidatos.Create;
+  FAcao := tacIndefinido;
 end;
 
 end.

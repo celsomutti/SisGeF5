@@ -1661,4 +1661,128 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     Left = 760
     Top = 24
   end
+  object mtbCandidatos: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 712
+    Top = 24
+    object mtbCandidatosCOD_CANDIDATO: TIntegerField
+      FieldName = 'COD_CANDIDATO'
+    end
+    object mtbCandidatosid_categoria: TIntegerField
+      FieldName = 'id_categoria'
+    end
+    object mtbCandidatosNOM_CANDIDATO: TStringField
+      FieldName = 'NOM_CANDIDATO'
+      Size = 70
+    end
+    object mtbCandidatosDES_EMAIL: TStringField
+      FieldName = 'DES_EMAIL'
+      Size = 100
+    end
+    object mtbCandidatosNUM_CEP: TStringField
+      FieldName = 'NUM_CEP'
+      Size = 9
+    end
+    object mtbCandidatosDES_ENDERECO: TStringField
+      FieldName = 'DES_ENDERECO'
+      Size = 70
+    end
+    object mtbCandidatosNUM_ENDERECO: TStringField
+      FieldName = 'NUM_ENDERECO'
+      Size = 10
+    end
+    object mtbCandidatosDES_COMPLEMENTO: TStringField
+      FieldName = 'DES_COMPLEMENTO'
+      Size = 50
+    end
+    object mtbCandidatosDES_BAIRRO: TStringField
+      FieldName = 'DES_BAIRRO'
+      Size = 70
+    end
+    object mtbCandidatosDES_CIDADE: TStringField
+      FieldName = 'DES_CIDADE'
+      Size = 70
+    end
+    object mtbCandidatosDES_UF: TStringField
+      FieldName = 'DES_UF'
+      Size = 2
+    end
+    object mtbCandidatosNUM_TELEFONE: TStringField
+      FieldName = 'NUM_TELEFONE'
+    end
+    object mtbCandidatosNUM_CELULAR: TStringField
+      FieldName = 'NUM_CELULAR'
+    end
+    object mtbCandidatosDOM_EXPERIENCIA: TStringField
+      FieldName = 'DOM_EXPERIENCIA'
+      Size = 1
+    end
+    object mtbCandidatosDES_EXPERIENCIA: TMemoField
+      FieldName = 'DES_EXPERIENCIA'
+      BlobType = ftMemo
+    end
+    object mtbCandidatosDES_REGIOES: TMemoField
+      FieldName = 'DES_REGIOES'
+      BlobType = ftMemo
+    end
+    object mtbCandidatosDOM_ANTECEDENTES: TStringField
+      FieldName = 'DOM_ANTECEDENTES'
+      Size = 1
+    end
+    object mtbCandidatosDOM_RESTRICOES: TStringField
+      FieldName = 'DOM_RESTRICOES'
+      Size = 1
+    end
+    object mtbCandidatosDAT_VALIDADE_CNH: TDateField
+      FieldName = 'DAT_VALIDADE_CNH'
+    end
+    object mtbCandidatosDES_CATEGORIA_CNH: TStringField
+      FieldName = 'DES_CATEGORIA_CNH'
+      Size = 2
+    end
+    object mtbCandidatosDOM_VEICULO_PROPRIO: TStringField
+      FieldName = 'DOM_VEICULO_PROPRIO'
+      Size = 1
+    end
+    object mtbCandidatosDES_ANO_VEICULO: TStringField
+      FieldName = 'DES_ANO_VEICULO'
+      Size = 4
+    end
+    object mtbCandidatosDES_TIPO_VEICULO: TStringField
+      FieldName = 'DES_TIPO_VEICULO'
+      Size = 50
+    end
+    object mtbCandidatosDES_MODELO_VEICULO: TStringField
+      FieldName = 'DES_MODELO_VEICULO'
+      Size = 50
+    end
+    object mtbCandidatosDES_TIPO_COMBUSTIVEL: TStringField
+      FieldName = 'DES_TIPO_COMBUSTIVEL'
+      Size = 50
+    end
+    object mtbCandidatosDOM_LICENCIAMENTO_IPVA: TStringField
+      FieldName = 'DOM_LICENCIAMENTO_IPVA'
+      Size = 1
+    end
+    object mtbCandidatosDOM_RASTREADO: TStringField
+      FieldName = 'DOM_RASTREADO'
+      Size = 1
+    end
+    object mtbCandidatosDOM_DISPONIBILIDADE: TStringField
+      FieldName = 'DOM_DISPONIBILIDADE'
+      Size = 1
+    end
+    object mtbCandidatoscreatedAt: TDateTimeField
+      FieldName = 'createdAt'
+    end
+    object mtbCandidatosupdatedAt: TDateTimeField
+      FieldName = 'updatedAt'
+    end
+  end
 end
