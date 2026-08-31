@@ -168,6 +168,7 @@ end;
 
 function TCadastroCandidatosModel.SetupRecords: boolean;
 begin
+  Result := False;
   ARecord.COD_CANDIDATO           := FQuery.FieldByName('COD_CANDIDATO').AsInteger;
   ARecord.id_categoria            := FQuery.FieldByName('id_categoria').AsInteger;
   ARecord.NOM_CANDIDATO           := FQuery.FieldByName('NOM_CANDIDATO').AsString;
@@ -198,6 +199,7 @@ begin
   ARecord.DOM_DISPONIBILIDADE     := FQuery.FieldByName('DOM_DISPONIBILIDADE').AsString;
   ARecord.createdAt               := FQuery.FieldByName('createdAt').AsDateTime;
   ARecord.updatedAt               := FQuery.FieldByName('updatedAt').AsDateTime;
+  Result := True;
 end;
 
 function TCadastroCandidatosModel.UpdateRecord: boolean;
@@ -236,6 +238,10 @@ begin
       FQuery := FConn.GetQuery;
       FQuery.ExecSQL(SQLDELETE, [ARecord.COD_CANDIDATO]);
       Result := True;
+    end
+    else
+    begin
+      FMensagem := 'Não foi possível salvar/excluir o registro!';
     end;
   finally
     FQuery.Connection.Close;

@@ -27,6 +27,7 @@ implementation
 constructor TCadastroCandidatosController.Create;
 begin
   FCandidatos := TCadastroCandidatosModel.Create;
+  FTabela := TObjectList<TTabelaCandidatos>.Create;
 end;
 
 function TCadastroCandidatosController.CustomSearch(aParams: array of string): boolean;
@@ -54,7 +55,7 @@ procedure TCadastroCandidatosController.SetupTabela;
 begin
   if SetupRecords then
   begin
-    FTabela := TObjectList<TTabelaCandidatos>.Create;
+    FTabela.Clear;
     FTabela.Add(TTabelaCandidatos.Create);
     with FCandidatos do
     begin
@@ -116,6 +117,8 @@ begin
     aRecord.DOM_EXPERIENCIA := FTabela[0].DOM_EXPERIENCIA;
     aRecord.DOM_ANTECEDENTES := FTabela[0].DOM_ANTECEDENTES;
     aRecord.DOM_RESTRICOES := FTabela[0].DOM_RESTRICOES;
+    aRecord.DOM_VEICULO_PROPRIO := FTabela[0].DOM_VEICULO_PROPRIO;
+    aRecord.DOM_RASTREADO := FTabela[0].DOM_RASTREADO;
     aRecord.DOM_LICENCIAMENTO_IPVA := FTabela[0].DOM_LICENCIAMENTO_IPVA;
     aRecord.DOM_DISPONIBILIDADE := FTabela[0].DOM_DISPONIBILIDADE;
   end;

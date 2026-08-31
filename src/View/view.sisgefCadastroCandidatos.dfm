@@ -456,6 +456,12 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       SpeedButtonOptions.Transparent = True
       TabOrder = 40
       Visible = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object id: TcxTextEdit
       Left = 10000
@@ -1646,6 +1652,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
   end
   object dsCandidatos: TDataSource
     AutoEdit = False
+    DataSet = mtbCandidatos
     Left = 848
     Top = 24
   end

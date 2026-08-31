@@ -10,9 +10,9 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges, cxDataControllerConditionalFormattingRulesManagerDialog,
   Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, Common.Utils,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxCheckBox, cxMemo, cxCalendar, service.connectionMySQL,
-  cxDBEdit, Controller.APICEP, Controller.SisGeFCadastroCandidatos, Vcl.ComCtrls, dxCore, cxDateUtils, services.SisGeFTabelaCandidatos, FireDAC.Stan.Intf,
+  cxDBEdit, Controller.APICEP, Controller.SisGeFCadastroCandidatos, Vcl.ComCtrls, dxCore, cxDateUtils, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Common.ENum, Generics.Collections;
+  Common.ENum, services.SisGeFTabelaCandidatos;
 
 type
   TviewCadastroCandidatos = class(TForm)
@@ -230,7 +230,6 @@ type
   private
     FConn : TConnectionMySQL;
     FCandidatos: TCadastroCandidatosController;
-    FTabela : TObjectList<TTabelaCandidatos>;
     FAcao : TAcao;
 
     procedure ShowForm;
@@ -340,8 +339,7 @@ end;
 
 procedure TviewCadastroCandidatos.Cancel;
 begin
-  if dsCandidatos.State in [dsInsert, dsEdit] then
-    FCandidatos.FCandidatos.Query.Cancel;
+  ClearFields;
 end;
 
 procedure TviewCadastroCandidatos.ClearFields;
@@ -474,6 +472,7 @@ begin
   ClearFields;
   SetupFields(mtbCandidatosCOD_CANDIDATO.AsInteger);
   lgpContainer.ItemIndex := 1;
+  FAcao := tacAlterar;
   nome.SetFocus;
 end;
 
@@ -505,12 +504,9 @@ end;
 
 procedure TviewCadastroCandidatos.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  with FCandidatos do
-  begin
-    FCandidatos.Free;
-    FTabela.Free;
-    FConn.Free;
-  end;
+  FCandidatos.Free;
+  FConn.Free;
+  mtbCandidatos.Active := False;
   Action := caFree;
   viewCadastroCandidatos := Nil;
 end;
@@ -577,6 +573,7 @@ begin
     end
     else
     begin
+      mtbCandidatos.Active := False;
       mtbCandidatos.Data := FCandidatos.Query.Data;
     end;
   end;
@@ -620,12 +617,11 @@ begin
     end
     else
     begin
-      logradouro.Text := Data_Sisgef.memTableCEPlogradouro.AsString;
-      numero.Text := Data_Sisgef.memTableCEPcomplemento.AsString;
-      bairro.Text := Data_Sisgef.memTableCEPbairro.AsString;
-      cidade.Text := Data_Sisgef.memTableCEPlocalidade.AsString;
-      uf.Text := Data_Sisgef.memTableCEPuf.AsString;
-      cep.Text := Data_Sisgef.memTableCEPcep.AsString;
+      logradouro.Text := APICEP.APICEP.Enderecos.Logradouro;
+      complemento.Text := APICEP.APICEP.Enderecos.Complemento;
+      bairro.Text := APICEP.APICEP.Enderecos.Bairro;
+      cidade.Text := APICEP.APICEP.Enderecos.Cidade;
+      uf.Text := APICEP.APICEP.Enderecos.UF;
     end;
   finally
     APICEP.Free;
@@ -691,7 +687,9 @@ end;
 
 procedure TviewCadastroCandidatos.SetupTabela;
 begin
-    FTabela := TObjectList<TTabelaCandidatos>.Create;
+  with  FCandidatos do
+  begin
+    FTabela.Clear;
     FTabela.Add(TTabelaCandidatos.Create);
     FTabela[0].COD_CANDIDATO := id.EditValue;
     FTabela[0].id_categoria := categoria.EditValue;
@@ -721,6 +719,7 @@ begin
     FTabela[0].DOM_RASTREADO := rastreador.EditValue;
     FTabela[0].DOM_LICENCIAMENTO_IPVA := licenciado.EditValue;
     FTabela[0].DOM_DISPONIBILIDADE :=  disponibilidade.EditValue;
+  end;
 end;
 
 procedure TviewCadastroCandidatos.ShowForm;
