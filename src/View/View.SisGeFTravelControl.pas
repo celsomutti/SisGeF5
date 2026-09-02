@@ -197,6 +197,17 @@ type
     dxLayoutGroup1: TdxLayoutGroup;
     cxButton1: TcxButton;
     dxLayoutItem1: TdxLayoutItem;
+    memTableTravelsval_servico: TFloatField;
+    memTableTravelsdes_servico: TStringField;
+    dxLayoutGroup2: TdxLayoutGroup;
+    textTravelServiceDescription: TcxTextEdit;
+    dxLayoutItem2: TdxLayoutItem;
+    dxLayoutGroup3: TdxLayoutGroup;
+    currencyTravelServiceValue: TcxCurrencyEdit;
+    dxLayoutItem3: TdxLayoutItem;
+    actionAttachDocs: TAction;
+    cxButton2: TcxButton;
+    dxLayoutItem4: TdxLayoutItem;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionExitPageExecute(Sender: TObject);
@@ -225,6 +236,7 @@ type
     procedure MemTableFuelSuppliesval_unitarioValidate(Sender: TField);
     procedure actionCancelTravelExecute(Sender: TObject);
     procedure actionEndTravelExecute(Sender: TObject);
+    procedure actionAttachDocsExecute(Sender: TObject);
   private
     { Private declarations }
     FAction: TAcao;
@@ -255,6 +267,7 @@ type
     procedure SaveTravelInputs;
     procedure FinalizeTravel;
     procedure CancelTravel;
+    procedure Documents;
     procedure Mode;
   public
     { Public declarations }
@@ -268,9 +281,15 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.SisGeFGeneralSearch;
+uses Data.SisGeF, View.SisGeFGeneralSearch, View.SisaGeFAttachDocuments;
 
 { TPageTravelControl }
+
+procedure TPageTravelControl.actionAttachDocsExecute(Sender: TObject);
+begin
+  if FAction in [tacIncluir, tacAlterar] then
+    Documents;
+end;
 
 procedure TPageTravelControl.actionCancelTravelExecute(Sender: TObject);
 begin
@@ -441,6 +460,8 @@ begin
   CurrencyEditFinalKM.Value := 0;
   TimeEditreturnTime.EditValue := 0;
   CurrencyEditTotalKM.Value := 0;
+  currencyTravelServiceValue.Value := 0;
+  textTravelServiceDescription.Text := '';
 end;
 
 procedure TPageTravelControl.CloseMemTable;
@@ -455,6 +476,14 @@ end;
 procedure TPageTravelControl.ClosePage;
 begin
   Self.Close;
+end;
+
+procedure TPageTravelControl.Documents;
+begin
+  if not Assigned(view_SisgeFAttachDocuments) then
+    view_SisgeFAttachDocuments := Tview_SisgeFAttachDocuments.Create(Application);
+  view_SisgeFAttachDocuments.Pasta := 'trs' + maskEditTravelID.Text;
+  view_SisgeFAttachDocuments.Show;
 end;
 
 procedure TPageTravelControl.EditTravel;
@@ -512,6 +541,11 @@ begin
       begin
       MessageDlg(FTravel.Travel.Mensagem, mtWarning, [mbOK], 0);
       Exit;
+    end;
+    if FTravel.Travel.ValorServico = 0 then
+    begin
+      if MessageDlg('O valor do serviço está zerado. Continuar com a finalização desta viagem?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
+        Exit;
     end;
     if MessageDlg('Confirma Finalizar esta viagem?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
       Exit;
@@ -664,6 +698,8 @@ begin
     MemoObs.Properties.ReadOnly := True;
     CurrencyEditFinalKM.Properties.ReadOnly := True;
     TimeEditreturnTime.Properties.ReadOnly := True;
+    currencyTravelServiceValue.Properties.ReadOnly := True;
+    textTravelServiceDescription.Properties.ReadOnly := True;
   end;
   if FAction = tacAlterar then
   begin
@@ -683,6 +719,8 @@ begin
     MemoObs.Properties.ReadOnly := False;
     CurrencyEditFinalKM.Properties.ReadOnly := False;
     TimeEditreturnTime.Properties.ReadOnly := False;
+    currencyTravelServiceValue.Properties.ReadOnly := False;
+    textTravelServiceDescription.Properties.ReadOnly := False;
   end;
 
 end;
@@ -1155,9 +1193,9 @@ begin
   aParam[9] := CurrencyEditFinalKM.Value;
   aParam[10] := TimeEditreturnTime.EditValue;
   aParam[11] := CurrencyEditTotalKM.Value;
-  aParam[12] := ComboBoxTravelOperation.Text;
+  aParam[12] := textTravelServiceDescription.Text;
   aParam[13] := MemoObs.Text;
-  aParam[14] := 0;
+  aParam[14] := currencyTravelServiceValue.Value;;
   aParam[15] := ImageComboBox1Status.EditValue;
   aParam[16] := '';
 end;
@@ -1182,6 +1220,8 @@ begin
   CurrencyEditFinalKM.Value := FTravel.Travel.KMRetorno;
   TimeEditreturnTime.EditValue := FTravel.Travel.HoraRetorno;
   CurrencyEditTotalKM.Value := FTravel.Travel.KMRodado;
+  currencyTravelServiceValue.Value := FTravel.Travel.ValorServico;
+  textTravelServiceDescription.Text := FTravel.Travel.Servico;
 end;
 
 end.
