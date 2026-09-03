@@ -40,6 +40,9 @@ type
     dsPesquisa: TDataSource;
     actionLocalizar: TAction;
     mtbPesquisa: TFDMemTable;
+    actExportar: TAction;
+    cxButton1: TcxButton;
+    dxLayoutItem1: TdxLayoutItem;
     procedure actFecharExecute(Sender: TObject);
     procedure actSelecionarExecute(Sender: TObject);
     procedure tvPesquisaCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
@@ -48,6 +51,7 @@ type
     procedure grdPesquisaExit(Sender: TObject);
     procedure actionLocalizarExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure actExportarExecute(Sender: TObject);
   private
     { Private declarations }
     FConexao: TConexao;
@@ -55,6 +59,7 @@ type
     FTabela: string;
     FCriterio: string;
     procedure PopulaPesquisa;
+    procedure ExportGrid;
   public
     { Public declarations }
     property Campos: string read FCampos write FCampos;
@@ -71,6 +76,11 @@ implementation
 
 uses Common.Utils, Global.Parametros, Data.SisGeF;
 
+procedure TviewGeneralSearch.actExportarExecute(Sender: TObject);
+begin
+  ExportGrid;
+end;
+
 procedure TviewGeneralSearch.actFecharExecute(Sender: TObject);
 begin
   ModalResult := mrClose;
@@ -84,6 +94,31 @@ end;
 procedure TviewGeneralSearch.actSelecionarExecute(Sender: TObject);
 begin
   ModalResult := mrOk;
+end;
+
+procedure TviewGeneralSearch.ExportGrid;
+var
+  utils : TUtils;
+  sMensagem: String;
+begin
+  try
+    utils := TUtils.Create;
+
+    if tvPesquisa.ViewData.RowCount = 0 then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      utils.ExportarDados(grdPesquisa,Data_Sisgef.SaveDialog.FileName);
+    end;
+  finally
+    utils.Free;
+  end;
 end;
 
 procedure TviewGeneralSearch.FormShow(Sender: TObject);

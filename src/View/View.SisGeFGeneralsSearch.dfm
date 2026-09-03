@@ -27,8 +27,6 @@ object viewGeneralSearch: TviewGeneralSearch
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    ExplicitWidth = 769
-    ExplicitHeight = 455
     object grdPesquisa: TcxGrid
       Left = 10
       Top = 10
@@ -95,7 +93,7 @@ object viewGeneralSearch: TviewGeneralSearch
       Action = actSelecionar
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 1
+      TabOrder = 2
     end
     object cxButton3: TcxButton
       Left = 573
@@ -107,7 +105,18 @@ object viewGeneralSearch: TviewGeneralSearch
       Cancel = True
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 2
+      TabOrder = 3
+    end
+    object cxButton1: TcxButton
+      Left = 10
+      Top = 278
+      Width = 87
+      Height = 25
+      Cursor = crHandPoint
+      Action = actExportar
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 1
     end
     object lcPesquisaGroup_Root: TdxLayoutGroup
       AlignHorz = ahParentManaged
@@ -138,7 +147,7 @@ object viewGeneralSearch: TviewGeneralSearch
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 89
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object lcPesquisaGroup1: TdxLayoutAutoCreatedGroup
       Parent = lcPesquisaGroup_Root
@@ -156,7 +165,17 @@ object viewGeneralSearch: TviewGeneralSearch
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
+    end
+    object dxLayoutItem1: TdxLayoutItem
+      Parent = lcPesquisaGroup1
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Control = cxButton1
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 87
+      ControlOptions.ShowBorder = False
+      Index = 0
     end
   end
   object actPesquisar: TActionList
@@ -179,6 +198,12 @@ object viewGeneralSearch: TviewGeneralSearch
       Hint = 'Localizar registros'
       ImageIndex = 86
       OnExecute = actionLocalizarExecute
+    end
+    object actExportar: TAction
+      Caption = 'E&xportar'
+      Hint = 'Exportar dados.'
+      ImageIndex = 101
+      OnExecute = actExportarExecute
     end
   end
   object dsPesquisa: TDataSource

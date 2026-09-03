@@ -118,7 +118,7 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       Height = 25
       Cursor = crHandPoint
       Action = actSelecionar
-      TabOrder = 6
+      TabOrder = 7
     end
     object cxButton3: TcxButton
       Left = 684
@@ -128,7 +128,7 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       Cursor = crHandPoint
       Action = actFechar
       Cancel = True
-      TabOrder = 7
+      TabOrder = 8
     end
     object textEditPesquisar: TcxTextEdit
       Left = 61
@@ -145,7 +145,7 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       Cursor = crHandPoint
       Action = actionLocalizar
       Default = True
-      TabOrder = 5
+      TabOrder = 6
     end
     object cxButton4: TcxButton
       Left = 10
@@ -180,6 +180,14 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       SpeedButtonOptions.Flat = True
       TabOrder = 3
     end
+    object cxButton7: TcxButton
+      Left = 10
+      Top = 420
+      Width = 87
+      Height = 25
+      Action = actionExportar
+      TabOrder = 5
+    end
     object lcPesquisaGroup_Root: TdxLayoutGroup
       AlignHorz = ahParentManaged
       AlignVert = avParentManaged
@@ -209,7 +217,7 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 89
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object lcPesquisaGroup1: TdxLayoutAutoCreatedGroup
       Parent = lcPesquisaGroup_Root
@@ -227,7 +235,7 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 75
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 3
     end
     object dxLayoutItem1: TdxLayoutItem
       Parent = lcPesquisaGroup_Root
@@ -250,7 +258,7 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       ControlOptions.OriginalHeight = 25
       ControlOptions.OriginalWidth = 79
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = lcPesquisaGroup_Root
@@ -298,6 +306,16 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       ControlOptions.ShowBorder = False
       Index = 2
     end
+    object dxLayoutItem6: TdxLayoutItem
+      Parent = lcPesquisaGroup1
+      CaptionOptions.Text = 'cxButton7'
+      CaptionOptions.Visible = False
+      Control = cxButton7
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 87
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
   end
   object actPesquisar: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -343,6 +361,13 @@ object view_SisGefGeneralSearch: Tview_SisGefGeneralSearch
       Hint = 'Exibir o painel de forma'#231#227'o de grupos'
       ImageIndex = 110
       OnExecute = actionPanelGroupsExecute
+    end
+    object actionExportar: TAction
+      Category = 'Filter'
+      Caption = 'E&xportar'
+      Hint = 'Exportar dados'
+      ImageIndex = 101
+      OnExecute = actionExportarExecute
     end
   end
   object dsPesquisa: TDataSource

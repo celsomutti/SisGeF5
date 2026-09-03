@@ -1,11 +1,10 @@
 object viewAcareacoes: TviewAcareacoes
   Left = 0
   Top = 0
-  BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Controle de Acarea'#231#245'es'
-  ClientHeight = 517
-  ClientWidth = 1044
+  ClientHeight = 739
+  ClientWidth = 1018
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,21 +22,23 @@ object viewAcareacoes: TviewAcareacoes
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 1044
-    Height = 517
+    Width = 1018
+    Height = 739
     Align = alClient
     ParentBackground = True
     TabOrder = 0
     Transparent = True
+    ExplicitWidth = 1044
+    ExplicitHeight = 517
     object cxButton1: TcxButton
-      Left = 959
-      Top = 482
+      Left = 933
+      Top = 704
       Width = 75
       Height = 25
       Action = actSair
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 33
+      TabOrder = 34
     end
     object cxButton2: TcxButton
       Left = 24
@@ -75,12 +76,8 @@ object viewAcareacoes: TviewAcareacoes
       Hint = 'Par'#226'metros de pesquisa (Ctrl+Enter)'
       Properties.Buttons = <
         item
-          Action = actPesquisar
-          Default = True
-          Kind = bkGlyph
-        end
-        item
           Action = actLimpar
+          ImageIndex = 128
           Kind = bkGlyph
         end>
       Properties.Images = Data_Sisgef.iml_16_16
@@ -90,14 +87,14 @@ object viewAcareacoes: TviewAcareacoes
       Style.ButtonStyle = bts3D
       TabOrder = 3
       TextHint = 'Procurar por ...'
-      Width = 729
+      Width = 613
     end
     object gridAcareacoes: TcxGrid
       Left = 24
       Top = 98
-      Width = 996
-      Height = 352
-      TabOrder = 7
+      Width = 970
+      Height = 574
+      TabOrder = 8
       object gridAcareacoesDBTableView1: TcxGridDBTableView
         OnDblClick = gridAcareacoesDBTableView1DblClick
         Navigator.Buttons.OnButtonClick = gridAcareacoesDBTableView1NavigatorButtonsButtonClick
@@ -414,7 +411,7 @@ object viewAcareacoes: TviewAcareacoes
       PaintStyle = bpsGlyph
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 4
+      TabOrder = 5
     end
     object cxButton6: TcxButton
       Left = 55
@@ -425,7 +422,7 @@ object viewAcareacoes: TviewAcareacoes
       PaintStyle = bpsGlyph
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 5
+      TabOrder = 6
     end
     object cxButton7: TcxButton
       Left = 86
@@ -436,7 +433,7 @@ object viewAcareacoes: TviewAcareacoes
       PaintStyle = bpsGlyph
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 6
+      TabOrder = 7
     end
     object dbCodigo: TcxDBTextEdit
       Left = 10000
@@ -456,7 +453,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 8
+      TabOrder = 9
       Visible = False
       Width = 76
     end
@@ -476,7 +473,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 9
+      TabOrder = 10
       Visible = False
       Width = 156
     end
@@ -496,7 +493,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 10
+      TabOrder = 11
       Visible = False
       Width = 151
     end
@@ -521,7 +518,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 11
+      TabOrder = 12
       Visible = False
       Width = 76
     end
@@ -538,7 +535,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 13
+      TabOrder = 14
       Visible = False
       Width = 99
     end
@@ -551,7 +548,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 18
+      TabOrder = 19
       Visible = False
       Width = 387
     end
@@ -570,7 +567,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 23
+      TabOrder = 24
       Visible = False
       Width = 433
     end
@@ -587,7 +584,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 19
+      TabOrder = 20
       Visible = False
       Width = 121
     end
@@ -601,7 +598,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 20
+      TabOrder = 21
       Visible = False
       Width = 121
     end
@@ -615,7 +612,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 21
+      TabOrder = 22
       Visible = False
       Width = 121
     end
@@ -633,7 +630,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 24
+      TabOrder = 25
       Visible = False
       Width = 433
     end
@@ -659,7 +656,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 25
+      TabOrder = 26
       Visible = False
       Width = 433
     end
@@ -676,7 +673,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 22
+      TabOrder = 23
       Visible = False
       Width = 121
     end
@@ -702,7 +699,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       Style.IsFontAssigned = True
-      TabOrder = 26
+      TabOrder = 27
       Visible = False
       Width = 349
     end
@@ -729,7 +726,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.Font.Style = [fsBold]
       Style.HotTrack = False
       Style.IsFontAssigned = True
-      TabOrder = 27
+      TabOrder = 28
       Transparent = True
       Visible = False
     end
@@ -743,7 +740,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 28
+      TabOrder = 29
       Visible = False
       Height = 89
       Width = 996
@@ -756,7 +753,7 @@ object viewAcareacoes: TviewAcareacoes
       Action = actRetornar
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 29
+      TabOrder = 30
       Visible = False
     end
     object cxButton9: TcxButton
@@ -767,7 +764,7 @@ object viewAcareacoes: TviewAcareacoes
       Action = actGravar
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 32
+      TabOrder = 33
       Visible = False
     end
     object cxButton10: TcxButton
@@ -778,7 +775,7 @@ object viewAcareacoes: TviewAcareacoes
       Action = actFinalizar
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 31
+      TabOrder = 32
       Visible = False
     end
     object dbCodigoMotorista: TcxDBButtonEdit
@@ -799,7 +796,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 14
+      TabOrder = 15
       Visible = False
       Width = 96
     end
@@ -813,7 +810,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 15
+      TabOrder = 16
       Visible = False
       Width = 354
     end
@@ -835,7 +832,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 16
+      TabOrder = 17
       Visible = False
       Width = 86
     end
@@ -848,7 +845,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 17
+      TabOrder = 18
       Visible = False
       Width = 364
     end
@@ -863,7 +860,7 @@ object viewAcareacoes: TviewAcareacoes
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 12
+      TabOrder = 13
       Visible = False
       Width = 200
     end
@@ -875,8 +872,18 @@ object viewAcareacoes: TviewAcareacoes
       Action = actAnexar
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 30
+      TabOrder = 31
       Visible = False
+    end
+    object cxButton12: TcxButton
+      Left = 910
+      Top = 24
+      Width = 84
+      Height = 25
+      Action = actPesquisar
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 4
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -1414,6 +1421,16 @@ object viewAcareacoes: TviewAcareacoes
       ControlOptions.OriginalWidth = 80
       ControlOptions.ShowBorder = False
       Index = 1
+    end
+    object dxLayoutItem35: TdxLayoutItem
+      Parent = lgpMenu
+      CaptionOptions.Text = 'cxButton12'
+      CaptionOptions.Visible = False
+      Control = cxButton12
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 84
+      ControlOptions.ShowBorder = False
+      Index = 6
     end
   end
   object mtbAcareacao: TFDMemTable

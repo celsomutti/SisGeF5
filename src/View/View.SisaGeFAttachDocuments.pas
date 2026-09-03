@@ -36,6 +36,7 @@ type
     procedure actionAttachExecute(Sender: TObject);
     procedure actionDownloadExecute(Sender: TObject);
     procedure actionDeleteExecute(Sender: TObject);
+    procedure IdFTPDocsDataChannelCreate(ASender: TObject; ADataChannel: TIdTCPConnection);
   private
     { Private declarations }
     FSistema: TSistem;
@@ -243,6 +244,13 @@ end;
 procedure Tview_SisgeFAttachDocuments.FormShow(Sender: TObject);
 begin
   StartForm;
+end;
+
+procedure Tview_SisgeFAttachDocuments.IdFTPDocsDataChannelCreate(ASender: TObject; ADataChannel: TIdTCPConnection);
+begin
+  // Configura um buffer maior para o canal de dados (ex: 128 KB ou 256 KB)
+  ADataChannel.IOHandler.SendBufferSize := 131072; // 128 * 1024
+  ADataChannel.IOHandler.RecvBufferSize := 131072;
 end;
 
 procedure Tview_SisgeFAttachDocuments.ListFolder;

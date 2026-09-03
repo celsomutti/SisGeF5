@@ -122,6 +122,7 @@ object view_SisgeFAttachDocuments: Tview_SisgeFAttachDocuments
     NATKeepAlive.IntervalMS = 0
     ProxySettings.ProxyType = fpcmNone
     ProxySettings.Port = 0
+    OnDataChannelCreate = IdFTPDocsDataChannelCreate
     Left = 24
     Top = 141
   end

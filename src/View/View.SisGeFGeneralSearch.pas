@@ -54,6 +54,9 @@ type
     cxButton6: TcxButton;
     dxLayoutItem5: TdxLayoutItem;
     memTablePesquisa: TFDMemTable;
+    actionExportar: TAction;
+    cxButton7: TcxButton;
+    dxLayoutItem6: TdxLayoutItem;
     procedure actFecharExecute(Sender: TObject);
     procedure actSelecionarExecute(Sender: TObject);
     procedure tvPesquisaCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
@@ -67,10 +70,12 @@ type
     procedure actionPanelGroupsExecute(Sender: TObject);
     procedure actionRetractGridExecute(Sender: TObject);
     procedure actionExpandGridExecute(Sender: TObject);
+    procedure actionExportarExecute(Sender: TObject);
   private
     { Private declarations }
     FConexao: TConexao;
     procedure PopulaPesquisa;
+    procedure ExportGrid;
   public
     { Public declarations }
     sSQL : String;
@@ -97,6 +102,11 @@ begin
   tvPesquisa.ViewData.Expand(False);
 end;
 
+procedure Tview_SisGefGeneralSearch.actionExportarExecute(Sender: TObject);
+begin
+  ExportGrid;
+end;
+
 procedure Tview_SisGefGeneralSearch.actionLocalizarExecute(Sender: TObject);
 begin
   PopulaPesquisa;
@@ -115,6 +125,33 @@ end;
 procedure Tview_SisGefGeneralSearch.actSelecionarExecute(Sender: TObject);
 begin
   ModalResult := mrOk;
+end;
+
+procedure Tview_SisGefGeneralSearch.ExportGrid;
+var
+  utils : TUtils;
+  sMensagem: String;
+begin
+  try
+    utils := TUtils.Create;
+
+    if tvPesquisa.ViewData.RowCount = 0 then Exit;
+
+    if Data_Sisgef.SaveDialog.Execute() then
+    begin
+      if FileExists(Data_Sisgef.SaveDialog.FileName) then
+      begin
+        sMensagem := 'Arquivo ' + Data_Sisgef.SaveDialog.FileName + ' já existe! Sobrepor ?';
+        if Application.MessageBox(PChar(sMensagem), 'Sobrepor', MB_YESNO + MB_ICONQUESTION) = IDNO then Exit
+      end;
+
+      utils.ExportarDados(grdPesquisa,Data_Sisgef.SaveDialog.FileName);
+
+    end;
+  finally
+    utils.Free;
+  end;
+
 end;
 
 procedure Tview_SisGefGeneralSearch.FormCreate(Sender: TObject);

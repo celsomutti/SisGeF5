@@ -200,6 +200,8 @@ type
     cxButton11: TcxButton;
     dxLayoutItem34: TdxLayoutItem;
     mtbAcareacaoDOM_FINALIZAR: TShortintField;
+    cxButton12: TcxButton;
+    dxLayoutItem35: TdxLayoutItem;
     procedure actExpandirExecute(Sender: TObject);
     procedure actRetrairExecute(Sender: TObject);
     procedure actPainelExecute(Sender: TObject);
@@ -509,6 +511,7 @@ var
   aParam : Array of String;
 begin
   acareacao := TAcareacaoControl.Create;
+  FAcao := tacPesquisa;
   SetLength(aParam, 3);
 
   try
@@ -519,9 +522,10 @@ begin
      if acareacao.CustomSearch(aParam) then
      begin
        mtbacareacao.Active := False;
-       mtbacareacao.Data := acareacao.Acareacoes.Query.Data;
+       mtbacareacao.CopyDataSet(acareacao.Acareacoes.Query);
      end;
      acareacao.Acareacoes.Query.Close;
+     FAcao := tacIndefinido;
   finally
     Finalize(aParam);
     acareacao.Free;
@@ -660,11 +664,15 @@ end;
 
 procedure TviewAcareacoes.mtbAcareacaoAfterInsert(DataSet: TDataSet);
 begin
+  if FAcao = tacPesquisa then
+    Exit;
   FAcao := tacIncluir;
 end;
 
 procedure TviewAcareacoes.mtbAcareacaoBeforePost(DataSet: TDataSet);
 begin
+  if FAcao = tacPesquisa then
+    Exit;
   if mtbAcareacao.Tag < 0 then
     Exit;
   Facareacao := TAcareacaoControl.Create;
