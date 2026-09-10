@@ -365,7 +365,8 @@ uses
   services.SisGeFUserAccess in 'src\Services\services.SisGeFUserAccess.pas',
   Model.SisGeFCadastroCandidatos in 'src\Model\Model.SisGeFCadastroCandidatos.pas',
   Controller.SisGeFCadastroCandidatos in 'src\Control\Controller.SisGeFCadastroCandidatos.pas',
-  services.SisGeFTabelaCandidatos in 'src\Services\services.SisGeFTabelaCandidatos.pas';
+  services.SisGeFTabelaCandidatos in 'src\Services\services.SisGeFTabelaCandidatos.pas',
+  view.SisGeFValoresExtratoExpressas in 'src\View\view.SisGeFValoresExtratoExpressas.pas' {viewValoresExtratosExpressas};
 
 {$R *.res}
 
