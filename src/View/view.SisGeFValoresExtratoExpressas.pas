@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore, dxSkinsDefaultPainters, cxClasses,
-  dxLayoutContainer, dxLayoutControl, System.Actions, Vcl.ActnList, Vcl.Menus, dxLayoutControlAdapters, Vcl.StdCtrls, cxButtons;
+  dxLayoutContainer, dxLayoutControl, System.Actions, Vcl.ActnList, Vcl.Menus, dxLayoutControlAdapters, Vcl.StdCtrls, cxButtons, dxLayoutcxEditAdapters,
+  cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxDropDownEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, cxButtonEdit;
 
 type
   TviewValoresExtratosExpressas = class(TForm)
@@ -31,6 +32,17 @@ type
     dxLayoutItem3: TdxLayoutItem;
     actSair: TAction;
     dxLayoutSeparatorItem2: TdxLayoutSeparatorItem;
+    tipoParametro: TcxComboBox;
+    dxLayoutItem4: TdxLayoutItem;
+    dataInicial: TcxDateEdit;
+    dxLayoutItem5: TdxLayoutItem;
+    dataFinal: TcxDateEdit;
+    dxLayoutItem6: TdxLayoutItem;
+    cxButtonEdit1: TcxButtonEdit;
+    dxLayoutItem7: TdxLayoutItem;
+    nomeMotorista: TcxTextEdit;
+    dxLayoutItem8: TdxLayoutItem;
+    dxLayoutSeparatorItem3: TdxLayoutSeparatorItem;
   private
     { Private declarations }
   public

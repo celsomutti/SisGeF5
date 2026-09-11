@@ -26,13 +26,9 @@ object viewValoresExtratosExpressas: TviewValoresExtratosExpressas
     TabOrder = 0
     Transparent = True
     LayoutLookAndFeel = Data_Sisgef.LayoutCxLookAndFeel
-    ExplicitLeft = 600
-    ExplicitTop = 192
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object cxButton1: TcxButton
-      Left = 22
-      Top = 28
+      Left = 10
+      Top = 10
       Width = 80
       Height = 25
       Action = actNovo
@@ -41,8 +37,8 @@ object viewValoresExtratosExpressas: TviewValoresExtratosExpressas
       TabOrder = 0
     end
     object cxButton2: TcxButton
-      Left = 108
-      Top = 28
+      Left = 96
+      Top = 10
       Width = 80
       Height = 25
       Action = actEditar
@@ -51,8 +47,8 @@ object viewValoresExtratosExpressas: TviewValoresExtratosExpressas
       TabOrder = 1
     end
     object cxButton3: TcxButton
-      Left = 206
-      Top = 28
+      Left = 194
+      Top = 10
       Width = 80
       Height = 25
       Action = actExportar
@@ -60,24 +56,90 @@ object viewValoresExtratosExpressas: TviewValoresExtratosExpressas
       SpeedButtonOptions.Flat = True
       TabOrder = 2
     end
+    object tipoParametro: TcxComboBox
+      Left = 320
+      Top = 12
+      Properties.DropDownListStyle = lsEditFixedList
+      Properties.Items.Strings = (
+        'DATA ENTREGA'
+        'DATA PAGAMENTO')
+      Style.HotTrack = False
+      TabOrder = 3
+      Text = 'DATA ENTREGA'
+      Width = 109
+    end
+    object dataInicial: TcxDateEdit
+      Left = 453
+      Top = 12
+      Hint = 'Data inicial do per'#237'odo'
+      Properties.SaveTime = False
+      Properties.ShowTime = False
+      Style.HotTrack = False
+      TabOrder = 4
+      Width = 80
+    end
+    object dataFinal: TcxDateEdit
+      Left = 550
+      Top = 12
+      Hint = 'Data final do per'#237'odo'
+      Properties.SaveTime = False
+      Properties.ShowTime = False
+      Style.HotTrack = False
+      TabOrder = 5
+      Width = 80
+    end
+    object cxButtonEdit1: TcxButtonEdit
+      Left = 686
+      Top = 12
+      Hint = 'C'#243'digo do motorista'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+      Style.HotTrack = False
+      TabOrder = 6
+      Text = '0'
+      Width = 77
+    end
+    object nomeMotorista: TcxTextEdit
+      Left = 769
+      Top = 12
+      Hint = 'Nome do motorista'
+      TabStop = False
+      Properties.CharCase = ecUpperCase
+      Properties.ReadOnly = True
+      Style.HotTrack = False
+      TabOrder = 7
+      Width = 229
+    end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end
     object dxLayoutGroup1: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
+      AlignHorz = ahClient
+      AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ItemIndex = 4
       LayoutDirection = ldHorizontal
+      ShowBorder = False
       Index = 0
     end
     object dxLayoutItem1: TdxLayoutItem
       Parent = dxLayoutGroup1
+      AlignHorz = ahLeft
+      AlignVert = avCenter
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
@@ -88,6 +150,8 @@ object viewValoresExtratosExpressas: TviewValoresExtratosExpressas
     end
     object dxLayoutItem2: TdxLayoutItem
       Parent = dxLayoutGroup1
+      AlignHorz = ahLeft
+      AlignVert = avCenter
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = cxButton2
@@ -103,6 +167,8 @@ object viewValoresExtratosExpressas: TviewValoresExtratosExpressas
     end
     object dxLayoutItem3: TdxLayoutItem
       Parent = dxLayoutGroup1
+      AlignHorz = ahLeft
+      AlignVert = avCenter
       CaptionOptions.Text = 'cxButton3'
       CaptionOptions.Visible = False
       Control = cxButton3
@@ -115,6 +181,67 @@ object viewValoresExtratosExpressas: TviewValoresExtratosExpressas
       Parent = dxLayoutGroup1
       CaptionOptions.Text = 'Separator'
       Index = 4
+    end
+    object dxLayoutItem4: TdxLayoutItem
+      Parent = dxLayoutGroup1
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Data'
+      Control = tipoParametro
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 109
+      ControlOptions.ShowBorder = False
+      Index = 5
+    end
+    object dxLayoutItem5: TdxLayoutItem
+      Parent = dxLayoutGroup1
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'De'
+      Control = dataInicial
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 80
+      ControlOptions.ShowBorder = False
+      Index = 6
+    end
+    object dxLayoutItem6: TdxLayoutItem
+      Parent = dxLayoutGroup1
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'a'
+      Control = dataFinal
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 80
+      ControlOptions.ShowBorder = False
+      Index = 7
+    end
+    object dxLayoutItem7: TdxLayoutItem
+      Parent = dxLayoutGroup1
+      AlignHorz = ahLeft
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Motorista'
+      Control = cxButtonEdit1
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 77
+      ControlOptions.ShowBorder = False
+      Index = 8
+    end
+    object dxLayoutItem8: TdxLayoutItem
+      Parent = dxLayoutGroup1
+      AlignHorz = ahClient
+      AlignVert = avCenter
+      CaptionOptions.Text = 'Nome'
+      CaptionOptions.Visible = False
+      Control = nomeMotorista
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 9
+    end
+    object dxLayoutSeparatorItem3: TdxLayoutSeparatorItem
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'Separator'
+      Index = 1
     end
   end
   object aclValores: TActionList
