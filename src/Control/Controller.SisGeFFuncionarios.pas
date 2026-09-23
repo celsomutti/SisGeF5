@@ -1,7 +1,7 @@
 unit Controller.SisGeFFuncionarios;
 
 interface
-  uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFFuncionarios;
+  uses System.SysUtils, FireDAC.Comp.Client, Common.ENum, Model.SisGeFCadastroFuncionarios;
 
   type
     TFuncionariosController= class
@@ -27,7 +27,7 @@ end;
 
 function TFuncionariosController.CustomSearch(aParams: array of string): boolean;
 begin
-  Result := FFuncionario.CustomSearch(aParams);
+  Result := FFuncionario.Search(aParams);
 end;
 
 function TFuncionariosController.SaveRecord: boolean;

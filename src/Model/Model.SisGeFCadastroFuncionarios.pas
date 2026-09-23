@@ -55,7 +55,7 @@ interface
       dat_demissao            : TDate;
     end;
   type
-    modelCadastroFuncionarios = class
+    TFuncionariosModel = class
       private
         FAcao     : TAcao;
         FMensagem : string;
@@ -130,9 +130,9 @@ interface
 
 implementation
 
-{ modelCadastroFuncionarios }
+{ TFuncionariosModel }
 
-function modelCadastroFuncionarios.Alterar: boolean;
+function TFuncionariosModel.Alterar: boolean;
 begin
   Result := False;
   try
@@ -155,12 +155,12 @@ begin
   end;
 end;
 
-constructor modelCadastroFuncionarios.Create;
+constructor TFuncionariosModel.Create;
 begin
   FConn := TConnectionMySQL.Create;
 end;
 
-function modelCadastroFuncionarios.GetNextID(sIdName: string): Integer;
+function TFuncionariosModel.GetNextID(sIdName: string): Integer;
 begin
   try
     FQuery := FConn.GetQuery;
@@ -176,7 +176,7 @@ begin
   end;
 end;
 
-function modelCadastroFuncionarios.Inserir: boolean;
+function TFuncionariosModel.Inserir: boolean;
 begin
   Result := False;
   try
@@ -200,12 +200,12 @@ begin
   end;
 end;
 
-function modelCadastroFuncionarios.SaveRecord: boolean;
+function TFuncionariosModel.SaveRecord: boolean;
 begin
 
 end;
 
-function modelCadastroFuncionarios.Search(aParams: array of string): boolean;
+function TFuncionariosModel.Search(aParams: array of string): boolean;
 begin
   Result := False;
   FQuery := FConn.GetQuery;

@@ -317,7 +317,6 @@ uses
   service.sistem in 'src\Services\service.sistem.pas',
   service.connectionMySQL in 'src\Services\service.connectionMySQL.pas',
   View.SisGeFNomeGrupo in 'src\View\View.SisGeFNomeGrupo.pas' {viewSisGeFNomeGrupo},
-  Model.SisGeFCadastroFuncionarios in 'src\Model\Model.SisGeFCadastroFuncionarios.pas',
   Model.SisGeFCadastroFuncoesRH in 'src\Model\Model.SisGeFCadastroFuncoesRH.pas',
   Controller.SisGeFFuncoesRH in 'src\Control\Controller.SisGeFFuncoesRH.pas',
   Model.SisGeFCadastroContratados in 'src\Model\Model.SisGeFCadastroContratados.pas',
@@ -366,7 +365,15 @@ uses
   Model.SisGeFCadastroCandidatos in 'src\Model\Model.SisGeFCadastroCandidatos.pas',
   Controller.SisGeFCadastroCandidatos in 'src\Control\Controller.SisGeFCadastroCandidatos.pas',
   services.SisGeFTabelaCandidatos in 'src\Services\services.SisGeFTabelaCandidatos.pas',
-  view.SisGeFValoresExtratoExpressas in 'src\View\view.SisGeFValoresExtratoExpressas.pas' {viewValoresExtratosExpressas};
+  view.SisGeFValoresExtratoExpressas in 'src\View\view.SisGeFValoresExtratoExpressas.pas' {viewValoresExtratosExpressas},
+  Model.SisGeFCadastroFuncionarios in 'src\Model\Model.SisGeFCadastroFuncionarios.pas',
+  Model.SisGeFFuncionariosEnderecos in 'src\Model\Model.SisGeFFuncionariosEnderecos.pas',
+  Model.FuncionariosContatos in 'src\Model\Model.FuncionariosContatos.pas',
+  Model.SisGeFFuncionariosContatos in 'src\Model\Model.SisGeFFuncionariosContatos.pas',
+  Model.SisGeFFuncionariosFinaceiro in 'src\Model\Model.SisGeFFuncionariosFinaceiro.pas',
+  Model.SisGeFFuncionariosGR in 'src\Model\Model.SisGeFFuncionariosGR.pas',
+  Model.SisGeFFuncionariosDocumentosRH in 'src\Model\Model.SisGeFFuncionariosDocumentosRH.pas',
+  Controller.SisGeFFuncionarios in 'src\Control\Controller.SisGeFFuncionarios.pas';
 
 {$R *.res}
 

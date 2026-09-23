@@ -694,8 +694,9 @@ end;
 
 procedure TviewCadastroTerceirizados.actionDocumentsExecute(Sender: TObject);
 begin
-  if not mtbCadastro.IsEmpty then  
-    Documentos;
+  if not mtbCadastro.IsEmpty then
+    if FAcao in [tacPesquisa, tacAlterar] then
+      Documentos;
 end;
 
 procedure TviewCadastroTerceirizados.actionEditRegisterExecute(Sender: TObject);
@@ -1182,11 +1183,12 @@ begin
 
      if mtbCadastro.Active then mtbCadastro.Active := False;
 
-
+     FAcao := tacIndefinido;
      if cadastro.CustomSearch(aParam) then
      begin
        if mtbCadastro.Active then mtbCadastro.Close;
        mtbCadastro.Data := cadastro.FContratados.Query.Data;
+       FAcao := tacPesquisa;
      end;
      cadastro.FContratados.Query.Close;
      cadastro.FContratados.Query.Connection.Close;

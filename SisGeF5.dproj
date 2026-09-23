@@ -648,7 +648,6 @@
             <Form>viewSisGeFNomeGrupo</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="src\Model\Model.SisGeFCadastroFuncionarios.pas"/>
         <DCCReference Include="src\Model\Model.SisGeFCadastroFuncoesRH.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFFuncoesRH.pas"/>
         <DCCReference Include="src\Model\Model.SisGeFCadastroContratados.pas"/>
@@ -737,6 +736,14 @@
             <Form>viewValoresExtratosExpressas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="src\Model\Model.SisGeFCadastroFuncionarios.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosEnderecos.pas"/>
+        <DCCReference Include="src\Model\Model.FuncionariosContatos.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosContatos.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosFinaceiro.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosGR.pas"/>
+        <DCCReference Include="src\Model\Model.SisGeFFuncionariosDocumentosRH.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionarios.pas"/>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
