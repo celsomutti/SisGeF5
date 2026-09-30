@@ -21,7 +21,7 @@ implementation
 
 constructor TFuncionariosGRController.Create;
 begin
-  FGR := TFuncionariosGRModel;
+  FGR := TFuncionariosGRModel.Create;
 end;
 
 function TFuncionariosGRController.CustomSearch(aParams: array of string): boolean;

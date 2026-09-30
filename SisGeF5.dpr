@@ -370,10 +370,14 @@ uses
   Model.SisGeFFuncionariosEnderecos in 'src\Model\Model.SisGeFFuncionariosEnderecos.pas',
   Model.FuncionariosContatos in 'src\Model\Model.FuncionariosContatos.pas',
   Model.SisGeFFuncionariosContatos in 'src\Model\Model.SisGeFFuncionariosContatos.pas',
-  Model.SisGeFFuncionariosFinaceiro in 'src\Model\Model.SisGeFFuncionariosFinaceiro.pas',
   Model.SisGeFFuncionariosGR in 'src\Model\Model.SisGeFFuncionariosGR.pas',
   Model.SisGeFFuncionariosDocumentosRH in 'src\Model\Model.SisGeFFuncionariosDocumentosRH.pas',
-  Controller.SisGeFFuncionarios in 'src\Control\Controller.SisGeFFuncionarios.pas';
+  Controller.SisGeFFuncionarios in 'src\Control\Controller.SisGeFFuncionarios.pas',
+  Controller.SisGeFFuncionariosEnderecos in 'src\Control\Controller.SisGeFFuncionariosEnderecos.pas',
+  Controller.SisGeFFuncionariosContatos in 'src\Control\Controller.SisGeFFuncionariosContatos.pas',
+  Controller.SisGeFFuncionariosDocumentosRH in 'src\Control\Controller.SisGeFFuncionariosDocumentosRH.pas',
+  Controller.SisGeFFuncionariosGR in 'src\Control\Controller.SisGeFFuncionariosGR.pas',
+  View.SisGeFCadastroFuncionarios in 'src\View\View.SisGeFCadastroFuncionarios.pas' {viewCadastroFunctionarios};
 
 {$R *.res}
 

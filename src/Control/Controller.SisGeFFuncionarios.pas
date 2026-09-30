@@ -11,9 +11,8 @@ interface
       property Funcionario: TFuncionariosModel read FFuncionario write FFuncionario;
       Constructor Create();
       function    CustomSearch(aParams: array of string): boolean;
-      function    SaveRecord  ()                        : boolean;
-      function    SetupRecord ()                        : boolean;
-
+      function    SaveRecord ()                         : boolean;
+      function    SetupRecord()                         : boolean;
   end;
 
 implementation
@@ -37,7 +36,7 @@ end;
 
 function TFuncionariosController.SetupRecord: boolean;
 begin
-  Result := FFuncionario.SetupRecords;
+  Result := FFuncionario.SetupRecord;
 end;
 
 end.

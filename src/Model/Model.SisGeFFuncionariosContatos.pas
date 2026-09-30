@@ -151,7 +151,7 @@ end;
 
 function TFuncionariosContatosModel.SetupRecords: boolean;
 begin
-Result := False;
+  Result := False;
   if FQuery.IsEmpty then
     Exit;
   FRecord.seq_contato     :=  FQuery.FieldByName('seq_contato').AsInteger;

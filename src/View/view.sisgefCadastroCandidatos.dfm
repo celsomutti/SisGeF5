@@ -1554,8 +1554,8 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
   end
   object actionList: TActionList
     Images = Data_Sisgef.iml_16_16
-    Left = 896
-    Top = 24
+    Left = 832
+    Top = 16
     object actionNewRegister: TAction
       Caption = '&Novo'
       Hint = 'Novo cadastro'
@@ -1653,20 +1653,20 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
   object dsCandidatos: TDataSource
     AutoEdit = False
     DataSet = mtbCandidatos
-    Left = 848
-    Top = 24
+    Left = 792
+    Top = 16
   end
   object dsCategorias: TDataSource
     AutoEdit = False
     DataSet = Data_Sisgef.mtbCategoriasRHProv
-    Left = 800
-    Top = 24
+    Left = 752
+    Top = 16
   end
   object dsEstados: TDataSource
     AutoEdit = False
     DataSet = Data_Sisgef.mtbEstadosProv
-    Left = 760
-    Top = 24
+    Left = 712
+    Top = 16
   end
   object mtbCandidatos: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -1676,8 +1676,8 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 712
-    Top = 24
+    Left = 664
+    Top = 16
     object mtbCandidatosCOD_CANDIDATO: TIntegerField
       FieldName = 'COD_CANDIDATO'
     end

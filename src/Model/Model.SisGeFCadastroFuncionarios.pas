@@ -72,10 +72,11 @@ interface
         function    GetNextID   (sIdName: string)         : Integer;
         function    Search      (aParams: array of string): boolean;
         function    SaveRecord  ()                        : boolean;
+        function    SetupRecord ()                        : boolean;
 
-        
-        property Acao     : TAcao   read  FAcao     write FAcao;
-        property Mensagem : string  read  FMensagem write FMensagem;
+        property Query    : TFDQuery  read  Fquery    write FQuery;
+        property Acao     : TAcao     read  FAcao     write FAcao;
+        property Mensagem : string    read  FMensagem write FMensagem;
 
       protected
     end;
@@ -212,10 +213,68 @@ begin
   FQuery.SQL.Add(SQLSELECT);
   if Length(aParams) >= 2 then
   begin
-        
+
   end;
   if FQuery.IsEmpty then
     Exit;
+  Result := True;
+end;
+
+function TFuncionariosModel.SetupRecord: boolean;
+begin
+  Result := False;
+  if FQuery.IsEmpty then
+    Exit;
+  with ARecord do
+  begin
+    cod_cadastro            := FQuery.FieldByName('cod_cadastro').AsInteger;
+    dom_pessoa              := FQuery.FieldByName('dom_pessoa').AsString;
+    des_tipo_doc            := FQuery.FieldByName('des_tipo_doc').AsString;
+    nom_razao_social        := FQuery.FieldByName('nom_razao_social').AsString;
+    nom_fantasia_alias      := FQuery.FieldByName('nom_fantasia_alias').AsString;
+    num_cpf_cnpj            := FQuery.FieldByName('num_cpf_cnpj').AsString;
+    num_rg_ie               := FQuery.FieldByName('num_rg_ie').AsString;
+    dat_emissao_rg          := FQuery.FieldByName('dat_emissao_rg').AsDateTime;
+    nom_emissor_rg          := FQuery.FieldByName('nom_emissor_rg').AsString;
+    uf_emissor_rg           := FQuery.FieldByName('uf_emissor_rg').AsString;
+    dat_nascimento          := FQuery.FieldByName('dat_nascimento').AsDateTime;
+    des_nacionalidade       := FQuery.FieldByName('des_nacionalidade').AsString;
+    des_naturalidade        := FQuery.FieldByName('des_naturalidade').AsString;
+    uf_naturalidade         := FQuery.FieldByName('uf_naturalidade').AsString;
+    nom_pai                 := FQuery.FieldByName('nom_pai').AsString;
+    nom_mae                 := FQuery.FieldByName('nom_mae').AsString;
+    cod_cnae                := FQuery.FieldByName('cod_cnae').AsString;
+    cod_crt                 := FQuery.FieldByName('cod_crt').AsInteger;
+    num_cnh                 := FQuery.FieldByName('num_cnh').AsString;
+    num_registro_cnh        := FQuery.FieldByName('num_registro_cnh').AsString;
+    des_categoria_cnh       := FQuery.FieldByName('des_categoria_cnh').AsString;
+    dat_validade_cnh        := FQuery.FieldByName('dat_validade_cnh').AsDateTime;
+    dat_emissao_cnh         := FQuery.FieldByName('dat_emissao_cnh').AsDateTime;
+    uf_cnh                  := FQuery.FieldByName('uf_cnh').AsString;
+    dat_primeira_cnh        := FQuery.FieldByName('dat_primeira_cnh').AsDateTime;
+    cod_seguranca_cnh       := FQuery.FieldByName('cod_seguranca_cnh').AsString;
+    cod_status              := FQuery.FieldByName('cod_status').AsInteger;
+    dat_cadastro            := FQuery.FieldByName('dat_cadastro').AsDateTime;
+    des_forma_pagamento     := FQuery.FieldByName('des_forma_pagamento').AsString;
+    des_tipo_conta          := FQuery.FieldByName('des_tipo_conta').AsString;
+    cod_banco               := FQuery.FieldByName('cod_banco').AsString;
+    cod_agencia             := FQuery.FieldByName('cod_agencia').AsString;
+    num_conta               := FQuery.FieldByName('num_conta').AsString;
+    nom_favorecido          := FQuery.FieldByName('nom_favorecido').AsString;
+    num_cpf_cnpj_favorecido := FQuery.FieldByName('num_cpf_cnpj_favorecido').AsString;
+    cod_pix                 := FQuery.FieldByName('cod_pix').AsString;
+    cod_gr                  := FQuery.FieldByName('cod_gr').AsString;
+    dat_gr                  := FQuery.FieldByName('dat_gr').AsString;
+    cod_mei                 := FQuery.FieldByName('cod_mei').AsString;
+    des_razao_mei           := FQuery.FieldByName('des_razao_mei').AsString;
+    nom_fantasia_mei        := FQuery.FieldByName('nom_fantasia_mei').AsString;
+    num_cnpj_mei            := FQuery.FieldByName('num_cnpj_mei').AsString;
+    dat_abertura_mei        := FQuery.FieldByName('dat_abertura_mei').AsDateTime;
+    des_obs                 := FQuery.FieldByName('des_obs').AsString;
+    id_departamento         := FQuery.FieldByName('id_departamento').AsInteger;
+    id_funcao               := FQuery.FieldByName('id_funcao').AsInteger;
+    dat_demissao            := FQuery.FieldByName('dat_demissao').AsDateTime;
+  end;
   Result := True;
 end;
 

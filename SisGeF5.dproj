@@ -740,10 +740,17 @@
         <DCCReference Include="src\Model\Model.SisGeFFuncionariosEnderecos.pas"/>
         <DCCReference Include="src\Model\Model.FuncionariosContatos.pas"/>
         <DCCReference Include="src\Model\Model.SisGeFFuncionariosContatos.pas"/>
-        <DCCReference Include="src\Model\Model.SisGeFFuncionariosFinaceiro.pas"/>
         <DCCReference Include="src\Model\Model.SisGeFFuncionariosGR.pas"/>
         <DCCReference Include="src\Model\Model.SisGeFFuncionariosDocumentosRH.pas"/>
         <DCCReference Include="src\Control\Controller.SisGeFFuncionarios.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosEnderecos.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosContatos.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosDocumentosRH.pas"/>
+        <DCCReference Include="src\Control\Controller.SisGeFFuncionariosGR.pas"/>
+        <DCCReference Include="src\View\View.SisGeFCadastroFuncionarios.pas">
+            <Form>viewCadastroFunctionarios</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="SisGeF5.todo"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
