@@ -26,7 +26,7 @@ end;
 
 function TFuncionariosController.CustomSearch(aParams: array of string): boolean;
 begin
-  Result := FFuncionario.Search(aParams);
+  Result := FFuncionario.CustomSearch(aParams);
 end;
 
 function TFuncionariosController.SaveRecord: boolean;

@@ -70,9 +70,9 @@ interface
 
         Constructor Create();
         function    GetNextID   (sIdName: string)         : Integer;
-        function    Search      (aParams: array of string): boolean;
         function    SaveRecord  ()                        : boolean;
         function    SetupRecord ()                        : boolean;
+        function    CustomSearch(aParams: array of string): boolean;
 
         property Query    : TFDQuery  read  Fquery    write FQuery;
         property Acao     : TAcao     read  FAcao     write FAcao;
@@ -82,6 +82,7 @@ interface
     end;
     const
       TABLENAME = 'crm_funcionarios';
+      VIEWNAME  = 'view_pesquisafuncionarios_v2';
       SQLINSERT = 'insert into ' + TABLENAME +
                   '(cod_cadastro, dom_pessoa, des_tipo_doc, nom_razao_social, nom_fantasia_alias, num_cpf_cnpj, ' +
                   'num_rg_ie, dat_emissao_rg, nom_emissor_rg, uf_emissor_rg, dat_nascimento, des_nacionalidade, ' +
@@ -161,6 +162,38 @@ begin
   FConn := TConnectionMySQL.Create;
 end;
 
+function TFuncionariosModel.CustomSearch(aParams: array of string): boolean;
+var
+  sSource : string;
+begin
+  Result := False;
+  if Length(aParams) < 3 then
+  begin
+    FMensagem := 'Quantidade de parâmetros incorreta!';
+    Exit
+  end;
+  FQuery := FConn.GetQuery;
+  FQuery.SQL.Clear;
+  FQuery.SQL.Add('select !colums from !table {if !where } where !where {fi}');
+  if aParams[1] = 'VIEW' then
+    sSource := VIEWNAME
+  else if aParams[1] = 'TABLE' then
+    sSource := TABLENAME
+  else
+    sSource := aParams[1];
+  FQuery.MacroByName('colums').AsRaw := aParams[0];
+  FQuery.MacroByName('table').AsRaw := sSource;
+  FQuery.MacroByName('where').AsRaw := aParams[2];
+  FQuery.Open();
+  if FQuery.IsEmpty then
+  begin
+    FMensagem := 'Nenhum registro encontrado!';
+    FQuery.Connection.Close;
+    Exit;
+  end;
+  Result := True;
+end;
+
 function TFuncionariosModel.GetNextID(sIdName: string): Integer;
 begin
   try
@@ -204,20 +237,6 @@ end;
 function TFuncionariosModel.SaveRecord: boolean;
 begin
 
-end;
-
-function TFuncionariosModel.Search(aParams: array of string): boolean;
-begin
-  Result := False;
-  FQuery := FConn.GetQuery;
-  FQuery.SQL.Add(SQLSELECT);
-  if Length(aParams) >= 2 then
-  begin
-
-  end;
-  if FQuery.IsEmpty then
-    Exit;
-  Result := True;
 end;
 
 function TFuncionariosModel.SetupRecord: boolean;

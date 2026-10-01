@@ -13,6 +13,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
   OldCreateOrder = False
   Position = poScreenCenter
   ShowHint = True
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl
@@ -25,37 +26,34 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     TabOrder = 0
     Transparent = True
     object cxButton1: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 24
+      Top = 44
       Width = 75
       Height = 25
       Action = actionNewRegister
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 0
-      Visible = False
     end
     object cxButton2: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 105
+      Top = 44
       Width = 75
       Height = 25
       Action = actionEditRegister
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 1
-      Visible = False
     end
     object cxButton3: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 186
+      Top = 44
       Width = 75
       Height = 25
       Action = actionExportGrid
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 2
-      Visible = False
     end
     object cxButton4: TcxButton
       Left = 923
@@ -65,11 +63,11 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Action = actionCloseForm
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 30
+      TabOrder = 60
     end
     object parametroPesquisa: TcxButtonEdit
-      Left = 10000
-      Top = 10000
+      Left = 330
+      Top = 44
       Hint = 'Par'#226'metro de pesquisa'
       Properties.Buttons = <
         item
@@ -83,23 +81,21 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 3
-      Visible = False
       Width = 560
     end
     object cxButton5: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 896
+      Top = 44
       Width = 88
       Height = 25
       Action = actionSearchRecords
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 4
-      Visible = False
     end
     object cxButton6: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 24
+      Top = 75
       Width = 24
       Height = 24
       Action = actionGroupPanel
@@ -107,11 +103,10 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 5
-      Visible = False
     end
     object cxButton7: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 54
+      Top = 75
       Width = 24
       Height = 24
       Action = actionExpandGrid
@@ -119,11 +114,10 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 6
-      Visible = False
     end
     object cxButton8: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 84
+      Top = 75
       Width = 24
       Height = 24
       Action = actionRetractGrid
@@ -131,167 +125,357 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 7
-      Visible = False
     end
     object grid: TcxGrid
-      Left = 10000
-      Top = 10000
+      Left = 24
+      Top = 105
       Width = 960
-      Height = 538
+      Height = 558
       TabOrder = 8
-      Visible = False
       object gridDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = dsFuncionarios
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
-        object gridDBTableView1Column1: TcxGridDBColumn
+        OptionsView.GroupByBox = False
+        object gridDBTableView1id_funcionario: TcxGridDBColumn
           Caption = 'ID'
           DataBinding.FieldName = 'id_funcionario'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
         end
-        object gridDBTableView1Column2: TcxGridDBColumn
+        object gridDBTableView1nom_funcionario: TcxGridDBColumn
           Caption = 'Nome'
           DataBinding.FieldName = 'nom_funcionario'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
-          Width = 243
         end
-        object gridDBTableView1Column3: TcxGridDBColumn
+        object gridDBTableView1asnom_alias: TcxGridDBColumn
+          Caption = 'Alias'
+          DataBinding.FieldName = 'nom_alias'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+          Width = 271
+        end
+        object gridDBTableView1cod_tipo_pessoa: TcxGridDBColumn
+          Caption = 'Pessoa'
+          DataBinding.FieldName = 'cod_tipo_pessoa'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+          VisibleForCustomization = False
+        end
+        object gridDBTableView1num_cpf: TcxGridDBColumn
           Caption = 'CPF'
           DataBinding.FieldName = 'num_cpf'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
-          Width = 119
         end
-        object gridDBTableView1Column4: TcxGridDBColumn
+        object gridDBTableView1num_rg: TcxGridDBColumn
           Caption = 'RG'
           DataBinding.FieldName = 'num_rg'
-          Width = 114
-        end
-        object gridDBTableView1Column5: TcxGridDBColumn
-          Caption = 'Departamento'
-          DataBinding.FieldName = 'des_departamento'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
-          Width = 166
         end
-        object gridDBTableView1Column6: TcxGridDBColumn
-          Caption = 'Fun'#231#227'o'
-          DataBinding.FieldName = 'des_funcao'
-          Width = 94
-        end
-        object gridDBTableView1Column7: TcxGridDBColumn
-          Caption = 'Admiss'#227'o'
-          DataBinding.FieldName = 'dat_admissao'
+        object gridDBTableView1dat_emissao_rg: TcxGridDBColumn
+          Caption = 'Emiss'#227'o RG'
+          DataBinding.FieldName = 'dat_emissao_rg'
           PropertiesClassName = 'TcxDateEditProperties'
           Properties.ReadOnly = True
           Properties.SaveTime = False
           Properties.ShowTime = False
           Properties.ShowToday = False
-          Width = 88
+          Visible = False
         end
-        object gridDBTableView1Column8: TcxGridDBColumn
-          Caption = 'Demiss'#227'o'
-          DataBinding.FieldName = 'dat_demissao'
+        object gridDBTableView1nom_emissor_rg: TcxGridDBColumn
+          Caption = 'Emissor RG'
+          DataBinding.FieldName = 'nom_emissor_rg'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+        end
+        object gridDBTableView1uf_emissor_rg: TcxGridDBColumn
+          Caption = 'UF Emissor'
+          DataBinding.FieldName = 'uf_emissor_rg'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+          Width = 58
+        end
+        object gridDBTableView1dat_nascimento: TcxGridDBColumn
+          Caption = 'Nascimento'
+          DataBinding.FieldName = 'dat_nascimento'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Properties.ReadOnly = True
+          Properties.SaveTime = False
+          Properties.ShowTime = False
+          Visible = False
+        end
+        object gridDBTableView1des_nacionalidade: TcxGridDBColumn
+          Caption = 'Nacionalidade'
+          DataBinding.FieldName = 'des_nacionalidade'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+        end
+        object gridDBTableView1des_naturalidade: TcxGridDBColumn
+          Caption = 'Naturalidade'
+          DataBinding.FieldName = 'des_naturalidade'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+        end
+        object gridDBTableView1uf_naturalidade: TcxGridDBColumn
+          Caption = 'UF Naturalidade'
+          DataBinding.FieldName = 'uf_naturalidade'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+          Width = 83
+        end
+        object gridDBTableView1nom_pai: TcxGridDBColumn
+          Caption = 'Nome do Pai'
+          DataBinding.FieldName = 'nom_pai'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+        end
+        object gridDBTableView1nom_mae: TcxGridDBColumn
+          Caption = 'Nome da M'#227'e'
+          DataBinding.FieldName = 'nom_mae'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+        end
+        object gridDBTableView1num_cnh: TcxGridDBColumn
+          Caption = 'N'#186' CNH'
+          DataBinding.FieldName = 'num_cnh'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Width = 114
+        end
+        object gridDBTableView1num_registro_cnh: TcxGridDBColumn
+          Caption = 'Registro CNH'
+          DataBinding.FieldName = 'num_registro_cnh'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Width = 97
+        end
+        object gridDBTableView1des_categoria_cnh: TcxGridDBColumn
+          Caption = 'Categoria CNH'
+          DataBinding.FieldName = 'des_categoria_cnh'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+          Width = 77
+        end
+        object gridDBTableView1dat_validade_cnh: TcxGridDBColumn
+          Caption = 'Validade CNH'
+          DataBinding.FieldName = 'dat_validade_cnh'
           PropertiesClassName = 'TcxDateEditProperties'
           Properties.ReadOnly = True
           Properties.SaveTime = False
           Properties.ShowTime = False
           Properties.ShowToday = False
-          Width = 112
+          Visible = False
         end
-        object gridDBTableView1Column9: TcxGridDBColumn
+        object gridDBTableView1dat_emissao_cnh: TcxGridDBColumn
+          Caption = 'Emiss'#227'o CNH'
+          DataBinding.FieldName = 'dat_emissao_cnh'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Properties.ReadOnly = True
+          Properties.SaveTime = False
+          Properties.ShowTime = False
+          Properties.ShowToday = False
+          Visible = False
+        end
+        object gridDBTableView1uf_cnh: TcxGridDBColumn
+          Caption = 'UF CNH'
+          DataBinding.FieldName = 'uf_cnh'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+          Width = 43
+        end
+        object gridDBTableView1dat_primeira_cnh: TcxGridDBColumn
+          Caption = 'Primeira CNH'
+          DataBinding.FieldName = 'dat_primeira_cnh'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Properties.ReadOnly = True
+          Properties.SaveTime = False
+          Properties.ShowTime = False
+          Properties.ShowToday = False
+          Visible = False
+        end
+        object gridDBTableView1cod_seguranca_cnh: TcxGridDBColumn
+          Caption = 'C'#243'd. Seg. CNH'
+          DataBinding.FieldName = 'cod_seguranca_cnh'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+        end
+        object gridDBTableView1cod_status: TcxGridDBColumn
           Caption = 'Situa'#231#227'o'
           DataBinding.FieldName = 'cod_status'
           PropertiesClassName = 'TcxImageComboBoxProperties'
           Properties.Images = Data_Sisgef.iml_16_16
           Properties.Items = <
             item
-              Description = 'Ativo'
-              ImageIndex = 83
-              Value = 1
-            end
-            item
-              Description = 'Demitido'
+              Description = 'DEMITIDO'
               ImageIndex = 84
               Value = 0
             end
             item
-              Description = 'Afastatamento/Licen'#231'a'
-              ImageIndex = 116
+              Description = 'ATIVO'
+              ImageIndex = 83
+              Value = 1
+            end
+            item
+              Description = 'LICEN'#199'A/AFASTADO'
+              ImageIndex = 84
               Value = 2
             end>
           Width = 127
+        end
+        object gridDBTableView1des_obs: TcxGridDBColumn
+          Caption = 'Observa'#231#245'es'
+          DataBinding.FieldName = 'des_obs'
+          PropertiesClassName = 'TcxBlobEditProperties'
+          Properties.MemoScrollBars = ssVertical
+          Properties.ReadOnly = True
+          Width = 80
+        end
+        object gridDBTableView1id_departamento: TcxGridDBColumn
+          Caption = 'ID Departamento'
+          DataBinding.FieldName = 'id_departamento'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+          Width = 89
+        end
+        object gridDBTableView1des_departamento: TcxGridDBColumn
+          Caption = 'Departamento'
+          DataBinding.FieldName = 'des_departamento'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Width = 203
+        end
+        object gridDBTableView1id_funcao: TcxGridDBColumn
+          Caption = 'ID Fun'#231#227'o'
+          DataBinding.FieldName = 'id_funcao'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Visible = False
+        end
+        object gridDBTableView1des_funcao: TcxGridDBColumn
+          Caption = 'Fun'#231#227'o'
+          DataBinding.FieldName = 'des_funcao'
+          PropertiesClassName = 'TcxTextEditProperties'
+          Properties.ReadOnly = True
+          Width = 195
+        end
+        object gridDBTableView1dat_admissao: TcxGridDBColumn
+          Caption = 'Admiss'#227'o'
+          DataBinding.FieldName = 'dat_admissao'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Properties.ReadOnly = True
+          Properties.SaveTime = False
+          Properties.ShowTime = False
+          Visible = False
+        end
+        object gridDBTableView1val_remuneracao: TcxGridDBColumn
+          Caption = 'Remunera'#231#227'o'
+          DataBinding.FieldName = 'val_remuneracao'
+          PropertiesClassName = 'TcxCurrencyEditProperties'
+          Properties.ReadOnly = True
+          Width = 112
+        end
+        object gridDBTableView1dat_demissao: TcxGridDBColumn
+          Caption = 'Demiss'#227'o'
+          DataBinding.FieldName = 'dat_demissao'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Properties.SaveTime = False
+          Properties.ShowTime = False
+          Visible = False
+        end
+        object gridDBTableView1createdAt: TcxGridDBColumn
+          Caption = 'Criado em '
+          DataBinding.FieldName = 'createdAt'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Properties.ReadOnly = True
+          Properties.ShowToday = False
+          Visible = False
+        end
+        object gridDBTableView1updatedAt: TcxGridDBColumn
+          Caption = #218'ltima Atualiza'#231#227'o em'
+          DataBinding.FieldName = 'updatedAt'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Properties.ReadOnly = True
+          Properties.ShowToday = False
+          Visible = False
         end
       end
       object gridLevel1: TcxGridLevel
         GridView = gridDBTableView1
       end
     end
-    object cxButton9: TcxButton
+    object id: TcxTextEdit
       Left = 10000
       Top = 10000
-      Width = 75
-      Height = 25
-      Action = actionReturnGrid
-      TabOrder = 9
-      Visible = False
-    end
-    object id: TcxTextEdit
-      Left = 40
-      Top = 44
       Hint = 'ID do Funcion'#225'rio'
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 10
+      TabOrder = 9
       Text = '0'
+      Visible = False
       Width = 61
     end
     object nome: TcxTextEdit
-      Left = 139
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'Nome do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 11
-      Width = 434
+      TabOrder = 10
+      Visible = False
+      Width = 714
     end
     object cpf: TcxMaskEdit
-      Left = 603
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'CPF do funcion'#225'rio'
       Properties.IgnoreMaskBlank = True
       Properties.EditMask = '000\.000\.000\-00;0; '
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 12
+      TabOrder = 11
       Text = '           '
+      Visible = False
       Width = 101
     end
     object RG: TcxTextEdit
-      Left = 729
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'RG do funcion'#225'rio'
       Properties.MaxLength = 20
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 13
-      Width = 105
+      TabOrder = 28
+      Visible = False
+      Width = 122
     end
     object emissaoRG: TcxDateEdit
-      Left = 900
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'Data de emiss'#227'o do RG'
       Properties.SaveTime = False
       Properties.ShowTime = False
@@ -301,24 +485,26 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 14
-      Width = 84
+      TabOrder = 29
+      Visible = False
+      Width = 104
     end
     object emissorRG: TcxTextEdit
-      Left = 82
-      Top = 71
+      Left = 10000
+      Top = 10000
       Hint = 'Org'#227'o emissor do RG'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 20
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 15
-      Width = 114
+      TabOrder = 30
+      Visible = False
+      Width = 138
     end
-    object cxDateEdit1: TcxDateEdit
-      Left = 326
-      Top = 71
+    object nascimento: TcxDateEdit
+      Left = 10000
+      Top = 10000
       Hint = 'Data de nascimento'
       Properties.SaveTime = False
       Properties.ShowTime = False
@@ -328,12 +514,13 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 17
+      TabOrder = 12
+      Visible = False
       Width = 84
     end
     object nacionalidade: TcxTextEdit
-      Left = 487
-      Top = 71
+      Left = 10000
+      Top = 10000
       Hint = 'Nacionalidade do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.LookupItems.Strings = (
@@ -342,24 +529,26 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 18
-      Width = 169
+      TabOrder = 13
+      Visible = False
+      Width = 286
     end
     object naturalidade: TcxTextEdit
-      Left = 728
-      Top = 71
+      Left = 10000
+      Top = 10000
       Hint = 'Naturalidade do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 19
-      Width = 192
+      TabOrder = 14
+      Visible = False
+      Width = 317
     end
     object ufNaturalidade: TcxComboBox
-      Left = 944
-      Top = 71
+      Left = 10000
+      Top = 10000
       Hint = 'UF da naturalidade do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.DropDownListStyle = lsEditFixedList
@@ -397,12 +586,13 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 20
+      TabOrder = 15
+      Visible = False
       Width = 40
     end
     object ufEmissorRG: TcxComboBox
-      Left = 220
-      Top = 71
+      Left = 10000
+      Top = 10000
       Hint = 'UF Emissor RG'
       Properties.CharCase = ecUpperCase
       Properties.DropDownListStyle = lsEditFixedList
@@ -440,36 +630,39 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 16
+      TabOrder = 31
+      Visible = False
       Width = 40
     end
     object nomePai: TcxTextEdit
-      Left = 43
-      Top = 98
+      Left = 10000
+      Top = 10000
       Hint = 'Nom do pai do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 21
+      TabOrder = 16
+      Visible = False
       Width = 448
     end
     object nomeMae: TcxTextEdit
-      Left = 522
-      Top = 98
+      Left = 10000
+      Top = 10000
       Hint = 'Nome da m'#227'e do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 22
+      TabOrder = 17
+      Visible = False
       Width = 462
     end
     object CEP: TcxButtonEdit
-      Left = 48
-      Top = 137
+      Left = 10000
+      Top = 10000
       Hint = 'CEP do endere'#231'o do funcion'#225'rio'
       Properties.Buttons = <
         item
@@ -485,73 +678,79 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 23
+      TabOrder = 18
       Text = '        '
+      Visible = False
       Width = 77
     end
     object logradouro: TcxTextEdit
-      Left = 191
-      Top = 137
+      Left = 10000
+      Top = 10000
       Hint = 'Logradouro do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 24
+      TabOrder = 19
+      Visible = False
       Width = 461
     end
     object numeroLogradouro: TcxTextEdit
-      Left = 679
-      Top = 137
+      Left = 10000
+      Top = 10000
       Hint = 'N'#250'mero do logradouro do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 11
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 25
+      TabOrder = 20
+      Visible = False
       Width = 59
     end
     object complementoEndereco: TcxTextEdit
-      Left = 814
-      Top = 137
+      Left = 10000
+      Top = 10000
       Hint = 'Complemento do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 50
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 26
+      TabOrder = 21
+      Visible = False
       Width = 170
     end
     object bairroEndereco: TcxTextEdit
-      Left = 57
-      Top = 167
+      Left = 10000
+      Top = 10000
       Hint = 'Bairro do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 27
+      TabOrder = 22
+      Visible = False
       Width = 405
     end
     object cidadeEndereco: TcxTextEdit
-      Left = 506
-      Top = 167
+      Left = 10000
+      Top = 10000
       Hint = 'Cidade do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 28
+      TabOrder = 23
+      Visible = False
       Width = 414
     end
     object ufEndereco: TcxComboBox
-      Left = 944
-      Top = 167
+      Left = 10000
+      Top = 10000
       Hint = 'UF do endere'#231'o do funcion'#225'rio'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -588,8 +787,508 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 29
+      TabOrder = 24
+      Visible = False
       Width = 40
+    end
+    object telefone: TcxMaskEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Telefone do funcion'#225'rio'
+      Properties.IgnoreMaskBlank = True
+      Properties.EditMask = '!\(99\)0000-0000;1; '
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 25
+      Text = '(  )    -    '
+      Visible = False
+      Width = 102
+    end
+    object celular: TcxMaskEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Celular do funcion'#225'rio'
+      Properties.IgnoreMaskBlank = True
+      Properties.EditMask = '!\(99\)00000-0000;1; '
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 26
+      Text = '(  )     -    '
+      Visible = False
+      Width = 102
+    end
+    object email: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'E-Mail do funcion'#225'rio'
+      Properties.CharCase = ecLowerCase
+      Properties.MaxLength = 128
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 27
+      Visible = False
+      Width = 626
+    end
+    object ctps: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'CTPS do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 30
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 32
+      Visible = False
+      Width = 143
+    end
+    object serieCtps: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'S'#233'rie da CTPS do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 10
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 33
+      Visible = False
+      Width = 105
+    end
+    object ufCtps: TcxComboBox
+      Left = 10000
+      Top = 10000
+      Properties.DropDownListStyle = lsEditFixedList
+      Properties.Items.Strings = (
+        ''
+        'AC'
+        'AL'
+        'AP'
+        'AM'
+        'BA'
+        'CE'
+        'DF'
+        'ES'
+        'GO'
+        'MA'
+        'MT'
+        'MS'
+        'MG'
+        'PA'
+        'PB'
+        'PR'
+        'PE'
+        'PI'
+        'RJ'
+        'RN'
+        'RS'
+        'RO'
+        'RR'
+        'SC'
+        'SP'
+        'SE'
+        'TO')
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 34
+      Visible = False
+      Width = 40
+    end
+    object numeroCNH: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero da c'#233'dula da CNH do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 15
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 35
+      Visible = False
+      Width = 88
+    end
+    object registroCNH: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'nmero do registro da CNH do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 15
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 36
+      Visible = False
+      Width = 117
+    end
+    object categoriaCNH: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Categoria da CNH do funcion'#225'rio'
+      Properties.MaxLength = 0
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 37
+      Visible = False
+      Width = 40
+    end
+    object ufCNH: TcxComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'UF da CNH do funcion'#225'rio'
+      Properties.DropDownListStyle = lsEditFixedList
+      Properties.Items.Strings = (
+        ''
+        'AC'
+        'AL'
+        'AP'
+        'AM'
+        'BA'
+        'CE'
+        'DF'
+        'ES'
+        'GO'
+        'MA'
+        'MT'
+        'MS'
+        'MG'
+        'PA'
+        'PB'
+        'PR'
+        'PE'
+        'PI'
+        'RJ'
+        'RN'
+        'RS'
+        'RO'
+        'RR'
+        'SC'
+        'SP'
+        'SE'
+        'TO')
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 38
+      Visible = False
+      Width = 40
+    end
+    object codigoSeguranca: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'C'#243'digo de seguran'#231'a da CNH do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 30
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 39
+      Visible = False
+      Width = 90
+    end
+    object primeiraCNH: TcxDateEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Data da primeira CNH do funcion'#225'rio'
+      Properties.SaveTime = False
+      Properties.ShowTime = False
+      Properties.ShowToday = False
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 40
+      Visible = False
+      Width = 82
+    end
+    object emissaoCNH: TcxDateEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Emiss'#227'o da CNH do funcion'#225'rio'
+      Properties.SaveTime = False
+      Properties.ShowTime = False
+      Properties.ShowToday = False
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 41
+      Visible = False
+      Width = 82
+    end
+    object validadeCNH: TcxDateEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Validade da CNH do funcin'#225'rios'
+      Properties.SaveTime = False
+      Properties.ShowTime = False
+      Properties.ShowToday = False
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 42
+      Visible = False
+      Width = 82
+    end
+    object pis: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero do PIS do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 20
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 43
+      Visible = False
+      Width = 150
+    end
+    object reservista: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero da Reservista do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 20
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 44
+      Visible = False
+      Width = 158
+    end
+    object titulo: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero do T'#237'tulo Eleitoral do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 20
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 45
+      Visible = False
+      Width = 152
+    end
+    object zona: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Zona Eleitoral do funcion'#225'rios'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 20
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 46
+      Visible = False
+      Width = 152
+    end
+    object secao: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Se'#231#227'o Eleitoral do fiuncion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 20
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 47
+      Visible = False
+      Width = 153
+    end
+    object departamento: TcxButtonEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'C'#243'digo do Departamento do funcion'#225'rio'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.Buttons = <
+        item
+          Action = actSearchDepartment
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 48
+      Text = '0'
+      Visible = False
+      Width = 70
+    end
+    object descricaoDepartamento: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Descri'#231#227'o do departamento do funcion'#225'rio'
+      TabStop = False
+      Properties.CharCase = ecUpperCase
+      Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 49
+      Visible = False
+      Width = 344
+    end
+    object funcao: TcxButtonEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'C'#243'digo da Fun'#231#227'o do funcion'#225'rio'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.Buttons = <
+        item
+          Action = actSearchFunction
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 50
+      Text = '0'
+      Visible = False
+      Width = 70
+    end
+    object descricaoFuncao: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Descri'#231#227'o da Fun'#231#227'o do funcion'#225'rio'
+      TabStop = False
+      Properties.CharCase = ecUpperCase
+      Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 51
+      Visible = False
+      Width = 344
+    end
+    object admissao: TcxDateEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Data de Admiss'#227'o do funcion'#225'rio'
+      Properties.SaveTime = False
+      Properties.ShowTime = False
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 52
+      Visible = False
+      Width = 82
+    end
+    object remuneracao: TcxCurrencyEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Sal'#225'rio base do funcion'#225'rio'
+      EditValue = 0.000000000000000000
+      Properties.Alignment.Horz = taRightJustify
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 53
+      Visible = False
+      Width = 90
+    end
+    object situacao: TcxComboBox
+      Left = 10000
+      Top = 10000
+      Hint = 'Situa'#231#227'o do funcion'#225'rio'
+      Properties.DropDownListStyle = lsEditFixedList
+      Properties.Items.Strings = (
+        'DEMITIDO'
+        'ATIVO'
+        'LICEN'#199'A/AFASTAMENTO')
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 54
+      Visible = False
+      Width = 131
+    end
+    object demssao: TcxDateEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Data de Demiss'#227'o do funcion'#225'rio'
+      Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      Style.PopupBorderStyle = epbsFrame3D
+      TabOrder = 55
+      Visible = False
+      Width = 82
+    end
+    object observacoes: TcxMemo
+      Left = 10000
+      Top = 10000
+      Hint = 'Observa'#231#245'es sobre o funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.ScrollBars = ssVertical
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 56
+      Visible = False
+      Height = 68
+      Width = 960
+    end
+    object cxButton9: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 75
+      Height = 25
+      Action = actionReturnGrid
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 57
+      Visible = False
+    end
+    object cxButton10: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 116
+      Height = 25
+      Action = actionDocuments
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 58
+      Visible = False
+    end
+    object cxButton11: TcxButton
+      Left = 10000
+      Top = 10000
+      Width = 75
+      Height = 25
+      Action = actionSaveRegister
+      SpeedButtonOptions.CanBeFocused = False
+      SpeedButtonOptions.Flat = True
+      TabOrder = 59
+      Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -605,7 +1304,6 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       LayoutDirection = ldTabbed
       ShowBorder = False
       Index = 0
@@ -796,23 +1494,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ControlOptions.ShowBorder = False
       Index = 0
     end
-    object dxLayoutItem11: TdxLayoutItem
-      Parent = dxLayoutGroup8
-      AlignVert = avCenter
-      CaptionOptions.Text = 'cxButton9'
-      CaptionOptions.Visible = False
-      Control = cxButton9
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
     object dxLayoutGroup9: TdxLayoutGroup
       Parent = dxLayoutGroup1
       CaptionOptions.Text = 'Cadastro'
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
-      ItemIndex = 7
+      ItemIndex = 15
       Index = 1
     end
     object dxLayoutGroup10: TdxLayoutGroup
@@ -820,7 +1507,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 4
+      ItemIndex = 2
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -856,31 +1543,37 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Index = 2
     end
     object dxLayoutItem15: TdxLayoutItem
-      Parent = dxLayoutGroup10
+      Parent = dxLayoutGroup16
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'RG'
       Control = RG
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 105
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 0
     end
     object dxLayoutItem16: TdxLayoutItem
-      Parent = dxLayoutGroup10
+      Parent = dxLayoutGroup16
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Emiss'#227'o RG'
       Control = emissaoRG
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 84
       ControlOptions.ShowBorder = False
-      Index = 4
+      Index = 1
     end
     object dxLayoutItem17: TdxLayoutItem
-      Parent = dxLayoutGroup11
+      Parent = dxLayoutGroup16
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Emissor RG'
       Control = emissorRG
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 114
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 2
     end
     object dxLayoutGroup11: TdxLayoutGroup
       Parent = dxLayoutGroup9
@@ -893,11 +1586,11 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     object dxLayoutItem18: TdxLayoutItem
       Parent = dxLayoutGroup11
       CaptionOptions.Text = 'Nascimento'
-      Control = cxDateEdit1
+      Control = nascimento
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 84
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 0
     end
     object dxLayoutItem19: TdxLayoutItem
       Parent = dxLayoutGroup11
@@ -907,7 +1600,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 138
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 1
     end
     object dxLayoutItem20: TdxLayoutItem
       Parent = dxLayoutGroup11
@@ -917,7 +1610,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 158
       ControlOptions.ShowBorder = False
-      Index = 4
+      Index = 2
     end
     object dxLayoutItem21: TdxLayoutItem
       Parent = dxLayoutGroup11
@@ -926,25 +1619,26 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 40
       ControlOptions.ShowBorder = False
-      Index = 5
+      Index = 3
     end
     object dxLayoutGroup12: TdxLayoutGroup
       Parent = dxLayoutGroup9
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 1
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 2
     end
     object dxLayoutItem22: TdxLayoutItem
-      Parent = dxLayoutGroup11
+      Parent = dxLayoutGroup16
       AlignVert = avClient
       CaptionOptions.Text = 'UF'
       Control = ufEmissorRG
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 40
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 3
     end
     object dxLayoutItem23: TdxLayoutItem
       Parent = dxLayoutGroup12
@@ -968,7 +1662,11 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object dxLayoutSeparatorItem2: TdxLayoutSeparatorItem
       Parent = dxLayoutGroup9
-      CaptionOptions.Text = 'Separator'
+      CaptionOptions.Text = 'Endere'#231'o / Contato'
+      CaptionOptions.Visible = True
+      Padding.Bottom = 10
+      Padding.Top = 10
+      Padding.AssignedValues = [lpavBottom, lpavTop]
       Index = 3
     end
     object dxLayoutGroup13: TdxLayoutGroup
@@ -1056,15 +1754,386 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object dxLayoutSeparatorItem3: TdxLayoutSeparatorItem
       Parent = dxLayoutGroup9
-      CaptionOptions.Text = 'Separator'
-      Index = 6
+      CaptionOptions.Text = 'Documentos'
+      CaptionOptions.Visible = True
+      Offsets.Bottom = 10
+      Offsets.Top = 10
+      Index = 7
     end
     object dxLayoutGroup15: TdxLayoutGroup
       Parent = dxLayoutGroup9
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 6
+    end
+    object dxLayoutItem32: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      CaptionOptions.Text = 'Telefone'
+      Control = telefone
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 102
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem33: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      CaptionOptions.Text = 'Celular'
+      Control = celular
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 102
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem34: TdxLayoutItem
+      Parent = dxLayoutGroup15
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'E-Mail'
+      Control = email
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup16: TdxLayoutGroup
+      Parent = dxLayoutGroup9
+      AlignHorz = ahClient
+      AlignVert = avTop
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ItemIndex = 3
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 8
+    end
+    object dxLayoutItem35: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'CTPS'
+      Control = ctps
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutItem36: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'S'#233'rie'
+      Control = serieCtps
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 89
+      ControlOptions.ShowBorder = False
+      Index = 5
+    end
+    object dxLayoutItem37: TdxLayoutItem
+      Parent = dxLayoutGroup16
+      CaptionOptions.Text = 'UF'
+      Control = ufCtps
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 40
+      ControlOptions.ShowBorder = False
+      Index = 6
+    end
+    object dxLayoutGroup17: TdxLayoutGroup
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 9
+    end
+    object dxLayoutItem38: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'CNH'
+      Control = numeroCNH
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 76
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem39: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Registro'
+      Control = registroCNH
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 100
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem40: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      CaptionOptions.Text = 'Cat.'
+      Control = categoriaCNH
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 40
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem41: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      CaptionOptions.Text = 'UF'
+      Control = ufCNH
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 40
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem42: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Seg.'
+      Control = codigoSeguranca
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 78
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutItem43: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      CaptionOptions.Text = 'Primeira CNH'
+      Control = primeiraCNH
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 82
+      ControlOptions.ShowBorder = False
+      Index = 5
+    end
+    object dxLayoutItem44: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      CaptionOptions.Text = 'Emiss'#227'o'
+      Control = emissaoCNH
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 82
+      ControlOptions.ShowBorder = False
+      Index = 6
+    end
+    object dxLayoutItem45: TdxLayoutItem
+      Parent = dxLayoutGroup17
+      CaptionOptions.Text = 'Validade'
+      Control = validadeCNH
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 82
+      ControlOptions.ShowBorder = False
       Index = 7
+    end
+    object dxLayoutGroup18: TdxLayoutGroup
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 10
+    end
+    object dxLayoutItem46: TdxLayoutItem
+      Parent = dxLayoutGroup18
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'PIS'
+      Control = pis
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem47: TdxLayoutItem
+      Parent = dxLayoutGroup18
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Reservista'
+      Control = reservista
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem48: TdxLayoutItem
+      Parent = dxLayoutGroup18
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'T'#237'tulo'
+      Control = titulo
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem49: TdxLayoutItem
+      Parent = dxLayoutGroup18
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Zona'
+      Control = zona
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem50: TdxLayoutItem
+      Parent = dxLayoutGroup18
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Se'#231#227'o'
+      Control = secao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
+    object dxLayoutSeparatorItem4: TdxLayoutSeparatorItem
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'Recursos Humanos'
+      CaptionOptions.Visible = True
+      Offsets.Bottom = 10
+      Offsets.Top = 10
+      Index = 11
+    end
+    object dxLayoutGroup19: TdxLayoutGroup
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 12
+    end
+    object dxLayoutItem51: TdxLayoutItem
+      Parent = dxLayoutGroup19
+      CaptionOptions.Text = 'Departamento'
+      Control = departamento
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 70
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem52: TdxLayoutItem
+      Parent = dxLayoutGroup19
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Descri'#231#227'o'
+      CaptionOptions.Visible = False
+      Control = descricaoDepartamento
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem53: TdxLayoutItem
+      Parent = dxLayoutGroup19
+      CaptionOptions.Text = 'Fun'#231#227'o'
+      Control = funcao
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 70
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem54: TdxLayoutItem
+      Parent = dxLayoutGroup19
+      AlignHorz = ahClient
+      CaptionOptions.Text = 'Descri'#231#227'o'
+      CaptionOptions.Visible = False
+      Control = descricaoFuncao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutGroup20: TdxLayoutGroup
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 13
+    end
+    object dxLayoutItem55: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      CaptionOptions.Text = 'Admiss'#227'o'
+      Control = admissao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 82
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem56: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      CaptionOptions.Text = 'Remunera'#231#227'o'
+      Control = remuneracao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 90
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem57: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      AlignHorz = ahRight
+      CaptionOptions.Text = 'Situa'#231#227'o'
+      Control = situacao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 131
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutItem58: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      AlignHorz = ahRight
+      CaptionOptions.Text = 'Demiss'#227'o'
+      Control = demssao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 82
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutGroup21: TdxLayoutGroup
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      ShowBorder = False
+      Index = 14
+    end
+    object dxLayoutItem59: TdxLayoutItem
+      Parent = dxLayoutGroup21
+      CaptionOptions.Text = 'Observa'#231#245'es'
+      CaptionOptions.Layout = clTop
+      Control = observacoes
+      ControlOptions.OriginalHeight = 68
+      ControlOptions.OriginalWidth = 185
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutGroup22: TdxLayoutGroup
+      Parent = dxLayoutGroup9
+      AlignVert = avBottom
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 15
+    end
+    object dxLayoutItem11: TdxLayoutItem
+      Parent = dxLayoutGroup22
+      CaptionOptions.Text = 'cxButton9'
+      CaptionOptions.Visible = False
+      Control = cxButton9
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem61: TdxLayoutItem
+      Parent = dxLayoutGroup22
+      CaptionOptions.Text = 'cxButton10'
+      CaptionOptions.Visible = False
+      Control = cxButton10
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 116
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem62: TdxLayoutItem
+      Parent = dxLayoutGroup22
+      CaptionOptions.Text = 'cxButton11'
+      CaptionOptions.Visible = False
+      Control = cxButton11
+      ControlOptions.OriginalHeight = 25
+      ControlOptions.OriginalWidth = 75
+      ControlOptions.ShowBorder = False
+      Index = 2
     end
   end
   object actionList: TActionList
@@ -1141,9 +2210,9 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Hint = 'Documentos anexados'
       ImageIndex = 99
     end
-    object actSearchCategory: TAction
-      Caption = 'Procurar Categoria'
-      Hint = 'Procurar categoria'
+    object actSearchDepartment: TAction
+      Caption = 'Procurar Departamento'
+      Hint = 'Procurar departamento'
       ImageIndex = 86
     end
     object actSearchFunction: TAction
