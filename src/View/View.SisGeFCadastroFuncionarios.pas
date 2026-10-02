@@ -171,7 +171,7 @@ type
     dxLayoutItem56: TdxLayoutItem;
     situacao: TcxComboBox;
     dxLayoutItem57: TdxLayoutItem;
-    demssao: TcxDateEdit;
+    demissao: TcxDateEdit;
     dxLayoutItem58: TdxLayoutItem;
     dxLayoutGroup21: TdxLayoutGroup;
     observacoes: TcxMemo;
@@ -262,7 +262,57 @@ end;
 
 procedure TviewCadastroFunctionarios.ClearFields;
 begin
-
+  id.Text := '0';
+  nome.Clear;
+  cpf.Clear;
+  nascimento.Clear;
+  nacionalidade.Clear;
+  naturalidade.Clear;
+  ufNaturalidade.Clear;
+  nomePai.Clear;
+  nomeMae.Clear;
+  CEP.Clear;
+  logradouro.Clear;
+  numeroLogradouro.Clear;
+  complementoEndereco.Clear;
+  bairroEndereco.Clear;
+  cidadeEndereco.Clear;
+  ufEndereco.Clear;
+  telefone.Clear;
+  celular.Clear;
+  email.Clear;
+  RG.Clear;
+  emissaoRG.Clear;
+  emissorRG.Clear;
+  ufEmissorRG.Clear;
+  ctps.Clear;
+  serieCtps.Clear;
+  ufCtps.Clear;
+  numeroCNH.Clear;
+  registroCNH.Clear;
+  categoriaCNH.Clear;
+  ufCNH.Clear;
+  codigoSeguranca.Clear;
+  primeiraCNH.Clear;
+  emissaoCNH.Clear;
+  validadeCNH.Clear;
+  pis.Clear;
+  reservista.Clear;
+  titulo.Clear;
+  zona.Clear;
+  secao.Clear;
+  departamento.Tag := -1;
+  departamento.EditValue := 0;
+  departamento.Tag := 0;
+  descricaoDepartamento.Clear;
+  funcao.Tag := -1;
+  funcao.EditValue := 0;
+  funcao.Tag := 0;
+  descricaoFuncao.Clear;
+  admissao.Clear;
+  remuneracao.Value := 0;
+  situacao.ItemIndex := 1;
+  demissao.Clear;
 end;
 
 function TviewCadastroFunctionarios.CustomSearchStr(sParam: string): string;
@@ -274,7 +324,6 @@ var
 begin
   utils := TUtils.Create;
   sQuery := '';
-  sQueryPadrao := '';
   sQueryReturn := '';
   Result := '';
   try
