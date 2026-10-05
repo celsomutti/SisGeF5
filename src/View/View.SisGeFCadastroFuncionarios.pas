@@ -9,7 +9,7 @@ uses
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxButtonEdit, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxDBLookupComboBox, cxCalendar, cxImageComboBox, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit, cxCurrencyEdit, cxMemo,
-  service.connectionMySQL, Controller.SisGeFFuncionarios, Common.ENum, Common.Utils, cxBlobEdit;
+  service.connectionMySQL, Controller.SisGeFFuncionarios, Common.ENum, Common.Utils, cxBlobEdit, FireDAC.Comp.Client;
 
 type
   TviewCadastroFunctionarios = class(TForm)
@@ -219,10 +219,12 @@ type
     gridDBTableView1updatedAt: TcxGridDBColumn;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure actionSearchRecordsExecute(Sender: TObject);
   private
     FConn : TConnectionMySQL;
     FFuncionarios: TFuncionariosController;
     FAcao : TAcao;
+    FQuery: TFDQuery;
 
     function CustomSearchStr(sParam: string): string;
     procedure ShowForm;
@@ -253,6 +255,11 @@ uses Data.SisGeF;
 procedure TviewCadastroFunctionarios.actionCloseFormExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TviewCadastroFunctionarios.actionSearchRecordsExecute(Sender: TObject);
+begin
+  Search(CustomSearchStr(parametroPesquisa.Text));
 end;
 
 procedure TviewCadastroFunctionarios.Cancel;
@@ -447,7 +454,8 @@ begin
      FAcao := tacIndefinido;
      if FFuncionarios.CustomSearch(aParam) then
      begin
-      dsFuncionarios.DataSet := FFuncionarios.Funcionario.Query;
+      FQuery := FFuncionarios.Funcionario.Query;
+      dsFuncionarios.DataSet := FQuery;
       FAcao := tacPesquisa;
      end;
   finally
