@@ -6,7 +6,7 @@ interface
 
   type
     TDocumentos = record
-      id                    : integer;
+      id_doc                : integer;
       id_funcionario        : integer;
       num_ctps              : string[30];
       num_serie_ctps        : string[10];
@@ -81,7 +81,7 @@ begin
     FQuery.ExecSQL(SQLUPDATE,
                   [FRecords.id_funcionario, FRecords.num_ctps, FRecords.num_serie_ctps, FRecords.uf_ctps,
                   FRecords.num_pis, FRecords.num_reservista, FRecords.num_titulo_eleitoral, FRecords.num_zona_eleitoral,
-                  FRecords.num_secao_eleitoral, FRecords.createdAt, FRecords.updatedAt, FRecords.id]);
+                  FRecords.num_secao_eleitoral, FRecords.createdAt, FRecords.updatedAt, FRecords.id_doc]);
     if FQuery.RowsAffected = 0 then
       Exit;
     Result := True;
@@ -131,7 +131,7 @@ begin
   Result := False;
   try
     FQuery := FConn.GetQuery;
-    FQuery.ExecSQL(SQLDELETE, [FRecords.id]);
+    FQuery.ExecSQL(SQLDELETE, [FRecords.id_doc]);
     if FQuery.RowsAffected = 0 then
       Exit;
     Result := True;
@@ -147,7 +147,7 @@ begin
     FRecords.createdAt := Now();
     FRecords.updatedAt := Now();
     FQuery.ExecSQL(SQLINSERT,
-                  [FRecords.id, FRecords.id_funcionario, FRecords.num_ctps, FRecords.num_serie_ctps, FRecords.uf_ctps,
+                  [FRecords.id_doc, FRecords.id_funcionario, FRecords.num_ctps, FRecords.num_serie_ctps, FRecords.uf_ctps,
                   FRecords.num_pis, FRecords.num_reservista, FRecords.num_titulo_eleitoral, FRecords.num_zona_eleitoral,
                   FRecords.num_secao_eleitoral, FRecords.createdAt, FRecords.updatedAt]);
     Result := True;
@@ -170,7 +170,7 @@ begin
   Result := False;
   if FQuery.IsEmpty then
     Exit;
-  FRecords.id                   :=  FQuery.FieldByName('id').AsInteger;
+  FRecords.id_doc               :=  FQuery.FieldByName('id').AsInteger;
   FRecords.id_funcionario       :=  FQuery.FieldByName('id_funcionario').AsInteger;
   FRecords.num_ctps             :=  FQuery.FieldByName('num_ctps').AsString;
   FRecords.num_serie_ctps       :=  FQuery.FieldByName('num_serie_ctps').AsString;

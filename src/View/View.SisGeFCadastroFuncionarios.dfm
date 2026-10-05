@@ -63,7 +63,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Action = actionCloseForm
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 60
+      TabOrder = 59
     end
     object parametroPesquisa: TcxButtonEdit
       Left = 330
@@ -469,7 +469,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 28
+      TabOrder = 27
       Visible = False
       Width = 122
     end
@@ -485,7 +485,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 29
+      TabOrder = 28
       Visible = False
       Width = 104
     end
@@ -498,7 +498,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 30
+      TabOrder = 29
       Visible = False
       Width = 138
     end
@@ -630,7 +630,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 31
+      TabOrder = 30
       Visible = False
       Width = 40
     end
@@ -796,25 +796,11 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Top = 10000
       Hint = 'Telefone do funcion'#225'rio'
       Properties.IgnoreMaskBlank = True
-      Properties.EditMask = '!\(99\)0000-0000;1; '
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 25
-      Text = '(  )    -    '
-      Visible = False
-      Width = 102
-    end
-    object celular: TcxMaskEdit
-      Left = 10000
-      Top = 10000
-      Hint = 'Celular do funcion'#225'rio'
-      Properties.IgnoreMaskBlank = True
       Properties.EditMask = '!\(99\)00000-0000;1; '
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 26
+      TabOrder = 25
       Text = '(  )     -    '
       Visible = False
       Width = 102
@@ -828,9 +814,9 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 27
+      TabOrder = 26
       Visible = False
-      Width = 626
+      Width = 772
     end
     object ctps: TcxTextEdit
       Left = 10000
@@ -841,7 +827,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 32
+      TabOrder = 31
       Visible = False
       Width = 143
     end
@@ -854,7 +840,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 33
+      TabOrder = 32
       Visible = False
       Width = 105
     end
@@ -896,7 +882,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 34
+      TabOrder = 33
       Visible = False
       Width = 40
     end
@@ -909,7 +895,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 35
+      TabOrder = 34
       Visible = False
       Width = 88
     end
@@ -922,7 +908,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 36
+      TabOrder = 35
       Visible = False
       Width = 117
     end
@@ -934,7 +920,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 37
+      TabOrder = 36
       Visible = False
       Width = 40
     end
@@ -977,7 +963,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 38
+      TabOrder = 37
       Visible = False
       Width = 40
     end
@@ -990,7 +976,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 39
+      TabOrder = 38
       Visible = False
       Width = 90
     end
@@ -1006,7 +992,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 40
+      TabOrder = 39
       Visible = False
       Width = 82
     end
@@ -1022,7 +1008,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 41
+      TabOrder = 40
       Visible = False
       Width = 82
     end
@@ -1038,7 +1024,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 42
+      TabOrder = 41
       Visible = False
       Width = 82
     end
@@ -1051,7 +1037,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 43
+      TabOrder = 42
       Visible = False
       Width = 150
     end
@@ -1064,7 +1050,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 44
+      TabOrder = 43
       Visible = False
       Width = 158
     end
@@ -1077,7 +1063,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 45
+      TabOrder = 44
       Visible = False
       Width = 152
     end
@@ -1090,7 +1076,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 46
+      TabOrder = 45
       Visible = False
       Width = 152
     end
@@ -1103,7 +1089,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 47
+      TabOrder = 46
       Visible = False
       Width = 153
     end
@@ -1126,7 +1112,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 48
+      TabOrder = 47
       Text = '0'
       Visible = False
       Width = 70
@@ -1141,7 +1127,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 49
+      TabOrder = 48
       Visible = False
       Width = 344
     end
@@ -1164,7 +1150,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 50
+      TabOrder = 49
       Text = '0'
       Visible = False
       Width = 70
@@ -1179,7 +1165,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 51
+      TabOrder = 50
       Visible = False
       Width = 344
     end
@@ -1194,7 +1180,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 52
+      TabOrder = 51
       Visible = False
       Width = 82
     end
@@ -1207,7 +1193,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 53
+      TabOrder = 52
       Visible = False
       Width = 90
     end
@@ -1225,7 +1211,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 54
+      TabOrder = 53
       Visible = False
       Width = 131
     end
@@ -1239,7 +1225,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 55
+      TabOrder = 54
       Visible = False
       Width = 82
     end
@@ -1252,7 +1238,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 56
+      TabOrder = 55
       Visible = False
       Height = 68
       Width = 960
@@ -1265,7 +1251,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Action = actionReturnGrid
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 57
+      TabOrder = 56
       Visible = False
     end
     object cxButton10: TcxButton
@@ -1276,7 +1262,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Action = actionDocuments
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 58
+      TabOrder = 57
       Visible = False
     end
     object cxButton11: TcxButton
@@ -1287,7 +1273,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Action = actionSaveRegister
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 59
+      TabOrder = 58
       Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
@@ -1298,7 +1284,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ShowBorder = False
       Index = -1
     end
-    object dxLayoutGroup1: TdxLayoutGroup
+    object lgpContainer: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       AlignHorz = ahClient
       AlignVert = avClient
@@ -1319,7 +1305,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Index = 1
     end
     object dxLayoutGroup3: TdxLayoutGroup
-      Parent = dxLayoutGroup1
+      Parent = lgpContainer
       CaptionOptions.Text = 'Pesquisa'
       ButtonOptions.Buttons = <>
       ItemIndex = 1
@@ -1495,7 +1481,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Index = 0
     end
     object dxLayoutGroup9: TdxLayoutGroup
-      Parent = dxLayoutGroup1
+      Parent = lgpContainer
       CaptionOptions.Text = 'Cadastro'
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
@@ -1777,15 +1763,6 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ControlOptions.ShowBorder = False
       Index = 0
     end
-    object dxLayoutItem33: TdxLayoutItem
-      Parent = dxLayoutGroup15
-      CaptionOptions.Text = 'Celular'
-      Control = celular
-      ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 102
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
     object dxLayoutItem34: TdxLayoutItem
       Parent = dxLayoutGroup15
       AlignHorz = ahClient
@@ -1794,7 +1771,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 1
     end
     object dxLayoutGroup16: TdxLayoutGroup
       Parent = dxLayoutGroup9

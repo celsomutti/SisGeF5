@@ -9,13 +9,14 @@ uses
   cxContainer, cxEdit, cxTextEdit, cxMaskEdit, cxButtonEdit, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxDBLookupComboBox, cxCalendar, cxImageComboBox, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit, cxCurrencyEdit, cxMemo,
-  service.connectionMySQL, Controller.SisGeFFuncionarios, Common.ENum, Common.Utils, cxBlobEdit, FireDAC.Comp.Client;
+  service.connectionMySQL, Controller.SisGeFFuncionarios, Common.ENum, Common.Utils, cxBlobEdit, FireDAC.Comp.Client, Controller.SisGeFFuncionariosEnderecos,
+  Controller.SisGeFFuncionariosContatos, Controller.SisGeFFuncionariosDocumentosRH, Controller.APICEP;
 
 type
   TviewCadastroFunctionarios = class(TForm)
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
-    dxLayoutGroup1: TdxLayoutGroup;
+    lgpContainer: TdxLayoutGroup;
     dxLayoutGroup2: TdxLayoutGroup;
     dxLayoutGroup3: TdxLayoutGroup;
     dxLayoutGroup4: TdxLayoutGroup;
@@ -115,8 +116,6 @@ type
     dxLayoutGroup15: TdxLayoutGroup;
     telefone: TcxMaskEdit;
     dxLayoutItem32: TdxLayoutItem;
-    celular: TcxMaskEdit;
-    dxLayoutItem33: TdxLayoutItem;
     email: TcxTextEdit;
     dxLayoutItem34: TdxLayoutItem;
     dxLayoutGroup16: TdxLayoutGroup;
@@ -223,8 +222,15 @@ type
   private
     FConn : TConnectionMySQL;
     FFuncionarios: TFuncionariosController;
+    FEnderecos: TFuncionariosEnderecosController;
+    FContatos: TFuncionariosContatosController;
+    FDocumetos: TFuncionariosDocumentosRHController;
     FAcao : TAcao;
     FQuery: TFDQuery;
+
+    FIdEndereco : Integer;
+    FIdContato : Integer;
+    FIdDocs: Integer;
 
     function CustomSearchStr(sParam: string): string;
     procedure ShowForm;
@@ -250,7 +256,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF;
+uses Data.SisGeF, View.SisaGeFAttachDocuments, View.ListaCEPs;
 
 procedure TviewCadastroFunctionarios.actionCloseFormExecute(Sender: TObject);
 begin
@@ -264,7 +270,7 @@ end;
 
 procedure TviewCadastroFunctionarios.Cancel;
 begin
-
+  ClearFields;
 end;
 
 procedure TviewCadastroFunctionarios.ClearFields;
@@ -388,12 +394,19 @@ end;
 
 procedure TviewCadastroFunctionarios.Documents;
 begin
-
+  if not Assigned(view_SisgeFAttachDocuments) then
+    view_SisgeFAttachDocuments := Tview_SisgeFAttachDocuments.Create(Application);
+  view_SisgeFAttachDocuments.Pasta := 'Func' + id.Text;
+  view_SisgeFAttachDocuments.Show;
 end;
 
 procedure TviewCadastroFunctionarios.Edit;
 begin
-
+  ClearFields;
+  SetupFields(FQuery.FieldByName('id_funcionario').AsInteger);
+  lgpContainer.ItemIndex := 1;
+  FAcao := tacAlterar;
+  nome.SetFocus;
 end;
 
 procedure TviewCadastroFunctionarios.ExportGrid;
@@ -425,18 +438,47 @@ end;
 procedure TviewCadastroFunctionarios.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if Assigned(FFuncionarios) then FFuncionarios.Free;
+  if Assigned(FEnderecos) then FEnderecos.Free;
+  if Assigned(FContatos) then FContatos.Free;
+  if Assigned(FDocumetos) then FDocumetos.Free;
   Action := caFree;
   viewCadastroFunctionarios := Nil;
 end;
 
 procedure TviewCadastroFunctionarios.Insert;
 begin
-
+  FAcao := tacIncluir;
+  ClearFields;
+  lgpContainer.ItemIndex := 1;
+  nome.SetFocus;
 end;
 
 procedure TviewCadastroFunctionarios.Save;
+var
+  sMensagem: string;
 begin
-
+  SetupTabela;
+//  if not FFuncionarios.Validate() then
+//  begin
+//    Application.MessageBox(PChar(FFuncionarios.FFuncionarios.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+//    Exit;
+//  end;
+  if FAcao = tacAlterar then
+    sMensagem := 'Confirma alterar os dados do candidato '  + nome.Text + ' ?'
+  else if FAcao = tacIncluir then
+    sMensagem := 'Confirma incluir os dados do candidato '  + nome.Text + ' ?';
+  if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
+    Exit;
+  FFuncionarios.Funcionario.Acao := FAcao;
+  if not FFuncionarios.SaveRecord then
+  begin
+    Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
+  Application.MessageBox('Cadastro salvo.', 'Salvar', MB_OK + MB_ICONINFORMATION);
+  FAcao := tacIndefinido;
+  FQuery.Refresh;
+  lgpContainer.ItemIndex := 0;
 end;
 
 procedure TviewCadastroFunctionarios.Search(sParam: string);
@@ -464,17 +506,196 @@ begin
 end;
 
 procedure TviewCadastroFunctionarios.SearchCEP(sCEP: string);
+var
+  APICEP : TAPICEPController;
+  utils : TUtils;
 begin
-
+  try
+    APICEP := TAPICEPController.Create;
+    utils := TUtils.Create;
+    sCEP := utils.DesmontaCPFCNPJ(sCEP);
+    if not APICEP.GetAdressByCEP(sCEP) then
+    begin
+      MessageDlg(APICEP.APICEP.Mensagem, mtWarning, [mbCancel], 0);
+      Exit;
+    end;
+    if Data_Sisgef.memTableCEP.Active then
+    begin
+      if not Data_Sisgef.memTableCEP.IsEmpty then
+      begin
+        if not Assigned(view_ListaCEPs) then
+        begin
+          view_ListaCEPs := Tview_ListaCEPs.Create(Application);
+        end;
+        if view_ListaCEPs.ShowModal = mrOK then
+        begin
+          logradouro.Text := Data_Sisgef.memTableCEPlogradouro.AsString;
+          numeroLogradouro.Text := Data_Sisgef.memTableCEPcomplemento.AsString;
+          bairroEndereco.Text := Data_Sisgef.memTableCEPbairro.AsString;
+          cidadeEndereco.Text := Data_Sisgef.memTableCEPlocalidade.AsString;
+          ufEndereco.Text := Data_Sisgef.memTableCEPuf.AsString;
+          cep.Text := Data_Sisgef.memTableCEPcep.AsString;
+        end;
+        Data_Sisgef.memTableCEP.Active := False;
+        FreeAndNil(view_ListaCEPs);
+      end;
+    end
+    else
+    begin
+      logradouro.Text := APICEP.APICEP.Enderecos.Logradouro;
+      complementoEndereco.Text := APICEP.APICEP.Enderecos.Complemento;
+      bairroEndereco.Text := APICEP.APICEP.Enderecos.Bairro;
+      cidadeEndereco.Text := APICEP.APICEP.Enderecos.Cidade;
+      ufEndereco.Text := APICEP.APICEP.Enderecos.UF;
+    end;
+  finally
+    APICEP.Free;
+    utils.Free;
+  end;
 end;
 
 function TviewCadastroFunctionarios.SetupFields(iId: integer): boolean;
 begin
+  with FFuncionarios.Funcionario.ARecord do
+  begin
+    id.Text := id_funcionario.ToString;
+    nome.Text := nom_funcionario;
+    num_cpf := cpf.Text;
+    RG.Text :=num_rg;
+    emissaoRG.Date := dat_emissao_rg;
+    emissorRG.Text := nom_emissor_rg;
+    ufEmissorRG.Text := uf_emissor_rg;
+    nascimento.Date := dat_nascimento;
+    nacionalidade.Text := des_nacionalidade;
+    naturalidade.Text := des_naturalidade;
+    ufNaturalidade.Text := uf_naturalidade;
+    nomePai.Text := nom_pai;
+    nomeMae.Text := nom_mae;
+    numeroCNH.Text := num_cnh;
+    registroCNH.Text := num_registro_cnh;
+    categoriaCNH.Text := des_categoria_cnh;
+    validadeCNH.Text := dat_validade_cnh;
+    emissaoCNH.Date := dat_emissao_cnh;
+    ufCNH.Text := uf_cnh;
+    primeiraCNH.Date := dat_primeira_cnh;
+    codigoSeguranca.Text := cod_seguranca_cnh;
+    situacao.ItemIndex := cod_status;
+    observacoes.Text := des_obs;
+    departamento.EditValue := id_departamento;
+    funcao.EditValue := id_funcao;
+    admissao.Date := dat_admissao;
+    remuneracao.Value := val_remuneracao;
+    demissao.Date := dat_demissao;
+  end;
+
+  with FEnderecos.FEnderecos.Records do
+  begin
+    FIdEndereco := id_endereco;
+    CEP.Text := num_cep;
+    logradouro.Text;
+    numeroLogradouro.Text := num_logradouro;
+    complementoEndereco.Text := des_complemento;
+    bairroEndereco.Text := des_bairro;
+    cidadeEndereco.Text := nom_cidade;
+    ufEndereco.Text := uf_estado;
+  end;
+
+  with FDocumetos.FDocumentos.Records do
+  begin
+    FIdDocs := id_doc;
+    ctps.Text := num_ctps;
+    serieCtps.Text := num_serie_ctps;
+    ufCtps.Text := uf_ctps;
+    pis.Text := num_pis;
+    reservista.Text := num_reservista;
+    titulo.Text := num_titulo_eleitoral;
+    zona.Text := num_zona_eleitoral;
+    secao.Text := num_secao_eleitoral;
+  end;
+
+  with FContatos.Contatos.Records do
+  begin
+    FIdContato      :=  seq_contato;
+    telefone.Text := num_telefone;
+    email.Text := des_email;
+  end;
 
 end;
 
 procedure TviewCadastroFunctionarios.SetupTabela;
 begin
+  with FFuncionarios.Funcionario.ARecord do
+  begin
+    id_funcionario          := StrToIntDef(id.Text,0);
+    nom_funcionario         := nome.Text;
+    nom_alias               := '';
+    cod_tipo_pessoa         := 1;
+    num_cpf                 := cpf.Text;
+    num_rg                  := RG.Text;
+    dat_emissao_rg          := emissaoRG.Date;
+    nom_emissor_rg          := emissorRG.Text;
+    uf_emissor_rg           := ufEmissorRG.Text;
+    dat_nascimento          := nascimento.Date;
+    des_nacionalidade       := nacionalidade.Text;
+    des_naturalidade        := naturalidade.Text;
+    uf_naturalidade         := ufNaturalidade.Text;
+    nom_pai                 := nomePai.Text;
+    nom_mae                 := nomeMae.Text;
+    num_cnh                 := numeroCNH.Text;
+    num_registro_cnh        := registroCNH.Text;
+    des_categoria_cnh       := categoriaCNH.Text;
+    dat_validade_cnh        := validadeCNH.Text;
+    dat_emissao_cnh         := emissaoCNH.Date;
+    uf_cnh                  := ufCNH.Text;
+    dat_primeira_cnh        := primeiraCNH.Date;
+    cod_seguranca_cnh       := codigoSeguranca.Text;
+    cod_status              := situacao.ItemIndex;
+    des_obs                 := observacoes.Text;
+    id_departamento         := departamento.EditValue;
+    id_funcao               := funcao.EditValue;
+    dat_admissao            := admissao.Date;
+    val_remuneracao         := remuneracao.Value;
+    dat_demissao            := demissao.Date;
+  end;
+
+  with FEnderecos.FEnderecos.Records do
+  begin
+    id_endereco      :=  FIdEndereco;
+    id_funcionario   :=  StrToIntDef(id.Text,0);
+    des_tipo         :=  'RESIDENCIAL';
+    num_cep          :=  CEP.Text;
+    des_logradouro   :=  logradouro.Text;
+    num_logradouro   :=  numeroLogradouro.Text;
+    des_complemento  :=  complementoEndereco.Text;
+    des_bairro       :=  bairroEndereco.Text;
+    nom_cidade       :=  cidadeEndereco.Text;
+    uf_estado        :=  ufEndereco.Text;
+    des_referencia   :=  '';
+  end;
+
+  with FDocumetos.FDocumentos.Records do
+  begin
+    id_doc               :=  FIdDocs;
+    id_funcionario       :=  StrToIntDef(id.Text,0);
+    num_ctps             :=  ctps.Text;
+    num_serie_ctps       :=  serieCtps.Text;
+    uf_ctps              :=  ufCtps.Text;
+    num_pis              :=  pis.Text;
+    num_reservista       :=  reservista.Text;
+    num_titulo_eleitoral :=  titulo.Text;
+    num_zona_eleitoral   :=  zona.Text;
+    num_secao_eleitoral  :=  secao.Text;
+  end;
+
+
+  with FContatos.Contatos.Records do
+  begin
+    seq_contato     :=  FIdContato;
+    id_funcionario  :=  StrToIntDef(id.Text,0);
+    des_contato     :=  'TELEFONE/CELULAR';
+    num_telefone    :=  telefone.Text;
+    des_email       :=  email.Text;
+  end;
 
 end;
 
@@ -482,6 +703,9 @@ procedure TviewCadastroFunctionarios.ShowForm;
 begin
   FConn := TConnectionMySQL.Create;
   FFuncionarios := TFuncionariosController.Create;
+  FEnderecos := TFuncionariosEnderecosController.Create;
+  FContatos := TFuncionariosContatosController.Create;
+  FDocumetos := TFuncionariosDocumentosRHController.Create;
   FAcao := tacIndefinido;
 end;
 

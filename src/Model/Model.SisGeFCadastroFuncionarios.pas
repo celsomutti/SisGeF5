@@ -219,7 +219,6 @@ begin
     num_cpf                 := FQuery.FieldByName('num_cpf').AsString;
     num_rg                  := FQuery.FieldByName('num_rg').AsString;
     dat_emissao_rg          := FQuery.FieldByName('dat_emissao_rg').AsDateTime;
-    dat_emissao_rg          := FQuery.FieldByName('dat_emissao_rg').AsDateTime;
     nom_emissor_rg          := FQuery.FieldByName('nom_emissor_rg').AsString;
     uf_emissor_rg           := FQuery.FieldByName('uf_emissor_rg').AsString;
     dat_nascimento          := FQuery.FieldByName('dat_nascimento').AsDateTime;
