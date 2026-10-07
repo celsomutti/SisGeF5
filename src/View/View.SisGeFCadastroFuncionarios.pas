@@ -458,15 +458,25 @@ var
   sMensagem: string;
 begin
   SetupTabela;
-//  if not FFuncionarios.Validate() then
-//  begin
-//    Application.MessageBox(PChar(FFuncionarios.FFuncionarios.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-//    Exit;
-//  end;
+  if not FFuncionarios.Validate() then
+  begin
+    Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
+  if not FEnderecos.Validate() then
+  begin
+    Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
+  if not FDocumetos.Validate() then
+  begin
+    Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
   if FAcao = tacAlterar then
-    sMensagem := 'Confirma alterar os dados do candidato '  + nome.Text + ' ?'
+    sMensagem := 'Confirma alterar os dados do funcionário '  + nome.Text + ' ?'
   else if FAcao = tacIncluir then
-    sMensagem := 'Confirma incluir os dados do candidato '  + nome.Text + ' ?';
+    sMensagem := 'Confirma incluir os dados do funconário '  + nome.Text + ' ?';
   if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
     Exit;
   FFuncionarios.Funcionario.Acao := FAcao;

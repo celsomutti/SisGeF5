@@ -14,6 +14,7 @@ interface
       function    CustomSearch(aParams: array of string): boolean;
       function    SaveRecord  ()                        : boolean;
       function    SetupRecord ()                        : boolean;
+      function    Validate    ()                        : boolean;
 
     end;
 
@@ -39,6 +40,41 @@ end;
 function TFuncionariosDocumentosRHController.SetupRecord: boolean;
 begin
   Result := FDocumentos.SetupRecords;
+end;
+
+function TFuncionariosDocumentosRHController.Validate: boolean;
+begin
+  Result := False;
+  with FDocumentos.Records do
+  begin
+    if num_ctps <> EmptyStr then
+    begin
+      if num_serie_ctps = EmptyStr then
+      begin
+        FDocumentos.Mensagem = 'Informe a série da CTPS do funcionário.';
+        Exit;
+      end;
+      if uf_ctps = EmptyStr then
+      begin
+        FDocumentos.Mensagem = 'Informe a sigla do estado da CTPS do funcionário.';
+        Exit;
+      end;
+    end;
+    if num_titulo_eleitoral <> EmptyStr then
+    begin
+      if num_zona_eleitoral = EmptyStr then
+      begin
+        FDocumentos.Mensagem = 'Informe a zona eleitoral do título de eleitor do funcionário.';
+        Exit;
+      end;
+      if num_secao_eleitoral = EmptyStr then
+      begin
+        FDocumentos.Mensagem = 'Informe a seção da zona eleitoral do título de eleitor do funcionário.';
+        Exit;
+      end;
+    end;
+  end;
+  Result := True;
 end;
 
 end.

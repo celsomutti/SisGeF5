@@ -13,6 +13,7 @@ interface
       function    CustomSearch(aParams: array of string): boolean;
       function    SaveRecord  ()                        : boolean;
       function    SetupRecord ()                        : boolean;
+      function    Validate    ()                        : boolean;
     end;
 
 implementation
@@ -37,6 +38,12 @@ end;
 function TFuncionariosGRController.SetupRecord: boolean;
 begin
   Result := SetupRecord;
+end;
+
+function TFuncionariosGRController.Validate: boolean;
+begin
+  Result := False;
+  Result := True;
 end;
 
 end.

@@ -2,7 +2,7 @@
   Left = 0
   Top = 0
   BorderStyle = bsNone
-  Caption = 'Main'
+  Caption = '20'
   ClientHeight = 713
   ClientWidth = 1211
   Color = clWindow
