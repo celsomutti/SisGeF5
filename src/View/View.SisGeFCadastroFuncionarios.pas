@@ -817,12 +817,9 @@ begin
      begin
       if FContatos.SetupRecord then
       begin
-        with FContatos.Contatos.Records do
-        begin
-          FIdContato      :=  seq_contato;
-          telefone.Text := num_telefone;
-          email.Text := des_email;
-        end;
+        FIdContato      :=  FContatos.Contatos.Records.seq_contato;
+        telefone.Text := FContatos.Contatos.Records.num_telefone;
+        email.Text := FContatos.Contatos.Records.des_email;
       end;
       FContatos.Contatos.Query.Active := False;
       FContatos.Contatos.Query.Connection.Connected := False;
@@ -1022,88 +1019,72 @@ end;
 
 procedure TviewCadastroFunctionarios.SetupTabela;
 begin
-  with FFuncionarios.Funcionario.ARecord do
-  begin
-    id_funcionario          := StrToIntDef(id.Text,0);
-    nom_funcionario         := nome.Text;
-    nom_alias               := '';
-    cod_tipo_pessoa         := 1;
-    num_cpf                 := cpf.Text;
-    num_rg                  := RG.Text;
-    dat_emissao_rg          := emissaoRG.Date;
-    nom_emissor_rg          := emissorRG.Text;
-    uf_emissor_rg           := ufEmissorRG.Text;
-    dat_nascimento          := nascimento.Date;
-    des_nacionalidade       := nacionalidade.Text;
-    des_naturalidade        := naturalidade.Text;
-    uf_naturalidade         := ufNaturalidade.Text;
-    nom_pai                 := nomePai.Text;
-    nom_mae                 := nomeMae.Text;
-    num_cnh                 := numeroCNH.Text;
-    num_registro_cnh        := registroCNH.Text;
-    des_categoria_cnh       := categoriaCNH.Text;
-    dat_validade_cnh        := validadeCNH.Date;
-    dat_emissao_cnh         := emissaoCNH.Date;
-    uf_cnh                  := ufCNH.Text;
-    dat_primeira_cnh        := primeiraCNH.Date;
-    cod_seguranca_cnh       := codigoSeguranca.Text;
-    cod_status              := situacao.ItemIndex;
-    des_obs                 := observacoes.Text;
-    id_departamento         := departamento.EditValue;
-    id_funcao               := funcao.EditValue;
-    dat_admissao            := admissao.Date;
-    val_remuneracao         := remuneracao.Value;
-    dat_demissao            := demissao.Date;
-  end;
+  FFuncionarios.Funcionario.ARecord.id_funcionario          := StrToIntDef(id.Text,0);
+  FFuncionarios.Funcionario.ARecord.nom_funcionario         := nome.Text;
+  FFuncionarios.Funcionario.ARecord.nom_alias               := '';
+  FFuncionarios.Funcionario.ARecord.cod_tipo_pessoa         := 1;
+  FFuncionarios.Funcionario.ARecord.num_cpf                 := cpf.Text;
+  FFuncionarios.Funcionario.ARecord.num_rg                  := RG.Text;
+  FFuncionarios.Funcionario.ARecord.dat_emissao_rg          := emissaoRG.Date;
+  FFuncionarios.Funcionario.ARecord.nom_emissor_rg          := emissorRG.Text;
+  FFuncionarios.Funcionario.ARecord.uf_emissor_rg           := ufEmissorRG.Text;
+  FFuncionarios.Funcionario.ARecord.dat_nascimento          := nascimento.Date;
+  FFuncionarios.Funcionario.ARecord.des_nacionalidade       := nacionalidade.Text;
+  FFuncionarios.Funcionario.ARecord.des_naturalidade        := naturalidade.Text;
+  FFuncionarios.Funcionario.ARecord.uf_naturalidade         := ufNaturalidade.Text;
+  FFuncionarios.Funcionario.ARecord.nom_pai                 := nomePai.Text;
+  FFuncionarios.Funcionario.ARecord.nom_mae                 := nomeMae.Text;
+  FFuncionarios.Funcionario.ARecord.num_cnh                 := numeroCNH.Text;
+  FFuncionarios.Funcionario.ARecord.num_registro_cnh        := registroCNH.Text;
+  FFuncionarios.Funcionario.ARecord.des_categoria_cnh       := categoriaCNH.Text;
+  FFuncionarios.Funcionario.ARecord.dat_validade_cnh        := validadeCNH.Date;
+  FFuncionarios.Funcionario.ARecord.dat_emissao_cnh         := emissaoCNH.Date;
+  FFuncionarios.Funcionario.ARecord.uf_cnh                  := ufCNH.Text;
+  FFuncionarios.Funcionario.ARecord.dat_primeira_cnh        := primeiraCNH.Date;
+  FFuncionarios.Funcionario.ARecord.cod_seguranca_cnh       := codigoSeguranca.Text;
+  FFuncionarios.Funcionario.ARecord.cod_status              := situacao.ItemIndex;
+  FFuncionarios.Funcionario.ARecord.des_obs                 := observacoes.Text;
+  FFuncionarios.Funcionario.ARecord.id_departamento         := departamento.EditValue;
+  FFuncionarios.Funcionario.ARecord.id_funcao               := funcao.EditValue;
+  FFuncionarios.Funcionario.ARecord.dat_admissao            := admissao.Date;
+  FFuncionarios.Funcionario.ARecord.val_remuneracao         := remuneracao.Value;
+  FFuncionarios.Funcionario.ARecord.dat_demissao            := demissao.Date;
 
-  with FEnderecos.FEnderecos.Records do
-  begin
-    id_endereco      :=  FIdEndereco;
-    id_funcionario   :=  StrToIntDef(id.Text,0);
-    des_tipo         :=  'RESIDENCIAL';
-    num_cep          :=  CEP.Text;
-    des_logradouro   :=  logradouro.Text;
-    num_logradouro   :=  numeroLogradouro.Text;
-    des_complemento  :=  complementoEndereco.Text;
-    des_bairro       :=  bairroEndereco.Text;
-    nom_cidade       :=  cidadeEndereco.Text;
-    uf_estado        :=  ufEndereco.Text;
-    des_referencia   :=  '';
-  end;
+  FEnderecos.FEnderecos.Records.id_endereco      :=  FIdEndereco;
+  FEnderecos.FEnderecos.Records.id_funcionario   :=  StrToIntDef(id.Text,0);
+  FEnderecos.FEnderecos.Records.des_tipo         :=  'RESIDENCIAL';
+  FEnderecos.FEnderecos.Records.num_cep          :=  CEP.Text;
+  FEnderecos.FEnderecos.Records.des_logradouro   :=  logradouro.Text;
+  FEnderecos.FEnderecos.Records.num_logradouro   :=  numeroLogradouro.Text;
+  FEnderecos.FEnderecos.Records.des_complemento  :=  complementoEndereco.Text;
+  FEnderecos.FEnderecos.Records.des_bairro       :=  bairroEndereco.Text;
+  FEnderecos.FEnderecos.Records.nom_cidade       :=  cidadeEndereco.Text;
+  FEnderecos.FEnderecos.Records.uf_estado        :=  ufEndereco.Text;
+  FEnderecos.FEnderecos.Records.des_referencia   :=  '';
 
-  with FDocumetos.FDocumentos.Records do
-  begin
-    id_doc               :=  FIdDocs;
-    id_funcionario       :=  StrToIntDef(id.Text,0);
-    num_ctps             :=  ctps.Text;
-    num_serie_ctps       :=  serieCtps.Text;
-    uf_ctps              :=  ufCtps.Text;
-    num_pis              :=  pis.Text;
-    num_reservista       :=  reservista.Text;
-    num_titulo_eleitoral :=  titulo.Text;
-    num_zona_eleitoral   :=  zona.Text;
-    num_secao_eleitoral  :=  secao.Text;
-  end;
+  FDocumetos.FDocumentos.Records.id_doc               :=  FIdDocs;
+  FDocumetos.FDocumentos.Records.id_funcionario       :=  StrToIntDef(id.Text,0);
+  FDocumetos.FDocumentos.Records.num_ctps             :=  ctps.Text;
+  FDocumetos.FDocumentos.Records.num_serie_ctps       :=  serieCtps.Text;
+  FDocumetos.FDocumentos.Records.uf_ctps              :=  ufCtps.Text;
+  FDocumetos.FDocumentos.Records.num_pis              :=  pis.Text;
+  FDocumetos.FDocumentos.Records.num_reservista       :=  reservista.Text;
+  FDocumetos.FDocumentos.Records.num_titulo_eleitoral :=  titulo.Text;
+  FDocumetos.FDocumentos.Records.num_zona_eleitoral   :=  zona.Text;
+  FDocumetos.FDocumentos.Records.num_secao_eleitoral  :=  secao.Text;
 
+  FContatos.Contatos.Records.seq_contato     :=  FIdContato;
+  FContatos.Contatos.Records.id_funcionario  :=  StrToIntDef(id.Text,0);
+  FContatos.Contatos.Records.des_contato     :=  'TELEFONE/CELULAR';
+  FContatos.Contatos.Records.num_telefone    :=  telefone.Text;
+  FContatos.Contatos.Records.des_email       :=  email.Text;
 
-  with FContatos.Contatos.Records do
-  begin
-    seq_contato     :=  FIdContato;
-    id_funcionario  :=  StrToIntDef(id.Text,0);
-    des_contato     :=  'TELEFONE/CELULAR';
-    num_telefone    :=  telefone.Text;
-    des_email       :=  email.Text;
-  end;
-
-  with FFinanceiro.FFinanceiro.Records do
-  begin
-    id_financeiro       :=  FIdFinanceiro;
-    id_funcionario      :=  StrToIntDef(id.Text,0);
-    cod_banco           :=  banco.Text;
-    cod_agencia         :=  agencia.Text;
-    num_conta           :=  conta.Text;
-    cod_pix             :=  pix.Text;
-  end;
+  FFinanceiro.FFinanceiro.Records.id_financeiro       :=  FIdFinanceiro;
+  FFinanceiro.FFinanceiro.Records.id_funcionario      :=  StrToIntDef(id.Text,0);
+  FFinanceiro.FFinanceiro.Records.cod_banco           :=  banco.Text;
+  FFinanceiro.FFinanceiro.Records.cod_agencia         :=  agencia.Text;
+  FFinanceiro.FFinanceiro.Records.num_conta           :=  conta.Text;
+  FFinanceiro.FFinanceiro.Records.cod_pix             :=  pix.Text;
 end;
 
 procedure TviewCadastroFunctionarios.ShowForm;
