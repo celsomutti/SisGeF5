@@ -51,12 +51,12 @@ begin
     begin
       if num_serie_ctps = EmptyStr then
       begin
-        FDocumentos.Mensagem = 'Informe a série da CTPS do funcionário.';
+        FDocumentos.Mensagem := 'Informe a série da CTPS do funcionário.';
         Exit;
       end;
       if uf_ctps = EmptyStr then
       begin
-        FDocumentos.Mensagem = 'Informe a sigla do estado da CTPS do funcionário.';
+        FDocumentos.Mensagem := 'Informe a sigla do estado da CTPS do funcionário.';
         Exit;
       end;
     end;
@@ -64,12 +64,12 @@ begin
     begin
       if num_zona_eleitoral = EmptyStr then
       begin
-        FDocumentos.Mensagem = 'Informe a zona eleitoral do título de eleitor do funcionário.';
+        FDocumentos.Mensagem := 'Informe a zona eleitoral do título de eleitor do funcionário.';
         Exit;
       end;
       if num_secao_eleitoral = EmptyStr then
       begin
-        FDocumentos.Mensagem = 'Informe a seção da zona eleitoral do título de eleitor do funcionário.';
+        FDocumentos.Mensagem := 'Informe a seção da zona eleitoral do título de eleitor do funcionário.';
         Exit;
       end;
     end;

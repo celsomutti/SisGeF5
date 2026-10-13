@@ -10,7 +10,8 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxDBLookupComboBox, cxCalendar, cxImageComboBox, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit, cxCurrencyEdit, cxMemo,
   service.connectionMySQL, Controller.SisGeFFuncionarios, Common.ENum, Common.Utils, cxBlobEdit, FireDAC.Comp.Client, Controller.SisGeFFuncionariosEnderecos,
-  Controller.SisGeFFuncionariosContatos, Controller.SisGeFFuncionariosDocumentosRH, Controller.APICEP;
+  Controller.SisGeFFuncionariosContatos, Controller.SisGeFFuncionariosDocumentosRH, Controller.APICEP, service.SisGeFGeneralSearch,
+  Controller.SisGeFFuncionariosFinanceiro;
 
 type
   TviewCadastroFunctionarios = class(TForm)
@@ -216,21 +217,51 @@ type
     gridDBTableView1dat_demissao: TcxGridDBColumn;
     gridDBTableView1createdAt: TcxGridDBColumn;
     gridDBTableView1updatedAt: TcxGridDBColumn;
+    banco: TcxButtonEdit;
+    dxLayoutItem33: TdxLayoutItem;
+    actSearchBank: TAction;
+    descricaoBanco: TcxTextEdit;
+    dxLayoutItem60: TdxLayoutItem;
+    conta: TcxTextEdit;
+    dxLayoutItem63: TdxLayoutItem;
+    agencia: TcxTextEdit;
+    dxLayoutItem64: TdxLayoutItem;
+    dxLayoutGroup1: TdxLayoutGroup;
+    pix: TcxTextEdit;
+    dxLayoutItem65: TdxLayoutItem;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionSearchRecordsExecute(Sender: TObject);
+    procedure actionEditRegisterExecute(Sender: TObject);
+    procedure actionNewRegisterExecute(Sender: TObject);
+    procedure actionRetractGridExecute(Sender: TObject);
+    procedure actionGroupPanelExecute(Sender: TObject);
+    procedure actionExportGridExecute(Sender: TObject);
+    procedure actionReturnGridExecute(Sender: TObject);
+    procedure actionClearSearchExecute(Sender: TObject);
+    procedure actionSaveRegisterExecute(Sender: TObject);
+    procedure actionSearchCEPExecute(Sender: TObject);
+    procedure actionDocumentsExecute(Sender: TObject);
+    procedure actSearchDepartmentExecute(Sender: TObject);
+    procedure actSearchFunctionExecute(Sender: TObject);
+    procedure actSearchBankExecute(Sender: TObject);
+    procedure departamentoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure funcaoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure bancoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     FConn : TConnectionMySQL;
     FFuncionarios: TFuncionariosController;
     FEnderecos: TFuncionariosEnderecosController;
     FContatos: TFuncionariosContatosController;
     FDocumetos: TFuncionariosDocumentosRHController;
+    FFinanceiro: TFuncionariosFinanceiroController;
     FAcao : TAcao;
     FQuery: TFDQuery;
 
     FIdEndereco : Integer;
     FIdContato : Integer;
     FIdDocs: Integer;
+    FIdFinanceiro: integer;
 
     function CustomSearchStr(sParam: string): string;
     procedure ShowForm;
@@ -238,13 +269,27 @@ type
     procedure ClearFields;
     procedure SetupTabela;
     function  SetupFields(iId: integer): boolean;
-    procedure Search(sParam: string);
+    procedure Search(sParam, sSource: string);
+    procedure SearchFuncionarios(sParam, sSource: string);
+    procedure SearchEnderecos(sParam, sSource: string);
+    procedure SearchContatos(sParam, sSource: string);
+    procedure SearchDocumentos(sParam, sSource: string);
+    procedure SearchFinanceiro(sParam, sSource: string);
     procedure Insert;
     procedure Edit;
     procedure Cancel;
     procedure Documents;
     procedure SearchCEP(sCEP: string);
+    procedure SearchDepartamentos;
+    procedure NomeDepartamento(id: integer);
+    procedure SearchFuncoes;
+    procedure NomeFuncao(id: integer);
+    procedure SearchBanco;
+    procedure NomeBanco(sCod: string);
     procedure Save;
+    procedure ExpandGrid;
+    procedure CollapseGrid;
+    procedure PanelGroup;
   public
     { Public declarations }
   end;
@@ -256,21 +301,96 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.SisaGeFAttachDocuments, View.ListaCEPs;
+uses Data.SisGeF, View.SisaGeFAttachDocuments, View.ListaCEPs, View.SisGeFGeneralsSearch;
+
+procedure TviewCadastroFunctionarios.actionClearSearchExecute(Sender: TObject);
+begin
+  parametroPesquisa.Clear;
+  parametroPesquisa.SetFocus;
+end;
 
 procedure TviewCadastroFunctionarios.actionCloseFormExecute(Sender: TObject);
 begin
   Close;
 end;
 
+procedure TviewCadastroFunctionarios.actionDocumentsExecute(Sender: TObject);
+begin
+  Documents;
+end;
+
+procedure TviewCadastroFunctionarios.actionEditRegisterExecute(Sender: TObject);
+begin
+  Edit;
+end;
+
+procedure TviewCadastroFunctionarios.actionExportGridExecute(Sender: TObject);
+begin
+  ExportGrid;
+end;
+
+procedure TviewCadastroFunctionarios.actionGroupPanelExecute(Sender: TObject);
+begin
+  PanelGroup;
+end;
+
+procedure TviewCadastroFunctionarios.actionNewRegisterExecute(Sender: TObject);
+begin
+  Insert;
+end;
+
+procedure TviewCadastroFunctionarios.actionRetractGridExecute(Sender: TObject);
+begin
+  CollapseGrid;
+end;
+
+procedure TviewCadastroFunctionarios.actionReturnGridExecute(Sender: TObject);
+begin
+  Cancel;
+end;
+
+procedure TviewCadastroFunctionarios.actionSaveRegisterExecute(Sender: TObject);
+begin
+  Save;
+end;
+
+procedure TviewCadastroFunctionarios.actionSearchCEPExecute(Sender: TObject);
+begin
+  SearchCEP(CEP.Text);
+end;
+
 procedure TviewCadastroFunctionarios.actionSearchRecordsExecute(Sender: TObject);
 begin
-  Search(CustomSearchStr(parametroPesquisa.Text));
+  Search(CustomSearchStr(parametroPesquisa.Text), 'VIEW');
+end;
+
+procedure TviewCadastroFunctionarios.actSearchBankExecute(Sender: TObject);
+begin
+  SearchBanco;
+end;
+
+procedure TviewCadastroFunctionarios.actSearchDepartmentExecute(Sender: TObject);
+begin
+  SearchDepartamentos;
+end;
+
+procedure TviewCadastroFunctionarios.actSearchFunctionExecute(Sender: TObject);
+begin
+  SearchFuncoes;
+end;
+
+procedure TviewCadastroFunctionarios.bancoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  NomeBanco(DisplayValue);
 end;
 
 procedure TviewCadastroFunctionarios.Cancel;
 begin
   ClearFields;
+  FAcao := tacIndefinido;
+  lgpContainer.ItemIndex := 0;
 end;
 
 procedure TviewCadastroFunctionarios.ClearFields;
@@ -292,7 +412,6 @@ begin
   cidadeEndereco.Clear;
   ufEndereco.Clear;
   telefone.Clear;
-  celular.Clear;
   email.Clear;
   RG.Clear;
   emissaoRG.Clear;
@@ -326,6 +445,11 @@ begin
   remuneracao.Value := 0;
   situacao.ItemIndex := 1;
   demissao.Clear;
+end;
+
+procedure TviewCadastroFunctionarios.CollapseGrid;
+begin
+  gridDBTableView1.ViewData.Collapse(True);
 end;
 
 function TviewCadastroFunctionarios.CustomSearchStr(sParam: string): string;
@@ -392,6 +516,13 @@ begin
   end;
 end;
 
+procedure TviewCadastroFunctionarios.departamentoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  NomeDepartamento(DisplayValue);
+end;
+
 procedure TviewCadastroFunctionarios.Documents;
 begin
   if not Assigned(view_SisgeFAttachDocuments) then
@@ -407,6 +538,11 @@ begin
   lgpContainer.ItemIndex := 1;
   FAcao := tacAlterar;
   nome.SetFocus;
+end;
+
+procedure TviewCadastroFunctionarios.ExpandGrid;
+begin
+  gridDBTableView1.ViewData.Expand(True);
 end;
 
 procedure TviewCadastroFunctionarios.ExportGrid;
@@ -445,6 +581,13 @@ begin
   viewCadastroFunctionarios := Nil;
 end;
 
+procedure TviewCadastroFunctionarios.funcaoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+  NomeFuncao(DisplayValue);
+end;
+
 procedure TviewCadastroFunctionarios.Insert;
 begin
   FAcao := tacIncluir;
@@ -453,45 +596,125 @@ begin
   nome.SetFocus;
 end;
 
+procedure TviewCadastroFunctionarios.NomeBanco(sCod: string);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['nom_banco', 'tbbancos', 'cod_banco = ' + sCod];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    descricaoBanco.Text := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+procedure TviewCadastroFunctionarios.NomeDepartamento(id: integer);
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_agente as "Código", des_razao_social as "Nome"';
+  viewGeneralSearch.Tabela := 'tbagentes';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    departamento.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    descricaoDepartamento.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+procedure TviewCadastroFunctionarios.NomeFuncao(id: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['des_funcao', 'crm_funcoes_rh  ', 'id_funcao = ' + id.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    descricaoFuncao.Text := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
+end;
+
+procedure TviewCadastroFunctionarios.PanelGroup;
+begin
+  gridDBTableView1.OptionsView.GroupByBox := (not gridDBTableView1.OptionsView.GroupByBox);
+end;
+
 procedure TviewCadastroFunctionarios.Save;
 var
   sMensagem: string;
 begin
   SetupTabela;
-  if not FFuncionarios.Validate() then
-  begin
-    Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
+  try
+    if not FFuncionarios.Validate() then
+    begin
+      Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    if not FEnderecos.Validate() then
+    begin
+      Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    if not FDocumetos.Validate() then
+    begin
+      Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    if FAcao = tacAlterar then
+      sMensagem := 'Confirma alterar os dados do funcionário '  + nome.Text + ' ?'
+    else if FAcao = tacIncluir then
+      sMensagem := 'Confirma incluir os dados do funconário '  + nome.Text + ' ?';
+    if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
+      Exit;
+    FFuncionarios.Funcionario.Acao := FAcao;
+    if not FFuncionarios.SaveRecord then
+    begin
+      Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    if not FEnderecos.SaveRecord then
+    begin
+      Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    if not FContatos.SaveRecord then
+    begin
+      Application.MessageBox(PChar(FContatos.Contatos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    if not FDocumetos.SaveRecord then
+    begin
+      Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    Application.MessageBox('Cadastro salvo.', 'Salvar', MB_OK + MB_ICONINFORMATION);
+  finally
+    FAcao := tacIndefinido;
+    FQuery.Refresh;
+    lgpContainer.ItemIndex := 0;
   end;
-  if not FEnderecos.Validate() then
-  begin
-    Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
-  end;
-  if not FDocumetos.Validate() then
-  begin
-    Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
-  end;
-  if FAcao = tacAlterar then
-    sMensagem := 'Confirma alterar os dados do funcionário '  + nome.Text + ' ?'
-  else if FAcao = tacIncluir then
-    sMensagem := 'Confirma incluir os dados do funconário '  + nome.Text + ' ?';
-  if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
-    Exit;
-  FFuncionarios.Funcionario.Acao := FAcao;
-  if not FFuncionarios.SaveRecord then
-  begin
-    Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-    Exit;
-  end;
-  Application.MessageBox('Cadastro salvo.', 'Salvar', MB_OK + MB_ICONINFORMATION);
-  FAcao := tacIndefinido;
-  FQuery.Refresh;
-  lgpContainer.ItemIndex := 0;
 end;
 
-procedure TviewCadastroFunctionarios.Search(sParam: string);
+procedure TviewCadastroFunctionarios.Search(sParam, sSource: string);
 var
   aParam : Array of String;
 begin
@@ -501,7 +724,7 @@ begin
 
   try
      aParam[0] := '*';
-     aParam[1] := 'VIEW';
+     aParam[1] := sSource;
      aParam[2] := sParam;
      FAcao := tacIndefinido;
      if FFuncionarios.CustomSearch(aParam) then
@@ -513,6 +736,21 @@ begin
   finally
     Finalize(aParam);
   end;
+end;
+
+procedure TviewCadastroFunctionarios.SearchBanco;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_banco as "Código", nom_banco as "Nome"';
+  viewGeneralSearch.Tabela := 'tbbancos';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    banco.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    descricaoBanco.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
 end;
 
 procedure TviewCadastroFunctionarios.SearchCEP(sCEP: string);
@@ -564,72 +802,222 @@ begin
   end;
 end;
 
-function TviewCadastroFunctionarios.SetupFields(iId: integer): boolean;
+procedure TviewCadastroFunctionarios.SearchContatos(sParam, sSource: string);
+var
+  aParam : Array of String;
 begin
-  with FFuncionarios.Funcionario.ARecord do
-  begin
-    id.Text := id_funcionario.ToString;
-    nome.Text := nom_funcionario;
-    num_cpf := cpf.Text;
-    RG.Text :=num_rg;
-    emissaoRG.Date := dat_emissao_rg;
-    emissorRG.Text := nom_emissor_rg;
-    ufEmissorRG.Text := uf_emissor_rg;
-    nascimento.Date := dat_nascimento;
-    nacionalidade.Text := des_nacionalidade;
-    naturalidade.Text := des_naturalidade;
-    ufNaturalidade.Text := uf_naturalidade;
-    nomePai.Text := nom_pai;
-    nomeMae.Text := nom_mae;
-    numeroCNH.Text := num_cnh;
-    registroCNH.Text := num_registro_cnh;
-    categoriaCNH.Text := des_categoria_cnh;
-    validadeCNH.Text := dat_validade_cnh;
-    emissaoCNH.Date := dat_emissao_cnh;
-    ufCNH.Text := uf_cnh;
-    primeiraCNH.Date := dat_primeira_cnh;
-    codigoSeguranca.Text := cod_seguranca_cnh;
-    situacao.ItemIndex := cod_status;
-    observacoes.Text := des_obs;
-    departamento.EditValue := id_departamento;
-    funcao.EditValue := id_funcao;
-    admissao.Date := dat_admissao;
-    remuneracao.Value := val_remuneracao;
-    demissao.Date := dat_demissao;
+  if not Assigned(FContatos) then
+    FContatos := TFuncionariosContatosController.Create;
+  SetLength(aParam, 3);
+  try
+     aParam[0] := '*';
+     aParam[1] := sSource;
+     aParam[2] := sParam;
+     if FContatos.CustomSearch(aParam) then
+     begin
+      if FContatos.SetupRecord then
+      begin
+        with FContatos.Contatos.Records do
+        begin
+          FIdContato      :=  seq_contato;
+          telefone.Text := num_telefone;
+          email.Text := des_email;
+        end;
+      end;
+      FContatos.Contatos.Query.Active := False;
+      FContatos.Contatos.Query.Connection.Connected := False;
+     end;
+  finally
+    Finalize(aParam);
   end;
+end;
 
-  with FEnderecos.FEnderecos.Records do
-  begin
-    FIdEndereco := id_endereco;
-    CEP.Text := num_cep;
-    logradouro.Text;
-    numeroLogradouro.Text := num_logradouro;
-    complementoEndereco.Text := des_complemento;
-    bairroEndereco.Text := des_bairro;
-    cidadeEndereco.Text := nom_cidade;
-    ufEndereco.Text := uf_estado;
+procedure TviewCadastroFunctionarios.SearchDepartamentos;
+begin
+
+end;
+
+procedure TviewCadastroFunctionarios.SearchDocumentos(sParam, sSource: string);
+var
+  aParam : Array of String;
+begin
+  if not Assigned(FDocumetos) then
+    FDocumetos := TFuncionariosDocumentosRHController.Create;
+  SetLength(aParam, 3);
+  try
+     aParam[0] := '*';
+     aParam[1] := sSource;
+     aParam[2] := sParam;
+     if FDocumetos.CustomSearch(aParam) then
+     begin
+      if FDocumetos.SetupRecord then
+      begin
+        with FDocumetos.FDocumentos.Records do
+        begin
+          FIdDocs := id_doc;
+          ctps.Text := num_ctps;
+          serieCtps.Text := num_serie_ctps;
+          ufCtps.Text := uf_ctps;
+          pis.Text := num_pis;
+          reservista.Text := num_reservista;
+          titulo.Text := num_titulo_eleitoral;
+          zona.Text := num_zona_eleitoral;
+          secao.Text := num_secao_eleitoral;
+        end;
+      end;
+      FContatos.Contatos.Query.Active := False;
+      FContatos.Contatos.Query.Connection.Connected := False;
+     end;
+  finally
+    Finalize(aParam);
   end;
+end;
 
-  with FDocumetos.FDocumentos.Records do
-  begin
-    FIdDocs := id_doc;
-    ctps.Text := num_ctps;
-    serieCtps.Text := num_serie_ctps;
-    ufCtps.Text := uf_ctps;
-    pis.Text := num_pis;
-    reservista.Text := num_reservista;
-    titulo.Text := num_titulo_eleitoral;
-    zona.Text := num_zona_eleitoral;
-    secao.Text := num_secao_eleitoral;
+procedure TviewCadastroFunctionarios.SearchEnderecos(sParam, sSource: string);
+var
+  aParam : Array of String;
+begin
+  if not Assigned(FEnderecos) then
+    FEnderecos := TFuncionariosEnderecosController.Create;
+  SetLength(aParam, 3);
+  try
+     aParam[0] := '*';
+     aParam[1] := sSource;
+     aParam[2] := sParam;
+     if FEnderecos.CustomSearch(aParam) then
+     begin
+      if FEnderecos.SetupRecord then
+      begin
+        with FEnderecos.FEnderecos.Records do
+        begin
+          FIdEndereco := id_endereco;
+          CEP.Text := num_cep;
+          logradouro.Text;
+          numeroLogradouro.Text := num_logradouro;
+          complementoEndereco.Text := des_complemento;
+          bairroEndereco.Text := des_bairro;
+          cidadeEndereco.Text := nom_cidade;
+          ufEndereco.Text := uf_estado;
+        end;
+      end;
+      FEnderecos.FEnderecos.Query.Active := False;
+      FEnderecos.FEnderecos.Query.Connection.Connected := False;
+     end;
+  finally
+    Finalize(aParam);
   end;
+end;
 
-  with FContatos.Contatos.Records do
-  begin
-    FIdContato      :=  seq_contato;
-    telefone.Text := num_telefone;
-    email.Text := des_email;
+procedure TviewCadastroFunctionarios.SearchFinanceiro(sParam, sSource: string);
+var
+  aParam : Array of String;
+begin
+  if not Assigned(FFinanceiro) then
+    FFinanceiro := TFuncionariosFinanceiroController.Create;
+  SetLength(aParam, 3);
+  try
+     aParam[0] := '*';
+     aParam[1] := sSource;
+     aParam[2] := sParam;
+     if FFinanceiro.CustomSearch(aParam) then
+     begin
+      if FFinanceiro.SetupRecord then
+      begin
+        with FFinanceiro.FFinanceiro.Records do
+        begin
+          FIdFinanceiro := id_financeiro;
+          banco.Text    := cod_banco;
+          agencia.Text  := cod_agencia;
+          conta.Text    := num_conta;
+          pix.Text      := cod_pix;
+        end;
+      end;
+      FFinanceiro.FFinanceiro.Query.Active := False;
+      FFinanceiro.FFinanceiro.Query.Connection.Connected := False;
+     end;
+  finally
+    Finalize(aParam);
   end;
+end;
 
+procedure TviewCadastroFunctionarios.SearchFuncionarios(sParam, sSource: string);
+var
+  aParam : Array of String;
+begin
+  if not Assigned(FFuncionarios) then
+    FFuncionarios := TFuncionariosController.Create;
+  SetLength(aParam, 3);
+  try
+    aParam[0] := '*';
+    aParam[1] := sSource;
+    aParam[2] := sParam;
+    if FFuncionarios.CustomSearch(aParam) then
+    begin
+      if FFuncionarios.SetupRecord then
+        begin
+          with FFuncionarios.Funcionario.ARecord do
+          begin
+              id.Text := id_funcionario.ToString;
+              nome.Text := nom_funcionario;
+              num_cpf := cpf.Text;
+              RG.Text :=num_rg;
+              emissaoRG.Date := dat_emissao_rg;
+              emissorRG.Text := nom_emissor_rg;
+              ufEmissorRG.Text := uf_emissor_rg;
+              nascimento.Date := dat_nascimento;
+              nacionalidade.Text := des_nacionalidade;
+              naturalidade.Text := des_naturalidade;
+              ufNaturalidade.Text := uf_naturalidade;
+              nomePai.Text := nom_pai;
+              nomeMae.Text := nom_mae;
+              numeroCNH.Text := num_cnh;
+              registroCNH.Text := num_registro_cnh;
+              categoriaCNH.Text := des_categoria_cnh;
+              validadeCNH.Date := dat_validade_cnh;
+              emissaoCNH.Date := dat_emissao_cnh;
+              ufCNH.Text := uf_cnh;
+              primeiraCNH.Date := dat_primeira_cnh;
+              codigoSeguranca.Text := cod_seguranca_cnh;
+              situacao.ItemIndex := cod_status;
+              observacoes.Text := des_obs;
+              departamento.EditValue := id_departamento;
+              funcao.EditValue := id_funcao;
+              admissao.Date := dat_admissao;
+              remuneracao.Value := val_remuneracao;
+              demissao.Date := dat_demissao;
+          end;
+        end ;
+      FEnderecos.FEnderecos.Query.Active := False;
+      FEnderecos.FEnderecos.Query.Connection.Connected := False;
+     end;
+  finally
+    Finalize(aParam);
+  end;
+end;
+
+procedure TviewCadastroFunctionarios.SearchFuncoes;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'id_funcao as "Código", des_funcao as "Descrição"';
+  viewGeneralSearch.Tabela := 'crm_funcoes_rh';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    funcao.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    descricaoFuncao.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
+function TviewCadastroFunctionarios.SetupFields(iId: integer): boolean;
+var
+  sParam: string;
+begin
+  sParam := 'id_funcionario = ' + iId.ToString;
+  SearchFuncionarios(sParam,'TABLE');
+  SearchEnderecos(sParam,'TABLE');
+  SearchContatos(sParam,'TABLE');
+  SearchDocumentos(sParam,'TABLE');
 end;
 
 procedure TviewCadastroFunctionarios.SetupTabela;
@@ -654,7 +1042,7 @@ begin
     num_cnh                 := numeroCNH.Text;
     num_registro_cnh        := registroCNH.Text;
     des_categoria_cnh       := categoriaCNH.Text;
-    dat_validade_cnh        := validadeCNH.Text;
+    dat_validade_cnh        := validadeCNH.Date;
     dat_emissao_cnh         := emissaoCNH.Date;
     uf_cnh                  := ufCNH.Text;
     dat_primeira_cnh        := primeiraCNH.Date;
@@ -707,6 +1095,15 @@ begin
     des_email       :=  email.Text;
   end;
 
+  with FFinanceiro.FFinanceiro.Records do
+  begin
+    id_financeiro       :=  FIdFinanceiro;
+    id_funcionario      :=  StrToIntDef(id.Text,0);
+    cod_banco           :=  banco.Text;
+    cod_agencia         :=  agencia.Text;
+    num_conta           :=  conta.Text;
+    cod_pix             :=  pix.Text;
+  end;
 end;
 
 procedure TviewCadastroFunctionarios.ShowForm;
@@ -716,6 +1113,7 @@ begin
   FEnderecos := TFuncionariosEnderecosController.Create;
   FContatos := TFuncionariosContatosController.Create;
   FDocumetos := TFuncionariosDocumentosRHController.Create;
+  FFinanceiro := TFuncionariosFinanceiroController.Create;
   FAcao := tacIndefinido;
 end;
 

@@ -26,37 +26,34 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     TabOrder = 0
     Transparent = True
     object cxButton1: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 24
+      Top = 44
       Width = 75
       Height = 25
       Action = actionNewRegister
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 0
-      Visible = False
     end
     object cxButton2: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 105
+      Top = 44
       Width = 75
       Height = 25
       Action = actionEditRegister
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 1
-      Visible = False
     end
     object cxButton3: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 186
+      Top = 44
       Width = 75
       Height = 25
       Action = actionExportGrid
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 2
-      Visible = False
     end
     object cxButton4: TcxButton
       Left = 923
@@ -66,11 +63,11 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Action = actionCloseForm
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 59
+      TabOrder = 64
     end
     object parametroPesquisa: TcxButtonEdit
-      Left = 10000
-      Top = 10000
+      Left = 330
+      Top = 44
       Hint = 'Par'#226'metro de pesquisa'
       Properties.Buttons = <
         item
@@ -84,23 +81,21 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 3
-      Visible = False
       Width = 560
     end
     object cxButton5: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 896
+      Top = 44
       Width = 88
       Height = 25
       Action = actionSearchRecords
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 4
-      Visible = False
     end
     object cxButton6: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 24
+      Top = 75
       Width = 24
       Height = 24
       Action = actionGroupPanel
@@ -108,11 +103,10 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 5
-      Visible = False
     end
     object cxButton7: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 54
+      Top = 75
       Width = 24
       Height = 24
       Action = actionExpandGrid
@@ -120,11 +114,10 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 6
-      Visible = False
     end
     object cxButton8: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 84
+      Top = 75
       Width = 24
       Height = 24
       Action = actionRetractGrid
@@ -132,15 +125,13 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       TabOrder = 7
-      Visible = False
     end
     object grid: TcxGrid
-      Left = 10000
-      Top = 10000
+      Left = 24
+      Top = 105
       Width = 960
       Height = 558
       TabOrder = 8
-      Visible = False
       object gridDBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = dsFuncionarios
@@ -430,8 +421,8 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       end
     end
     object id: TcxTextEdit
-      Left = 40
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'ID do Funcion'#225'rio'
       Properties.Alignment.Horz = taRightJustify
       Properties.ReadOnly = True
@@ -440,11 +431,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       TabOrder = 9
       Text = '0'
+      Visible = False
       Width = 61
     end
     object nome: TcxTextEdit
-      Left = 139
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'Nome do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
@@ -452,11 +444,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 10
-      Width = 714
+      Visible = False
+      Width = 690
     end
     object cpf: TcxMaskEdit
-      Left = 883
-      Top = 44
+      Left = 10000
+      Top = 10000
       Hint = 'CPF do funcion'#225'rio'
       Properties.IgnoreMaskBlank = True
       Properties.EditMask = '000\.000\.000\-00;0; '
@@ -465,22 +458,24 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       TabOrder = 11
       Text = '           '
-      Width = 101
+      Visible = False
+      Width = 125
     end
     object RG: TcxTextEdit
-      Left = 43
-      Top = 289
+      Left = 10000
+      Top = 10000
       Hint = 'RG do funcion'#225'rio'
       Properties.MaxLength = 20
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 27
+      Visible = False
       Width = 122
     end
     object emissaoRG: TcxDateEdit
-      Left = 231
-      Top = 289
+      Left = 10000
+      Top = 10000
       Hint = 'Data de emiss'#227'o do RG'
       Properties.SaveTime = False
       Properties.ShowTime = False
@@ -491,11 +486,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 28
+      Visible = False
       Width = 104
     end
     object emissorRG: TcxTextEdit
-      Left = 399
-      Top = 289
+      Left = 10000
+      Top = 10000
       Hint = 'Org'#227'o emissor do RG'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 20
@@ -503,11 +499,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 29
+      Visible = False
       Width = 138
     end
     object nascimento: TcxDateEdit
-      Left = 84
-      Top = 71
+      Left = 10000
+      Top = 10000
       Hint = 'Data de nascimento'
       Properties.SaveTime = False
       Properties.ShowTime = False
@@ -518,11 +515,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 12
+      Visible = False
       Width = 84
     end
     object nacionalidade: TcxTextEdit
-      Left = 245
-      Top = 71
+      Left = 10000
+      Top = 10000
       Hint = 'Nacionalidade do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.LookupItems.Strings = (
@@ -532,11 +530,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 13
+      Visible = False
       Width = 286
     end
     object naturalidade: TcxTextEdit
-      Left = 603
-      Top = 71
+      Left = 10000
+      Top = 10000
       Hint = 'Naturalidade do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
@@ -544,11 +543,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 14
+      Visible = False
       Width = 317
     end
     object ufNaturalidade: TcxComboBox
-      Left = 944
-      Top = 71
+      Left = 10000
+      Top = 10000
       Hint = 'UF da naturalidade do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.DropDownListStyle = lsEditFixedList
@@ -587,11 +587,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 15
+      Visible = False
       Width = 40
     end
     object ufEmissorRG: TcxComboBox
-      Left = 561
-      Top = 289
+      Left = 10000
+      Top = 10000
       Hint = 'UF Emissor RG'
       Properties.CharCase = ecUpperCase
       Properties.DropDownListStyle = lsEditFixedList
@@ -630,11 +631,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 30
+      Visible = False
       Width = 40
     end
     object nomePai: TcxTextEdit
-      Left = 43
-      Top = 98
+      Left = 10000
+      Top = 10000
       Hint = 'Nom do pai do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
@@ -642,11 +644,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 16
+      Visible = False
       Width = 448
     end
     object nomeMae: TcxTextEdit
-      Left = 522
-      Top = 98
+      Left = 10000
+      Top = 10000
       Hint = 'Nome da m'#227'e do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
@@ -654,11 +657,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 17
+      Visible = False
       Width = 462
     end
     object CEP: TcxButtonEdit
-      Left = 48
-      Top = 165
+      Left = 10000
+      Top = 10000
       Hint = 'CEP do endere'#231'o do funcion'#225'rio'
       Properties.Buttons = <
         item
@@ -676,11 +680,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       TabOrder = 18
       Text = '        '
+      Visible = False
       Width = 77
     end
     object logradouro: TcxTextEdit
-      Left = 191
-      Top = 165
+      Left = 10000
+      Top = 10000
       Hint = 'Logradouro do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
@@ -688,11 +693,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 19
+      Visible = False
       Width = 461
     end
     object numeroLogradouro: TcxTextEdit
-      Left = 679
-      Top = 165
+      Left = 10000
+      Top = 10000
       Hint = 'N'#250'mero do logradouro do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 11
@@ -700,11 +706,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 20
+      Visible = False
       Width = 59
     end
     object complementoEndereco: TcxTextEdit
-      Left = 814
-      Top = 165
+      Left = 10000
+      Top = 10000
       Hint = 'Complemento do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 50
@@ -712,11 +719,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 21
+      Visible = False
       Width = 170
     end
     object bairroEndereco: TcxTextEdit
-      Left = 57
-      Top = 195
+      Left = 10000
+      Top = 10000
       Hint = 'Bairro do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
@@ -724,11 +732,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 22
+      Visible = False
       Width = 405
     end
     object cidadeEndereco: TcxTextEdit
-      Left = 506
-      Top = 195
+      Left = 10000
+      Top = 10000
       Hint = 'Cidade do endere'#231'o do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
@@ -736,11 +745,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 23
+      Visible = False
       Width = 414
     end
     object ufEndereco: TcxComboBox
-      Left = 944
-      Top = 195
+      Left = 10000
+      Top = 10000
       Hint = 'UF do endere'#231'o do funcion'#225'rio'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -778,11 +788,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 24
+      Visible = False
       Width = 40
     end
     object telefone: TcxMaskEdit
-      Left = 71
-      Top = 222
+      Left = 10000
+      Top = 10000
       Hint = 'Telefone do funcion'#225'rio'
       Properties.IgnoreMaskBlank = True
       Properties.EditMask = '!\(99\)00000-0000;1; '
@@ -791,11 +802,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       TabOrder = 25
       Text = '(  )     -    '
+      Visible = False
       Width = 102
     end
     object email: TcxTextEdit
-      Left = 212
-      Top = 222
+      Left = 10000
+      Top = 10000
       Hint = 'E-Mail do funcion'#225'rio'
       Properties.CharCase = ecLowerCase
       Properties.MaxLength = 128
@@ -803,11 +815,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 26
+      Visible = False
       Width = 772
     end
     object ctps: TcxTextEdit
-      Left = 637
-      Top = 289
+      Left = 10000
+      Top = 10000
       Hint = 'CTPS do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 30
@@ -815,11 +828,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 31
+      Visible = False
       Width = 143
     end
     object serieCtps: TcxTextEdit
-      Left = 815
-      Top = 289
+      Left = 10000
+      Top = 10000
       Hint = 'S'#233'rie da CTPS do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 10
@@ -827,11 +841,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 32
+      Visible = False
       Width = 105
     end
     object ufCtps: TcxComboBox
-      Left = 944
-      Top = 289
+      Left = 10000
+      Top = 10000
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
         ''
@@ -868,11 +883,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 33
+      Visible = False
       Width = 40
     end
     object numeroCNH: TcxTextEdit
-      Left = 50
-      Top = 316
+      Left = 10000
+      Top = 10000
       Hint = 'N'#250'mero da c'#233'dula da CNH do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 15
@@ -880,11 +896,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 34
+      Visible = False
       Width = 88
     end
     object registroCNH: TcxTextEdit
-      Left = 189
-      Top = 316
+      Left = 10000
+      Top = 10000
       Hint = 'N'#250'nmero do registro da CNH do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 15
@@ -892,22 +909,24 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 35
+      Visible = False
       Width = 117
     end
     object categoriaCNH: TcxTextEdit
-      Left = 338
-      Top = 316
+      Left = 10000
+      Top = 10000
       Hint = 'Categoria da CNH do funcion'#225'rio'
       Properties.MaxLength = 0
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 36
+      Visible = False
       Width = 40
     end
     object ufCNH: TcxComboBox
-      Left = 402
-      Top = 316
+      Left = 10000
+      Top = 10000
       Hint = 'UF da CNH do funcion'#225'rio'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -945,11 +964,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 37
+      Visible = False
       Width = 40
     end
     object codigoSeguranca: TcxTextEdit
-      Left = 475
-      Top = 316
+      Left = 10000
+      Top = 10000
       Hint = 'C'#243'digo de seguran'#231'a da CNH do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 30
@@ -957,11 +977,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 38
+      Visible = False
       Width = 90
     end
     object primeiraCNH: TcxDateEdit
-      Left = 638
-      Top = 316
+      Left = 10000
+      Top = 10000
       Hint = 'Data da primeira CNH do funcion'#225'rio'
       Properties.SaveTime = False
       Properties.ShowTime = False
@@ -972,11 +993,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 39
+      Visible = False
       Width = 82
     end
     object emissaoCNH: TcxDateEdit
-      Left = 769
-      Top = 316
+      Left = 10000
+      Top = 10000
       Hint = 'Emiss'#227'o da CNH do funcion'#225'rio'
       Properties.SaveTime = False
       Properties.ShowTime = False
@@ -987,11 +1009,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 40
+      Visible = False
       Width = 82
     end
     object validadeCNH: TcxDateEdit
-      Left = 902
-      Top = 316
+      Left = 10000
+      Top = 10000
       Hint = 'Validade da CNH do funcin'#225'rios'
       Properties.SaveTime = False
       Properties.ShowTime = False
@@ -1002,11 +1025,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 41
+      Visible = False
       Width = 82
     end
     object pis: TcxTextEdit
-      Left = 45
-      Top = 343
+      Left = 10000
+      Top = 10000
       Hint = 'N'#250'mero do PIS do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 20
@@ -1014,11 +1038,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 42
+      Visible = False
       Width = 150
     end
     object reservista: TcxTextEdit
-      Left = 257
-      Top = 343
+      Left = 10000
+      Top = 10000
       Hint = 'N'#250'mero da Reservista do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 20
@@ -1026,11 +1051,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 43
+      Visible = False
       Width = 158
     end
     object titulo: TcxTextEdit
-      Left = 452
-      Top = 343
+      Left = 10000
+      Top = 10000
       Hint = 'N'#250'mero do T'#237'tulo Eleitoral do funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 20
@@ -1038,11 +1064,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 44
+      Visible = False
       Width = 152
     end
     object zona: TcxTextEdit
-      Left = 639
-      Top = 343
+      Left = 10000
+      Top = 10000
       Hint = 'Zona Eleitoral do funcion'#225'rios'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 20
@@ -1050,11 +1077,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 45
+      Visible = False
       Width = 152
     end
     object secao: TcxTextEdit
-      Left = 831
-      Top = 343
+      Left = 10000
+      Top = 10000
       Hint = 'Se'#231#227'o Eleitoral do fiuncion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 20
@@ -1062,11 +1090,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 46
+      Visible = False
       Width = 153
     end
     object departamento: TcxButtonEdit
-      Left = 98
-      Top = 410
+      Left = 10000
+      Top = 10000
       Hint = 'C'#243'digo do Departamento do funcion'#225'rio'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
@@ -1079,17 +1108,19 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+      Properties.OnValidate = departamentoPropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 47
       Text = '0'
+      Visible = False
       Width = 70
     end
     object descricaoDepartamento: TcxTextEdit
-      Left = 174
-      Top = 410
+      Left = 10000
+      Top = 10000
       Hint = 'Descri'#231#227'o do departamento do funcion'#225'rio'
       TabStop = False
       Properties.CharCase = ecUpperCase
@@ -1098,11 +1129,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 48
-      Width = 344
+      Visible = False
+      Width = 123
     end
     object funcao: TcxButtonEdit
-      Left = 564
-      Top = 410
+      Left = 10000
+      Top = 10000
       Hint = 'C'#243'digo da Fun'#231#227'o do funcion'#225'rio'
       Properties.Alignment.Horz = taRightJustify
       Properties.Buttons = <
@@ -1115,17 +1147,19 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
       Properties.EditMask = '\d\d\d\d\d\d\d\d\d'
+      Properties.OnValidate = funcaoPropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 49
       Text = '0'
+      Visible = False
       Width = 70
     end
     object descricaoFuncao: TcxTextEdit
-      Left = 640
-      Top = 410
+      Left = 10000
+      Top = 10000
       Hint = 'Descri'#231#227'o da Fun'#231#227'o do funcion'#225'rio'
       TabStop = False
       Properties.CharCase = ecUpperCase
@@ -1134,11 +1168,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 50
-      Width = 344
+      Visible = False
+      Width = 122
     end
     object admissao: TcxDateEdit
-      Left = 74
-      Top = 440
+      Left = 10000
+      Top = 10000
       Hint = 'Data de Admiss'#227'o do funcion'#225'rio'
       Properties.SaveTime = False
       Properties.ShowTime = False
@@ -1148,11 +1183,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
       TabOrder = 51
+      Visible = False
       Width = 82
     end
     object remuneracao: TcxCurrencyEdit
-      Left = 233
-      Top = 440
+      Left = 10000
+      Top = 10000
       Hint = 'Sal'#225'rio base do funcion'#225'rio'
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
@@ -1160,11 +1196,12 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 52
+      Visible = False
       Width = 90
     end
     object situacao: TcxComboBox
-      Left = 715
-      Top = 440
+      Left = 10000
+      Top = 10000
       Hint = 'Situa'#231#227'o do funcion'#225'rio'
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -1176,12 +1213,13 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 53
+      TabOrder = 60
+      Visible = False
       Width = 131
     end
     object demissao: TcxDateEdit
-      Left = 902
-      Top = 440
+      Left = 10000
+      Top = 10000
       Hint = 'Data de Demiss'#227'o do funcion'#225'rio'
       Properties.ReadOnly = True
       Style.BorderColor = clWindowFrame
@@ -1189,51 +1227,131 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 54
+      TabOrder = 53
+      Visible = False
       Width = 82
     end
     object observacoes: TcxMemo
-      Left = 24
-      Top = 485
+      Left = 10000
+      Top = 10000
       Hint = 'Observa'#231#245'es sobre o funcion'#225'rio'
       Properties.CharCase = ecUpperCase
       Properties.ScrollBars = ssVertical
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 55
-      Height = 68
+      TabOrder = 59
+      Visible = False
+      Height = 52
       Width = 960
     end
     object cxButton9: TcxButton
-      Left = 24
-      Top = 649
+      Left = 10000
+      Top = 10000
       Width = 75
       Height = 25
       Action = actionReturnGrid
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 56
+      TabOrder = 61
+      Visible = False
     end
     object cxButton10: TcxButton
-      Left = 105
-      Top = 649
+      Left = 10000
+      Top = 10000
       Width = 116
       Height = 25
       Action = actionDocuments
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
-      TabOrder = 57
+      TabOrder = 62
+      Visible = False
     end
     object cxButton11: TcxButton
-      Left = 227
-      Top = 649
+      Left = 10000
+      Top = 10000
       Width = 75
       Height = 25
       Action = actionSaveRegister
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
+      TabOrder = 63
+      Visible = False
+    end
+    object banco: TcxButtonEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'C'#243'digo do banco da conta do funcion'#225'rio'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.Buttons = <
+        item
+          Action = actSearchBank
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d\d\d\d'
+      Properties.OnValidate = bancoPropertiesValidate
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 54
+      Text = '0'
+      Visible = False
+      Width = 67
+    end
+    object descricaoBanco: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      TabStop = False
+      Properties.CharCase = ecUpperCase
+      Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 55
+      Visible = False
+      Width = 133
+    end
+    object conta: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'N'#250'mero da conta corrente do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
+      Properties.MaxLength = 20
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 57
+      Visible = False
+      Width = 121
+    end
+    object agencia: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Properties.MaxLength = 10
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 56
+      Text = 'agencia'
+      Visible = False
+      Width = 72
+    end
+    object pix: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Chave PIX  do funcion'#225'rio'
+      Properties.MaxLength = 125
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
       TabOrder = 58
+      Visible = False
+      Width = 411
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -1249,7 +1367,6 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       AlignVert = avClient
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
       LayoutDirection = ldTabbed
       ShowBorder = False
       Index = 0
@@ -1484,7 +1601,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       CaptionOptions.Text = 'CPF'
       Control = cpf
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 101
+      ControlOptions.OriginalWidth = 125
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -1636,6 +1753,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     object dxLayoutItem26: TdxLayoutItem
       Parent = dxLayoutGroup13
       AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Logradouro'
       Control = logradouro
       ControlOptions.OriginalHeight = 21
@@ -1645,6 +1763,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object dxLayoutItem27: TdxLayoutItem
       Parent = dxLayoutGroup13
+      AlignVert = avClient
       CaptionOptions.Text = 'N'#186'.'
       Control = numeroLogradouro
       ControlOptions.OriginalHeight = 21
@@ -1654,6 +1773,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object dxLayoutItem28: TdxLayoutItem
       Parent = dxLayoutGroup13
+      AlignVert = avClient
       CaptionOptions.Text = 'Complemento'
       Control = complementoEndereco
       ControlOptions.OriginalHeight = 21
@@ -1926,6 +2046,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Parent = dxLayoutGroup9
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 6
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 12
@@ -1974,47 +2095,48 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Parent = dxLayoutGroup9
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 3
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 13
     end
     object dxLayoutItem55: TdxLayoutItem
-      Parent = dxLayoutGroup20
+      Parent = dxLayoutGroup19
       CaptionOptions.Text = 'Admiss'#227'o'
       Control = admissao
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 82
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 4
     end
     object dxLayoutItem56: TdxLayoutItem
-      Parent = dxLayoutGroup20
+      Parent = dxLayoutGroup19
       CaptionOptions.Text = 'Remunera'#231#227'o'
       Control = remuneracao
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 90
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 5
     end
     object dxLayoutItem57: TdxLayoutItem
-      Parent = dxLayoutGroup20
+      Parent = dxLayoutGroup1
       AlignHorz = ahRight
+      AlignVert = avClient
       CaptionOptions.Text = 'Situa'#231#227'o'
       Control = situacao
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 131
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 0
     end
     object dxLayoutItem58: TdxLayoutItem
-      Parent = dxLayoutGroup20
-      AlignHorz = ahRight
+      Parent = dxLayoutGroup19
       CaptionOptions.Text = 'Demiss'#227'o'
       Control = demissao
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 82
       ControlOptions.ShowBorder = False
-      Index = 3
+      Index = 6
     end
     object dxLayoutGroup21: TdxLayoutGroup
       Parent = dxLayoutGroup9
@@ -2028,7 +2150,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       CaptionOptions.Text = 'Observa'#231#245'es'
       CaptionOptions.Layout = clTop
       Control = observacoes
-      ControlOptions.OriginalHeight = 68
+      ControlOptions.OriginalHeight = 52
       ControlOptions.OriginalWidth = 185
       ControlOptions.ShowBorder = False
       Index = 0
@@ -2040,7 +2162,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 15
+      Index = 16
     end
     object dxLayoutItem11: TdxLayoutItem
       Parent = dxLayoutGroup22
@@ -2072,6 +2194,65 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ControlOptions.ShowBorder = False
       Index = 2
     end
+    object dxLayoutItem33: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      CaptionOptions.Text = 'Banco'
+      Control = banco
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 67
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem60: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      AlignVert = avClient
+      CaptionOptions.Text = 'Nome Banco'
+      CaptionOptions.Visible = False
+      Control = descricaoBanco
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 133
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutItem63: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      AlignVert = avClient
+      CaptionOptions.Text = 'Conta'
+      Control = conta
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 3
+    end
+    object dxLayoutItem64: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      AlignVert = avClient
+      CaptionOptions.Text = 'Ag'#234'ncia'
+      Control = agencia
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 72
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutGroup1: TdxLayoutGroup
+      Parent = dxLayoutGroup9
+      CaptionOptions.Text = 'New Group'
+      ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
+      ShowBorder = False
+      Index = 15
+    end
+    object dxLayoutItem65: TdxLayoutItem
+      Parent = dxLayoutGroup20
+      AlignHorz = ahClient
+      AlignVert = avClient
+      CaptionOptions.Text = 'PIX'
+      Control = pix
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 121
+      ControlOptions.ShowBorder = False
+      Index = 4
+    end
   end
   object actionList: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -2080,11 +2261,13 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Caption = '&Novo'
       Hint = 'Novo cadastro'
       ImageIndex = 97
+      OnExecute = actionNewRegisterExecute
     end
     object actionEditRegister: TAction
       Caption = '&Editar'
       Hint = 'Editar cadastro'
       ImageIndex = 95
+      OnExecute = actionEditRegisterExecute
     end
     object actionCloseForm: TAction
       Caption = 'Fec&har'
@@ -2101,16 +2284,19 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Caption = 'Retrair'
       Hint = 'Retrair grid'
       ImageIndex = 107
+      OnExecute = actionRetractGridExecute
     end
     object actionGroupPanel: TAction
       Caption = 'Painel de Grupo'
       Hint = 'Exibir o painel de grupos'
       ImageIndex = 110
+      OnExecute = actionGroupPanelExecute
     end
     object actionExportGrid: TAction
       Caption = 'E&xportar'
       Hint = 'Exportar dados do grid'
       ImageIndex = 101
+      OnExecute = actionExportGridExecute
     end
     object actionSearchRecords: TAction
       Caption = '&Pesquisar'
@@ -2122,16 +2308,19 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Caption = '&Voltar'
       Hint = 'Voltar para o grid'
       ImageIndex = 64
+      OnExecute = actionReturnGridExecute
     end
     object actionClearSearch: TAction
       Caption = 'Li&mpar'
       Hint = 'Limpar a tela de pesquisa'
       ImageIndex = 84
+      OnExecute = actionClearSearchExecute
     end
     object actionSaveRegister: TAction
       Caption = '&Gravar'
       Hint = 'Gravar os dados'
       ImageIndex = 85
+      OnExecute = actionSaveRegisterExecute
     end
     object actionSearchDoc: TAction
       Caption = 'Consulta CNPJ'
@@ -2142,21 +2331,31 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Caption = 'Pesquisa CEP'
       Hint = 'Pesquisa o CEP do endere'#231'o'
       ImageIndex = 82
+      OnExecute = actionSearchCEPExecute
     end
     object actionDocuments: TAction
       Caption = '&Documentos'
       Hint = 'Documentos anexados'
       ImageIndex = 99
+      OnExecute = actionDocumentsExecute
     end
     object actSearchDepartment: TAction
       Caption = 'Procurar Departamento'
       Hint = 'Procurar departamento'
       ImageIndex = 86
+      OnExecute = actSearchDepartmentExecute
     end
     object actSearchFunction: TAction
       Caption = 'Procurar Fun'#231#227'o'
       Hint = 'Procurar fun'#231#227'o'
       ImageIndex = 86
+      OnExecute = actSearchFunctionExecute
+    end
+    object actSearchBank: TAction
+      Caption = 'Pesquisa Banco'
+      Hint = 'Pesquisa o banco'
+      ImageIndex = 86
+      OnExecute = actSearchBankExecute
     end
   end
   object dsFuncionarios: TDataSource

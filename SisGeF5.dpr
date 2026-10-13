@@ -377,7 +377,9 @@ uses
   Controller.SisGeFFuncionariosContatos in 'src\Control\Controller.SisGeFFuncionariosContatos.pas',
   Controller.SisGeFFuncionariosDocumentosRH in 'src\Control\Controller.SisGeFFuncionariosDocumentosRH.pas',
   Controller.SisGeFFuncionariosGR in 'src\Control\Controller.SisGeFFuncionariosGR.pas',
-  View.SisGeFCadastroFuncionarios in 'src\View\View.SisGeFCadastroFuncionarios.pas' {viewCadastroFunctionarios};
+  View.SisGeFCadastroFuncionarios in 'src\View\View.SisGeFCadastroFuncionarios.pas' {viewCadastroFunctionarios},
+  Model.SisGeFFuncionariosFinaceiro in 'src\Model\Model.SisGeFFuncionariosFinaceiro.pas',
+  Controller.SisGeFFuncionariosFinanceiro in 'src\Control\Controller.SisGeFFuncionariosFinanceiro.pas';
 
 {$R *.res}
 

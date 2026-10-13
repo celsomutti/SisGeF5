@@ -3,8 +3,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'Cadastro de Contratados'
-  ClientHeight = 520
-  ClientWidth = 984
+  ClientHeight = 729
+  ClientWidth = 1008
   Color = clWindow
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -24,8 +24,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
   object lycMain: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 984
-    Height = 520
+    Width = 1008
+    Height = 729
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -37,8 +37,10 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     TabOrder = 0
     Transparent = True
     CustomizeFormTabbedView = True
+    ExplicitWidth = 984
+    ExplicitHeight = 520
     object cxButton1: TcxButton
-      Left = 891
+      Left = 915
       Top = 28
       Width = 65
       Height = 60
@@ -96,7 +98,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Properties.OnButtonClick = bteSearchPropertiesButtonClick
       Style.HotTrack = False
       TabOrder = 6
-      Width = 497
+      Width = 521
     end
     object cxButton4: TcxButton
       Left = 270
@@ -112,8 +114,8 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     object grid: TcxGrid
       Left = 28
       Top = 184
-      Width = 928
-      Height = 308
+      Width = 952
+      Height = 517
       TabOrder = 12
       object gridDBTableView1: TcxGridDBTableView
         OnDblClick = gridDBTableView1DblClick
@@ -1825,7 +1827,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       Visible = False
     end
     object lcbCategorias: TcxLookupComboBox
-      Left = 645
+      Left = 669
       Top = 108
       Properties.KeyFieldNames = 'id_categoria'
       Properties.ListColumns = <
@@ -1981,7 +1983,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       TabOrder = 5
     end
     object cboStatus: TcxComboBox
-      Left = 835
+      Left = 859
       Top = 108
       Properties.DropDownListStyle = lsEditFixedList
       Properties.Items.Strings = (
@@ -3450,7 +3452,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
       CaptionOptions.Visible = False
       Control = dbStatus
       ControlOptions.OriginalHeight = 23
-      ControlOptions.OriginalWidth = 68
+      ControlOptions.OriginalWidth = 69
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -3990,7 +3992,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 384
     Top = 64
     Content = {
-      414442530F00A044361A0000FF00010001FF02FF030400160000006D00740062
+      414442530F004B38361A0000FF00010001FF02FF030400160000006D00740062
       0043006100640061007300740072006F0005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B040004000000690064
       00050004000000690064000C00010000000E000D000F00011000011100011200
@@ -4986,7 +4988,7 @@ object viewCadastroTerceirizados: TviewCadastroTerceirizados
     Left = 544
     Top = 56
     Content = {
-      414442530F00A044E9050000FF00010001FF02FF030400220000006D0065006D
+      414442530F004B38E9050000FF00010001FF02FF030400220000006D0065006D
       005400610062006C00650045006E00640065007200650063006F00730005000A
       0000005400610062006C006500060000000000070000080032000000090000FF
       0AFF0B040016000000690064005F0065006E00640065007200650063006F0005

@@ -160,7 +160,7 @@ begin
   FRecord.num_telefone    :=  FQuery.FieldByName('num_telefone').AsString;
   FRecord.des_email       :=  FQuery.FieldByName('des_email').AsString;
   FRecord.createdAt       :=  FQuery.FieldByName('createdAt').AsDateTime;
-  FRecord.updatedAt       :=  FQuery.FieldByName('updatedAt').AsString;
+  FRecord.updatedAt       :=  FQuery.FieldByName('updatedAt').AsDateTime;
   Result := True;
 end;
 
