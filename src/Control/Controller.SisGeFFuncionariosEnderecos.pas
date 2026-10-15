@@ -42,7 +42,7 @@ end;
 function TFuncionariosEnderecosController.Validate: boolean;
 begin
   Result := False;
-  with FEnderecos.Records do
+  with FEnderecos.FRecords do
   begin
     if des_logradouro <> EmptyStr then
     begin

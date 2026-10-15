@@ -248,6 +248,8 @@ type
     procedure departamentoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure funcaoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure bancoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure FormShow(Sender: TObject);
+    procedure actionExpandGridExecute(Sender: TObject);
   private
     FConn : TConnectionMySQL;
     FFuncionarios: TFuncionariosController;
@@ -322,6 +324,11 @@ end;
 procedure TviewCadastroFunctionarios.actionEditRegisterExecute(Sender: TObject);
 begin
   Edit;
+end;
+
+procedure TviewCadastroFunctionarios.actionExpandGridExecute(Sender: TObject);
+begin
+  ExpandGrid;
 end;
 
 procedure TviewCadastroFunctionarios.actionExportGridExecute(Sender: TObject);
@@ -533,11 +540,14 @@ end;
 
 procedure TviewCadastroFunctionarios.Edit;
 begin
-  ClearFields;
-  SetupFields(FQuery.FieldByName('id_funcionario').AsInteger);
-  lgpContainer.ItemIndex := 1;
-  FAcao := tacAlterar;
-  nome.SetFocus;
+  if gridDBTableView1.DataController.RowCount > 0 then
+  begin
+    ClearFields;
+    SetupFields(FQuery.FieldByName('id_funcionario').AsInteger);
+    lgpContainer.ItemIndex := 1;
+    FAcao := tacAlterar;
+    nome.SetFocus;
+  end;
 end;
 
 procedure TviewCadastroFunctionarios.ExpandGrid;
@@ -577,8 +587,14 @@ begin
   if Assigned(FEnderecos) then FEnderecos.Free;
   if Assigned(FContatos) then FContatos.Free;
   if Assigned(FDocumetos) then FDocumetos.Free;
+  if Assigned(FFinanceiro) then FFinanceiro.Free;
   Action := caFree;
   viewCadastroFunctionarios := Nil;
+end;
+
+procedure TviewCadastroFunctionarios.FormShow(Sender: TObject);
+begin
+  ShowForm;
 end;
 
 procedure TviewCadastroFunctionarios.funcaoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
@@ -618,18 +634,24 @@ begin
 end;
 
 procedure TviewCadastroFunctionarios.NomeDepartamento(id: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
 begin
-  if not Assigned(viewGeneralSearch) then
-    viewGeneralSearch := TviewGeneralSearch.Create(Application);
-  viewGeneralSearch.Campos := 'cod_agente as "Código", des_razao_social as "Nome"';
-  viewGeneralSearch.Tabela := 'tbagentes';
-  viewGeneralSearch.Criterio := 'TRUE';
-  if viewGeneralSearch.ShowModal = mrOk then
-  begin
-    departamento.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
-    descricaoDepartamento.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['des_razao_social', 'tbagentes', 'cod_agente = ' + id.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    descricaoDepartamento.Text := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
   end;
-  FreeAndNil(viewGeneralSearch);
 end;
 
 procedure TviewCadastroFunctionarios.NomeFuncao(id: integer);
@@ -686,30 +708,42 @@ begin
     if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
       Exit;
     FFuncionarios.Funcionario.Acao := FAcao;
-    if not FFuncionarios.SaveRecord then
+    if FFuncionarios.SaveRecord then
+    begin
+      Fenderecos.FEnderecos.FRecords.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
+      if not FEnderecos.SaveRecord then
+      begin
+        Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+      FContatos.Contatos.FRecord.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
+      if not FContatos.SaveRecord then
+      begin
+        Application.MessageBox(PChar(FContatos.Contatos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+      FDocumetos.FDocumentos.FRecords.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
+      if not FDocumetos.SaveRecord then
+      begin
+        Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+      FFinanceiro.FFinanceiro.FRecord.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
+      if not FFinanceiro.SaveRecord then
+      begin
+        Application.MessageBox(PChar(FFinanceiro.FFinanceiro.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+        Exit;
+      end;
+    end
+    else
     begin
       Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
       Exit;
     end;
-    if not FEnderecos.SaveRecord then
-    begin
-      Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      Exit;
-    end;
-    if not FContatos.SaveRecord then
-    begin
-      Application.MessageBox(PChar(FContatos.Contatos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      Exit;
-    end;
-    if not FDocumetos.SaveRecord then
-    begin
-      Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      Exit;
-    end;
+    FAcao := tacIndefinido;
     Application.MessageBox('Cadastro salvo.', 'Salvar', MB_OK + MB_ICONINFORMATION);
   finally
-    FAcao := tacIndefinido;
-    FQuery.Refresh;
+    Search(CustomSearchStr(parametroPesquisa.Text), 'VIEW');
     lgpContainer.ItemIndex := 0;
   end;
 end;
@@ -729,11 +763,14 @@ begin
      FAcao := tacIndefinido;
      if FFuncionarios.CustomSearch(aParam) then
      begin
-      FQuery := FFuncionarios.Funcionario.Query;
+      FQuery.Active := False;
+      FQuery.Data := FFuncionarios.Funcionario.Query.Data;
       dsFuncionarios.DataSet := FQuery;
       FAcao := tacPesquisa;
      end;
   finally
+    FFuncionarios.Funcionario.Query.Active := False;
+    FFuncionarios.Funcionario.Query.Connection.Connected := False;
     Finalize(aParam);
   end;
 end;
@@ -817,9 +854,9 @@ begin
      begin
       if FContatos.SetupRecord then
       begin
-        FIdContato      :=  FContatos.Contatos.Records.seq_contato;
-        telefone.Text := FContatos.Contatos.Records.num_telefone;
-        email.Text := FContatos.Contatos.Records.des_email;
+        FIdContato      :=  FContatos.Contatos.FRecord.seq_contato;
+        telefone.Text := FContatos.Contatos.FRecord.num_telefone;
+        email.Text := FContatos.Contatos.FRecord.des_email;
       end;
       FContatos.Contatos.Query.Active := False;
       FContatos.Contatos.Query.Connection.Connected := False;
@@ -831,7 +868,17 @@ end;
 
 procedure TviewCadastroFunctionarios.SearchDepartamentos;
 begin
-
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'cod_agente as "Código", des_razao_social as "Nome"';
+  viewGeneralSearch.Tabela := 'tbagentes';
+  viewGeneralSearch.Criterio := 'TRUE';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    departamento.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    descricaoDepartamento.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
 end;
 
 procedure TviewCadastroFunctionarios.SearchDocumentos(sParam, sSource: string);
@@ -849,7 +896,7 @@ begin
      begin
       if FDocumetos.SetupRecord then
       begin
-        with FDocumetos.FDocumentos.Records do
+        with FDocumetos.FDocumentos.FRecords do
         begin
           FIdDocs := id_doc;
           ctps.Text := num_ctps;
@@ -885,7 +932,7 @@ begin
      begin
       if FEnderecos.SetupRecord then
       begin
-        with FEnderecos.FEnderecos.Records do
+        with FEnderecos.FEnderecos.FRecords do
         begin
           FIdEndereco := id_endereco;
           CEP.Text := num_cep;
@@ -920,7 +967,7 @@ begin
      begin
       if FFinanceiro.SetupRecord then
       begin
-        with FFinanceiro.FFinanceiro.Records do
+        with FFinanceiro.FFinanceiro.FRecord do
         begin
           FIdFinanceiro := id_financeiro;
           banco.Text    := cod_banco;
@@ -984,8 +1031,8 @@ begin
               demissao.Date := dat_demissao;
           end;
         end ;
-      FEnderecos.FEnderecos.Query.Active := False;
-      FEnderecos.FEnderecos.Query.Connection.Connected := False;
+      FFuncionarios.Funcionario.Query.Active := False;
+      FFuncionarios.Funcionario.Query.Connection.Connected := False;
      end;
   finally
     Finalize(aParam);
@@ -1015,20 +1062,24 @@ begin
   SearchEnderecos(sParam,'TABLE');
   SearchContatos(sParam,'TABLE');
   SearchDocumentos(sParam,'TABLE');
+  SearchFinanceiro(sParam,'TABLE');
 end;
 
 procedure TviewCadastroFunctionarios.SetupTabela;
 begin
+  FFuncionarios.Funcionario.Acao := FAcao;
   FFuncionarios.Funcionario.ARecord.id_funcionario          := StrToIntDef(id.Text,0);
   FFuncionarios.Funcionario.ARecord.nom_funcionario         := nome.Text;
   FFuncionarios.Funcionario.ARecord.nom_alias               := '';
   FFuncionarios.Funcionario.ARecord.cod_tipo_pessoa         := 1;
   FFuncionarios.Funcionario.ARecord.num_cpf                 := cpf.Text;
   FFuncionarios.Funcionario.ARecord.num_rg                  := RG.Text;
-  FFuncionarios.Funcionario.ARecord.dat_emissao_rg          := emissaoRG.Date;
+  if emissaoRG.Date > 0 then
+    FFuncionarios.Funcionario.ARecord.dat_emissao_rg          := emissaoRG.Date;
   FFuncionarios.Funcionario.ARecord.nom_emissor_rg          := emissorRG.Text;
   FFuncionarios.Funcionario.ARecord.uf_emissor_rg           := ufEmissorRG.Text;
-  FFuncionarios.Funcionario.ARecord.dat_nascimento          := nascimento.Date;
+  if nascimento.Date > 0 then
+    FFuncionarios.Funcionario.ARecord.dat_nascimento          := nascimento.Date;
   FFuncionarios.Funcionario.ARecord.des_nacionalidade       := nacionalidade.Text;
   FFuncionarios.Funcionario.ARecord.des_naturalidade        := naturalidade.Text;
   FFuncionarios.Funcionario.ARecord.uf_naturalidade         := ufNaturalidade.Text;
@@ -1037,54 +1088,63 @@ begin
   FFuncionarios.Funcionario.ARecord.num_cnh                 := numeroCNH.Text;
   FFuncionarios.Funcionario.ARecord.num_registro_cnh        := registroCNH.Text;
   FFuncionarios.Funcionario.ARecord.des_categoria_cnh       := categoriaCNH.Text;
-  FFuncionarios.Funcionario.ARecord.dat_validade_cnh        := validadeCNH.Date;
-  FFuncionarios.Funcionario.ARecord.dat_emissao_cnh         := emissaoCNH.Date;
+  if validadeCNH.Date > 0 then
+    FFuncionarios.Funcionario.ARecord.dat_validade_cnh        := validadeCNH.Date;
+  if emissaoCNH.Date > 0 then
+    FFuncionarios.Funcionario.ARecord.dat_emissao_cnh         := emissaoCNH.Date;
   FFuncionarios.Funcionario.ARecord.uf_cnh                  := ufCNH.Text;
-  FFuncionarios.Funcionario.ARecord.dat_primeira_cnh        := primeiraCNH.Date;
+  if primeiraCNH.Date > 0 then
+    FFuncionarios.Funcionario.ARecord.dat_primeira_cnh        := primeiraCNH.Date;
   FFuncionarios.Funcionario.ARecord.cod_seguranca_cnh       := codigoSeguranca.Text;
   FFuncionarios.Funcionario.ARecord.cod_status              := situacao.ItemIndex;
   FFuncionarios.Funcionario.ARecord.des_obs                 := observacoes.Text;
   FFuncionarios.Funcionario.ARecord.id_departamento         := departamento.EditValue;
   FFuncionarios.Funcionario.ARecord.id_funcao               := funcao.EditValue;
-  FFuncionarios.Funcionario.ARecord.dat_admissao            := admissao.Date;
+  if admissao.Date > 0 then
+    FFuncionarios.Funcionario.ARecord.dat_admissao            := admissao.Date;
   FFuncionarios.Funcionario.ARecord.val_remuneracao         := remuneracao.Value;
-  FFuncionarios.Funcionario.ARecord.dat_demissao            := demissao.Date;
+  if demissao.Date > 0 then
+    FFuncionarios.Funcionario.ARecord.dat_demissao            := demissao.Date;
 
-  FEnderecos.FEnderecos.Records.id_endereco      :=  FIdEndereco;
-  FEnderecos.FEnderecos.Records.id_funcionario   :=  StrToIntDef(id.Text,0);
-  FEnderecos.FEnderecos.Records.des_tipo         :=  'RESIDENCIAL';
-  FEnderecos.FEnderecos.Records.num_cep          :=  CEP.Text;
-  FEnderecos.FEnderecos.Records.des_logradouro   :=  logradouro.Text;
-  FEnderecos.FEnderecos.Records.num_logradouro   :=  numeroLogradouro.Text;
-  FEnderecos.FEnderecos.Records.des_complemento  :=  complementoEndereco.Text;
-  FEnderecos.FEnderecos.Records.des_bairro       :=  bairroEndereco.Text;
-  FEnderecos.FEnderecos.Records.nom_cidade       :=  cidadeEndereco.Text;
-  FEnderecos.FEnderecos.Records.uf_estado        :=  ufEndereco.Text;
-  FEnderecos.FEnderecos.Records.des_referencia   :=  '';
+  FEnderecos.FEnderecos.Acao := FAcao;
+  FEnderecos.FEnderecos.FRecords.id_endereco      :=  FIdEndereco;
+  FEnderecos.FEnderecos.FRecords.id_funcionario   :=  0;
+  FEnderecos.FEnderecos.FRecords.des_tipo         :=  'RESIDENCIAL';
+  FEnderecos.FEnderecos.FRecords.num_cep          :=  CEP.Text;
+  FEnderecos.FEnderecos.FRecords.des_logradouro   :=  logradouro.Text;
+  FEnderecos.FEnderecos.FRecords.num_logradouro   :=  numeroLogradouro.Text;
+  FEnderecos.FEnderecos.FRecords.des_complemento  :=  complementoEndereco.Text;
+  FEnderecos.FEnderecos.FRecords.des_bairro       :=  bairroEndereco.Text;
+  FEnderecos.FEnderecos.FRecords.nom_cidade       :=  cidadeEndereco.Text;
+  FEnderecos.FEnderecos.FRecords.uf_estado        :=  ufEndereco.Text;
+  FEnderecos.FEnderecos.FRecords.des_referencia   :=  '';
 
-  FDocumetos.FDocumentos.Records.id_doc               :=  FIdDocs;
-  FDocumetos.FDocumentos.Records.id_funcionario       :=  StrToIntDef(id.Text,0);
-  FDocumetos.FDocumentos.Records.num_ctps             :=  ctps.Text;
-  FDocumetos.FDocumentos.Records.num_serie_ctps       :=  serieCtps.Text;
-  FDocumetos.FDocumentos.Records.uf_ctps              :=  ufCtps.Text;
-  FDocumetos.FDocumentos.Records.num_pis              :=  pis.Text;
-  FDocumetos.FDocumentos.Records.num_reservista       :=  reservista.Text;
-  FDocumetos.FDocumentos.Records.num_titulo_eleitoral :=  titulo.Text;
-  FDocumetos.FDocumentos.Records.num_zona_eleitoral   :=  zona.Text;
-  FDocumetos.FDocumentos.Records.num_secao_eleitoral  :=  secao.Text;
+  FDocumetos.FDocumentos.Acao := FAcao;
+  FDocumetos.FDocumentos.FRecords.id_doc               :=  FIdDocs;
+  FDocumetos.FDocumentos.FRecords.id_funcionario       :=  0;
+  FDocumetos.FDocumentos.FRecords.num_ctps             :=  ctps.Text;
+  FDocumetos.FDocumentos.FRecords.num_serie_ctps       :=  serieCtps.Text;
+  FDocumetos.FDocumentos.FRecords.uf_ctps              :=  ufCtps.Text;
+  FDocumetos.FDocumentos.FRecords.num_pis              :=  pis.Text;
+  FDocumetos.FDocumentos.FRecords.num_reservista       :=  reservista.Text;
+  FDocumetos.FDocumentos.FRecords.num_titulo_eleitoral :=  titulo.Text;
+  FDocumetos.FDocumentos.FRecords.num_zona_eleitoral   :=  zona.Text;
+  FDocumetos.FDocumentos.FRecords.num_secao_eleitoral  :=  secao.Text;
 
-  FContatos.Contatos.Records.seq_contato     :=  FIdContato;
-  FContatos.Contatos.Records.id_funcionario  :=  StrToIntDef(id.Text,0);
-  FContatos.Contatos.Records.des_contato     :=  'TELEFONE/CELULAR';
-  FContatos.Contatos.Records.num_telefone    :=  telefone.Text;
-  FContatos.Contatos.Records.des_email       :=  email.Text;
+  FContatos.Contatos.Acao := FAcao;
+  FContatos.Contatos.FRecord.seq_contato     :=  FIdContato;
+  FContatos.Contatos.FRecord.id_funcionario  :=  0;
+  FContatos.Contatos.FRecord.des_contato     :=  'TELEFONE/CELULAR';
+  FContatos.Contatos.FRecord.num_telefone    :=  telefone.Text;
+  FContatos.Contatos.FRecord.des_email       :=  email.Text;
 
-  FFinanceiro.FFinanceiro.Records.id_financeiro       :=  FIdFinanceiro;
-  FFinanceiro.FFinanceiro.Records.id_funcionario      :=  StrToIntDef(id.Text,0);
-  FFinanceiro.FFinanceiro.Records.cod_banco           :=  banco.Text;
-  FFinanceiro.FFinanceiro.Records.cod_agencia         :=  agencia.Text;
-  FFinanceiro.FFinanceiro.Records.num_conta           :=  conta.Text;
-  FFinanceiro.FFinanceiro.Records.cod_pix             :=  pix.Text;
+  FFinanceiro.FFinanceiro.Acao := FAcao;
+  FFinanceiro.FFinanceiro.FRecord.id_financeiro       :=  FIdFinanceiro;
+  FFinanceiro.FFinanceiro.FRecord.id_funcionario      :=  0;
+  FFinanceiro.FFinanceiro.FRecord.cod_banco           :=  banco.Text;
+  FFinanceiro.FFinanceiro.FRecord.cod_agencia         :=  agencia.Text;
+  FFinanceiro.FFinanceiro.FRecord.num_conta           :=  conta.Text;
+  FFinanceiro.FFinanceiro.FRecord.cod_pix             :=  pix.Text;
 end;
 
 procedure TviewCadastroFunctionarios.ShowForm;

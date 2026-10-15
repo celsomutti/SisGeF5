@@ -27,7 +27,6 @@ interface
         FMensagem : string;
         FConn     : TConnectionMySQL;
         FQuery    : TFDQuery;
-        FRecords  : TDocumentos;
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
@@ -35,13 +34,12 @@ interface
 
       public
 
+        FRecords  : TDocumentos;
+
         Constructor Create();
         function    CustomSearch(aParams: array of string): boolean;
         function    SaveRecord  ()                        : boolean;
         function    SetupRecords()                        : boolean;
-
-        property    Records: TDocumentos read FRecords write FRecords;
-
 
         property Acao     : TAcao     read  FAcao     write FAcao;
         property Mensagem : string    read  FMensagem write FMensagem;

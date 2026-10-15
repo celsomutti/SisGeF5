@@ -20,13 +20,14 @@ type
         FMensagem : string;
         FConn     : TConnectionMySQL;
         FQuery    : TFDQuery;
-        FRecord   : TContatos;
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
         function Excluir  ()  : boolean;
 
       public
+        FRecord   : TContatos;
+
         Constructor Create();
         function    CustomSearch(aParams: array of string): boolean;
         function    SaveRecord  ()                        : boolean;
@@ -36,7 +37,7 @@ type
         property Acao     : TAcao     read  FAcao     write FAcao;
         property Mensagem : string    read  FMensagem write FMensagem;
         property Query    : TFDQuery  read  FQuery    write FQuery;
-        property Records  : TContatos read  FRecord   write FRecord;
+
       protected
   end;
   const

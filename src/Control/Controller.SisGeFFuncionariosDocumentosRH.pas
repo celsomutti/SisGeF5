@@ -45,7 +45,7 @@ end;
 function TFuncionariosDocumentosRHController.Validate: boolean;
 begin
   Result := False;
-  with FDocumentos.Records do
+  with FDocumentos.FRecords do
   begin
     if num_ctps <> EmptyStr then
     begin

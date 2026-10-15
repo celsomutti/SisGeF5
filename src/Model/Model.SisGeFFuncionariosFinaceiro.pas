@@ -22,13 +22,14 @@ interface
         FMensagem : string;
         FConn     : TConnectionMySQL;
         FQuery    : TFDQuery;
-        FRecord   : TFinanceiro;
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
         function Excluir  ()  : Boolean;
 
       public
+
+        FRecord   : TFinanceiro;
 
         Constructor Create();
         function    CustomSearch(aParams: array of string): boolean;
@@ -39,7 +40,7 @@ interface
         property Acao     : TAcao       read  FAcao     write FAcao;
         property Mensagem : string      read  FMensagem write FMensagem;
         property Query    : TFDQuery    read  FQuery    write FQuery;
-        property Records  : TFinanceiro read  FRecord   write FRecord;
+
       protected
   end;
   const

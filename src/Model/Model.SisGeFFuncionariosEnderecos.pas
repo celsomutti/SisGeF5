@@ -27,7 +27,6 @@ type
         FMensagem : string;
         FConn     : TConnectionMySQL;
         FQuery    : TFDQuery;
-        FRecords: TEnderecos;
 
         function Inserir  ()  : boolean;
         function Alterar  ()  : boolean;
@@ -35,13 +34,12 @@ type
 
       public
 
+        FRecords: TEnderecos;
+
         Constructor Create();
         function    CustomSearch(aParams: array of string): boolean;
         function    SaveRecord  ()                        : boolean;
         function    SetupRecords()                        : boolean;
-
-        property    Records: TEnderecos read FRecords write FRecords;
-
 
         property Acao     : TAcao     read  FAcao     write FAcao;
         property Mensagem : string    read  FMensagem write FMensagem;

@@ -45,10 +45,9 @@ type
                   '(:seq_contato, :id_funcionario, :des_contato, :num_telefone, :des_email)';
       SQLUPDATE = 'update ' + TABLENAME +
                   ' set ' +
-                  'id_contratados = :id_contratados, des_contato = :des_contato, num_telefone = :num_telefone, ' +
-                  'des_email  = :des_email ' +
+                  'des_contato = :des_contato, num_telefone = :num_telefone, des_email  = :des_email ' +
                   'where ' +
-                  'seq_contato = :seq_contato';
+                  'seq_contato = :seq_contato and id_funcionario = :id_funcionario ';
       SQLSELECT = 'select seq_contato, id_funcionario, des_contato, num_telefone, des_email ' +
                   'from ' +
                   TABLENAME;
@@ -56,5 +55,58 @@ type
 
 
 implementation
+
+{ TContratadosContatosModel }
+
+function TContratadosContatosModel.Alterar: boolean;
+begin
+  Result := False;
+  try
+    FQuery := FConn.GetQuery();
+    FQuery.ExecSQL(SQLUPDATE,
+                  [ARecord.des_contato, ARecord.num_telefone, ARecord.des_email, ARecord.seq_contato, ARecord.id_funcionario]);
+    Result := True;
+  finally
+    FQuery.Connection.Close;
+  end;
+end;
+
+constructor TContratadosContatosModel.Create;
+begin
+
+end;
+
+function TContratadosContatosModel.CustomSearch(aParams: array of string): boolean;
+begin
+
+end;
+
+function TContratadosContatosModel.Excluir: boolean;
+begin
+
+end;
+
+function TContratadosContatosModel.Inserir: boolean;
+begin
+  Result := False;
+  try
+    FQuery := FConn.GetQuery();
+    FQuery.ExecSQL(SQLINSERT,
+                  [ARecord.seq_contato, ARecord.id_funcionario, ARecord.des_contato, ARecord.num_telefone, ARecord.des_email]);
+    Result := True;
+  finally
+    FQuery.Connection.Close;
+  end;
+end;
+
+function TContratadosContatosModel.SaveRecord: boolean;
+begin
+
+end;
+
+function TContratadosContatosModel.SetupRecords: boolean;
+begin
+
+end;
 
 end.

@@ -14,6 +14,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
   Position = poScreenCenter
   ShowHint = True
   OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl
@@ -445,7 +446,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       TabOrder = 10
       Visible = False
-      Width = 690
+      Width = 684
     end
     object cpf: TcxMaskEdit
       Left = 10000
@@ -459,7 +460,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       TabOrder = 11
       Text = '           '
       Visible = False
-      Width = 125
+      Width = 131
     end
     object RG: TcxTextEdit
       Left = 10000
@@ -681,7 +682,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       TabOrder = 18
       Text = '        '
       Visible = False
-      Width = 77
+      Width = 90
     end
     object logradouro: TcxTextEdit
       Left = 10000
@@ -694,7 +695,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.HotTrack = False
       TabOrder = 19
       Visible = False
-      Width = 461
+      Width = 448
     end
     object numeroLogradouro: TcxTextEdit
       Left = 10000
@@ -916,6 +917,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Left = 10000
       Top = 10000
       Hint = 'Categoria da CNH do funcion'#225'rio'
+      Properties.CharCase = ecUpperCase
       Properties.MaxLength = 0
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -1337,7 +1339,6 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 56
-      Text = 'agencia'
       Visible = False
       Width = 72
     end
@@ -1601,7 +1602,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       CaptionOptions.Text = 'CPF'
       Control = cpf
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 125
+      ControlOptions.OriginalWidth = 131
       ControlOptions.ShowBorder = False
       Index = 2
     end
@@ -1746,7 +1747,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       CaptionOptions.Text = 'CEP'
       Control = CEP
       ControlOptions.OriginalHeight = 24
-      ControlOptions.OriginalWidth = 77
+      ControlOptions.OriginalWidth = 90
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -2279,6 +2280,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Caption = 'Expandir'
       Hint = 'Expandir grid'
       ImageIndex = 106
+      OnExecute = actionExpandGridExecute
     end
     object actionRetractGrid: TAction
       Caption = 'Retrair'

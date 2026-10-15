@@ -15,7 +15,7 @@ interface
       dat_emissao_rg: TDate;
       nom_emissor_rg: string[20];
       uf_emissor_rg: string[2];
-      dat_nascimento: TDate;
+      dat_nascimento: TDateTime;
       des_nacionalidade: string[70];
       des_naturalidade: string[70];
       uf_naturalidade: string[2];
@@ -24,18 +24,18 @@ interface
       num_cnh: string[15];
       num_registro_cnh: string[15];
       des_categoria_cnh: string[2];
-      dat_validade_cnh: TDate;
-      dat_emissao_cnh: TDate;
+      dat_validade_cnh: TDateTime;
+      dat_emissao_cnh: TDateTime;
       uf_cnh: string[2];
-      dat_primeira_cnh: TDate;
+      dat_primeira_cnh: TDateTime;
       cod_seguranca_cnh: string[30];
       cod_status: integer;
       des_obs: string;
       id_departamento: integer;
       id_funcao: integer;
-      dat_admissao: TDate;
+      dat_admissao: TDateTime;
       val_remuneracao: Single;
-      dat_demissao: TDate;
+      dat_demissao: TDateTime;
       createdAt: TDateTime;
       updatedAt: TDateTime;
     end;
@@ -181,6 +181,7 @@ begin
     with ARecord do
     begin
       FQuery := FConn.GetQuery();
+      Arecord.id_funcionario := GetNextID('id_funcionario');
       FQuery.ExecSQL(SQLINSERT,
                     [id_funcionario, nom_funcionario, nom_alias, cod_tipo_pessoa, num_cpf, num_rg, dat_emissao_rg, nom_emissor_rg, uf_emissor_rg,
                     dat_nascimento, des_nacionalidade, des_naturalidade, uf_naturalidade, nom_pai, nom_mae, num_cnh, num_registro_cnh, des_categoria_cnh,
