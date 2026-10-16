@@ -209,6 +209,7 @@ type
     mtbCandidatosDOM_DISPONIBILIDADE: TStringField;
     mtbCandidatoscreatedAt: TDateTimeField;
     mtbCandidatosupdatedAt: TDateTimeField;
+    dxLayoutSeparatorItem7: TdxLayoutSeparatorItem;
     procedure actCadastroLimparExecute(Sender: TObject);
     procedure actCadastroSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -283,7 +284,14 @@ end;
 procedure TviewCadastroCandidatos.actionDocumentsExecute(Sender: TObject);
 begin
   if not FCandidatos.FCandidatos.Query.IsEmpty then
+  begin
+    if FAcao = tacIncluir then
+    begin
+      Application.MessageBox('Salve o cadastro primeiramente.', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
     Documents;
+  end;
 end;
 
 procedure TviewCadastroCandidatos.actionEditRegisterExecute(Sender: TObject);

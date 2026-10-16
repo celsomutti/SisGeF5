@@ -71,8 +71,6 @@ begin
     FQuery.ExecSQL(SQLUPDATE,
                   [FRecord.id_funcionario, FRecord.dat_consulta, FRecord.dat_validade, FRecord.nom_empresa, FRecord.cod_consulta,
                    FRecord.createdAt, FRecord.updatedAt, FRecord.id]);
-    if FQuery.RowsAffected = 0 then
-      Exit;
     Result := True;
   finally
     FQuery.Connection.Close;

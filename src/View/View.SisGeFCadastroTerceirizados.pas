@@ -695,8 +695,14 @@ end;
 procedure TviewCadastroTerceirizados.actionDocumentsExecute(Sender: TObject);
 begin
   if not mtbCadastro.IsEmpty then
-    if FAcao in [tacPesquisa, tacAlterar] then
-      Documentos;
+  begin
+    if FAcao = tacIncluir then
+    begin
+      Application.MessageBox('Salve o cadastro primeiramente.', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    Documentos;
+  end;
 end;
 
 procedure TviewCadastroTerceirizados.actionEditRegisterExecute(Sender: TObject);

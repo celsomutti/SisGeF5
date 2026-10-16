@@ -11,7 +11,8 @@ uses
   cxGridDBTableView, cxGrid, cxDBLookupComboBox, cxCalendar, cxImageComboBox, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit, cxCurrencyEdit, cxMemo,
   service.connectionMySQL, Controller.SisGeFFuncionarios, Common.ENum, Common.Utils, cxBlobEdit, FireDAC.Comp.Client, Controller.SisGeFFuncionariosEnderecos,
   Controller.SisGeFFuncionariosContatos, Controller.SisGeFFuncionariosDocumentosRH, Controller.APICEP, service.SisGeFGeneralSearch,
-  Controller.SisGeFFuncionariosFinanceiro;
+  Controller.SisGeFFuncionariosFinanceiro, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Stan.StorageBin;
 
 type
   TviewCadastroFunctionarios = class(TForm)
@@ -229,6 +230,43 @@ type
     dxLayoutGroup1: TdxLayoutGroup;
     pix: TcxTextEdit;
     dxLayoutItem65: TdxLayoutItem;
+    mtbPesquisa: TFDMemTable;
+    mtbPesquisaid_funcionario: TIntegerField;
+    mtbPesquisanom_funcionario: TStringField;
+    mtbPesquisanom_alias: TStringField;
+    mtbPesquisacod_tipo_pessoa: TIntegerField;
+    mtbPesquisanum_cpf: TStringField;
+    mtbPesquisanum_rg: TStringField;
+    mtbPesquisadat_emissao_rg: TDateTimeField;
+    mtbPesquisanom_emissor_rg: TStringField;
+    mtbPesquisauf_emissor_rg: TStringField;
+    mtbPesquisadat_nascimento: TDateField;
+    mtbPesquisades_nacionalidade: TStringField;
+    mtbPesquisades_naturalidade: TStringField;
+    mtbPesquisauf_naturalidade: TStringField;
+    mtbPesquisanom_pai: TStringField;
+    mtbPesquisanom_mae: TStringField;
+    mtbPesquisanum_cnh: TStringField;
+    mtbPesquisanum_registro_cnh: TStringField;
+    mtbPesquisades_categoria_cnh: TStringField;
+    mtbPesquisadat_validade_cnh: TDateField;
+    mtbPesquisadat_emissao_cnh: TDateField;
+    mtbPesquisauf_cnh: TStringField;
+    mtbPesquisadat_primeira_cnh: TDateField;
+    mtbPesquisacod_seguranca_cnh: TStringField;
+    mtbPesquisacod_status: TIntegerField;
+    mtbPesquisades_obs: TMemoField;
+    mtbPesquisaid_departamento: TIntegerField;
+    mtbPesquisades_departamento: TStringField;
+    mtbPesquisaid_funcao: TIntegerField;
+    mtbPesquisades_funcao: TStringField;
+    mtbPesquisadat_admissao: TDateTimeField;
+    mtbPesquisaval_remuneracao: TSingleField;
+    mtbPesquisadat_demissao: TDateField;
+    mtbPesquisacreatedAt: TDateTimeField;
+    mtbPesquisaupdatedAt: TDateTimeField;
+    dxLayoutSeparatorItem5: TdxLayoutSeparatorItem;
+    dxLayoutSeparatorItem6: TdxLayoutSeparatorItem;
     procedure actionCloseFormExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actionSearchRecordsExecute(Sender: TObject);
@@ -250,6 +288,7 @@ type
     procedure bancoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure FormShow(Sender: TObject);
     procedure actionExpandGridExecute(Sender: TObject);
+    procedure gridDBTableView1DblClick(Sender: TObject);
   private
     FConn : TConnectionMySQL;
     FFuncionarios: TFuncionariosController;
@@ -258,7 +297,6 @@ type
     FDocumetos: TFuncionariosDocumentosRHController;
     FFinanceiro: TFuncionariosFinanceiroController;
     FAcao : TAcao;
-    FQuery: TFDQuery;
 
     FIdEndereco : Integer;
     FIdContato : Integer;
@@ -318,7 +356,15 @@ end;
 
 procedure TviewCadastroFunctionarios.actionDocumentsExecute(Sender: TObject);
 begin
-  Documents;
+  if not mtbPesquisa.IsEmpty then
+  begin
+    if FAcao = tacIncluir then
+    begin
+      Application.MessageBox('Salve o cadastro primeiramente.', 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    Documents;
+  end;
 end;
 
 procedure TviewCadastroFunctionarios.actionEditRegisterExecute(Sender: TObject);
@@ -543,7 +589,7 @@ begin
   if gridDBTableView1.DataController.RowCount > 0 then
   begin
     ClearFields;
-    SetupFields(FQuery.FieldByName('id_funcionario').AsInteger);
+    SetupFields(mtbPesquisa.FieldByName('id_funcionario').AsInteger);
     lgpContainer.ItemIndex := 1;
     FAcao := tacAlterar;
     nome.SetFocus;
@@ -604,6 +650,11 @@ begin
   NomeFuncao(DisplayValue);
 end;
 
+procedure TviewCadastroFunctionarios.gridDBTableView1DblClick(Sender: TObject);
+begin
+  Edit;
+end;
+
 procedure TviewCadastroFunctionarios.Insert;
 begin
   FAcao := tacIncluir;
@@ -641,7 +692,7 @@ begin
   FSearch := TSearch.Create;
   SetLength(aParam, 3);
   try
-    aParam := ['des_razao_social', 'tbagentes', 'cod_agente = ' + id.ToString];
+    aParam := ['nom_fantasia', 'tbagentes', 'cod_agente = ' + id.ToString];
     if not FSearch.ReturnSearch(aParam) then
     begin
       Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
@@ -763,9 +814,8 @@ begin
      FAcao := tacIndefinido;
      if FFuncionarios.CustomSearch(aParam) then
      begin
-      FQuery.Active := False;
-      FQuery.Data := FFuncionarios.Funcionario.Query.Data;
-      dsFuncionarios.DataSet := FQuery;
+      mtbPesquisa.Active := False;
+      mtbPesquisa.Data := FFuncionarios.Funcionario.Query.Data;
       FAcao := tacPesquisa;
      end;
   finally
@@ -870,7 +920,7 @@ procedure TviewCadastroFunctionarios.SearchDepartamentos;
 begin
   if not Assigned(viewGeneralSearch) then
     viewGeneralSearch := TviewGeneralSearch.Create(Application);
-  viewGeneralSearch.Campos := 'cod_agente as "Código", des_razao_social as "Nome"';
+  viewGeneralSearch.Campos := 'cod_agente as "Código", nom_fantasia as "Nome"';
   viewGeneralSearch.Tabela := 'tbagentes';
   viewGeneralSearch.Criterio := 'TRUE';
   if viewGeneralSearch.ShowModal = mrOk then
@@ -1003,7 +1053,7 @@ begin
           begin
               id.Text := id_funcionario.ToString;
               nome.Text := nom_funcionario;
-              num_cpf := cpf.Text;
+              cpf.Text := num_cpf;
               RG.Text :=num_rg;
               emissaoRG.Date := dat_emissao_rg;
               emissorRG.Text := nom_emissor_rg;

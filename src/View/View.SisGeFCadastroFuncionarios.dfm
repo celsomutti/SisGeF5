@@ -28,7 +28,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     Transparent = True
     object cxButton1: TcxButton
       Left = 24
-      Top = 44
+      Top = 24
       Width = 75
       Height = 25
       Action = actionNewRegister
@@ -38,7 +38,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object cxButton2: TcxButton
       Left = 105
-      Top = 44
+      Top = 24
       Width = 75
       Height = 25
       Action = actionEditRegister
@@ -48,7 +48,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object cxButton3: TcxButton
       Left = 186
-      Top = 44
+      Top = 24
       Width = 75
       Height = 25
       Action = actionExportGrid
@@ -68,7 +68,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object parametroPesquisa: TcxButtonEdit
       Left = 330
-      Top = 44
+      Top = 24
       Hint = 'Par'#226'metro de pesquisa'
       Properties.Buttons = <
         item
@@ -86,7 +86,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object cxButton5: TcxButton
       Left = 896
-      Top = 44
+      Top = 24
       Width = 88
       Height = 25
       Action = actionSearchRecords
@@ -96,7 +96,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object cxButton6: TcxButton
       Left = 24
-      Top = 75
+      Top = 67
       Width = 24
       Height = 24
       Action = actionGroupPanel
@@ -107,7 +107,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object cxButton7: TcxButton
       Left = 54
-      Top = 75
+      Top = 67
       Width = 24
       Height = 24
       Action = actionExpandGrid
@@ -118,7 +118,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object cxButton8: TcxButton
       Left = 84
-      Top = 75
+      Top = 67
       Width = 24
       Height = 24
       Action = actionRetractGrid
@@ -129,28 +129,50 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object grid: TcxGrid
       Left = 24
-      Top = 105
+      Top = 97
       Width = 960
-      Height = 558
+      Height = 554
       TabOrder = 8
       object gridDBTableView1: TcxGridDBTableView
+        OnDblClick = gridDBTableView1DblClick
         Navigator.Buttons.CustomButtons = <>
+        Navigator.Buttons.Images = Data_Sisgef.iml_16_16
+        Navigator.Buttons.First.ImageIndex = 91
+        Navigator.Buttons.PriorPage.Visible = False
+        Navigator.Buttons.Prior.ImageIndex = 94
+        Navigator.Buttons.Next.ImageIndex = 93
+        Navigator.Buttons.NextPage.Visible = False
+        Navigator.Buttons.Last.ImageIndex = 92
+        Navigator.Buttons.Insert.Visible = False
+        Navigator.Buttons.Delete.Visible = False
+        Navigator.Buttons.Edit.Visible = False
+        Navigator.Buttons.Post.Visible = False
+        Navigator.Buttons.Cancel.Visible = False
+        Navigator.Buttons.Refresh.Visible = False
+        Navigator.Buttons.SaveBookmark.Visible = False
+        Navigator.Buttons.GotoBookmark.Visible = False
+        Navigator.Buttons.Filter.ImageIndex = 96
+        Navigator.InfoPanel.Visible = True
+        Navigator.Visible = True
         DataController.DataSource = dsFuncionarios
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsSelection.CellSelect = False
         OptionsView.GroupByBox = False
         object gridDBTableView1id_funcionario: TcxGridDBColumn
           Caption = 'ID'
           DataBinding.FieldName = 'id_funcionario'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1nom_funcionario: TcxGridDBColumn
           Caption = 'Nome'
           DataBinding.FieldName = 'nom_funcionario'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1asnom_alias: TcxGridDBColumn
           Caption = 'Alias'
@@ -158,6 +180,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
           Width = 271
         end
         object gridDBTableView1cod_tipo_pessoa: TcxGridDBColumn
@@ -166,6 +189,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
           VisibleForCustomization = False
         end
         object gridDBTableView1num_cpf: TcxGridDBColumn
@@ -173,12 +197,14 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           DataBinding.FieldName = 'num_cpf'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1num_rg: TcxGridDBColumn
           Caption = 'RG'
           DataBinding.FieldName = 'num_rg'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1dat_emissao_rg: TcxGridDBColumn
           Caption = 'Emiss'#227'o RG'
@@ -189,6 +215,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           Properties.ShowTime = False
           Properties.ShowToday = False
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1nom_emissor_rg: TcxGridDBColumn
           Caption = 'Emissor RG'
@@ -196,6 +223,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1uf_emissor_rg: TcxGridDBColumn
           Caption = 'UF Emissor'
@@ -203,6 +231,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
           Width = 58
         end
         object gridDBTableView1dat_nascimento: TcxGridDBColumn
@@ -213,6 +242,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           Properties.SaveTime = False
           Properties.ShowTime = False
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1des_nacionalidade: TcxGridDBColumn
           Caption = 'Nacionalidade'
@@ -220,6 +250,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1des_naturalidade: TcxGridDBColumn
           Caption = 'Naturalidade'
@@ -227,6 +258,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1uf_naturalidade: TcxGridDBColumn
           Caption = 'UF Naturalidade'
@@ -234,6 +266,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
           Width = 83
         end
         object gridDBTableView1nom_pai: TcxGridDBColumn
@@ -242,6 +275,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1nom_mae: TcxGridDBColumn
           Caption = 'Nome da M'#227'e'
@@ -249,12 +283,14 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1num_cnh: TcxGridDBColumn
           Caption = 'N'#186' CNH'
           DataBinding.FieldName = 'num_cnh'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 114
         end
         object gridDBTableView1num_registro_cnh: TcxGridDBColumn
@@ -262,6 +298,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           DataBinding.FieldName = 'num_registro_cnh'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 97
         end
         object gridDBTableView1des_categoria_cnh: TcxGridDBColumn
@@ -270,6 +307,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
           Width = 77
         end
         object gridDBTableView1dat_validade_cnh: TcxGridDBColumn
@@ -281,6 +319,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           Properties.ShowTime = False
           Properties.ShowToday = False
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1dat_emissao_cnh: TcxGridDBColumn
           Caption = 'Emiss'#227'o CNH'
@@ -291,6 +330,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           Properties.ShowTime = False
           Properties.ShowToday = False
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1uf_cnh: TcxGridDBColumn
           Caption = 'UF CNH'
@@ -298,6 +338,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
           Width = 43
         end
         object gridDBTableView1dat_primeira_cnh: TcxGridDBColumn
@@ -309,6 +350,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           Properties.ShowTime = False
           Properties.ShowToday = False
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1cod_seguranca_cnh: TcxGridDBColumn
           Caption = 'C'#243'd. Seg. CNH'
@@ -316,6 +358,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1cod_status: TcxGridDBColumn
           Caption = 'Situa'#231#227'o'
@@ -338,14 +381,17 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
               ImageIndex = 84
               Value = 2
             end>
+          HeaderAlignmentHorz = taCenter
           Width = 127
         end
         object gridDBTableView1des_obs: TcxGridDBColumn
           Caption = 'Observa'#231#245'es'
           DataBinding.FieldName = 'des_obs'
           PropertiesClassName = 'TcxBlobEditProperties'
+          Properties.BlobEditKind = bekMemo
           Properties.MemoScrollBars = ssVertical
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 80
         end
         object gridDBTableView1id_departamento: TcxGridDBColumn
@@ -354,12 +400,14 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
           Width = 89
         end
         object gridDBTableView1des_departamento: TcxGridDBColumn
           Caption = 'Departamento'
           DataBinding.FieldName = 'des_departamento'
           PropertiesClassName = 'TcxTextEditProperties'
+          HeaderAlignmentHorz = taCenter
           Width = 203
         end
         object gridDBTableView1id_funcao: TcxGridDBColumn
@@ -368,12 +416,14 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1des_funcao: TcxGridDBColumn
           Caption = 'Fun'#231#227'o'
           DataBinding.FieldName = 'des_funcao'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 195
         end
         object gridDBTableView1dat_admissao: TcxGridDBColumn
@@ -384,12 +434,14 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           Properties.SaveTime = False
           Properties.ShowTime = False
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1val_remuneracao: TcxGridDBColumn
           Caption = 'Remunera'#231#227'o'
           DataBinding.FieldName = 'val_remuneracao'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 112
         end
         object gridDBTableView1dat_demissao: TcxGridDBColumn
@@ -399,6 +451,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           Properties.SaveTime = False
           Properties.ShowTime = False
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1createdAt: TcxGridDBColumn
           Caption = 'Criado em '
@@ -407,6 +460,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           Properties.ReadOnly = True
           Properties.ShowToday = False
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1updatedAt: TcxGridDBColumn
           Caption = #218'ltima Atualiza'#231#227'o em'
@@ -415,6 +469,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
           Properties.ReadOnly = True
           Properties.ShowToday = False
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
       end
       object gridLevel1: TcxGridLevel
@@ -1359,6 +1414,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       AlignVert = avClient
       ButtonOptions.Buttons = <>
       Hidden = True
+      ItemIndex = 1
       ShowBorder = False
       Index = -1
     end
@@ -1370,6 +1426,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ButtonOptions.Buttons = <>
       LayoutDirection = ldTabbed
       ShowBorder = False
+      TabbedOptions.HideTabs = True
       Index = 0
     end
     object dxLayoutGroup2: TdxLayoutGroup
@@ -1380,7 +1437,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutGroup3: TdxLayoutGroup
       Parent = lgpContainer
@@ -1408,7 +1465,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ButtonOptions.Buttons = <>
       ItemIndex = 1
       ShowBorder = False
-      Index = 1
+      Index = 2
     end
     object dxLayoutItem1: TdxLayoutItem
       Parent = dxLayoutGroup4
@@ -2254,6 +2311,16 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       ControlOptions.ShowBorder = False
       Index = 4
     end
+    object dxLayoutSeparatorItem5: TdxLayoutSeparatorItem
+      Parent = dxLayoutGroup3
+      CaptionOptions.Text = 'Separator'
+      Index = 1
+    end
+    object dxLayoutSeparatorItem6: TdxLayoutSeparatorItem
+      Parent = dxLayoutControl1Group_Root
+      CaptionOptions.Text = 'Separator'
+      Index = 1
+    end
   end
   object actionList: TActionList
     Images = Data_Sisgef.iml_16_16
@@ -2362,6 +2429,478 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
   end
   object dsFuncionarios: TDataSource
     AutoEdit = False
+    DataSet = mtbPesquisa
     Left = 632
+  end
+  object mtbPesquisa: TFDMemTable
+    Active = True
+    FieldDefs = <
+      item
+        Name = 'id_funcionario'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'nom_funcionario'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'nom_alias'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'cod_tipo_pessoa'
+        DataType = ftInteger
+      end
+      item
+        Name = 'num_cpf'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'num_rg'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'dat_emissao_rg'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'nom_emissor_rg'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'uf_emissor_rg'
+        Attributes = [faFixed]
+        DataType = ftFixedChar
+        Size = 2
+      end
+      item
+        Name = 'dat_nascimento'
+        DataType = ftDate
+      end
+      item
+        Name = 'des_nacionalidade'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'des_naturalidade'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'uf_naturalidade'
+        Attributes = [faFixed]
+        DataType = ftFixedChar
+        Size = 2
+      end
+      item
+        Name = 'nom_pai'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'nom_mae'
+        DataType = ftString
+        Size = 70
+      end
+      item
+        Name = 'num_cnh'
+        DataType = ftString
+        Size = 15
+      end
+      item
+        Name = 'num_registro_cnh'
+        DataType = ftString
+        Size = 15
+      end
+      item
+        Name = 'des_categoria_cnh'
+        DataType = ftString
+        Size = 2
+      end
+      item
+        Name = 'dat_validade_cnh'
+        DataType = ftDate
+      end
+      item
+        Name = 'dat_emissao_cnh'
+        DataType = ftDate
+      end
+      item
+        Name = 'uf_cnh'
+        Attributes = [faFixed]
+        DataType = ftFixedChar
+        Size = 2
+      end
+      item
+        Name = 'dat_primeira_cnh'
+        DataType = ftDate
+      end
+      item
+        Name = 'cod_seguranca_cnh'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'cod_status'
+        DataType = ftInteger
+      end
+      item
+        Name = 'des_obs'
+        DataType = ftMemo
+      end
+      item
+        Name = 'id_departamento'
+        DataType = ftInteger
+      end
+      item
+        Name = 'des_departamento'
+        DataType = ftString
+        Size = 80
+      end
+      item
+        Name = 'id_funcao'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'des_funcao'
+        DataType = ftString
+        Size = 132
+      end
+      item
+        Name = 'dat_admissao'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'val_remuneracao'
+        DataType = ftSingle
+        Precision = 12
+      end
+      item
+        Name = 'dat_demissao'
+        DataType = ftDate
+      end
+      item
+        Name = 'createdAt'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'updatedAt'
+        DataType = ftDateTime
+      end>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 1073741823
+    ResourceOptions.AssignedValues = [rvPersistent, rvSilentMode]
+    ResourceOptions.Persistent = True
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 744
+    Content = {
+      414442530F00A44C9D110000FF00010001FF02FF030400160000006D00740062
+      005000650073007100750069007300610005000A0000005400610062006C0065
+      00060000000000070000080032000000090000FF0AFF0B04001C000000690064
+      005F00660075006E00630069006F006E006100720069006F0005001C00000069
+      0064005F00660075006E00630069006F006E006100720069006F000C00010000
+      000E000D000F000110000111000112000113001C000000690064005F00660075
+      006E00630069006F006E006100720069006F00FEFF0B04001E0000006E006F00
+      6D005F00660075006E00630069006F006E006100720069006F0005001E000000
+      6E006F006D005F00660075006E00630069006F006E006100720069006F000C00
+      020000000E0014001500460000000F0001160001100001170001110001120001
+      13001E0000006E006F006D005F00660075006E00630069006F006E0061007200
+      69006F00180046000000FEFF0B0400120000006E006F006D005F0061006C0069
+      00610073000500120000006E006F006D005F0061006C006900610073000C0003
+      0000000E0014001500460000000F000116000110000117000111000112000113
+      00120000006E006F006D005F0061006C00690061007300180046000000FEFF0B
+      04001E00000063006F0064005F007400690070006F005F007000650073007300
+      6F00610005001E00000063006F0064005F007400690070006F005F0070006500
+      730073006F0061000C00040000000E000D000F00011600011000011700011100
+      0112000113001E00000063006F0064005F007400690070006F005F0070006500
+      730073006F006100FEFF0B04000E0000006E0075006D005F0063007000660005
+      000E0000006E0075006D005F006300700066000C00050000000E001400150014
+      0000000F000116000110000117000111000112000113000E0000006E0075006D
+      005F00630070006600180014000000FEFF0B04000C0000006E0075006D005F00
+      7200670005000C0000006E0075006D005F00720067000C00060000000E001400
+      1500140000000F000116000110000117000111000112000113000C0000006E00
+      75006D005F0072006700180014000000FEFF0B04001C0000006400610074005F
+      0065006D0069007300730061006F005F007200670005001C0000006400610074
+      005F0065006D0069007300730061006F005F00720067000C00070000000E0019
+      000F000116000110000117000111000112000113001C0000006400610074005F
+      0065006D0069007300730061006F005F0072006700FEFF0B04001C0000006E00
+      6F006D005F0065006D006900730073006F0072005F007200670005001C000000
+      6E006F006D005F0065006D006900730073006F0072005F00720067000C000800
+      00000E0014001500140000000F00011600011000011700011100011200011300
+      1C0000006E006F006D005F0065006D006900730073006F0072005F0072006700
+      180014000000FEFF0B04001A000000750066005F0065006D006900730073006F
+      0072005F007200670005001A000000750066005F0065006D006900730073006F
+      0072005F00720067000C00090000000E0014001500020000000F00011600011A
+      000110000117000111000112000113001A000000750066005F0065006D006900
+      730073006F0072005F0072006700180002000000FEFF0B04001C000000640061
+      0074005F006E0061007300630069006D0065006E0074006F0005001C00000064
+      00610074005F006E0061007300630069006D0065006E0074006F000C000A0000
+      000E001B000F000116000110000117000111000112000113001C000000640061
+      0074005F006E0061007300630069006D0065006E0074006F00FEFF0B04002200
+      00006400650073005F006E006100630069006F006E0061006C00690064006100
+      640065000500220000006400650073005F006E006100630069006F006E006100
+      6C00690064006100640065000C000B0000000E0014001500460000000F000116
+      00011000011700011100011200011300220000006400650073005F006E006100
+      630069006F006E0061006C0069006400610064006500180046000000FEFF0B04
+      00200000006400650073005F006E00610074007500720061006C006900640061
+      00640065000500200000006400650073005F006E00610074007500720061006C
+      00690064006100640065000C000C0000000E0014001500460000000F00011600
+      011000011700011100011200011300200000006400650073005F006E00610074
+      007500720061006C0069006400610064006500180046000000FEFF0B04001E00
+      0000750066005F006E00610074007500720061006C0069006400610064006500
+      05001E000000750066005F006E00610074007500720061006C00690064006100
+      640065000C000D0000000E0014001500020000000F00011600011A0001100001
+      17000111000112000113001E000000750066005F006E00610074007500720061
+      006C0069006400610064006500180002000000FEFF0B04000E0000006E006F00
+      6D005F0070006100690005000E0000006E006F006D005F007000610069000C00
+      0E0000000E0014001500460000000F0001160001100001170001110001120001
+      13000E0000006E006F006D005F00700061006900180046000000FEFF0B04000E
+      0000006E006F006D005F006D006100650005000E0000006E006F006D005F006D
+      00610065000C000F0000000E0014001500460000000F00011600011000011700
+      0111000112000113000E0000006E006F006D005F006D00610065001800460000
+      00FEFF0B04000E0000006E0075006D005F0063006E00680005000E0000006E00
+      75006D005F0063006E0068000C00100000000E00140015000F0000000F000116
+      000110000117000111000112000113000E0000006E0075006D005F0063006E00
+      680018000F000000FEFF0B0400200000006E0075006D005F0072006500670069
+      007300740072006F005F0063006E0068000500200000006E0075006D005F0072
+      006500670069007300740072006F005F0063006E0068000C00110000000E0014
+      0015000F0000000F00011600011000011700011100011200011300200000006E
+      0075006D005F0072006500670069007300740072006F005F0063006E00680018
+      000F000000FEFF0B0400220000006400650073005F0063006100740065006700
+      6F007200690061005F0063006E0068000500220000006400650073005F006300
+      61007400650067006F007200690061005F0063006E0068000C00120000000E00
+      14001500020000000F0001160001100001170001110001120001130022000000
+      6400650073005F00630061007400650067006F007200690061005F0063006E00
+      6800180002000000FEFF0B0400200000006400610074005F00760061006C0069
+      0064006100640065005F0063006E0068000500200000006400610074005F0076
+      0061006C00690064006100640065005F0063006E0068000C00130000000E001B
+      000F00011600011000011700011100011200011300200000006400610074005F
+      00760061006C00690064006100640065005F0063006E006800FEFF0B04001E00
+      00006400610074005F0065006D0069007300730061006F005F0063006E006800
+      05001E0000006400610074005F0065006D0069007300730061006F005F006300
+      6E0068000C00140000000E001B000F0001160001100001170001110001120001
+      13001E0000006400610074005F0065006D0069007300730061006F005F006300
+      6E006800FEFF0B04000C000000750066005F0063006E00680005000C00000075
+      0066005F0063006E0068000C00150000000E0014001500020000000F00011600
+      011A000110000117000111000112000113000C000000750066005F0063006E00
+      6800180002000000FEFF0B0400200000006400610074005F007000720069006D
+      0065006900720061005F0063006E0068000500200000006400610074005F0070
+      00720069006D0065006900720061005F0063006E0068000C00160000000E001B
+      000F00011600011000011700011100011200011300200000006400610074005F
+      007000720069006D0065006900720061005F0063006E006800FEFF0B04002200
+      000063006F0064005F007300650067007500720061006E00630061005F006300
+      6E00680005002200000063006F0064005F007300650067007500720061006E00
+      630061005F0063006E0068000C00170000000E00140015001E0000000F000116
+      000110000117000111000112000113002200000063006F0064005F0073006500
+      67007500720061006E00630061005F0063006E00680018001E000000FEFF0B04
+      001400000063006F0064005F0073007400610074007500730005001400000063
+      006F0064005F007300740061007400750073000C00180000000E000D000F0001
+      16000110000117000111000112000113001400000063006F0064005F00730074
+      006100740075007300FEFF0B04000E0000006400650073005F006F0062007300
+      05000E0000006400650073005F006F00620073000C00190000000E001C000F00
+      011600011D000110000117000111000112000113000E0000006400650073005F
+      006F0062007300FEFF0B04001E000000690064005F0064006500700061007200
+      740061006D0065006E0074006F0005001E000000690064005F00640065007000
+      61007200740061006D0065006E0074006F000C001A0000000E000D000F000116
+      000110000117000111000112000113001E000000690064005F00640065007000
+      61007200740061006D0065006E0074006F00FEFF0B0400200000006400650073
+      005F0064006500700061007200740061006D0065006E0074006F000500200000
+      006400650073005F0064006500700061007200740061006D0065006E0074006F
+      000C001B0000000E0014001500500000000F0001160001100001170001110001
+      1200011300200000006400650073005F0064006500700061007200740061006D
+      0065006E0074006F00180050000000FEFF0B040012000000690064005F006600
+      75006E00630061006F00050012000000690064005F00660075006E0063006100
+      6F000C001C0000000E000D000F00011000011100011200011300120000006900
+      64005F00660075006E00630061006F00FEFF0B0400140000006400650073005F
+      00660075006E00630061006F000500140000006400650073005F00660075006E
+      00630061006F000C001D0000000E0014001500840000000F0001160001100001
+      1700011100011200011300140000006400650073005F00660075006E00630061
+      006F00180084000000FEFF0B0400180000006400610074005F00610064006D00
+      69007300730061006F000500180000006400610074005F00610064006D006900
+      7300730061006F000C001E0000000E0019000F00011600011000011700011100
+      011200011300180000006400610074005F00610064006D006900730073006100
+      6F00FEFF0B04001E000000760061006C005F00720065006D0075006E00650072
+      006100630061006F0005001E000000760061006C005F00720065006D0075006E
+      00650072006100630061006F000C001F0000000E001E001F000C0000000F0001
+      16000110000117000111000112000113001E000000760061006C005F00720065
+      006D0075006E00650072006100630061006F0020000C000000FEFF0B04001800
+      00006400610074005F00640065006D0069007300730061006F00050018000000
+      6400610074005F00640065006D0069007300730061006F000C00200000000E00
+      1B000F0001160001100001170001110001120001130018000000640061007400
+      5F00640065006D0069007300730061006F00FEFF0B0400120000006300720065
+      0061007400650064004100740005001200000063007200650061007400650064
+      00410074000C00210000000E0019000F00011600011000011700011100011200
+      01130012000000630072006500610074006500640041007400FEFF0B04001200
+      0000750070006400610074006500640041007400050012000000750070006400
+      6100740065006400410074000C00220000000E0019000F000116000110000117
+      0001110001120001130012000000750070006400610074006500640041007400
+      FEFEFF21FEFF22FEFF23FEFEFEFF24FEFF25260001000000FF27FEFEFE0E004D
+      0061006E0061006700650072001E005500700064006100740065007300520065
+      0067006900730074007200790012005400610062006C0065004C006900730074
+      000A005400610062006C00650008004E0061006D006500140053006F00750072
+      00630065004E0061006D0065000A0054006100620049004400240045006E0066
+      006F0072006300650043006F006E00730074007200610069006E00740073001E
+      004D0069006E0069006D0075006D004300610070006100630069007400790018
+      0043006800650063006B004E006F0074004E0075006C006C00140043006F006C
+      0075006D006E004C006900730074000C0043006F006C0075006D006E00100053
+      006F007500720063006500490044000E006400740049006E0074003300320010
+      0044006100740061005400790070006500140053006500610072006300680061
+      0062006C0065000800420061007300650012004F0049006E0055007000640061
+      007400650010004F0049006E00570068006500720065001A004F007200690067
+      0069006E0043006F006C004E0061006D00650018006400740041006E00730069
+      0053007400720069006E0067000800530069007A006500120041006C006C006F
+      0077004E0075006C006C0014004F0041006C006C006F0077004E0075006C006C
+      00140053006F007500720063006500530069007A006500140064007400440061
+      0074006500540069006D0065001000460069007800650064004C0065006E000C
+      006400740044006100740065000C00640074004D0065006D006F00100042006C
+      006F0062004400610074006100100064007400530069006E0067006C00650012
+      0050007200650063006900730069006F006E001E0053006F0075007200630065
+      0050007200650063006900730069006F006E001C0043006F006E007300740072
+      00610069006E0074004C00690073007400100056006900650077004C00690073
+      0074000E0052006F0077004C006900730074001800520065006C006100740069
+      006F006E004C006900730074001C0055007000640061007400650073004A006F
+      00750072006E0061006C001200530061007600650050006F0069006E0074000E
+      004300680061006E00670065007300}
+    object mtbPesquisaid_funcionario: TIntegerField
+      FieldName = 'id_funcionario'
+      Required = True
+    end
+    object mtbPesquisanom_funcionario: TStringField
+      FieldName = 'nom_funcionario'
+      Size = 70
+    end
+    object mtbPesquisanom_alias: TStringField
+      FieldName = 'nom_alias'
+      Size = 70
+    end
+    object mtbPesquisacod_tipo_pessoa: TIntegerField
+      FieldName = 'cod_tipo_pessoa'
+    end
+    object mtbPesquisanum_cpf: TStringField
+      FieldName = 'num_cpf'
+    end
+    object mtbPesquisanum_rg: TStringField
+      FieldName = 'num_rg'
+    end
+    object mtbPesquisadat_emissao_rg: TDateTimeField
+      FieldName = 'dat_emissao_rg'
+    end
+    object mtbPesquisanom_emissor_rg: TStringField
+      FieldName = 'nom_emissor_rg'
+    end
+    object mtbPesquisauf_emissor_rg: TStringField
+      FieldName = 'uf_emissor_rg'
+      FixedChar = True
+      Size = 2
+    end
+    object mtbPesquisadat_nascimento: TDateField
+      FieldName = 'dat_nascimento'
+    end
+    object mtbPesquisades_nacionalidade: TStringField
+      FieldName = 'des_nacionalidade'
+      Size = 70
+    end
+    object mtbPesquisades_naturalidade: TStringField
+      FieldName = 'des_naturalidade'
+      Size = 70
+    end
+    object mtbPesquisauf_naturalidade: TStringField
+      FieldName = 'uf_naturalidade'
+      FixedChar = True
+      Size = 2
+    end
+    object mtbPesquisanom_pai: TStringField
+      FieldName = 'nom_pai'
+      Size = 70
+    end
+    object mtbPesquisanom_mae: TStringField
+      FieldName = 'nom_mae'
+      Size = 70
+    end
+    object mtbPesquisanum_cnh: TStringField
+      FieldName = 'num_cnh'
+      Size = 15
+    end
+    object mtbPesquisanum_registro_cnh: TStringField
+      FieldName = 'num_registro_cnh'
+      Size = 15
+    end
+    object mtbPesquisades_categoria_cnh: TStringField
+      FieldName = 'des_categoria_cnh'
+      Size = 2
+    end
+    object mtbPesquisadat_validade_cnh: TDateField
+      FieldName = 'dat_validade_cnh'
+    end
+    object mtbPesquisadat_emissao_cnh: TDateField
+      FieldName = 'dat_emissao_cnh'
+    end
+    object mtbPesquisauf_cnh: TStringField
+      FieldName = 'uf_cnh'
+      FixedChar = True
+      Size = 2
+    end
+    object mtbPesquisadat_primeira_cnh: TDateField
+      FieldName = 'dat_primeira_cnh'
+    end
+    object mtbPesquisacod_seguranca_cnh: TStringField
+      FieldName = 'cod_seguranca_cnh'
+      Size = 30
+    end
+    object mtbPesquisacod_status: TIntegerField
+      FieldName = 'cod_status'
+    end
+    object mtbPesquisades_obs: TMemoField
+      FieldName = 'des_obs'
+      BlobType = ftMemo
+    end
+    object mtbPesquisaid_departamento: TIntegerField
+      FieldName = 'id_departamento'
+    end
+    object mtbPesquisades_departamento: TStringField
+      FieldName = 'des_departamento'
+      Size = 80
+    end
+    object mtbPesquisaid_funcao: TIntegerField
+      FieldName = 'id_funcao'
+      Required = True
+    end
+    object mtbPesquisades_funcao: TStringField
+      FieldName = 'des_funcao'
+      Size = 132
+    end
+    object mtbPesquisadat_admissao: TDateTimeField
+      FieldName = 'dat_admissao'
+    end
+    object mtbPesquisaval_remuneracao: TSingleField
+      FieldName = 'val_remuneracao'
+    end
+    object mtbPesquisadat_demissao: TDateField
+      FieldName = 'dat_demissao'
+    end
+    object mtbPesquisacreatedAt: TDateTimeField
+      FieldName = 'createdAt'
+    end
+    object mtbPesquisaupdatedAt: TDateTimeField
+      FieldName = 'updatedAt'
+    end
   end
 end

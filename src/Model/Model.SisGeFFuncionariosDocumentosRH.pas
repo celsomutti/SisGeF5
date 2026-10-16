@@ -55,12 +55,12 @@ interface
                   ':num_zona_eleitoral, :num_secao_eleitoral, :createdAt, :updatedAt)';
       SQLUPDATE = 'update ' + TABLENAME +
                   ' set ' +
-                  'id_funcionario = :id_funcionario, num_ctps = :num_ctps, num_serie_ctps = :num_serie_ctps, uf_ctps =:uf_ctps, ' +
+                  'num_ctps = :num_ctps, num_serie_ctps = :num_serie_ctps, uf_ctps =:uf_ctps, ' +
                   'num_pis = :num_pis, num_reservista = :num_reservista, num_titulo_eleitoral =:num_titulo_eleitoral, ' +
                   'num_zona_eleitoral = :num_zona_eleitoral, num_secao_eleitoral = :num_secao_eleitoral, ' +
                   'createdAt = :createdAt, updatedAt = :updatedAt ' +
                   'where ' +
-                  'id = :id';
+                  'id = :id and id_funcionario = :id_funcionario';
       SQLSELECT = 'select id, id_funcionario, num_ctps, num_serie_ctps, uf_ctps, num_pis, num_reservista, num_titulo_eleitoral, ' +
                   'num_zona_eleitoral, num_secao_eleitoral, createdAt, updatedAt ' +
                   'from ' +
@@ -80,8 +80,6 @@ begin
                   [FRecords.id_funcionario, FRecords.num_ctps, FRecords.num_serie_ctps, FRecords.uf_ctps,
                   FRecords.num_pis, FRecords.num_reservista, FRecords.num_titulo_eleitoral, FRecords.num_zona_eleitoral,
                   FRecords.num_secao_eleitoral, FRecords.createdAt, FRecords.updatedAt, FRecords.id_doc]);
-    if FQuery.RowsAffected = 0 then
-      Exit;
     Result := True;
   finally
     FQuery.Connection.Close;

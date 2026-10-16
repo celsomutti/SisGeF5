@@ -297,6 +297,7 @@ type
     FidFTP : TIdFTP;
     FSistem : TSistem;
     FConn : TConnectionMySQL;
+    FLicence: TDate;
     function VerifyConnection(): boolean;
     function ConnectFTPServer(): boolean;
     function GetVersionFTP(): integer;
@@ -1007,6 +1008,30 @@ begin
       'Atenção', MB_ICONWARNING + MB_OK);
     Application.Terminate;
   end;
+
+  if not FileExists(ExtractFilePath(Application.ExeName) + '.licence') then
+  begin
+    Application.MessageBox
+      ('Licença não floi encontrada! Entre em contato com o suporte.',
+      'Atenção', MB_ICONWARNING + MB_OK);
+    Application.Terminate;
+  end;
+  FLicence := StrToDate(Copy(FSistem.ValidadeLicence,9,2) + '/' + Copy(FSistem.ValidadeLicence,6,2) + '/' + Copy(FSistem.ValidadeLicence,1,4));
+  if FLicence < Now() then
+  begin
+    Application.MessageBox
+      ('Sua Licença expirou! Entre em contato com o suporte.',
+      'Atenção', MB_ICONWARNING + MB_OK);
+    Application.Terminate;
+  end;
+  if DaysBetween(Now(), FLicence) <= 15 then
+  begin
+    Application.MessageBox
+      ('Sua licença está para expirar! Entre em contato com o suporte.',
+      'Atenção', MB_ICONWARNING + MB_OK);
+    Application.Terminate;
+  end;
+
   SetFileVersion;
 end;
 

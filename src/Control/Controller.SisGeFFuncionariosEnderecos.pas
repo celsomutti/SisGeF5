@@ -46,8 +46,8 @@ begin
   begin
     if des_logradouro <> EmptyStr then
     begin
-//      if num_logradouro = '' then
-//        num_logradouro := 'S/N';
+      if num_logradouro = '' then
+        num_logradouro := 'S/N';
       if des_bairro = EmptyStr then
       begin
         FEnderecos.Mensagem := 'Informe o bairro do endereço do funcionário.';

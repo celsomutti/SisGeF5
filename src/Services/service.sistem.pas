@@ -198,20 +198,22 @@ end;
 
 procedure TSistem.SetupLicence;
 begin
-    if FileExists('.licence') then
+
+  if FileExists(ExtractFilePath(Application.ExeName) + '.licence') then
   begin
-    LocalCache.LoadDatabase('.licence');
+    LocalCache.LoadDatabase(ExtractFilePath(Application.ExeName) + '.licence');
     FAliasLicence := LocalCache.Instance('licence').GetItem('alias');
     FNameLicence := LocalCache.Instance('licence').GetItem('name');
     FDocLicence := LocalCache.Instance('licence').GetItem('numdoc');
     FValidadeLicence := LocalCache.Instance('token').GetItem('validate');
-  end
-  else
-  begin
-    FAliasLicence := 'MaMutti Sistemas';
-    FNameLicence := 'MaMutti Informatica';
-    FDocLicence := '0';
-    FValidadeLicence := '2030/12/31';
+//  end
+//  else
+//  begin
+//
+//    FAliasLicence := 'MaMutti Sistemas';
+//    FNameLicence := 'MaMutti Informatica';
+//    FDocLicence := '0';
+//    FValidadeLicence := '2030/12/31';
   end;
 end;
 

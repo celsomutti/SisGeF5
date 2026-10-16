@@ -12,7 +12,7 @@ interface
       cod_tipo_pessoa: integer;
       num_cpf: string[20];
       num_rg: string[20];
-      dat_emissao_rg: TDate;
+      dat_emissao_rg: TDateTime;
       nom_emissor_rg: string[20];
       uf_emissor_rg: string[2];
       dat_nascimento: TDateTime;
@@ -86,8 +86,8 @@ interface
                   'nom_mae = :nom_mae, num_cnh = :num_cnh, num_registro_cnh = :num_registro_cnh, des_categoria_cnh = :des_categoria_cnh, ' +
                   'dat_validade_cnh = :dat_validade_cnh, dat_emissao_cnh = :dat_emissao_cnh, uf_cnh = :uf_cnh, dat_primeira_cnh = :dat_primeira_cnh, ' +
                   'cod_seguranca_cnh = :cod_seguranca_cnh, cod_status = :cod_status, des_obs = :des_obs, id_departamento = :id_departamento, ' +
-                  'id_funcao = :id_funcao, dat_admissao = :dat_admissao, val_remuneracao = :val_remuneracao, dat_demissao = :dat_demissao ' +
-                  'updatedAt = :updatedAt' +
+                  'id_funcao = :id_funcao, dat_admissao = :dat_admissao, val_remuneracao = :val_remuneracao, dat_demissao = :dat_demissao, ' +
+                  'updatedAt = :updatedAt ' +
                   'where ' +
                   'id_funcionario = :id_funcionario';
       SQLSELECT = 'select id_funcionario, nom_funcionario, nom_alias, cod_tipo_pessoa, num_cpf, num_rg, dat_emissao_rg, nom_emissor_rg, uf_emissor_rg, ' +
@@ -180,8 +180,10 @@ begin
   try
     with ARecord do
     begin
+      id_funcionario := GetNextID('id_funcionario');
+      createdAt := Now();
+      updatedAt := Now();
       FQuery := FConn.GetQuery();
-      Arecord.id_funcionario := GetNextID('id_funcionario');
       FQuery.ExecSQL(SQLINSERT,
                     [id_funcionario, nom_funcionario, nom_alias, cod_tipo_pessoa, num_cpf, num_rg, dat_emissao_rg, nom_emissor_rg, uf_emissor_rg,
                     dat_nascimento, des_nacionalidade, des_naturalidade, uf_naturalidade, nom_pai, nom_mae, num_cnh, num_registro_cnh, des_categoria_cnh,

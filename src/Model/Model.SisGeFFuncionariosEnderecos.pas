@@ -55,12 +55,12 @@ type
                   ':des_bairro, :nom_cidade, :uf_estado, :des_referencia, :createdAt, :updatedAt)';
       SQLUPDATE = 'update ' + TABLENAME +
                   ' set ' +
-                  'id_funcionario = :id_funcionario, des_tipo = :des_tipo, num_cep = :num_cep, ' +
+                  'des_tipo = :des_tipo, num_cep = :num_cep, ' +
                   'des_logradouro = :des_logradouro, num_logradouro = :num_logradouro, des_complemento = :des_complemento, ' +
-                  'des_bairro = :des_bairro, nom_cidade = :nom_cidade, uf_estado = :uf_estado, des_referencia = :des_referencia ' +
+                  'des_bairro = :des_bairro, nom_cidade = :nom_cidade, uf_estado = :uf_estado, des_referencia = :des_referencia, ' +
                   'createdAt = :createdAt, updatedAt = :updatedAt ' +
                   'where ' +
-                  'id_endereco = :id_endereco';
+                  'id_endereco = :id_endereco and id_funcionario = :id_funcionario';
       SQLSELECT = 'select id_endereco, id_funcionario, des_tipo, num_cep, des_logradouro, num_logradouro, des_complemento, ' +
                   'des_bairro, nom_cidade, uf_estado, des_referencia, createdAt, updatedAt ' +
                   'from ' +
@@ -74,15 +74,14 @@ implementation
 
 function TFuncionariosEnderecosModel.Alterar: boolean;
 begin
+  Result := False;
   try
     FQuery := FConn.GetQuery;
     FRecords.updatedAt := Now();
     FQuery.ExecSQL(SQLUPDATE,
-                  [FRecords.id_funcionario, FRecords.des_tipo, FRecords.num_cep, FRecords.des_logradouro, FRecords.num_logradouro,
+                  [FRecords.des_tipo, FRecords.num_cep, FRecords.des_logradouro, FRecords.num_logradouro,
                    FRecords.des_complemento, FRecords.des_bairro, FRecords.nom_cidade, FRecords.uf_estado, FRecords.des_referencia,
-                   FRecords.createdAt, FRecords.updatedAt, FRecords.id_endereco]);
-    if FQuery.RowsAffected = 0 then
-      Exit;
+                   FRecords.createdAt, FRecords.updatedAt, FRecords.id_endereco, FRecords.id_funcionario]);
     Result := True;
   finally
     FQuery.Connection.Close;
@@ -159,7 +158,7 @@ function TFuncionariosEnderecosModel.SaveRecord: boolean;
 begin
   case FAcao of
     tacIncluir: Result := Inserir();
-    tacAlterar: Result := Alterar;
+    tacAlterar: Result := Alterar();
     tacExcluir: Result := Excluir();
   end;
 end;

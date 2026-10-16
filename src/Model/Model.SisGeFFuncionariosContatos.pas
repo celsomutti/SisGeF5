@@ -1,7 +1,7 @@
 unit Model.SisGeFFuncionariosContatos;
 
 interface
-  uses Common.ENum, FireDAC.Comp.Client, service.connectionMySQL, service.sistem;
+  uses Common.ENum, FireDAC.Comp.Client, service.connectionMySQL, service.sistem, System.SysUtils;
 
 type
   TContatos = record
@@ -48,10 +48,10 @@ type
                   '(:seq_contato, :id_funcionario, :des_contato, :num_telefone, :des_email, :createdAt, :updatedAt)';
       SQLUPDATE = 'update ' + TABLENAME +
                   ' set ' +
-                  'id_contratados = :id_contratados, des_contato = :des_contato, num_telefone = :num_telefone, ' +
+                  'des_contato = :des_contato, num_telefone = :num_telefone, ' +
                   'des_email  = :des_email, createdAt = :createdAt, updatedAt = :updatedAt ' +
                   'where ' +
-                  'seq_contato = :seq_contato';
+                  'seq_contato = :seq_contato and id_funcionario = :id_funcionario';
       SQLSELECT = 'select seq_contato, id_funcionario, des_contato, num_telefone, des_email, createdAt, updatedAt ' +
                   'from ' +
                   TABLENAME;
@@ -65,12 +65,11 @@ implementation
 function TFuncionariosContatosModel.Alterar: boolean;
 begin
   try
-  FQuery := FConn.GetQuery;
+    FQuery := FConn.GetQuery;
+    FRecord.updatedAt := Now();
     FQuery.ExecSQL(SQLUPDATE,
                   [FRecord.id_funcionario, FRecord.des_contato, FRecord.num_telefone,
                   FRecord.des_email, FRecord.createdAt, FRecord.updatedAt, FRecord.seq_contato]);
-    if FQuery.RowsAffected = 0 then
-      Exit;
     Result := True;
   finally
     FQuery.Connection.Close;
@@ -131,6 +130,8 @@ begin
   Result := False;
   try
     FQuery := FConn.GetQuery();
+    FRecord.createdAt := Now();
+    FRecord.updatedAt := Now();
     FQuery.ExecSQL(SQLINSERT,
                   [FRecord.seq_contato, FRecord.id_funcionario, FRecord.des_contato, FRecord.num_telefone,
                   FRecord.des_email, FRecord.createdAt, FRecord.updatedAt]);

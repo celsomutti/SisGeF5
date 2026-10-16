@@ -27,10 +27,9 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     ParentBackground = True
     TabOrder = 0
     Transparent = True
-    CustomizeFormTabbedView = True
     object parametro: TcxButtonEdit
-      Left = 75
-      Top = 55
+      Left = 330
+      Top = 24
       Hint = 'Par'#226'metro de pesquisa'
       Properties.Buttons = <
         item
@@ -44,11 +43,11 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       TabOrder = 3
-      Width = 593
+      Width = 338
     end
     object cxButton1: TcxButton
       Left = 877
-      Top = 55
+      Top = 24
       Width = 107
       Height = 25
       Action = actionSearchRecords
@@ -70,9 +69,9 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object grid: TcxGrid
       Left = 24
-      Top = 129
+      Top = 98
       Width = 960
-      Height = 533
+      Height = 564
       TabOrder = 9
       object gridDBTableView1: TcxGridDBTableView
         OnDblClick = gridDBTableView1DblClick
@@ -358,7 +357,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object cxButton5: TcxButton
       Left = 24
-      Top = 98
+      Top = 67
       Width = 21
       Height = 25
       Action = actionGroupPanel
@@ -370,7 +369,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object cxButton6: TcxButton
       Left = 51
-      Top = 98
+      Top = 67
       Width = 21
       Height = 25
       Action = actionExpandGrid
@@ -382,7 +381,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object cxButton7: TcxButton
       Left = 78
-      Top = 98
+      Top = 67
       Width = 21
       Height = 25
       Action = actionRetractGrid
@@ -405,7 +404,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object lcbCategorias: TcxLookupComboBox
       Left = 726
-      Top = 55
+      Top = 24
       Properties.KeyFieldNames = 'id_categoria'
       Properties.ListColumns = <
         item
@@ -937,7 +936,6 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       AlignVert = avClient
       CaptionOptions.Text = 'Pesquisa'
       ButtonOptions.Buttons = <>
-      ItemIndex = 2
       Index = 0
     end
     object lgpCadastro: TdxLayoutGroup
@@ -951,14 +949,14 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup
-      Parent = lgpPesquisa
+      Parent = dxLayoutGroup4
       AlignHorz = ahClient
-      AlignVert = avTop
+      AlignVert = avClient
       CaptionOptions.Text = 'Pesquisa'
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 1
+      Index = 4
     end
     object dxLayoutItem1: TdxLayoutItem
       Parent = dxLayoutGroup1
@@ -988,7 +986,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       AlignHorz = ahClient
       AlignVert = avTop
       CaptionOptions.Text = 'Separator'
-      Index = 2
+      Index = 1
     end
     object dxLayoutGroup2: TdxLayoutGroup
       Parent = lgpPesquisa
@@ -997,7 +995,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
       ShowBorder = False
-      Index = 4
+      Index = 3
     end
     object dxLayoutSeparatorItem2: TdxLayoutSeparatorItem
       Parent = lrgRoot
@@ -1045,6 +1043,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       ButtonOptions.Buttons = <>
+      ItemIndex = 4
       LayoutDirection = ldHorizontal
       ShowBorder = False
       Index = 0
@@ -1055,7 +1054,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       ShowBorder = False
-      Index = 3
+      Index = 2
     end
     object dxLayoutItem5: TdxLayoutItem
       Parent = dxLayoutGroup4
@@ -1550,6 +1549,11 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ControlOptions.OriginalWidth = 94
       ControlOptions.ShowBorder = False
       Index = 6
+    end
+    object dxLayoutSeparatorItem7: TdxLayoutSeparatorItem
+      Parent = dxLayoutGroup4
+      CaptionOptions.Text = 'Separator'
+      Index = 3
     end
   end
   object actionList: TActionList

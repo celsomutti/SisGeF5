@@ -48,13 +48,13 @@ interface
       SQLINSERT = 'insert into ' + TABLENAME +
                   '(id_financeiro, id_funcionario, cod_banco, cod_agencia, num_conta, cod_pix, createdAt, updatedAt) ' +
                   'VALUES '  +
-                  '(:id_funcionario, :id_funcionario, :cod_banco, :cod_agencia, :num_conta, :cod_pix, :createdAt, :updatedAt)';
+                  '(:id_financeiro, :id_funcionario, :cod_banco, :cod_agencia, :num_conta, :cod_pix, :createdAt, :updatedAt)';
       SQLUPDATE = 'update ' + TABLENAME +
                   ' set ' +
-                  'id_funcionario = :id_funcionario, cod_banco = :cod_banco, cod_agencia = :cod_agencia, num_conta = :num_conta, ' +
-                  'cod_pix = :cod_pix, createdAt = :createdAt,  updatedAt = :updatedAt' +
+                  'cod_banco = :cod_banco, cod_agencia = :cod_agencia, num_conta = :num_conta, ' +
+                  'cod_pix = :cod_pix, createdAt = :createdAt,  updatedAt = :updatedAt ' +
                   'where ' +
-                  'id_financeiro = :id_financeiro';
+                  'id_financeiro = :id_financeiro and id_funcionario = :id_funcionario';
       SQLSELECT = 'select id_financeiro, id_contratados, cod_banco, cod_agencia, num_conta, cod_pix, createdAt, updatedAt ' +
                   'from ' +
                   TABLENAME;
@@ -71,8 +71,8 @@ begin
     FQuery := FConn.GetQuery;
     FRecord.updatedAt := Now();
     FQuery.ExecSQL(SQLUPDATE,
-                 [FRecord.id_funcionario, FRecord.cod_banco, FRecord.cod_agencia, FRecord.num_conta,
-                 FRecord.cod_pix, FRecord.createdAt, FRecord.updatedAt, FRecord.id_financeiro]);
+                 [FRecord.cod_banco, FRecord.cod_agencia, FRecord.num_conta,
+                 FRecord.cod_pix, FRecord.createdAt, FRecord.updatedAt, FRecord.id_financeiro, FRecord.id_funcionario]);
     Result := True;
   finally
     FQuery.Connection.Close;
@@ -132,6 +132,8 @@ begin
   Result := False;
   try
     FQuery := FConn.GetQuery();
+    FRecord.createdAt := Now();
+    FRecord.updatedAt := Now();
     FQuery.ExecSQL(SQLINSERT,
                   [FRecord.id_financeiro, FRecord.id_funcionario, FRecord.cod_banco, FRecord.cod_agencia, FRecord.num_conta,
                   FRecord.cod_pix, FRecord.createdAt, FRecord.updatedAt]);
