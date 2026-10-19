@@ -1021,15 +1021,14 @@ begin
   begin
     Application.MessageBox
       ('Sua Licença expirou! Entre em contato com o suporte.',
-      'Atenção', MB_ICONWARNING + MB_OK);
+      'Atenção', MB_ICONERROR + MB_OK);
     Application.Terminate;
   end;
-  if DaysBetween(Now(), FLicence) <= 15 then
+  if DaysBetween(Now(), FLicence) <= 30 then
   begin
     Application.MessageBox
-      ('Sua licença está para expirar! Entre em contato com o suporte.',
+      (PChar('Sua licença irá expirar em ' + FormatDateTime('dd/mm/yyyy', IncDay(FLicence, 1)) + '! Entre em contato com o suporte.'),
       'Atenção', MB_ICONWARNING + MB_OK);
-    Application.Terminate;
   end;
 
   SetFileVersion;
