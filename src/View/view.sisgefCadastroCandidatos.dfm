@@ -65,7 +65,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
-      TabOrder = 41
+      TabOrder = 43
     end
     object grid: TcxGrid
       Left = 24
@@ -109,6 +109,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           DataBinding.FieldName = 'COD_CANDIDATO'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1id_categoria: TcxGridDBColumn
           Caption = 'Categoria'
@@ -121,13 +122,20 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
             end>
           Properties.ListOptions.ShowHeader = False
           Properties.ListSource = dsCategorias
+          HeaderAlignmentHorz = taCenter
           Width = 93
+        end
+        object gridDBTableView1des_funcao: TcxGridDBColumn
+          DataBinding.FieldName = 'des_funcao'
+          HeaderAlignmentHorz = taCenter
+          Width = 183
         end
         object gridDBTableView1NOM_CANDIDATO: TcxGridDBColumn
           Caption = 'Nome'
           DataBinding.FieldName = 'NOM_CANDIDATO'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 195
         end
         object gridDBTableView1DES_EMAIL: TcxGridDBColumn
@@ -135,6 +143,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           DataBinding.FieldName = 'DES_EMAIL'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 281
         end
         object gridDBTableView1DES_ENDERECO: TcxGridDBColumn
@@ -143,6 +152,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1NUM_ENDERECO: TcxGridDBColumn
           Caption = 'N'#250'mero'
@@ -150,6 +160,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DES_COMPLEMENTO: TcxGridDBColumn
           Caption = 'Complemento'
@@ -157,6 +168,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DES_BAIRRO: TcxGridDBColumn
           Caption = 'Bairro'
@@ -164,6 +176,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DES_CIDADE: TcxGridDBColumn
           Caption = 'Cidade'
@@ -171,6 +184,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DES_UF: TcxGridDBColumn
           Caption = 'UF'
@@ -178,6 +192,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1NUM_TELEFONE: TcxGridDBColumn
           Caption = 'Telefone'
@@ -187,6 +202,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           Properties.EditMask = '!\(99\)#0000-0000;1; '
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1NUM_CELULAR: TcxGridDBColumn
           Caption = 'Celular'
@@ -195,6 +211,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           Properties.IgnoreMaskBlank = True
           Properties.EditMask = '!\(99\)#0000-0000;1; '
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DOM_EXPERIENCIA: TcxGridDBColumn
           Caption = 'Experi'#234'ncia'
@@ -204,6 +221,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           Properties.ValueChecked = 'S'
           Properties.ValueUnchecked = 'N'
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DES_EXPERIENCIA: TcxGridDBColumn
           Caption = 'Observa'#231#245'es'
@@ -213,6 +231,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           Properties.ValueChecked = 'S'
           Properties.ValueUnchecked = 'N'
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DES_REGIOES: TcxGridDBColumn
           Caption = 'Regi'#245'es'
@@ -220,6 +239,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxMemoProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DOM_ANTECEDENTES: TcxGridDBColumn
           Caption = 'Antecedentes'
@@ -228,6 +248,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           Properties.ReadOnly = True
           Properties.ValueChecked = 'S'
           Properties.ValueUnchecked = 'N'
+          HeaderAlignmentHorz = taCenter
           Width = 82
         end
         object gridDBTableView1DOM_RESTRICOES: TcxGridDBColumn
@@ -236,6 +257,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxCheckBoxProperties'
           Properties.ValueChecked = 'S'
           Properties.ValueUnchecked = 'N'
+          HeaderAlignmentHorz = taCenter
           Width = 68
         end
         object gridDBTableView1DAT_VALIDADE_CNH: TcxGridDBColumn
@@ -243,6 +265,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           DataBinding.FieldName = 'DAT_VALIDADE_CNH'
           PropertiesClassName = 'TcxDateEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 82
         end
         object gridDBTableView1DES_CATEGORIA_CNH: TcxGridDBColumn
@@ -250,6 +273,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           DataBinding.FieldName = 'DES_CATEGORIA_CNH'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 77
         end
         object gridDBTableView1DOM_VEICULO_PROPRIO: TcxGridDBColumn
@@ -259,6 +283,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           Properties.ReadOnly = True
           Properties.ValueChecked = 'S'
           Properties.ValueUnchecked = 'N'
+          HeaderAlignmentHorz = taCenter
           Width = 51
         end
         object gridDBTableView1DES_ANO_VEICULO: TcxGridDBColumn
@@ -266,6 +291,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           DataBinding.FieldName = 'DES_ANO_VEICULO'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
           Width = 73
         end
         object gridDBTableView1DES_TIPO_VEICULO: TcxGridDBColumn
@@ -273,12 +299,14 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           DataBinding.FieldName = 'DES_TIPO_VEICULO'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DES_MODELO_VEICULO: TcxGridDBColumn
           Caption = 'Modelo Ve'#237'culo'
           DataBinding.FieldName = 'DES_MODELO_VEICULO'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DES_TIPO_COMBUSTIVEL: TcxGridDBColumn
           Caption = 'Combustivel'
@@ -286,6 +314,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DOM_LICENCIAMENTO_IPVA: TcxGridDBColumn
           Caption = 'Licenciamento'
@@ -294,6 +323,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           Properties.ReadOnly = True
           Properties.ValueChecked = 'S'
           Properties.ValueUnchecked = 'N'
+          HeaderAlignmentHorz = taCenter
           Width = 73
         end
         object gridDBTableView1DOM_RASTREADO: TcxGridDBColumn
@@ -304,6 +334,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           Properties.ValueChecked = 'S'
           Properties.ValueUnchecked = 'N'
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1DOM_DISPONIBILIDADE: TcxGridDBColumn
           Caption = 'Disponibilidade'
@@ -312,6 +343,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           Properties.ReadOnly = True
           Properties.ValueChecked = 'S'
           Properties.ValueUnchecked = 'N'
+          HeaderAlignmentHorz = taCenter
           Width = 76
         end
         object gridDBTableView1createdAt: TcxGridDBColumn
@@ -320,6 +352,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
         end
         object gridDBTableView1updatedAt: TcxGridDBColumn
           Caption = 'Atualizado em'
@@ -327,6 +360,18 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
           Visible = False
+          HeaderAlignmentHorz = taCenter
+        end
+        object gridDBTableView1NUM_CEP: TcxGridDBColumn
+          Caption = 'CEP'
+          DataBinding.FieldName = 'NUM_CEP'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
+        end
+        object gridDBTableView1id_funcao: TcxGridDBColumn
+          DataBinding.FieldName = 'id_funcao'
+          Visible = False
+          HeaderAlignmentHorz = taCenter
         end
       end
       object gridLevel1: TcxGridLevel
@@ -429,7 +474,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
-      TabOrder = 38
+      TabOrder = 40
       Visible = False
     end
     object cxButton10: TcxButton
@@ -441,7 +486,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
-      TabOrder = 39
+      TabOrder = 41
       Visible = False
     end
     object cxButton11: TcxButton
@@ -453,7 +498,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       SpeedButtonOptions.CanBeFocused = False
       SpeedButtonOptions.Flat = True
       SpeedButtonOptions.Transparent = True
-      TabOrder = 40
+      TabOrder = 42
       Visible = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -525,9 +570,9 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 13
+      TabOrder = 15
       Visible = False
-      Width = 588
+      Width = 325
     end
     object telefone: TcxMaskEdit
       Left = 10000
@@ -538,7 +583,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 14
+      TabOrder = 16
       Text = '(  )    -    '
       Visible = False
       Width = 121
@@ -551,7 +596,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 15
+      TabOrder = 17
       Text = '(  )     -    '
       Visible = False
       Width = 121
@@ -573,7 +618,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
-      TabOrder = 16
+      TabOrder = 18
       Text = '        '
       Visible = False
       Width = 97
@@ -587,7 +632,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 17
+      TabOrder = 19
       Visible = False
       Width = 392
     end
@@ -600,7 +645,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 18
+      TabOrder = 20
       Visible = False
       Width = 103
     end
@@ -613,7 +658,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 19
+      TabOrder = 21
       Visible = False
       Width = 164
     end
@@ -626,7 +671,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 20
+      TabOrder = 22
       Visible = False
       Width = 392
     end
@@ -639,7 +684,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 21
+      TabOrder = 23
       Visible = False
       Width = 401
     end
@@ -659,7 +704,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 22
+      TabOrder = 24
       Visible = False
       Width = 66
     end
@@ -675,7 +720,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 30
+      TabOrder = 32
       Visible = False
       Width = 97
     end
@@ -687,7 +732,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 31
+      TabOrder = 33
       Visible = False
       Width = 44
     end
@@ -719,7 +764,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 32
+      TabOrder = 34
       Visible = False
       Width = 121
     end
@@ -732,7 +777,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 33
+      TabOrder = 35
       Visible = False
       Width = 153
     end
@@ -744,7 +789,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 34
+      TabOrder = 36
       Text = '    '
       Visible = False
       Width = 44
@@ -768,7 +813,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 35
+      TabOrder = 37
       Visible = False
       Width = 139
     end
@@ -779,7 +824,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 36
+      TabOrder = 38
       Visible = False
       Height = 169
       Width = 477
@@ -791,7 +836,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 37
+      TabOrder = 39
       Visible = False
       Height = 169
       Width = 477
@@ -808,7 +853,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 23
+      TabOrder = 25
       Visible = False
     end
     object antecedente: TcxCheckBox
@@ -823,7 +868,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 24
+      TabOrder = 26
       Visible = False
     end
     object restricoes: TcxCheckBox
@@ -838,7 +883,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 25
+      TabOrder = 27
       Visible = False
     end
     object veiculo: TcxCheckBox
@@ -853,7 +898,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 26
+      TabOrder = 28
       Visible = False
     end
     object rastreador: TcxCheckBox
@@ -868,7 +913,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 27
+      TabOrder = 29
       Visible = False
     end
     object licenciado: TcxCheckBox
@@ -883,7 +928,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 28
+      TabOrder = 30
       Visible = False
     end
     object disponibilidade: TcxCheckBox
@@ -898,8 +943,46 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
-      TabOrder = 29
+      TabOrder = 31
       Visible = False
+    end
+    object funcao: TcxButtonEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'C'#243'digo da fun'#231#227'o'
+      Properties.Alignment.Horz = taRightJustify
+      Properties.Buttons = <
+        item
+          Action = actSearchFunction
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.IgnoreMaskBlank = True
+      Properties.Images = Data_Sisgef.iml_16_16
+      Properties.MaskKind = emkRegExpr
+      Properties.EditMask = '\d'
+      Properties.OnValidate = funcaoPropertiesValidate
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      Style.ButtonStyle = bts3D
+      TabOrder = 13
+      Text = '0'
+      Visible = False
+      Width = 65
+    end
+    object descricaoFuncao: TcxTextEdit
+      Left = 10000
+      Top = 10000
+      Hint = 'Descri'#231#227'o da fun'#231#227'o'
+      TabStop = False
+      Properties.ReadOnly = True
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 14
+      Visible = False
+      Width = 146
     end
     object lrgRoot: TdxLayoutGroup
       AlignHorz = ahClient
@@ -945,7 +1028,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       CaptionOptions.Text = 'Cadastro'
       ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catNone
-      ItemIndex = 10
+      ItemIndex = 8
       Index = 1
     end
     object dxLayoutGroup1: TdxLayoutGroup
@@ -1312,7 +1395,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 0
+      Index = 2
     end
     object dxLayoutItem15: TdxLayoutItem
       Parent = dxLayoutGroup8
@@ -1321,7 +1404,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 1
+      Index = 3
     end
     object dxLayoutItem16: TdxLayoutItem
       Parent = dxLayoutGroup8
@@ -1330,7 +1413,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
-      Index = 2
+      Index = 4
     end
     object dxLayoutItem17: TdxLayoutItem
       Parent = dxLayoutGroup9
@@ -1554,6 +1637,25 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Parent = dxLayoutGroup4
       CaptionOptions.Text = 'Separator'
       Index = 3
+    end
+    object dxLayoutItem32: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      CaptionOptions.Text = 'Fun'#231#227'o'
+      Control = funcao
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 65
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutItem40: TdxLayoutItem
+      Parent = dxLayoutGroup8
+      CaptionOptions.Text = 'Descri'#231#227'o'
+      CaptionOptions.Visible = False
+      Control = descricaoFuncao
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 146
+      ControlOptions.ShowBorder = False
+      Index = 1
     end
   end
   object actionList: TActionList
@@ -1788,6 +1890,15 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     object mtbCandidatosDOM_DISPONIBILIDADE: TStringField
       FieldName = 'DOM_DISPONIBILIDADE'
       Size = 1
+    end
+    object mtbCandidatosid_funcao: TIntegerField
+      DisplayLabel = 'Id Fun'#231#227'o'
+      FieldName = 'id_funcao'
+    end
+    object mtbCandidatosdes_funcao: TStringField
+      DisplayLabel = 'Fun'#231#227'o'
+      FieldName = 'des_funcao'
+      Size = 132
     end
     object mtbCandidatoscreatedAt: TDateTimeField
       FieldName = 'createdAt'

@@ -34,6 +34,7 @@ uses Generics.Collections, System.Classes, System.SysUtils, Common.Utils, ComObj
         FDES_COMPLEMENTO: string;
         FNOM_CANDIDATO: string;
         FDOM_LICENCIAMENTO_IPVA: string;
+        Fid_funcao: integer;
       public
         property COD_CANDIDATO: integer read FCOD_CANDIDATO write FCOD_CANDIDATO;
         property id_categoria: integer read Fid_categoria write Fid_categoria;
@@ -63,6 +64,7 @@ uses Generics.Collections, System.Classes, System.SysUtils, Common.Utils, ComObj
         property DOM_LICENCIAMENTO_IPVA: string read FDOM_LICENCIAMENTO_IPVA write FDOM_LICENCIAMENTO_IPVA;
         property DOM_RASTREADO: string read FDOM_RASTREADO write FDOM_RASTREADO;
         property DOM_DISPONIBILIDADE: string read FDOM_DISPONIBILIDADE write FDOM_DISPONIBILIDADE;
+        property id_funcao: integer read Fid_funcao write Fid_funcao;
     end;
 
 

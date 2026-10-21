@@ -12,7 +12,7 @@ uses
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, cxCheckBox, cxMemo, cxCalendar, service.connectionMySQL,
   cxDBEdit, Controller.APICEP, Controller.SisGeFCadastroCandidatos, Vcl.ComCtrls, dxCore, cxDateUtils, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Common.ENum, services.SisGeFTabelaCandidatos;
+  Common.ENum, services.SisGeFTabelaCandidatos, service.SisGeFGeneralSearch;
 
 type
   TviewCadastroCandidatos = class(TForm)
@@ -210,6 +210,15 @@ type
     mtbCandidatoscreatedAt: TDateTimeField;
     mtbCandidatosupdatedAt: TDateTimeField;
     dxLayoutSeparatorItem7: TdxLayoutSeparatorItem;
+    funcao: TcxButtonEdit;
+    dxLayoutItem32: TdxLayoutItem;
+    descricaoFuncao: TcxTextEdit;
+    dxLayoutItem40: TdxLayoutItem;
+    mtbCandidatosid_funcao: TIntegerField;
+    mtbCandidatosdes_funcao: TStringField;
+    gridDBTableView1NUM_CEP: TcxGridDBColumn;
+    gridDBTableView1id_funcao: TcxGridDBColumn;
+    gridDBTableView1des_funcao: TcxGridDBColumn;
     procedure actCadastroLimparExecute(Sender: TObject);
     procedure actCadastroSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -228,6 +237,7 @@ type
     procedure actionEditRegisterExecute(Sender: TObject);
     procedure actionSearchCEPExecute(Sender: TObject);
     procedure gridDBTableView1DblClick(Sender: TObject);
+    procedure funcaoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     FConn : TConnectionMySQL;
     FCandidatos: TCadastroCandidatosController;
@@ -245,6 +255,9 @@ type
     procedure Documents;
     procedure SearchCEP(sCEP: string);
     procedure Save;
+    procedure SearchFuncoes;
+    procedure NomeFuncao(id: integer);
+
 
     function CustomSearchStr(sParam: string): string;
   public
@@ -258,7 +271,7 @@ implementation
 
 {$R *.dfm}
 
-uses Data.SisGeF, View.SisaGeFAttachDocuments, View.ListaCEPs;
+uses Data.SisGeF, View.SisaGeFAttachDocuments, View.ListaCEPs, View.SisGeFGeneralsSearch;
 
 procedure TviewCadastroCandidatos.actCadastroLimparExecute(Sender: TObject);
 begin
@@ -380,6 +393,8 @@ begin
     rastreador.Checked := False;
     licenciado.Checked := False;
     disponibilidade.Checked := False;
+    funcao.EditValue := 0;
+    descricaoFuncao.Clear;
 end;
 
 function TviewCadastroCandidatos.CustomSearchStr(sParam: string): string;
@@ -524,6 +539,14 @@ begin
   ShowForm;
 end;
 
+procedure TviewCadastroCandidatos.funcaoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  if DisplayValue = EmptyStr then
+    DisplayValue := 0;
+
+  NomeFuncao(DisplayValue);
+end;
+
 procedure TviewCadastroCandidatos.gridDBTableView1DblClick(Sender: TObject);
 begin
   Edit;
@@ -535,6 +558,27 @@ begin
   ClearFields;
   lgpContainer.ItemIndex := 1;
   categoria.SetFocus;
+end;
+
+procedure TviewCadastroCandidatos.NomeFuncao(id: integer);
+var
+  FSearch: TSearch;
+  aParam: array of string;
+begin
+  FSearch := TSearch.Create;
+  SetLength(aParam, 3);
+  try
+    aParam := ['des_funcao', 'crm_funcoes_rh  ', 'id_funcao = ' + id.ToString];
+    if not FSearch.ReturnSearch(aParam) then
+    begin
+      Application.MessageBox(PChar(FSearch.Mensagem), 'Atenção', MB_OK + MB_ICONWARNING);
+      Exit;
+    end;
+    descricaoFuncao.Text := FSearch.Query.Fields[0].Value;
+  finally
+    Finalize(aParam);
+    FSearch.Free;
+  end;
 end;
 
 procedure TviewCadastroCandidatos.Save;
@@ -571,7 +615,7 @@ var
 begin
   SetLength(aParam, 3);
   aParam[0] := '*';
-  aParam[1] := 'TABLE';
+  aParam[1] := 'VIEW';
   aParam[2] := sParam;
   with FCandidatos do
   begin
@@ -637,6 +681,20 @@ begin
   end;
 end;
 
+procedure TviewCadastroCandidatos.SearchFuncoes;
+begin
+  if not Assigned(viewGeneralSearch) then
+    viewGeneralSearch := TviewGeneralSearch.Create(Application);
+  viewGeneralSearch.Campos := 'id_funcao as "Código", des_funcao as "Descrição"';
+  viewGeneralSearch.Tabela := 'crm_funcoes_rh';
+  if viewGeneralSearch.ShowModal = mrOk then
+  begin
+    funcao.EditValue := viewGeneralSearch.mtbPesquisa.Fields[0].Value;
+    descricaoFuncao.Text := viewGeneralSearch.mtbPesquisa.Fields[1].Value;
+  end;
+  FreeAndNil(viewGeneralSearch);
+end;
+
 function TviewCadastroCandidatos.SetupFields(iId: integer): boolean;
 var
   aParam : Array of String;
@@ -680,6 +738,8 @@ begin
         rastreador.EditValue := FTabela[0].DOM_RASTREADO;
         licenciado.EditValue := FTabela[0].DOM_LICENCIAMENTO_IPVA;
         disponibilidade.EditValue := FTabela[0].DOM_DISPONIBILIDADE;
+        funcao.EditValue := FTabela[0].id_funcao;
+        NomeFuncao(FTabela[0].id_funcao);
       end
       else
       begin
@@ -727,6 +787,7 @@ begin
     FTabela[0].DOM_RASTREADO := rastreador.EditValue;
     FTabela[0].DOM_LICENCIAMENTO_IPVA := licenciado.EditValue;
     FTabela[0].DOM_DISPONIBILIDADE :=  disponibilidade.EditValue;
+    FTabela[0].id_funcao := funcao.EditValue;
   end;
 end;
 

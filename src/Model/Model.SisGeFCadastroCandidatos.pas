@@ -34,6 +34,7 @@ interface
       DOM_LICENCIAMENTO_IPVA  : string[1];
       DOM_RASTREADO           : string[1];
       DOM_DISPONIBILIDADE     : string[1];
+      id_funcao               : integer;
       createdAt               : TDateTime;
       updatedAt               : TDateTime;
     end;
@@ -67,24 +68,24 @@ interface
 
       const
         TABLENAME = 'tbcandidatos';
-        VIEWNAME  = '';
+        VIEWNAME  = 'view_pesquisacandidatos';
         SQLSELECT = 'SELECT COD_CANDIDATO, id_categoria, NOM_CANDIDATO, DES_EMAIL, NUM_CEP, DES_ENDERECO, NUM_ENDERECO, ' +
                     'DES_COMPLEMENTO, DES_BAIRRO, DES_CIDADE, DES_UF, NUM_TELEFONE, NUM_CELULAR, DOM_EXPERIENCIA, ' +
                     'DES_EXPERIENCIA, DES_REGIOES, DOM_ANTECEDENTES, DOM_RESTRICOES, DAT_VALIDADE_CNH, DES_CATEGORIA_CNH, ' +
                     'DOM_VEICULO_PROPRIO, DES_ANO_VEICULO, DES_TIPO_VEICULO, DES_MODELO_VEICULO, DES_TIPO_COMBUSTIVEL, ' +
-                    'DOM_LICENCIAMENTO_IPVA, DOM_RASTREADO, DOM_DISPONIBILIDADE, createdAt, updatedAt ' +
+                    'DOM_LICENCIAMENTO_IPVA, DOM_RASTREADO, DOM_DISPONIBILIDADE, id_funcao, createdAt, updatedAt ' +
                     'FROM ' + TABLENAME;
         SQLINSERT = 'INSERT INTO ' + TABLENAME + ' ' +
                     '(COD_CANDIDATO, id_categoria, NOM_CANDIDATO, DES_EMAIL, NUM_CEP, DES_ENDERECO, NUM_ENDERECO, ' +
                     'DES_COMPLEMENTO, DES_BAIRRO,  DES_CIDADE, DES_UF, NUM_TELEFONE,  NUM_CELULAR, DOM_EXPERIENCIA, ' +
                     'DES_EXPERIENCIA, DES_REGIOES, DOM_ANTECEDENTES, DOM_RESTRICOES, DAT_VALIDADE_CNH, DES_CATEGORIA_CNH, ' +
                     'DOM_VEICULO_PROPRIO, DES_ANO_VEICULO, DES_TIPO_VEICULO, DES_MODELO_VEICULO, DES_TIPO_COMBUSTIVEL, ' +
-                    'DOM_LICENCIAMENTO_IPVA, DOM_RASTREADO, DOM_DISPONIBILIDADE) ' +
+                    'DOM_LICENCIAMENTO_IPVA, DOM_RASTREADO, DOM_DISPONIBILIDADE, id_funcao) ' +
                     'VALUES (:COD_CANDIDATO, :id_categoria, :NOM_CANDIDATO, :DES_EMAIL, :NUM_CEP, :DES_ENDERECO, :NUM_ENDERECO, ' +
                     ':DES_COMPLEMENTO, :DES_BAIRRO, :DES_CIDADE, :DES_UF, :NUM_TELEFONE, :NUM_CELULAR, :DOM_EXPERIENCIA, ' +
                     ':DES_EXPERIENCIA, :DES_REGIOES, :DOM_ANTECEDENTES, :DOM_RESTRICOES, :DAT_VALIDADE_CNH, :DES_CATEGORIA_CNH, ' +
                     ':DOM_VEICULO_PROPRIO, :DES_ANO_VEICULO, :DES_TIPO_VEICULO, :DES_MODELO_VEICULO, :DES_TIPO_COMBUSTIVEL, ' +
-                    ':DOM_LICENCIAMENTO_IPVA, :DOM_RASTREADO, :DOM_DISPONIBILIDADE )' ;
+                    ':DOM_LICENCIAMENTO_IPVA, :DOM_RASTREADO, :DOM_DISPONIBILIDADE, :id_funcao )' ;
         SQLUPDATE = 'UPDATE ' + TABLENAME  + ' ' +
                     'SET id_categoria = :id_categoria, NOM_CANDIDATO = :NOM_CANDIDATO, DES_EMAIL = :DES_EMAIL, ' +
                     'NUM_CEP = :NUM_CEP, DES_ENDERECO = :DES_ENDERECO, NUM_ENDERECO = :NUM_ENDERECO, ' +
@@ -96,7 +97,7 @@ interface
                     'DOM_VEICULO_PROPRIO = :DOM_VEICULO_PROPRIO, DES_ANO_VEICULO = :DES_ANO_VEICULO, ' +
                     'DES_TIPO_VEICULO = :DES_TIPO_VEICULO, DES_MODELO_VEICULO = :DES_MODELO_VEICULO, ' +
                     'DES_TIPO_COMBUSTIVEL = :DES_TIPO_COMBUSTIVEL, DOM_LICENCIAMENTO_IPVA = :DOM_LICENCIAMENTO_IPVA, ' +
-                    'DOM_RASTREADO = :DOM_RASTREADO, DOM_DISPONIBILIDADE = :DOM_DISPONIBILIDADE, updatedAt = :updatedAt ' +
+                    'DOM_RASTREADO = :DOM_RASTREADO, DOM_DISPONIBILIDADE = :DOM_DISPONIBILIDADE, id_funcao = :id_funcao, updatedAt = :updatedAt ' +
                     'WHERE COD_CANDIDATO = :COD_CANDIDATO';
         SQLDELETE = 'DELETE FROM ' + TABLENAME + ' ' +
                     'WHERE COD_CANDIDATO = :COD_CANDIDATO';
@@ -197,6 +198,7 @@ begin
   ARecord.DOM_LICENCIAMENTO_IPVA  := FQuery.FieldByName('DOM_LICENCIAMENTO_IPVA').AsString;
   ARecord.DOM_RASTREADO           := FQuery.FieldByName('DOM_RASTREADO').AsString;
   ARecord.DOM_DISPONIBILIDADE     := FQuery.FieldByName('DOM_DISPONIBILIDADE').AsString;
+  ARecord.id_funcao               := FQuery.FieldByName('id_funcao').AsInteger;
   ARecord.createdAt               := FQuery.FieldByName('createdAt').AsDateTime;
   ARecord.updatedAt               := FQuery.FieldByName('updatedAt').AsDateTime;
   Result := True;
@@ -216,7 +218,7 @@ begin
                     ARecord.DES_REGIOES, ARecord.DOM_ANTECEDENTES, ARecord.DOM_RESTRICOES, ARecord.DAT_VALIDADE_CNH,
                     ARecord.DES_CATEGORIA_CNH, ARecord.DOM_VEICULO_PROPRIO, ARecord.DES_ANO_VEICULO, ARecord.DES_TIPO_VEICULO,
                     ARecord.DES_MODELO_VEICULO, ARecord.DES_TIPO_COMBUSTIVEL, ARecord.DOM_LICENCIAMENTO_IPVA, ARecord.DOM_RASTREADO,
-                    ARecord.DOM_DISPONIBILIDADE]);
+                    ARecord.DOM_DISPONIBILIDADE, ARecord.id_funcao]);
       Result := True;
     end
     else if FAcao = tacAlterar then
@@ -230,7 +232,7 @@ begin
                     ARecord.DES_REGIOES, ARecord.DOM_ANTECEDENTES, ARecord.DOM_RESTRICOES, ARecord.DAT_VALIDADE_CNH,
                     ARecord.DES_CATEGORIA_CNH, ARecord.DOM_VEICULO_PROPRIO, ARecord.DES_ANO_VEICULO, ARecord.DES_TIPO_VEICULO,
                     ARecord.DES_MODELO_VEICULO, ARecord.DES_TIPO_COMBUSTIVEL, ARecord.DOM_LICENCIAMENTO_IPVA, ARecord.DOM_RASTREADO,
-                    ARecord.DOM_DISPONIBILIDADE, aRecord.updatedAt, ARecord.COD_CANDIDATO]);
+                    ARecord.DOM_DISPONIBILIDADE, ARecord.id_funcao, aRecord.updatedAt, ARecord.COD_CANDIDATO]);
       Result := True;
     end
     else if FAcao = tacExcluir then

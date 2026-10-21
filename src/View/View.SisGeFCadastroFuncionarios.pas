@@ -761,24 +761,28 @@ begin
     FFuncionarios.Funcionario.Acao := FAcao;
     if FFuncionarios.SaveRecord then
     begin
+      FEnderecos.FEnderecos.Acao := FAcao;
       Fenderecos.FEnderecos.FRecords.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
       if not FEnderecos.SaveRecord then
       begin
         Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
         Exit;
       end;
+      FContatos.Contatos.Acao := FAcao;
       FContatos.Contatos.FRecord.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
       if not FContatos.SaveRecord then
       begin
         Application.MessageBox(PChar(FContatos.Contatos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
         Exit;
       end;
+      FDocumetos.FDocumentos.Acao := FAcao;
       FDocumetos.FDocumentos.FRecords.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
       if not FDocumetos.SaveRecord then
       begin
         Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
         Exit;
       end;
+      FFinanceiro.FFinanceiro.Acao := FAcao;
       FFinanceiro.FFinanceiro.FRecord.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
       if not FFinanceiro.SaveRecord then
       begin
@@ -1021,6 +1025,7 @@ begin
         begin
           FIdFinanceiro := id_financeiro;
           banco.Text    := cod_banco;
+          NomeBanco(cod_banco);
           agencia.Text  := cod_agencia;
           conta.Text    := num_conta;
           pix.Text      := cod_pix;
