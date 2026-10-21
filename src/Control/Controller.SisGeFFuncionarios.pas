@@ -126,19 +126,22 @@ begin
           Exit;
         end;
       end;
-      if id_funcao <> 0 then
+      if id_departamento = 0 then
       begin
-        if id_departamento = 0 then
-        begin
-          FFuncionario.Mensagem := 'Informe o departamento do funcionário.';
-          Exit;
-        end;
-        if val_remuneracao = 0 then
-        begin
-          FFuncionario.Mensagem := 'Informe o valor da remuneração do funcionário.';
-          Exit;
-        end;
+        FFuncionario.Mensagem := 'Informe o departamento do funcionário.';
+        Exit;
       end;
+      if id_funcao = 0 then
+      begin
+        FFuncionario.Mensagem := 'Informe a função do funcionário.';
+        Exit;
+      end;
+      if val_remuneracao = 0 then
+      begin
+        FFuncionario.Mensagem := 'Informe o valor da remuneração do funcionário.';
+        Exit;
+      end;
+
     end;
     Result := True;
   finally

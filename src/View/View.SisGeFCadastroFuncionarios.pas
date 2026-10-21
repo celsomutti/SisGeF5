@@ -1075,7 +1075,9 @@ begin
               situacao.ItemIndex := cod_status;
               observacoes.Text := des_obs;
               departamento.EditValue := id_departamento;
+              NomeDepartamento(id_departamento);
               funcao.EditValue := id_funcao;
+              NomeFuncao(id_funcao);
               admissao.Date := dat_admissao;
               remuneracao.Value := val_remuneracao;
               demissao.Date := dat_demissao;
