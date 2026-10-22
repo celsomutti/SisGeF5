@@ -494,11 +494,18 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Left = 10000
       Top = 10000
       Hint = 'Nome do funcion'#225'rio'
+      ParentFont = False
       Properties.CharCase = ecUpperCase
       Properties.MaxLength = 70
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -11
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
       Style.HotTrack = False
+      Style.IsFontAssigned = True
       TabOrder = 10
       Visible = False
       Width = 684
@@ -507,11 +514,18 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
       Left = 10000
       Top = 10000
       Hint = 'CPF do funcion'#225'rio'
+      ParentFont = False
       Properties.IgnoreMaskBlank = True
       Properties.EditMask = '000\.000\.000\-00;0; '
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -11
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
       Style.HotTrack = False
+      Style.IsFontAssigned = True
       TabOrder = 11
       Text = '           '
       Visible = False
@@ -2120,6 +2134,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     object dxLayoutItem52: TdxLayoutItem
       Parent = dxLayoutGroup19
       AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Descri'#231#227'o'
       CaptionOptions.Visible = False
       Control = descricaoDepartamento
@@ -2140,6 +2155,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     object dxLayoutItem54: TdxLayoutItem
       Parent = dxLayoutGroup19
       AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Descri'#231#227'o'
       CaptionOptions.Visible = False
       Control = descricaoFuncao
@@ -2159,6 +2175,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object dxLayoutItem55: TdxLayoutItem
       Parent = dxLayoutGroup19
+      AlignVert = avClient
       CaptionOptions.Text = 'Admiss'#227'o'
       Control = admissao
       ControlOptions.OriginalHeight = 21
@@ -2168,6 +2185,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object dxLayoutItem56: TdxLayoutItem
       Parent = dxLayoutGroup19
+      AlignVert = avClient
       CaptionOptions.Text = 'Remunera'#231#227'o'
       Control = remuneracao
       ControlOptions.OriginalHeight = 21
@@ -2188,6 +2206,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     end
     object dxLayoutItem58: TdxLayoutItem
       Parent = dxLayoutGroup19
+      AlignVert = avClient
       CaptionOptions.Text = 'Demiss'#227'o'
       Control = demissao
       ControlOptions.OriginalHeight = 21
@@ -2611,7 +2630,7 @@ object viewCadastroFunctionarios: TviewCadastroFunctionarios
     StoreDefs = True
     Left = 744
     Content = {
-      414442530F00FC299D110000FF00010001FF02FF030400160000006D00740062
+      414442530F00302D9D110000FF00010001FF02FF030400160000006D00740062
       005000650073007100750069007300610005000A0000005400610062006C0065
       00060000000000070000080032000000090000FF0AFF0B04001C000000690064
       005F00660075006E00630069006F006E006100720069006F0005001C00000069

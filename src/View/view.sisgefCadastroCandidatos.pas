@@ -238,6 +238,7 @@ type
     procedure actionSearchCEPExecute(Sender: TObject);
     procedure gridDBTableView1DblClick(Sender: TObject);
     procedure funcaoPropertiesValidate(Sender: TObject; var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure actSearchFunctionExecute(Sender: TObject);
   private
     FConn : TConnectionMySQL;
     FCandidatos: TCadastroCandidatosController;
@@ -356,6 +357,11 @@ end;
 procedure TviewCadastroCandidatos.actionSearchRecordsExecute(Sender: TObject);
 begin
   Search(CustomSearchStr(parametro.Text));
+end;
+
+procedure TviewCadastroCandidatos.actSearchFunctionExecute(Sender: TObject);
+begin
+  SearchFuncoes;
 end;
 
 procedure TviewCadastroCandidatos.Cancel;
@@ -763,8 +769,8 @@ begin
     FTabela[0].id_categoria := categoria.EditValue;
     FTabela[0].NOM_CANDIDATO := nome.Text;
     FTabela[0].DES_EMAIL := email.Text;
-    FTabela[0].NUM_TELEFONE := telefone.EditValue;
-    FTabela[0].NUM_CELULAR := celular.EditValue;
+    FTabela[0].NUM_TELEFONE := telefone.Text;
+    FTabela[0].NUM_CELULAR := celular.Text;
     FTabela[0].NUM_CEP :=  cep.EditValue;
     FTabela[0].DES_ENDERECO := logradouro.Text;
     FTabela[0].NUM_ENDERECO :=  numero.Text;

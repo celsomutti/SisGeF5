@@ -736,71 +736,68 @@ var
   sMensagem: string;
 begin
   SetupTabela;
-  try
-    if not FFuncionarios.Validate() then
-    begin
-      Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-      Exit;
-    end;
-    if not FEnderecos.Validate() then
+  if not FFuncionarios.Validate() then
+  begin
+    Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
+  if not FEnderecos.Validate() then
+  begin
+    Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
+  if not FDocumetos.Validate() then
+  begin
+    Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
+  end;
+  if FAcao = tacAlterar then
+    sMensagem := 'Confirma alterar os dados do funcionário '  + nome.Text + ' ?'
+  else if FAcao = tacIncluir then
+    sMensagem := 'Confirma incluir os dados do funconário '  + nome.Text + ' ?';
+  if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
+    Exit;
+  FFuncionarios.Funcionario.Acao := FAcao;
+  if FFuncionarios.SaveRecord then
+  begin
+    FEnderecos.FEnderecos.Acao := FAcao;
+    Fenderecos.FEnderecos.FRecords.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
+    if not FEnderecos.SaveRecord then
     begin
       Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
       Exit;
     end;
-    if not FDocumetos.Validate() then
+    FContatos.Contatos.Acao := FAcao;
+    FContatos.Contatos.FRecord.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
+    if not FContatos.SaveRecord then
+    begin
+      Application.MessageBox(PChar(FContatos.Contatos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Exit;
+    end;
+    FDocumetos.FDocumentos.Acao := FAcao;
+    FDocumetos.FDocumentos.FRecords.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
+    if not FDocumetos.SaveRecord then
     begin
       Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
       Exit;
     end;
-    if FAcao = tacAlterar then
-      sMensagem := 'Confirma alterar os dados do funcionário '  + nome.Text + ' ?'
-    else if FAcao = tacIncluir then
-      sMensagem := 'Confirma incluir os dados do funconário '  + nome.Text + ' ?';
-    if Application.MessageBox(PChar(sMensagem), 'Salvar', MB_YESNO + MB_ICONQUESTION) = mrNo then
-      Exit;
-    FFuncionarios.Funcionario.Acao := FAcao;
-    if FFuncionarios.SaveRecord then
+    FFinanceiro.FFinanceiro.Acao := FAcao;
+    FFinanceiro.FFinanceiro.FRecord.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
+    if not FFinanceiro.SaveRecord then
     begin
-      FEnderecos.FEnderecos.Acao := FAcao;
-      Fenderecos.FEnderecos.FRecords.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
-      if not FEnderecos.SaveRecord then
-      begin
-        Application.MessageBox(PChar(FEnderecos.FEnderecos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-        Exit;
-      end;
-      FContatos.Contatos.Acao := FAcao;
-      FContatos.Contatos.FRecord.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
-      if not FContatos.SaveRecord then
-      begin
-        Application.MessageBox(PChar(FContatos.Contatos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-        Exit;
-      end;
-      FDocumetos.FDocumentos.Acao := FAcao;
-      FDocumetos.FDocumentos.FRecords.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
-      if not FDocumetos.SaveRecord then
-      begin
-        Application.MessageBox(PChar(FDocumetos.FDocumentos.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-        Exit;
-      end;
-      FFinanceiro.FFinanceiro.Acao := FAcao;
-      FFinanceiro.FFinanceiro.FRecord.id_funcionario := FFuncionarios.Funcionario.ARecord.id_funcionario;
-      if not FFinanceiro.SaveRecord then
-      begin
-        Application.MessageBox(PChar(FFinanceiro.FFinanceiro.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
-        Exit;
-      end;
-    end
-    else
-    begin
-      Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+      Application.MessageBox(PChar(FFinanceiro.FFinanceiro.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
       Exit;
     end;
-    FAcao := tacIndefinido;
-    Application.MessageBox('Cadastro salvo.', 'Salvar', MB_OK + MB_ICONINFORMATION);
-  finally
-    Search(CustomSearchStr(parametroPesquisa.Text), 'VIEW');
-    lgpContainer.ItemIndex := 0;
+  end
+  else
+  begin
+    Application.MessageBox(PChar(FFuncionarios.Funcionario.Mensagem), 'Atenção', MB_OK + MB_ICONEXCLAMATION);
+    Exit;
   end;
+  FAcao := tacIndefinido;
+  Application.MessageBox('Cadastro salvo.', 'Salvar', MB_OK + MB_ICONINFORMATION);
+  Search(CustomSearchStr(parametroPesquisa.Text), 'VIEW');
+  lgpContainer.ItemIndex := 0;
 end;
 
 procedure TviewCadastroFunctionarios.Search(sParam, sSource: string);

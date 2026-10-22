@@ -845,7 +845,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Left = 10000
       Top = 10000
       Hint = 'Candidato possui experi'#234'ncia ?'
-      Caption = 'Experi'#234'ncia'
+      Caption = 'Possui Experi'#234'ncia'
       Properties.NullStyle = nssUnchecked
       Properties.ValueChecked = 'S'
       Properties.ValueUnchecked = 'N'
@@ -890,7 +890,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Left = 10000
       Top = 10000
       Hint = 'Candidato possui ve'#237'culo pr'#243'prio ?'
-      Caption = 'Ve'#237'culo'
+      Caption = 'Ve'#237'culo Pr'#243'prio'
       Properties.NullStyle = nssUnchecked
       Properties.ValueChecked = 'S'
       Properties.ValueUnchecked = 'N'
@@ -960,7 +960,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Properties.IgnoreMaskBlank = True
       Properties.Images = Data_Sisgef.iml_16_16
       Properties.MaskKind = emkRegExpr
-      Properties.EditMask = '\d'
+      Properties.EditMask = '\d\d\d\d\d\d'
       Properties.OnValidate = funcaoPropertiesValidate
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -1390,6 +1390,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     object dxLayoutItem44: TdxLayoutItem
       Parent = dxLayoutGroup8
       AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'E-Mail'
       Control = email
       ControlOptions.OriginalHeight = 21
@@ -1399,6 +1400,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object dxLayoutItem15: TdxLayoutItem
       Parent = dxLayoutGroup8
+      AlignVert = avClient
       CaptionOptions.Text = 'Telefone'
       Control = telefone
       ControlOptions.OriginalHeight = 21
@@ -1408,6 +1410,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object dxLayoutItem16: TdxLayoutItem
       Parent = dxLayoutGroup8
+      AlignVert = avClient
       CaptionOptions.Text = 'Celular'
       Control = celular
       ControlOptions.OriginalHeight = 21
@@ -1427,6 +1430,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     object dxLayoutItem18: TdxLayoutItem
       Parent = dxLayoutGroup9
       AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Endere'#231'o'
       Control = logradouro
       ControlOptions.OriginalHeight = 21
@@ -1436,6 +1440,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object dxLayoutItem19: TdxLayoutItem
       Parent = dxLayoutGroup9
+      AlignVert = avClient
       CaptionOptions.Text = 'N'#250'mero'
       Control = numero
       ControlOptions.OriginalHeight = 21
@@ -1445,6 +1450,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object dxLayoutItem20: TdxLayoutItem
       Parent = dxLayoutGroup9
+      AlignVert = avClient
       CaptionOptions.Text = 'Complemento'
       Control = complemento
       ControlOptions.OriginalHeight = 21
@@ -1649,6 +1655,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
     end
     object dxLayoutItem40: TdxLayoutItem
       Parent = dxLayoutGroup8
+      AlignVert = avClient
       CaptionOptions.Text = 'Descri'#231#227'o'
       CaptionOptions.Visible = False
       Control = descricaoFuncao
@@ -1754,6 +1761,7 @@ object viewCadastroCandidatos: TviewCadastroCandidatos
       Caption = 'Procurar Fun'#231#227'o'
       Hint = 'Procurar fun'#231#227'o'
       ImageIndex = 86
+      OnExecute = actSearchFunctionExecute
     end
   end
   object dsCandidatos: TDataSource

@@ -85,6 +85,8 @@ begin
       FTabela[0].DOM_RESTRICOES := aRecord.DOM_RESTRICOES;
       FTabela[0].DOM_LICENCIAMENTO_IPVA := aRecord.DOM_LICENCIAMENTO_IPVA;
       FTabela[0].DOM_DISPONIBILIDADE := aRecord.DOM_DISPONIBILIDADE;
+      FTabela[0].DOM_VEICULO_PROPRIO := aRecord.DOM_VEICULO_PROPRIO;
+      FTabela[0].DOM_RASTREADO := aRecord.DOM_RASTREADO;
       FTabela[0].id_funcao := aRecord.id_funcao;
     end;
   end;
